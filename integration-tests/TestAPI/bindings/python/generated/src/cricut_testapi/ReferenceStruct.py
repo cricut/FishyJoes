@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -28,7 +29,7 @@ class ReferenceStruct(NativeReference):
     
 
     @property
-    def immutable(self) -> str:
+    def immutable(self) -> builtins.str:
         """
         <!-- FishyJoes.export(immutable) -->
         """
@@ -37,7 +38,7 @@ class ReferenceStruct(NativeReference):
     
 
     @property
-    def mutable(self) -> str:
+    def mutable(self) -> builtins.str:
         """
         <!-- FishyJoes.export(mutable) -->
         """
@@ -46,7 +47,7 @@ class ReferenceStruct(NativeReference):
     
 
     @mutable.setter
-    def mutable(self, value: str) -> None:
+    def mutable(self, value: builtins.str) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Structs_ReferenceStruct_mutable", "void", ("object", self), ("object", value))
     
@@ -60,7 +61,7 @@ class ReferenceStruct(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Structs_ReferenceStruct_create", "object")
     
 
-    async def asyncGetMutable(self) -> typing.Awaitable[str]:
+    async def asyncGetMutable(self) -> typing.Awaitable[builtins.str]:
         """
         <!-- FishyJoes.export(asyncGetMutable) -->
         """

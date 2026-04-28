@@ -27,7 +27,7 @@ class PythonEnumClass: PythonClass {
 
     override func output(to fragment: SourceFragment) {
         if cases.isEmpty {
-            fragment.outputBlock("class \(unqualifiedName):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName):", closeWith: "") {
                 document(documentation, fragment: fragment, extra: ["Generated FishyJoes Python namespace type."])
                 outputMembers(to: fragment)
             }
@@ -35,7 +35,7 @@ class PythonEnumClass: PythonClass {
         }
 
         if cases.allSatisfy({ $0.values.isEmpty }) {
-            fragment.outputBlock("class \(unqualifiedName)(enum.Enum):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName)(enum.Enum):", closeWith: "") {
                 document(documentation, fragment: fragment, extra: ["Generated FishyJoes Python enum."])
                 for enumCase in cases {
                     fragment.output("\(enumCase.name) = \"\(enumCase.name)\"")
@@ -48,7 +48,7 @@ class PythonEnumClass: PythonClass {
             return
         }
 
-        fragment.outputBlock("class \(unqualifiedName):", closeWith: "") {
+        fragment.outputBlock("class \(disambiguatedName):", closeWith: "") {
             document(documentation, fragment: fragment, extra: ["Generated FishyJoes Python sum type base class."])
             if fields.isEmpty && methods.isEmpty {
                 fragment.output("pass")
@@ -60,7 +60,7 @@ class PythonEnumClass: PythonClass {
         for enumCase in cases {
             fragment.blankLine()
             fragment.output("@dataclass(slots=True, frozen=True)")
-            fragment.outputBlock("class \(unqualifiedName)_\(upperCaseFirst(enumCase.name))(\(unqualifiedName)):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName)_\(upperCaseFirst(enumCase.name))(\(unqualifiedName)):", closeWith: "") {
                 document(enumCase.documentation, fragment: fragment)
                 if enumCase.values.isEmpty {
                     fragment.output("pass")

@@ -23,6 +23,13 @@ class PythonClass {
         case none
         case primitive(String)
         case named(module: String?, name: String)
+        /// A type imported from another Python package — used for upstream
+        /// runtime types (e.g. ``AttributedString`` in ``fishyjoes_python``)
+        /// referenced from per-module generated bindings.  Mirrors C#'s
+        /// ``Cricut.FishyJoesRuntime.AttributedString`` shape: rendered as
+        /// the bare ``name`` in type hints, with a top-of-file
+        /// ``from <package> import <name>`` import.
+        case namedExternal(package: String, name: String)
         case optional(PyType)
         case list(PyType)
         case dict(PyType, PyType)
@@ -92,6 +99,25 @@ class PythonClass {
     let fields: [Variable]
     let methods: [Method]
 
+    /// Override for the Python class identifier and file-name stem.  Set by
+    /// ``FishyJoesContext`` during translation when two PythonClass
+    /// instances would otherwise collide on ``unqualifiedName``.  When set,
+    /// it is the verbatim name to use in source emission — typically
+    /// the value parsed from the Swift export annotation, e.g.
+    /// ``AttributedString_PuttingTypesIntoQuestionablePlaces``.  ``nil``
+    /// means no collision; the bare unqualified name is used.
+    var explicitDisambiguatedName: String?
+
+    /// Module-level lookup populated by ``FishyJoesContext.translateAll``
+    /// before the PythonClass output loop runs.  Maps each *unique*
+    /// bare unqualified name to its disambiguated form so type-annotation
+    /// rendering can substitute the right symbol when a class has been
+    /// renamed for collision avoidance (step A).  Names with multiple
+    /// disambiguated siblings are intentionally absent: the bare name is
+    /// genuinely ambiguous, and ``from __future__ import annotations``
+    /// makes the type hint string-only at runtime.
+    nonisolated(unsafe) static var nameDisambiguation: [String: String] = [:]
+
     init(
         module: Module,
         documentation: [String],
@@ -106,12 +132,143 @@ class PythonClass {
         self.methods = methods
     }
 
+    /// The Python class identifier and file-name stem used in generated
+    /// output.  Equal to ``unqualifiedName`` unless a sibling
+    /// ``PythonClass`` shares it, in which case
+    /// ``FishyJoesContext.translateAll`` has set
+    /// ``explicitDisambiguatedName`` from the Swift export annotation
+    /// (e.g. ``AttributedString_PuttingTypesIntoQuestionablePlaces``).
+    var disambiguatedName: String {
+        explicitDisambiguatedName ?? unqualifiedName
+    }
+
+    /// Parses the export name out of a ``<!-- FishyJoes.export(NAME) -->``
+    /// or ``<!-- FishyJoes.exportReference(NAME) -->`` doc-comment line.
+    /// Returns the name (which already encodes any disambiguating prefix
+    /// the Swift author chose) or ``nil`` if no annotation is present.
+    func exportAnnotationName() -> String? {
+        let pattern = #"<!--\s*FishyJoes\.(?:export|exportReference)\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)\s*-->"#
+        for line in documentation {
+            if let range = line.range(of: pattern, options: .regularExpression),
+               let nameMatch = line[range].range(of: #"\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\)"#, options: .regularExpression) {
+                let inner = line[nameMatch].dropFirst().dropLast()
+                return inner.trimmingCharacters(in: .whitespaces)
+            }
+        }
+        return nil
+    }
+
     func output(to fragment: SourceFragment) {
         fatalErr("This method must be overridden")
     }
 
     func fragment(context: FishyJoesContext) -> SourceFragment {
-        let fragment = context.pythonFragment("\(unqualifiedName).py")
+        // Collect every locally-defined class referenced by this class's
+        // fields/methods so we can emit ``from .Other import Other`` at the
+        // top.  Without these imports, ``mypy`` flags every cross-class type
+        // hint as undefined; ``from __future__ import annotations`` defers
+        // runtime evaluation so imports cost nothing in practice.
+        var referenced = Set<String>()
+        // Imports for upstream-runtime types (Foundation: AttributedString,
+        // AttributeContainer, etc.) live in a separate package and need
+        // ``from <package> import <name>`` rather than sibling imports.
+        var externalReferenced = Set<ExternalImport>()
+        for field in fields {
+            referenced.formUnion(field.type.referencedNamedClasses)
+            externalReferenced.formUnion(field.type.referencedExternalImports)
+        }
+        for method in methods {
+            referenced.formUnion(method.returnType.referencedNamedClasses)
+            externalReferenced.formUnion(method.returnType.referencedExternalImports)
+            for parameter in method.parameters {
+                referenced.formUnion(parameter.type.referencedNamedClasses)
+                externalReferenced.formUnion(parameter.type.referencedExternalImports)
+            }
+        }
+        // PythonEnumClass emits one dataclass per case alongside the enum
+        // class itself; their associated-value fields are not represented
+        // in this class's ``fields``/``methods``, so walk them explicitly
+        // so the enum module imports every sibling type it actually
+        // references.
+        if let enumClass = self as? PythonEnumClass {
+            for enumCase in enumClass.cases {
+                for (_, valueType) in enumCase.values {
+                    referenced.formUnion(valueType.referencedNamedClasses)
+                    externalReferenced.formUnion(valueType.referencedExternalImports)
+                }
+            }
+        }
+        referenced.remove(unqualifiedName)
+        referenced.remove(disambiguatedName)
+        // Skip anything that is not a bare Python identifier — otherwise a
+        // mis-rendered generic like ``Index>`` would produce ``from .Index> import Index>``.
+        let identifierPattern = #"^[A-Za-z_][A-Za-z0-9_]*$"#
+
+        // Resolve each referenced name through ``context.pythonClasses``
+        // so the import target uses the *disambiguated* file name (e.g.
+        // ``from .Structs_PuttingTypes import Structs_PuttingTypes``)
+        // rather than the bare unqualified name that may no longer have a
+        // matching .py file after collision-disambiguation in step A.
+        // Falls back to the bare name when no sibling matches (external
+        // type, generic alias, etc.).
+        let pythonClassesByUnqualified: [String: [PythonClass]] = Dictionary(
+            grouping: context.pythonClasses,
+            by: \.unqualifiedName,
+        )
+        func resolveImport(_ name: String) -> String {
+            guard let candidates = pythonClassesByUnqualified[name] else {
+                return name
+            }
+            if candidates.count == 1 {
+                return candidates[0].disambiguatedName
+            }
+            // Multiple disambiguated siblings share this unqualified name;
+            // the bare name is genuinely ambiguous — skip the import (the
+            // type hint will still work because of ``from __future__
+            // import annotations`` deferring evaluation).
+            return name
+        }
+
+        let siblingImports = referenced
+            .filter { $0.range(of: identifierPattern, options: .regularExpression) != nil }
+            .map(resolveImport)
+            .filter { (pythonClassesByUnqualified[$0]?.count ?? 1) <= 1 }
+            .sorted()
+            .map { "if typing.TYPE_CHECKING: from .\($0) import \($0)" }
+
+        // Upstream-runtime imports (Foundation types in ``fishyjoes_python``).
+        // Group by package so we emit one ``from <package> import a, b, c``
+        // per upstream package rather than one line per name.  Sorted for
+        // deterministic output regardless of Set iteration order.
+        let externalImports = Dictionary(grouping: externalReferenced, by: \.package)
+            .sorted { $0.key < $1.key }
+            .map { (package, refs) -> String in
+                let names = refs.map(\.name).sorted().joined(separator: ", ")
+                return "if typing.TYPE_CHECKING: from \(package) import \(names)"
+            }
+
+        let imports = siblingImports + externalImports
+
+        // Populate the per-class disambiguation lookup that ``PyType.name``
+        // reads while rendering this class's type annotations.  Self-
+        // references to the bare unqualified name resolve to *this* class's
+        // disambiguated name; sibling references resolve to their unique
+        // disambiguated form (siblings with multiple disambiguated peers
+        // stay as the bare name and import is skipped above).
+        var lookup: [String: String] = [:]
+        if explicitDisambiguatedName != nil {
+            lookup[unqualifiedName] = disambiguatedName
+        }
+        for (bare, candidates) in pythonClassesByUnqualified where candidates.count == 1 {
+            let candidate = candidates[0]
+            if candidate.explicitDisambiguatedName != nil {
+                lookup[bare] = candidate.disambiguatedName
+            }
+        }
+        PythonClass.nameDisambiguation = lookup
+        defer { PythonClass.nameDisambiguation = [:] }
+
+        let fragment = context.pythonFragment("\(disambiguatedName).py", additionalImports: imports)
         output(to: fragment)
         return fragment
     }
@@ -196,6 +353,13 @@ class PythonClass {
     }
 }
 
+/// `(package, name)` identifying a Python class imported from an
+/// upstream runtime package.  See ``PythonClass.PyType.namedExternal``.
+struct ExternalImport: Hashable {
+    let package: String
+    let name: String
+}
+
 extension PythonClass.PyType {
     var isOptional: Bool {
         if case .optional = self {
@@ -204,34 +368,116 @@ extension PythonClass.PyType {
         return false
     }
 
+    /// Python builtin type names that the generator might emit as bare
+    /// annotations.  These get qualified as ``builtins.<name>`` to avoid
+    /// shadowing by same-class members (e.g. a method named ``bytes`` in
+    /// the same class as a method that returns ``bytes`` would otherwise
+    /// resolve to the method, not the builtin).
+    static let pythonBuiltinNames: Set<String> = [
+        "bytes", "int", "str", "list", "dict", "set", "bool",
+        "type", "float", "bytearray", "frozenset", "tuple",
+        "complex", "object", "range", "memoryview",
+    ]
+
+    private static func qualifyIfBuiltin(_ name: String) -> String {
+        return pythonBuiltinNames.contains(name) ? "builtins.\(name)" : name
+    }
+
     var name: String {
         switch self {
         case .none:
             return "None"
         case .primitive(let name):
-            return name
+            return Self.qualifyIfBuiltin(name)
         case .named(let module, let name):
+            // Substitute a disambiguated sibling when the bare name has
+            // been renamed to avoid a collision (step A).  Only applies
+            // when no module qualifier was given — qualified names already
+            // carry their namespace.
+            if module == nil, let disambig = PythonClass.nameDisambiguation[name] {
+                return disambig
+            }
             let qualifiedName = module.map { "\($0).\(name)" } ?? name
             if qualifiedName.range(of: #"^[A-Za-z_][A-Za-z0-9_\.]*$"#, options: .regularExpression) != nil {
-                return qualifiedName
+                return module == nil ? Self.qualifyIfBuiltin(qualifiedName) : qualifiedName
             }
             return "typing.Any"
+        case .namedExternal(_, let name):
+            // Bare reference; the import is emitted at the top of the
+            // file by ``PythonClass.fragment(context:)``.
+            return name
         case .optional(let wrapped):
             return "\(wrapped.name) | None"
         case .list(let element):
-            return "list[\(element.name)]"
+            return "builtins.list[\(element.name)]"
         case .dict(let key, let value):
-            return "dict[\(key.name), \(value.name)]"
+            return "builtins.dict[\(key.name), \(value.name)]"
         case .set(let element):
-            return "set[\(element.name)]"
+            return "builtins.set[\(element.name)]"
         case .tuple(let elements):
-            return "tuple[\(elements.map(\.name).joined(separator: ", "))]"
+            return "builtins.tuple[\(elements.map(\.name).joined(separator: ", "))]"
         case .callable(let args, let result):
             return "typing.Callable[[\(args.map(\.name).joined(separator: ", "))], \(result.name)]"
         case .awaitable(let wrapped):
             return "typing.Awaitable[\(wrapped.name)]"
         case .any:
             return "typing.Any"
+        }
+    }
+
+    /// Bare names of every locally-defined class this type refers to.
+    ///
+    /// Used by ``PythonClass.fragment(context:)`` to emit per-file
+    /// ``from .Other import Other`` lines so type checkers can resolve
+    /// cross-class annotations.
+    var referencedNamedClasses: Set<String> {
+        switch self {
+        case .none, .primitive, .any:
+            return []
+        case .named(_, let name):
+            // Drop dotted qualifiers (``module.Foo`` -> ``Foo``); only emit
+            // bare-name imports for sibling classes in the same package.
+            let bare = name.split(separator: ".").last.map(String.init) ?? name
+            return [bare]
+        case .namedExternal:
+            // External imports are tracked separately via
+            // ``referencedExternalImports`` so they can be emitted as
+            // ``from <package> import <name>`` rather than sibling imports.
+            return []
+        case .optional(let inner), .list(let inner), .set(let inner), .awaitable(let inner):
+            return inner.referencedNamedClasses
+        case .dict(let key, let value):
+            return key.referencedNamedClasses.union(value.referencedNamedClasses)
+        case .tuple(let elements):
+            return Set(elements.flatMap(\.referencedNamedClasses))
+        case .callable(let args, let result):
+            var seen = Set(args.flatMap(\.referencedNamedClasses))
+            seen.formUnion(result.referencedNamedClasses)
+            return seen
+        }
+    }
+
+    /// `(package, name)` pairs for every upstream-runtime type this type
+    /// references.  Used by ``PythonClass.fragment(context:)`` to emit
+    /// ``from <package> import <name>`` for upstream Foundation types
+    /// like ``AttributedString`` that live in ``fishyjoes_python`` rather
+    /// than as siblings of the generated class.
+    var referencedExternalImports: Set<ExternalImport> {
+        switch self {
+        case .none, .primitive, .any, .named:
+            return []
+        case .namedExternal(let package, let name):
+            return [ExternalImport(package: package, name: name)]
+        case .optional(let inner), .list(let inner), .set(let inner), .awaitable(let inner):
+            return inner.referencedExternalImports
+        case .dict(let key, let value):
+            return key.referencedExternalImports.union(value.referencedExternalImports)
+        case .tuple(let elements):
+            return Set(elements.flatMap(\.referencedExternalImports))
+        case .callable(let args, let result):
+            var seen = Set(args.flatMap(\.referencedExternalImports))
+            seen.formUnion(result.referencedExternalImports)
+            return seen
         }
     }
 

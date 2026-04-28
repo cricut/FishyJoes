@@ -10,14 +10,14 @@ final class PythonTranslator: Translator {
         for dependency in context.module.dependencies {
             fragment.output("from cricut_\(dependency.lowercased()) import ensure_loaded as _ensure_\(dependency.lowercased())_loaded")
         }
-        for pythonClass in context.pythonClasses.sorted(by: { $0.unqualifiedName < $1.unqualifiedName }) {
-            fragment.output("from .\(pythonClass.unqualifiedName) import \(pythonClass.unqualifiedName)")
+        for pythonClass in context.pythonClasses.sorted(by: { $0.disambiguatedName < $1.disambiguatedName }) {
+            fragment.output("from .\(pythonClass.disambiguatedName) import \(pythonClass.disambiguatedName)")
             // Also import the unique alias for reference types, so that setup_reference_type
             // receives the correct class even when multiple types share the same Python name.
             if let productClass = pythonClass as? PythonProductClass,
                case .reference = productClass.constructor,
                let setupName = productClass.iotaSetupName {
-                fragment.output("from .\(pythonClass.unqualifiedName) import _cls_\(setupName)")
+                fragment.output("from .\(pythonClass.disambiguatedName) import _cls_\(setupName)")
             }
         }
         fragment.blankLine()
@@ -35,67 +35,8 @@ final class PythonTranslator: Translator {
             fragment.output("_runtime.ensure_loaded()")
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
-                switch resolved {
-                case let reference as TranslatedReference where reference.definingModule == context.module:
-                    fragment.output("_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", _cls_\(reference.iotaSetupName))")
-                case let enumType as TranslatedEnum where enumType.definingModule == context.module:
-                    let caseSpecs = enumType.cases.map { enumCase in
-                        let valueSpecs = enumCase.associatedValues.map { value in
-                            let resolvedValue = context.resolve(type: value.type)
-                            return "(\"\(value.bindingName)\", \"\(resolvedValue.pythonFFIType.rawValue)\")"
-                        }.joined(separator: ", ")
-                        return "(\"\(enumCase.name)\", [\(valueSpecs)])"
-                    }.joined(separator: ", ")
-                    fragment.output(
-                        "_runtime.setup_enum_type(\"\(enumType.iotaSetupName)\", \(enumType.sourceType.nonNamespacedName), \(enumType.isInhabited ? "True" : "False"), [\(caseSpecs)])"
-                    )
-                case let valueType as TranslatedStruct where valueType.definingModule == context.module:
-                    let mutableFields = valueType.storedVariables
-                        .filter(\.isMutable)
-                        .map { "\"\($0.name)\"" }
-                        .joined(separator: ", ")
-                    let fieldSpecs = valueType.storedVariables.map { storedVar in
-                        let resolvedField = context.resolve(type: storedVar.type)
-                        return "(\"\(storedVar.name)\", \"\(resolvedField.pythonFFIType.rawValue)\")"
-                    }.joined(separator: ", ")
-                    fragment.output(
-                        "_runtime.setup_struct_type(\"\(valueType.iotaSetupName)\", \(valueType.sourceType.nonNamespacedName), [\(fieldSpecs)], {\(mutableFields)})"
-                    )
-                case let proto as TranslatedProtocol where proto.definingModule == context.module:
-                    let fieldSpecs = proto.fields.map { field in
-                        let resolvedField = context.resolve(type: field.type)
-                        return "(\"\(field.name)\", \"\(resolvedField.pythonFFIType.rawValue)\")"
-                    }.joined(separator: ", ")
-                    // Only non-default-implementation methods are part of the witness ABI
-                    let methodSpecs = proto.methods.filter { !$0.isDefaultImplementation }.map { method in
-                        let paramFFITypes = method.parameters.map { param in
-                            let resolvedParam = context.resolve(type: param.type)
-                            return "\"\(resolvedParam.pythonFFIType.rawValue)\""
-                        }.joined(separator: ", ")
-                        let resolvedReturn = context.resolve(type: method.returnType)
-                        return "(\"\(method.callName)\", [\(paramFFITypes)], \"\(resolvedReturn.pythonFFIType.rawValue)\")"
-                    }.joined(separator: ", ")
-                    fragment.output(
-                        "_runtime.setup_protocol_type(\"\(proto.iotaSetupName)\", \(proto.iotaExternalWitnessClassName), [\(fieldSpecs)], [\(methodSpecs)])"
-                    )
-                case let array as TranslatedArray:
-                    fragment.output("_runtime.setup_collection_type(\"\(array.converterType.name)\", \"\(array.elementType.pythonFFIType.rawValue)\")")
-                case let set as TranslatedSet:
-                    fragment.output("_runtime.setup_collection_type(\"\(set.converterType.name)\", \"\(set.elementType.pythonFFIType.rawValue)\")")
-                case let dict as TranslatedDictionary:
-                    fragment.output("_runtime.setup_dictionary_type(\"\(dict.converterType.name)\")")
-                case let tuple as TranslatedTuple:
-                    fragment.output("_runtime.setup_tuple_type(\"\(tuple.converterType.name)\", \(tuple.elements.count))")
-                case let result as TranslatedResult:
-                    fragment.output("_runtime.setup_result_type(\"\(result.converterType.name)\")")
-                case let range as TranslatedRange:
-                    fragment.output("_runtime.setup_range_type(\"\(range.converterType.name)\")")
-                case let future as TranslatedFuture:
-                    fragment.output("_runtime.setup_future_type(\"\(future.converterType.name)\")")
-                case let function as TranslatedFunction:
-                    fragment.output("_runtime.setup_function_type(\"\(function.converterType.name)\", \(function.parameters.count))")
-                default:
-                    continue
+                if let line = setupLine(for: resolved, context: context) {
+                    fragment.output(line)
                 }
             }
             fragment.output("_SETUP_COMPLETE = True")
@@ -103,18 +44,153 @@ final class PythonTranslator: Translator {
 
         let exportsFragment = context.pythonFragment("__init__.py")
         exportsFragment.output("from ._type_setup import ensure_loaded")
-        for pythonClass in context.pythonClasses.sorted(by: { $0.unqualifiedName < $1.unqualifiedName }) {
-            exportsFragment.output("from .\(pythonClass.unqualifiedName) import \(pythonClass.unqualifiedName)")
+        for pythonClass in context.pythonClasses.sorted(by: { $0.disambiguatedName < $1.disambiguatedName }) {
+            exportsFragment.output("from .\(pythonClass.disambiguatedName) import \(pythonClass.disambiguatedName)")
         }
         exportsFragment.blankLine()
         let exports = ["\"ensure_loaded\""] + context.pythonClasses
-            .sorted(by: { $0.unqualifiedName < $1.unqualifiedName })
-            .map { "\"\($0.unqualifiedName)\"" }
+            .sorted(by: { $0.disambiguatedName < $1.disambiguatedName })
+            .map { "\"\($0.disambiguatedName)\"" }
         exportsFragment.output("__all__ = [\(exports.joined(separator: ", "))]")
 
         let headerFragment = declarationsHeader(context: context, generatedTypes: generatedTypes)
 
         return [fragment, exportsFragment, headerFragment]
+    }
+
+    // MARK: - setup-line dispatch
+
+    /// Returns the single ``_runtime.setup_*(...)`` line for a resolved type,
+    /// or ``nil`` if the type does not need a runtime setup call.
+    ///
+    /// Each branch is one ``setup_<kind>`` runtime API; if a future runtime
+    /// change adds, removes, or renames one of those APIs, the diff is
+    /// localised to a single helper rather than scattered across the
+    /// ``setupFragments`` switch.
+    private func setupLine(
+        for resolved: TranslatedType,
+        context: FishyJoesContext
+    ) -> String? {
+        switch resolved {
+        case let reference as TranslatedReference where reference.definingModule == context.module:
+            return referenceSetup(reference)
+        case let enumType as TranslatedEnum where enumType.definingModule == context.module:
+            return enumSetup(enumType, context: context)
+        case let valueType as TranslatedStruct where valueType.definingModule == context.module:
+            return structSetup(valueType, context: context)
+        case let proto as TranslatedProtocol where proto.definingModule == context.module:
+            return protocolSetup(proto, context: context)
+        case let array as TranslatedArray:
+            return collectionSetup(name: array.converterType.name, elementFFIType: array.elementType.pythonFFIType.rawValue)
+        case let set as TranslatedSet:
+            return collectionSetup(name: set.converterType.name, elementFFIType: set.elementType.pythonFFIType.rawValue)
+        case let dict as TranslatedDictionary:
+            return "_runtime.setup_dictionary_type(\"\(dict.converterType.name)\")"
+        case let tuple as TranslatedTuple:
+            return "_runtime.setup_tuple_type(\"\(tuple.converterType.name)\", \(tuple.elements.count))"
+        case let result as TranslatedResult:
+            return "_runtime.setup_result_type(\"\(result.converterType.name)\")"
+        case let range as TranslatedRange:
+            return "_runtime.setup_range_type(\"\(range.converterType.name)\")"
+        case let future as TranslatedFuture:
+            return "_runtime.setup_future_type(\"\(future.converterType.name)\")"
+        case let function as TranslatedFunction:
+            return "_runtime.setup_function_type(\"\(function.converterType.name)\", \(function.parameters.count))"
+        default:
+            return nil
+        }
+    }
+
+    private func referenceSetup(_ reference: TranslatedReference) -> String {
+        return "_runtime.setup_reference_type(\"\(reference.iotaSetupName)\", _cls_\(reference.iotaSetupName))"
+    }
+
+    /// Look up the disambiguated Python class name for a given iota setup
+    /// name.  Steps A's collision-disambiguation may have renamed the
+    /// class away from the bare ``nonNamespacedName``; the runtime setup
+    /// call must reference the *actual* class symbol that lives in the
+    /// generated module, otherwise mypy will flag it as undefined and
+    /// the runtime registration will hit a NameError.
+    private func pythonClassName(forSetup iotaSetupName: String, fallback: String, context: FishyJoesContext) -> String {
+        for cls in context.pythonClasses {
+            if let productClass = cls as? PythonProductClass,
+               productClass.iotaSetupName == iotaSetupName {
+                return productClass.disambiguatedName
+            }
+        }
+        // Enums and protocols don't have iotaSetupName on their PythonClass
+        // (yet); fall back to bare-name lookup against unique siblings.
+        let candidates = context.pythonClasses.filter { $0.unqualifiedName == fallback }
+        if candidates.count == 1 {
+            return candidates[0].disambiguatedName
+        }
+        // Multiple disambiguated siblings share this bare name — pick the
+        // one whose explicitDisambiguatedName matches a substring of the
+        // setup name, so e.g. ``Swift_String_PuttingTypes...`` resolves to
+        // the ``String_PuttingTypesIntoQuestionablePlaces`` class.
+        for cls in candidates where cls.explicitDisambiguatedName != nil {
+            if iotaSetupName.contains(cls.disambiguatedName) {
+                return cls.disambiguatedName
+            }
+        }
+        return fallback
+    }
+
+    private func enumSetup(_ enumType: TranslatedEnum, context: FishyJoesContext) -> String {
+        let caseSpecs = enumType.cases.map { enumCase in
+            let valueSpecs = enumCase.associatedValues.map { value in
+                let resolvedValue = context.resolve(type: value.type)
+                return "(\"\(value.bindingName)\", \"\(resolvedValue.pythonFFIType.rawValue)\")"
+            }.joined(separator: ", ")
+            return "(\"\(enumCase.name)\", [\(valueSpecs)])"
+        }.joined(separator: ", ")
+        let className = pythonClassName(
+            forSetup: enumType.iotaSetupName,
+            fallback: enumType.sourceType.nonNamespacedName,
+            context: context,
+        )
+        return "_runtime.setup_enum_type(\"\(enumType.iotaSetupName)\", \(className), \(enumType.isInhabited ? "True" : "False"), [\(caseSpecs)])"
+    }
+
+    private func structSetup(_ valueType: TranslatedStruct, context: FishyJoesContext) -> String {
+        let mutableFields = valueType.storedVariables
+            .filter(\.isMutable)
+            .map { "\"\($0.name)\"" }
+            .joined(separator: ", ")
+        // Python ``{}`` is an empty dict, not an empty set; emit ``set()`` when no
+        // fields are mutable so the resulting expression actually has type ``set[str]``.
+        let mutableSet = mutableFields.isEmpty ? "set()" : "{\(mutableFields)}"
+        let fieldSpecs = valueType.storedVariables.map { storedVar in
+            let resolvedField = context.resolve(type: storedVar.type)
+            return "(\"\(storedVar.name)\", \"\(resolvedField.pythonFFIType.rawValue)\")"
+        }.joined(separator: ", ")
+        let className = pythonClassName(
+            forSetup: valueType.iotaSetupName,
+            fallback: valueType.sourceType.nonNamespacedName,
+            context: context,
+        )
+        return "_runtime.setup_struct_type(\"\(valueType.iotaSetupName)\", \(className), [\(fieldSpecs)], \(mutableSet))"
+    }
+
+    private func protocolSetup(_ proto: TranslatedProtocol, context: FishyJoesContext) -> String {
+        let fieldSpecs = proto.fields.map { field in
+            let resolvedField = context.resolve(type: field.type)
+            return "(\"\(field.name)\", \"\(resolvedField.pythonFFIType.rawValue)\")"
+        }.joined(separator: ", ")
+        // Only non-default-implementation methods are part of the witness ABI.
+        let methodSpecs = proto.methods.filter { !$0.isDefaultImplementation }.map { method in
+            let paramFFITypes = method.parameters.map { param in
+                let resolvedParam = context.resolve(type: param.type)
+                return "\"\(resolvedParam.pythonFFIType.rawValue)\""
+            }.joined(separator: ", ")
+            let resolvedReturn = context.resolve(type: method.returnType)
+            return "(\"\(method.callName)\", [\(paramFFITypes)], \"\(resolvedReturn.pythonFFIType.rawValue)\")"
+        }.joined(separator: ", ")
+        return "_runtime.setup_protocol_type(\"\(proto.iotaSetupName)\", \(proto.iotaExternalWitnessClassName), [\(fieldSpecs)], [\(methodSpecs)])"
+    }
+
+    private func collectionSetup(name: String, elementFFIType: String) -> String {
+        return "_runtime.setup_collection_type(\"\(name)\", \"\(elementFFIType)\")"
     }
 
     // MARK: - _declarations.h

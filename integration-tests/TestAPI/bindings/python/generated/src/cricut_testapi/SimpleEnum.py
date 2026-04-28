@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -24,7 +25,7 @@ class SimpleEnum(enum.Enum):
     
 
     @property
-    def hex(self) -> int:
+    def hex(self) -> builtins.int:
         """
         <!-- FishyJoes.export(hex) -->
         """
@@ -33,7 +34,7 @@ class SimpleEnum(enum.Enum):
     
 
     @staticmethod
-    def pickAColor(rawValue: int) -> SimpleEnum | None:
+    def pickAColor(rawValue: builtins.int) -> SimpleEnum | None:
         """
         <!-- FishyJoes.export(pickAColor) -->
         """
@@ -41,7 +42,7 @@ class SimpleEnum(enum.Enum):
         return _get_runtime().call_symbol("__iota_TestAPI_SimpleEnum_pickAColor", "object", ("int", rawValue))
     
 
-    def hexMethod(self) -> str:
+    def hexMethod(self) -> builtins.str:
         """
         <!-- FishyJoes.export(hexMethod) -->
         """

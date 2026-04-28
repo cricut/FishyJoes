@@ -27,6 +27,10 @@ classifiers = [
 
 [project.optional-dependencies]
 test = ["pytest>=8"]
+lint = [
+  "ruff>=0.5,<0.10",
+  "mypy>=1.10,<2",
+]
 
 [tool.setuptools]
 package-dir = { "" = "src" }
@@ -37,3 +41,32 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 fishyjoes_python = ["py.typed"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+  "E501",  # line too long; many cffi cdef strings would be ugly to wrap
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Test files manipulate sys.path before importing fishyjoes_python so they
+# work without `pip install -e .` — that legitimately violates E402.
+"tests/*.py" = ["E402"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+no_implicit_optional = true
+# Full --strict on iota.py would require typing every cffi cdata; defer that
+# to a follow-up that ships .pyi for the FFI surface.
+
+[[tool.mypy.overrides]]
+module = ["cffi", "cffi.*"]
+ignore_missing_imports = true

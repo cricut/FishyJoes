@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class URLs:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def dataImage() -> str:
+    def dataImage() -> builtins.str:
         """
         <!-- FishyJoes.export(dataImage) -->
         """
@@ -19,7 +20,7 @@ class URLs:
     
 
     @staticmethod
-    def localFile() -> str:
+    def localFile() -> builtins.str:
         """
         <!-- FishyJoes.export(localFile) -->
         """
@@ -28,7 +29,7 @@ class URLs:
     
 
     @staticmethod
-    def remoteFile() -> str:
+    def remoteFile() -> builtins.str:
         """
         <!-- FishyJoes.export(remoteFile) -->
         """
@@ -37,7 +38,7 @@ class URLs:
     
 
     @staticmethod
-    def simple() -> str:
+    def simple() -> builtins.str:
         """
         <!-- FishyJoes.export(simple) -->
         """
@@ -46,7 +47,7 @@ class URLs:
     
 
     @staticmethod
-    def echo(url: str) -> str:
+    def echo(url: builtins.str) -> builtins.str:
         """
         <!-- FishyJoes.export(echo) -->
         """

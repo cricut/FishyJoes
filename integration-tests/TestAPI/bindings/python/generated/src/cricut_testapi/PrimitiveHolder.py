@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,35 +11,35 @@ class PrimitiveHolder:
     <!-- FishyJoes.export(Primitives.PrimitiveHolder) -->
     Generated FishyJoes Python value type.
     """
-    b: bool
-    bq: bool | None
-    ui8: int
-    ui8q: int | None
-    ui16: int
-    ui16q: int | None
-    ui32: int
-    ui32q: int | None
-    ui64: int
-    ui64q: int | None
-    ui: int
-    uiq: int | None
-    i8: int
-    i8q: int | None
-    i16: int
-    i16q: int | None
-    i32: int
-    i32q: int | None
-    i64: int
-    i64q: int | None
-    i: int
-    iq: int | None
-    f: float
-    fq: float | None
-    d: float
-    dq: float | None
+    b: builtins.bool
+    bq: builtins.bool | None
+    ui8: builtins.int
+    ui8q: builtins.int | None
+    ui16: builtins.int
+    ui16q: builtins.int | None
+    ui32: builtins.int
+    ui32q: builtins.int | None
+    ui64: builtins.int
+    ui64q: builtins.int | None
+    ui: builtins.int
+    uiq: builtins.int | None
+    i8: builtins.int
+    i8q: builtins.int | None
+    i16: builtins.int
+    i16q: builtins.int | None
+    i32: builtins.int
+    i32q: builtins.int | None
+    i64: builtins.int
+    i64q: builtins.int | None
+    i: builtins.int
+    iq: builtins.int | None
+    f: builtins.float
+    fq: builtins.float | None
+    d: builtins.float
+    dq: builtins.float | None
 
     @staticmethod
-    def staticMutableProperty() -> list[int | None]:
+    def staticMutableProperty() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(staticMutableProperty) -->
         """
@@ -47,13 +48,13 @@ class PrimitiveHolder:
     
 
     @staticmethod
-    def set_staticMutableProperty(value: list[int | None]) -> None:
+    def set_staticMutableProperty(value: builtins.list[builtins.int | None]) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty", "void", ("object", value))
     
 
     @staticmethod
-    def staticProperty() -> list[int | None]:
+    def staticProperty() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(staticProperty) -->
         """

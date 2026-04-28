@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -18,7 +19,7 @@ class TestDefaultComputedPropertiesClass(NativeReference):
     
 
     @property
-    def noot(self) -> int:
+    def noot(self) -> builtins.int:
         """
         <!-- FishyJoes.export(noot) -->
         """
@@ -27,13 +28,13 @@ class TestDefaultComputedPropertiesClass(NativeReference):
     
 
     @noot.setter
-    def noot(self, value: int) -> None:
+    def noot(self, value: builtins.int) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot", "void", ("object", self), ("int", value))
     
 
     @property
-    def plutonic(self) -> str:
+    def plutonic(self) -> builtins.str:
         """
         <!-- FishyJoes.export(plutonic) -->
         """
@@ -42,7 +43,7 @@ class TestDefaultComputedPropertiesClass(NativeReference):
     
 
     @property
-    def spam(self) -> bool:
+    def spam(self) -> builtins.bool:
         """
         <!-- FishyJoes.export(spam) -->
         """
@@ -51,13 +52,13 @@ class TestDefaultComputedPropertiesClass(NativeReference):
     
 
     @spam.setter
-    def spam(self, value: bool) -> None:
+    def spam(self, value: builtins.bool) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam", "void", ("object", self), ("bool", value))
     
 
     @staticmethod
-    def init(spam: bool, noot: int) -> TestDefaultComputedPropertiesClass:
+    def init(spam: builtins.bool, noot: builtins.int) -> TestDefaultComputedPropertiesClass:
         """
         <!-- FishyJoes.export(init) -->
         """

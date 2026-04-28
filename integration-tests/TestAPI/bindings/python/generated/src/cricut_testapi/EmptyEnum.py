@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class EmptyEnum:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def aStaticProperty() -> int:
+    def aStaticProperty() -> builtins.int:
         """
         <!-- FishyJoes.export(aStaticProperty) -->
         """
@@ -28,7 +29,7 @@ class EmptyEnum:
     
 
     @staticmethod
-    def aStaticMethod() -> int:
+    def aStaticMethod() -> builtins.int:
         """
         <!-- FishyJoes.export(aStaticMethod) -->
         """

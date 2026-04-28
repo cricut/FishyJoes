@@ -41,3 +41,35 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["cffi", "cffi.*"]
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+# Generated bindings: every file gets a uniform import header that
+# includes ``import builtins`` plus ``if typing.TYPE_CHECKING: from .X
+# import X`` cross-class declarations.  Some of those will be unused on
+# any given file (F401), and the inline TYPE_CHECKING form is one
+# multi-statement line by design (E701).  Pre-existing template
+# unused-locals (F841) and ambiguous names (E741) are tracked
+# separately as fixable in the runtime template.
+select = ["E", "F", "I", "UP", "B"]
+ignore = [
+  "E501",  # line too long
+  "E701",  # multi-statement on one line — TYPE_CHECKING imports
+  "E741",  # ambiguous local variable name (l, I, etc.)
+  "F401",  # imported-but-unused — uniform header, conservative imports
+  "F841",  # assigned-but-unused — pre-existing template issues
+  "F811",  # redefinition — generated dataclass cases share names with module
+  "I001",  # import sorting — generator emits in declaration order
+  "B009",  # getattr-with-constant — generator uses dynamic lookups
+]

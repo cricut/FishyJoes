@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from .SimpleEnum import SimpleEnum
 
 class AssociatedDataEnum:
     """
@@ -10,7 +12,7 @@ class AssociatedDataEnum:
     Generated FishyJoes Python sum type base class.
     """
     @property
-    def intValue(self) -> int:
+    def intValue(self) -> builtins.int:
         """
         <!-- FishyJoes.export(intValue) -->
         """
@@ -41,13 +43,13 @@ class AssociatedDataEnum_Thing(AssociatedDataEnum):
     """
     Documentation about thing
     """
-    value: int
+    value: builtins.int
 
 
 @dataclass(slots=True, frozen=True)
 class AssociatedDataEnum_Other(AssociatedDataEnum):
-    unnamed: str
-    _1: int
+    unnamed: builtins.str
+    _1: builtins.int
 
 
 @dataclass(slots=True, frozen=True)
@@ -55,9 +57,9 @@ class AssociatedDataEnum_Bar(AssociatedDataEnum):
     """
     Documentation about bar
     """
-    named: str
+    named: builtins.str
     _1: AssociatedDataEnum
-    toggled: bool
+    toggled: builtins.bool
 
 
 @dataclass(slots=True, frozen=True)

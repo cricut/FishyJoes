@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -12,7 +13,7 @@ class TestNonExportedProtocolEnum(enum.Enum):
     hogehoge = "hogehoge"
 
     @property
-    def fuga(self) -> float:
+    def fuga(self) -> builtins.float:
         """
         <!-- FishyJoes.export(fuga) -->
         """
@@ -20,7 +21,7 @@ class TestNonExportedProtocolEnum(enum.Enum):
         return _get_runtime().call_symbol("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga", "double", ("object", self))
     
 
-    def hoge(self) -> float:
+    def hoge(self) -> builtins.float:
         """
         <!-- FishyJoes.export(hoge) -->
         """

@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -11,7 +12,7 @@ class EmptyStruct2:
     Generated FishyJoes Python value type.
     """
     @property
-    def tatiana(self) -> str:
+    def tatiana(self) -> builtins.str:
         """
         <!-- FishyJoes.export(tatiana) -->
         """
@@ -20,7 +21,7 @@ class EmptyStruct2:
     
 
     @property
-    def tutu(self) -> int:
+    def tutu(self) -> builtins.int:
         """
         <!-- FishyJoes.export(tutu) -->
         """
@@ -37,7 +38,7 @@ class EmptyStruct2:
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyStruct2_create", "object")
     
 
-    def aap(self) -> str:
+    def aap(self) -> builtins.str:
         """
         <!-- FishyJoes.export(aap) -->
         """
@@ -45,7 +46,7 @@ class EmptyStruct2:
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyStruct2_aap", "object", ("object", self))
     
 
-    def zxccxz(self) -> str:
+    def zxccxz(self) -> builtins.str:
         """
         <!-- FishyJoes.export(zxccxz) -->
         """

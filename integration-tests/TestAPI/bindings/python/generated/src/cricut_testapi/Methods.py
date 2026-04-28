@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -18,7 +19,7 @@ class Methods(NativeReference):
     
 
     @property
-    def garply(self) -> int:
+    def garply(self) -> builtins.int:
         """
         <!-- FishyJoes.export(garply) -->
         """
@@ -27,7 +28,7 @@ class Methods(NativeReference):
     
 
     @property
-    def instanceGet(self) -> int:
+    def instanceGet(self) -> builtins.int:
         """
         <!-- FishyJoes.export(instanceGet) -->
         """
@@ -35,7 +36,7 @@ class Methods(NativeReference):
         return _get_runtime().call_symbol("__iota_get_TestAPI_Methods_instanceGet", "int", ("object", self))
     
 
-    def get_instanceGetMethod(self) -> int:
+    def get_instanceGetMethod(self) -> builtins.int:
         """
         <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
         """
@@ -44,7 +45,7 @@ class Methods(NativeReference):
     
 
     @property
-    def instanceModifiable(self) -> int:
+    def instanceModifiable(self) -> builtins.int:
         """
         <!-- FishyJoes.export(instanceModifiable) -->
         """
@@ -53,13 +54,13 @@ class Methods(NativeReference):
     
 
     @instanceModifiable.setter
-    def instanceModifiable(self, value: int) -> None:
+    def instanceModifiable(self, value: builtins.int) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Methods_instanceModifiable", "void", ("object", self), ("int", value))
     
 
     @property
-    def instanceStored(self) -> int:
+    def instanceStored(self) -> builtins.int:
         """
         <!-- FishyJoes.export(instanceStored) -->
         """
@@ -68,13 +69,13 @@ class Methods(NativeReference):
     
 
     @instanceStored.setter
-    def instanceStored(self, value: int) -> None:
+    def instanceStored(self, value: builtins.int) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Methods_instanceStored", "void", ("object", self), ("int", value))
     
 
     @staticmethod
-    def staticGet() -> int:
+    def staticGet() -> builtins.int:
         """
         <!-- FishyJoes.export(staticGet) -->
         """
@@ -83,7 +84,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    def get_staticGetMethod() -> int:
+    def get_staticGetMethod() -> builtins.int:
         """
         <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
         """
@@ -92,7 +93,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    def staticModifiable() -> int:
+    def staticModifiable() -> builtins.int:
         """
         <!-- FishyJoes.export(staticModifiable) -->
         """
@@ -101,13 +102,13 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    def set_staticModifiable(value: int) -> None:
+    def set_staticModifiable(value: builtins.int) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Methods_staticModifiable", "void", ("int", value))
     
 
     @staticmethod
-    def staticStored() -> int:
+    def staticStored() -> builtins.int:
         """
         <!-- FishyJoes.export(staticStored) -->
         """
@@ -116,7 +117,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    def set_staticStored(value: int) -> None:
+    def set_staticStored(value: builtins.int) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_Methods_staticStored", "void", ("int", value))
     
@@ -130,7 +131,7 @@ class Methods(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Methods_create", "object")
     
 
-    def doublePlusGood(self, a: int, b: float) -> int:
+    def doublePlusGood(self, a: builtins.int, b: builtins.float) -> builtins.int:
         """
         <!-- FishyJoes.export(doublePlusGood) -->
         """
@@ -138,7 +139,7 @@ class Methods(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Methods_doublePlusGood", "int", ("object", self), ("int", a), ("double", b))
     
 
-    async def async42(self) -> typing.Awaitable[int]:
+    async def async42(self) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(async42) -->
         """
@@ -147,7 +148,7 @@ class Methods(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_async42", "object", ("object", self)))
     
 
-    async def asyncYield(self) -> typing.Awaitable[int]:
+    async def asyncYield(self) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(asyncYield) -->
         """
@@ -156,7 +157,7 @@ class Methods(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncYield", "object", ("object", self)))
     
 
-    async def asyncSleep(self) -> typing.Awaitable[int]:
+    async def asyncSleep(self) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(asyncSleep) -->
         """
@@ -174,7 +175,7 @@ class Methods(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncVoid", "object", ("object", self)))
     
 
-    async def asyncDouble(self, d: float) -> typing.Awaitable[float]:
+    async def asyncDouble(self, d: builtins.float) -> typing.Awaitable[builtins.float]:
         """
         <!-- FishyJoes.export(asyncDouble) -->
         """
@@ -183,7 +184,7 @@ class Methods(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncDouble", "object", ("object", self), ("double", d)))
     
 
-    async def asyncMultipleArgs(self, i: int, j: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
+    async def asyncMultipleArgs(self, i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(asyncMultipleArgs) -->
         """
@@ -201,7 +202,7 @@ class Methods(NativeReference):
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncThrowing", "object", ("object", self)))
     
 
-    async def asyncCallbackFunc0(self, callback: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
+    async def asyncCallbackFunc0(self, callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(asyncCallbackFunc0) -->
         """
@@ -211,7 +212,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsync42() -> typing.Awaitable[int]:
+    async def staticAsync42() -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(staticAsync42) -->
         """
@@ -221,7 +222,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsyncYield() -> typing.Awaitable[int]:
+    async def staticAsyncYield() -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(staticAsyncYield) -->
         """
@@ -231,7 +232,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsyncSleep() -> typing.Awaitable[int]:
+    async def staticAsyncSleep() -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(staticAsyncSleep) -->
         """
@@ -251,7 +252,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsyncDouble(d: float) -> typing.Awaitable[float]:
+    async def staticAsyncDouble(d: builtins.float) -> typing.Awaitable[builtins.float]:
         """
         <!-- FishyJoes.export(staticAsyncDouble) -->
         """
@@ -261,7 +262,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsyncMultipleArgs(i: int, j: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
+    async def staticAsyncMultipleArgs(i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
         """
@@ -281,7 +282,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    async def staticAsyncCallbackFunc0(callback: typing.Callable[[], typing.Awaitable[int]]) -> typing.Awaitable[int]:
+    async def staticAsyncCallbackFunc0(callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
         """
@@ -291,7 +292,7 @@ class Methods(NativeReference):
     
 
     @staticmethod
-    def methodWithNewlinesInTypes(thing: typing.Callable[[int, bytes, bool], typing.Awaitable[typing.Any]]) -> None:
+    def methodWithNewlinesInTypes(thing: typing.Callable[[builtins.int, builtins.bytes, builtins.bool], typing.Awaitable[typing.Any]]) -> None:
         """
         <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
         """

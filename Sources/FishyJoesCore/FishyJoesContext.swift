@@ -156,6 +156,7 @@ public class FishyJoesContext {
 
         addHeader(file: fileName, priority: 100, "from __future__ import annotations")
         addHeader(file: fileName, priority: 20, "from dataclasses import dataclass")
+        addHeader(file: fileName, priority: 20, "import builtins")
         addHeader(file: fileName, priority: 20, "import enum")
         addHeader(file: fileName, priority: 20, "import typing")
         addHeader(
@@ -251,6 +252,34 @@ public class FishyJoesContext {
                 }
                 collectedFragments.append(contentsOf: translatedType.definitionFragments(in: self))
                 generatedTypes.insert(type.key)
+            }
+        }
+
+        // Disambiguate Python classes whose unqualifiedName collides with a
+        // sibling.  Three Swift types nested under different namespaces can
+        // share the same final segment (e.g. PuttingTypesIntoQuestionablePlaces
+        // exists under Foundation.AttributedString, Swift.String,
+        // TestAPI.Structs and UnicodeScalar).  Without this pass they would
+        // all emit into one .py file with multiple identical class
+        // declarations and the ``_cls_<setupName>`` registry entries would
+        // resolve to whichever definition won the source-level shadow
+        // contest.
+        //
+        // The Swift author has already encoded the disambiguated name in the
+        // export annotation (e.g. ``<!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->``).
+        // Trust that as the source of truth: parse it out of the doc comment
+        // and use it verbatim as the Python class name when a collision is
+        // detected.
+        //
+        // Must run *before* setupFragments below: the per-target setup code
+        // emits ``from .X import X`` lines that need the disambiguated form.
+        var unqualifiedCounts: [String: Int] = [:]
+        for cls in pythonClasses {
+            unqualifiedCounts[cls.unqualifiedName, default: 0] += 1
+        }
+        for cls in pythonClasses where (unqualifiedCounts[cls.unqualifiedName] ?? 0) > 1 {
+            if let annotated = cls.exportAnnotationName(), annotated != cls.unqualifiedName {
+                cls.explicitDisambiguatedName = annotated
             }
         }
 

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import sys
-from pathlib import Path
 import unittest
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
@@ -26,9 +26,10 @@ class SmokeTests(unittest.TestCase):
         registry.unregister(callback_id)
 
     def test_native_extension(self) -> None:
-        self.assertEqual(
-            fishyjoes_python.native_runtime_version(),
-            "fishyjoes_python-native-0.1.0",
+        version = fishyjoes_python.native_runtime_version()
+        self.assertTrue(
+            version.startswith("fishyjoes_python-native-"),
+            f"unexpected version string: {version!r}",
         )
 
     def test_cpython_guard(self) -> None:

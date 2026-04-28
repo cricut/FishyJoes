@@ -45,7 +45,7 @@ class PythonProductClass: PythonClass {
         switch constructor {
         case .public(let initFields):
             fragment.output("@dataclass(slots=True)")
-            fragment.outputBlock("class \(unqualifiedName):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName):", closeWith: "") {
                 let extraDoc = ["Generated FishyJoes Python value type."]
                 document(documentation, fragment: fragment, extra: extraDoc)
                 if initFields.isEmpty && fields.isEmpty && methods.isEmpty {
@@ -63,7 +63,7 @@ class PythonProductClass: PythonClass {
                 outputComputedMembers(fragment: fragment)
             }
         case .reference:
-            fragment.outputBlock("class \(unqualifiedName)(NativeReference):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName)(NativeReference):", closeWith: "") {
                 let extraDoc = ["Generated FishyJoes Python reference wrapper."]
                 document(documentation, fragment: fragment, extra: extraDoc)
 
@@ -110,7 +110,7 @@ class PythonProductClass: PythonClass {
             // Emit a unique alias to avoid name-shadowing when multiple types share
             // the same unqualified Python name (e.g. PuttingTypesIntoQuestionablePlaces).
             if let setupName = iotaSetupName {
-                fragment.output("_cls_\(setupName) = \(unqualifiedName)")
+                fragment.output("_cls_\(setupName) = \(disambiguatedName)")
             }
         }
     }

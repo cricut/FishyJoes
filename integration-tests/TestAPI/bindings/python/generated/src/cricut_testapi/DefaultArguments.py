@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class DefaultArguments:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def echoDefaults(*, y: int | None = None, x: int | None, z: float = 3.14) -> str:
+    def echoDefaults(*, y: builtins.int | None = None, x: builtins.int | None, z: builtins.float = 3.14) -> builtins.str:
         """
         <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
         """

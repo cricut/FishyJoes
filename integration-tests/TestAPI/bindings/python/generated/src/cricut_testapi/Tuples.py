@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class Tuples:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def tuple2() -> tuple[int, str]:
+    def tuple2() -> builtins.tuple[builtins.int, builtins.str]:
         """
         <!-- FishyJoes.export(tuple2) -->
         """
@@ -19,7 +20,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple3() -> tuple[str, float, str]:
+    def tuple3() -> builtins.tuple[builtins.str, builtins.float, builtins.str]:
         """
         <!-- FishyJoes.export(tuple3) -->
         """
@@ -28,7 +29,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple4() -> tuple[tuple[int, str], tuple[str, float, str], str, bool]:
+    def tuple4() -> builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool]:
         """
         <!-- FishyJoes.export(tuple4) -->
         """
@@ -37,7 +38,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple5() -> tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]]:
+    def tuple5() -> builtins.tuple[builtins.str, builtins.int, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.tuple[builtins.int, builtins.str]]:
         """
         <!-- FishyJoes.export(tuple5) -->
         """
@@ -46,7 +47,7 @@ class Tuples:
     
 
     @staticmethod
-    def tuple6() -> tuple[str, int, float, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], bool]:
+    def tuple6() -> builtins.tuple[builtins.str, builtins.int, builtins.float, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.int, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.tuple[builtins.int, builtins.str]], builtins.bool]:
         """
         <!-- FishyJoes.export(tuple6) -->
         """
@@ -55,7 +56,7 @@ class Tuples:
     
 
     @staticmethod
-    def checkTuples(t2: tuple[int, str], t3: tuple[str, float, str], t4: tuple[tuple[int, str], tuple[str, float, str], str, bool], t5: tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], t6: tuple[str, int, float, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, int, tuple[tuple[int, str], tuple[str, float, str], str, bool], tuple[str, float, str], tuple[int, str]], bool]) -> bool:
+    def checkTuples(t2: builtins.tuple[builtins.int, builtins.str], t3: builtins.tuple[builtins.str, builtins.float, builtins.str], t4: builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], t5: builtins.tuple[builtins.str, builtins.int, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.tuple[builtins.int, builtins.str]], t6: builtins.tuple[builtins.str, builtins.int, builtins.float, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.int, builtins.tuple[builtins.tuple[builtins.int, builtins.str], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.str, builtins.bool], builtins.tuple[builtins.str, builtins.float, builtins.str], builtins.tuple[builtins.int, builtins.str]], builtins.bool]) -> builtins.bool:
         """
         <!-- FishyJoes.export(checkTuples) -->
         """

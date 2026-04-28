@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class Bytes:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def bytes() -> list[int]:
+    def bytes() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         """
@@ -19,7 +20,7 @@ class Bytes:
     
 
     @staticmethod
-    def data() -> bytes:
+    def data() -> builtins.bytes:
         """
         <!-- FishyJoes.export(data) -->
         """
@@ -28,7 +29,7 @@ class Bytes:
     
 
     @staticmethod
-    def echoBytes(bytes: list[int]) -> list[int]:
+    def echoBytes(bytes: builtins.list[builtins.int]) -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(echoBytes) -->
         """
@@ -37,7 +38,7 @@ class Bytes:
     
 
     @staticmethod
-    def echoData(data: bytes) -> bytes:
+    def echoData(data: builtins.bytes) -> builtins.bytes:
         """
         <!-- FishyJoes.export(echoData) -->
         """

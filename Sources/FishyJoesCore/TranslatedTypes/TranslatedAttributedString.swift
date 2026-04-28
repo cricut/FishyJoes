@@ -9,6 +9,7 @@ let translatedAttributedString = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedString"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -22,6 +23,7 @@ let translatedAttributedSubstring = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedSubstring"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedSubstring"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedSubstring"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedSubstring"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -35,6 +37,7 @@ let translatedAttributeContainer = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainer"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainer"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributeContainer"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -48,6 +51,7 @@ let translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributeContainerFoundationAttributes"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributeContainerFoundationAttributes"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributeContainer_FoundationAttributes"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributeContainerFoundationAttributes"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -61,6 +65,7 @@ let translatedAttributedStringIndex = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Index"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.Index"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Index"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringIndex"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -74,6 +79,7 @@ let translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$UnicodeScalarView"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.UnicodeScalarView"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_UnicodeScalarView"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringUnicodeScalarView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -87,6 +93,7 @@ let translatedAttributedStringCharacterView = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$CharacterView"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.CharacterView"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_CharacterView"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringCharacterView"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -100,6 +107,7 @@ let translatedAttributedStringRuns = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringRuns"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -113,6 +121,10 @@ let translatedAttributedStringRunsIndex = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Index"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Index"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Index"),
+    // Python conflates AttributedString.Runs.Index with AttributedString.Index — both
+    // wrap to the same ``AttributedStringIndex`` opaque handle.  Documented in
+    // the Python wrapper module.
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringIndex"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -126,6 +138,7 @@ let translatedAttributedStringRunsRun = ExternalTranslatedType(
     jniType: .object("com/cricut/fishyjoes/runtime/AttributedString$Runs$Run"),
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Run"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Run"),
+    pythonTypeOverride: .namedExternal(package: "fishyjoes_python", name: "AttributedStringRun"),
     isInhabited: true,
     definingModule: Module.runtime
 )

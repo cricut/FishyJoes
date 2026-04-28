@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from fishyjoes_python import AttributeContainer, AttributedString, AttributedStringIndex, AttributedStringRun, AttributedSubstring
 
 class AttributedStrings:
     """
@@ -100,7 +102,7 @@ class AttributedStrings:
     
 
     @staticmethod
-    def firstIndex(string: AttributedString) -> Index:
+    def firstIndex(string: AttributedString) -> AttributedStringIndex:
         """
         <!-- FishyJoes.export(firstIndex) -->
         """
@@ -109,7 +111,7 @@ class AttributedStrings:
     
 
     @staticmethod
-    def lastIndex(string: AttributedString) -> Index:
+    def lastIndex(string: AttributedString) -> AttributedStringIndex:
         """
         <!-- FishyJoes.export(lastIndex) -->
         """
@@ -127,7 +129,7 @@ class AttributedStrings:
     
 
     @staticmethod
-    def attributedCharacters(string: AttributedString) -> list[AttributedSubstring]:
+    def attributedCharacters(string: AttributedString) -> builtins.list[AttributedSubstring]:
         """
         <!-- FishyJoes.export(attributedCharacters) -->
         """
@@ -145,7 +147,7 @@ class AttributedStrings:
     
 
     @staticmethod
-    def emptyAttributeRuns(string: AttributedString) -> list[Run]:
+    def emptyAttributeRuns(string: AttributedString) -> builtins.list[AttributedStringRun]:
         """
         <!-- FishyJoes.export(emptyAttributeRuns) -->
         """

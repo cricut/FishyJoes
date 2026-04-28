@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from .AProtocol import AProtocol
 
 class ExternalWitness_AProtocol(NativeReference):
     """
@@ -18,7 +20,7 @@ class ExternalWitness_AProtocol(NativeReference):
     
 
     @property
-    def baz(self) -> bool:
+    def baz(self) -> builtins.bool:
         """
         <!-- FishyJoes.export(baz) -->
         """
@@ -27,7 +29,7 @@ class ExternalWitness_AProtocol(NativeReference):
     
 
     @property
-    def foo(self) -> str:
+    def foo(self) -> builtins.str:
         """
         <!-- FishyJoes.export(foo) -->
         """
@@ -35,7 +37,7 @@ class ExternalWitness_AProtocol(NativeReference):
         return _get_runtime().call_symbol("__iota_get_TestAPI_AProtocol_foo", "object", ("object", self))
     
 
-    def bar(self, x: int, y: int) -> AProtocol:
+    def bar(self, x: builtins.int, y: builtins.int) -> AProtocol:
         """
         <!-- FishyJoes.export(bar) -->
         """

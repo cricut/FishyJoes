@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,10 +11,10 @@ class TestProtocolStruct:
     <!-- FishyJoes.export(TestProtocolStruct) -->
     Generated FishyJoes Python value type.
     """
-    corge: str
+    corge: builtins.str
 
     @property
-    def frobby(self) -> list[int]:
+    def frobby(self) -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(frobby) -->
         """
@@ -29,7 +30,7 @@ class TestProtocolStruct:
         _get_runtime().call_symbol("__iota_TestAPI_TestProtocolStruct_foo", "void", ("object", self))
     
 
-    def bar(self) -> bool:
+    def bar(self) -> builtins.bool:
         """
         <!-- FishyJoes.export(bar) -->
         """
@@ -37,7 +38,7 @@ class TestProtocolStruct:
         return bool(_get_runtime().call_symbol("__iota_TestAPI_TestProtocolStruct_bar", "bool", ("object", self)))
     
 
-    def baz(self, qux: bool) -> None:
+    def baz(self, qux: builtins.bool) -> None:
         """
         <!-- FishyJoes.export(baz) -->
         """
@@ -45,7 +46,7 @@ class TestProtocolStruct:
         _get_runtime().call_symbol("__iota_TestAPI_TestProtocolStruct_baz", "void", ("object", self), ("bool", qux))
     
 
-    def garply(self, str: str) -> str:
+    def garply(self, str: builtins.str) -> builtins.str:
         """
         <!-- FishyJoes.export(garply) -->
         """
@@ -53,7 +54,7 @@ class TestProtocolStruct:
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolStruct_garply", "object", ("object", self), ("object", str))
     
 
-    def xyzzy(self, thud: int, grault: list[float]) -> str:
+    def xyzzy(self, thud: builtins.int, grault: builtins.list[builtins.float]) -> builtins.str:
         """
         <!-- FishyJoes.export(xyzzy) -->
         """
@@ -61,7 +62,7 @@ class TestProtocolStruct:
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolStruct_xyzzy", "object", ("object", self), ("int", thud), ("object", grault))
     
 
-    def plugh(self, fred: tuple[bool, float, list[str]]) -> tuple[bool, int, str]:
+    def plugh(self, fred: builtins.tuple[builtins.bool, builtins.float, builtins.list[builtins.str]]) -> builtins.tuple[builtins.bool, builtins.int, builtins.str]:
         """
         <!-- FishyJoes.export(plugh) -->
         """

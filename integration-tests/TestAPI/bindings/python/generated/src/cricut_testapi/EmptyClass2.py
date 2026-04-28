@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -28,7 +29,7 @@ class EmptyClass2(NativeReference):
     
 
     @property
-    def blorg(self) -> str:
+    def blorg(self) -> builtins.str:
         """
         <!-- FishyJoes.export(blorg) -->
         """
@@ -37,7 +38,7 @@ class EmptyClass2(NativeReference):
     
 
     @property
-    def wibble(self) -> str:
+    def wibble(self) -> builtins.str:
         """
         <!-- FishyJoes.export(wibble) -->
         """
@@ -54,7 +55,7 @@ class EmptyClass2(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass2_make", "object")
     
 
-    def shmee(self) -> str:
+    def shmee(self) -> builtins.str:
         """
         <!-- FishyJoes.export(shmee) -->
         """
@@ -62,7 +63,7 @@ class EmptyClass2(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass2_shmee", "object", ("object", self))
     
 
-    def gorp(self) -> str:
+    def gorp(self) -> builtins.str:
         """
         <!-- FishyJoes.export(gorp) -->
         """

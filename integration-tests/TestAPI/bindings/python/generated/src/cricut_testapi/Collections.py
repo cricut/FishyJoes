@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from .CollectionHolder import CollectionHolder
 
 class Collections:
     """
@@ -10,7 +12,7 @@ class Collections:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def arrayOfBigTuples() -> list[tuple[int, int, int, int]]:
+    def arrayOfBigTuples() -> builtins.list[builtins.tuple[builtins.int, builtins.int, builtins.int, builtins.int]]:
         """
         <!-- FishyJoes.export(arrayOfBigTuples) -->
         """
@@ -19,7 +21,7 @@ class Collections:
     
 
     @staticmethod
-    def arrayOfInt() -> list[int]:
+    def arrayOfInt() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(arrayOfInt) -->
         """
@@ -37,7 +39,7 @@ class Collections:
     
 
     @staticmethod
-    def dictionaryOfIntToInt() -> dict[int, int]:
+    def dictionaryOfIntToInt() -> builtins.dict[builtins.int, builtins.int]:
         """
         <!-- FishyJoes.export(dictionaryOfIntToInt) -->
         """
@@ -46,7 +48,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeArrayOfInt() -> list[int] | None:
+    def maybeArrayOfInt() -> builtins.list[builtins.int] | None:
         """
         <!-- FishyJoes.export(maybeArrayOfInt) -->
         """
@@ -55,7 +57,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeArrayOfMaybeInt() -> list[int | None] | None:
+    def maybeArrayOfMaybeInt() -> builtins.list[builtins.int | None] | None:
         """
         <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
         """
@@ -64,7 +66,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeDictionaryOfIntToInt() -> dict[int, int] | None:
+    def maybeDictionaryOfIntToInt() -> builtins.dict[builtins.int, builtins.int] | None:
         """
         <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
         """
@@ -73,7 +75,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeDictionaryOfIntToMaybeInt() -> dict[int, int | None] | None:
+    def maybeDictionaryOfIntToMaybeInt() -> builtins.dict[builtins.int, builtins.int | None] | None:
         """
         <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
         """
@@ -82,7 +84,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeSetOfInt() -> set[int] | None:
+    def maybeSetOfInt() -> builtins.set[builtins.int] | None:
         """
         <!-- FishyJoes.export(maybeSetOfInt) -->
         """
@@ -91,7 +93,7 @@ class Collections:
     
 
     @staticmethod
-    def maybeSetOfMaybeInt() -> set[int | None] | None:
+    def maybeSetOfMaybeInt() -> builtins.set[builtins.int | None] | None:
         """
         <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
         """
@@ -100,7 +102,7 @@ class Collections:
     
 
     @staticmethod
-    def setOfInt() -> set[int]:
+    def setOfInt() -> builtins.set[builtins.int]:
         """
         <!-- FishyJoes.export(setOfInt) -->
         """
@@ -109,7 +111,7 @@ class Collections:
     
 
     @staticmethod
-    def echoArrayOfInt(arrayOfInt: list[int]) -> list[int]:
+    def echoArrayOfInt(arrayOfInt: builtins.list[builtins.int]) -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(echoArrayOfInt) -->
         """
@@ -118,7 +120,7 @@ class Collections:
     
 
     @staticmethod
-    def echoSetOfInt(setOfInt: set[int]) -> set[int]:
+    def echoSetOfInt(setOfInt: builtins.set[builtins.int]) -> builtins.set[builtins.int]:
         """
         <!-- FishyJoes.export(echoSetOfInt) -->
         """
@@ -127,7 +129,7 @@ class Collections:
     
 
     @staticmethod
-    def echoDictionaryOfIntToInt(dictionaryOfIntToInt: dict[int, int]) -> dict[int, int]:
+    def echoDictionaryOfIntToInt(dictionaryOfIntToInt: builtins.dict[builtins.int, builtins.int]) -> builtins.dict[builtins.int, builtins.int]:
         """
         <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
         """
@@ -136,7 +138,7 @@ class Collections:
     
 
     @staticmethod
-    def echoMaybeArrayOfMaybeInt(maybeArrayOfMaybeInt: list[int | None] | None) -> list[int | None] | None:
+    def echoMaybeArrayOfMaybeInt(maybeArrayOfMaybeInt: builtins.list[builtins.int | None] | None) -> builtins.list[builtins.int | None] | None:
         """
         <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
         """
@@ -145,7 +147,7 @@ class Collections:
     
 
     @staticmethod
-    def echoMaybeSetOfMaybeInt(maybeSetOfMaybeInt: set[int | None] | None) -> set[int | None] | None:
+    def echoMaybeSetOfMaybeInt(maybeSetOfMaybeInt: builtins.set[builtins.int | None] | None) -> builtins.set[builtins.int | None] | None:
         """
         <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
         """
@@ -154,7 +156,7 @@ class Collections:
     
 
     @staticmethod
-    def echoMaybeDictionaryOfIntToMaybeInt(maybeDictionaryOfIntToMaybeInt: dict[int, int | None] | None) -> dict[int, int | None] | None:
+    def echoMaybeDictionaryOfIntToMaybeInt(maybeDictionaryOfIntToMaybeInt: builtins.dict[builtins.int, builtins.int | None] | None) -> builtins.dict[builtins.int, builtins.int | None] | None:
         """
         <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
         """
@@ -163,7 +165,7 @@ class Collections:
     
 
     @staticmethod
-    def collectionMapper(collection: list[int | None] | None, mapper: typing.Callable[[list[int | None] | None], list[int | None] | None]) -> list[int | None] | None:
+    def collectionMapper(collection: builtins.list[builtins.int | None] | None, mapper: typing.Callable[[builtins.list[builtins.int | None] | None], builtins.list[builtins.int | None] | None]) -> builtins.list[builtins.int | None] | None:
         """
         <!-- FishyJoes.export(collectionMapper) -->
         """

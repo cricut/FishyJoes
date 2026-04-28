@@ -1,6 +1,6 @@
 class PythonProtocolClass: PythonClass {
     override func output(to fragment: SourceFragment) {
-        fragment.outputBlock("class \(unqualifiedName)(typing.Protocol):", closeWith: "") {
+        fragment.outputBlock("class \(disambiguatedName)(typing.Protocol):", closeWith: "") {
             document(documentation, fragment: fragment, extra: ["Generated FishyJoes Python protocol surface."])
             if fields.isEmpty && methods.isEmpty {
                 fragment.output("pass")

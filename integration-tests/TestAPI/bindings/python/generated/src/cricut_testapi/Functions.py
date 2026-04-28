@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class Functions:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def add3Things() -> typing.Callable[[float, float, int], float]:
+    def add3Things() -> typing.Callable[[builtins.float, builtins.float, builtins.int], builtins.float]:
         """
         <!-- FishyJoes.export(add3Things) -->
         """
@@ -19,7 +20,7 @@ class Functions:
     
 
     @staticmethod
-    def const42() -> typing.Callable[[], int]:
+    def const42() -> typing.Callable[[], builtins.int]:
         """
         <!-- FishyJoes.export(const42) -->
         """
@@ -28,7 +29,7 @@ class Functions:
     
 
     @staticmethod
-    def fifthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]:
+    def fifthThing() -> typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], builtins.int]], typing.Callable[[], builtins.int]]:
         """
         <!-- FishyJoes.export(fifthThing) -->
         """
@@ -37,7 +38,7 @@ class Functions:
     
 
     @staticmethod
-    def abs() -> typing.Callable[[int], int]:
+    def abs() -> typing.Callable[[builtins.int], builtins.int]:
         """
         <!-- FishyJoes.export(abs) -->
         """
@@ -46,7 +47,7 @@ class Functions:
     
 
     @staticmethod
-    def intCompose() -> typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]]:
+    def intCompose() -> typing.Callable[[typing.Callable[[builtins.int], builtins.int], typing.Callable[[builtins.int], builtins.int]], typing.Callable[[builtins.int], builtins.int]]:
         """
         <!-- FishyJoes.export(intCompose) -->
         """
@@ -55,7 +56,7 @@ class Functions:
     
 
     @staticmethod
-    def makeList() -> typing.Callable[[str, str, str, str], list[str]]:
+    def makeList() -> typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], builtins.list[builtins.str]]:
         """
         <!-- FishyJoes.export(makeList) -->
         """
@@ -64,7 +65,7 @@ class Functions:
     
 
     @staticmethod
-    def sixthThing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]:
+    def sixthThing() -> typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], builtins.int], builtins.int], builtins.int]:
         """
         <!-- FishyJoes.export(sixthThing) -->
         """
@@ -73,7 +74,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise0(fn: typing.Callable[[], int]) -> str:
+    def exercise0(fn: typing.Callable[[], builtins.int]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise0) -->
         """
@@ -82,7 +83,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise1(fn: typing.Callable[[int], int]) -> str:
+    def exercise1(fn: typing.Callable[[builtins.int], builtins.int]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise1) -->
         """
@@ -91,7 +92,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise2(fn: typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]]) -> str:
+    def exercise2(fn: typing.Callable[[typing.Callable[[builtins.int], builtins.int], typing.Callable[[builtins.int], builtins.int]], typing.Callable[[builtins.int], builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise2) -->
         """
@@ -100,7 +101,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise3(fn: typing.Callable[[float, float, int], float]) -> str:
+    def exercise3(fn: typing.Callable[[builtins.float, builtins.float, builtins.int], builtins.float]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
@@ -109,7 +110,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise4(fn: typing.Callable[[str, str, str, str], list[str]]) -> str:
+    def exercise4(fn: typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], builtins.list[builtins.str]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise4) -->
         """
@@ -118,7 +119,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise5(fn: typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]) -> str:
+    def exercise5(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], builtins.int]], typing.Callable[[], builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
@@ -127,7 +128,7 @@ class Functions:
     
 
     @staticmethod
-    def exercise6(fn: typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]) -> str:
+    def exercise6(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], builtins.int], builtins.int], builtins.int]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise6) -->
         """
@@ -136,7 +137,7 @@ class Functions:
     
 
     @staticmethod
-    def willThrow() -> str:
+    def willThrow() -> builtins.str:
         """
         <!-- FishyJoes.export(willThrow) -->
         """

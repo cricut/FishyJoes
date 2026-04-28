@@ -1,158 +1,37 @@
+"""IotaRuntime — the cffi-backed shared host runtime.
+
+Internal to the ``fishyjoes_python.iota`` package.  Re-exported from
+``fishyjoes_python.iota`` so existing imports continue to work
+unchanged after the file split.
+"""
+
 from __future__ import annotations
 
-import ctypes
-from dataclasses import dataclass, field
+import logging
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable, Protocol, TypeAlias
+from typing import Any
 
-import cffi
+from .. import _native as _native_ext
+from ..exceptions import (
+    FishyJoesError,
+    NativeCallError,
+    NotImplementedInNativeError,
+)
+from ..runtime import ensure_cpython
+from ._ffi import _cdef, _ffi
+from ._handles import (
+    IotaHandle,
+    IotaReference,
+    NativeReference,
+    _as_handle,
+    _borrow_python_value,
+    _decode_utf16_z,
+    _require_not_none,
+    _value_type_name,
+)
 
-from .exceptions import FishyJoesError, NativeCallError, TypeMismatchError
-from .runtime import ensure_cpython
-from . import _native as _native_ext
-
-
-# A single shared FFI instance for all Iota ABI operations.
-_ffi = cffi.FFI()
-
-# Base declarations needed before any library is loaded.
-_ffi.cdef("""
-    typedef unsigned char uint8_t;
-    typedef unsigned short uint16_t;
-    typedef unsigned int uint32_t;
-    typedef unsigned long long uint64_t;
-    typedef signed char int8_t;
-    typedef short int16_t;
-    typedef int int32_t;
-    typedef long long int64_t;
-    typedef size_t uintptr_t;
-    typedef ssize_t intptr_t;
-""")
-
-# Public type aliases kept for compatibility with generated code.
-ForeignObject: TypeAlias = Any  # cffi cdata void*
-ForeignObjectPtr: TypeAlias = Any  # cffi cdata void**
-
-
-def _decode_utf16_z(ptr: Any) -> str:
-    if not ptr:
-        return ""
-    units: list[int] = []
-    index = 0
-    while True:
-        unit = int(_ffi.cast("uint16_t*", ptr)[index])
-        if unit == 0:
-            break
-        units.append(unit)
-        index += 1
-    raw = bytearray()
-    for unit in units:
-        raw.extend(unit.to_bytes(2, "little"))
-    return raw.decode("utf-16-le")
-
-
-def _borrow_python_value(handle: Any) -> object | None:
-    """Return the Python object for *handle* without releasing it.
-
-    *handle* may be an ``int``, a ``ctypes.c_void_p`` (from the ctypes
-    compatibility shim), or a cffi cdata pointer.  ``None`` or zero means
-    "no object".
-    """
-    if handle is None:
-        return None
-    # Unwrap ctypes.c_void_p from the ctypes compatibility shim (handle may
-    # arrive as a ctypes integer type with a .value attribute).
-    if hasattr(handle, "value"):
-        handle = handle.value
-        if handle is None:
-            return None
-    if not handle:
-        return None
-    if not isinstance(handle, int):
-        try:
-            handle = int(_ffi.cast("uintptr_t", handle))
-        except TypeError:
-            return None
-    if not handle:
-        return None
-    return _native_ext.borrow(handle)
-
-
-def _value_type_name(value: object | None) -> str:
-    if value is None:
-        return "None"
-    return type(value).__name__
-
-
-def _as_handle(value: object | int | None) -> int | None:
-    if value is None:
-        return None
-    if isinstance(value, int):
-        return value
-    if isinstance(value, IotaReference):
-        return value.handle.value
-    if isinstance(value, NativeReference):
-        return value.native_ref
-    native_ref = getattr(value, "native_ref", None)
-    if isinstance(native_ref, int) or native_ref is None:
-        return native_ref
-    handle = getattr(value, "handle", None)
-    if isinstance(handle, IotaHandle):
-        return handle.value
-    if hasattr(handle, "value"):
-        candidate = getattr(handle, "value")
-        if isinstance(candidate, int) or candidate is None:
-            return candidate
-    return None
-
-
-@dataclass(frozen=True, slots=True)
-class IotaHandle:
-    """Opaque handle for a native FishyJoes object."""
-
-    value: int
-
-
-class _ReleasableReference(Protocol):
-    native_ref: int | None
-    native_type: str
-
-    def release(self) -> None: ...
-
-
-@dataclass(slots=True)
-class NativeReference:
-    """Python-side wrapper around an opaque native reference."""
-
-    native_ref: int | None = None
-    native_type: str = "AnyBox"
-    _runtime: "IotaRuntime | None" = field(default=None, repr=False, compare=False)
-
-    def release(self) -> None:
-        if self.native_ref is None or self._runtime is None:
-            return
-        self._runtime.release_native_reference(self.native_ref)
-        self.native_ref = None
-
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}(native_ref={self.native_ref!r}, native_type={self.native_type!r})"
-
-
-@dataclass(slots=True)
-class IotaReference:
-    """Typed wrapper around an opaque native reference used by generated bindings."""
-
-    handle: IotaHandle
-    native_type: str
-    _runtime: "IotaRuntime | None" = field(default=None, repr=False, compare=False)
-
-    def release(self) -> None:
-        if self._runtime is None:
-            return
-        self._runtime.release_native_reference(self.handle.value)
-
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}(handle={self.handle!r}, native_type={self.native_type!r})"
+_log = logging.getLogger("fishyjoes")
 
 
 class IotaRuntime:
@@ -165,6 +44,7 @@ class IotaRuntime:
         module_path: Path,
         module_iota_path: Path,
         module_name: str,
+        strict_thread_scheduling: bool = False,
     ) -> None:
         ensure_cpython()
         self.iota_runtime_path = Path(iota_runtime_path)
@@ -187,19 +67,44 @@ class IotaRuntime:
         # be replaced by generated modules to produce typed exceptions.
         self._error_factory: Callable[[str], BaseException] = NativeCallError
 
+        # Threading: see python-runtime/README.non-goals.md.  The runtime does
+        # not own a real thread executor.  When ``strict_thread_scheduling`` is
+        # False (default), the inline path is used and a one-time WARNING is
+        # logged so the limitation is audible.  When True, every schedule
+        # callback raises NotImplementedInNativeError so callers that require
+        # off-thread execution fail fast.
+        self.strict_thread_scheduling = strict_thread_scheduling
+        self._thread_schedule_warning_emitted = False
+
     def ensure_loaded(self) -> None:
         if self._loaded:
             return
+        _log.info("ensure_loaded: bootstrapping IotaRuntime for module %r",
+                  self.module_name)
+        self._open_libraries()
+        self._setup_env()
+        self._declare_runtime_attributed_string_symbols()
+        self._setup_any_box()
+        self._setup_runtime_attributed_string_references()
+        self._setup_core_converters()
+        self._register_module_types()
+        self._loaded = True
+        _log.debug("ensure_loaded: %r ready (%d callbacks pinned)",
+                   self.module_name, len(self._callbacks))
 
-        # Load shared libraries via cffi.
-        mode = ctypes.RTLD_GLOBAL if hasattr(ctypes, "RTLD_GLOBAL") else 0
+    def _open_libraries(self) -> None:
+        _log.debug("_open_libraries: iota_runtime=%s module=%s module_iota=%s",
+                   self.iota_runtime_path, self.module_path,
+                   self.module_iota_path)
         self.iota_runtime_lib = _ffi.dlopen(str(self.iota_runtime_path))
         self.module_lib = _ffi.dlopen(str(self.module_path))
         self.module_iota_lib = _ffi.dlopen(str(self.module_iota_path))
 
-        # Declare and call FishyJoesCommonRuntime_Env_setup.
-        _ffi.cdef("""
+    def _setup_env(self) -> None:
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _cdef("""
             void* FishyJoesCommonRuntime_Env_setup(void*, void*, void*, void*, void*);
+            void FishyJoesCommonRuntime_runScheduledWork(void* env, void* context, void** exn);
         """, override=True)
 
         env_cb_new_ref = _ffi.callback("void*(void*)", self._new_ref)
@@ -219,11 +124,6 @@ class IotaRuntime:
         )
         self.env = int(_ffi.cast("uintptr_t", env_ptr))
 
-        self._setup_any_box()
-        self._setup_core_converters()
-        self._register_module_types()
-        self._loaded = True
-
     def load_module_declarations(self, header_text: str) -> None:
         """cdef the module's _declarations.h into the shared _ffi instance.
 
@@ -237,13 +137,215 @@ class IotaRuntime:
             if not line.lstrip().startswith("#")
         ]
         cleaned = "\n".join(cleaned_lines)
-        _ffi.cdef(cleaned, override=True)
+        _cdef(cleaned, override=True)
+
+    def _declare_runtime_attributed_string_symbols(self) -> None:
+        _cdef("""
+            void* __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(void*, void**);
+            void __iota_FishyJoesCommonRuntime_AttributeContainer_merge(void*, void*, void*, uint8_t, void**);
+            uint8_t __iota_FishyJoesCommonRuntime_AttributeContainer_equals(void*, void*, void*, void**);
+            int32_t __iota_get_FishyJoesCommonRuntime_AttributeContainer_hash(void*, void*, void**);
+
+            void* __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(void*, void**);
+            void* __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer(void*, void*, void**);
+            void* __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer(void*, void*, void**);
+            uint8_t __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(void*, void*, void*, void**);
+            int32_t __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash(void*, void*, void**);
+            void* __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(void*, void*, void**);
+            void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(void*, void*, void*, void**);
+            void* __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(void*, void*, void**);
+            void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(void*, void*, void*, void**);
+
+            void* __iota_Foundation_AttributedString_createEmpty(void*, void**);
+            void* __iota_Foundation_AttributedString_create(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_createFromSubstring(void*, void*, void**);
+            uint8_t __iota_Foundation_AttributedString_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedString_hash(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_string(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_startIndex(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_endIndex(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_substring(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_runs(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_characters(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_unicodeScalars(void*, void*, void**);
+            void* __iota_Foundation_AttributedString_substringForRange(void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_append(void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_appendSubstring(void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_insert(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_insertSubstring(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_replaceSubrange(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_removeSubrange(void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_setAttributes(void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_setAttributesForRange(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_mergeAttributes(void*, void*, void*, uint8_t, void**);
+            void __iota_Foundation_AttributedString_mergeAttributesForRange(void*, void*, void*, void*, uint8_t, void**);
+            void __iota_Foundation_AttributedString_replaceAttributes(void*, void*, void*, void*, void**);
+            void __iota_Foundation_AttributedString_replaceAttributesForRange(void*, void*, void*, void*, void*, void**);
+
+            uint8_t __iota_Foundation_AttributedString_Index_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedString_Index_hash(void*, void*, void**);
+
+            void* __iota_get_Foundation_AttributedString_Runs_startIndex(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_Runs_endIndex(void*, void*, void**);
+            void* __iota_Foundation_AttributedString_Runs_indexAfter(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_Runs_indexBefore(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_Runs_elementAt(void*, void*, void*, void**);
+            uint8_t __iota_Foundation_AttributedString_Runs_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedString_Runs_hash(void*, void*, void**);
+            uint8_t __iota_Foundation_AttributedString_Runs_Index_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedString_Runs_Index_hash(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_Runs_Run_range(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_Runs_Run_attributes(void*, void*, void**);
+            uint8_t __iota_Foundation_AttributedString_Runs_Run_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedString_Runs_Run_hash(void*, void*, void**);
+
+            void* __iota_get_Foundation_AttributedString_CharacterView_startIndex(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_CharacterView_endIndex(void*, void*, void**);
+            void* __iota_Foundation_AttributedString_CharacterView_indexAfter(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_CharacterView_indexBefore(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_CharacterView_elementAt(void*, void*, void*, void**);
+
+            void* __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(void*, void*, void**);
+            void* __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(void*, void*, void*, void**);
+            void* __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(void*, void*, void*, void**);
+            uint32_t __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(void*, void*, void*, void**);
+
+            void* __iota_get_Foundation_AttributedSubstring_base(void*, void*, void**);
+            void* __iota_get_Foundation_AttributedSubstring_string(void*, void*, void**);
+            void* __iota_Foundation_AttributedSubstring_substringForRange(void*, void*, void*, void**);
+            uint8_t __iota_Foundation_AttributedSubstring_equals(void*, void*, void*, void**);
+            int32_t __iota_get_Foundation_AttributedSubstring_hash(void*, void*, void**);
+
+            void FishyJoesCommonRuntime_AttributeContainer_setup(void*, void*, void**);
+            void FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup(void*, void*, void**);
+            void Foundation_AttributedString_setup(void*, void*, void**);
+            void Foundation_AttributedString_Index_setup(void*, void*, void**);
+            void Foundation_AttributedSubstring_setup(void*, void*, void**);
+            void Foundation_AttributedString_Runs_setup(void*, void*, void**);
+            void Foundation_AttributedString_Runs_Index_setup(void*, void*, void**);
+            void Foundation_AttributedString_Runs_Run_setup(void*, void*, void**);
+            void Foundation_AttributedString_CharacterView_setup(void*, void*, void**);
+            void Foundation_AttributedString_UnicodeScalarView_setup(void*, void*, void**);
+        """, override=True)
+
+    def _setup_runtime_attributed_string_references(self) -> None:
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
+        from ..attributed_string import (
+            AttributeContainer,
+            AttributeContainerFoundationAttributes,
+            AttributedString,
+            AttributedStringCharacterView,
+            AttributedStringIndex,
+            AttributedStringRun,
+            AttributedStringRuns,
+            AttributedStringRunsIndex,
+            AttributedStringUnicodeScalarView,
+            AttributedSubstring,
+        )
+
+        registrations: tuple[tuple[str, type[NativeReference], str], ...] = (
+            ("FishyJoesCommonRuntime_AttributeContainer_setup", AttributeContainer, "AttributeContainer"),
+            (
+                "FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup",
+                AttributeContainerFoundationAttributes,
+                "AttributeContainer.FoundationAttributes",
+            ),
+            ("Foundation_AttributedString_setup", AttributedString, "AttributedString"),
+            ("Foundation_AttributedString_Index_setup", AttributedStringIndex, "AttributedString.Index"),
+            ("Foundation_AttributedSubstring_setup", AttributedSubstring, "AttributedSubstring"),
+            ("Foundation_AttributedString_Runs_setup", AttributedStringRuns, "AttributedString.Runs"),
+            ("Foundation_AttributedString_Runs_Index_setup", AttributedStringRunsIndex, "AttributedString.Runs.Index"),
+            ("Foundation_AttributedString_Runs_Run_setup", AttributedStringRun, "AttributedString.Runs.Run"),
+            ("Foundation_AttributedString_CharacterView_setup", AttributedStringCharacterView, "AttributedString.CharacterView"),
+            (
+                "Foundation_AttributedString_UnicodeScalarView_setup",
+                AttributedStringUnicodeScalarView,
+                "AttributedString.UnicodeScalarView",
+            ),
+        )
+
+        for setup_symbol, cls, native_type in registrations:
+            @_ffi.callback("void*(void*, void**)")
+            def constructor(ptr: Any, exn: Any, cls: type[NativeReference] = cls, native_type: str = native_type) -> Any:
+                try:
+                    ptr_int = int(_ffi.cast("uintptr_t", ptr))
+                    instance = cls(native_ref=ptr_int or 0, native_type=native_type, _runtime=self)
+                    return _ffi.cast("void*", self._retain(instance))
+                except BaseException as error:
+                    self._set_exn(exn, error)
+                    return _ffi.NULL
+
+            self._callbacks.append(constructor)
+            exn_holder = _ffi.new("void*[1]")
+            getattr(self.iota_runtime_lib, setup_symbol)(
+                _ffi.cast("void*", self.env),
+                constructor,
+                exn_holder,
+            )
+            exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+            if exn_val:
+                self._raise_exception_handle(exn_val)
 
     @property
     def iota_lib(self) -> Any:
         """The cffi library object for the module's iota dylib."""
-        assert self.module_iota_lib is not None, "IotaRuntime not loaded yet"
+        if self.module_iota_lib is None:
+            raise FishyJoesError("IotaRuntime not loaded yet")
         return self.module_iota_lib
+
+    def call_runtime_symbol(
+        self,
+        symbol: str,
+        return_type: str,
+        *args: tuple[str, Any],
+    ) -> Any:
+        """Call a symbol exported by libFishyJoesIotaRuntime."""
+        self._ensure_loaded()
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
+        fn = getattr(self.iota_runtime_lib, symbol)
+
+        retained_handles: list[int] = []
+        exn_holder = _ffi.new("void*[1]")
+        call_args: list[Any] = [_ffi.cast("void*", self.env)]
+        try:
+            for ffi_name, value in args:
+                if ffi_name == "object":
+                    if value is None:
+                        call_args.append(_ffi.NULL)
+                    else:
+                        handle = self.retain_foreign_object(value)
+                        retained_handles.append(handle)
+                        call_args.append(_ffi.cast("void*", handle))
+                elif ffi_name == "native":
+                    call_args.append(_ffi.cast("void*", value or 0))
+                elif ffi_name == "bool":
+                    call_args.append(_ffi.cast("uint8_t", 1 if value else 0))
+                else:
+                    call_args.append(value)
+
+            call_args.append(exn_holder)
+            result = fn(*call_args)
+            exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
+            if exn_val:
+                self.raise_if_exception(exn_val)
+            if return_type == "void":
+                return None
+            if return_type == "object":
+                return self.consume_foreign_object(result)
+            if return_type == "native":
+                return int(_ffi.cast("uintptr_t", result))
+            if return_type == "bool":
+                return bool(result)
+            if return_type in {"int", "uint32"}:
+                return int(result)
+            return result
+        finally:
+            for handle in retained_handles:
+                self.release_foreign_object(handle)
 
     def retain_foreign_object(self, value: object) -> int:
         self._ensure_loaded()
@@ -279,6 +381,7 @@ class IotaRuntime:
         self._set_exn(out_exn, error)
 
     def raise_native_error(self, message: str) -> None:
+        _log.warning("raise_native_error: %s", message)
         raise NativeCallError(message)
 
     def register_error_factory(self, factory: Callable[[str], BaseException]) -> None:
@@ -297,6 +400,7 @@ class IotaRuntime:
 
             runtime.register_error_factory(my_factory)
         """
+        _log.debug("register_error_factory: factory=%r", factory)
         self._error_factory = factory
 
     def make_native_reference(self, native_ref: int | None, native_type: str = "AnyBox") -> NativeReference:
@@ -321,8 +425,8 @@ class IotaRuntime:
         if native_ref is None:
             return
         self._ensure_loaded()
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
         exn_holder = _ffi.new("void*[1]")
         self.iota_runtime_lib.FishyJoesCommonRuntime_AnyBox_releaseRef(
             _ffi.cast("void*", self.env),
@@ -341,8 +445,8 @@ class IotaRuntime:
         if native_ref is None:
             return "<null>"
         self._ensure_loaded()
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
         exn_holder = _ffi.new("void*[1]")
         result_ptr = self.iota_runtime_lib.FishyJoesCommonRuntime_AnyBox_toString(
             _ffi.cast("void*", self.env),
@@ -367,12 +471,12 @@ class IotaRuntime:
 
     def _library(self, name: str) -> Any:
         if name == "iota_runtime":
-            assert self.iota_runtime_lib is not None
+            _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
             return self.iota_runtime_lib
         if name == "module":
-            assert self.module_lib is not None
+            _require_not_none(self.module_lib, "module_lib")
             return self.module_lib
-        assert self.module_iota_lib is not None
+        _require_not_none(self.module_iota_lib, "module_iota_lib")
         return self.module_iota_lib
 
     def _ensure_loaded(self) -> None:
@@ -380,8 +484,8 @@ class IotaRuntime:
             self.ensure_loaded()
 
     def _register_module_types(self) -> None:
-        assert self.module_iota_lib is not None
-        _ffi.cdef(f"void FishyJoes_{self.module_name}_registerTypes(void);", override=True)
+        _require_not_none(self.module_iota_lib, "module_iota_lib")
+        _cdef(f"void FishyJoes_{self.module_name}_registerTypes(void);", override=True)
         getattr(self.module_iota_lib, f"FishyJoes_{self.module_name}_registerTypes")()
 
     def _retain(self, value: object) -> int:
@@ -461,12 +565,27 @@ class IotaRuntime:
         return _ffi.cast("void*", ptr_int)
 
     def _schedule_thread_work(self, _env: Any, context: Any) -> None:
+        if self.strict_thread_scheduling:
+            raise NotImplementedInNativeError(
+                "schedule_thread_work: strict_thread_scheduling=True is set; "
+                "this runtime does not own a real thread executor"
+            )
+        if not self._thread_schedule_warning_emitted:
+            _log.warning(
+                "schedule_thread_work: running scheduled work inline on the "
+                "calling thread (no real thread executor); see "
+                "python-runtime/README.non-goals.md. Subsequent invocations "
+                "will be logged at DEBUG."
+            )
+            self._thread_schedule_warning_emitted = True
+        else:
+            _log.debug("schedule_thread_work: inline execution")
         ctx_int = int(_ffi.cast("uintptr_t", context))
         self._run_scheduled_work(ctx_int)
 
     def _run_scheduled_work(self, context: int) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
         exn_holder = _ffi.new("void*[1]")
         self.iota_runtime_lib.FishyJoesCommonRuntime_runScheduledWork(
             _ffi.cast("void*", self.env),
@@ -478,8 +597,8 @@ class IotaRuntime:
             self._raise_exception_handle(exn_val)
 
     def _setup_any_box(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         @_ffi.callback("void*(void*, void**)")
         def anybox_constructor(ptr: Any, exn: Any) -> Any:
@@ -507,7 +626,7 @@ class IotaRuntime:
 
         self._callbacks.extend([anybox_constructor, anybox_ref_getter])
 
-        _ffi.cdef("""
+        _cdef("""
             void FishyJoesCommonRuntime_AnyBox_setup(void* env, void* constructor, void* ref_getter);
             void FishyJoesCommonRuntime_AnyBox_releaseRef(void* env, void* ref, void** exn);
             void* FishyJoesCommonRuntime_AnyBox_toString(void* env, void* ref, void** exn);
@@ -528,8 +647,8 @@ class IotaRuntime:
         self._setup_url()
 
     def _setup_bool(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         @_ffi.callback("uint8_t(void*, void**)")
         def bool_value(obj: Any, exn: Any) -> int:
@@ -542,7 +661,7 @@ class IotaRuntime:
 
         self._callbacks.append(bool_value)
 
-        _ffi.cdef("""
+        _cdef("""
             void Swift_Bool_setup(void* env, void* true_obj, void* false_obj, void* value_fn);
         """, override=True)
 
@@ -559,7 +678,9 @@ class IotaRuntime:
         try:
             addr = int(_ffi.cast("uintptr_t", obj))
             value = _borrow_python_value(addr)
-            return int(value if value is not None else 0)
+            if value is None:
+                return 0
+            return int(value)  # type: ignore[call-overload]
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
@@ -573,8 +694,8 @@ class IotaRuntime:
         return _ffi.cast("void*", addr)
 
     def _setup_integers(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         signed_value_cb = _ffi.callback("intptr_t(void*, void**)", self._integer_value)
         unsigned_value_cb = _ffi.callback("uintptr_t(void*, void**)", self._integer_value)
@@ -598,7 +719,7 @@ class IotaRuntime:
             ("Swift_Int64_setup", int64_ctor_cb),
             ("Swift_Int_setup",   int64_ctor_cb),
         ]:
-            _ffi.cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
+            _cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
             getattr(self.iota_runtime_lib, symbol)(
                 _ffi.cast("void*", self.env), signed_value_cb, ctor_cb
             )
@@ -607,7 +728,7 @@ class IotaRuntime:
             "Swift_UInt8_setup", "Swift_UInt16_setup", "Swift_UInt32_setup",
             "Swift_UInt64_setup", "Swift_UInt_setup",
         ]:
-            _ffi.cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
+            _cdef(f"void {symbol}(void* env, void* value_fn, void* ctor_fn);", override=True)
             getattr(self.iota_runtime_lib, symbol)(
                 _ffi.cast("void*", self.env), unsigned_value_cb, unsigned_ctor_cb
             )
@@ -615,7 +736,10 @@ class IotaRuntime:
     def _float_value(self, obj: Any, exn: Any) -> float:
         try:
             addr = int(_ffi.cast("uintptr_t", obj))
-            return float(_borrow_python_value(addr) or 0.0)
+            value = _borrow_python_value(addr)
+            if value is None:
+                return 0.0
+            return float(value)  # type: ignore[arg-type]
         except BaseException as error:
             self._set_exn(exn, error)
             return 0.0
@@ -625,8 +749,8 @@ class IotaRuntime:
         return _ffi.cast("void*", addr)
 
     def _setup_floats(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         float_value_cb = _ffi.callback("float(void*, void**)", self._float_value)
         double_value_cb = _ffi.callback("double(void*, void**)", self._float_value)
@@ -634,7 +758,7 @@ class IotaRuntime:
         double_ctor_cb = _ffi.callback("void*(double)", self._float_constructor)
         self._callbacks.extend([float_value_cb, double_value_cb, float_ctor_cb, double_ctor_cb])
 
-        _ffi.cdef("""
+        _cdef("""
             void Swift_Float_setup(void* env, void* value_fn, void* ctor_fn);
             void Swift_Double_setup(void* env, void* value_fn, void* ctor_fn);
         """, override=True)
@@ -675,15 +799,15 @@ class IotaRuntime:
             return _ffi.NULL
 
     def _setup_string(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         byte_len_cb = _ffi.callback("intptr_t(void*, void**)", self._string_byte_length)
         utf8_fill_cb = _ffi.callback("void(void*, char*, void**)", self._string_utf8_fill)
         utf8_ctor_cb = _ffi.callback("void*(char*, intptr_t, void**)", self._string_utf8_constructor)
         self._callbacks.extend([byte_len_cb, utf8_fill_cb, utf8_ctor_cb])
 
-        _ffi.cdef("""
+        _cdef("""
             void Swift_String_utf8_setup(void* env, void* byte_len_fn, void* fill_fn, void* ctor_fn);
         """, override=True)
 
@@ -694,7 +818,10 @@ class IotaRuntime:
     def _data_length(self, obj: Any, exn: Any) -> int:
         try:
             addr = int(_ffi.cast("uintptr_t", obj))
-            return len(bytes(_borrow_python_value(addr) or b""))
+            raw = _borrow_python_value(addr)
+            if raw is None:
+                return 0
+            return len(bytes(raw))  # type: ignore[call-overload]
         except BaseException as error:
             self._set_exn(exn, error)
             return 0
@@ -702,7 +829,8 @@ class IotaRuntime:
     def _data_bytes(self, obj: Any, out_values: Any, exn: Any) -> None:
         try:
             addr = int(_ffi.cast("uintptr_t", obj))
-            value = bytes(_borrow_python_value(addr) or b"")
+            raw = _borrow_python_value(addr)
+            value: bytes = b"" if raw is None else bytes(raw)  # type: ignore[call-overload]
             if value:
                 _ffi.memmove(out_values, value, len(value))
         except BaseException as error:
@@ -718,15 +846,15 @@ class IotaRuntime:
             return _ffi.NULL
 
     def _setup_data(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         len_cb = _ffi.callback("int32_t(void*, void**)", self._data_length)
         bytes_cb = _ffi.callback("void(void*, void*, void**)", self._data_bytes)
         ctor_cb = _ffi.callback("void*(void*, int32_t, void**)", self._data_constructor)
         self._callbacks.extend([len_cb, bytes_cb, ctor_cb])
 
-        _ffi.cdef("""
+        _cdef("""
             void Foundation_Data_setup(void* env, void* len_fn, void* bytes_fn, void* ctor_fn);
         """, override=True)
 
@@ -755,18 +883,17 @@ class IotaRuntime:
             return _ffi.NULL
 
     def _setup_url(self) -> None:
-        assert self.iota_runtime_lib is not None
-        assert self.env is not None
+        _require_not_none(self.iota_runtime_lib, "iota_runtime_lib")
+        _require_not_none(self.env, "env")
 
         uri_cb = _ffi.callback("void*(void*, void**)", self._url_absolute_uri)
         ctor_cb = _ffi.callback("void*(void*, void**)", self._url_constructor)
         self._callbacks.extend([uri_cb, ctor_cb])
 
-        _ffi.cdef("""
+        _cdef("""
             void Foundation_URL_setup(void* env, void* uri_fn, void* ctor_fn);
         """, override=True)
 
         self.iota_runtime_lib.Foundation_URL_setup(
             _ffi.cast("void*", self.env), uri_cb, ctor_cb
         )
-

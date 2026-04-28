@@ -10,7 +10,9 @@ import typing
 
 import cffi as _cffi_module
 
-from fishyjoes_python.iota import IotaRuntime, NativeReference as _SharedNativeReference
+from collections.abc import Callable, Iterable, Mapping, Sized
+
+from fishyjoes_python.iota import IotaRuntime, NativeReference as _SharedNativeReference, _assume
 from fishyjoes_python.loader import load_shared_library
 
 _ffi = _cffi_module.FFI()
@@ -33,6 +35,20 @@ class GeneratedRuntime:
         self._runtime: IotaRuntime | None = None
         self._callbacks: list[object] = []
         self._symbol_cache: dict[str, typing.Any] = {}
+
+    def _require_runtime(self) -> IotaRuntime:
+        """Return the live IotaRuntime, raising if it has not been loaded yet.
+
+        Replaces ``assert self._runtime is not None``: ``assert`` is elided
+        under ``python -O`` and would let a None dereference crash at the
+        C boundary instead of producing a clear Python error.
+        """
+        if self._runtime is None:
+            raise RuntimeError(
+                "GeneratedRuntime: ensure_loaded() must be called before "
+                "any FFI operation"
+            )
+        return self._runtime
 
     def ensure_loaded(self) -> None:
         if self._runtime is not None:
@@ -62,9 +78,12 @@ class GeneratedRuntime:
     @property
     def env(self) -> int:
         self.ensure_loaded()
-        assert self._runtime is not None
-        assert self._runtime.env is not None
-        return self._runtime.env
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
+        if runtime.env is None:
+            raise RuntimeError("IotaRuntime env not initialised")
+        return runtime.env
 
     def call_symbol(self, symbol: str, return_type: str, *args: tuple[str, typing.Any]) -> typing.Any:
         """Call an iota ABI symbol directly via cffi.
@@ -74,9 +93,10 @@ class GeneratedRuntime:
         appended automatically.
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
-        lib = self._runtime.iota_lib
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
+        lib = runtime.iota_lib
         fn = self._symbol_cache.get(symbol)
         if fn is None:
             fn = getattr(lib, symbol)
@@ -95,7 +115,7 @@ class GeneratedRuntime:
                         # Wrap Python object in a cffi handle so Swift can call
                         # back via anybox_ref_getter to extract native pointer or
                         # object fields.
-                        handle = self._runtime.retain_foreign_object(value)
+                        handle = runtime.retain_foreign_object(value)
                         retained_handles.append(handle)
                         call_args.append(_ffi.cast("void*", handle))
                 elif ffi_name == "bool":
@@ -107,16 +127,18 @@ class GeneratedRuntime:
             result = fn(*call_args)
             exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
             if exn_val:
-                self._runtime.raise_if_exception(exn_val)
+                runtime.raise_if_exception(exn_val)
             return self._convert_return(result, return_type)
         finally:
             for handle in retained_handles:
-                self._runtime.release_foreign_object(handle)
+                runtime.release_foreign_object(handle)
 
     def _invoke_setup(self, setup_symbol: str, *callback_args: typing.Any) -> None:
         """Call a setup symbol via cffi, converting ctypes callbacks to void* pointers."""
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
+        lib = runtime.iota_lib
         fn = self._symbol_cache.get(setup_symbol)
         if fn is None:
             fn = getattr(lib, setup_symbol)
@@ -130,20 +152,21 @@ class GeneratedRuntime:
         fn(*cffi_args)
         exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
         if exn_val:
-            self._runtime.raise_if_exception(exn_val)
+            runtime.raise_if_exception(exn_val)
 
     def setup_reference_type(self, setup_symbol: str, cls: type[NativeReference]) -> None:
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
 
-        def constructor(pointer: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
+        def constructor(pointer: int | None, exn: typing.Any) -> int:
             try:
                 instance = cls(native_ref=int(pointer or 0))
-                return self._runtime.retain_foreign_object(instance)
+                return runtime.retain_foreign_object(instance)
             except BaseException as error:
-                self._runtime.store_exception(exn, error)
+                runtime.store_exception(exn, error)
                 return 0
 
         callback = constructor_type(constructor)
@@ -166,8 +189,9 @@ class GeneratedRuntime:
             case_specs: List of (case_name, [(field_name, ffi_type), ...]) tuples.
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         if not is_inhabited:
             # Uninhabited enums: only constructors+extractors per case, no discriminator.
             # The setup function still expects callbacks for each case.
@@ -184,13 +208,25 @@ class GeneratedRuntime:
             # Build per-case matchers at setup time (not per-call).
             # Each matcher returns True iff the value belongs to that case.
             import sys as _sys
+            def _make_identity_matcher(member: typing.Any) -> typing.Callable[[typing.Any], bool]:
+                def matches(value: typing.Any) -> bool:
+                    return value is member
+                return matches
+
+            def _make_isinstance_matcher(target: type) -> typing.Callable[[typing.Any], bool]:
+                def matches(value: typing.Any) -> bool:
+                    return isinstance(value, target)
+                return matches
+
+            def _never_matches(value: typing.Any) -> bool:
+                return False
+
             case_matchers: list[typing.Callable[[typing.Any], bool]] = []
             for case_name in case_names:
                 case_attr = getattr(cls, case_name, None)
                 if case_attr is not None and isinstance(case_attr, cls):
                     # enum.Enum member: use identity only.
-                    _member = case_attr
-                    case_matchers.append(lambda v, m=_member: v is m)
+                    case_matchers.append(_make_identity_matcher(case_attr))
                 else:
                     # Dataclass-style subclass: look up {ClassName}_{CaseName} across loaded modules.
                     subname = f"{cls.__name__}_{case_name[0].upper()}{case_name[1:]}"
@@ -201,20 +237,20 @@ class GeneratedRuntime:
                             subclass = sc
                             break
                     if subclass is not None:
-                        case_matchers.append(lambda v, t=subclass: isinstance(v, t))
+                        case_matchers.append(_make_isinstance_matcher(subclass))
                     else:
                         # Fallback: never matches (unrecognised case).
-                        case_matchers.append(lambda v: False)
+                        case_matchers.append(_never_matches)
 
-            def discriminator(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
+            def discriminator(obj: int | None, exn: typing.Any) -> int:
                 try:
-                    value = self._runtime.borrow_foreign_object(obj)
+                    value = runtime.borrow_foreign_object(obj)
                     for idx, matches in enumerate(case_matchers):
                         if matches(value):
                             return idx
                     raise TypeError(f"value {value!r} is not a case of {cls.__name__}")
                 except BaseException as error:
-                    self._runtime.store_exception(exn, error)
+                    runtime.store_exception(exn, error)
                     return -1
 
             disc_cb = discriminator_type(discriminator)
@@ -256,9 +292,9 @@ class GeneratedRuntime:
                         else:
                             # Non-callable sentinel (e.g. a plain enum member): use directly.
                             instance = case_cls
-                        return self._runtime.retain_foreign_object(instance)
+                        return runtime.retain_foreign_object(instance)
                     except BaseException as error:
-                        self._runtime.store_exception(exn, error)
+                        runtime.store_exception(exn, error)
                         return 0
                 return constructor
 
@@ -276,14 +312,14 @@ class GeneratedRuntime:
                     exn = raw[-1]
                     out_ptrs = raw[:-1]
                     try:
-                        value = self._runtime.borrow_foreign_object(obj)
+                        value = runtime.borrow_foreign_object(obj)
                         # Extract named field values from the case instance.
                         for out_ptr, fname, ffi_type in zip(out_ptrs, fnames, ftypes, strict=True):
                             field_val = getattr(value, fname)
                             native_val = self._convert_to_ffi(field_val, ffi_type)
                             ctypes.cast(out_ptr, ctypes.POINTER(_ffi_ctypes_type(ffi_type)))[0] = native_val
                     except BaseException as error:
-                        self._runtime.store_exception(exn, error)
+                        runtime.store_exception(exn, error)
                 return extractor
 
             ext_cb = extractor_type(make_extractor(field_names, ffi_types_only))
@@ -314,8 +350,9 @@ class GeneratedRuntime:
             method_specs: List of (method_name, [param_ffi_types], return_ffi_type) tuples.
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         callback_args: list[typing.Any] = []
 
         # constructor: (UnsafeMutableRawPointer, foreignOutExn) -> foreignObject
@@ -323,14 +360,14 @@ class GeneratedRuntime:
         # We wrap the opaque pointer in an ExternalWitness_* NativeReference instance.
         constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
 
-        def constructor(pointer: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> int:
+        def constructor(pointer: int | None, exn: typing.Any) -> int:
             try:
                 instance = external_witness_cls(
                     native_ref=int(pointer or 0),
                 )
-                return self._runtime.retain_foreign_object(instance)
+                return runtime.retain_foreign_object(instance)
             except BaseException as error:
-                self._runtime.store_exception(exn, error)
+                runtime.store_exception(exn, error)
                 return 0
 
         ctor_cb = constructor_type(constructor)
@@ -345,12 +382,12 @@ class GeneratedRuntime:
             )
 
             def make_getter(fname: str, ffi_ret: str) -> typing.Any:
-                def getter(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p)) -> typing.Any:
+                def getter(obj: int | None, exn: typing.Any) -> typing.Any:
                     try:
-                        instance = self._runtime.borrow_foreign_object(obj)
+                        instance = runtime.borrow_foreign_object(obj)
                         return self._convert_to_ffi(getattr(instance, fname), ffi_ret)
                     except BaseException as error:
-                        self._runtime.store_exception(exn, error)
+                        runtime.store_exception(exn, error)
                         return _ffi_default_value(ffi_ret)
                 return getter
 
@@ -372,14 +409,14 @@ class GeneratedRuntime:
                     exn = raw[-1]
                     params = raw[:-1]
                     try:
-                        instance = self._runtime.borrow_foreign_object(obj)
+                        instance = runtime.borrow_foreign_object(obj)
                         converted = [self._convert_from_ffi(v, t) for v, t in zip(params, pffi, strict=True)]
                         result = getattr(instance, mname)(*converted)
                         if rffi == "void":
                             return None
                         return self._convert_to_ffi(result, rffi)
                     except BaseException as error:
-                        self._runtime.store_exception(exn, error)
+                        runtime.store_exception(exn, error)
                         return _ffi_default_value(rffi) if rffi != "void" else None
                 return method_cb
 
@@ -397,8 +434,9 @@ class GeneratedRuntime:
         mutable_fields: set[str],
     ) -> None:
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         constructor_argtypes = [_ffi_ctypes_type(ffi_name) for _, ffi_name in field_specs]
         constructor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, *constructor_argtypes, ctypes.POINTER(ctypes.c_void_p))
 
@@ -410,9 +448,9 @@ class GeneratedRuntime:
                     for (field_name, ffi_name), value in zip(field_specs, raw[:-1], strict=True)
                 }
                 instance = cls(**kwargs)
-                return self._runtime.retain_foreign_object(instance)
+                return runtime.retain_foreign_object(instance)
             except BaseException as error:
-                self._runtime.store_exception(exn, error)
+                runtime.store_exception(exn, error)
                 return 0
 
         constructor_callback = constructor_type(constructor)
@@ -422,12 +460,12 @@ class GeneratedRuntime:
         for field_name, ffi_name in field_specs:
             getter_type = ctypes.CFUNCTYPE(_ffi_ctypes_type(ffi_name), ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
 
-            def getter(obj: int | None, exn: ctypes.POINTER(ctypes.c_void_p), *, _field=field_name, _ffi=ffi_name) -> typing.Any:
+            def getter(obj: int | None, exn: typing.Any, *, _field=field_name, _ffi=ffi_name) -> typing.Any:
                 try:
-                    instance = self._runtime.borrow_foreign_object(obj)
+                    instance = runtime.borrow_foreign_object(obj)
                     return self._convert_to_ffi(getattr(instance, _field), _ffi)
                 except BaseException as error:
-                    self._runtime.store_exception(exn, error)
+                    runtime.store_exception(exn, error)
                     return _ffi_default_value(_ffi)
 
             getter_callback = getter_type(getter)
@@ -440,16 +478,16 @@ class GeneratedRuntime:
                 def setter(
                     obj: int | None,
                     value: typing.Any,
-                    exn: ctypes.POINTER(ctypes.c_void_p),
+                    exn: typing.Any,
                     *,
                     _field=field_name,
                     _ffi=ffi_name,
                 ) -> None:
                     try:
-                        instance = self._runtime.borrow_foreign_object(obj)
+                        instance = runtime.borrow_foreign_object(obj)
                         setattr(instance, _field, self._convert_from_ffi(value, _ffi))
                     except BaseException as error:
-                        self._runtime.store_exception(exn, error)
+                        runtime.store_exception(exn, error)
 
                 setter_callback = setter_type(setter)
                 self._callbacks.append(setter_callback)
@@ -472,8 +510,10 @@ class GeneratedRuntime:
         first argument after env), followed by the given ctypes callbacks as
         void* pointers, and finally an exn out-parameter.
         """
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
+        lib = runtime.iota_lib
         fn = self._symbol_cache.get(setup_symbol)
         if fn is None:
             fn = getattr(lib, setup_symbol)
@@ -491,12 +531,14 @@ class GeneratedRuntime:
         fn(*cffi_args)
         exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
         if exn_val:
-            self._runtime.raise_if_exception(exn_val)
+            runtime.raise_if_exception(exn_val)
 
     def _invoke_generic_setup_no_exn(self, setup_symbol: str, converter_name: str, *callback_args: typing.Any) -> None:
         """Like _invoke_generic_setup but for setup symbols that have no exn parameter (Tuple, Result)."""
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
+        lib = runtime.iota_lib
         fn = self._symbol_cache.get(setup_symbol)
         if fn is None:
             fn = getattr(lib, setup_symbol)
@@ -524,8 +566,9 @@ class GeneratedRuntime:
             element_ffi_type: FFI type string for elements (e.g. ``"object"``, ``"int"``).
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         elem_ctype = _ffi_ctypes_type(element_ffi_type)
 
         # length_fn: (context, array, exn) -> int32_t
@@ -536,12 +579,17 @@ class GeneratedRuntime:
         # constructor_fn: (context, in_values, length, exn) -> foreignObject
         ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.POINTER(ctypes.c_void_p))
 
-        runtime = self._runtime
+        runtime = runtime
 
         def length_fn(ctx: int, obj: int, exn: typing.Any) -> int:
             try:
                 value = runtime.borrow_foreign_object(obj)
-                return len(value) if value is not None else 0
+                if value is None:
+                    return 0
+                # Generated collection bindings expect list/set/tuple values;
+                # ``len`` itself raises TypeError on a non-Sized value, so the
+                # runtime check is preserved.
+                return len(typing.cast(Sized, value))
             except BaseException as error:
                 runtime.store_exception(exn, error)
                 return 0
@@ -551,7 +599,9 @@ class GeneratedRuntime:
         def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
             try:
                 value = runtime.borrow_foreign_object(obj)
-                items = list(value) if value is not None else []
+                items: list[typing.Any] = (
+                    list(typing.cast(Iterable[typing.Any], value)) if value is not None else []
+                )
                 ptr = _ffi.cast("void**", out_values)
                 for i, item in enumerate(items):
                     # Send None as a null pointer so Swift sees Optional.none.
@@ -603,18 +653,21 @@ class GeneratedRuntime:
         On the Python side we represent it as a plain dict.
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = self._runtime
         length_type = ctypes.CFUNCTYPE(ctypes.c_int, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
         values_type = ctypes.CFUNCTYPE(None, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
         ctor_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_int, ctypes.POINTER(ctypes.c_void_p))
 
-        runtime = self._runtime
+        runtime = runtime
 
         def length_fn(ctx: int, obj: int, exn: typing.Any) -> int:
             try:
                 value = runtime.borrow_foreign_object(obj)
-                return len(value) if value is not None else 0
+                if value is None:
+                    return 0
+                return len(typing.cast(Sized, value))
             except BaseException as error:
                 runtime.store_exception(exn, error)
                 return 0
@@ -622,7 +675,10 @@ class GeneratedRuntime:
         def values_fn(ctx: int, obj: int, out_values: int, exn: typing.Any) -> None:
             try:
                 d = runtime.borrow_foreign_object(obj)
-                pairs = list(d.items()) if d is not None else []
+                pairs: list[tuple[typing.Any, typing.Any]] = (
+                    list(typing.cast(Mapping[typing.Any, typing.Any], d).items())
+                    if d is not None else []
+                )
                 ptr = _ffi.cast("void**", out_values)
                 i = 0
                 for k, v in pairs:
@@ -669,9 +725,10 @@ class GeneratedRuntime:
             arity: Number of elements in the tuple (2–6).
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
+        runtime = runtime
 
         # get_N callbacks: (context, tuple_obj, exn) -> foreignObject
         get_type = ctypes.CFUNCTYPE(ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, ctypes.POINTER(ctypes.c_void_p))
@@ -681,7 +738,11 @@ class GeneratedRuntime:
             def make_get(index: int) -> typing.Any:
                 def get_fn(ctx: int, obj: int, exn: typing.Any) -> int:
                     try:
-                        tup = runtime.borrow_foreign_object(obj)
+                        # Tuple converters are registered for Swift tuple types,
+                        # so ``tup`` is a Python ``tuple``.  ``_assume`` makes
+                        # that an explicit runtime check instead of a silent
+                        # IndexError on the wrong shape downstream.
+                        tup = _assume(runtime.borrow_foreign_object(obj), tuple)
                         item = tup[index]
                         return runtime.retain_foreign_object(item)
                     except BaseException as error:
@@ -713,8 +774,10 @@ class GeneratedRuntime:
 
         # TupleConverter_setup has no exn parameter and requires a trailing context argument.
         # Build the call manually: env, name, get0..get5 (nullable), ctor, context.
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = runtime
+        lib = runtime.iota_lib
         fn = getattr(lib, "FishyJoesCommonRuntime_TupleConverter_setup")
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
@@ -744,9 +807,10 @@ class GeneratedRuntime:
             closed: If True, register as a ClosedRange (same ABI symbol as Range).
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
+        runtime = runtime
 
         # getLowerBound: (context, range_obj, exn) -> foreignObject
         bound_type = ctypes.CFUNCTYPE(
@@ -756,7 +820,8 @@ class GeneratedRuntime:
 
         def get_lower_fn(ctx: int, obj: int, exn: typing.Any) -> int:
             try:
-                tup = runtime.borrow_foreign_object(obj)
+                # Range converters expose (lower, upper) as a 2-tuple.
+                tup = _assume(runtime.borrow_foreign_object(obj), tuple)
                 return runtime.retain_foreign_object(tup[0])
             except BaseException as error:
                 runtime.store_exception(exn, error)
@@ -764,7 +829,7 @@ class GeneratedRuntime:
 
         def get_upper_fn(ctx: int, obj: int, exn: typing.Any) -> int:
             try:
-                tup = runtime.borrow_foreign_object(obj)
+                tup = _assume(runtime.borrow_foreign_object(obj), tuple)
                 return runtime.retain_foreign_object(tup[1])
             except BaseException as error:
                 runtime.store_exception(exn, error)
@@ -791,8 +856,10 @@ class GeneratedRuntime:
         self._callbacks.extend([get_lo_cb, get_hi_cb, ctor_cb])
 
         # RangeConverter_setup: envRef, name, getLowerBound, getUpperBound, ctor, context (no exn)
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = runtime
+        lib = runtime.iota_lib
         fn = getattr(lib, "FishyJoesCommonRuntime_RangeConverter_setup")
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [
@@ -815,9 +882,10 @@ class GeneratedRuntime:
         or an exception.  The Iota ABI passes (isSuccess: UInt8, contents: foreignObject).
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
+        runtime = runtime
 
         # get_contents_fn: (context, result_obj, out_is_success, exn) -> foreignObject (contents)
         get_contents_type = ctypes.CFUNCTYPE(
@@ -880,9 +948,10 @@ class GeneratedRuntime:
         import threading
 
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
+        runtime = runtime
 
         # Map promise_handle -> asyncio.Future so resolve/reject can deliver the result.
         promise_map: dict[int, asyncio.Future] = {}  # type: ignore[type-arg]
@@ -1038,8 +1107,10 @@ class GeneratedRuntime:
 
         # Call FishyJoesCommonRuntime_FutureConverter_setup via _invoke_generic_setup
         # Signature: env, name, constructor, sinkFutureMethod, resolveMethod, rejectMethod, context, exn
-        assert self._runtime is not None
-        lib = self._runtime.iota_lib
+        if runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
+        runtime = runtime
+        lib = runtime.iota_lib
         fn = self._symbol_cache.get("FishyJoesCommonRuntime_FutureConverter_setup")
         if fn is None:
             fn = getattr(lib, "FishyJoesCommonRuntime_FutureConverter_setup")
@@ -1063,7 +1134,7 @@ class GeneratedRuntime:
         )
         exn_val = int(_ffi.cast("uintptr_t", exn_holder[0]))
         if exn_val:
-            self._runtime.raise_if_exception(exn_val)
+            runtime.raise_if_exception(exn_val)
 
     def setup_function_type(
         self,
@@ -1077,9 +1148,10 @@ class GeneratedRuntime:
             arity: Number of parameters (0–6).
         """
         self.ensure_loaded()
-        assert self._runtime is not None
-
+        if self._runtime is None:
+            raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
+        runtime = runtime
 
         # constructor_fn: (context, opaque_ref, exn) -> foreignObject
         # Called when Swift wraps a Swift-side closure to pass to Python.
@@ -1111,13 +1183,22 @@ class GeneratedRuntime:
 
         def invoke_fn(ctx: int, fn_obj: int, args_ptr: int, exn: typing.Any) -> int:
             try:
-                callable_val = runtime.borrow_foreign_object(fn_obj)
+                # Function converters are registered for Python callables;
+                # ``typing.cast`` so mypy lets us call it.  The runtime check
+                # is preserved because non-callable objects raise TypeError on
+                # the call below.
+                callable_val = typing.cast(
+                    Callable[..., typing.Any],
+                    runtime.borrow_foreign_object(fn_obj),
+                )
                 if args_ptr and arity > 0:
                     ptr = _ffi.cast("void**", args_ptr)
                     args = [runtime.consume_foreign_object(ptr[i]) for i in range(arity)]
                 else:
                     args = []
                 result = callable_val(*args)
+                if result is None:
+                    return 0
                 return runtime.retain_foreign_object(result)
             except BaseException as error:
                 runtime.store_exception(exn, error)
@@ -1136,7 +1217,8 @@ class GeneratedRuntime:
         if ffi_name == "void":
             return None
         if ffi_name == "object":
-            assert self._runtime is not None
+            if self._runtime is None:
+                raise RuntimeError("GeneratedRuntime not loaded")
             return self._runtime.consume_foreign_object(value)
         if ffi_name == "bool":
             return bool(value)
@@ -1146,7 +1228,8 @@ class GeneratedRuntime:
 
     def _convert_from_ffi(self, value: typing.Any, ffi_name: str) -> typing.Any:
         if ffi_name == "object":
-            assert self._runtime is not None
+            if self._runtime is None:
+                raise RuntimeError("GeneratedRuntime not loaded")
             return self._runtime.consume_foreign_object(value)
         if ffi_name == "bool":
             return bool(value)
@@ -1158,7 +1241,8 @@ class GeneratedRuntime:
 
     def _convert_to_ffi(self, value: typing.Any, ffi_name: str) -> typing.Any:
         if ffi_name == "object":
-            assert self._runtime is not None
+            if self._runtime is None:
+                raise RuntimeError("GeneratedRuntime not loaded")
             if value is None:
                 return 0
             return self._runtime.retain_foreign_object(value)

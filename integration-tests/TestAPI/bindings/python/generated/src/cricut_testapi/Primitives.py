@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from .PrimitiveHolder import PrimitiveHolder
 
 class Primitives:
     """
@@ -10,7 +12,7 @@ class Primitives:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def bitCountInt() -> int:
+    def bitCountInt() -> builtins.int:
         """
         <!-- FishyJoes.export(bitCountInt) -->
         """
@@ -19,7 +21,7 @@ class Primitives:
     
 
     @staticmethod
-    def bitCountUInt() -> int:
+    def bitCountUInt() -> builtins.int:
         """
         <!-- FishyJoes.export(bitCountUInt) -->
         """
@@ -37,7 +39,7 @@ class Primitives:
     
 
     @staticmethod
-    def falseBool() -> bool:
+    def falseBool() -> builtins.bool:
         """
         <!-- FishyJoes.export(falseBool) -->
         """
@@ -46,7 +48,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyBool() -> list[bool]:
+    def manyBool() -> builtins.list[builtins.bool]:
         """
         <!-- FishyJoes.export(manyBool) -->
         """
@@ -55,7 +57,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyDouble() -> list[float]:
+    def manyDouble() -> builtins.list[builtins.float]:
         """
         <!-- FishyJoes.export(manyDouble) -->
         """
@@ -64,7 +66,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyFloat() -> list[float]:
+    def manyFloat() -> builtins.list[builtins.float]:
         """
         <!-- FishyJoes.export(manyFloat) -->
         """
@@ -73,7 +75,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyInt() -> list[int]:
+    def manyInt() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyInt) -->
         """
@@ -82,7 +84,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyInt16() -> list[int]:
+    def manyInt16() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyInt16) -->
         """
@@ -91,7 +93,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyInt32() -> list[int]:
+    def manyInt32() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyInt32) -->
         """
@@ -100,7 +102,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyInt64() -> list[int]:
+    def manyInt64() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyInt64) -->
         """
@@ -109,7 +111,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyInt8() -> list[int]:
+    def manyInt8() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyInt8) -->
         """
@@ -118,7 +120,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeBool() -> list[bool | None]:
+    def manyMaybeBool() -> builtins.list[builtins.bool | None]:
         """
         <!-- FishyJoes.export(manyMaybeBool) -->
         """
@@ -127,7 +129,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeDouble() -> list[float | None]:
+    def manyMaybeDouble() -> builtins.list[builtins.float | None]:
         """
         <!-- FishyJoes.export(manyMaybeDouble) -->
         """
@@ -136,7 +138,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeFloat() -> list[float | None]:
+    def manyMaybeFloat() -> builtins.list[builtins.float | None]:
         """
         <!-- FishyJoes.export(manyMaybeFloat) -->
         """
@@ -145,7 +147,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeInt() -> list[int | None]:
+    def manyMaybeInt() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeInt) -->
         """
@@ -154,7 +156,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeInt16() -> list[int | None]:
+    def manyMaybeInt16() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeInt16) -->
         """
@@ -163,7 +165,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeInt32() -> list[int | None]:
+    def manyMaybeInt32() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeInt32) -->
         """
@@ -172,7 +174,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeInt64() -> list[int | None]:
+    def manyMaybeInt64() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeInt64) -->
         """
@@ -181,7 +183,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeInt8() -> list[int | None]:
+    def manyMaybeInt8() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeInt8) -->
         """
@@ -190,7 +192,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeUInt() -> list[int | None]:
+    def manyMaybeUInt() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeUInt) -->
         """
@@ -199,7 +201,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeUInt16() -> list[int | None]:
+    def manyMaybeUInt16() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeUInt16) -->
         """
@@ -208,7 +210,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeUInt32() -> list[int | None]:
+    def manyMaybeUInt32() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeUInt32) -->
         """
@@ -217,7 +219,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeUInt64() -> list[int | None]:
+    def manyMaybeUInt64() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeUInt64) -->
         """
@@ -226,7 +228,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyMaybeUInt8() -> list[int | None]:
+    def manyMaybeUInt8() -> builtins.list[builtins.int | None]:
         """
         <!-- FishyJoes.export(manyMaybeUInt8) -->
         """
@@ -235,7 +237,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyUInt() -> list[int]:
+    def manyUInt() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyUInt) -->
         """
@@ -244,7 +246,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyUInt16() -> list[int]:
+    def manyUInt16() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyUInt16) -->
         """
@@ -253,7 +255,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyUInt32() -> list[int]:
+    def manyUInt32() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyUInt32) -->
         """
@@ -262,7 +264,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyUInt64() -> list[int]:
+    def manyUInt64() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyUInt64) -->
         """
@@ -271,7 +273,7 @@ class Primitives:
     
 
     @staticmethod
-    def manyUInt8() -> list[int]:
+    def manyUInt8() -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(manyUInt8) -->
         """
@@ -280,7 +282,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxDouble() -> float:
+    def maxDouble() -> builtins.float:
         """
         <!-- FishyJoes.export(maxDouble) -->
         """
@@ -289,7 +291,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxFloat() -> float:
+    def maxFloat() -> builtins.float:
         """
         <!-- FishyJoes.export(maxFloat) -->
         """
@@ -298,7 +300,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxInt() -> int:
+    def maxInt() -> builtins.int:
         """
         <!-- FishyJoes.export(maxInt) -->
         """
@@ -307,7 +309,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxInt16() -> int:
+    def maxInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(maxInt16) -->
         """
@@ -316,7 +318,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxInt32() -> int:
+    def maxInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(maxInt32) -->
         """
@@ -325,7 +327,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxInt64() -> int:
+    def maxInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(maxInt64) -->
         """
@@ -334,7 +336,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxInt8() -> int:
+    def maxInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(maxInt8) -->
         """
@@ -343,7 +345,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxUInt() -> int:
+    def maxUInt() -> builtins.int:
         """
         <!-- FishyJoes.export(maxUInt) -->
         """
@@ -352,7 +354,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxUInt16() -> int:
+    def maxUInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(maxUInt16) -->
         """
@@ -361,7 +363,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxUInt32() -> int:
+    def maxUInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(maxUInt32) -->
         """
@@ -370,7 +372,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxUInt64() -> int:
+    def maxUInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(maxUInt64) -->
         """
@@ -379,7 +381,7 @@ class Primitives:
     
 
     @staticmethod
-    def maxUInt8() -> int:
+    def maxUInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(maxUInt8) -->
         """
@@ -388,7 +390,7 @@ class Primitives:
     
 
     @staticmethod
-    def minDouble() -> float:
+    def minDouble() -> builtins.float:
         """
         <!-- FishyJoes.export(minDouble) -->
         """
@@ -397,7 +399,7 @@ class Primitives:
     
 
     @staticmethod
-    def minFloat() -> float:
+    def minFloat() -> builtins.float:
         """
         <!-- FishyJoes.export(minFloat) -->
         """
@@ -406,7 +408,7 @@ class Primitives:
     
 
     @staticmethod
-    def minInt() -> int:
+    def minInt() -> builtins.int:
         """
         <!-- FishyJoes.export(minInt) -->
         """
@@ -415,7 +417,7 @@ class Primitives:
     
 
     @staticmethod
-    def minInt16() -> int:
+    def minInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(minInt16) -->
         """
@@ -424,7 +426,7 @@ class Primitives:
     
 
     @staticmethod
-    def minInt32() -> int:
+    def minInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(minInt32) -->
         """
@@ -433,7 +435,7 @@ class Primitives:
     
 
     @staticmethod
-    def minInt64() -> int:
+    def minInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(minInt64) -->
         """
@@ -442,7 +444,7 @@ class Primitives:
     
 
     @staticmethod
-    def minInt8() -> int:
+    def minInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(minInt8) -->
         """
@@ -451,7 +453,7 @@ class Primitives:
     
 
     @staticmethod
-    def minUInt() -> int:
+    def minUInt() -> builtins.int:
         """
         <!-- FishyJoes.export(minUInt) -->
         """
@@ -460,7 +462,7 @@ class Primitives:
     
 
     @staticmethod
-    def minUInt16() -> int:
+    def minUInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(minUInt16) -->
         """
@@ -469,7 +471,7 @@ class Primitives:
     
 
     @staticmethod
-    def minUInt32() -> int:
+    def minUInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(minUInt32) -->
         """
@@ -478,7 +480,7 @@ class Primitives:
     
 
     @staticmethod
-    def minUInt64() -> int:
+    def minUInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(minUInt64) -->
         """
@@ -487,7 +489,7 @@ class Primitives:
     
 
     @staticmethod
-    def minUInt8() -> int:
+    def minUInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(minUInt8) -->
         """
@@ -496,7 +498,7 @@ class Primitives:
     
 
     @staticmethod
-    def trueBool() -> bool:
+    def trueBool() -> builtins.bool:
         """
         <!-- FishyJoes.export(trueBool) -->
         """
@@ -505,7 +507,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroDouble() -> float:
+    def zeroDouble() -> builtins.float:
         """
         <!-- FishyJoes.export(zeroDouble) -->
         """
@@ -514,7 +516,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroFloat() -> float:
+    def zeroFloat() -> builtins.float:
         """
         <!-- FishyJoes.export(zeroFloat) -->
         """
@@ -523,7 +525,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroInt() -> int:
+    def zeroInt() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroInt) -->
         """
@@ -532,7 +534,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroInt16() -> int:
+    def zeroInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroInt16) -->
         """
@@ -541,7 +543,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroInt32() -> int:
+    def zeroInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroInt32) -->
         """
@@ -550,7 +552,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroInt64() -> int:
+    def zeroInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroInt64) -->
         """
@@ -559,7 +561,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroInt8() -> int:
+    def zeroInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroInt8) -->
         """
@@ -568,7 +570,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroUInt() -> int:
+    def zeroUInt() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroUInt) -->
         """
@@ -577,7 +579,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroUInt16() -> int:
+    def zeroUInt16() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroUInt16) -->
         """
@@ -586,7 +588,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroUInt32() -> int:
+    def zeroUInt32() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroUInt32) -->
         """
@@ -595,7 +597,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroUInt64() -> int:
+    def zeroUInt64() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroUInt64) -->
         """
@@ -604,7 +606,7 @@ class Primitives:
     
 
     @staticmethod
-    def zeroUInt8() -> int:
+    def zeroUInt8() -> builtins.int:
         """
         <!-- FishyJoes.export(zeroUInt8) -->
         """
@@ -613,7 +615,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoBool(value: bool) -> bool:
+    def echoBool(value: builtins.bool) -> builtins.bool:
         """
         <!-- FishyJoes.export(echoBool) -->
         """
@@ -622,7 +624,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoUInt8(value: int) -> int:
+    def echoUInt8(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoUInt8) -->
         """
@@ -631,7 +633,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoUInt16(value: int) -> int:
+    def echoUInt16(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoUInt16) -->
         """
@@ -640,7 +642,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoUInt32(value: int) -> int:
+    def echoUInt32(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoUInt32) -->
         """
@@ -649,7 +651,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoUInt64(value: int) -> int:
+    def echoUInt64(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoUInt64) -->
         """
@@ -658,7 +660,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoUInt(value: int) -> int:
+    def echoUInt(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoUInt) -->
         """
@@ -667,7 +669,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoInt8(value: int) -> int:
+    def echoInt8(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoInt8) -->
         """
@@ -676,7 +678,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoInt16(value: int) -> int:
+    def echoInt16(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoInt16) -->
         """
@@ -685,7 +687,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoInt32(value: int) -> int:
+    def echoInt32(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoInt32) -->
         """
@@ -694,7 +696,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoInt64(value: int) -> int:
+    def echoInt64(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoInt64) -->
         """
@@ -703,7 +705,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoInt(value: int) -> int:
+    def echoInt(value: builtins.int) -> builtins.int:
         """
         <!-- FishyJoes.export(echoInt) -->
         """
@@ -712,7 +714,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoFloat(value: float) -> float:
+    def echoFloat(value: builtins.float) -> builtins.float:
         """
         <!-- FishyJoes.export(echoFloat) -->
         """
@@ -721,7 +723,7 @@ class Primitives:
     
 
     @staticmethod
-    def echoDouble(value: float) -> float:
+    def echoDouble(value: builtins.float) -> builtins.float:
         """
         <!-- FishyJoes.export(echoDouble) -->
         """
@@ -730,7 +732,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoBool(value: bool | None) -> bool | None:
+    def maybeEchoBool(value: builtins.bool | None) -> builtins.bool | None:
         """
         <!-- FishyJoes.export(maybeEchoBool) -->
         """
@@ -739,7 +741,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoUInt8(value: int | None) -> int | None:
+    def maybeEchoUInt8(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoUInt8) -->
         """
@@ -748,7 +750,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoUInt16(value: int | None) -> int | None:
+    def maybeEchoUInt16(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoUInt16) -->
         """
@@ -757,7 +759,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoUInt32(value: int | None) -> int | None:
+    def maybeEchoUInt32(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoUInt32) -->
         """
@@ -766,7 +768,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoUInt64(value: int | None) -> int | None:
+    def maybeEchoUInt64(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoUInt64) -->
         """
@@ -775,7 +777,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoUInt(value: int | None) -> int | None:
+    def maybeEchoUInt(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoUInt) -->
         """
@@ -784,7 +786,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoInt8(value: int | None) -> int | None:
+    def maybeEchoInt8(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoInt8) -->
         """
@@ -793,7 +795,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoInt16(value: int | None) -> int | None:
+    def maybeEchoInt16(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoInt16) -->
         """
@@ -802,7 +804,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoInt32(value: int | None) -> int | None:
+    def maybeEchoInt32(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoInt32) -->
         """
@@ -811,7 +813,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoInt64(value: int | None) -> int | None:
+    def maybeEchoInt64(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoInt64) -->
         """
@@ -820,7 +822,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoInt(value: int | None) -> int | None:
+    def maybeEchoInt(value: builtins.int | None) -> builtins.int | None:
         """
         <!-- FishyJoes.export(maybeEchoInt) -->
         """
@@ -829,7 +831,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoFloat(value: float | None) -> float | None:
+    def maybeEchoFloat(value: builtins.float | None) -> builtins.float | None:
         """
         <!-- FishyJoes.export(maybeEchoFloat) -->
         """
@@ -838,7 +840,7 @@ class Primitives:
     
 
     @staticmethod
-    def maybeEchoDouble(value: float | None) -> float | None:
+    def maybeEchoDouble(value: builtins.float | None) -> builtins.float | None:
         """
         <!-- FishyJoes.export(maybeEchoDouble) -->
         """
@@ -847,7 +849,7 @@ class Primitives:
     
 
     @staticmethod
-    def boolOverflow(b0: bool, b1: bool, b2: bool, b3: bool, b4: bool, b5: bool, b6: bool, b7: bool, b8: bool, b9: bool, ba: bool, bb: bool, bc: bool, bd: bool, be: bool, bf: bool) -> int:
+    def boolOverflow(b0: builtins.bool, b1: builtins.bool, b2: builtins.bool, b3: builtins.bool, b4: builtins.bool, b5: builtins.bool, b6: builtins.bool, b7: builtins.bool, b8: builtins.bool, b9: builtins.bool, ba: builtins.bool, bb: builtins.bool, bc: builtins.bool, bd: builtins.bool, be: builtins.bool, bf: builtins.bool) -> builtins.int:
         """
         <!-- FishyJoes.export(boolOverflow) -->
         """
@@ -856,7 +858,7 @@ class Primitives:
     
 
     @staticmethod
-    def valueMapper(value: int | None, mapper: typing.Callable[[int | None], int | None]) -> int | None:
+    def valueMapper(value: builtins.int | None, mapper: typing.Callable[[builtins.int | None], builtins.int | None]) -> builtins.int | None:
         """
         <!-- FishyJoes.export(valueMapper) -->
         """

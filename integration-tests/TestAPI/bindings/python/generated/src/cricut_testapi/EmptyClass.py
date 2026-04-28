@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -28,7 +29,7 @@ class EmptyClass(NativeReference):
     
 
     @property
-    def blarg(self) -> str:
+    def blarg(self) -> builtins.str:
         """
         <!-- FishyJoes.export(blarg) -->
         """
@@ -37,7 +38,7 @@ class EmptyClass(NativeReference):
     
 
     @property
-    def wibbledyWobbledyTimeyWhimey(self) -> str:
+    def wibbledyWobbledyTimeyWhimey(self) -> builtins.str:
         """
         <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
         """
@@ -54,7 +55,7 @@ class EmptyClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass_create", "object")
     
 
-    def shme(self) -> str:
+    def shme(self) -> builtins.str:
         """
         <!-- FishyJoes.export(shme) -->
         """
@@ -62,7 +63,7 @@ class EmptyClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_EmptyClass_shme", "object", ("object", self))
     
 
-    def Gorpers(self) -> str:
+    def Gorpers(self) -> builtins.str:
         """
         <!-- FishyJoes.export(Gorpers) -->
         """

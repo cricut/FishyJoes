@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class Strings:
     Generated FishyJoes Python namespace type.
     """
     @staticmethod
-    def accent() -> str:
+    def accent() -> builtins.str:
         """
         <!-- FishyJoes.export(accent) -->
         """
@@ -19,7 +20,7 @@ class Strings:
     
 
     @staticmethod
-    def chinese() -> str:
+    def chinese() -> builtins.str:
         """
         <!-- FishyJoes.export(chinese) -->
         """
@@ -28,7 +29,7 @@ class Strings:
     
 
     @staticmethod
-    def chineseBMP() -> str:
+    def chineseBMP() -> builtins.str:
         """
         <!-- FishyJoes.export(chineseBMP) -->
         """
@@ -37,7 +38,7 @@ class Strings:
     
 
     @staticmethod
-    def chineseSIP() -> str:
+    def chineseSIP() -> builtins.str:
         """
         <!-- FishyJoes.export(chineseSIP) -->
         """
@@ -46,7 +47,7 @@ class Strings:
     
 
     @staticmethod
-    def emoji() -> str:
+    def emoji() -> builtins.str:
         """
         <!-- FishyJoes.export(emoji) -->
         """
@@ -55,7 +56,7 @@ class Strings:
     
 
     @staticmethod
-    def emojiMulti() -> str:
+    def emojiMulti() -> builtins.str:
         """
         <!-- FishyJoes.export(emojiMulti) -->
         """
@@ -64,7 +65,7 @@ class Strings:
     
 
     @staticmethod
-    def script() -> str:
+    def script() -> builtins.str:
         """
         <!-- FishyJoes.export(script) -->
         """
@@ -73,7 +74,7 @@ class Strings:
     
 
     @staticmethod
-    def simple() -> str:
+    def simple() -> builtins.str:
         """
         <!-- FishyJoes.export(simple) -->
         """
@@ -82,7 +83,7 @@ class Strings:
     
 
     @staticmethod
-    def echo(string: str) -> str:
+    def echo(string: builtins.str) -> builtins.str:
         """
         <!-- FishyJoes.export(echo) -->
         """
@@ -91,7 +92,7 @@ class Strings:
     
 
     @staticmethod
-    def split(string: str, by: str) -> list[str]:
+    def split(string: builtins.str, by: builtins.str) -> builtins.list[builtins.str]:
         """
         <!-- FishyJoes.export(split) -->
         """

@@ -54,8 +54,49 @@ class PythonPhases: IotaPhases, Phases {
         }
     }
 
+    private func ensureLintTools() throws {
+        // Pin major+minor so generator output is verified against a stable
+        // ruleset.  Bump deliberately when the generator emits new constructs.
+        // ``--break-system-packages`` lets us install on Homebrew/distro
+        // Python without forcing every contributor to spin up a venv first;
+        // see PEP 668.  CI and isolated environments pay no cost.
+        try cmd(
+            "python3", "-m", "pip", "install",
+            "--break-system-packages",
+            "--user",
+            "ruff>=0.5,<0.10",
+            "mypy>=1.10,<2"
+        ).run()
+    }
+
+    private func ensureRuntimeInstalled() throws {
+        let runtimeSourcePath = "../../../../../python-runtime"
+        guard FileManager.default.fileExists(atPath: runtimeSourcePath) else {
+            return
+        }
+
+        // The shared runtime has a CPython extension module.  Adding
+        // python-runtime/src to PYTHONPATH is not enough: without an editable
+        // install Python falls back to the pure _native.py shim, which only
+        // exposes native_runtime_version and cannot exercise real IOTA paths.
+        try cmd(
+            "python3", "-m", "pip", "install",
+            "--break-system-packages",
+            "--user",
+            "-e", runtimeSourcePath
+        ).run()
+    }
+
     func testPhase() throws {
         try withDirectory("bindings/python/generated") {
+            try ensureRuntimeInstalled()
+            try ensureLintTools()
+            // Lint generated sources first; a syntactically broken or
+            // import-broken generator output should fail before we waste
+            // time loading native libraries.
+            try cmd("python3", "-m", "ruff", "check", "src", "tests").run()
+            try cmd("python3", "-m", "mypy", "src", addEnv: pythonSupportEnv()).run()
+            // 1) Generated smoke tests (live next to the generated tree).
             try cmd(
                 "python3",
                 "-m", "unittest", "discover",
@@ -64,12 +105,37 @@ class PythonPhases: IotaPhases, Phases {
                 addEnv: pythonSupportEnv()
             ).run()
         }
+        // 2) Hand-written integration tests (sibling to ``generated/`` so
+        // they survive regeneration).  Run from ``bindings/python`` with
+        // an explicit PYTHONPATH that includes both ``generated/src`` (so
+        // ``cricut_<module>`` resolves) and the shared
+        // ``python-runtime/src`` (so ``fishyjoes_python`` resolves).
+        let handWrittenTestsDir = "bindings/python/tests"
+        if FileManager.default.fileExists(atPath: handWrittenTestsDir) {
+            try withDirectory("bindings/python") {
+                let runtimeSrc = "../../../../python-runtime/src"
+                let pythonPath = ["generated/src", runtimeSrc].joined(separator: pythonPathSeparator)
+                try cmd(
+                    "python3",
+                    "-m", "unittest", "discover",
+                    "-s", "tests",
+                    "-p", "test_*.py",
+                    addEnv: ["PYTHONPATH": pythonPath]
+                ).run()
+            }
+        }
     }
 
     func packPhase() throws {
         try withDirectory("bindings/python/generated") {
             try cmd("mkdir", "-p", "../packed-python-packages").run()
-            try cmd("python3", "-m", "pip", "install", "--upgrade", "build").run()
+            try cmd(
+                "python3", "-m", "pip", "install",
+                "--break-system-packages",
+                "--user",
+                "--upgrade",
+                "build"
+            ).run()
             try cmd(
                 "python3",
                 "-m", "build",

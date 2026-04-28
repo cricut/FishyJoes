@@ -1,8 +1,10 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
+if typing.TYPE_CHECKING: from .AssociatedDataEnum import AssociatedDataEnum
 
 class TestProtocolClass(NativeReference):
     """
@@ -28,7 +30,7 @@ class TestProtocolClass(NativeReference):
     
 
     @property
-    def corge(self) -> str:
+    def corge(self) -> builtins.str:
         """
         <!-- FishyJoes.export(corge) -->
         """
@@ -37,13 +39,13 @@ class TestProtocolClass(NativeReference):
     
 
     @corge.setter
-    def corge(self, value: str) -> None:
+    def corge(self, value: builtins.str) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_TestProtocolClass_corge", "void", ("object", self), ("object", value))
     
 
     @property
-    def flarp(self) -> str | None:
+    def flarp(self) -> builtins.str | None:
         """
         <!-- FishyJoes.export(flarp) -->
         """
@@ -52,13 +54,13 @@ class TestProtocolClass(NativeReference):
     
 
     @flarp.setter
-    def flarp(self, value: str | None) -> None:
+    def flarp(self, value: builtins.str | None) -> None:
         _ensure_runtime_loaded()
         _get_runtime().call_symbol("__iota_set_TestAPI_TestProtocolClass_flarp", "void", ("object", self), ("object", value))
     
 
     @property
-    def frobby(self) -> list[int]:
+    def frobby(self) -> builtins.list[builtins.int]:
         """
         <!-- FishyJoes.export(frobby) -->
         """
@@ -74,7 +76,7 @@ class TestProtocolClass(NativeReference):
         _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_foo", "void", ("object", self))
     
 
-    def bar(self) -> bool:
+    def bar(self) -> builtins.bool:
         """
         <!-- FishyJoes.export(bar) -->
         """
@@ -82,7 +84,7 @@ class TestProtocolClass(NativeReference):
         return bool(_get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_bar", "bool", ("object", self)))
     
 
-    def baz(self, qux: bool) -> None:
+    def baz(self, qux: builtins.bool) -> None:
         """
         <!-- FishyJoes.export(baz) -->
         """
@@ -90,7 +92,7 @@ class TestProtocolClass(NativeReference):
         _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_baz", "void", ("object", self), ("bool", qux))
     
 
-    def garply(self, str: str) -> str:
+    def garply(self, str: builtins.str) -> builtins.str:
         """
         <!-- FishyJoes.export(garply) -->
         """
@@ -98,7 +100,7 @@ class TestProtocolClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_garply", "object", ("object", self), ("object", str))
     
 
-    def xyzzy(self, thud: int, grault: list[float]) -> str:
+    def xyzzy(self, thud: builtins.int, grault: builtins.list[builtins.float]) -> builtins.str:
         """
         <!-- FishyJoes.export(xyzzy) -->
         """
@@ -106,7 +108,7 @@ class TestProtocolClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_xyzzy", "object", ("object", self), ("int", thud), ("object", grault))
     
 
-    def plugh(self, fred: tuple[bool, float, list[str]]) -> tuple[bool, int, str]:
+    def plugh(self, fred: builtins.tuple[builtins.bool, builtins.float, builtins.list[builtins.str]]) -> builtins.tuple[builtins.bool, builtins.int, builtins.str]:
         """
         <!-- FishyJoes.export(plugh) -->
         """
@@ -115,7 +117,7 @@ class TestProtocolClass(NativeReference):
     
 
     @staticmethod
-    def init(corge: str, flarp: str | None = None) -> TestProtocolClass:
+    def init(corge: builtins.str, flarp: builtins.str | None = None) -> TestProtocolClass:
         """
         <!-- FishyJoes.export(init) -->
         """
@@ -123,7 +125,7 @@ class TestProtocolClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_init", "object", ("object", corge), ("object", flarp))
     
 
-    def wombat(self, zxc: int | None) -> float | None:
+    def wombat(self, zxc: builtins.int | None) -> builtins.float | None:
         """
         <!-- FishyJoes.export(wombat) -->
         """
@@ -131,7 +133,7 @@ class TestProtocolClass(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_TestProtocolClass_wombat", "object", ("object", self), ("object", zxc))
     
 
-    def spqr(self, pippo: AssociatedDataEnum) -> int:
+    def spqr(self, pippo: AssociatedDataEnum) -> builtins.int:
         """
         <!-- FishyJoes.export(spqr) -->
         """

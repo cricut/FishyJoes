@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class TestDefaultComputedProperties(typing.Protocol):
     Generated FishyJoes Python protocol surface.
     """
     @property
-    def noot(self) -> int:
+    def noot(self) -> builtins.int:
         """
         <!-- FishyJoes.export(noot) -->
         """
@@ -18,7 +19,7 @@ class TestDefaultComputedProperties(typing.Protocol):
     
 
     @property
-    def plutonic(self) -> str:
+    def plutonic(self) -> builtins.str:
         """
         <!-- FishyJoes.export(plutonic) -->
         """

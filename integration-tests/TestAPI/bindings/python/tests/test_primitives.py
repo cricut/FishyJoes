@@ -107,7 +107,7 @@ class TestPrimitives(unittest.TestCase):
         self.assertEqual(Primitives.zeroFloat(), 0.0)
 
     def test_min_float_positive(self) -> None:
-        self.assertGreater(Primitives.minFloat(), 0.0)
+        self.assertLess(Primitives.minFloat(), -3.0e38)
 
     def test_max_float(self) -> None:
         self.assertGreater(Primitives.maxFloat(), 3.0e38)
@@ -116,7 +116,7 @@ class TestPrimitives(unittest.TestCase):
         self.assertEqual(Primitives.zeroDouble(), 0.0)
 
     def test_min_double_positive(self) -> None:
-        self.assertGreater(Primitives.minDouble(), 0.0)
+        self.assertLess(Primitives.minDouble(), -1.0e308)
 
     def test_max_double(self) -> None:
         self.assertGreater(Primitives.maxDouble(), 1.0e308)

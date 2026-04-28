@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import builtins
 import enum
 import typing
 from .runtime import NativeReference, ensure_loaded as _ensure_runtime_loaded, get_runtime as _get_runtime, not_implemented as _not_implemented
@@ -10,7 +11,7 @@ class MutableStruct:
     <!-- FishyJoes.export(Structs.MutableStruct) -->
     Generated FishyJoes Python value type.
     """
-    i: int
+    i: builtins.int
 
     @staticmethod
     def create() -> MutableStruct:
@@ -38,7 +39,7 @@ class MutableStruct:
         return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_incrementAsync", "object", ("object", self)))
     
 
-    async def asyncGetI(self) -> typing.Awaitable[int]:
+    async def asyncGetI(self) -> typing.Awaitable[builtins.int]:
         """
         <!-- FishyJoes.export(asyncGetI) -->
         """
