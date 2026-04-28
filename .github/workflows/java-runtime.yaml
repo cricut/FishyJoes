@@ -93,7 +93,10 @@ jobs:
           ls /opt/android-sdk/ndk/ || true
           sdkmanager --list_installed --verbose || true
 
-          swift run fishy-joes install-toolchains --swiftly --android --no-wasm
+          swift run fishy-joes install-toolchains --swiftly --android --no-wasm || {
+            bash -x /home/runner/.swiftpm/swift-sdks/swift-6.2-RELEASE-android-0.1.artifactbundle/swift-android/scripts/setup-android-sdk.sh
+            exit 1
+          }
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}
