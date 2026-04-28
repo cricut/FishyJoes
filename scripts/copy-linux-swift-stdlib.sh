@@ -74,7 +74,7 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
         platformDir=kotlin-runtime/src/generated/resources/lib/$ndkName
         mkdir -p $platformDir
 
-        if [[ -v $XDG_CONFIG_HOME ]]; then
+        if [[ -v XDG_CONFIG_HOME ]]; then
             spmDir=$XDG_CONFIG_HOME/swiftpm
         else
             spmDir=$HOME/.swiftpm
