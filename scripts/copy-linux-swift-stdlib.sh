@@ -69,15 +69,21 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
         mkdir -p $platformDir
         rm -rf $platformDir/*.so(N)
 
+        if [[ -v $XDG_CONFIG_HOME ]]; then
+            spmDir=$XDG_CONFIG_HOME/swiftpm
+        else
+            spmDir=$HOME/.swiftpm
+        fi
+
         androidRoots=(
-            $HOME/.swiftpm/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
-            $HOME/.swiftpm/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
-            $HOME/.swiftpm/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
+            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
+            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
+            $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
 
             # Uncomment this if networking is needed
-            # /swift-android/usr/lib/swift/android/libFoundationNetworking.so
+            # $spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/usr/lib/swift/android/libFoundationNetworking.so
         )
-        alternateLibPaths=($HOME/.swiftpm/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple)
+        alternateLibPaths=($spmDir/swift-sdks/$swiftAndroidSDKName.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple)
         copyLibrariesAndDependencies $platformDir $androidRoots
 
         patchelf --page-size 16384 --add-needed libz.so $platformDir/libFoundationXML.so

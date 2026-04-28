@@ -120,7 +120,7 @@ struct InstallToolchainsCommand: ParsableCommand {
 
             if ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"] != nil {
                 let spmDir: String =
-                    ProcessInfo.processInfo.environment["XDG_DATA_HOME"].map { "\($0)/swifpm" } ??
+                    ProcessInfo.processInfo.environment["XDG_CONFIG_HOME"].map { "\($0)/swiftpm" } ??
                     ("~/.swiftpm" as NSString).expandingTildeInPath
 
                 Log.info("Linking android NDK to swift SDK")
