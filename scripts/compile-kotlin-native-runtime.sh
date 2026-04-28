@@ -45,18 +45,20 @@ function install-lib {
 
 case "$(uname -s)" in
     (Darwin)
-        # Runtime isn't included for macOS
         install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac"
+
+        # Runtime isn't included for macOS
         ;;
     (Linux)
-        FISHYJOES_ANDROID=0 ./scripts/copy-linux-swift-stdlib.sh
         install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+
+        FISHYJOES_ANDROID=0 ./scripts/copy-linux-swift-stdlib.sh
         ;;
     (*_NT*)
+        install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows"
+
         swiftRuntimeDir="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
         cp -R "$swiftRuntimeDir"/usr/bin/*.dll "kotlin-runtime/src/generated/resources/windows"
-
-        install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows"
         ;;
     (*)
         echo >&2 "Unknown system type $(uname -s)"
