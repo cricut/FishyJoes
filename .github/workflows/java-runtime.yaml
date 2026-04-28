@@ -85,7 +85,7 @@ jobs:
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
           sudo sdkmanager --install "ndk;$ndkVersion"
-          export ANDROID_NDK_HOME="/opt/android-sdk/ndk/$ndkVersion"
+          export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$ndkVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
           echo $ANDROID_NDK_HOME
