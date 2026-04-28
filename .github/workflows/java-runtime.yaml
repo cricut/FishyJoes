@@ -79,13 +79,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          source kotlin-runtime/VERSIONS
+          source ./scripts/_read-tool-versions.sh
           sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
-          sudo sdkmanager --install "ndk;$ndkVersion"
-          export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$ndkVersion"
+          sudo sdkmanager --install "ndk;$swiftAndroidNDKVersion"
+          export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$swiftAndroidNDKVersion"
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
           swift run fishy-joes install-toolchains --swiftly --android --no-wasm
