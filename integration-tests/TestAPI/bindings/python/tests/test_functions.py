@@ -14,22 +14,19 @@ class TestFunctions(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_const42(self) -> None:
         self.assertEqual(Functions.const42()(), 42)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_abs_positive(self) -> None:
         self.assertEqual(Functions.abs()(5), 5)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_abs_negative(self) -> None:
         self.assertEqual(Functions.abs()(-7), 7)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_int_compose(self) -> None:
-        composed = Functions.intCompose()(lambda x: x * 2, lambda x: x + 1)
-        self.assertEqual(composed(3), 7)
+        composed = Functions.intCompose()(lambda x: x + 1, lambda x: x * 3)
+        self.assertEqual(composed(3), 10)
+        self.assertEqual(composed(2), 7)
 
     def test_int_compose_exception(self) -> None:
         def boom(x: int) -> int:
@@ -37,20 +34,16 @@ class TestFunctions(unittest.TestCase):
         with self.assertRaises(Exception):
             Functions.intCompose()(boom, lambda x: x)(1)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_add3_things(self) -> None:
         self.assertAlmostEqual(Functions.add3Things()(1.0, 2.0, 3), 6.0, places=5)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_make_list(self) -> None:
         self.assertEqual(Functions.makeList()("a", "b", "c", "d"), ["a", "b", "c", "d"])
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_fifth_thing(self) -> None:
         result = Functions.fifthThing()("x", 1, 2.0, "y", Functions.const42())
         self.assertEqual(result(), 42)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_sixth_thing(self) -> None:
         self.assertIsInstance(
             Functions.sixthThing()("x", 1, 2.0, "y", Functions.const42(), 10),
@@ -64,7 +57,6 @@ class TestFunctions(unittest.TestCase):
     def test_exercise1(self) -> None:
         self.assertIsInstance(Functions.exercise1(lambda x: x + 1), str)
 
-    @unittest.skip("Swift calls Python lambda with Swift-side closures as args; cannot compose them")
     def test_exercise2(self) -> None:
         self.assertIsInstance(
             Functions.exercise2(lambda f, g: lambda x: g(f(x))), str
@@ -78,7 +70,6 @@ class TestFunctions(unittest.TestCase):
             Functions.exercise4(lambda a, b, c, d: [a, b, c, d]), str
         )
 
-    @unittest.skip("Swift calls Python lambda with Swift-side closures as args; cannot return them")
     def test_exercise5(self) -> None:
         self.assertIsInstance(
             Functions.exercise5(lambda s, i, f, s2, thunk: thunk), str
@@ -93,7 +84,6 @@ class TestFunctions(unittest.TestCase):
         with self.assertRaises(Exception):
             Functions.willThrow()
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_thunk_twice_maker(self) -> None:
         count = [0]
 

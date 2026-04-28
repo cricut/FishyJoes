@@ -132,8 +132,9 @@ class PythonEnumClass: PythonClass {
             fragment.output("@staticmethod")
         }
         let asyncMark = method.isAsync ? "async " : ""
+        let returnTypeName = method.isAsync ? method.returnType.awaitedName : method.returnType.name
         let explicitSelf = method.isStatic ? [] : ["self"]
-        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(method.returnType.name):", closeWith: "") {
+        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
             document(method.documentation, fragment: fragment, extra: method.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
             if method.isAsync {
                 let args = (method.isStatic ? [] : [(expression: "self", type: PythonClass.FFIType.object)]) + method.parameters.map {
@@ -142,8 +143,8 @@ class PythonEnumClass: PythonClass {
                 let argString = args.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
                 let invocation = "_get_runtime().call_symbol(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
                 fragment.output("_ensure_runtime_loaded()")
-                fragment.output("import asyncio")
-                fragment.output("return await asyncio.to_thread(lambda: \(invocation))")
+                fragment.output("result = \(invocation)")
+                fragment.output("return await typing.cast(typing.Awaitable[typing.Any], result)")
             } else {
                 outputRuntimeCall(
                     fragment: fragment,

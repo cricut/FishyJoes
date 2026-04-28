@@ -15,7 +15,6 @@ class TestActors(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
 
-    @unittest.skip("Async/await not supported: FishyJoesCommonRuntime_runScheduledWork missing")
     def test_actor(self) -> None:
         async def run() -> None:
             logger = TemperatureLogger.create("log", 3)

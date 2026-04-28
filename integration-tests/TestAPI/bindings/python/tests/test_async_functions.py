@@ -15,17 +15,14 @@ class TestAsyncFunctions(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_const42(self) -> None:
         result = asyncio.run(AsyncFunctions.const42()())
         self.assertEqual(result, 42)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_abs(self) -> None:
         result = asyncio.run(AsyncFunctions.abs()(-3))
         self.assertEqual(result, 3)
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_int_compose(self) -> None:
         async def inc(x: int) -> int:
             return x + 1
@@ -41,7 +38,6 @@ class TestAsyncFunctions(unittest.TestCase):
 
         asyncio.run(run())
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_compose_exception(self) -> None:
         class ComposeError(Exception):
             pass
@@ -57,7 +53,6 @@ class TestAsyncFunctions(unittest.TestCase):
         with self.assertRaises(ComposeError):
             asyncio.run(composed(3))
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_rest_of_functions(self) -> None:
         async def run() -> None:
             self.assertAlmostEqual(await AsyncFunctions.add3Things()(3.0, 4.5, 1), 8.5, places=5)
@@ -74,7 +69,6 @@ class TestAsyncFunctions(unittest.TestCase):
 
         asyncio.run(run())
 
-    @unittest.skip("Async/await not supported: FishyJoesCommonRuntime_runScheduledWork missing")
     def test_async_passing_functions_to_swift(self) -> None:
         async def run() -> None:
             result = await AsyncFunctions.exercise0(lambda: asyncio.coroutine(lambda: 8)())
@@ -90,8 +84,11 @@ class TestAsyncFunctions(unittest.TestCase):
             self.assertEqual(await AsyncFunctions.exercise0(eight), "8")
             self.assertEqual(await AsyncFunctions.exercise1(neg), "3")
 
-            async def compose(f, g):
-                return lambda x: f(g(x))
+            def compose(f, g):
+                async def composed(x: int) -> int:
+                    return await f(await g(x))
+
+                return composed
 
             self.assertEqual(await AsyncFunctions.exercise2(compose), "25")
 
@@ -117,12 +114,10 @@ class TestAsyncFunctions(unittest.TestCase):
 
         asyncio.run(main())
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_async_swift_throws(self) -> None:
         with self.assertRaises(Exception):
             asyncio.run(AsyncFunctions.willThrow()())
 
-    @unittest.skip("Swift-side closures not callable from Python")
     def test_thunk_maker(self) -> None:
         times_called = [0]
 

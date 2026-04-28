@@ -425,6 +425,13 @@ extension PythonClass.PyType {
         }
     }
 
+    var awaitedName: String {
+        if case .awaitable(let wrapped) = self {
+            return wrapped.name
+        }
+        return name
+    }
+
     /// Bare names of every locally-defined class this type refers to.
     ///
     /// Used by ``PythonClass.fragment(context:)`` to emit per-file

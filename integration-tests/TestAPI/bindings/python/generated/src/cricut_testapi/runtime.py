@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import ctypes
+import asyncio
 import importlib.resources
 import platform
 import typing
@@ -35,6 +36,7 @@ class GeneratedRuntime:
         self._runtime: IotaRuntime | None = None
         self._callbacks: list[object] = []
         self._symbol_cache: dict[str, typing.Any] = {}
+        self._asyncio_loop: typing.Any = None
 
     def _require_runtime(self) -> IotaRuntime:
         """Return the live IotaRuntime, raising if it has not been loaded yet.
@@ -93,6 +95,10 @@ class GeneratedRuntime:
         appended automatically.
         """
         self.ensure_loaded()
+        try:
+            self._asyncio_loop = asyncio.get_running_loop()
+        except RuntimeError:
+            pass
         if self._runtime is None:
             raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
@@ -970,7 +976,10 @@ class GeneratedRuntime:
 
         def ctor_fn(ctx: int, out_promise: typing.Any, exn: typing.Any) -> int:
             try:
-                loop = asyncio.new_event_loop()
+                try:
+                    loop = asyncio.get_running_loop()
+                except RuntimeError:
+                    loop = asyncio.new_event_loop()
 
                 future: asyncio.Future = loop.create_future()  # type: ignore[type-arg]
 
@@ -1005,6 +1014,7 @@ class GeneratedRuntime:
                 future_obj = runtime.borrow_foreign_object(future_handle)
                 if future_obj is None:
                     return
+                import inspect
 
                 # Store handler_ctx for use in callback.
                 _handler_ctx = handler_ctx
@@ -1018,10 +1028,8 @@ class GeneratedRuntime:
                         exc = fut.exception()
                     except asyncio.CancelledError as ce:
                         exc = ce
-                    except Exception as e:
+                    except BaseException as e:
                         exc = e
-                    else:
-                        exc = None
 
                     if exc is not None:
                         error_handle = runtime.retain_foreign_object(exc)
@@ -1043,8 +1051,23 @@ class GeneratedRuntime:
                             exn_holder,
                         )
 
+                future_to_watch: typing.Any
                 if isinstance(future_obj, asyncio.Future):
-                    future_obj.add_done_callback(on_done)
+                    future_to_watch = future_obj
+                elif inspect.isawaitable(future_obj):
+                    coroutine = typing.cast(typing.Coroutine[typing.Any, typing.Any, typing.Any], future_obj)
+                    try:
+                        loop = asyncio.get_running_loop()
+                    except RuntimeError:
+                        loop = self._asyncio_loop
+                        if loop is None:
+                            raise
+                        future_to_watch = asyncio.run_coroutine_threadsafe(coroutine, loop)
+                    else:
+                        future_to_watch = loop.create_task(coroutine)
+                else:
+                    raise TypeError(f"Expected Future or awaitable, got {type(future_obj).__name__}")
+                future_to_watch.add_done_callback(on_done)
             except BaseException as error:
                 runtime.store_exception(exn, error)
 
@@ -1160,14 +1183,31 @@ class GeneratedRuntime:
 
         def ctor_fn(ctx: int, opaque_ref: int, exn: typing.Any) -> int:
             try:
-                # Wrap the opaque Swift function ref in a Python callable.
-                # The callable will use invoke_fn to call into Swift.
                 swift_ref = opaque_ref  # retain as int
 
                 def swift_callable(*args: typing.Any) -> typing.Any:
-                    raise NotImplementedError(
-                        f"Swift-side closures of type {converter_name!r} cannot be called from Python yet."
-                    )
+                    if len(args) != arity:
+                        raise TypeError(
+                            f"{converter_name} expected {arity} argument(s), "
+                            f"got {len(args)}"
+                        )
+
+                    def invoke_swift() -> typing.Any:
+                        return runtime.call_runtime_symbol(
+                            f"FishyJoesCommonRuntime_SwiftFunctionImpl_invoke{arity}",
+                            "object",
+                            ("native", swift_ref),
+                            *(("object", arg) for arg in args),
+                        )
+
+                    if _function_returns_future(converter_name):
+                        async def invoke_async() -> typing.Any:
+                            self._asyncio_loop = asyncio.get_running_loop()
+                            return await typing.cast(typing.Awaitable[typing.Any], invoke_swift())
+
+                        return invoke_async()
+
+                    return invoke_swift()
 
                 handle = runtime.retain_foreign_object(swift_callable)
                 return handle
@@ -1269,6 +1309,33 @@ def get_runtime() -> GeneratedRuntime:
     if _RUNTIME is None:
         _RUNTIME = GeneratedRuntime(package=PACKAGE_NAME, module_name=MODULE_NAME)
     return _RUNTIME
+
+
+def _function_returns_future(converter_name: str) -> bool:
+    args = _generic_arguments(converter_name)
+    return bool(args) and args[-1].startswith("FutureConverter<")
+
+
+def _generic_arguments(converter_name: str) -> list[str]:
+    start = converter_name.find("<")
+    if start == -1 or not converter_name.endswith(">"):
+        return []
+    body = converter_name[start + 1:-1]
+    args: list[str] = []
+    depth = 0
+    current: list[str] = []
+    for char in body:
+        if char == "<":
+            depth += 1
+        elif char == ">":
+            depth -= 1
+        elif char == "," and depth == 0:
+            args.append("".join(current).strip())
+            current = []
+            continue
+        current.append(char)
+    args.append("".join(current).strip())
+    return args
 
 
 def _ffi_ctypes_type(name: str) -> typing.Any:

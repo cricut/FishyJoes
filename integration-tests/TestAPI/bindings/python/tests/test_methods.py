@@ -57,7 +57,6 @@ class TestInstanceMethods(unittest.TestCase):
         self.assertEqual(self.instance.instanceStored, 7654)
 
 
-@unittest.skip("Async/await not supported: FishyJoesCommonRuntime_runScheduledWork missing")
 class TestAsyncInstanceMethods(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
@@ -121,7 +120,6 @@ class TestAsyncInstanceMethods(unittest.TestCase):
         self.assertIs(ctx.exception, the_exception)
 
 
-@unittest.skip("Async/await not supported: FishyJoesCommonRuntime_runScheduledWork missing")
 class TestAsyncStaticMethods(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()

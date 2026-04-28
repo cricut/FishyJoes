@@ -30,20 +30,20 @@ class MutableStruct:
         _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_increment", "void", ("object", self))
     
 
-    async def incrementAsync(self) -> typing.Awaitable[None]:
+    async def incrementAsync(self) -> None:
         """
         <!-- FishyJoes.export(incrementAsync) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_incrementAsync", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_incrementAsync", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncGetI(self) -> typing.Awaitable[builtins.int]:
+    async def asyncGetI(self) -> builtins.int:
         """
         <!-- FishyJoes.export(asyncGetI) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_asyncGetI", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Structs_MutableStruct_asyncGetI", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     

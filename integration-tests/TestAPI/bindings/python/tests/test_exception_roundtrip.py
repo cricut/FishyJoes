@@ -53,7 +53,6 @@ class ExceptionRoundtripTests(unittest.TestCase):
         instance = Methods.create()
         self.assertIsNotNone(instance)
 
-    @unittest.skip("Async/await not supported: FishyJoesCommonRuntime_runScheduledWork missing")
     def test_async_method_throw_carries_message(self) -> None:
         """The async path uses a different exception slot than the sync
         path; pin that it also round-trips with a meaningful message."""

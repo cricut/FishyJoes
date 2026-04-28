@@ -74,49 +74,49 @@ class TestAsyncFunctions(typing.Protocol):
         ...
     
 
-    async def exercise0(self, fn: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise0(self, fn: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise0) -->
         """
         ...
     
 
-    async def exercise1(self, fn: typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise1(self, fn: typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise1) -->
         """
         ...
     
 
-    async def exercise2(self, fn: typing.Callable[[typing.Callable[[builtins.int], typing.Awaitable[builtins.int]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise2(self, fn: typing.Callable[[typing.Callable[[builtins.int], typing.Awaitable[builtins.int]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise2) -->
         """
         ...
     
 
-    async def exercise3(self, fn: typing.Callable[[builtins.float, builtins.float, builtins.int], typing.Awaitable[builtins.float]]) -> typing.Awaitable[builtins.str]:
+    async def exercise3(self, fn: typing.Callable[[builtins.float, builtins.float, builtins.int], typing.Awaitable[builtins.float]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
         ...
     
 
-    async def exercise4(self, fn: typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], typing.Awaitable[builtins.list[builtins.str]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise4(self, fn: typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], typing.Awaitable[builtins.list[builtins.str]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise4) -->
         """
         ...
     
 
-    async def exercise5(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[builtins.int]]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise5(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[builtins.int]]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
         ...
     
 
-    async def exercise6(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise6(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise6) -->
         """
@@ -130,7 +130,7 @@ class TestAsyncFunctions(typing.Protocol):
         ...
     
 
-    async def defaultExercise6(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def defaultExercise6(self, fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(defaultExercise6) -->
         """

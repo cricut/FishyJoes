@@ -54,31 +54,31 @@ class TemperatureLogger(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_create", "object", ("object", label), ("int", measurement))
     
 
-    async def update(self, measurement: builtins.int) -> typing.Awaitable[None]:
+    async def update(self, measurement: builtins.int) -> None:
         """
         <!-- FishyJoes.export(update) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("int", measurement)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_update", "object", ("object", self), ("int", measurement))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def min(self) -> typing.Awaitable[builtins.int]:
+    async def min(self) -> builtins.int:
         """
         <!-- FishyJoes.export(min) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_min", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_min", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def extensionIsolatedGetLabel(self) -> typing.Awaitable[builtins.str]:
+    async def extensionIsolatedGetLabel(self) -> builtins.str:
         """
         <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     def extensionNonisolatedGetLabel(self) -> builtins.str:

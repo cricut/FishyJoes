@@ -105,6 +105,13 @@ class IotaRuntime:
         _cdef("""
             void* FishyJoesCommonRuntime_Env_setup(void*, void*, void*, void*, void*);
             void FishyJoesCommonRuntime_runScheduledWork(void* env, void* context, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(void* env, void* this, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(void* env, void* this, void* p0, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(void* env, void* this, void* p0, void* p1, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(void* env, void* this, void* p0, void* p1, void* p2, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(void* env, void* this, void* p0, void* p1, void* p2, void* p3, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(void* env, void* this, void* p0, void* p1, void* p2, void* p3, void* p4, void** exn);
+            void* FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(void* env, void* this, void* p0, void* p1, void* p2, void* p3, void* p4, void* p5, void** exn);
         """, override=True)
 
         env_cb_new_ref = _ffi.callback("void*(void*)", self._new_ref)

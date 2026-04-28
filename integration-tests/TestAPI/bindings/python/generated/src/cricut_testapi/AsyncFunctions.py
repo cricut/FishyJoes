@@ -83,73 +83,73 @@ class AsyncFunctions:
     
 
     @staticmethod
-    async def exercise0(fn: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise0(fn: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise0) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise0", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise0", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise1(fn: typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise1(fn: typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise1) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise1", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise1", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise2(fn: typing.Callable[[typing.Callable[[builtins.int], typing.Awaitable[builtins.int]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise2(fn: typing.Callable[[typing.Callable[[builtins.int], typing.Awaitable[builtins.int]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]], typing.Callable[[builtins.int], typing.Awaitable[builtins.int]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise2) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise2", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise2", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise3(fn: typing.Callable[[builtins.float, builtins.float, builtins.int], typing.Awaitable[builtins.float]]) -> typing.Awaitable[builtins.str]:
+    async def exercise3(fn: typing.Callable[[builtins.float, builtins.float, builtins.int], typing.Awaitable[builtins.float]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise3) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise3", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise3", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise4(fn: typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], typing.Awaitable[builtins.list[builtins.str]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise4(fn: typing.Callable[[builtins.str, builtins.str, builtins.str, builtins.str], typing.Awaitable[builtins.list[builtins.str]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise4) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise4", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise4", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise5(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[builtins.int]]]]) -> typing.Awaitable[builtins.str]:
+    async def exercise5(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[builtins.int]]]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise5) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise5", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise5", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def exercise6(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.str]:
+    async def exercise6(fn: typing.Callable[[builtins.str, builtins.int, builtins.float, builtins.str, typing.Callable[[], typing.Awaitable[builtins.int]], builtins.int], typing.Awaitable[builtins.int]]) -> builtins.str:
         """
         <!-- FishyJoes.export(exercise6) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise6", "object", ("object", fn)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_AsyncFunctions_exercise6", "object", ("object", fn))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod

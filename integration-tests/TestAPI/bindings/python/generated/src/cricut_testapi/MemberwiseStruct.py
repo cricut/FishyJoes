@@ -23,11 +23,11 @@ class MemberwiseStruct:
         return _get_runtime().call_symbol("__iota_TestAPI_Structs_MemberwiseStruct_create", "object")
     
 
-    async def asyncGetMutable(self) -> typing.Awaitable[builtins.str]:
+    async def asyncGetMutable(self) -> builtins.str:
         """
         <!-- FishyJoes.export(asyncGetMutable) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     

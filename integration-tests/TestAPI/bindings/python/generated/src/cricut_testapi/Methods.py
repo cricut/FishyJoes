@@ -139,156 +139,156 @@ class Methods(NativeReference):
         return _get_runtime().call_symbol("__iota_TestAPI_Methods_doublePlusGood", "int", ("object", self), ("int", a), ("double", b))
     
 
-    async def async42(self) -> typing.Awaitable[builtins.int]:
+    async def async42(self) -> builtins.int:
         """
         <!-- FishyJoes.export(async42) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_async42", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_async42", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncYield(self) -> typing.Awaitable[builtins.int]:
+    async def asyncYield(self) -> builtins.int:
         """
         <!-- FishyJoes.export(asyncYield) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncYield", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncYield", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncSleep(self) -> typing.Awaitable[builtins.int]:
+    async def asyncSleep(self) -> builtins.int:
         """
         <!-- FishyJoes.export(asyncSleep) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncSleep", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncSleep", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncVoid(self) -> typing.Awaitable[None]:
+    async def asyncVoid(self) -> None:
         """
         <!-- FishyJoes.export(asyncVoid) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncVoid", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncVoid", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncDouble(self, d: builtins.float) -> typing.Awaitable[builtins.float]:
+    async def asyncDouble(self, d: builtins.float) -> builtins.float:
         """
         <!-- FishyJoes.export(asyncDouble) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncDouble", "object", ("object", self), ("double", d)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncDouble", "object", ("object", self), ("double", d))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncMultipleArgs(self, i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
+    async def asyncMultipleArgs(self, i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.int:
         """
         <!-- FishyJoes.export(asyncMultipleArgs) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncMultipleArgs", "object", ("object", self), ("int", i), ("object", j)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncMultipleArgs", "object", ("object", self), ("int", i), ("object", j))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncThrowing(self) -> typing.Awaitable[None]:
+    async def asyncThrowing(self) -> None:
         """
         <!-- FishyJoes.export(asyncThrowing) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncThrowing", "object", ("object", self)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncThrowing", "object", ("object", self))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
-    async def asyncCallbackFunc0(self, callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
+    async def asyncCallbackFunc0(self, callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.int:
         """
         <!-- FishyJoes.export(asyncCallbackFunc0) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncCallbackFunc0", "object", ("object", self), ("object", callback)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_asyncCallbackFunc0", "object", ("object", self), ("object", callback))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsync42() -> typing.Awaitable[builtins.int]:
+    async def staticAsync42() -> builtins.int:
         """
         <!-- FishyJoes.export(staticAsync42) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsync42", "object"))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsync42", "object")
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncYield() -> typing.Awaitable[builtins.int]:
+    async def staticAsyncYield() -> builtins.int:
         """
         <!-- FishyJoes.export(staticAsyncYield) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncYield", "object"))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncYield", "object")
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncSleep() -> typing.Awaitable[builtins.int]:
+    async def staticAsyncSleep() -> builtins.int:
         """
         <!-- FishyJoes.export(staticAsyncSleep) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncSleep", "object"))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncSleep", "object")
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncVoid() -> typing.Awaitable[None]:
+    async def staticAsyncVoid() -> None:
         """
         <!-- FishyJoes.export(staticAsyncVoid) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncVoid", "object"))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncVoid", "object")
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncDouble(d: builtins.float) -> typing.Awaitable[builtins.float]:
+    async def staticAsyncDouble(d: builtins.float) -> builtins.float:
         """
         <!-- FishyJoes.export(staticAsyncDouble) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncDouble", "object", ("double", d)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncDouble", "object", ("double", d))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncMultipleArgs(i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
+    async def staticAsyncMultipleArgs(i: builtins.int, j: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.int:
         """
         <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncMultipleArgs", "object", ("int", i), ("object", j)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncMultipleArgs", "object", ("int", i), ("object", j))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncThrowing() -> typing.Awaitable[None]:
+    async def staticAsyncThrowing() -> None:
         """
         <!-- FishyJoes.export(staticAsyncThrowing) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncThrowing", "object"))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncThrowing", "object")
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod
-    async def staticAsyncCallbackFunc0(callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> typing.Awaitable[builtins.int]:
+    async def staticAsyncCallbackFunc0(callback: typing.Callable[[], typing.Awaitable[builtins.int]]) -> builtins.int:
         """
         <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
         """
         _ensure_runtime_loaded()
-        import asyncio
-        return await asyncio.to_thread(lambda: _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncCallbackFunc0", "object", ("object", callback)))
+        result = _get_runtime().call_symbol("__iota_TestAPI_Methods_staticAsyncCallbackFunc0", "object", ("object", callback))
+        return await typing.cast(typing.Awaitable[typing.Any], result)
     
 
     @staticmethod

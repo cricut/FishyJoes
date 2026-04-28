@@ -9,17 +9,11 @@ contract has two halves:
    ``NotImplementedInNativeError`` instead of running inline.
 
 Per the no-mocks rule (``feedback_no_mocks_real_runtime``): tests run
-against the real Swift dylibs.
-
-The default-mode tests are currently SKIPPED with a documented
-reason — invoking ``_schedule_thread_work`` with a synthetic NULL
-context segfaults Swift's ``Env_runScheduledWork`` (verified
-empirically; the crash is in
-``Box.takeRetainedOpaque -> Box.init(inner:)`` derefing the null at
-offset 0x28).  Driving them safely needs a real scheduled-work
-context that only real Swift async code can produce.  These tests
-should un-skip when the integration ``test_async_functions`` family
-un-skips; the warning-emission contract is then auditable end-to-end.
+against the real Swift dylibs.  The default-mode tests drive real
+generated async work so Swift supplies a valid scheduled-work context;
+calling ``_schedule_thread_work`` directly with a synthetic NULL
+context is unsafe and has previously SIGSEGV'd inside
+``Env_runScheduledWork``.
 
 The strict-mode test is *not* skipped: the strict path raises before
 any FFI call, so the assertion stands purely on the wrapper-side
@@ -28,6 +22,7 @@ guard with no risk of crashing Swift.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 import sys
 import unittest
@@ -42,12 +37,23 @@ if str(TESTS) not in sys.path:
     sys.path.insert(0, str(TESTS))
 
 import fishyjoes_python
-from _real_runtime import build_real_runtime
+from _real_runtime import build_generated_runtime, build_real_runtime
 from fishyjoes_python.iota import _ffi
 
 
 def _null() -> object:
     return _ffi.cast("void*", 0)
+
+
+async def _exercise_real_scheduled_work() -> None:
+    from cricut_testapi.AsyncFunctions import AsyncFunctions
+
+    async def eight() -> int:
+        return 8
+
+    result = await AsyncFunctions.exercise0(eight)
+    if result != "8":
+        raise AssertionError(f"unexpected async result: {result!r}")
 
 
 class StrictThreadSchedulingTests(unittest.TestCase):
@@ -63,24 +69,16 @@ class StrictThreadSchedulingTests(unittest.TestCase):
 
 
 class PermissiveThreadSchedulingTests(unittest.TestCase):
-    """Default-mode warning-emission contract.  Currently skipped: see
-    module docstring — the only safe driver is real Swift scheduled
-    work, which lives in the integration ``test_async_functions``
-    family and currently skips for the same reason.  Restore these
-    once that family un-skips."""
+    """Default-mode warning-emission contract, driven by real generated
+    async work so Swift supplies a valid scheduled-work context."""
 
-    @unittest.skip(
-        "needs real scheduled-work context from Swift async; NULL crashes "
-        "Env_runScheduledWork at Box.takeRetainedOpaque (SIGSEGV verified). "
-        "Un-skip when test_async_functions un-skips.",
-    )
     def test_default_schedule_emits_warning(self) -> None:
         """In permissive mode the schedule callback emits a one-time
         WARNING log so the threading limitation is audible."""
-        runtime = build_real_runtime()
-        runtime.ensure_loaded()
+        runtime = build_generated_runtime()
+        runtime._thread_schedule_warning_emitted = False
         with self.assertLogs("fishyjoes", level="WARNING") as captured:
-            runtime._schedule_thread_work(_null(), _null())
+            asyncio.run(_exercise_real_scheduled_work())
         joined = "\n".join(captured.output)
         self.assertIn("schedule", joined.lower())
         self.assertTrue(
@@ -88,24 +86,20 @@ class PermissiveThreadSchedulingTests(unittest.TestCase):
             f"warning should mention threading limitation, got: {joined!r}",
         )
 
-    @unittest.skip(
-        "same reason as test_default_schedule_emits_warning — needs a real "
-        "scheduled-work context that won't crash Env_runScheduledWork.",
-    )
     def test_warning_is_emitted_only_once_per_runtime(self) -> None:
         """The audible warning would drown out other logs if it fired
         on every callback.  Emit once per runtime instance and
         downgrade subsequent invocations to DEBUG."""
-        runtime = build_real_runtime()
-        runtime.ensure_loaded()
+        runtime = build_generated_runtime()
+        runtime._thread_schedule_warning_emitted = False
         warnings: list[logging.LogRecord] = []
         handler = logging.Handler(level=logging.WARNING)
         handler.emit = warnings.append  # type: ignore[method-assign]
         logger = logging.getLogger("fishyjoes")
         logger.addHandler(handler)
         try:
-            for _ in range(10):
-                runtime._schedule_thread_work(_null(), _null())
+            asyncio.run(_exercise_real_scheduled_work())
+            asyncio.run(_exercise_real_scheduled_work())
         finally:
             logger.removeHandler(handler)
         self.assertEqual(

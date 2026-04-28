@@ -28,7 +28,8 @@ class PythonProtocolClass: PythonClass {
 
     private func output(method: Method, to fragment: SourceFragment) {
         let asyncMark = method.isAsync ? "async " : ""
-        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: ["self"], parameters: method.parameters))) -> \(method.returnType.name):", closeWith: "") {
+        let returnTypeName = method.isAsync ? method.returnType.awaitedName : method.returnType.name
+        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: ["self"], parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
             document(method.documentation, fragment: fragment)
             fragment.output("...")
         }
