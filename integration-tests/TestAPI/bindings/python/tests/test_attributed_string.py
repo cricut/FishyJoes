@@ -5,13 +5,7 @@ Scope:
   Kotlin v1 contract: construction, equality, identity-via-echo for
   the corpus of pre-built attributed strings.
 - The view-iteration tests (``runs``, ``characters``, ``unicodeScalars``),
-  substring tests, and mutation tests are present as
-  ``@unittest.skip`` placeholders so the test count matches Kotlin
-  one-to-one and so a future runtime port has a concrete checklist.
-
-The tests are skipped in environments where the Swift code generation
-has not produced the AttributedString runtime symbols expected by the
-``fishyjoes_python.attributed_string`` wrappers.
+  substring tests, and mutation tests mirror the Kotlin suite one-to-one.
 """
 
 from __future__ import annotations
@@ -26,33 +20,17 @@ from cricut_testapi import ensure_loaded
 from cricut_testapi.AttributedStrings import AttributedStrings
 
 
-def _runtime_supports_attributed_string() -> bool:
-    """Detect whether the current Swift codegen exposes the
-    AttributedString runtime symbols.  The wrappers in
-    ``fishyjoes_python.attributed_string`` route through these; without
-    them, every test in this file would fail with an AttributeError.
-
-    The probe must check for a symbol that *actually exists* as a Swift
-    ``@_cdecl`` export — see ``test_no_silent_skips.py``'s regression
-    net.  ``__iota_Foundation_AttributedString_create`` is the
-    constructor symbol, present whenever the AttributedString runtime
-    is wired in.
-    """
-    try:
-        from cricut_testapi.runtime import get_runtime  # type: ignore
-        rt = get_runtime()
-        return hasattr(
-            rt.iota_lib,
-            "__iota_Foundation_AttributedString_create",
-        )
-    except Exception:
-        return False
+def _iota_runtime() -> object:
+    ensure_loaded()
+    from cricut_testapi.runtime import get_runtime
+    generated = get_runtime()
+    generated.ensure_loaded()
+    runtime = generated._runtime
+    if runtime is None:
+        raise RuntimeError("Generated TestAPI runtime did not initialise IotaRuntime")
+    return runtime
 
 
-SUPPORTED = _runtime_supports_attributed_string()
-
-
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringValuesTests(unittest.TestCase):
     """Mirrors Kotlin's testStringValues."""
 
@@ -62,8 +40,7 @@ class AttributedStringValuesTests(unittest.TestCase):
             AttributeContainerFoundationAttributes,
             AttributedString,
         )
-        from cricut_testapi.runtime import get_runtime
-        self._runtime = get_runtime()
+        self._runtime = _iota_runtime()
         self._AttributedString = AttributedString
         self._FoundationAttrs = AttributeContainerFoundationAttributes
 
@@ -95,7 +72,6 @@ class AttributedStringValuesTests(unittest.TestCase):
         )
 
 
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringEchoTests(unittest.TestCase):
     """Mirrors Kotlin's testStringEcho — round-trip identity via Swift."""
 
@@ -115,7 +91,6 @@ class AttributedStringEchoTests(unittest.TestCase):
                          AttributedStrings.polyglot())
 
 
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringViewTests(unittest.TestCase):
     """Mirrors Kotlin's testViewIterationOverIndices and testViewIterators."""
 
@@ -147,7 +122,6 @@ class AttributedStringViewTests(unittest.TestCase):
         self.assertTrue(all(isinstance(sc, int) for sc in scalars))
 
 
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringSubstringTests(unittest.TestCase):
     """Mirrors Kotlin's testSubstring."""
 
@@ -161,7 +135,6 @@ class AttributedStringSubstringTests(unittest.TestCase):
         self.assertEqual(whole.string, s.string)
 
 
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringMutabilityTests(unittest.TestCase):
     """Mirrors Kotlin's testMutability and testMutabilityVariants —
     clone gives the user Swift-COW-equivalent independence (§5.1)."""
@@ -169,8 +142,7 @@ class AttributedStringMutabilityTests(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
         from fishyjoes_python import AttributeContainerFoundationAttributes
-        from cricut_testapi.runtime import get_runtime
-        self._runtime = get_runtime()
+        self._runtime = _iota_runtime()
         self._FoundationAttrs = AttributeContainerFoundationAttributes
 
     def test_clone_is_independent(self) -> None:
@@ -196,7 +168,6 @@ class AttributedStringMutabilityTests(unittest.TestCase):
         self.assertNotEqual(s.string, before)
 
 
-@unittest.skipUnless(SUPPORTED, "AttributedString runtime symbols not exported by codegen")
 class AttributedStringAttributeMutationTests(unittest.TestCase):
     """Mirrors Kotlin's testAttributeMergeReplace and
     testAttributeMergeReplaceWhole."""
@@ -204,8 +175,7 @@ class AttributedStringAttributeMutationTests(unittest.TestCase):
     def setUp(self) -> None:
         ensure_loaded()
         from fishyjoes_python import AttributeContainerFoundationAttributes
-        from cricut_testapi.runtime import get_runtime
-        self._runtime = get_runtime()
+        self._runtime = _iota_runtime()
         self._FoundationAttrs = AttributeContainerFoundationAttributes
 
     def _container(self, **kwargs: str) -> object:

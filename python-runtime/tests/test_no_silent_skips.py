@@ -5,7 +5,7 @@ A test suite that reports ``OK (skipped=N)`` is **not** a green build
 when N covers an entire category of work that was supposed to land.
 The specific failure shape this guards against:
 
-- A new wrapper port adds 12 integration tests, all guarded by
+- A new wrapper port adds integration tests, all guarded by
   ``@unittest.skipUnless(SUPPORTED, …)``.
 - The ``SUPPORTED`` probe checks for a Swift symbol whose name is
   also wrong.  ``SUPPORTED`` is False; all 12 tests skip.
@@ -61,53 +61,22 @@ def _skipUnless_probes(test_file: Path) -> list[tuple[int, str | None]]:
 
 
 class NoSilentSkipsTests(unittest.TestCase):
-    def test_attributed_string_integration_probe_resolves_to_real_symbol(self) -> None:
-        """The ``SUPPORTED`` probe in the AttributedString integration
-        tests must check for a Swift symbol that *actually exists* in
-        the IOTA runtime sources.  If the probe checks a fictional
-        symbol, the entire integration suite skips silently — the bug
-        this regression net is designed to catch."""
+    def test_attributed_string_integration_tests_are_not_probe_skipped(self) -> None:
+        """AttributedString integration tests are part of the supported
+        Python surface now.  They must run directly, not sit behind a
+        whole-file capability probe that can silently skip the category."""
         target = INTEGRATION_TESTS / "test_attributed_string.py"
         if not target.exists():
             self.skipTest(f"integration test file not present at {target}")
-        # The probe lives in ``_runtime_supports_attributed_string`` and
-        # checks ``hasattr(rt.iota_lib, "<symbol>")``.  Walk the AST to
-        # find that string literal — multiline regex would be brittle.
         tree = ast.parse(target.read_text())
-        probe_symbol: str | None = None
-        for node in ast.walk(tree):
-            if (
-                isinstance(node, ast.Call)
-                and isinstance(node.func, ast.Name)
-                and node.func.id == "hasattr"
-                and len(node.args) == 2
-                and isinstance(node.args[1], ast.Constant)
-                and isinstance(node.args[1].value, str)
-                and node.args[1].value.startswith("__iota_")
-            ):
-                probe_symbol = node.args[1].value
-                break
-        self.assertIsNotNone(
-            probe_symbol,
-            "AttributedString integration tests must probe via "
-            "hasattr(rt.iota_lib, '__iota_…')",
-        )
-
-        # Now look the symbol up in the actual IOTA exports.
-        import re
-        iota_root = ROOT / "Sources" / "FishyJoesIotaRuntime"
-        export_pattern = re.compile(r'@_cdecl\("([^"]+)"\)')
-        exported: set[str] = set()
-        for swift_file in iota_root.rglob("*.swift"):
-            for match in export_pattern.finditer(swift_file.read_text()):
-                exported.add(match.group(1))
-        self.assertIn(
-            probe_symbol, exported,
-            f"AttributedString integration probe checks for "
-            f"{probe_symbol!r}, which does not exist as a Swift "
-            f"@_cdecl export.  The probe will always be False and the "
-            f"entire integration suite will skip silently.  See "
-            f"feedback_skipping_is_yellow memory rule.",
+        offenders = [
+            line
+            for line, _ in _skipUnless_probes(target)
+        ]
+        self.assertEqual(
+            offenders, [],
+            "AttributedString integration tests must not be guarded by "
+            f"skipUnless probes; found decorators on lines {offenders}.",
         )
 
     def test_every_skipUnless_probe_resolves_to_a_named_symbol_or_constant(self) -> None:
