@@ -70,19 +70,7 @@ jobs:
 
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
-
-          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
-
-      - name: Patch libraries to use relative dependencies
-        shell: zsh {0}
-        run: |
-          cd $LIB_DIR
-
-          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
-          for LIB in lib*.so*; do
-            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-          done
+          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v4
@@ -147,8 +135,6 @@ jobs:
       - build-iota-mac
       - build-iota-ubuntu
       - build-iota-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -260,6 +246,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
           TAG_NAME: ${{ github.event.release.tag_name }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -267,7 +254,7 @@ jobs:
 
           dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
-            --api-key ${{ github.token }} \
+            --api-key $GITHUB_PUBLISH_TOKEN \
             --skip-duplicate
 
           # publish dart

@@ -177,8 +177,6 @@ jobs:
       - build-test-kotlin-mac
       - build-test-kotlin-ubuntu
       - build-test-kotlin-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -222,6 +220,8 @@ jobs:
       - name: Publish
         shell: zsh {0}
         if: github.event_name == 'release'
+        env:
+          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 

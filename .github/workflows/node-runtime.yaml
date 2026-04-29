@@ -74,12 +74,11 @@ jobs:
 
           (cd $LIB_DIR; npm publish *.tgz)
 
-  build-test-node-ubuntu-native-and-wasm:
-    name: "Ubuntu: Build and test node runtime, native and wasm"
+  build-test-node-ubuntu-native:
+    name: "Ubuntu: Build and test node runtime"
     runs-on: ubuntu-latest
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
-      WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -97,16 +96,6 @@ jobs:
 
           sudo apt-get update
           sudo apt-get install -y zsh libcurl4-openssl-dev
-
-          # Use wasm version of wasm-opt because ubuntu version can be very old
-          npm install -g binaryen
-          wasm-opt --version
-
-          swift run fishy-joes install-toolchains --swiftly --no-android --wasm
-
-          source ~/.local/share/swiftly/env.sh
-          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
-          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -152,32 +141,6 @@ jobs:
           set -euxo pipefail
 
           (cd $LIB_DIR; npm publish *.tgz)
-
-      - name: Wasm NPM Pack
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cat $WASM_LIB_DIR/package.json | jq '.version = env.VERSION' > $WASM_LIB_DIR/package.json.upd
-          mv $WASM_LIB_DIR/package.json.upd $WASM_LIB_DIR/package.json
-          (cd $WASM_LIB_DIR; npm pack)
-
-      - name: Upload Wasm NPM Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: wasm_npm_package
-          path: ${{ env.WASM_LIB_DIR }}/*.tgz
-          if-no-files-found: error
-
-      - name: Publish Wasm NPM Package
-        shell: zsh {0}
-        if: github.event_name == 'release'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euxo pipefail
-
-          (cd $WASM_LIB_DIR; npm publish *.tgz)
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
