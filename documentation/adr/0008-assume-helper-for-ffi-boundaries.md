@@ -86,7 +86,7 @@ along with the change.
 
 ## Related
 
-- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
+- [`documentation/plans/implemented/python-followups-plan.md`](../plans/implemented/python-followups-plan.md)
   §2.D — TDD step that landed the implementation.
 - `python-runtime/src/fishyjoes_python/iota/_handles.py:_assume` — the
   helper.

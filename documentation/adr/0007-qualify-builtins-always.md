@@ -63,7 +63,7 @@ PEP-8 convention for explicit namespacing.
 
 ## Related
 
-- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
+- [`documentation/plans/implemented/python-followups-plan.md`](../plans/implemented/python-followups-plan.md)
   §2.B — TDD step that landed the implementation.
 - `Sources/FishyJoesCore/Unparse/PythonClass.swift:pythonBuiltinNames` —
   the qualified-names set.

@@ -86,7 +86,7 @@ ownership. Out of scope until ADR-0003 changes.
 
 - [ADR-0003](0003-python-cpython-only.md) — the CPython handle model that
   shapes the FFI cost calculation here.
-- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
+- [`documentation/plans/implemented/python-followups-plan.md`](../plans/implemented/python-followups-plan.md)
   §5.1 / §5.2 — first articulation of this as accepted tech debt.
 - [ADR-0009](0009-attributedstring-views-as-property.md) — view caching
   decision; a downstream consequence.

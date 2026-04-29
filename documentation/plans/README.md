@@ -17,10 +17,10 @@ commit immediately after that implementation commit.
 
 - [`python-support-plan.md`](implemented/python-support-plan.md)
 - [`python-keyword-identifier-plan.md`](implemented/python-keyword-identifier-plan.md)
+- [`python-followups-plan.md`](implemented/python-followups-plan.md)
 
 ## Pending
 
 - [`dart-local-transitive-dependencies-plan.md`](pending/dart-local-transitive-dependencies-plan.md)
 - [`python-ergonomic-aliases-plan.md`](pending/python-ergonomic-aliases-plan.md)
-- [`python-followups-plan.md`](pending/python-followups-plan.md)
 - [`python-support-current-audit-plan.md`](pending/python-support-current-audit-plan.md)
