@@ -548,7 +548,7 @@ final class PythonTranslator: Translator {
 
         // For protocol default implementations, the iota symbol uses the protocol type's mangled name,
         // not the concrete type's mangled name. Resolve it from field.definedIn.
-        var defaultImplProtocolMangledName: String? = nil
+        var defaultImplProtocolMangledName: String?
         if field.isDefaultImplementation, let definedIn = field.definedIn {
             let protoResolved = context.resolve(type: definedIn)
             defaultImplProtocolMangledName = protoResolved.mangledName
