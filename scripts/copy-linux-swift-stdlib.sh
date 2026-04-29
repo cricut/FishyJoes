@@ -28,19 +28,18 @@ function copyLibrariesAndDependencies {
         if (( ${processed[$lib]:-0} )); then continue; fi
         processed[$lib]=1
 
-        # If the library isn't found by name where it's supposed to be, search for a same-name library in the fallback paths
-        if [[ ! -f $lib ]]; then
-            for alt in $alternateLibPaths; do
-                altLib=$alt/$(basename $lib)
-                if [[ -f $altLib ]]; then
-                    lib=$altLib
+        # If the library isn't an absolute path, search for the library in libSearchPaths
+        if [[ ! $lib =~ ^/ ]]; then
+            for dir in $libSearchPaths; do
+                if [[ -f $dir/$lib ]]; then
+                    lib=$dir/$lib
                     break
                 fi
             done
         fi
 
         if [[ ! -f $lib ]]; then
-            echo "not found in $(dirname $lib): $(basename $lib)"
+            echo "library not found: $lib, skipping"
             continue
         fi
 
@@ -48,7 +47,7 @@ function copyLibrariesAndDependencies {
         cp $lib $destination/
         echo $(basename $lib) >> $libListFile
         for dep in $(patchelf --print-needed $lib); do
-            unprocessedLibs+=("$(dirname $lib)/$dep")
+            unprocessedLibs+=($dep)
         done
     done
 }
