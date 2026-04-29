@@ -54,7 +54,7 @@ reproducibility and harder for new contributors.
 
 ## Related
 
-- [`documentation/plans/pending/python-support-current-audit-plan.md`](../plans/pending/python-support-current-audit-plan.md)
+- [`documentation/plans/implemented/python-support-current-audit-plan.md`](../plans/implemented/python-support-current-audit-plan.md)
   — records this as a deferred implementation decision.
 - `Sources/FishyJoesExecute/Phases/PythonPhases.swift` — current install
   behavior.

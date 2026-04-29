@@ -56,7 +56,7 @@ should move low-risk families first with tests around each behavior.
 
 ## Related
 
-- [`documentation/plans/pending/python-support-current-audit-plan.md`](../plans/pending/python-support-current-audit-plan.md)
+- [`documentation/plans/implemented/python-support-current-audit-plan.md`](../plans/implemented/python-support-current-audit-plan.md)
   — implementation plan for the split.
 - `Sources/FishyJoesExecute/Resources/bindings-template/python/{PackageName}/runtime.py`
   — generated runtime template to shrink.
