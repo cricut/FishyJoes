@@ -1,3 +1,4 @@
+@testable import FishyJoesCore
 import XCTest
 
 final class PythonGeneratedStructureTests: XCTestCase {
@@ -60,5 +61,20 @@ final class PythonGeneratedStructureTests: XCTestCase {
         for family in requiredSetupFamilies {
             XCTAssertTrue(source.contains(family), "Missing generated setup family \(family)")
         }
+    }
+
+    func testPythonCollisionFallbackUsesQualifiedSwiftTypePath() {
+        XCTAssertEqual(
+            PythonClass.disambiguatedIdentifier(forQualifiedName: "Path.Progress"),
+            "Path_Progress"
+        )
+        XCTAssertEqual(
+            PythonClass.disambiguatedIdentifier(forQualifiedName: "Contour.Hierarchy"),
+            "Contour_Hierarchy"
+        )
+        XCTAssertEqual(
+            PythonClass.disambiguatedIdentifier(forQualifiedName: "Swift.String.PuttingTypesIntoQuestionablePlaces"),
+            "Swift_String_PuttingTypesIntoQuestionablePlaces"
+        )
     }
 }

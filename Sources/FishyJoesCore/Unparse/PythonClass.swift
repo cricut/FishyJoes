@@ -102,20 +102,19 @@ class PythonClass {
     /// Override for the Python class identifier and file-name stem.  Set by
     /// ``FishyJoesContext`` during translation when two PythonClass
     /// instances would otherwise collide on ``unqualifiedName``.  When set,
-    /// it is the verbatim name to use in source emission — typically
-    /// the value parsed from the Swift export annotation, e.g.
-    /// ``AttributedString_PuttingTypesIntoQuestionablePlaces``.  ``nil``
-    /// means no collision; the bare unqualified name is used.
+    /// it is the verbatim name to use in source emission — either the value
+    /// parsed from the Swift export annotation, e.g.
+    /// ``AttributedString_PuttingTypesIntoQuestionablePlaces``, or a stable
+    /// identifier derived from the qualified Swift type path, e.g.
+    /// ``Path_Progress``.  ``nil`` means no collision; the bare unqualified
+    /// name is used.
     var explicitDisambiguatedName: String?
 
     /// Module-level lookup populated by ``FishyJoesContext.translateAll``
-    /// before the PythonClass output loop runs.  Maps each *unique*
-    /// bare unqualified name to its disambiguated form so type-annotation
-    /// rendering can substitute the right symbol when a class has been
-    /// renamed for collision avoidance (step A).  Names with multiple
-    /// disambiguated siblings are intentionally absent: the bare name is
-    /// genuinely ambiguous, and ``from __future__ import annotations``
-    /// makes the type hint string-only at runtime.
+    /// before the PythonClass output loop runs.  Maps qualified Swift type
+    /// paths and unique bare names to the Python identifier that will be
+    /// emitted.  Ambiguous bare names are intentionally absent; a reference
+    /// must carry its qualified Swift path to resolve one of those.
     nonisolated(unsafe) static var nameDisambiguation: [String: String] = [:]
 
     init(
@@ -158,6 +157,28 @@ class PythonClass {
         return nil
     }
 
+    static func unqualifiedIdentifier(forName name: String) -> String {
+        String(name.split(separator: ".").last.map(String.init) ?? name)
+    }
+
+    static func disambiguatedIdentifier(forQualifiedName name: String) -> String {
+        let joined = name.split(separator: ".").joined(separator: "_")
+        let sanitized = joined.map { character -> Character in
+            if character.isLetter || character.isNumber || character == "_" {
+                return character
+            }
+            return "_"
+        }
+        let identifier = String(sanitized)
+        guard let first = identifier.first else {
+            return "GeneratedType"
+        }
+        if first.isLetter || first == "_" {
+            return identifier
+        }
+        return "_\(identifier)"
+    }
+
     func output(to fragment: SourceFragment) {
         fatalErr("This method must be overridden")
     }
@@ -183,6 +204,13 @@ class PythonClass {
             for parameter in method.parameters {
                 referenced.formUnion(parameter.type.referencedNamedClasses)
                 externalReferenced.formUnion(parameter.type.referencedExternalImports)
+            }
+        }
+        if let productClass = self as? PythonProductClass,
+           case .public(let initFields) = productClass.constructor {
+            for field in initFields {
+                referenced.formUnion(field.type.referencedNamedClasses)
+                externalReferenced.formUnion(field.type.referencedExternalImports)
             }
         }
         // PythonEnumClass emits one dataclass per case alongside the enum
@@ -211,28 +239,31 @@ class PythonClass {
         // matching .py file after collision-disambiguation in step A.
         // Falls back to the bare name when no sibling matches (external
         // type, generic alias, etc.).
+        let pythonClassesByQualified: [String: [PythonClass]] = Dictionary(
+            grouping: context.pythonClasses,
+            by: \.name,
+        )
         let pythonClassesByUnqualified: [String: [PythonClass]] = Dictionary(
             grouping: context.pythonClasses,
             by: \.unqualifiedName,
         )
-        func resolveImport(_ name: String) -> String {
-            guard let candidates = pythonClassesByUnqualified[name] else {
-                return name
+        func resolveImport(_ name: String) -> String? {
+            if let exactCandidates = pythonClassesByQualified[name], exactCandidates.count == 1 {
+                return exactCandidates[0].disambiguatedName
             }
-            if candidates.count == 1 {
+            let bareName = Self.unqualifiedIdentifier(forName: name)
+            if let candidates = pythonClassesByUnqualified[bareName], candidates.count == 1 {
                 return candidates[0].disambiguatedName
             }
-            // Multiple disambiguated siblings share this unqualified name;
-            // the bare name is genuinely ambiguous — skip the import (the
-            // type hint will still work because of ``from __future__
-            // import annotations`` deferring evaluation).
-            return name
+            return nil
         }
 
-        let siblingImports = referenced
+        let resolvedSiblingImports = Set(referenced
+            .compactMap(resolveImport)
             .filter { $0.range(of: identifierPattern, options: .regularExpression) != nil }
-            .map(resolveImport)
-            .filter { (pythonClassesByUnqualified[$0]?.count ?? 1) <= 1 }
+            .filter { $0 != disambiguatedName })
+
+        let siblingImports = resolvedSiblingImports
             .sorted()
             .map { "if typing.TYPE_CHECKING: from .\($0) import \($0)" }
 
@@ -255,15 +286,12 @@ class PythonClass {
         // disambiguated name; sibling references resolve to their unique
         // disambiguated form (siblings with multiple disambiguated peers
         // stay as the bare name and import is skipped above).
-        var lookup: [String: String] = [:]
-        if explicitDisambiguatedName != nil {
-            lookup[unqualifiedName] = disambiguatedName
-        }
+        var lookup = Dictionary(
+            uniqueKeysWithValues: context.pythonClasses.map { ($0.name, $0.disambiguatedName) }
+        )
         for (bare, candidates) in pythonClassesByUnqualified where candidates.count == 1 {
             let candidate = candidates[0]
-            if candidate.explicitDisambiguatedName != nil {
-                lookup[bare] = candidate.disambiguatedName
-            }
+            lookup[bare] = candidate.disambiguatedName
         }
         PythonClass.nameDisambiguation = lookup
         defer { PythonClass.nameDisambiguation = [:] }
@@ -278,7 +306,10 @@ class PythonClass {
         guard !lines.isEmpty else { return }
         fragment.output("\"\"\"")
         for line in lines {
-            fragment.output(line)
+            let escapedLine = line
+                .replacingOccurrences(of: "\\", with: "\\\\")
+                .replacingOccurrences(of: "\"\"\"", with: "\\\"\\\"\\\"")
+            fragment.output(escapedLine)
         }
         fragment.output("\"\"\"")
     }
@@ -292,7 +323,7 @@ class PythonClass {
     }
 
     var unqualifiedName: String {
-        String(name.split(separator: ".").last!)
+        Self.unqualifiedIdentifier(forName: name)
     }
 
     static func separate(fieldsAndMethods: [MethodOrVariable]) -> (fields: [Variable], methods: [Method]) {
@@ -390,16 +421,19 @@ extension PythonClass.PyType {
         case .primitive(let name):
             return Self.qualifyIfBuiltin(name)
         case .named(let module, let name):
-            // Substitute a disambiguated sibling when the bare name has
-            // been renamed to avoid a collision (step A).  Only applies
-            // when no module qualifier was given — qualified names already
-            // carry their namespace.
-            if module == nil, let disambig = PythonClass.nameDisambiguation[name] {
-                return disambig
+            if module == nil {
+                if let disambig = PythonClass.nameDisambiguation[name] {
+                    return disambig
+                }
+                let bareName = PythonClass.unqualifiedIdentifier(forName: name)
+                if bareName.range(of: #"^[A-Za-z_][A-Za-z0-9_]*$"#, options: .regularExpression) != nil {
+                    return Self.qualifyIfBuiltin(bareName)
+                }
+                return "typing.Any"
             }
             let qualifiedName = module.map { "\($0).\(name)" } ?? name
             if qualifiedName.range(of: #"^[A-Za-z_][A-Za-z0-9_\.]*$"#, options: .regularExpression) != nil {
-                return module == nil ? Self.qualifyIfBuiltin(qualifiedName) : qualifiedName
+                return qualifiedName
             }
             return "typing.Any"
         case .namedExternal(_, let name):
@@ -441,11 +475,9 @@ extension PythonClass.PyType {
         switch self {
         case .none, .primitive, .any:
             return []
-        case .named(_, let name):
-            // Drop dotted qualifiers (``module.Foo`` -> ``Foo``); only emit
-            // bare-name imports for sibling classes in the same package.
-            let bare = name.split(separator: ".").last.map(String.init) ?? name
-            return [bare]
+        case .named(let module, let name):
+            guard module == nil else { return [] }
+            return [name]
         case .namedExternal:
             // External imports are tracked separately via
             // ``referencedExternalImports`` so they can be emitted as

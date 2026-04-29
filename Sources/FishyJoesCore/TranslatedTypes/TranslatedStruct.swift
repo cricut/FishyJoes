@@ -689,7 +689,7 @@ struct TranslatedStruct: TranslatedType {
             pythonClass: PythonProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: sourceType.nonNamespacedName,
+                name: sourceType.name,
                 constructor: .public(fields: storedFields),
                 fields: fields,
                 methods: methods

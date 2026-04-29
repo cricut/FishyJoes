@@ -265,11 +265,13 @@ public class FishyJoesContext {
         // resolve to whichever definition won the source-level shadow
         // contest.
         //
-        // The Swift author has already encoded the disambiguated name in the
-        // export annotation (e.g. ``<!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->``).
-        // Trust that as the source of truth: parse it out of the doc comment
-        // and use it verbatim as the Python class name when a collision is
-        // detected.
+        // If the Swift author has already encoded a disambiguated name in the
+        // export annotation (e.g. ``<!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->``),
+        // trust that as the source of truth.  Otherwise derive a stable
+        // Python identifier from the qualified Swift type path.  This keeps
+        // exported nested types like ``Path.Progress`` and ``Layout.Progress``
+        // distinct even when the source library exported both with the same
+        // leaf name.
         //
         // Must run *before* setupFragments below: the per-target setup code
         // emits ``from .X import X`` lines that need the disambiguated form.
@@ -280,6 +282,8 @@ public class FishyJoesContext {
         for cls in pythonClasses where (unqualifiedCounts[cls.unqualifiedName] ?? 0) > 1 {
             if let annotated = cls.exportAnnotationName(), annotated != cls.unqualifiedName {
                 cls.explicitDisambiguatedName = annotated
+            } else if cls.name != cls.unqualifiedName {
+                cls.explicitDisambiguatedName = PythonClass.disambiguatedIdentifier(forQualifiedName: cls.name)
             }
         }
 

@@ -1067,7 +1067,7 @@ struct TranslatedProtocol: TranslatedType {
             pythonClass: PythonProtocolClass(
                 module: context.module,
                 documentation: documentation,
-                name: sourceType.nonNamespacedName,
+                name: sourceType.name,
                 fields: protocolFields,
                 methods: protocolMethods
             )

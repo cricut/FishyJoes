@@ -60,7 +60,7 @@ class PythonEnumClass: PythonClass {
         for enumCase in cases {
             fragment.blankLine()
             fragment.output("@dataclass(slots=True, frozen=True)")
-            fragment.outputBlock("class \(disambiguatedName)_\(upperCaseFirst(enumCase.name))(\(unqualifiedName)):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName)_\(upperCaseFirst(enumCase.name))(\(disambiguatedName)):", closeWith: "") {
                 document(enumCase.documentation, fragment: fragment)
                 if enumCase.values.isEmpty {
                     fragment.output("pass")

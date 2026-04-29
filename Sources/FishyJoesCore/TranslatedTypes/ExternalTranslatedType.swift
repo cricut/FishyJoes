@@ -61,7 +61,7 @@ extension ExternalTranslatedType: TranslatedType {
         if let override = pythonTypeOverride {
             return override
         }
-        return .named(module: nil, name: sourceType.nonNamespacedName)
+        return .named(module: nil, name: sourceType.name)
     }
 }
 

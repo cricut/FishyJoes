@@ -12,7 +12,7 @@ extension TranslatedEnum {
         return PythonEnumClass(
             module: context.module,
             documentation: documentation,
-            name: sourceType.nonNamespacedName,
+            name: sourceType.name,
             cases: cases.map { enumCase in
                 .init(
                     documentation: enumCase.documentation,

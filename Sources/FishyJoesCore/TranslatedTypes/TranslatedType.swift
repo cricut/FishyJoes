@@ -134,7 +134,7 @@ extension TranslatedType {
         case is TranslatedResult:
             return .any
         default:
-            return .named(module: nil, name: sourceType.nonNamespacedName)
+            return .named(module: nil, name: sourceType.name)
         }
     }
 

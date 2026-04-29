@@ -592,7 +592,7 @@ struct TranslatedReference: TranslatedType {
             pythonClass: PythonProductClass(
                 module: context.module,
                 documentation: documentation,
-                name: sourceType.nonNamespacedName,
+                name: sourceType.name,
                 constructor: .reference,
                 fields: fields,
                 methods: methods,
