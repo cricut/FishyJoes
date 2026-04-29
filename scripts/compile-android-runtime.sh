@@ -35,7 +35,7 @@ for ((i = 1; i <= $#swiftAndroidTargetTriples; i++)); do
     cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
 done
 
-FISHYJOES_UBUNTU_DEST=kotlin-runtime/src/generated/resources/linux ./scripts/copy-linux-swift-stdlib.sh
+FISHYJOES_ANDROID_DEST=kotlin-runtime/src/generated/resources/lib ./scripts/copy-linux-swift-stdlib.sh
 
 cat >$libdir/FishyJoesAndroidVersions.txt <<EOF
 androidArchs=($swiftAndroidTargetTriples)
