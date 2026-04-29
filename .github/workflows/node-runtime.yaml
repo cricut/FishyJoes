@@ -97,13 +97,17 @@ jobs:
           set -euxo pipefail
 
           sudo apt-get update
-          sudo apt-get install -y zsh
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
           # Use wasm version of wasm-opt because ubuntu version can be very old
           npm install -g binaryen
           wasm-opt --version
 
-          swift run fishy-joes install-toolchains --swiftly --wasm --no-android
+          swift run fishy-joes install-toolchains --swiftly --no-android --wasm
+
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
