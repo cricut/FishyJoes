@@ -19,11 +19,13 @@ struct InstallSystemDependencies: ParsableCommand {
         case mint
         case wasmOpt = "wasm-opt"
 
-        // TODO: Should we support these in the tool?
+        // TODO: Possible future dependencies that could be added. Not sure which are a good idea.
         // case node
         // case cSharp
-        // case dart
+        // case dart, flutter
         // case java
+        // case androidNDK
+        // case zsh
 
         // Compound components
         case forGeneration = "for-generation"
@@ -268,10 +270,16 @@ extension InstallSystemDependencies.CoreComponent {
             #endif
 
         case .mint:
+            #if os(Windows)
+            Log.error("Installing mint not supported on windows")
+            throw InstallSystemDependencies.Error()
+            #endif
+
             if !cmd("brew", "--version").runBool() {
-                Log.error("homebrew not detected. It is currently required to install mint")
+                Log.error("homebrew not detected. It is currently required to install mint.")
                 throw InstallSystemDependencies.Error()
             }
+            try cmd("brew", "install", "mint").run()
 
         case .wasmOpt:
             #if os(macOS)
