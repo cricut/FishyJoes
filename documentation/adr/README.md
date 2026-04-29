@@ -37,6 +37,9 @@ Decisions evolve. When a new ADR replaces an old one:
 | [0009](0009-attributedstring-views-as-property.md) | Accepted | Generated AttributedString views are plain `@property`, never `@cached_property` |
 | [0010](0010-python-thread-scheduling-refuse-loudly.md) | Accepted | Python runtime refuses thread-scheduling loudly until a real executor exists |
 | [0011](0011-attributedstring-cow-future-fix.md) | Proposed | Restoring Swift COW semantics for AttributedString — future direction |
+| [0012](0012-python-test-tool-installation-policy-tbd.md) | Proposed | Python test-tool installation policy remains TBD |
+| [0013](0013-python-supported-version-ci-policy-tbd.md) | Proposed | Python supported-version CI policy remains TBD |
+| [0014](0014-python-runtime-template-shared-modules.md) | Accepted | Split reusable Python generated-runtime behavior into shared modules |
 
 ## Style
 

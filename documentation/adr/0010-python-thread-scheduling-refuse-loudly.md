@@ -36,6 +36,12 @@ audible. Provide an opt-in
 `strict_thread_scheduling=True` constructor flag that flips the
 callback to raise `NotImplementedInNativeError` on every invocation.**
 
+Follow-up decision on 2026-04-28: **a real Python scheduler is not part
+of the current Python-support hardening plan.** The future design may be
+a thread executor, an `asyncio` bridge, or another runtime-owned
+scheduler, but that choice is deliberately TBD and must be made in a
+later implementation plan/ADR before code changes begin.
+
 In strict mode the absence of an executor is a hard error; the runtime
 refuses and the caller fails fast. In permissive mode (the default) the
 callback runs the work but logs a single `WARNING` that points to
