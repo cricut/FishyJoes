@@ -115,26 +115,7 @@ jobs:
           set -euxo pipefail
 
           ./scripts/compile-node-runtime.sh
-
-      - name: Copy swift runtime SOs
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
-
-      - name: Patch system swift runtime SOs to use relative libraries
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd $LIB_DIR
-
-          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
-          for LIB in lib*.so*; do
-            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-          done
+          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Determine version
         shell: zsh {0}

@@ -53,8 +53,10 @@ function copyLibrariesAndDependencies {
     done
 }
 
-if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
-    # Copy android libs
+didSomething=0
+if [[ ! -z ${FISHYJOES_ANDROID_DEST:-} ]]; then
+    didSomething=1
+    echo "Installing android swift stdlib to $FISHYJOES_ANDROID_DEST"
     for arch in armv7 x86_64 aarch64; do
         case $arch in
             armv7)
@@ -71,7 +73,7 @@ if [[ "${FISHYJOES_ANDROID:-}" != "0" ]]; then
                 ;;
         esac
 
-        platformDir=kotlin-runtime/src/generated/resources/lib/$ndkName
+        platformDir=$FISHYJOES_ANDROID_DEST/$ndkName
         mkdir -p $platformDir
 
         if [[ -v XDG_CONFIG_HOME ]]; then
@@ -97,7 +99,9 @@ fi
 
 # Copy ubuntu libs
 
-if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
+if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
+    didSomething=1
+    echo "Installing ubuntu swift stdlib to $FISHYJOES_UBUNTU_DEST"
     runtimeLibraryPath=$(swift -print-target-info | jq -r '.paths.runtimeLibraryPaths[0]')
     ubuntuRoots=(
         $runtimeLibraryPath/libFoundation.so
@@ -108,14 +112,19 @@ if [[ "${FISHYJOES_UBUNTU:-}" != "0" ]]; then
         # $runtimeLibraryPath/libFoundationNetworking.so
     )
 
-    platformDir=kotlin-runtime/src/generated/resources/linux
+    platformDir=$FISHYJOES_UBUNTU_DEST
     mkdir -p $platformDir
     alternateLibPaths=()
 
-    # Put list of dependency libraries into text file, so they can be extracted from the jar before loading main library
-    libListFile=kotlin-runtime/src/generated/resources/linux/stdlib.txt
+    # Put list of dependency libraries into text file for java, so they can be extracted from the jar before loading main library
+    libListFile=$FISHYJOES_UBUNTU_DEST/stdlib.txt
     printf '' >$libListFile
 
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
     cat $libListFile
+fi
+
+if [[ $didSomething -eq 0 ]]; then
+    echo "Nothing installed. Set either FISHYJOES_ANDROID_DEST or FISHYJOES_UBUNTU_DEST to select a destination"
+    exit 1
 fi

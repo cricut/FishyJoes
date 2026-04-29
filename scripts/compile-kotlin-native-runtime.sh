@@ -49,7 +49,7 @@ case "$(uname -s)" in
         install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac"
         ;;
     (Linux)
-        FISHYJOES_ANDROID=0 ./scripts/copy-linux-swift-stdlib.sh
+        FISHYJOES_UBUNTU_DEST=kotlin-runtime/src/generated/resources/linux ./scripts/copy-linux-swift-stdlib.sh
         install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
         ;;
     (*_NT*)
