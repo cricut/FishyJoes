@@ -128,6 +128,7 @@ jobs:
 
   integration-tests-ubuntu:
     name: "Ubuntu: Integration tests"
+    runs-on: ubuntu-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       CONFIGURATION: debug
@@ -159,19 +160,6 @@ jobs:
           npm -g install binaryen@111.0.0
 
           swift run fishy-joes install-toolchains --swiftly --wasm --android
-
-      - name: Check SDK version matches android-swift-runtime
-        shell: zsh {0}
-        run: |
-          set -euo pipefail
-
-          source /VERSIONS
-          jsonSDK="swift-$(jq -r <  Sources/FishyJoesConfig/tool-versions.json .swiftAndroid.sdk)"
-
-          if [[ $swiftAndroidSDKName != $jsonSDK ]]; then
-              echo "swift toolchain SDK mismatch. android-swift-runtime ($swiftAndroidSDKName) != tool-versions.json ($jsonSDK)"
-              exit 1
-          fi
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -245,9 +233,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: maven-local
-          path: /root/.m2/repository
-          # Use this value if not running in docker image
-          # path: ~/.m2/repository
+          path: ~/.m2/repository
           if-no-files-found: error
 
   integration-tests-windows:
@@ -377,7 +363,7 @@ jobs:
   integration-tests-android:
     name: "Android: Integration Tests"
     needs: [integration-tests-ubuntu]
-    runs-on: macOS-13
+    runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       CONFIGURATION: debug
@@ -409,7 +395,7 @@ jobs:
           ./gradlew assembleAndroidTest
 
       - name: Test android test app
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@e89f39f1abbbd05b1113a29cf4db69e7540cae5a  # v2.37.0
         with:
           api-level: 29
           arch: x86_64
