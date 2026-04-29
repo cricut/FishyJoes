@@ -27,11 +27,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:
@@ -140,11 +135,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-6.2-release
@@ -192,11 +182,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup JDK
         uses: actions/setup-java@v3

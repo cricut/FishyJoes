@@ -28,11 +28,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - name: Setup JDK
         uses: actions/setup-java@v3
         with:

@@ -17,17 +17,12 @@ concurrency:
 jobs:
   build-test-node-mac:
     name: "macOS: Build and test node runtime"
-    runs-on: sojo-macos
+    runs-on: macos-26
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -79,25 +74,15 @@ jobs:
 
           (cd $LIB_DIR; npm publish *.tgz)
 
-  build-test-node-ubuntu:
-    name: "Ubuntu: Build and test node runtime"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+  build-test-node-ubuntu-native-and-wasm:
+    name: "Ubuntu: Build and test node runtime, native and wasm"
+    runs-on: ubuntu-latest
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
       WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -214,11 +199,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: compnerd/gha-setup-swift@main
         with:

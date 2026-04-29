@@ -14,23 +14,14 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
-env:
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
-
 jobs:
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
-    runs-on: sojo-macos
+    runs-on: macos-26
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -48,22 +39,12 @@ jobs:
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     env:
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Configure build environment
         run: |
@@ -119,11 +100,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-6.2-release
@@ -176,11 +152,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v4

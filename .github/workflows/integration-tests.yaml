@@ -130,24 +130,11 @@ jobs:
     name: "Ubuntu: Integration tests"
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
 
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -268,8 +255,6 @@ jobs:
     runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
       SWIFT_PACKAGE_RESOLVE: 0
       EXTRA_LIBPATH: '.build\lib'
@@ -278,11 +263,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -400,17 +380,10 @@ jobs:
     runs-on: macOS-13
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Setup JDK
         uses: actions/setup-java@v3
