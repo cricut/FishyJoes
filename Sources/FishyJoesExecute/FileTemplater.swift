@@ -1,6 +1,6 @@
-import ToolchainConfig
 import Foundation
 import swsh
+import ToolchainConfig
 
 public struct FileTemplater {
     let config: ProjectConfig

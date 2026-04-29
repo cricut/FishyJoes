@@ -1,6 +1,6 @@
-import ToolchainConfig
 import Foundation
 import swsh
+import ToolchainConfig
 
 // TODO: Currently unused/broken code, but hopefully it will be back soon
 

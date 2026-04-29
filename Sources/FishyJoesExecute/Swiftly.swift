@@ -1,6 +1,6 @@
-import ToolchainConfig
 import Foundation
 import swsh
+import ToolchainConfig
 
 enum Swiftly {
     // Mirrors logic from

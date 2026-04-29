@@ -1,7 +1,7 @@
-import ToolchainConfig
 import Foundation
 import RegexBuilder
 import swsh
+import ToolchainConfig
 
 struct BuildConfiguration: Hashable {
     let packagePath: String
