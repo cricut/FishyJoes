@@ -16,7 +16,6 @@ concurrency:
 
 jobs:
   build-test-node-mac:
-    if: false
     name: "macOS: Build and test node runtime"
     runs-on: macos-26
     env:
@@ -182,7 +181,6 @@ jobs:
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
-    if: false
     runs-on: windows-2025
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
