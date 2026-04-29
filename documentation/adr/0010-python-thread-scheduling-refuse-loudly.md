@@ -97,7 +97,7 @@ improvement over no signal.
 
 ## Related
 
-- [`documentation/python-support-plan.md`](../python-support-plan.md)
+- [`documentation/plans/implemented/python-support-plan.md`](../plans/implemented/python-support-plan.md)
   §6 step 4 — TDD step that landed the implementation.
 - [`python-runtime/README.non-goals.md`](../../python-runtime/README.non-goals.md)
   — user-facing scope statement.

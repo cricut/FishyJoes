@@ -96,7 +96,7 @@ shifts the problem to the Swift side without adding any safety.
 
 ## Related
 
-- [`documentation/python-followups-plan.md`](../python-followups-plan.md)
+- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
   §2.A — TDD step that landed the implementation.
 - `Sources/FishyJoesCore/Unparse/PythonClass.swift:exportAnnotationName` —
   parser.

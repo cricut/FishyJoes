@@ -69,7 +69,7 @@ runtime currently avoids, and doesn't change the underlying ABI shape.
 
 - [ADR-0001](0001-iota-shared-ffi-not-per-target.md) — the shared-FFI
   premise this ADR locks in for Python specifically.
-- [`documentation/python-followups-plan.md`](../python-followups-plan.md)
+- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
   §1.3 (guiding principles) — first written articulation of this rule.
 - `python-runtime/src/fishyjoes_python/iota/_runtime.py` — the IOTA
   consumer; every wrapper module routes calls through `iota_lib`.

@@ -117,7 +117,7 @@ where the user *knew* to make an explicit copy; does not change the
 default `b = a` semantic. **Rejected as the COW fix**; accepted as a
 strictly-better-than-status-quo addition to be shipped today
 (see Things-We-Should-Change Item A in
-[`python-followups-plan.md`](../python-followups-plan.md)). Independent
+[`python-followups-plan.md`](../plans/pending/python-followups-plan.md)). Independent
 of which architectural path is chosen later.
 
 **Option 4 — true lazy COW via instrumented Swift `Box`.**
@@ -134,7 +134,7 @@ of which architectural path is chosen later.
   `@property` decision that lives downstream of ADR-0005's reference-
   type choice. Option 4 would not change this; Option 5 would replace
   `@property`-style views with explicit factory methods.
-- [`documentation/python-followups-plan.md`](../python-followups-plan.md)
+- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
   §5.1 / §5.2 — first articulation of the value-vs-reference debt.
 - `python-runtime/src/fishyjoes_python/attributed_string.py` — wrapper
   implementations; the surface that Option 5 would refactor.

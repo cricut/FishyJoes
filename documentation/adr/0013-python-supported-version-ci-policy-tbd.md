@@ -51,7 +51,7 @@ still needs CI evidence and project agreement.
 
 ## Related
 
-- [`documentation/python-support-current-audit-plan.md`](../python-support-current-audit-plan.md)
+- [`documentation/plans/pending/python-support-current-audit-plan.md`](../plans/pending/python-support-current-audit-plan.md)
   — records this as a deferred implementation decision.
 - [`documentation/adr/0003-python-cpython-only.md`](0003-python-cpython-only.md)
   — records the CPython-only runtime scope.

@@ -12,7 +12,7 @@ Write one when:
 
 Skip the ADR for:
 - Plain implementation details a future change can flip without breaking anyone.
-- Day-to-day work tracked in `documentation/python-*-plan.md` and similar plans.
+- Day-to-day work tracked in `documentation/plans/`.
 - Per-target user-facing scope; that lives in each runtime's `README*.md`.
 
 ## When to supersede

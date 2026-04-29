@@ -157,17 +157,17 @@ indexes them.
 
 | Decision | ADR |
 |---|---|
-| Type stubs strategy: inline annotations on the generated `.py`, never separate `.pyi` (and always qualify Python builtins as `builtins.<name>` to keep them un-shadowed) | [ADR-0007](adr/0007-qualify-builtins-always.md) |
-| Thread-scheduling contract: refuse loudly via `strict_thread_scheduling=True`, default warns once and runs inline | [ADR-0010](adr/0010-python-thread-scheduling-refuse-loudly.md) |
-| AttributedString shape: opaque handle wrapper across the Iota family, with `clone()` as the documented escape hatch from Swift's COW semantics | [ADR-0005](adr/0005-attributedstring-as-reference-type.md) |
+| Type stubs strategy: inline annotations on the generated `.py`, never separate `.pyi` (and always qualify Python builtins as `builtins.<name>` to keep them un-shadowed) | [ADR-0007](../../adr/0007-qualify-builtins-always.md) |
+| Thread-scheduling contract: refuse loudly via `strict_thread_scheduling=True`, default warns once and runs inline | [ADR-0010](../../adr/0010-python-thread-scheduling-refuse-loudly.md) |
+| AttributedString shape: opaque handle wrapper across the Iota family, with `clone()` as the documented escape hatch from Swift's COW semantics | [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) |
 | Linting / typechecking gates: `ruff` + `mypy` invoked from `PythonPhases.testPhase` (no separate ADR — implementation-level choice tracked in `Sources/FishyJoesExecute/Phases/PythonPhases.swift`) | — |
-| Runtime versioning: minimum Python 3.11, enforced both in `pyproject.toml` and at runtime | [ADR-0004](adr/0004-python-min-version-3.11.md) |
+| Runtime versioning: minimum Python 3.11, enforced both in `pyproject.toml` and at runtime | [ADR-0004](../../adr/0004-python-min-version-3.11.md) |
 | Whether to split `iota.py`: yes, into the `iota/` package; all imports stay invisible to consumers | — (refactor; no ADR) |
 
 Two project-wide decisions also apply throughout this plan:
 
-- **IOTA-shared FFI for new language targets, never per-target FFI.** See [ADR-0001](adr/0001-iota-shared-ffi-not-per-target.md).
-- **Python uses IOTA exclusively, never JNI.** See [ADR-0002](adr/0002-python-iota-only-never-jni.md).
+- **IOTA-shared FFI for new language targets, never per-target FFI.** See [ADR-0001](../../adr/0001-iota-shared-ffi-not-per-target.md).
+- **Python uses IOTA exclusively, never JNI.** See [ADR-0002](../../adr/0002-python-iota-only-never-jni.md).
 
 These two are the architectural premise the support plan was written
 against; they predate this branch as project conventions and are

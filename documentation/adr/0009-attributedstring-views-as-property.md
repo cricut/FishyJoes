@@ -82,7 +82,7 @@ change.
 
 - [ADR-0005](0005-attributedstring-as-reference-type.md) — reference-
   type semantics that make stale caches the problem they are.
-- [`documentation/python-followups-plan.md`](../python-followups-plan.md)
+- [`documentation/plans/pending/python-followups-plan.md`](../plans/pending/python-followups-plan.md)
   §3.G.1 — first articulation of the `@property` / `@cached_property`
   decision.
 - `python-runtime/src/fishyjoes_python/attributed_string.py:AttributedString` —

@@ -1,7 +1,7 @@
 # Python Support: Follow-Ups Plan
 
 Branch: `antonio/add-python-support`
-Predecessor: [`python-support-plan.md`](python-support-plan.md) — 15 steps, all landed.
+Predecessor: [`python-support-plan.md`](../implemented/python-support-plan.md) — 15 steps, all landed.
 Scope: the gaps the predecessor explicitly tracked but did not close. Two clusters.
 
 This document is structured the same way as its predecessor: a feature/decision table, then numbered TDD steps, each with **R** (failing test, written first) → **G** (minimum fix) → optional Refactor. All steps end with a regenerate-and-diff to keep the generator and the committed bindings in sync.
@@ -45,11 +45,11 @@ Python-side, the equivalent code lives in `python-runtime/src/fishyjoes_python/a
 These resolve every decision in this plan. When two principles conflict, the higher-numbered one wins.
 
 1. **Idiomatic Python wins by default.** `@property`, `@dataclass`, `__iter__`, snake_case method names where feasible. Generated code should look like code a Python developer would write.
-2. **Best-practice production quality.** Type hints everywhere, mypy-clean, ruff-clean, `_assume`-style runtime checks at FFI boundaries (see [ADR-0008](adr/0008-assume-helper-for-ffi-boundaries.md)).
-3. **IOTA only, never JNI.** See [ADR-0002](adr/0002-python-iota-only-never-jni.md) for the locked decision; [ADR-0001](adr/0001-iota-shared-ffi-not-per-target.md) for the project-wide premise it inherits from.
+2. **Best-practice production quality.** Type hints everywhere, mypy-clean, ruff-clean, `_assume`-style runtime checks at FFI boundaries (see [ADR-0008](../../adr/0008-assume-helper-for-ffi-boundaries.md)).
+3. **IOTA only, never JNI.** See [ADR-0002](../../adr/0002-python-iota-only-never-jni.md) for the locked decision; [ADR-0001](../../adr/0001-iota-shared-ffi-not-per-target.md) for the project-wide premise it inherits from.
 4. **Swift semantic fidelity is mandatory.** Reference type in Swift → reference type in Python. Value type in Swift → value type in Python. Mutating method in Swift → mutating method in Python. Behaviour from calling generated Python must be observationally compatible with calling the originating Swift directly.
 
-Where rule 4 conflicts with rule 1 — for example, when a Swift mutating method on a value type would be more "Pythonic" returning a new instance — rule 4 wins. Deliberate exceptions to rule 4 are recorded in dedicated ADRs (e.g. [ADR-0005](adr/0005-attributedstring-as-reference-type.md) for `AttributedString` and `AttributedString.Index`); do not introduce more without writing one.
+Where rule 4 conflicts with rule 1 — for example, when a Swift mutating method on a value type would be more "Pythonic" returning a new instance — rule 4 wins. Deliberate exceptions to rule 4 are recorded in dedicated ADRs (e.g. [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) for `AttributedString` and `AttributedString.Index`); do not introduce more without writing one.
 
 ---
 
@@ -59,7 +59,7 @@ Where rule 4 conflicts with rule 1 — for example, when a Swift mutating method
 
 **Symptom:** `integration-tests/TestAPI/bindings/python/generated/src/cricut_testapi/PuttingTypesIntoQuestionablePlaces.py` defines three classes named `PuttingTypesIntoQuestionablePlaces` at lines 8, 24, 39 (mypy: `Name "PuttingTypesIntoQuestionablePlaces" already defined on line 8`). The runtime registers them under unique `iotaSetupName`s via the `_cls_<setupName>` alias mechanism, but the source-level definitions still shadow each other and `_type_setup.py` then resolves `setup_reference_type(..., PuttingTypesIntoQuestionablePlaces)` to the wrong class, producing the `type[…]` mismatch error.
 
-**Decision:** see [ADR-0006](adr/0006-class-disambiguation-via-export-annotation.md) — disambiguate via the Swift `<!-- FishyJoes.export(NAME) -->` annotation when a collision is detected; non-colliding classes keep their bare unqualified name.
+**Decision:** see [ADR-0006](../../adr/0006-class-disambiguation-via-export-annotation.md) — disambiguate via the Swift `<!-- FishyJoes.export(NAME) -->` annotation when a collision is detected; non-colliding classes keep their bare unqualified name.
 
 **R.** Add `tests/test_generated_no_name_collision.py` that walks the generated tree, parses each `.py`, and asserts no module defines two top-level `class X:` with the same name. Today: fails in `PuttingTypesIntoQuestionablePlaces.py`.
 
@@ -75,7 +75,7 @@ Where rule 4 conflicts with rule 1 — for example, when a Swift mutating method
 
 **Symptom:** `bindings/python/generated/src/cricut_testapi/Bytes.py` line 40: `Function "cricut_testapi.Bytes.Bytes.bytes" is not valid as a type`. The class has a method called `bytes`, and a sibling method's return type annotation is `bytes` — Python's resolution picks the method, not the builtin.
 
-**Decision:** see [ADR-0007](adr/0007-qualify-builtins-always.md) — always qualify Python builtins as `builtins.<name>`; no per-class shadow analysis.
+**Decision:** see [ADR-0007](../../adr/0007-qualify-builtins-always.md) — always qualify Python builtins as `builtins.<name>`; no per-class shadow analysis.
 
 **R.** In `python-runtime/tests/test_generated_typecheck.py`, drop `Bytes.py` from `KNOWN_FAILING` — it should now pass mypy. Today: fails.
 
@@ -107,7 +107,7 @@ Where rule 4 conflicts with rule 1 — for example, when a Swift mutating method
 - `Cannot infer type of lambda` at the discriminator `case_matchers` and the constructor case-dispatch
 - `Argument 1 to "len" has incompatible type "object"` (twice) and `No overload variant of "list" matches argument type "object"` and `"object" not callable` and `"object" has no attribute "items"` — all in code paths where `borrow_foreign_object` returns `object | None` and the surrounding code uses it as a tuple/list/dict
 
-**Decision:** see [ADR-0008](adr/0008-assume-helper-for-ffi-boundaries.md) — `_assume(value, kind)` helper at concrete-type boundaries; `typing.cast` only for abstract Protocols (`Sized`, `Iterable`, `Mapping`, `Callable`) that mypy refuses as `type[T]`.
+**Decision:** see [ADR-0008](../../adr/0008-assume-helper-for-ffi-boundaries.md) — `_assume(value, kind)` helper at concrete-type boundaries; `typing.cast` only for abstract Protocols (`Sized`, `Iterable`, `Mapping`, `Callable`) that mypy refuses as `type[T]`.
 
 **R.** Drop `runtime.py` from `KNOWN_FAILING`. Today: ~10 mypy errors.
 
@@ -154,9 +154,9 @@ ADRs; implementation-shape decisions stay here.
 
 | Topic | Where it's locked |
 |---|---|
-| `AttributedString` and `AttributedString.Index` are reference types in Python (Swift value types in name only) | [ADR-0005](adr/0005-attributedstring-as-reference-type.md) |
-| Views (`runs`, `characters`, `unicode_scalars`, `substring`, `startIndex`, `endIndex`) are plain `@property`, never `@cached_property` | [ADR-0009](adr/0009-attributedstring-views-as-property.md) |
-| Mutation methods mutate `self` in place and return `None`; `clone()` is the documented escape hatch | [ADR-0005](adr/0005-attributedstring-as-reference-type.md) |
+| `AttributedString` and `AttributedString.Index` are reference types in Python (Swift value types in name only) | [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) |
+| Views (`runs`, `characters`, `unicode_scalars`, `substring`, `startIndex`, `endIndex`) are plain `@property`, never `@cached_property` | [ADR-0009](../../adr/0009-attributedstring-views-as-property.md) |
+| Mutation methods mutate `self` in place and return `None`; `clone()` is the documented escape hatch | [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) |
 
 Implementation-shape decisions (no ADR; trivially derivable from the
 above plus the principles in §1.3):
@@ -257,9 +257,9 @@ changes.
 
 | Topic | ADR |
 |---|---|
-| `AttributedString` is value-type-with-COW in Swift, reference type in Python (every Iota target). `clone()` is the documented escape hatch. | [ADR-0005](adr/0005-attributedstring-as-reference-type.md) |
-| `AttributedString.Index` is value type in Swift, reference type in Python. | [ADR-0005](adr/0005-attributedstring-as-reference-type.md) |
-| No view-result caching across mutations — plain `@property`, never `@cached_property`. | [ADR-0009](adr/0009-attributedstring-views-as-property.md) |
+| `AttributedString` is value-type-with-COW in Swift, reference type in Python (every Iota target). `clone()` is the documented escape hatch. | [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) |
+| `AttributedString.Index` is value type in Swift, reference type in Python. | [ADR-0005](../../adr/0005-attributedstring-as-reference-type.md) |
+| No view-result caching across mutations — plain `@property`, never `@cached_property`. | [ADR-0009](../../adr/0009-attributedstring-views-as-property.md) |
 
 ### 5.4 Cross-class import emission walks fields/methods only
 
