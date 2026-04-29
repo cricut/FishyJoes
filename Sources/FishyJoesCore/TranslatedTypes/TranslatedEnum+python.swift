@@ -14,11 +14,17 @@ extension TranslatedEnum {
             documentation: documentation,
             name: sourceType.name,
             cases: cases.map { enumCase in
-                .init(
+                var usedValueNames = Set<String>()
+                let values = enumCase.associatedValues.map { value in
+                    (value.bindingName, context.resolve(type: value.type).pythonType)
+                }
+                return PythonEnumClass.Case(
                     documentation: enumCase.documentation,
                     name: enumCase.name,
-                    values: enumCase.associatedValues.map { value in
-                        (value.bindingName, context.resolve(type: value.type).pythonType)
+                    sourceName: PythonClass.sourceIdentifier(for: enumCase.name),
+                    values: values,
+                    sourceValues: values.map {
+                        (PythonClass.uniqueSourceIdentifier(for: $0.0, used: &usedValueNames), $0.1)
                     }
                 )
             },

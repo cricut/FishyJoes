@@ -4,6 +4,28 @@ import XCTest
 final class PythonGeneratedStructureTests: XCTestCase {
     private let generatedRoot = "integration-tests/TestAPI/bindings/python/generated/src/cricut_testapi"
 
+    private func assertPythonParses(_ source: String, file: StaticString = #filePath, line: UInt = #line) throws {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+        process.arguments = ["python3", "-c", "import ast, sys; ast.parse(sys.stdin.read())"]
+
+        let input = Pipe()
+        let output = Pipe()
+        process.standardInput = input
+        process.standardOutput = output
+        process.standardError = output
+
+        try process.run()
+        input.fileHandleForWriting.write(Data(source.utf8))
+        try input.fileHandleForWriting.close()
+        process.waitUntilExit()
+
+        if process.terminationStatus != 0 {
+            let failure = String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
+            XCTFail("Generated Python did not parse:\n\(failure)\nSource:\n\(source)", file: file, line: line)
+        }
+    }
+
     private func readGenerated(_ relativePath: String) throws -> String {
         try String(
             contentsOfFile: "\(generatedRoot)/\(relativePath)",
@@ -76,5 +98,70 @@ final class PythonGeneratedStructureTests: XCTestCase {
             PythonClass.disambiguatedIdentifier(forQualifiedName: "Swift.String.PuttingTypesIntoQuestionablePlaces"),
             "Swift_String_PuttingTypesIntoQuestionablePlaces"
         )
+    }
+
+    func testPythonSourceIdentifierSanitizesKeywordsAndCollisions() {
+        XCTAssertEqual(PythonClass.sourceIdentifier(for: "from"), "from_")
+        XCTAssertEqual(PythonClass.sourceIdentifier(for: "class"), "class_")
+        XCTAssertEqual(PythonClass.sourceIdentifier(for: "match"), "match_")
+        XCTAssertEqual(PythonClass.sourceIdentifier(for: "some-value"), "some_value")
+        XCTAssertEqual(PythonClass.sourceIdentifier(for: "1value"), "_1value")
+
+        var used = Set(["self"])
+        XCTAssertEqual(PythonClass.uniqueSourceIdentifier(for: "from", used: &used), "from_")
+        XCTAssertEqual(PythonClass.uniqueSourceIdentifier(for: "from_", used: &used), "from_2")
+    }
+
+    func testPythonMethodKeywordParametersUseSanitizedSourceNames() throws {
+        let module = Module(name: "TestAPI", dependencies: [])
+        let method = PythonClass.Method(
+            documentation: [],
+            isStatic: false,
+            name: "from",
+            sourceName: "from_",
+            mangledName: "TestAPI_Keyword_keywordSafe",
+            parameters: [
+                .init(
+                    labelComment: nil,
+                    name: "from",
+                    sourceName: "from_",
+                    type: .primitive("bytes"),
+                    ffiType: .object,
+                    defaultValue: nil
+                ),
+                .init(
+                    labelComment: nil,
+                    name: "from_",
+                    sourceName: "from_2",
+                    type: .primitive("bytes"),
+                    ffiType: .object,
+                    defaultValue: nil
+                ),
+            ],
+            returnType: .none,
+            ffiReturnType: .void,
+            deprecation: nil,
+            body: nil,
+            isAsync: false
+        )
+        let pythonClass = PythonProductClass(
+            module: module,
+            documentation: [],
+            name: "Keyword",
+            constructor: .reference,
+            fields: [],
+            methods: [method],
+            mangledTypeName: "TestAPI_Keyword"
+        )
+        let fragment = SourceFragment(destinationPath: nil)
+
+        pythonClass.output(to: fragment)
+        let source = "from __future__ import annotations\n\(fragment.contents)"
+
+        XCTAssertTrue(source.contains("def from_(self, from_: builtins.bytes, from_2: builtins.bytes) -> None:"))
+        XCTAssertTrue(source.contains("(\"object\", from_)"))
+        XCTAssertTrue(source.contains("(\"object\", from_2)"))
+        XCTAssertFalse(source.contains("def from(self, from:"))
+        try assertPythonParses(source)
     }
 }

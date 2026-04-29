@@ -20,7 +20,7 @@ class PythonProtocolClass: PythonClass {
 
     private func output(field: Variable, to fragment: SourceFragment) {
         fragment.output("@property")
-        fragment.outputBlock("def \(field.name)(self) -> \(field.type.name):", closeWith: "") {
+        fragment.outputBlock("def \(field.sourceName)(self) -> \(field.type.name):", closeWith: "") {
             document(field.documentation, fragment: fragment)
             fragment.output("...")
         }
@@ -29,7 +29,7 @@ class PythonProtocolClass: PythonClass {
     private func output(method: Method, to fragment: SourceFragment) {
         let asyncMark = method.isAsync ? "async " : ""
         let returnTypeName = method.isAsync ? method.returnType.awaitedName : method.returnType.name
-        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: ["self"], parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
+        fragment.outputBlock("\(asyncMark)def \(method.sourceName)(\(parameterList(explicit: ["self"], parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
             document(method.documentation, fragment: fragment)
             fragment.output("...")
         }

@@ -48,7 +48,11 @@ class PythonClass {
     struct Method {
         struct Parameter: Equatable {
             let labelComment: String?
+            /// Original Swift/exported parameter name, kept for metadata and
+            /// diagnostics.  ``sourceName`` is the valid Python identifier
+            /// emitted in signatures and method bodies.
             let name: String
+            let sourceName: String
             let type: PyType
             let ffiType: FFIType
             let defaultValue: String?
@@ -56,7 +60,10 @@ class PythonClass {
 
         let documentation: [String]
         let isStatic: Bool
+        /// Original exported method name.  ``sourceName`` is the valid Python
+        /// identifier emitted in source.
         let name: String
+        let sourceName: String
         let mangledName: String
         let parameters: [Method.Parameter]
         let returnType: PyType
@@ -81,6 +88,9 @@ class PythonClass {
         /// When true, the iota symbol is `__iota__default_<protocolMangledName>_<fieldName>`
         /// rather than `__iota_get_<concreteMangledName>_<fieldName>`.
         let isDefaultImplementation: Bool
+        /// Valid Python source identifier for this member.  ``name`` remains
+        /// the exported/runtime name used for IOTA setup and symbol routing.
+        let sourceName: String
         /// The protocol's mangled name, used to build the correct symbol when `isDefaultImplementation` is true.
         let defaultImplProtocolMangledName: String?
 
@@ -177,6 +187,47 @@ class PythonClass {
             return identifier
         }
         return "_\(identifier)"
+    }
+
+    static let pythonReservedSourceNames: Set<String> = [
+        "False", "None", "True", "and", "as", "assert", "async", "await",
+        "break", "case", "class", "continue", "def", "del", "elif", "else",
+        "except", "finally", "for", "from", "global", "if", "import", "in",
+        "is", "lambda", "match", "nonlocal", "not", "or", "pass", "raise",
+        "return", "try", "while", "with", "yield",
+    ]
+
+    static func sourceIdentifier(for rawName: String) -> String {
+        let validCharacters = rawName.map { character -> Character in
+            if character.isLetter || character.isNumber || character == "_" {
+                return character
+            }
+            return "_"
+        }
+        var identifier = String(validCharacters)
+        if identifier.isEmpty {
+            identifier = "_"
+        }
+        if rawName.first?.isNumber == true {
+            identifier = "_\(identifier)"
+        }
+        if pythonReservedSourceNames.contains(identifier) {
+            identifier += "_"
+        }
+        return identifier
+    }
+
+    static func uniqueSourceIdentifier(for rawName: String, used: inout Set<String>) -> String {
+        let baseName = sourceIdentifier(for: rawName)
+        var candidate = baseName
+        var suffix = 2
+        while used.contains(candidate) {
+            let separator = baseName.hasSuffix("_") ? "" : "_"
+            candidate = "\(baseName)\(separator)\(suffix)"
+            suffix += 1
+        }
+        used.insert(candidate)
+        return candidate
     }
 
     func output(to fragment: SourceFragment) {
@@ -362,7 +413,7 @@ class PythonClass {
 
     func parameterList(explicit: [String], parameters: [Method.Parameter]) -> String {
         let renderedParameters = parameters.map {
-            "\($0.name): \($0.type.name)\($0.defaultValue.map { " = \($0)" } ?? "")"
+            "\($0.sourceName): \($0.type.name)\($0.defaultValue.map { " = \($0)" } ?? "")"
         }
 
         let firstDefaultIndex = parameters.firstIndex { $0.defaultValue != nil }

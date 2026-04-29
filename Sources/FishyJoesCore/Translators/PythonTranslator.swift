@@ -489,6 +489,7 @@ final class PythonTranslator: Translator {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [PythonClass.Method.Parameter] = []
+        var usedParameterSourceNames = Set(["self"])
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -505,6 +506,10 @@ final class PythonTranslator: Translator {
                 .init(
                     labelComment: label,
                     name: parameter.name,
+                    sourceName: PythonClass.uniqueSourceIdentifier(
+                        for: parameter.name,
+                        used: &usedParameterSourceNames
+                    ),
                     type: resolved.pythonType,
                     ffiType: resolved.pythonFFIType,
                     defaultValue: defaultValue
@@ -517,6 +522,7 @@ final class PythonTranslator: Translator {
             documentation: method.documentation,
             isStatic: method.isStatic,
             name: exportAnnotation.name,
+            sourceName: PythonClass.sourceIdentifier(for: exportAnnotation.name),
             mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
             parameters: parameters,
             returnType: method.isAsync ? .awaitable(resolvedReturn.pythonType) : resolvedReturn.pythonType,
@@ -567,6 +573,7 @@ final class PythonTranslator: Translator {
                 ffiType: resolved.pythonFFIType,
                 deprecation: field.deprecation,
                 isDefaultImplementation: field.isDefaultImplementation,
+                sourceName: PythonClass.sourceIdentifier(for: pythonName),
                 defaultImplProtocolMangledName: defaultImplProtocolMangledName
             )
         )

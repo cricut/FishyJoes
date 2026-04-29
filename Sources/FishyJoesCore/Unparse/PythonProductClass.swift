@@ -54,7 +54,7 @@ class PythonProductClass: PythonClass {
                 }
 
                 for field in initFields {
-                    fragment.output("\(field.name): \(field.type.name)")
+                    fragment.output("\(field.sourceName): \(field.type.name)")
                 }
                 if !initFields.isEmpty, !(fields.isEmpty && methods.isEmpty) {
                     fragment.blankLine()
@@ -132,7 +132,7 @@ class PythonProductClass: PythonClass {
                 fragment.output("@staticmethod")
             }
             let parameters = field.isStatic ? "" : "self"
-            fragment.outputBlock("def get_\(field.name)(\(parameters)) -> \(field.type.name):", closeWith: "") {
+            fragment.outputBlock("def get_\(field.sourceName)(\(parameters)) -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
@@ -145,14 +145,14 @@ class PythonProductClass: PythonClass {
         }
         if field.isStatic {
             fragment.output("@staticmethod")
-            fragment.outputBlock("def \(field.name)() -> \(field.type.name):", closeWith: "") {
+            fragment.outputBlock("def \(field.sourceName)() -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(fragment: fragment, symbol: field.getterSymbol, returnType: field.ffiType, arguments: [])
             }
             if field.isPubliclyWritable {
                 fragment.blankLine()
                 fragment.output("@staticmethod")
-                fragment.outputBlock("def set_\(field.name)(value: \(field.type.name)) -> None:", closeWith: "") {
+                fragment.outputBlock("def set_\(field.sourceName)(value: \(field.type.name)) -> None:", closeWith: "") {
                     outputRuntimeCall(
                         fragment: fragment,
                         symbol: "__iota_set_\(field.mangledName)",
@@ -164,7 +164,7 @@ class PythonProductClass: PythonClass {
             return
         }
         fragment.output("@property")
-        fragment.outputBlock("def \(field.name)(self) -> \(field.type.name):", closeWith: "") {
+        fragment.outputBlock("def \(field.sourceName)(self) -> \(field.type.name):", closeWith: "") {
             document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
             outputRuntimeCall(
                 fragment: fragment,
@@ -175,8 +175,8 @@ class PythonProductClass: PythonClass {
         }
         if field.isPubliclyWritable {
             fragment.blankLine()
-            fragment.output("@\(field.name).setter")
-            fragment.outputBlock("def \(field.name)(self, value: \(field.type.name)) -> None:", closeWith: "") {
+            fragment.output("@\(field.sourceName).setter")
+            fragment.outputBlock("def \(field.sourceName)(self, value: \(field.type.name)) -> None:", closeWith: "") {
                 outputRuntimeCall(
                     fragment: fragment,
                     symbol: "__iota_set_\(field.mangledName)",
@@ -194,13 +194,13 @@ class PythonProductClass: PythonClass {
         let asyncMark = method.isAsync ? "async " : ""
         let returnTypeName = method.isAsync ? method.returnType.awaitedName : method.returnType.name
         let explicitSelf = method.isStatic ? [] : ["self"]
-        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
+        fragment.outputBlock("\(asyncMark)def \(method.sourceName)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
             document(method.documentation, fragment: fragment, extra: method.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
             if let body = method.body {
                 body.forEach { fragment.output($0) }
             } else if method.isAsync {
                 let args = (method.isStatic ? [] : [(expression: "self", type: PythonClass.FFIType.object)]) + method.parameters.map {
-                    (expression: $0.name, type: $0.ffiType)
+                    (expression: $0.sourceName, type: $0.ffiType)
                 }
                 let argString = args.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
                 let invocation = "_get_runtime().call_symbol(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
@@ -213,7 +213,7 @@ class PythonProductClass: PythonClass {
                     symbol: "__iota_\(method.mangledName)",
                     returnType: method.ffiReturnType,
                     arguments: (method.isStatic ? [] : [(expression: "self", type: .object)]) + method.parameters.map {
-                        (expression: $0.name, type: $0.ffiType)
+                        (expression: $0.sourceName, type: $0.ffiType)
                     }
                 )
             }

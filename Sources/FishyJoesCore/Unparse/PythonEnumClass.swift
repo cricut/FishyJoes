@@ -2,7 +2,9 @@ class PythonEnumClass: PythonClass {
     struct Case {
         let documentation: [String]
         let name: String
+        let sourceName: String
         let values: [(String, PyType)]
+        let sourceValues: [(String, PyType)]
     }
 
     let cases: [Case]
@@ -38,7 +40,7 @@ class PythonEnumClass: PythonClass {
             fragment.outputBlock("class \(disambiguatedName)(enum.Enum):", closeWith: "") {
                 document(documentation, fragment: fragment, extra: ["Generated FishyJoes Python enum."])
                 for enumCase in cases {
-                    fragment.output("\(enumCase.name) = \"\(enumCase.name)\"")
+                    fragment.output("\(enumCase.sourceName) = \"\(enumCase.name)\"")
                 }
                 if !(fields.isEmpty && methods.isEmpty) {
                     fragment.blankLine()
@@ -60,12 +62,12 @@ class PythonEnumClass: PythonClass {
         for enumCase in cases {
             fragment.blankLine()
             fragment.output("@dataclass(slots=True, frozen=True)")
-            fragment.outputBlock("class \(disambiguatedName)_\(upperCaseFirst(enumCase.name))(\(disambiguatedName)):", closeWith: "") {
+            fragment.outputBlock("class \(disambiguatedName)_\(upperCaseFirst(enumCase.sourceName))(\(disambiguatedName)):", closeWith: "") {
                 document(enumCase.documentation, fragment: fragment)
-                if enumCase.values.isEmpty {
+                if enumCase.sourceValues.isEmpty {
                     fragment.output("pass")
                 } else {
-                    for value in enumCase.values {
+                    for value in enumCase.sourceValues {
                         fragment.output("\(value.0): \(value.1.name)")
                     }
                 }
@@ -95,7 +97,7 @@ class PythonEnumClass: PythonClass {
                 fragment.output("@staticmethod")
             }
             let parameters = field.isStatic ? "" : "self"
-            fragment.outputBlock("def get_\(field.name)(\(parameters)) -> \(field.type.name):", closeWith: "") {
+            fragment.outputBlock("def get_\(field.sourceName)(\(parameters)) -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
@@ -109,13 +111,13 @@ class PythonEnumClass: PythonClass {
 
         if field.isStatic {
             fragment.output("@staticmethod")
-            fragment.outputBlock("def \(field.name)() -> \(field.type.name):", closeWith: "") {
+            fragment.outputBlock("def \(field.sourceName)() -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(fragment: fragment, symbol: field.getterSymbol, returnType: field.ffiType, arguments: [])
             }
         } else {
             fragment.output("@property")
-            fragment.outputBlock("def \(field.name)(self) -> \(field.type.name):", closeWith: "") {
+            fragment.outputBlock("def \(field.sourceName)(self) -> \(field.type.name):", closeWith: "") {
                 document(field.documentation, fragment: fragment, extra: field.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
                 outputRuntimeCall(
                     fragment: fragment,
@@ -134,11 +136,11 @@ class PythonEnumClass: PythonClass {
         let asyncMark = method.isAsync ? "async " : ""
         let returnTypeName = method.isAsync ? method.returnType.awaitedName : method.returnType.name
         let explicitSelf = method.isStatic ? [] : ["self"]
-        fragment.outputBlock("\(asyncMark)def \(method.name)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
+        fragment.outputBlock("\(asyncMark)def \(method.sourceName)(\(parameterList(explicit: explicitSelf, parameters: method.parameters))) -> \(returnTypeName):", closeWith: "") {
             document(method.documentation, fragment: fragment, extra: method.deprecation.map { ["Deprecated: \($0.quotedMessage)"] } ?? [])
             if method.isAsync {
                 let args = (method.isStatic ? [] : [(expression: "self", type: PythonClass.FFIType.object)]) + method.parameters.map {
-                    (expression: $0.name, type: $0.ffiType)
+                    (expression: $0.sourceName, type: $0.ffiType)
                 }
                 let argString = args.map { "(\"\($0.type.rawValue)\", \($0.expression))" }.joined(separator: ", ")
                 let invocation = "_get_runtime().call_symbol(\"__iota_\(method.mangledName)\", \"\(method.ffiReturnType.rawValue)\"\(argString.isEmpty ? "" : ", \(argString)"))"
@@ -151,7 +153,7 @@ class PythonEnumClass: PythonClass {
                     symbol: "__iota_\(method.mangledName)",
                     returnType: method.ffiReturnType,
                     arguments: (method.isStatic ? [] : [(expression: "self", type: .object)]) + method.parameters.map {
-                        (expression: $0.name, type: $0.ffiType)
+                        (expression: $0.sourceName, type: $0.ffiType)
                     }
                 )
             }
