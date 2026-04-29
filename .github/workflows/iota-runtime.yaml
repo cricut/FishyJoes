@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   build-iota-mac:
+    if: false
     name: "macOS: Build Iota Runtime"
     runs-on: macos-26
 
@@ -50,9 +51,8 @@ jobs:
         run: |
           set -eux
 
-          apt-get -y update
-          apt-get -y install patchelf
-          git config --global --add safe.directory '*'
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -80,6 +80,7 @@ jobs:
           if-no-files-found: error
 
   build-iota-windows:
+    if: false
     name: "Windows: Build Iota Runtime"
     runs-on: windows-2025
     env:
