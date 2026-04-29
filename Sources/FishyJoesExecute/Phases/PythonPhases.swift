@@ -14,12 +14,32 @@ func pythonSwiftCoverageEnv(
 }
 
 class PythonPhases: IotaPhases, Phases {
+    private let packageRoot = FileManager.default.currentDirectoryPath
+
     private var pythonPathSeparator: String {
         #if os(Windows)
         return ";"
         #else
         return ":"
         #endif
+    }
+
+    private func packageRootRelativePath(_ path: String) -> String {
+        if path.hasPrefix("/") {
+            return path
+        }
+        return URL(
+            fileURLWithPath: path,
+            relativeTo: URL(fileURLWithPath: packageRoot, isDirectory: true)
+        ).standardizedFileURL.path
+    }
+
+    private var fishyJoesPythonRuntimePath: String? {
+        guard let dependency = options.packageInfo?.dependencyMap["FishyJoes"] else {
+            return nil
+        }
+        let runtimePath = "\(packageRootRelativePath(dependency.localPath))/python-runtime"
+        return FileManager.default.fileExists(atPath: runtimePath) ? runtimePath : nil
     }
 
     private func pythonSupportEnv() -> [String: String] {
@@ -29,6 +49,8 @@ class PythonPhases: IotaPhases, Phases {
             || FileManager.default.fileExists(atPath: runtimeSourcePath)
         {
             pythonPaths.append(runtimeSourcePath)
+        } else if let fishyJoesPythonRuntimePath {
+            pythonPaths.append("\(fishyJoesPythonRuntimePath)/src")
         }
         return ["PYTHONPATH": pythonPaths.joined(separator: pythonPathSeparator)]
     }
@@ -93,7 +115,13 @@ class PythonPhases: IotaPhases, Phases {
 
     private func ensureRuntimeInstalled() throws {
         let runtimeSourcePath = "../../../../../python-runtime"
-        guard FileManager.default.fileExists(atPath: runtimeSourcePath) else {
+        let runtimePath: String?
+        if FileManager.default.fileExists(atPath: runtimeSourcePath) {
+            runtimePath = runtimeSourcePath
+        } else {
+            runtimePath = fishyJoesPythonRuntimePath
+        }
+        guard let runtimePath else {
             return
         }
 
@@ -105,7 +133,7 @@ class PythonPhases: IotaPhases, Phases {
             "python3", "-m", "pip", "install",
             "--break-system-packages",
             "--user",
-            "-e", runtimeSourcePath
+            "-e", runtimePath
         ).run()
     }
 
@@ -136,7 +164,13 @@ class PythonPhases: IotaPhases, Phases {
         if FileManager.default.fileExists(atPath: handWrittenTestsDir) {
             try withDirectory("bindings/python") {
                 let runtimeSrc = "../../../../python-runtime/src"
-                let pythonPath = ["generated/src", runtimeSrc].joined(separator: pythonPathSeparator)
+                var pythonPaths = ["generated/src"]
+                if FileManager.default.fileExists(atPath: runtimeSrc) {
+                    pythonPaths.append(runtimeSrc)
+                } else if let fishyJoesPythonRuntimePath {
+                    pythonPaths.append("\(fishyJoesPythonRuntimePath)/src")
+                }
+                let pythonPath = pythonPaths.joined(separator: pythonPathSeparator)
                 try cmd(
                     "python3",
                     "-m", "unittest", "discover",

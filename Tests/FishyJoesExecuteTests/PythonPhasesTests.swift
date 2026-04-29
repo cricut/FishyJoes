@@ -38,4 +38,15 @@ final class PythonPhasesTests: XCTestCase {
             "generated unittest and hand-written unittest should merge LLVM_PROFILE_FILE into PYTHONPATH env"
         )
     }
+
+    func testPythonRuntimeInstallCanUseLocalFishyJoesDependencyPath() throws {
+        let source = try String(
+            contentsOfFile: "Sources/FishyJoesExecute/Phases/PythonPhases.swift",
+            encoding: .utf8
+        )
+
+        XCTAssertTrue(source.contains("dependencyMap[\"FishyJoes\"]"))
+        XCTAssertTrue(source.contains("fishyJoesPythonRuntimePath)/src"))
+        XCTAssertTrue(source.contains(#""-e", runtimePath"#))
+    }
 }
