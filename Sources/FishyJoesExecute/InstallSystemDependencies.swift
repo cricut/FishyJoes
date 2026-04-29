@@ -194,6 +194,9 @@ extension InstallSystemDependencies.CoreComponent {
             let sdk = ToolVersions.shared.swiftWasm.sdk
             let triple = ToolVersions.shared.swiftWasm.triple
 
+            Log.info("Installing swift-wasm toolchain \(toolchain)")
+            try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
+
             let sdkInstalled = Swiftly.run(
                 toolchain: toolchain,
                 "swift", "sdk", "configure", "--show-configuration",
@@ -202,6 +205,7 @@ extension InstallSystemDependencies.CoreComponent {
             )
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
+
             if sdkInstalled {
                 Log.info("swift-wasm \(sdk) already installed")
             } else {
