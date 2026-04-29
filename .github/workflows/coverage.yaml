@@ -51,6 +51,10 @@ jobs:
 
           swift run fishy-joes install-system-dependencies for-generation for-wasm
 
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 

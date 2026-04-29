@@ -69,9 +69,6 @@ jobs:
           distribution: zulu
           java-version: 20
 
-      - name: Setup swiftly
-        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
-
       - name: Install tools
         run: |
           set -euxo pipefail
@@ -86,6 +83,10 @@ jobs:
           echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
 
           swift run fishy-joes install-system-dependencies for-android
+
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Build native FishyJoesJavaRuntime
         shell: zsh {0}

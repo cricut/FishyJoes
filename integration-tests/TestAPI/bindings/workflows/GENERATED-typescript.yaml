@@ -128,6 +128,10 @@ jobs:
 
           swift run fishy-joes install-system-dependencies for-wasm
 
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+
       - name: Pre-build hook
         shell: bash
         run: |

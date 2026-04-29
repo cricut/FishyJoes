@@ -44,9 +44,6 @@ jobs:
         with:
           dotnet-version: '6'
 
-      - name: Setup swiftly
-        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
-
       - name: Install generation tools
         shell: zsh {0}
         run: |
@@ -155,9 +152,6 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
-      - name: Setup swiftly
-        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
-
       - name: Configure build environment
         run: |
           set -euxo pipefail
@@ -166,6 +160,10 @@ jobs:
           sudo apt-get install -y zsh libcurl4-openssl-dev
 
           swift run fishy-joes install-system-dependencies for-wasm for-android
+
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
