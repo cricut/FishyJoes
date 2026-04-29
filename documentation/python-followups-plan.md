@@ -141,7 +141,11 @@ The base wrappers (`AttributedString`, `AttributeContainer`, `AttributeContainer
 Common pattern for every step here:
 - The test in `integration-tests/TestAPI/bindings/python/tests/test_attributed_string.py:AttributedStringDeferredViewTests` is currently `@unittest.skip("v2: …")`. Drop the skip — that is the **R**.
 - The fix lives in `python-runtime/src/fishyjoes_python/attributed_string.py`. Each new method is a thin `runtime.iota_lib.<symbol>(...)` call. Look up the symbol name in `kotlin-runtime/src/main/kotlin/com/cricut/fishyjoes/runtime/AttributedString.kt` (the JNI external decls already use the right names) — that is the **G**. **IOTA only, never JNI** (principle 3): port the symbol name and signature, not Kotlin's JNI scaffolding. Do not introduce ctypes-CFUNCTYPE bindings, do not load an alternate native library, do not replicate `loadNativeLibs()`. Every call is `runtime.iota_lib.<symbol>(...)` through the already-loaded IOTA dylib.
-- All steps below also need a small unit test in `python-runtime/tests/test_attributed_string.py` against a `_FakeRuntime` (existing helper) so the wrapper logic itself has a non-Swift regression net.
+- All steps below also need a small real-runtime unit test in
+  `python-runtime/tests/test_attributed_string.py` when the behavior cannot be
+  expressed more clearly through integration. Do not use `_FakeRuntime` or
+  symbol-recording fakes; wrapper logic that touches FFI must run against the
+  real IOTA dylibs.
 
 ### Decisions locked for §3
 
@@ -180,7 +184,11 @@ above plus the principles in §1.3):
 
 ### Step F — `AttributedSubstring` + `substring` / `substringForRange`
 
-**R-1.** Un-skip `test_substring`. **R-2.** New unit tests asserting `AttributedSubstring.from_attributed_string`, `AttributedString.substring_for_range`, and `Index` / `SwiftRange` construction call the correct IOTA symbols on a `_FakeRuntime`.
+**R-1.** Un-skip `test_substring`. **R-2.** New tests asserting
+`AttributedSubstring.from_attributed_string`, `AttributedString.substring_for_range`,
+and `Index` / `SwiftRange` construction produce the expected observable behavior
+against the real runtime; pure-Python `SwiftRange` construction can stay a
+non-FFI unit test.
 **G.** Per the §3 decisions:
 - `class SwiftRange[T]` — frozen dataclass, two fields, no IOTA. Lives next to the rest of `attributed_string.py`.
 - `class AttributedString.Index(_SwiftBackedReference)` — `_equals_symbol` / `_hash_symbol` route through Swift.

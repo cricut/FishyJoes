@@ -1,10 +1,5 @@
 """Pinned mechanics for the iota package's Python-side helpers.
 
-The two strong-duplicate-candidate tests that previously lived here
-(``test_handle_coercion`` and ``test_reference_release_uses_runtime``)
-were quarantined to ``tests/duplicates/`` for user review — see that
-folder's ``README.md``.
-
 Per the no-mocks rule
 ([feedback_no_mocks_real_runtime](../../../.claude/projects/-Users-antoniogermano-work-cricut-FishyJoes/memory/feedback_no_mocks_real_runtime.md)):
 the remaining tests construct the **real** runtime (real Swift dylibs,
