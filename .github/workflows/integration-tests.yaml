@@ -152,9 +152,11 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Configure build environment
-        shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
           # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
           npm -g install binaryen@111.0.0

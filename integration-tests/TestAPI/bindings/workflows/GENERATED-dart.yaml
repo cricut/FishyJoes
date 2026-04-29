@@ -24,7 +24,7 @@ env:
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
-    runs-on: sojo-macos
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -82,7 +82,7 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: k8s
     container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
+      image: __LINUX_CONTAINER_SPEC__
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
