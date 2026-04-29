@@ -51,7 +51,7 @@ jobs:
           set -eux
 
           sudo apt-get update
-          sudo apt-get install -y zsh libcurl4-openssl-dev
+          sudo apt-get install -y zsh
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}

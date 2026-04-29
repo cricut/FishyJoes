@@ -26,7 +26,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: macos-26
+    runs-on: __GITHUB_MACOS_RUNNER__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,12 +44,6 @@ jobs:
         with:
           distribution: zulu
           java-version: ${{ env.JAVA_VERSION }}
-
-      - name: Install generation tools
-        shell: zsh {0}
-        run: |
-          yq --version || brew install yq
-          mint --version || brew install mint
 
       # NOTE: don't delete this. Even if it looks unused, some downsteam pre-build hooks rely on it.
       - name: Setup node
@@ -86,12 +80,7 @@ jobs:
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
-    runs-on: k8s
-    container:
-      image: __LINUX_CONTAINER_SPEC__
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: __GITHUB_UBUNTU_RUNNER__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -157,7 +146,7 @@ jobs:
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
-    runs-on: windows-2025
+    runs-on: __GITHUB_WINDOWS_RUNNER__
     steps:
       - name: Configure git and vcpkg
         shell: pwsh

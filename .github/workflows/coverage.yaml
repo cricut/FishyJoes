@@ -49,10 +49,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          yq --version || brew install yq
-          mint --version || brew install mint
-
-          swift run fishy-joes install-toolchains --swiftly --wasm --no-android
+          swift run fishy-joes install-system-dependencies for-generation for-wasm
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)

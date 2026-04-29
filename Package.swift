@@ -47,7 +47,7 @@ let package = Package(
     dependencies: wasmIncompatible(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
-            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.4.0"),
             D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
         ]
     ),

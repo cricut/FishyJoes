@@ -511,9 +511,9 @@ extension CodeGen {
     private func sourceryCommand(_ arguments: [String]) -> Command {
         switch config.sourceryOverride {
         case .none:
-            return cmd("mint", arguments: ["run", "krzysztofzablocki/Sourcery@2.3.0"] + arguments)
+            return cmd("mint", arguments: ["run", "--verbose", "krzysztofzablocki/Sourcery@2.3.0"] + arguments)
         case .some(.remote(let remoteSpec)):
-            return cmd("mint", arguments: ["run", remoteSpec] + arguments)
+            return cmd("mint", arguments: ["run", "--verbose", remoteSpec] + arguments)
         case .some(.local(let path)):
             return cmd(path ?? "sourcery", arguments: arguments)
         }

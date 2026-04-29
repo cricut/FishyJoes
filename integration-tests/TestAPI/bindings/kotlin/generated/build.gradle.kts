@@ -16,10 +16,6 @@ repositories {
     maven {
         name = "GitHubPackagesFishyJoes"
         url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
-        credentials {
-            username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
-            password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
-        }
     }
 }
 
