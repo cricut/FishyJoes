@@ -8,7 +8,7 @@ fi
 
 source ./scripts/_read-tool-versions.sh --verbose
 
-alternateLibPaths=()
+libSearchPaths=()
 # names of all copied libaries will be copied into this file
 libListFile=/dev/null
 
@@ -82,15 +82,19 @@ if [[ ! -z ${FISHYJOES_ANDROID_DEST:-} ]]; then
             spmDir=$HOME/.swiftpm
         fi
 
+        stdlibDir= $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/
         androidRoots=(
-            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundation.so
-            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libFoundationXML.so
-            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/libswiftSwiftOnoneSupport.so
+            $stdlibDir/libFoundation.so
+            $stdlibDir/libFoundationXML.so
+            $stdlibDir/libswiftSwiftOnoneSupport.so
 
             # Uncomment this if networking is needed
-            # $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/usr/lib/swift/android/libFoundationNetworking.so
+            # $stdlibDir/libFoundationNetworking.so
         )
-        alternateLibPaths=($spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple)
+        libSearchPaths=(
+            $stdlibDir
+            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple
+        )
         copyLibrariesAndDependencies $platformDir $androidRoots
 
         patchelf --page-size 16384 --add-needed libz.so $platformDir/libFoundationXML.so
@@ -114,12 +118,12 @@ if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
 
     platformDir=$FISHYJOES_UBUNTU_DEST
     mkdir -p $platformDir
-    alternateLibPaths=()
 
     # Put list of dependency libraries into text file for java, so they can be extracted from the jar before loading main library
     libListFile=$FISHYJOES_UBUNTU_DEST/stdlib.txt
     printf '' >$libListFile
 
+    libSearchPaths=($runtimeLibraryPath)
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
     cat $libListFile
 fi
