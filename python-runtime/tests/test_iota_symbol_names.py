@@ -21,9 +21,13 @@ from __future__ import annotations
 
 import ast
 import re
+import shutil
+import subprocess
 import sys
 import unittest
 from pathlib import Path
+
+from _real_runtime import real_dylib_paths
 
 ROOT = Path(__file__).resolve().parents[2]
 PYTHON_RUNTIME_SRC = ROOT / "python-runtime" / "src" / "fishyjoes_python"
@@ -40,6 +44,70 @@ def _exported_symbols() -> set[str]:
         for match in pattern.finditer(text):
             found.add(match.group(1))
     return found
+
+
+def _runtime_attributed_string_cdef_symbols() -> set[str]:
+    """Collect every function name declared in the runtime Foundation cdef block."""
+    tree = ast.parse((PYTHON_RUNTIME_SRC / "iota" / "_runtime.py").read_text())
+    symbols: set[str] = set()
+    decl_pattern = re.compile(
+        r"\b(?:void\*?|uint8_t|int32_t|uint32_t)\s+([A-Za-z_][A-Za-z0-9_]*)\s*\("
+    )
+
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.FunctionDef):
+            continue
+        if node.name != "_declare_runtime_attributed_string_symbols":
+            continue
+        for child in ast.walk(node):
+            if not isinstance(child, ast.Call):
+                continue
+            if (
+                isinstance(child.func, ast.Name)
+                and child.func.id == "_cdef"
+                and child.args
+                and isinstance(child.args[0], ast.Constant)
+                and isinstance(child.args[0].value, str)
+            ):
+                for match in decl_pattern.finditer(child.args[0].value):
+                    symbols.add(match.group(1))
+        break
+
+    if not symbols:
+        raise AssertionError(
+            "No cffi declarations found in "
+            "IotaRuntime._declare_runtime_attributed_string_symbols"
+        )
+    return symbols
+
+
+def _exported_symbols_from_built_dylib(path: Path) -> set[str]:
+    """Read exported symbol names from the built runtime library with nm."""
+    nm = shutil.which("nm")
+    if nm is None:
+        raise AssertionError("nm is required to verify built IOTA runtime exports")
+
+    command = [nm, "-g", str(path)]
+    if sys.platform == "darwin":
+        command = [nm, "-gU", str(path)]
+
+    result = subprocess.run(
+        command,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    symbols: set[str] = set()
+    for line in result.stdout.splitlines():
+        parts = line.split()
+        if not parts:
+            continue
+        symbol = parts[-1]
+        symbols.add(symbol)
+        if symbol.startswith("_"):
+            symbols.add(symbol[1:])
+    return symbols
 
 
 def _referenced_iota_symbols(python_file: Path) -> set[str]:
@@ -143,6 +211,21 @@ class IotaSymbolNameTests(unittest.TestCase):
             "back to createFromSubstring(substring).  If a real clone "
             "export is added, update Python clone() to use it directly "
             "and revisit this test.",
+        )
+
+    def test_runtime_cffi_foundation_symbols_exist_in_built_iota_runtime(self) -> None:
+        iota_runtime, _, _ = real_dylib_paths()
+        declared = _runtime_attributed_string_cdef_symbols()
+        exported = _exported_symbols_from_built_dylib(iota_runtime)
+
+        missing = declared - exported
+        self.assertEqual(
+            missing, set(),
+            f"IotaRuntime._declare_runtime_attributed_string_symbols declares "
+            f"{len(missing)} symbol(s) missing from built {iota_runtime}:\n  "
+            + "\n  ".join(sorted(missing))
+            + "\n\nDo not invent cffi symbol names. Grep the Swift exports "
+              "or inspect nm output from the built dylib.",
         )
 
 

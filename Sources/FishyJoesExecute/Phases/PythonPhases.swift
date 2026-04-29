@@ -1,6 +1,18 @@
 import Foundation
 import swsh
 
+func pythonSwiftCoverageEnv(
+    codeCoveragePath: String?,
+    platform: Platform,
+    uuid: UUID = UUID()
+) -> [String: String] {
+    codeCoveragePath.map {
+        [
+            "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(uuid).profraw",
+        ]
+    } ?? [:]
+}
+
 class PythonPhases: IotaPhases, Phases {
     private var pythonPathSeparator: String {
         #if os(Windows)
@@ -19,6 +31,16 @@ class PythonPhases: IotaPhases, Phases {
             pythonPaths.append(runtimeSourcePath)
         }
         return ["PYTHONPATH": pythonPaths.joined(separator: pythonPathSeparator)]
+    }
+
+    private func pythonEnvWithSwiftCoverage(_ env: [String: String]) -> [String: String] {
+        env.merging(
+            pythonSwiftCoverageEnv(
+                codeCoveragePath: options.codeCoveragePath,
+                platform: platform
+            ),
+            uniquingKeysWith: { _, coverageValue in coverageValue }
+        )
     }
 
     func generationPhaseTemplateReplacements() throws -> [String: String] {
@@ -102,7 +124,7 @@ class PythonPhases: IotaPhases, Phases {
                 "-m", "unittest", "discover",
                 "-s", "tests",
                 "-p", "test_*.py",
-                addEnv: pythonSupportEnv()
+                addEnv: pythonEnvWithSwiftCoverage(pythonSupportEnv())
             ).run()
         }
         // 2) Hand-written integration tests (sibling to ``generated/`` so
@@ -120,7 +142,7 @@ class PythonPhases: IotaPhases, Phases {
                     "-m", "unittest", "discover",
                     "-s", "tests",
                     "-p", "test_*.py",
-                    addEnv: ["PYTHONPATH": pythonPath]
+                    addEnv: pythonEnvWithSwiftCoverage(["PYTHONPATH": pythonPath])
                 ).run()
             }
         }

@@ -6,13 +6,19 @@ from __future__ import annotations
 import ctypes
 import asyncio
 import importlib.resources
-import platform
 import typing
 
 import cffi as _cffi_module
 
 from collections.abc import Callable, Iterable, Mapping, Sized
 
+from fishyjoes_python.generated_runtime import (
+    ffi_ctypes_type as _ffi_ctypes_type,
+    ffi_default_value as _ffi_default_value,
+    function_returns_future as _function_returns_future,
+    not_implemented,
+    platform_library_name as _platform_library_name,
+)
 from fishyjoes_python.iota import IotaRuntime, NativeReference as _SharedNativeReference, _assume
 from fishyjoes_python.loader import load_shared_library
 
@@ -575,7 +581,6 @@ class GeneratedRuntime:
         if self._runtime is None:
             raise RuntimeError("GeneratedRuntime not loaded")
         runtime = self._runtime
-        elem_ctype = _ffi_ctypes_type(element_ffi_type)
 
         # length_fn: (context, array, exn) -> int32_t
         # c_int is the 32-bit signed integer type in ctypes (matches Swift Int32).
@@ -784,7 +789,7 @@ class GeneratedRuntime:
             raise RuntimeError("GeneratedRuntime not loaded")
         runtime = runtime
         lib = runtime.iota_lib
-        fn = getattr(lib, "FishyJoesCommonRuntime_TupleConverter_setup")
+        fn = lib.FishyJoesCommonRuntime_TupleConverter_setup
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [_ffi.cast("void*", self.env), _ffi.cast("unsigned short*", name_buf)]
         for cb in get_callbacks + null_cbs:
@@ -866,7 +871,7 @@ class GeneratedRuntime:
             raise RuntimeError("GeneratedRuntime not loaded")
         runtime = runtime
         lib = runtime.iota_lib
-        fn = getattr(lib, "FishyJoesCommonRuntime_RangeConverter_setup")
+        fn = lib.FishyJoesCommonRuntime_RangeConverter_setup
         name_buf = self._encode_utf16_name(converter_name)
         cffi_args: list[typing.Any] = [
             _ffi.cast("void*", self.env),
@@ -1136,7 +1141,7 @@ class GeneratedRuntime:
         lib = runtime.iota_lib
         fn = self._symbol_cache.get("FishyJoesCommonRuntime_FutureConverter_setup")
         if fn is None:
-            fn = getattr(lib, "FishyJoesCommonRuntime_FutureConverter_setup")
+            fn = lib.FishyJoesCommonRuntime_FutureConverter_setup
             self._symbol_cache["FishyJoesCommonRuntime_FutureConverter_setup"] = fn
         exn_holder = _ffi.new("void*[1]")
         name_buf = self._encode_utf16_name(converter_name)
@@ -1291,12 +1296,6 @@ class GeneratedRuntime:
         return value
 
 
-def not_implemented(symbol: str) -> typing.NoReturn:
-    raise NotImplementedError(
-        f"Python binding surface for {symbol} is generated, but native-backed invocation is not wired yet."
-    )
-
-
 def ensure_loaded() -> None:
     get_runtime().ensure_loaded()
 
@@ -1309,78 +1308,3 @@ def get_runtime() -> GeneratedRuntime:
     if _RUNTIME is None:
         _RUNTIME = GeneratedRuntime(package=PACKAGE_NAME, module_name=MODULE_NAME)
     return _RUNTIME
-
-
-def _function_returns_future(converter_name: str) -> bool:
-    args = _generic_arguments(converter_name)
-    return bool(args) and args[-1].startswith("FutureConverter<")
-
-
-def _generic_arguments(converter_name: str) -> list[str]:
-    start = converter_name.find("<")
-    if start == -1 or not converter_name.endswith(">"):
-        return []
-    body = converter_name[start + 1:-1]
-    args: list[str] = []
-    depth = 0
-    current: list[str] = []
-    for char in body:
-        if char == "<":
-            depth += 1
-        elif char == ">":
-            depth -= 1
-        elif char == "," and depth == 0:
-            args.append("".join(current).strip())
-            current = []
-            continue
-        current.append(char)
-    args.append("".join(current).strip())
-    return args
-
-
-def _ffi_ctypes_type(name: str) -> typing.Any:
-    return {
-        "bool": ctypes.c_uint8,
-        "int8": ctypes.c_int8,
-        "int16": ctypes.c_int16,
-        "int32": ctypes.c_int32,
-        "int64": ctypes.c_int64,
-        "int": ctypes.c_ssize_t,
-        "uint8": ctypes.c_uint8,
-        "uint16": ctypes.c_uint16,
-        "uint32": ctypes.c_uint32,
-        "uint64": ctypes.c_uint64,
-        "uint": ctypes.c_size_t,
-        "float": ctypes.c_float,
-        "double": ctypes.c_double,
-        "object": ctypes.c_void_p,
-    }[name]
-
-
-def _ffi_default_value(name: str) -> typing.Any:
-    return {
-        "bool": 0,
-        "int8": 0,
-        "int16": 0,
-        "int32": 0,
-        "int64": 0,
-        "int": 0,
-        "uint8": 0,
-        "uint16": 0,
-        "uint32": 0,
-        "uint64": 0,
-        "uint": 0,
-        "float": 0.0,
-        "double": 0.0,
-        "object": 0,
-    }[name]
-
-
-def _platform_library_name(name: str) -> str:
-    if hasattr(ctypes, "windll"):
-        return f"{name}.dll"
-
-    if platform.system() == "Darwin":
-        return f"lib{name}.dylib"
-
-    return f"lib{name}.so"
