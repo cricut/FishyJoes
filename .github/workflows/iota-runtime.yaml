@@ -16,7 +16,6 @@ concurrency:
 
 jobs:
   build-iota-mac:
-    if: false
     name: "macOS: Build Iota Runtime"
     runs-on: macos-26
 
@@ -80,7 +79,6 @@ jobs:
           if-no-files-found: error
 
   build-iota-windows:
-    if: false
     name: "Windows: Build Iota Runtime"
     runs-on: windows-2025
     env:
