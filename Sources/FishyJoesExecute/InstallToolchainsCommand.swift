@@ -1,5 +1,5 @@
 import ArgumentParser
-import FishyJoesConfig
+import ToolchainConfig
 import Foundation
 import swsh
 

@@ -79,7 +79,7 @@ public class CodeGen: ParsableCommand {
         case disableParallelism
     }
 
-    var config: FishyJoesConfig!
+    var config: ProjectConfig!
     var packageInfo: SwiftPackage!
 
     lazy var buildConfig: BuildConfiguration = {
@@ -142,7 +142,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try FishyJoesConfig.readFromFile(basePath: ".")
+        config = try ProjectConfig.readFromFile(basePath: ".")
 
         // Parse swift package information from the Package.swift file for the bindings module
         let packageJSON = try cmd("swift", "package", "dump-package").runData()

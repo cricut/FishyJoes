@@ -3,7 +3,7 @@ import Foundation
 import swsh
 import Yams
 
-struct FishyJoesConfig: Codable {
+struct ProjectConfig: Codable {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
@@ -22,7 +22,7 @@ struct FishyJoesConfig: Codable {
         case remote(String) // Run a specific version using mint
     }
 
-    static func readFromFile(basePath: String) throws -> FishyJoesConfig {
+    static func readFromFile(basePath: String) throws -> ProjectConfig {
         guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file \(basePath)/bindings/fishy-joes.yaml")
         }
@@ -89,7 +89,7 @@ struct FishyJoesConfig: Codable {
         }
         let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
 
-        return FishyJoesConfig(
+        return ProjectConfig(
             module: module,
             publishRepository: publishRepository,
             requiredModules: requiredModules ?? [],
@@ -102,7 +102,7 @@ struct FishyJoesConfig: Codable {
     }
 }
 
-extension FishyJoesConfig.SourceryOverride: Codable {
+extension ProjectConfig.SourceryOverride: Codable {
     enum CodingKeys: CodingKey {
         case local, remote
     }

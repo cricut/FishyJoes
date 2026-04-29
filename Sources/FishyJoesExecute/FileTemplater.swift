@@ -1,9 +1,9 @@
-import FishyJoesConfig
+import ToolchainConfig
 import Foundation
 import swsh
 
 public struct FileTemplater {
-    let config: FishyJoesConfig
+    let config: ProjectConfig
     let phasesList: [any Phases]
     let swiftPackage: SwiftPackage?
     let includeFilesNotMarkedAsGenerated: Bool
@@ -12,7 +12,7 @@ public struct FileTemplater {
     let templateReplacements: [String: String]
 
     init(
-        config: FishyJoesConfig,
+        config: ProjectConfig,
         phasesList: [any Phases],
         swiftPackage: SwiftPackage?,
         includeFilesNotMarkedAsGenerated: Bool

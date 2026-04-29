@@ -302,14 +302,14 @@ let package = Package(
                 ]
             ),
             T.target(
-                name: "FishyJoesConfig",
+                name: "ToolchainConfig",
                 resources: [.copy("tool-versions.json")],
                 swiftSettings: strictConcurrencyFlags
             ),
             T.target(
                 name: "FishyJoesExecute",
                 dependencies: [
-                    .target(name: "FishyJoesConfig"),
+                    .target(name: "ToolchainConfig"),
                     .target(name: "FishyJoesCore"),
                     .product(name: "swsh", package: "swsh"),
                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
@@ -321,7 +321,7 @@ let package = Package(
             T.testTarget(
                 name: "NAPITests",
                 dependencies: [
-                    .target(name: "FishyJoesConfig"),
+                    .target(name: "ToolchainConfig"),
                     .product(name: "swsh", package: "swsh"),
                 ],
                 exclude: ["node-tests"],

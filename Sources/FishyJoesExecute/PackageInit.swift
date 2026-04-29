@@ -24,7 +24,7 @@ public struct PackageInit: ParsableCommand {
             Log.warn("Uncommitted changes present. Continuing anyway.")
         }
 
-        let config = try (try? FishyJoesConfig.readFromFile(basePath: ".")) ?? promptForConfig()
+        let config = try (try? ProjectConfig.readFromFile(basePath: ".")) ?? promptForConfig()
         let fileTemplater = try FileTemplater(
             config: config,
             phasesList: [],
@@ -36,21 +36,21 @@ public struct PackageInit: ParsableCommand {
         try setupCSharp(config: config)
     }
 
-    func setupKotlin(config: FishyJoesConfig) throws {
+    func setupKotlin(config: ProjectConfig) throws {
         // Install gradle
         if !cmd("gradle", "--version").runBool() {
             try Interactive.confirmCommand(description: "Install gradle", cmd("brew", "install", "gradle"))
         }
     }
 
-    func setupCSharp(config: FishyJoesConfig) throws {
+    func setupCSharp(config: ProjectConfig) throws {
         // Install dotnet
         if !cmd("dotnet", "--version").runBool() {
             try Interactive.confirmCommand(description: "Install dotnet", cmd("brew", "install", "dotnet"))
         }
     }
 
-    func promptForConfig() throws -> FishyJoesConfig {
+    func promptForConfig() throws -> ProjectConfig {
         Log.warn("No fishy-joes.yaml found. Will create one in \(FileManager.default.currentDirectoryPath)")
         let module = try Interactive.prompt("Name of swift product you're generating bindings for (e.g. CriGeo): ")
         let defaultRepository = "github.com/cricut/\(module)"
@@ -79,7 +79,7 @@ public struct PackageInit: ParsableCommand {
             allowEmpty: true
         )
 
-        let config = FishyJoesConfig(
+        let config = ProjectConfig(
             module: module,
             publishRepository: publishRepository,
             requiredModules: requiredModules.split(separator: " ").map(String.init),
