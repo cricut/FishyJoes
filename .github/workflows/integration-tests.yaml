@@ -167,7 +167,6 @@ jobs:
 
           swiftly install 6.2.4
           swiftly use -y 6.2.4
-          swift --version
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -231,10 +230,8 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift --version
           cd integration-tests/TestAPI
-          swift --version
-          FISHYJOES=1 swift run -- fishy-joes --kotlin --no-swiftly build test
+          FISHYJOES=1 swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
