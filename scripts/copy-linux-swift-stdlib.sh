@@ -81,7 +81,7 @@ if [[ ! -z ${FISHYJOES_ANDROID_DEST:-} ]]; then
             spmDir=$HOME/.swiftpm
         fi
 
-        stdlibDir= $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android/
+        stdlibDir=$spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/swift-resources/usr/lib/swift-$arch/android
         androidRoots=(
             $stdlibDir/libFoundation.so
             $stdlibDir/libFoundationXML.so
