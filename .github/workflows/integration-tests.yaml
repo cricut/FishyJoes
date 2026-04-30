@@ -165,6 +165,8 @@ jobs:
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
+          swiftly use --global-default 6.3-snapshot-2026-02-21
+
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |

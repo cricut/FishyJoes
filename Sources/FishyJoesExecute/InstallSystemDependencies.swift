@@ -164,7 +164,7 @@ extension InstallSystemDependencies.CoreComponent {
         case .swiftly:
             #if os(Windows)
             Log.error("Swiftly install is currently only supported on mac and linux")
-            throw Error()
+            throw InstallSystemDependencies.Error()
             #endif
 
             Log.info("Installing swiftly for current user")
