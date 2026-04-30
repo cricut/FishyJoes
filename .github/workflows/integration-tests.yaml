@@ -165,7 +165,9 @@ jobs:
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
-          swiftly use --global-default 6.3-snapshot-2026-02-21
+          swiftly install 6.2.4
+          swiftly use -y 6.2.4
+          swift --version
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -229,7 +231,9 @@ jobs:
         run: |
           set -euxo pipefail
 
+          swift --version
           cd integration-tests/TestAPI
+          swift --version
           FISHYJOES=1 swift run -- fishy-joes --kotlin --no-swiftly build test
 
           # Publish test-api for the android tests to use later
