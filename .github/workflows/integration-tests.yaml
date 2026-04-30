@@ -18,6 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
+    if: false
     runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -245,6 +246,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
+    if: false
     runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false

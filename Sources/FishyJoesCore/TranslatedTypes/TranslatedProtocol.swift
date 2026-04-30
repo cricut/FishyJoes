@@ -778,12 +778,10 @@ struct TranslatedProtocol: TranslatedType {
                     }
                     if variable.isMutable {
                         fragment.outputBlock("set {") {
-                            fragment.output("let env = try! Env.acquireJVMThread(on: _javaWitness.vm)")
-                            fragment.outputBlock("defer {") {
-                                fragment.output("try? Env.relinquishJVMThread(on: _javaWitness.vm)")
+                            fragment.outputBlock("try! Env.withAquiredJVMThread(on: _javaWitness.vm) {") {
+                                fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
+                                fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, JVALUE.from(javaNewValue))")
                             }
-                            fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
-                            fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, JVALUE.from(javaNewValue))")
                         }
                     }
                 }
