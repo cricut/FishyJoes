@@ -84,6 +84,9 @@ struct InstallSystemDependencies: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Attempt to modify the profile file to set environment variables (e.g. PATH) on login.")
     var modifyProfile = false
 
+    @Flag(name: .long, help: "Don't try to check if a tool is already installed, attempt install always")
+    var force = false
+
     func run() throws {
         swsh.ExternalCommand.verbose = true
 
@@ -92,7 +95,7 @@ struct InstallSystemDependencies: ParsableCommand {
             Log.error("Expected at least one component")
             throw Error()
         }
-        let needsInstall = Set(requestedComponents.filter { !$0.checkIfInstalled() })
+        let needsInstall = Set(requestedComponents.filter { !$0.checkIfInstalled() || force })
 
         Log.info("")
         Log.info("=== Components ===")
@@ -163,26 +166,28 @@ extension InstallSystemDependencies.CoreComponent {
 
         switch self {
         case .swiftly:
-            #if os(Windows)
-            Log.error("Swiftly install is currently only supported on mac and linux")
-            throw InstallSystemDependencies.Error()
-            #endif
-
             Log.info("Installing swiftly for current user")
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
             let swiftlyBootstrapPath: String
+
             #if os(macOS)
             let pkgPath = "\(tempDir)/swiftly.pkg"
             try cmd("curl", "-o", pkgPath, "https://download.swift.org/swiftly/darwin/swiftly.pkg").run()
             try cmd("installer", "-pkg", pkgPath, "-target", "CurrentUserHomeDirectory", "-verbose").run()
             swiftlyBootstrapPath = "\(Swiftly.binPath)/swiftly"
-            #else
+
+            #elseif os(Linux)
             let tarballPath = "\(tempDir)/swiftly.tgz"
             let uname = try cmd("uname", "-m").runString()
             try cmd("curl", "-o", tarballPath, "https://download.swift.org/swiftly/linux/swiftly-\(uname).tar.gz").run()
             try cmd("tar", "-xzf", tarballPath, "-C", tempDir).run()
             swiftlyBootstrapPath = "\(tempDir)/swiftly"
+
+            #else
+            Log.error("Swiftly install is currently only supported on mac and linux")
+            throw InstallSystemDependencies.Error()
+
             #endif
             try cmd(swiftlyBootstrapPath,
                     arguments: [
@@ -263,31 +268,38 @@ extension InstallSystemDependencies.CoreComponent {
         case .yq:
             #if os(macOS)
             try cmd("brew", "install", "yq").run()
+
             #elseif os(Linux)
             try cmd("apt-get", "install", "yq").run()
+
             #else
             Log.error("Don't know how to install yq on this platform")
             throw InstallSystemDependencies.Error()
             #endif
 
         case .mint:
-            #if os(Windows)
-            Log.error("Installing mint not supported on windows")
+            #if os(macOS)
+            try cmd("brew", "install", "mint").run()
+
+            #elseif os(Linux)
+            let tempDir = try cmd("mktemp", "-d").runString()
+            defer { try? cmd("rm", "-rf", tempDir).run() }
+            try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
+            try cmd("swift", "run", "--package-path=\(tempDir)/mint", "mint", "install", "yonaskolb/mint").run()
+
+            #else
+            Log.error("Installing mint not supported on this platform")
             throw InstallSystemDependencies.Error()
             #endif
-
-            if !cmd("brew", "--version").runBool() {
-                Log.error("homebrew not detected. It is currently required to install mint.")
-                throw InstallSystemDependencies.Error()
-            }
-            try cmd("brew", "install", "mint").run()
 
         case .wasmOpt:
             #if os(macOS)
             try cmd("brew", "install", "binaryen").run()
+
             #elseif os(Linux)
             // Use wasm version of wasm-opt because ubuntu version can be very old
             try cmd("npm", "install", "-g", "binaryen").run()
+
             #else
             Log.error("Don't know how to install wasm-opt on this platform")
             throw InstallSystemDependencies.Error()

@@ -79,7 +79,6 @@ jobs:
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
 
-
       - name: "Get Cache: Coverage history"
         uses: actions/cache/restore@v5
         with:
