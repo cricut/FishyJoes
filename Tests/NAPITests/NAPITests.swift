@@ -1,4 +1,4 @@
-import FishyJoesToolchainConfig
+import ToolchainConfig
 import Foundation
 import swsh
 import XCTest
