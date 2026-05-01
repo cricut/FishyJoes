@@ -92,7 +92,7 @@ if [[ ! -z ${FISHYJOES_ANDROID_DEST:-} ]]; then
         )
         libSearchPaths=(
             $stdlibDir
-            $spmDir/swift-sdks/$swiftAndroidSDK.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple
+            $spmDir/swift-sdks/swift-$swiftAndroidSDK.artifactbundle/swift-android/ndk-sysroot/usr/lib/$triple
         )
         copyLibrariesAndDependencies $platformDir $androidRoots
 
