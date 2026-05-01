@@ -28,3 +28,4 @@ package-lock.json
 *.cjs.node
 .idea
 *.swift.orig
+.swift-version

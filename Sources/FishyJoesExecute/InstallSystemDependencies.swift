@@ -76,6 +76,7 @@ struct InstallSystemDependencies: ParsableCommand {
              - for-wasm: [swiftly, swift-wasm, wasm-opt]
              - for-android: [swiftly, swift-android]
              - all
+
             """
     )
     var components: [Component] = []

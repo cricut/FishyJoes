@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    if: false
+    if: true
     runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -128,8 +128,8 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
 
-  integration-tests-ubuntu:
-    name: "Ubuntu: Integration tests"
+  integration-tests-ubuntu-and-android:
+    name: "Ubuntu/Android: Integration tests"
     runs-on: ubuntu-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -244,9 +244,40 @@ jobs:
           path: ~/.m2/repository
           if-no-files-found: error
 
+      - name: Build android test app
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ls -la maven-local
+
+          rm -rf ~/.m2/repository
+          mkdir -p ~/.m2
+          mv maven-local ~/.m2/repository
+
+          cd integration-tests/android-test-app
+          ./gradlew assembleAndroidTest
+
+      # Android emulator steup needs this
+      # https://github.blog/changelog/2023-02-23-hardware-accelerated-android-virtualization-on-actions-windows-and-linux-larger-hosted-runners/
+      - name: Enable KVM group perms
+        run: |
+            echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+            sudo udevadm control --reload-rules
+            sudo udevadm trigger --name-match=kvm
+
+      - name: Test android test app
+        uses: reactivecircus/android-emulator-runner@e89f39f1abbbd05b1113a29cf4db69e7540cae5a  # v2.37.0
+        with:
+          api-level: 29
+          arch: x86_64
+          # NOTE: each line of this script is executed in its own shell
+          script: |
+            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
+
   integration-tests-windows:
     name: "Windows: Integration tests"
-    if: false
+    if: true
     runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -368,46 +399,3 @@ jobs:
 
           cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --kotlin-fast build test
-
-  integration-tests-android:
-    name: "Android: Integration Tests"
-    needs: [integration-tests-ubuntu]
-    runs-on: macos-26
-    env:
-      GRADLE_OPTS: -Dorg.gradle.daemon=false
-      CONFIGURATION: debug
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 20
-
-      - name: Retrieve artifacts
-        uses: actions/download-artifact@v4
-
-      - name: Build android test app
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ls -la maven-local
-
-          rm -rf ~/.m2/repository
-          mkdir -p ~/.m2
-          mv maven-local ~/.m2/repository
-
-          cd integration-tests/android-test-app
-          ./gradlew assembleAndroidTest
-
-      - name: Test android test app
-        uses: reactivecircus/android-emulator-runner@e89f39f1abbbd05b1113a29cf4db69e7540cae5a  # v2.37.0
-        with:
-          api-level: 29
-          arch: x86_64
-          # NOTE: each line of this script is executed in its own shell
-          script: |
-            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
