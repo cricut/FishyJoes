@@ -60,6 +60,9 @@ jobs:
           swiftly install 6.2.4
           swiftly use -y 6.2.4
 
+          # TODO: sourcery has a weird swiftenv file that causes problems under the "swiftly > mint > sourcery" stack. This step shouldn't be needed
+          swiftly run ~/.mint/bin/mint install --verbose krzysztofzablocki/Sourcery@2.3.0
+
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
