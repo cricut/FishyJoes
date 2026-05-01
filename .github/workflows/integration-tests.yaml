@@ -237,6 +237,13 @@ jobs:
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
+      - name: DEBUG
+        uses: actions/upload-artifact@v4
+        with:
+          name: maven-local
+          path: ~/.m2/repository
+          if-no-files-found: error
+
       - name: Build android test app
         shell: zsh {0}
         run: |
