@@ -17,11 +17,9 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: macOS-26
+    runs-on: ubuntu-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_USER: cricut-builduser
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,11 +47,17 @@ jobs:
         run: |
           set -euxo pipefail
 
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
+
           swift run fishy-joes install-system-dependencies for-generation for-wasm
 
           source ~/.local/share/swiftly/env.sh
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+
+          swiftly install 6.2.4
+          swiftly use -y 6.2.4
 
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
@@ -76,13 +80,21 @@ jobs:
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
 
-      - name: Upload to sonar cloud
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
+      - name: "Coverage: Generate report and comment"
+        uses: cricut/actions/CodeCoverage
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          unit-test-cache-key: ${{ needs.unit-test.outputs.test-results-cache-key }}
+          reports-globs: coverage-data/**/*.xml
+          # mode: ${{ github.event_name == 'pull_request' && 'pr' || 'baseline' }}
+          mode: pr
 
-          sonar-scanner \
-            '-Dsonar.sources=.' \
-            '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
-            '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
-            '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
+        # shell: zsh {0}
+        # run: |
+        #   set -euxo pipefail
+
+        #   sonar-scanner \
+        #     '-Dsonar.sources=.' \
+        #     '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
+        #     '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
+        #     '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
