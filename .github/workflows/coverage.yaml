@@ -89,12 +89,11 @@ jobs:
           # mode: ${{ github.event_name == 'pull_request' && 'pr' || 'baseline' }}
           mode: pr
 
-        # shell: zsh {0}
-        # run: |
-        #   set -euxo pipefail
-
-        #   sonar-scanner \
-        #     '-Dsonar.sources=.' \
-        #     '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
-        #     '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
-        #     '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
+# shell: zsh {0}
+# run: |
+#   set -euxo pipefail
+#   sonar-scanner \
+#     '-Dsonar.sources=.' \
+#     '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
+#     '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
+#     '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
