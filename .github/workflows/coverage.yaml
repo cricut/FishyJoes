@@ -54,7 +54,9 @@ jobs:
           source ~/.local/share/swiftly/env.sh
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+          echo "$HOME/.mint/bin" >> "$GITHUB_PATH"
 
+          # Temporary workaround as swift 6.3 seems to have an LLVM crash in certain async functions we generate
           swiftly install 6.2.4
           swiftly use -y 6.2.4
 
