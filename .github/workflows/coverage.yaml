@@ -81,7 +81,7 @@ jobs:
           ./scripts/gather-coverage.sh
 
       - name: "Coverage: Generate report and comment"
-        uses: cricut/actions/CodeCoverage
+        uses: cricut/actions/CodeCoverage@v3.15.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           unit-test-cache-key: ${{ needs.unit-test.outputs.test-results-cache-key }}
