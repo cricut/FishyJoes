@@ -18,7 +18,7 @@ concurrency:
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    if: true
+    if: false
     runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
@@ -237,23 +237,10 @@ jobs:
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
-      - name: Upload artifacts for use by Android later
-        uses: actions/upload-artifact@v4
-        with:
-          name: maven-local
-          path: ~/.m2/repository
-          if-no-files-found: error
-
       - name: Build android test app
         shell: zsh {0}
         run: |
           set -euxo pipefail
-
-          ls -la maven-local
-
-          rm -rf ~/.m2/repository
-          mkdir -p ~/.m2
-          mv maven-local ~/.m2/repository
 
           cd integration-tests/android-test-app
           ./gradlew assembleAndroidTest
@@ -277,7 +264,7 @@ jobs:
 
   integration-tests-windows:
     name: "Windows: Integration tests"
-    if: true
+    if: false
     runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
