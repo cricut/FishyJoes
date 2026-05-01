@@ -43,7 +43,6 @@ jobs:
           dotnet-version: '6'
 
       - name: Configure build environment
-        shell: zsh {0}
         run: |
           set -euxo pipefail
 
@@ -62,10 +61,10 @@ jobs:
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
-          if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
+          if [[ ! -f "$HOME/.dotnet/tools/dotnet-coverage" ]]; then
             dotnet tool install --global dotnet-coverage --version 17.13.1
           fi
-          echo $HOME/.dotnet/tools >> $GITHUB_PATH
+          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: Gather coverage
         shell: zsh {0}
