@@ -76,8 +76,7 @@ jobs:
           path: CoverageHistory
 
       - name: "Coverage: Generate Reports"
-        if: true  # ${{ inputs.mode == 'pr' }}
-        uses: danielpalme/ReportGenerator-GitHub-Action@a003c8fb9ac008fd0fffd5faa4f7d3ecb52e0675 # v5
+        uses: danielpalme/ReportGenerator-GitHub-Action@a003c8fb9ac008fd0fffd5faa4f7d3ecb52e0675  # v5
         with:
           reports: "coverage-data/coverage.xml;coverage-data/jacoco-*/test/jacocoTestReport.xml;coverage-data/integration-tests-c-sharp.xml"
           targetdir: "CoverageReport"
@@ -86,11 +85,13 @@ jobs:
 
       - name: "Coverage: Check changed lines (diff-cover)"
         if: true  # ${{ inputs.mode == 'pr' }}
-        shell: bash
+        shell: zsh {0}
         run: |
+          set -euxo pipefail
+
           pip install diff_cover==10.2.0 --quiet
           diff-cover CoverageReport/Cobertura.xml \
-            --compare-branch=origin/ \
+            --compare-branch=origin/${GITHUB_BASE_REF:-main} \
             --format markdown:CoverageReport/DiffCoverage.md
 
       - name: "Coverage: Comment on PR"
