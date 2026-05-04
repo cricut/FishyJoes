@@ -79,7 +79,7 @@ class CSharpPhases: IotaPhases, Phases {
             if options.codeCoveragePath != nil, !cmd("dotnet-coverage", "--version").runBool() {
                 printAndFlush("Couldn't find dotnet-coverage! Install with:")
                 printAndFlush()
-                printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                printAndFlush("   dotnet tool install --global dotnet-coverage")
                 printAndFlush()
                 printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
             }
