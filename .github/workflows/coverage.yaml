@@ -72,7 +72,7 @@ jobs:
       - name: "Get Cache: Coverage history"
         uses: actions/cache/restore@v5
         with:
-          key: ${{ inputs.coverage-history-cache-key }}
+          key: coverage-history-cache-key
           path: CoverageHistory
 
       - name: "Coverage: Generate Reports"
@@ -94,10 +94,10 @@ jobs:
             --format markdown:CoverageReport/DiffCoverage.md
 
       - name: "Coverage: Comment on PR"
-        if: ${{ inputs.mode == 'pr' }}
+        if: false  # ${{ inputs.mode == 'pr' }}
         uses: actions/github-script@v9
         with:
-          github-token: ${{ inputs.github-token }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs          = require('fs');
             const marker      = '<!-- coverage-report -->';
