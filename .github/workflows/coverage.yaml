@@ -78,9 +78,18 @@ jobs:
       - name: "Coverage: Generate Reports"
         uses: danielpalme/ReportGenerator-GitHub-Action@a003c8fb9ac008fd0fffd5faa4f7d3ecb52e0675  # v5
         with:
-          reports: "coverage-data/lcov.info;coverage-data/jacoco-*/test/jacocoTestReport.xml;coverage-data/integration-tests-c-sharp.xml"
+          reports: "\
+            coverage-data/lcov.info;\
+            coverage-data/jacoco-*/test/jacocoTestReport.xml;\
+            coverage-data/integration-tests-c-sharp.xml"
           filefilters: "+*;-*/.build/*"
+          sourcedirs: "\
+            kotlin-runtime/src/main/kotlin/com/cricut/fishyjoes/runtime;\
+            kotlin-runtime/src/test/kotlin/com/cricut/fishyjoes/runtime;\
+            integration-tests/TestAPI/bindings/kotlin/generated/src/main/kotlin/com/cricut/testapi;\
+            integration-tests/TestAPI/bindings/kotlin/src/test/kotlin/com/cricut/testapi"
           targetdir: "CoverageReport"
+
           reporttypes: "MarkdownSummaryGithub;MarkdownDeltaSummary;Cobertura;Badges;Html_Dark"
           historydir: "CoverageHistory"
 
@@ -96,6 +105,7 @@ jobs:
             --format markdown:CoverageReport/DiffCoverage.md
 
       - name: "Upload coverage report as an artifact"
+        id: coverage-artifact-upload-step
         uses: actions/upload-artifact@v7
         with:
           name: coverage
@@ -105,6 +115,8 @@ jobs:
       - name: "Coverage: Comment on PR"
         if: false  # ${{ inputs.mode == 'pr' }}
         uses: actions/github-script@v9
+        env:
+          COVERAGE_DOWNLOAD_URL: ${{ steps.artifact-upload-step.outputs.artifact-url }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -138,10 +150,11 @@ jobs:
             }
             if (fs.existsSync(summaryPath)) {
               const summary = stripMethodCoveragePlaceholder(fs.readFileSync(summaryPath, 'utf8'));
-              body += '<details>\n<summary>Full Summary</summary>\n\n' + summary + '\n</details>';
+              body += '<details>\n<summary>Full Summary</summary>\n\n' + summary + '\n</details>\n\n';
             } else {
-              body += '### Code Coverage Report\n⚠️ No coverage data found — check that test results were cached correctly.';
+              body += '### Code Coverage Report\n⚠️ No coverage data found — check that test results were cached correctly.\n\n';
             }
+            body += `[Full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
 
             const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
