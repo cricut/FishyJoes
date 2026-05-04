@@ -50,7 +50,7 @@ jobs:
           ./gradlew test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_lib
           path: kotlin-runtime/src/generated/resources/mac/
@@ -122,7 +122,7 @@ jobs:
           done
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_generated
           path: kotlin-runtime/src/generated
@@ -164,7 +164,7 @@ jobs:
           (cd kotlin-runtime && ./gradlew publishToMavenLocal)
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_lib
           path: kotlin-runtime/src/generated/resources/windows

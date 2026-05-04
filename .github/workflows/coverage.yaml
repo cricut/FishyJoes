@@ -94,6 +94,15 @@ jobs:
             --compare-branch=origin/${GITHUB_BASE_REF:-main} \
             --format markdown:CoverageReport/DiffCoverage.md
 
+      - name: DEBUG
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: |
+            coverage-data
+            CoverageReport
+          if-no-files-found: error
+
       - name: "Coverage: Comment on PR"
         if: false  # ${{ inputs.mode == 'pr' }}
         uses: actions/github-script@v9
