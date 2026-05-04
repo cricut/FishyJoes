@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   coverage:
-    runs-on: ubuntu-latest
+    runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
     steps:
@@ -42,35 +42,19 @@ jobs:
         with:
           dotnet-version: '6'
 
-      - name: Configure build environment
+      - name: Install tools
+        shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          sudo apt-get update
-          sudo apt-get install -y zsh libcurl4-openssl-dev
-
           swift run fishy-joes install-system-dependencies for-generation for-wasm
-
-          source ~/.local/share/swiftly/env.sh
-          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
-          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
-          echo "$HOME/.mint/bin" >> "$GITHUB_PATH"
-
-          # Temporary workaround as swift 6.3 seems to have an LLVM crash in certain async functions we generate
-          swiftly install 6.2.4
-          swiftly use -y 6.2.4
-
-          # sourcery has a weird .swift-version file that causes problems under the "swiftly > mint > sourcery" stack. This works around it somehow.
-          # TODO: get rid of hack, or move sourcery installation to the install-system-dependencies script
-          swiftly run ~/.mint/bin/mint install --verbose krzysztofzablocki/Sourcery@2.3.0
-
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
-          if [[ ! -f "$HOME/.dotnet/tools/dotnet-coverage" ]]; then
+          if [[ ! -f $HOME/.dotnet/tools/dotnet-coverage ]]; then
             dotnet tool install --global dotnet-coverage --version 17.13.1
           fi
-          echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+          echo $HOME/.dotnet/tools >> $GITHUB_PATH
 
       - name: Gather coverage
         shell: zsh {0}
