@@ -29,3 +29,5 @@ package-lock.json
 .idea
 *.swift.orig
 .swift-version
+CoverageHistory
+CoverageReport

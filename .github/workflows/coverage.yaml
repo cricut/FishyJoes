@@ -79,8 +79,9 @@ jobs:
         uses: danielpalme/ReportGenerator-GitHub-Action@a003c8fb9ac008fd0fffd5faa4f7d3ecb52e0675  # v5
         with:
           reports: "coverage-data/lcov.info;coverage-data/jacoco-*/test/jacocoTestReport.xml;coverage-data/integration-tests-c-sharp.xml"
+          filefilters: "+*;-*/.build/*"
           targetdir: "CoverageReport"
-          reporttypes: "MarkdownSummaryGithub;MarkdownDeltaSummary;Cobertura"
+          reporttypes: "MarkdownSummaryGithub;MarkdownDeltaSummary;Cobertura;Badges;Html_Dark"
           historydir: "CoverageHistory"
 
       - name: "Coverage: Check changed lines (diff-cover)"
@@ -94,13 +95,11 @@ jobs:
             --compare-branch=origin/${GITHUB_BASE_REF:-main} \
             --format markdown:CoverageReport/DiffCoverage.md
 
-      - name: DEBUG
+      - name: "Upload coverage report as an artifact"
         uses: actions/upload-artifact@v7
         with:
           name: coverage
-          path: |
-            coverage-data
-            CoverageReport
+          path: CoverageReport
           if-no-files-found: error
 
       - name: "Coverage: Comment on PR"

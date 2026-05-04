@@ -24,7 +24,3 @@ xcrun llvm-cov export \
       -instr-profile=coverage-data/combined.profdata \
       -format=lcov \
       > coverage-data/lcov.info
-
-./scripts/lcov-to-xml.sh \
-    < coverage-data/lcov.info \
-    > coverage-data/coverage.xml
