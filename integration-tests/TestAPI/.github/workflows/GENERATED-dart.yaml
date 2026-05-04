@@ -72,7 +72,7 @@ jobs:
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_lib
           path: bindings/dart/generated/macos/native/
@@ -139,7 +139,7 @@ jobs:
           swift run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_lib
           path: bindings/dart/generated/linux/native/
@@ -214,7 +214,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_lib
           path: bindings/dart/generated/windows/native/
@@ -288,7 +288,7 @@ jobs:
           tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
 
       - name: Upload result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: TestAPI-dart-binaries.tgz
           path: bindings/dart/generated/packages/TestAPI-dart-binaries.tgz

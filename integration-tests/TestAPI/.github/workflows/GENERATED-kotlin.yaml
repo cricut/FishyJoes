@@ -73,7 +73,7 @@ jobs:
           swift run -- fishy-joes --kotlin-fast --fat test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_libs
           path: bindings/kotlin/generated/src/main/resources
@@ -140,7 +140,7 @@ jobs:
           swift run -- fishy-joes --kotlin test --no-swiftly
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_libs
           path: bindings/kotlin/generated/src/main/resources
@@ -217,7 +217,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_libs
           path: bindings/kotlin/generated/src/main/resources
