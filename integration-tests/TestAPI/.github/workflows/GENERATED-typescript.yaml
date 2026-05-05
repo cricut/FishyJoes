@@ -101,7 +101,7 @@ jobs:
 
   build-test-pack-ts-linux:
     name: "Ubuntu: Build and test typescript bindings"
-    runs-on: k8s
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

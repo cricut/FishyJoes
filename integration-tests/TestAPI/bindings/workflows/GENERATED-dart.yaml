@@ -80,12 +80,7 @@ jobs:
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
-    runs-on: k8s
-    container:
-      image: __LINUX_CONTAINER_SPEC__
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4

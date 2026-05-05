@@ -11,6 +11,7 @@ struct ProjectConfig: Codable {
     let excludeSources: [String]
     let ciPreBuildHook: String?
     let flexibleVersions: Bool
+    let ciRunners: CIRunners?
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
     // version, so while not recommended normally, this can be used to work
@@ -20,6 +21,14 @@ struct ProjectConfig: Codable {
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
         case remote(String) // Run a specific version using mint
+    }
+
+    struct CIRunners: Codable {
+        let macos: String
+        let ubuntu: String
+        let windows: String
+
+        static let defaults = CIRunners(macos: "macos-26", ubuntu: "ubuntu-latest", windows: "windows-2025")
     }
 
     static func readFromFile(basePath: String) throws -> ProjectConfig {
@@ -37,6 +46,12 @@ struct ProjectConfig: Codable {
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
+            Log.error("CIPreBuildHook: |")
+            Log.error("  echo 'doing CI work in bash'")
+            Log.error("CIRunners:")
+            Log.error("  macos: \(CIRunners.defaults.macos)  # default")
+            Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
+            Log.error("  windows: \(CIRunners.defaults.windows)  # default")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -87,6 +102,16 @@ struct ProjectConfig: Codable {
                 throw ValidationError(#"fishy-joes.yaml value for key `sourceryOverride` is \#(obj), not e.g. `{"remote": "krzysztofzablocki/Sourcery@x.y.z"}`, `{"local": "/path/to/sourcery"}`, or `{"local": null}`"#)
             }
         }
+        let ciRunners = try configDictionary["CIRunners"].map { obj -> CIRunners in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `CIRunners` is not a [String: String] dictionary")
+            }
+            return CIRunners(
+                macos: dict["macos"] as? String ?? CIRunners.defaults.macos,
+                ubuntu: dict["ubuntu"] as? String ?? CIRunners.defaults.ubuntu,
+                windows: dict["windows"] as? String ?? CIRunners.defaults.windows,
+            )
+        }
         let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
 
         return ProjectConfig(
@@ -97,6 +122,7 @@ struct ProjectConfig: Codable {
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
             flexibleVersions: flexibleVersions,
+            ciRunners: ciRunners,
             sourceryOverride: sourceryOverride
         )
     }

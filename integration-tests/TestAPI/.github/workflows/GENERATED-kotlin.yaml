@@ -26,7 +26,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: __GITHUB_MACOS_RUNNER__
+    runs-on: macos-26
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,7 +81,7 @@ jobs:
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
-    runs-on: __GITHUB_UBUNTU_RUNNER__
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -148,7 +148,7 @@ jobs:
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
-    runs-on: __GITHUB_WINDOWS_RUNNER__
+    runs-on: windows-2025
     steps:
       - name: Configure git and vcpkg
         shell: pwsh

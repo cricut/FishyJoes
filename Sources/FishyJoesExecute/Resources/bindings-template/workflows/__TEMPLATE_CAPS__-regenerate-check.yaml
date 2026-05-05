@@ -19,7 +19,7 @@ env:
 jobs:
   regenerate-check:
     name: "macOS: regenerate check"
-    runs-on: macos-26
+    runs-on: __CI_RUNNER_MACOS__
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -24,7 +24,7 @@ env:
 jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
-    runs-on: macos-26
+    runs-on: __CI_RUNNER_MACOS__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -86,12 +86,7 @@ jobs:
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
-    runs-on: k8s
-    container:
-      image: __LINUX_CONTAINER_SPEC__
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: __CI_RUNNER_UBUNTU__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -157,7 +152,7 @@ jobs:
 
   build-test-c-sharp-windows:
     name: "Windows: Build and test C# bindings"
-    runs-on: windows-2025
+    runs-on: __CI_RUNNER_WINDOWS__
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
@@ -234,7 +229,7 @@ jobs:
 
   c-sharp-publish:
     name: "Publish C# package"
-    runs-on: ubuntu-latest
+    runs-on: __CI_RUNNER_UBUNTU__
     needs:
       - build-test-c-sharp-mac
       - build-test-c-sharp-linux

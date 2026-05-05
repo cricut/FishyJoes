@@ -24,7 +24,7 @@ env:
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
-    runs-on: macos-26
+    runs-on: __CI_RUNNER_MACOS__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -79,12 +79,7 @@ jobs:
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
-    runs-on: k8s
-    container:
-      image: __LINUX_CONTAINER_SPEC__
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: __CI_RUNNER_UBUNTU__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -145,7 +140,7 @@ jobs:
 
   build-test-dart-windows:
     name: "Windows: Build and test dart bindings"
-    runs-on: windows-2025
+    runs-on: __CI_RUNNER_WINDOWS__
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
@@ -219,7 +214,7 @@ jobs:
 
   dart-publish:
     name: "Publish dart packages"
-    runs-on: ubuntu-latest
+    runs-on: __CI_RUNNER_UBUNTU__
     needs:
       - build-test-dart-mac
       - build-test-dart-linux

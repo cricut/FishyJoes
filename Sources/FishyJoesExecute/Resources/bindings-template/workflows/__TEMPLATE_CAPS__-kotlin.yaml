@@ -26,7 +26,7 @@ env:
 jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin bindings"
-    runs-on: __GITHUB_MACOS_RUNNER__
+    runs-on: __CI_RUNNER_MACOS__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +80,7 @@ jobs:
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"
-    runs-on: __GITHUB_UBUNTU_RUNNER__
+    runs-on: __CI_RUNNER_UBUNTU__
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -146,7 +146,7 @@ jobs:
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"
-    runs-on: __GITHUB_WINDOWS_RUNNER__
+    runs-on: __CI_RUNNER_WINDOWS__
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
@@ -222,7 +222,7 @@ jobs:
 
   kotlin-publish:
     name: Publish kotlin package
-    runs-on: ubuntu-latest
+    runs-on: __CI_RUNNER_UBUNTU__
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-linux
