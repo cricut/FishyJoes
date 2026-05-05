@@ -21,7 +21,7 @@ jobs:
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       # gather baseline coverage only on pushes to main
-      COVERAGE_MODE: ${{ github.event_name == 'push' && branch == 'main' && 'baseline' || 'report' }}
+      COVERAGE_MODE: ${{ github.event_name == 'push' && github.ref == 'ref/head/main' && 'baseline' || 'report' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
