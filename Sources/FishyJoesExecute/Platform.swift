@@ -359,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         } else if case .kotlinAndroid(let arch) = self {
             return "\(configuration.scratchPath)/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
-            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmed()
         }
     }
 

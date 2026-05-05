@@ -26,16 +26,18 @@ jobs:
     name: "macOS: Build and test dart bindings"
     runs-on: __CI_RUNNER_MACOS__
     steps:
+      - __CI_SETUP_GIT_CREDENTIALS_STEP__
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -44,13 +46,6 @@ jobs:
         run: |
           yq --version || brew install yq
           mint --version || brew install mint
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -81,25 +76,21 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: __CI_RUNNER_UBUNTU__
     steps:
+      - __CI_SETUP_GIT_CREDENTIALS_STEP__
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -142,6 +133,8 @@ jobs:
     name: "Windows: Build and test dart bindings"
     runs-on: __CI_RUNNER_WINDOWS__
     steps:
+      - __CI_SETUP_GIT_CREDENTIALS_STEP__
+
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
@@ -154,10 +147,11 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -175,13 +169,6 @@ jobs:
           swift package resolve
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -220,23 +207,19 @@ jobs:
       - build-test-dart-linux
       - build-test-dart-windows
     steps:
+      - __CI_SETUP_GIT_CREDENTIALS_STEP__
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
         run: |

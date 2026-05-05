@@ -11,12 +11,16 @@ struct ProjectConfig: Codable {
     let excludeSources: [String]
     let ciPreBuildHook: String?
     let flexibleVersions: Bool
-    let ciRunners: CIRunners?
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
     // version, so while not recommended normally, this can be used to work
     // around temporary problems.
     let sourceryOverride: SourceryOverride?
+
+    let ciRunners: CIRunners?
+
+    // Authorization that may be needed to fetch any dependencies of the library
+    let ciDependencyAuth: CIDependencyAuth?
 
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
@@ -29,6 +33,11 @@ struct ProjectConfig: Codable {
         let windows: String
 
         static let defaults = CIRunners(macos: "macos-26", ubuntu: "ubuntu-latest", windows: "windows-2025")
+    }
+
+    struct CIDependencyAuth: Codable {
+        let user: String?
+        let token: String
     }
 
     static func readFromFile(basePath: String) throws -> ProjectConfig {
@@ -90,6 +99,7 @@ struct ProjectConfig: Codable {
             }
             return hook
         }
+        let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
         let sourceryOverride = try configDictionary["sourceryOverride"].map { obj -> SourceryOverride in
             let dict = obj as? [String: Any]
             if let remote = dict?["remote"] as? String {
@@ -112,7 +122,15 @@ struct ProjectConfig: Codable {
                 windows: dict["windows"] as? String ?? CIRunners.defaults.windows,
             )
         }
-        let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
+        let ciDependencyAuth = try configDictionary["CIDependencyAuth"].map { obj -> CIDependencyAuth in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `CIDependencyAuth` is not a [String: String] dictionary")
+            }
+            guard let token = dict["token"] as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIDependencyAuth.token` is missing or not a String")
+            }
+            return CIDependencyAuth(user: dict["user"] as? String, token: token)
+        }
 
         return ProjectConfig(
             module: module,
@@ -122,8 +140,9 @@ struct ProjectConfig: Codable {
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
             flexibleVersions: flexibleVersions,
+            sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
-            sourceryOverride: sourceryOverride
+            ciDependencyAuth: ciDependencyAuth
         )
     }
 }

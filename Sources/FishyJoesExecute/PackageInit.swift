@@ -87,8 +87,9 @@ public struct PackageInit: ParsableCommand {
             excludeSources: excludeSources.split(separator: " ").map(String.init),
             ciPreBuildHook: nil,
             flexibleVersions: false,
+            sourceryOverride: nil,
             ciRunners: nil,
-            sourceryOverride: nil
+            ciDependencyAuth: nil
         )
 
         let encoder = YAMLEncoder()

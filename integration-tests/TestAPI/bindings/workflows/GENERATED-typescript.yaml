@@ -16,39 +16,35 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  NODE_VERSION: "18.x"
-  GITHUB_USER: cricut-builduser
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
 
 jobs:
   build-test-pack-ts-mac:
     name: "macOS: Build and test typescript bindings"
     runs-on: macos-26
     steps:
+      - name: Setup git credentials (none provided/needed)
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - name: Install generation tools
         shell: zsh {0}
         run: |
           swift run fishy-joes install-system-dependencies for-generation
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -103,23 +99,25 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
     steps:
+      - name: Setup git credentials (none provided/needed)
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+          sudo apt-get install -y zsh
+
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
         shell: zsh {0}
@@ -185,6 +183,8 @@ jobs:
     name: "Windows: Build and test typescript bindings"
     runs-on: windows-2025
     steps:
+      - name: Setup git credentials (none provided/needed)
+
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
@@ -197,19 +197,13 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - uses: compnerd/gha-setup-swift@main
+      - Uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-6.2-release
           tag: 6.2-RELEASE

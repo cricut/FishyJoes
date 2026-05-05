@@ -14,6 +14,10 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: '18.x'
+  DOTNET_VERSION: '8.0.x'
+
 jobs:
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
@@ -138,27 +142,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          dotnet-version: '8.0.x'
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
+
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Configure build environment
         run: |
           set -euxo pipefail
           sudo apt-get install -y zsh
 
-      - name: Retrieve Artifacts
+      - name: Retrieve artifacts
         uses: actions/download-artifact@v4
 
-      - name: Install Artifacts
+      - name: Install artifacts
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -223,14 +226,14 @@ jobs:
           ls
           tar -tf cricut-flutter-fishyjoes-runtime-*.tgz
 
-      - name: Upload Nuget Package
+      - name: Upload nuget package
         uses: actions/upload-artifact@v7
         with:
           name: nuget-package
           path: c-sharp-runtime/nupkgs/*.*nupkg
           if-no-files-found: error
 
-      - name: Upload Dart Tarball
+      - name: Upload dart tarball
         uses: actions/upload-artifact@v7
         with:
           name: FishyJoes-dart-binaries
@@ -268,7 +271,7 @@ jobs:
           file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
+          curl -f -u "$GITHUB_PUBLISH_TOKEN" \
             -X POST \
             -H 'Content-Type: application/gzip' \
             -H 'Accept: application/vnd.github.v3+json' \
