@@ -20,6 +20,8 @@ jobs:
     runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
+      # gather baseline coverage only on pushes to main
+      COVERAGE_MODE: ${{ github.event_name == 'push' && branch == 'main' && 'baseline' || 'report' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -82,7 +84,7 @@ jobs:
             coverage-data/lcov.info;\
             coverage-data/jacoco-*/test/jacocoTestReport.xml;\
             coverage-data/integration-tests-c-sharp.xml"
-          filefilters: "+*;-*/.build/*"
+          filefilters: "+*;-.build/*"
           sourcedirs: "\
             kotlin-runtime/src/main/kotlin/com/cricut/fishyjoes/runtime;\
             kotlin-runtime/src/test/kotlin/com/cricut/fishyjoes/runtime;\
@@ -94,7 +96,6 @@ jobs:
           historydir: "CoverageHistory"
 
       - name: "Coverage: Check changed lines (diff-cover)"
-        if: true  # ${{ inputs.mode == 'pr' }}
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -113,7 +114,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Coverage: Comment on PR"
-        if: false  # ${{ inputs.mode == 'pr' }}
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v9
         env:
           COVERAGE_DOWNLOAD_URL: ${{ steps.artifact-upload-step.outputs.artifact-url }}
@@ -178,12 +179,9 @@ jobs:
               });
             }
 
-
-# shell: zsh {0}
-# run: |
-#   set -euxo pipefail
-#   sonar-scanner \
-#     '-Dsonar.sources=.' \
-#     '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
-#     '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
-#     '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
+    - name: "Coverage: Save updated history"
+      if: ${{ env.COVERAGE_MODE == 'baseline' }}
+      uses: actions/cache/save@v5
+      with:
+        key: coverage-history-cache-key
+        path: CoverageHistory
