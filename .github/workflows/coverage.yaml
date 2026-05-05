@@ -155,7 +155,7 @@ jobs:
             } else {
               body += '### Code Coverage Report\n⚠️ No coverage data found — check that test results were cached correctly.\n\n';
             }
-            body += `[Full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
+            body += `[Download full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
 
             const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
