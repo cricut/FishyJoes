@@ -1,6 +1,6 @@
-import ToolchainConfig
 import Foundation
 import swsh
+import ToolchainConfig
 import XCTest
 
 #if os(Linux)
