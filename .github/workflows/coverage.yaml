@@ -117,7 +117,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         uses: actions/github-script@v9
         env:
-          COVERAGE_DOWNLOAD_URL: ${{ steps.artifact-upload-step.outputs.artifact-url }}
+          COVERAGE_DOWNLOAD_URL: ${{ steps.coverage-artifact-upload-step.outputs.artifact-url }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
