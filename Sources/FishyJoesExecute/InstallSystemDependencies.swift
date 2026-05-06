@@ -218,6 +218,7 @@ struct InstallSystemDependencies: ParsableCommand {
             let sdk = ToolVersions.shared.swiftWasm.sdk
             let triple = ToolVersions.shared.swiftWasm.triple
 
+            Log.info("Installing swift-wasm toolchain \(toolchain)")
             try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
 
             let sdkInstalled = Swiftly.run(
@@ -246,6 +247,7 @@ struct InstallSystemDependencies: ParsableCommand {
             let ndkVersion = ToolVersions.shared.swiftAndroid.ndkVersion!
             let triple = ToolVersions.shared.swiftAndroid.targets[0].triple
 
+            Log.info("Installing swift-android toolchain \(toolchain)")
             try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
 
             let sdkInstalled = Swiftly.run(
