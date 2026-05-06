@@ -1,0 +1,119 @@
+{
+  "types" : [
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "BareBones",
+            "name" : "Skeleton",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Skeleton",
+          "package" : "Cricut.BareBones"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Skeleton",
+          "package" : "BareBones"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "BareBones"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/barebones/Skeleton"
+        }
+      },
+      "kotlinName" : "Skeleton",
+      "kotlinPackage" : "com.cricut.barebones",
+      "nodeName" : "BareBones.Skeleton",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "BareBones",
+            "name" : "Skeleton",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "typeScriptAnnotations" : {
+    "defaultNamespace" : "BareBones",
+    "rootNamespaces" : [
+      {
+        "classes" : [
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.exportReference(Skeleton) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(boneCount) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "boneCount",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Skeleton"
+          }
+        ],
+        "fields" : [
+
+        ],
+        "interfaces" : [
+
+        ],
+        "methods" : [
+
+        ],
+        "name" : "BareBones",
+        "namespaces" : {
+
+        },
+        "typealiases" : [
+
+        ]
+      }
+    ]
+  }
+}
