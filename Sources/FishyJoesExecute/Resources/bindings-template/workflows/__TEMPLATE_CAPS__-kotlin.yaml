@@ -93,6 +93,21 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
 
+      - name: Install tools
+        run: |
+          set -euxo pipefail
+
+          source ./scripts/_read-tool-versions.sh
+          sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
+
+          # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
+          ( yes || true ) | sudo sdkmanager --licenses >/dev/null
+          swift run fishy-joes install-system-dependencies for-android
+
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__

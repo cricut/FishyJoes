@@ -69,7 +69,6 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
 
-
       - name: Install tools
         run: |
           set -euxo pipefail
@@ -79,10 +78,6 @@ jobs:
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
-          sudo sdkmanager --install "ndk;$swiftAndroidNDKVersion"
-          export ANDROID_NDK_HOME="/usr/lib/android-sdk/ndk/$swiftAndroidNDKVersion"
-          echo "ANDROID_NDK_HOME=$ANDROID_NDK_HOME" >> "$GITHUB_ENV"
-
           swift run fishy-joes install-system-dependencies for-android
 
           source ~/.local/share/swiftly/env.sh

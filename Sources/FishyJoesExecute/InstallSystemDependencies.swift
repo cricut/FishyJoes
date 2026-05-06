@@ -18,13 +18,13 @@ struct InstallSystemDependencies: ParsableCommand {
         case yq
         case mint
         case wasmOpt = "wasm-opt"
+        case androidNDK = "android-ndk"
 
         // TODO: Possible future dependencies that could be added. Not sure which are a good idea.
         // case node
         // case cSharp
         // case dart, flutter
         // case java
-        // case androidNDK
         // case zsh
 
         // Compound components
@@ -41,17 +41,18 @@ struct InstallSystemDependencies: ParsableCommand {
             case .yq: return [.yq]
             case .mint: return [.mint]
             case .wasmOpt: return [.wasmOpt]
+            case .androidNDK: return [.androidNDK]
             case .forGeneration: return [.yq, .mint]
             case .forWasm: return [.swiftly, .swiftWasm, .wasmOpt]
-            case .forAndroid: return [.swiftly, .swiftAndroid]
+            case .forAndroid: return [.swiftly, .swiftAndroid, .androidNDK]
             case .all: return Set(CoreComponent.allCases)
             }
         }
     }
 
-    /// A description
     enum CoreComponent: String, Comparable, CaseIterable {
-        case swiftly, swiftWasm, swiftAndroid, yq, mint, wasmOpt
+        // Ordered by install order (if it matters)
+        case androidNDK, swiftly, swiftWasm, swiftAndroid, yq, mint, wasmOpt
 
         static func < (lhs: Self, rhs: Self) -> Bool {
             // Not the most efficient, but fine for this use case
@@ -70,11 +71,12 @@ struct InstallSystemDependencies: ParsableCommand {
              - yq
              - mint
              - wasm-opt
+             - android-ndk
 
             Component bundles:
              - for-generation: [yq, mint]
              - for-wasm: [swiftly, swift-wasm, wasm-opt]
-             - for-android: [swiftly, swift-android]
+             - for-android: [swiftly, swift-android, android-ndk]
              - all
 
             """
@@ -87,6 +89,9 @@ struct InstallSystemDependencies: ParsableCommand {
     @Flag(name: .long, help: "Don't try to check if a tool is already installed, attempt install always")
     var force = false
 
+    @Flag(name: .long, help: "Use sudo when installing android NDK")
+    var useSudoForNDK = false
+
     func run() throws {
         swsh.ExternalCommand.verbose = true
 
@@ -95,7 +100,7 @@ struct InstallSystemDependencies: ParsableCommand {
             Log.error("Expected at least one component")
             throw Error()
         }
-        let needsInstall = Set(requestedComponents.filter { !$0.checkIfInstalled() || force })
+        let needsInstall = Set(requestedComponents.filter { !checkIfInstalled($0) || force })
 
         Log.info("")
         Log.info("=== Components ===")
@@ -113,17 +118,21 @@ struct InstallSystemDependencies: ParsableCommand {
         Log.info("")
 
         for component in needsInstall.sorted() {
-            try component.install(modifyProfile: modifyProfile)
+            try install(component)
         }
 
         Log.info("All components successfully installed")
     }
-}
 
-extension InstallSystemDependencies.CoreComponent {
-    func checkIfInstalled() -> Bool {
-        Log.info("Checking for \(self)")
-        switch self {
+    func checkIfInstalled(_ component: CoreComponent) -> Bool {
+        Log.info("Checking for \(component)")
+        switch component {
+        case .androidNDK:
+            guard let sdkRoot = ProcessInfo.processInfo.environment["ANDROID_SDK_ROOT"] else {
+                Log.info("ANDROID_SDK_ROOT not set, unable to determine if NDK is already installed. Assuming not.")
+                return false
+            }
+            return cmd("test", "-d", "\(sdkRoot)/ndk/\(ToolVersions.shared.swiftAndroid.ndkVersion!)").runBool()
         case .swiftly:
             return Swiftly.swiftly("--version").runBool()
         case .swiftWasm:
@@ -161,12 +170,19 @@ extension InstallSystemDependencies.CoreComponent {
         }
     }
 
-    func install(modifyProfile: Bool) throws {
-        Log.info("Installing \(self)")
+    func install(_ component: CoreComponent) throws {
+        Log.info("Installing \(component)")
 
-        switch self {
+        switch component {
+        case .androidNDK:
+            let packageName = "ndk;\(ToolVersions.shared.swiftAndroid.ndkVersion!)"
+            if useSudoForNDK {
+                try cmd("sudo", "sdkmanager", "--install", packageName).run()
+            } else {
+                try cmd("sdkmanager", "--install", packageName).run()
+            }
+
         case .swiftly:
-            Log.info("Installing swiftly for current user")
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
             let swiftlyBootstrapPath: String
@@ -202,7 +218,6 @@ extension InstallSystemDependencies.CoreComponent {
             let sdk = ToolVersions.shared.swiftWasm.sdk
             let triple = ToolVersions.shared.swiftWasm.triple
 
-            Log.info("Installing swift-wasm toolchain \(toolchain)")
             try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
 
             let sdkInstalled = Swiftly.run(
@@ -214,7 +229,7 @@ extension InstallSystemDependencies.CoreComponent {
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
 
-            if sdkInstalled {
+            if sdkInstalled && !force {
                 Log.info("swift-wasm \(sdk) already installed")
             } else {
                 Log.info("Installing swift-wasm sdk \(sdk)")
@@ -228,9 +243,9 @@ extension InstallSystemDependencies.CoreComponent {
         case .swiftAndroid:
             let toolchain = ToolVersions.shared.swiftAndroid.toolchain
             let sdk = ToolVersions.shared.swiftAndroid.sdk
+            let ndkVersion = ToolVersions.shared.swiftAndroid.ndkVersion!
             let triple = ToolVersions.shared.swiftAndroid.targets[0].triple
 
-            Log.info("Installing swift-android toolchain \(toolchain)")
             try Swiftly.swiftly("install", "--assume-yes", toolchain).run()
 
             let sdkInstalled = Swiftly.run(
@@ -242,7 +257,7 @@ extension InstallSystemDependencies.CoreComponent {
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
 
-            if sdkInstalled {
+            if sdkInstalled && !force {
                 Log.info("swift-android \(sdk) already installed")
             } else {
                 Log.info("Installing swift-android sdk \(sdk)")
@@ -253,16 +268,31 @@ extension InstallSystemDependencies.CoreComponent {
                 ).run()
             }
 
-            if ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"] != nil {
+
+            var androidNDKHome = ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"]
+            if androidNDKHome == nil {
+                if let sdkRoot = ProcessInfo.processInfo.environment["ANDROID_SDK_ROOT"] {
+                    let ndkPath = "\(sdkRoot)/ndk/\(ndkVersion)"
+                    let ndkExists = cmd("test", "-d", ndkPath).runBool()
+                    if ndkExists {
+                        androidNDKHome = ndkPath
+                    }
+                }
+            }
+            if let androidNDKHome = androidNDKHome {
                 let spmDir: String =
                     ProcessInfo.processInfo.environment["XDG_CONFIG_HOME"].map { "\($0)/swiftpm" } ??
                     ("~/.swiftpm" as NSString).expandingTildeInPath
 
                 Log.info("Linking android NDK to swift SDK")
-                try cmd("\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh").run()
+                try cmd(
+                    "\(spmDir)/swift-sdks/swift-\(sdk).artifactbundle/swift-android/scripts/setup-android-sdk.sh",
+                    addEnv: ["ANDROID_NDK_HOME": androidNDKHome]
+                ).run()
             } else {
-                Log.warn("ANDROID_NDK_HOME is unset, skipping linking of NDK. Android compilation may not work.")
-                Log.warn("running 'sdkmanager --list_installed --verbose' may have the path")
+                Log.warn("Unable to find NDK \(ndkVersion).")
+                Log.warn("Swift toolchain may not work properly.")
+                Log.warn("Install ndk and make sure ANDROID_SDK_ROOT and/or ANDROID_NDK_HOME is set.")
             }
 
         case .yq:
