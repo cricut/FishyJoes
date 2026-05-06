@@ -92,6 +92,13 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__

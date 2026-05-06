@@ -273,7 +273,7 @@ jobs:
           file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f -u "$GITHUB_PUBLISH_TOKEN" \
+          curl -f -u "$GH_TOKEN" \
             -X POST \
             -H 'Content-Type: application/gzip' \
             -H 'Accept: application/vnd.github.v3+json' \
