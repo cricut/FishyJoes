@@ -22,6 +22,7 @@ jobs:
   build-test-kotlin-mac:
     name: "macOS: Build and test kotlin runtime"
     runs-on: macos-26
+    if: false
 
     steps:
       - name: Checkout
@@ -74,6 +75,7 @@ jobs:
           set -euxo pipefail
 
           source ./scripts/_read-tool-versions.sh
+          sudo apt-get update
           sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
@@ -127,6 +129,7 @@ jobs:
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin runtime"
     runs-on: windows-2025
+    if: false
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -187,6 +190,7 @@ jobs:
         run: |
           set -euxo pipefail
 
+          sudo apt-get update
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts

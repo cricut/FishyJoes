@@ -156,6 +156,7 @@ jobs:
       - name: Configure build environment
         run: |
           set -euxo pipefail
+          sudo apt-get update
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts

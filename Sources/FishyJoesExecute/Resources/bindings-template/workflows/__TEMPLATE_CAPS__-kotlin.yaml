@@ -98,6 +98,7 @@ jobs:
           set -euxo pipefail
 
           source ./scripts/_read-tool-versions.sh
+          sudo apt-get update
           sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
@@ -246,6 +247,7 @@ jobs:
         run: |
           set -euxo pipefail
 
+          sudo apt-get update
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
