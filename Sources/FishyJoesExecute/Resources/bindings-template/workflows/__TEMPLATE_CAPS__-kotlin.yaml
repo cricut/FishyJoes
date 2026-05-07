@@ -52,7 +52,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --kotlin-fast --fat generate build
+          swift run -- fishy-joes --kotlin-fast --fat build
 
       - name: Test from gradle
         shell: zsh {0}
