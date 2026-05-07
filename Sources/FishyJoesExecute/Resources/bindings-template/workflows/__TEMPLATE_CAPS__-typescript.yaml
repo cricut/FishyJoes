@@ -198,7 +198,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
 
-      - Uses: compnerd/gha-setup-swift@main
+      - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-6.2-release
           tag: 6.2-RELEASE
