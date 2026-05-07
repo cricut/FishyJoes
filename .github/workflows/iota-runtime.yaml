@@ -275,9 +275,10 @@ jobs:
           file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f -u "$GH_TOKEN" \
+          curl -f \
             -X POST \
             -H 'Content-Type: application/gzip' \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github.v3+json' \
             "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
             --data-binary @$file
