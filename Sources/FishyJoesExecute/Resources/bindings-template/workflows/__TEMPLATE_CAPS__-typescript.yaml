@@ -100,13 +100,6 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Configure build environment
-        run: |
-          set -euxo pipefail
-
-          sudo apt-get update
-          sudo apt-get install -y zsh
-
       - name: Set up node
         uses: actions/setup-node@v6
         with:
@@ -117,6 +110,9 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
           swift run fishy-joes install-system-dependencies for-wasm
 
