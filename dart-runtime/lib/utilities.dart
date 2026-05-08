@@ -24,21 +24,19 @@ typedef ConsumedRef = ffi.Pointer<_ConsumedRef>;
 typedef OutCreatedRef = ffi.Pointer<CreatedRef>;
 
 final class _Env extends ffi.Opaque {}
+
 typedef Env = ffi.Pointer<_Env>;
 
 class _GCWhisperer {
-  static final _handleFromPersistent =
-    DartApiDL.shared.handleFromPersistentPtr
-    .cast<ffi.NativeFunction<ffi.Handle Function(GCHandle)>>()
-    .asFunction<Object Function(GCHandle)>();
-  static final _newPersistentHandle =
-    DartApiDL.shared.newPersistentHandlePtr
-    .cast<ffi.NativeFunction<GCHandle Function(ffi.Handle)>>()
-    .asFunction<GCHandle Function(Object)>();
-  static final _deletePersistentHandle =
-    DartApiDL.shared.deletePersistentHandlePtr
-    .cast<ffi.NativeFunction<ffi.Void Function(GCHandle)>>()
-    .asFunction<void Function(GCHandle)>();
+  static final _handleFromPersistent = DartApiDL.shared.handleFromPersistentPtr
+      .cast<ffi.NativeFunction<ffi.Handle Function(GCHandle)>>()
+      .asFunction<Object Function(GCHandle)>();
+  static final _newPersistentHandle = DartApiDL.shared.newPersistentHandlePtr
+      .cast<ffi.NativeFunction<GCHandle Function(ffi.Handle)>>()
+      .asFunction<GCHandle Function(Object)>();
+  static final _deletePersistentHandle = DartApiDL.shared.deletePersistentHandlePtr
+      .cast<ffi.NativeFunction<ffi.Void Function(GCHandle)>>()
+      .asFunction<void Function(GCHandle)>();
 
   static Object? handleFromPersistent(GCHandle handle) {
     return handle.address == 0 ? null : _handleFromPersistent(handle);
@@ -115,8 +113,7 @@ R check<R>(R Function(OutCreatedRef) body) {
 
 /// Holds onto a GC Handle for the lifetime of the object
 class GCRef implements ffi.Finalizable {
-  static final _finalizer =
-      ffi.NativeFinalizer(DartApiDL.shared.deletePersistentHandlePtr.cast());
+  static final _finalizer = ffi.NativeFinalizer(DartApiDL.shared.deletePersistentHandlePtr.cast());
 
   GCHandle _handle;
 

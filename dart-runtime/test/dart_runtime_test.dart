@@ -3,8 +3,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('a', () {
-      test('b', () {
-          expect(2 + 2, equals(4));
-      });
+    test('b', () {
+      expect(2 + 2, equals(4));
+    });
   });
 }
