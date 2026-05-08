@@ -95,7 +95,10 @@ public struct FileTemplater {
         } else {
             credentialUser = ""
             credentialToken = ""
-            credentialStepLines = ["name: Setup git credentials (none provided/needed)"]
+            credentialStepLines = [
+                "name: Setup git credentials (none provided/needed)",
+                "run: \"\"",
+            ]
         }
         replacements["__CI_SETUP_GIT_CREDENTIALS_STEP__"] = join(lines: credentialStepLines, indent: 8).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
