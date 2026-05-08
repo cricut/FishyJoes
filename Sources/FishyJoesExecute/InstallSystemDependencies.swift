@@ -270,7 +270,6 @@ struct InstallSystemDependencies: ParsableCommand {
                 ).run()
             }
 
-
             var androidNDKHome = ProcessInfo.processInfo.environment["ANDROID_NDK_HOME"]
             if androidNDKHome == nil {
                 if let sdkRoot = ProcessInfo.processInfo.environment["ANDROID_SDK_ROOT"] {
