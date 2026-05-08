@@ -19,7 +19,7 @@ class AttributedString_Runs_Index extends SwiftReference implements Comparable<d
     ;
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributedString_Runs_Index, (otherHandle) =>

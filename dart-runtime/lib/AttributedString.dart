@@ -413,7 +413,7 @@ class AttributedString extends SwiftReference {
 
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributedString, (otherHandle) =>

@@ -145,7 +145,7 @@ void main() async {
         io.exit(1);
       }
       final asset = release['assets'].firstWhere(
-        (asset) => asset['name'] == tarballSource.tarballName,
+        (dynamic asset) => asset['name'] == tarballSource.tarballName,
         orElse: () {
           io.stderr.writeln("Couldn't find asset named '${tarballSource.tarballName}' in release");
           io.stderr.writeln("  https://github.com/cricut/${tarballSource.repoName}/releases/tag/${tarballSource.version}");

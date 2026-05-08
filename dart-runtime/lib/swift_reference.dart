@@ -20,6 +20,7 @@ class SwiftReference {
     }
   }
 
+  @override
   String toString() {
     return check((exn) => consumeCreatedRef<String>(Loader.fishyJoesCommonRuntime_AnyBox_toString(Loader.shared.env, unsafeReference.cast(), exn)));
   }

@@ -118,7 +118,7 @@ class AttributedString_Runs extends SwiftReference with Iterable<AttributedStrin
 
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributedString_Runs, (otherHandle) =>

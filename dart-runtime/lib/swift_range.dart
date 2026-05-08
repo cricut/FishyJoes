@@ -19,8 +19,8 @@ class SwiftRange<T extends Comparable<dynamic>> {
   int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
 
   @override
-  bool operator == (Object? other) {
-    return other is SwiftRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
+  bool operator == (Object other) {
+    return other is SwiftRange && (lowerBound == other.lowerBound && upperBound == other.upperBound);
   } 
 
   SwiftRange(this.lowerBound, this.upperBound) {
@@ -49,8 +49,8 @@ class SwiftClosedRange<T extends Comparable<dynamic>> {
   int get hashCode => Object.hash(lowerBound.hashCode, upperBound.hashCode);
 
   @override
-  bool operator == (Object? other) {
-    return other is SwiftClosedRange && (this.lowerBound == other.lowerBound && this.upperBound == other.upperBound);
+  bool operator == (Object other) {
+    return other is SwiftClosedRange && (lowerBound == other.lowerBound && upperBound == other.upperBound);
   }
 
   SwiftClosedRange(this.lowerBound, this.upperBound) {

@@ -44,7 +44,7 @@ class AttributedString_Runs_Run extends SwiftReference {
 
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributedString_Runs_Run, (otherHandle) =>

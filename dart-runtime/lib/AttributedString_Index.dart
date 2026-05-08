@@ -19,7 +19,7 @@ class AttributedString_Index extends SwiftReference implements Comparable<dynami
     ;
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributedString_Index, (otherHandle) =>

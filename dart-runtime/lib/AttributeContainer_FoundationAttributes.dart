@@ -87,7 +87,7 @@ class AttributeContainer_FoundationAttributes extends SwiftReference {
 
     @override
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         GCRef.using(this, (thisHandle) =>
             GCRef.using(other as AttributeContainer_FoundationAttributes, (otherHandle) =>

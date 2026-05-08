@@ -113,7 +113,7 @@ extension LoaderFutures on Loader {
                     exn
                   )
                 ),
-              onError: (error) =>
+              onError: (Object error) =>
                 check((exn) =>
                   _fishyJoesCommonRuntime_FutureConverter_invokeSinkHandler(
                     env,
