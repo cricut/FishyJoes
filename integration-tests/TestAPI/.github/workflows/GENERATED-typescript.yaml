@@ -114,7 +114,6 @@ jobs:
           registry-url: 'https://npm.pkg.github.com/'
 
       - name: Configure build environment
-        shell: zsh {0}
         run: |
           set -euxo pipefail
 
