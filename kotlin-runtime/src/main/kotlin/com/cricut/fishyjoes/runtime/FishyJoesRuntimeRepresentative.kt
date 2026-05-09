@@ -4,7 +4,6 @@ import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.file.Files
-import com.cricut.androidswiftruntime.SwiftStdlib
 
 object FishyJoesRuntimeRepresentative: LibraryLoader.LibraryRepresentative {
     override fun ensureLoaded() {}
@@ -29,7 +28,7 @@ object FishyJoesRuntimeRepresentative: LibraryLoader.LibraryRepresentative {
 
         if (!osName.contains("Linux") || vendor.contains("Android")) { return }
 
-        val stdlibLibraries = SwiftStdlib.javaClass.getResource("/linux/stdlib.txt")!!
+        val stdlibLibraries = javaClass.getResource("/linux/stdlib.txt")!!
             .readText()
             .split('\n')
             .filter { it.isNotEmpty() }
@@ -38,7 +37,7 @@ object FishyJoesRuntimeRepresentative: LibraryLoader.LibraryRepresentative {
             // TODO: put back in this code once we have correct symlinks in place
 //            if (lib.endsWith(".so")) {
 //                // copy file
-            LibraryLoader.extractLibraryFromJar(SwiftStdlib.javaClass, "/linux/$lib", lib)
+            LibraryLoader.extractLibraryFromJar(javaClass, "/linux/$lib", lib)
 //            }
         }
 //        for (lib in stdlibLibraries) {

@@ -102,6 +102,38 @@ extension Env {
             Thread.current.threadDictionary[Env.jvmAttachCountKey] = jvmAttachCount - 1
         }
     }
+
+    public mutating func withRelinquishedJVMThread<R>(jvm: UnsafeMutablePointer<JavaVM?>?, body: () throws -> R) throws -> R {
+        try Env.relinquishJVMThread(on: jvm)
+        let result = Result { try body() }
+        // Always try to re-acquire the thread, even if an exception was thrown
+        self = try Env.acquireJVMThread(on: jvm)
+        return try result.get()
+    }
+
+    public mutating func withRelinquishedJVMThread<R>(jvm: UnsafeMutablePointer<JavaVM?>?, body: () async throws -> R) async throws -> R {
+        try Env.relinquishJVMThread(on: jvm)
+        let result = await Result { try await body() }
+        // Always try to re-acquire the thread, even if an exception was thrown
+        self = try Env.acquireJVMThread(on: jvm)
+        return try result.get()
+    }
+
+    public static func withAcquiredJVMThread<R>(jvm: UnsafeMutablePointer<JavaVM?>?, body: (Env) throws -> R) throws -> R {
+        let env = try Env.acquireJVMThread(on: jvm)
+        let result = Result { try body(env) }
+        // Always try to release the thread, even if an exception was thrown
+        try Env.relinquishJVMThread(on: jvm)
+        return try result.get()
+    }
+
+    public static func withAcquiredJVMThread<R>(jvm: UnsafeMutablePointer<JavaVM?>?, body: (Env) async throws -> R) async throws -> R {
+        let env = try Env.acquireJVMThread(on: jvm)
+        let result = await Result { try await body(env) }
+        // Always try to release the thread, even if an exception was thrown
+        try Env.relinquishJVMThread(on: jvm)
+        return try result.get()
+    }
 }
 
 // MARK: JNI function wrappers

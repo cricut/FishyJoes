@@ -228,6 +228,10 @@ extension String {
         guard hasSuffix(suffix) else { return nil }
         return dropLast(suffix.count)
     }
+
+    func trimmed() -> String {
+        trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 }
 
 extension NSRange {

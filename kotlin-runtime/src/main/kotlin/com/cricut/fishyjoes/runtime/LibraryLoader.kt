@@ -89,6 +89,7 @@ object LibraryLoader {
             return
         }
 
+        println("attempting to load $libraryName")
         val file = unpackLibrary(libraryName)
 
         // Load library

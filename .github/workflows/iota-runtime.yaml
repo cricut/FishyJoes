@@ -15,22 +15,17 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
+  NODE_VERSION: '18.x'
+  DOTNET_VERSION: '8.0.x'
 
 jobs:
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
-    runs-on: sojo-macos
+    runs-on: macos-26
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -40,7 +35,7 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_generated
           path: .build/apple/release/libFishyJoesIotaRuntime.dylib
@@ -48,30 +43,19 @@ jobs:
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     env:
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - name: Configure build environment
         run: |
           set -eux
 
-          apt-get -y update
-          apt-get -y install patchelf
-          git config --global --add safe.directory '*'
+          sudo apt-get update
+          sudo apt-get install -y zsh
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -89,22 +73,10 @@ jobs:
 
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
-
-          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
-
-      - name: Patch libraries to use relative dependencies
-        shell: zsh {0}
-        run: |
-          cd $LIB_DIR
-
-          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
-          for LIB in lib*.so*; do
-            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-          done
+          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_generated
           path: .build/linux-iota-libs
@@ -118,11 +90,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -158,7 +125,7 @@ jobs:
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_generated
           path: .build/windows-iota-libs
@@ -171,38 +138,34 @@ jobs:
       - build-iota-mac
       - build-iota-ubuntu
       - build-iota-windows
-    env:
-      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
+
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Configure build environment
         run: |
           set -euxo pipefail
+          sudo apt-get update
           sudo apt-get install -y zsh
 
-      - name: Retrieve Artifacts
+      - name: Retrieve artifacts
         uses: actions/download-artifact@v4
 
-      - name: Install Artifacts
+      - name: Install artifacts
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -267,15 +230,15 @@ jobs:
           ls
           tar -tf cricut-flutter-fishyjoes-runtime-*.tgz
 
-      - name: Upload Nuget Package
-        uses: actions/upload-artifact@v4
+      - name: Upload nuget package
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-package
           path: c-sharp-runtime/nupkgs/*.*nupkg
           if-no-files-found: error
 
-      - name: Upload Dart Tarball
-        uses: actions/upload-artifact@v4
+      - name: Upload dart tarball
+        uses: actions/upload-artifact@v7
         with:
           name: FishyJoes-dart-binaries
           path: FishyJoes-dart-binaries.tgz
@@ -289,6 +252,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
           TAG_NAME: ${{ github.event.release.tag_name }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -296,7 +260,7 @@ jobs:
 
           dotnet nuget push ./c-sharp-runtime/nupkgs/*.*nupkg \
             --source https://nuget.pkg.github.com/cricut \
-            --api-key ${{ github.token }} \
+            --api-key $GH_TOKEN \
             --skip-duplicate
 
           # publish dart
@@ -311,9 +275,10 @@ jobs:
           file=FishyJoes-dart-binaries.tgz
 
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
+          curl -f \
             -X POST \
             -H 'Content-Type: application/gzip' \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github.v3+json' \
             "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$file" \
             --data-binary @$file
