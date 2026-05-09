@@ -7,35 +7,40 @@ if [[ ! -d kotlin-runtime ]]; then
     exit 1
 fi
 
+source ./scripts/_read-tool-versions.sh --verbose
+
 CONFIGURATION="${CONFIGURATION:-release}"
 libdir=kotlin-runtime/src/generated/resources
 
 export ANDROID_COMPATIBLE_ONLY=1
 
-swiftAndroidToolchain=$(jq -r .swiftAndroid.toolchain Sources/FishyJoesConfig/tool-versions.json)
-swiftAndroidSDK=$(jq -r .swiftAndroid.sdk Sources/FishyJoesConfig/tool-versions.json)
+for ((i = 1; i <= $#swiftAndroidTargetTriples; i++)); do
+    triple=${swiftAndroidTargetTriples[i]}
+    ndkArch=${swiftAndroidTargetNDKArchNames[i]}
 
-jq -r '.swiftAndroid.targets[] | .triple + " " +  .ndkArchName' Sources/FishyJoesConfig/tool-versions.json |
-    while IFS= read -r line; do
-        pair=(${(z)line})
-        triple=${pair[1]}
-        ndkArch=${pair[2]}
+    swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
+    if ! swiftly --version; then
+        echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
+        swift --version
+        swiftBuild=(swift build)
+    fi
 
-        swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
-        if ! swiftly --version; then
-            echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
-            swift --version
-            swiftBuild=(swift build)
-        fi
+    $swiftBuild \
+        --swift-sdk $triple \
+        --scratch-path .build/android-build \
+        --configuration $CONFIGURATION \
+        --product FishyJoesJavaRuntime
+    installDir=$libdir/lib/$ndkArch
+    mkdir -p $installDir/
+    cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
+done
 
-        $swiftBuild \
-            --swift-sdk $triple \
-            --scratch-path .build/android-build \
-            --configuration $CONFIGURATION \
-            --product FishyJoesJavaRuntime
-        installDir=$libdir/lib/$ndkArch
-        mkdir -p $installDir/
-        cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
-    done
+FISHYJOES_ANDROID_DEST=kotlin-runtime/src/generated/resources/lib ./scripts/copy-linux-swift-stdlib.sh
 
-# cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
+cat >$libdir/FishyJoesAndroidVersions.txt <<EOF
+androidArchs=($swiftAndroidTargetTriples)
+swiftVersion=$swiftAndroidToolchain
+ndkVersion=$swiftAndroidNDKVersion
+swiftAndroidSDKName=$swiftAndroidSDK
+swiftAndroidSDKChecksum=$swiftAndroidSDKChecksum
+EOF

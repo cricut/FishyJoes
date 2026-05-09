@@ -79,7 +79,7 @@ public class CodeGen: ParsableCommand {
         case disableParallelism
     }
 
-    var config: FishyJoesConfig!
+    var config: ProjectConfig!
     var packageInfo: SwiftPackage!
 
     lazy var buildConfig: BuildConfiguration = {
@@ -142,7 +142,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try FishyJoesConfig.readFromFile(basePath: ".")
+        config = try ProjectConfig.readFromFile(basePath: ".")
 
         // Parse swift package information from the Package.swift file for the bindings module
         let packageJSON = try cmd("swift", "package", "dump-package").runData()
@@ -511,9 +511,9 @@ extension CodeGen {
     private func sourceryCommand(_ arguments: [String]) -> Command {
         switch config.sourceryOverride {
         case .none:
-            return cmd("mint", arguments: ["run", "krzysztofzablocki/Sourcery@2.3.0"] + arguments)
+            return cmd("mint", arguments: ["run", "--verbose", "krzysztofzablocki/Sourcery@2.3.0"] + arguments)
         case .some(.remote(let remoteSpec)):
-            return cmd("mint", arguments: ["run", remoteSpec] + arguments)
+            return cmd("mint", arguments: ["run", "--verbose", remoteSpec] + arguments)
         case .some(.local(let path)):
             return cmd(path ?? "sourcery", arguments: arguments)
         }
