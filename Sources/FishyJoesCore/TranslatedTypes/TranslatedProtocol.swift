@@ -776,14 +776,7 @@ struct TranslatedProtocol: TranslatedType {
                             fragment.output("env: env")
                         }
                     }
-                    if variable.isMutable {
-                        fragment.outputBlock("set {") {
-                            fragment.outputBlock("try! Env.withAquiredJVMThread(on: _javaWitness.vm) {") {
-                                fragment.output("let javaNewValue = try! \(resolved.converterType.name).toJava(newValue, env: env)")
-                                fragment.output("try! env.CallVoidMethod(_javaWitness.object, Self._\(name)SetMethodID, JVALUE.from(javaNewValue))")
-                            }
-                        }
-                    }
+                    precondition(!variable.isMutable)
                 }
             }
             for method in methods {
