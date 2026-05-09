@@ -122,6 +122,10 @@ jobs:
 
           swift run fishy-joes install-system-dependencies for-wasm
 
+          # Use wasm version of wasm-opt because ubuntu version can be very old
+          npm install -g binaryen
+          wasm-opt --version
+
           source ~/.local/share/swiftly/env.sh
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
           echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
