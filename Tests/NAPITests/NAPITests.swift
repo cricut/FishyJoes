@@ -1,6 +1,6 @@
-import FishyJoesConfig
 import Foundation
 import swsh
+import ToolchainConfig
 import XCTest
 
 #if os(Linux)
@@ -93,7 +93,7 @@ class NAPITests: XCTestCase {
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {
         let path = "\(testDirectory)/\(testName)"
-        try cmd("mkdir", "-p", "\(path)/build/release").run()
+        try cmd("mkdir", "-p", "\(path)/build/Release").run()
 
         let sources: [(source: String, object: String)] = try (
             commonSources + FileManager.default.contentsOfDirectory(atPath: path).compactMap {
@@ -109,9 +109,9 @@ class NAPITests: XCTestCase {
             try swiftly(CC, arguments: CFLAGS + ["-o", object, "-c", source]).run()
         }
 
-        try swiftly(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/release/out.wasm"]).run()
+        try swiftly(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/Release/out.wasm"]).run()
 
-        try cmd("cp", "\(testDirectory)/../runner.js", "\(path)/build/release/\(testName).js").run()
+        try cmd("cp", "\(testDirectory)/../runner.js", "\(path)/build/Release/\(testName).js").run()
 
         for testSource in js {
             print("testing \(path)/\(testSource)")

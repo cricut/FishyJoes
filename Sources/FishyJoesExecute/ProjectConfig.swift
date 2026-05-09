@@ -3,7 +3,7 @@ import Foundation
 import swsh
 import Yams
 
-struct FishyJoesConfig: Codable {
+struct ProjectConfig: Codable {
     let module: String
     let publishRepository: String?
     let requiredModules: [String]
@@ -17,12 +17,30 @@ struct FishyJoesConfig: Codable {
     // around temporary problems.
     let sourceryOverride: SourceryOverride?
 
+    let ciRunners: CIRunners?
+
+    // Authorization that may be needed to fetch any dependencies of the library
+    let ciDependencyAuth: CIDependencyAuth?
+
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
         case remote(String) // Run a specific version using mint
     }
 
-    static func readFromFile(basePath: String) throws -> FishyJoesConfig {
+    struct CIRunners: Codable {
+        let macos: String
+        let ubuntu: String
+        let windows: String
+
+        static let defaults = CIRunners(macos: "macos-26", ubuntu: "ubuntu-latest", windows: "windows-2025")
+    }
+
+    struct CIDependencyAuth: Codable {
+        let user: String?
+        let token: String
+    }
+
+    static func readFromFile(basePath: String) throws -> ProjectConfig {
         guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file \(basePath)/bindings/fishy-joes.yaml")
         }
@@ -37,6 +55,12 @@ struct FishyJoesConfig: Codable {
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
+            Log.error("CIPreBuildHook: |")
+            Log.error("  echo 'doing CI work in bash'")
+            Log.error("CIRunners:")
+            Log.error("  macos: \(CIRunners.defaults.macos)  # default")
+            Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
+            Log.error("  windows: \(CIRunners.defaults.windows)  # default")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -75,6 +99,7 @@ struct FishyJoesConfig: Codable {
             }
             return hook
         }
+        let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
         let sourceryOverride = try configDictionary["sourceryOverride"].map { obj -> SourceryOverride in
             let dict = obj as? [String: Any]
             if let remote = dict?["remote"] as? String {
@@ -87,9 +112,27 @@ struct FishyJoesConfig: Codable {
                 throw ValidationError(#"fishy-joes.yaml value for key `sourceryOverride` is \#(obj), not e.g. `{"remote": "krzysztofzablocki/Sourcery@x.y.z"}`, `{"local": "/path/to/sourcery"}`, or `{"local": null}`"#)
             }
         }
-        let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
+        let ciRunners = try configDictionary["CIRunners"].map { obj -> CIRunners in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `CIRunners` is not a [String: String] dictionary")
+            }
+            return CIRunners(
+                macos: dict["macos"] as? String ?? CIRunners.defaults.macos,
+                ubuntu: dict["ubuntu"] as? String ?? CIRunners.defaults.ubuntu,
+                windows: dict["windows"] as? String ?? CIRunners.defaults.windows,
+            )
+        }
+        let ciDependencyAuth = try configDictionary["CIDependencyAuth"].map { obj -> CIDependencyAuth in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `CIDependencyAuth` is not a [String: String] dictionary")
+            }
+            guard let token = dict["token"] as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIDependencyAuth.token` is missing or not a String")
+            }
+            return CIDependencyAuth(user: dict["user"] as? String, token: token)
+        }
 
-        return FishyJoesConfig(
+        return ProjectConfig(
             module: module,
             publishRepository: publishRepository,
             requiredModules: requiredModules ?? [],
@@ -97,12 +140,14 @@ struct FishyJoesConfig: Codable {
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
             flexibleVersions: flexibleVersions,
-            sourceryOverride: sourceryOverride
+            sourceryOverride: sourceryOverride,
+            ciRunners: ciRunners,
+            ciDependencyAuth: ciDependencyAuth
         )
     }
 }
 
-extension FishyJoesConfig.SourceryOverride: Codable {
+extension ProjectConfig.SourceryOverride: Codable {
     enum CodingKeys: CodingKey {
         case local, remote
     }

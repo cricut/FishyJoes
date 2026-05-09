@@ -79,7 +79,7 @@ class CSharpPhases: IotaPhases, Phases {
             if options.codeCoveragePath != nil, !cmd("dotnet-coverage", "--version").runBool() {
                 printAndFlush("Couldn't find dotnet-coverage! Install with:")
                 printAndFlush()
-                printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                printAndFlush("   dotnet tool install --global dotnet-coverage")
                 printAndFlush()
                 printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
             }
@@ -109,11 +109,11 @@ class CSharpPhases: IotaPhases, Phases {
         }
         var dependencyXDLs = Set<String>()
         // Locate dependencies yaml files
-        let fishyJoesYamlConfigs: [FishyJoesConfig] = try dependencyBindingsPaths.compactMap {
+        let dependencyConfigs: [ProjectConfig] = try dependencyBindingsPaths.compactMap {
             $0.key == options.config.module ? nil : $0.value
-        }.map(FishyJoesConfig.readFromFile(basePath:))
+        }.map(ProjectConfig.readFromFile(basePath:))
 
-        fishyJoesYamlConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
+        dependencyConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
         let rmArgs = ["-f"] + dependencyXDLs.flatMap {
             [
                 "c-sharp/Cricut.\(options.config.module)/runtimes/osx/native/lib\($0).dylib",

@@ -70,10 +70,11 @@ class Structs_ReferenceStruct extends SwiftReference {
     ;
 
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
+        other is TestAPI.Structs_ReferenceStruct &&
         GCRef.using(this, (thisHandle) =>
-            GCRef.using(other as TestAPI.Structs_ReferenceStruct, (otherHandle) =>
+            GCRef.using(other, (otherHandle) =>
                 check((exn) => f__iota_TestAPI_Structs_ReferenceStruct_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
     ;
 
