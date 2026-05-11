@@ -104,11 +104,11 @@ void main() async {
 
   if (githubCreds == null) {
     io.stderr.writeln("");
-    io.stderr.writeln("Failed to find github credentials.");
-    io.stderr.writeln("  Either set credentials for 'api.github.com' in ~/.netrc");
+    io.stderr.writeln("Warning: failed to find github credentials.");
+    io.stderr.writeln("  If private dependencies are required,");
+    io.stderr.writeln("  either set credentials for 'api.github.com' in ~/.netrc");
     io.stderr.writeln("  or set environment variables GITHUB_USER and GITHUB_TOKEN");
     io.stderr.writeln("");
-    io.exit(1);
   }
   print("using $githubCreds");
 
@@ -188,10 +188,12 @@ void main() async {
   io.exit(0);
 }
 
-Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
+Future<dynamic> callGithubAPI(Uri url, Credentials? creds) async {
   final request = await io.HttpClient().getUrl(url);
   request.headers.add('Accept', 'application/vnd.github.v3+json');
-  request.headers.add('Authorization', creds.basicAuth());
+  if (creds != null) {
+    request.headers.add('Authorization', creds.basicAuth());
+  }
   final response = await request.close();
   if (response.statusCode != 200) {
     throw Exception("GET $url failed(?) with status code ${response.statusCode}");
@@ -200,10 +202,12 @@ Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
   return convert.json.decode(stringBody);
 }
 
-Future<void> downloadGithubBinary(String destination, Uri url, Credentials creds) async {
+Future<void> downloadGithubBinary(String destination, Uri url, Credentials? creds) async {
   final request = await io.HttpClient().getUrl(url);
   request.headers.add('Accept', 'application/octet-stream');
-  request.headers.add('Authorization', creds.basicAuth());
+  if (creds != null) {
+    request.headers.add('Authorization', creds.basicAuth());
+  }
   final response = await request.close();
   if (response.statusCode != 200) {
     throw Exception("GET $url failed(?) with status code ${response.statusCode}");

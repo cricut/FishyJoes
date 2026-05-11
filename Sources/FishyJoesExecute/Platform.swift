@@ -1,7 +1,7 @@
-import FishyJoesConfig
 import Foundation
 import RegexBuilder
 import swsh
+import ToolchainConfig
 
 struct BuildConfiguration: Hashable {
     let packagePath: String
@@ -305,7 +305,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func outputDir(_ config: FishyJoesConfig) -> String {
+    func outputDir(_ config: ProjectConfig) -> String {
         switch self {
         case .wasm, .node:
             return "bindings/ts/generated/packages/\(platform)"
@@ -343,7 +343,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func packageDescription(config: FishyJoesConfig) -> String {
+    func packageDescription(config: ProjectConfig) -> String {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "TypeScript bindings for \(config.module) on \(platform)"
@@ -359,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         } else if case .kotlinAndroid(let arch) = self {
             return "\(configuration.scratchPath)/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
-            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmed()
         }
     }
 

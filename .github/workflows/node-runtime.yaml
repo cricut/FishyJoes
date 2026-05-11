@@ -14,21 +14,19 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  NODE_VERSION: '18.x'
+
 jobs:
   build-test-node-mac:
     name: "macOS: Build and test node runtime"
-    runs-on: sojo-macos
+    runs-on: macos-26
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
         run: |
@@ -47,14 +45,13 @@ jobs:
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - name: NPM Pack
+      - name: NPM pack
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -63,14 +60,14 @@ jobs:
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
           (cd $LIB_DIR; npm pack)
 
-      - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload npm artifact
+        uses: actions/upload-artifact@v7
         with:
           name: mac_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
           if-no-files-found: error
 
-      - name: Publish NPM Package
+      - name: Publish npm package
         if: github.event_name == 'release'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,42 +76,27 @@ jobs:
 
           (cd $LIB_DIR; npm publish *.tgz)
 
-  build-test-node-ubuntu:
+  build-test-node-ubuntu-native:
     name: "Ubuntu: Build and test node runtime"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
-      WASM_LIB_DIR: node-runtime/fishyjoes-runtime-wasm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
-        shell: zsh {0}
         run: |
           set -euxo pipefail
-          git config --global --add safe.directory '*'
 
-          # Use wasm version of wasm-opt because ubuntu version can be very old
-          npm install -g binaryen
-          wasm-opt --version
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -122,26 +104,7 @@ jobs:
           set -euxo pipefail
 
           ./scripts/compile-node-runtime.sh
-
-      - name: Copy swift runtime SOs
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cp -dv /usr/lib/swift/linux/*.so $LIB_DIR
-          cp -dv /usr/lib/x86_64-linux-gnu/libxml2.so* $LIB_DIR
-
-      - name: Patch system swift runtime SOs to use relative libraries
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cd $LIB_DIR
-
-          SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
-          for LIB in lib*.so*; do
-            patchelf --set-rpath $SWIFT_RUN_PATH $LIB
-          done
+          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Determine version
         shell: zsh {0}
@@ -163,14 +126,14 @@ jobs:
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
           (cd $LIB_DIR; npm pack)
 
-      - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload npm artifact
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
           if-no-files-found: error
 
-      - name: Publish NPM Package
+      - name: Publish npm package
         if: github.event_name == 'release'
         shell: zsh {0}
         env:
@@ -179,32 +142,6 @@ jobs:
           set -euxo pipefail
 
           (cd $LIB_DIR; npm publish *.tgz)
-
-      - name: Wasm NPM Pack
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          cat $WASM_LIB_DIR/package.json | jq '.version = env.VERSION' > $WASM_LIB_DIR/package.json.upd
-          mv $WASM_LIB_DIR/package.json.upd $WASM_LIB_DIR/package.json
-          (cd $WASM_LIB_DIR; npm pack)
-
-      - name: Upload Wasm NPM Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: wasm_npm_package
-          path: ${{ env.WASM_LIB_DIR }}/*.tgz
-          if-no-files-found: error
-
-      - name: Publish Wasm NPM Package
-        shell: zsh {0}
-        if: github.event_name == 'release'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euxo pipefail
-
-          (cd $WASM_LIB_DIR; npm publish *.tgz)
 
   build-test-node-windows:
     name: "Windows: Build and Test Node.js Runtime"
@@ -215,17 +152,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - uses: compnerd/gha-setup-swift@main
         with:
           branch: swift-6.2-release
           tag: 6.2-RELEASE
 
-      - name: Pre-resolve Required SwiftPM Packages
+      - name: Pre-resolve required SwiftPM packages
         continue-on-error: true
         shell: pwsh
         run: |
@@ -265,14 +197,13 @@ jobs:
           fi
           echo VERSION=$VERSION >> $GITHUB_ENV
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - name: NPM Pack
+      - name: NPM pack
         shell: bash
         run: |
           set -euxo pipefail
@@ -281,14 +212,14 @@ jobs:
           mv $LIB_DIR/package.json.upd $LIB_DIR/package.json
           (cd $LIB_DIR; npm pack)
 
-      - name: Upload NPM Artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload npm artifact
+        uses: actions/upload-artifact@v7
         with:
           name: windows_npm_package
           path: ${{ env.LIB_DIR }}/*.tgz
           if-no-files-found: error
 
-      - name: Publish NPM Package
+      - name: Publish npm package
         if: github.event_name == 'release'
         shell: bash
         env:

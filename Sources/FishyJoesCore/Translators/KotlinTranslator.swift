@@ -133,12 +133,12 @@ final class KotlinTranslator: Translator {
                         }
 
                         callBlock {
-                            fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType = try await {", closeWith: "}()") {
-                                fragment.output("try Env.relinquishJVMThread(on: _vm)")
-                                fragment.output("defer { _javaEnv = try! Env.acquireJVMThread(on: _vm) }")
-                                fragment.outputBlock("return \(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", closeWith: ")") {
-                                    fragment.outputMap(method.parameters, separator: ",") { formal in
-                                        (formal.label.map { "\($0): "} ?? "") + formal.name
+                            fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType =", closeWith: "") {
+                                fragment.outputBlock("try await _javaEnv.withRelinquishedJVMThread(jvm: _vm) {") {
+                                    fragment.outputBlock("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", closeWith: ")") {
+                                        fragment.outputMap(method.parameters, separator: ",") { formal in
+                                            (formal.label.map { "\($0): "} ?? "") + formal.name
+                                        }
                                     }
                                 }
                             }

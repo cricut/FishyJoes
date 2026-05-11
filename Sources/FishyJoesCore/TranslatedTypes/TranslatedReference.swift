@@ -513,13 +513,14 @@ struct TranslatedReference: TranslatedType {
                         name: "operator ==",
                         mangledName: "",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .optional(.named(package: nil, name: "Object")), defaultValue: nil),
+                            (labelComment: nil, name: "other", type: .named(package: nil, name: "Object"), defaultValue: nil),
                         ],
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
                         body: [
+                            "other is \(dartType.name()) &&",
                             "GCRef.using(this, (thisHandle) =>",
-                            "    GCRef.using(other as \(dartType.name()), (otherHandle) =>",
+                            "    GCRef.using(other, (otherHandle) =>",
                             "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
                         ],
                         isDefaultImplementation: false
