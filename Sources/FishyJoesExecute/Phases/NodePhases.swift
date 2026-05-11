@@ -155,7 +155,7 @@ class NodePhases: BasePhases, Phases {
                 let optArgs = try [
                     "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)",
                 ] + (
-                    options.buildConfig.debug ? ["--debuginfo", "-O1"] : ["-O1"]
+                    options.buildConfig.debug ? ["--debuginfo", "-O1"] : ["-O1", "--strip-dwarf", "--strip-debug"]
                 ) + [
                     "-o", "\(outputDir)/\(nodeModule.name).wasm",
                 ]
