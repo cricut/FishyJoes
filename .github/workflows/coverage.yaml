@@ -6,6 +6,8 @@ name: "Coverage"
   push:
     branches:
       - main
+      - cobbal/investigate-main-coverage
+
   label:
     types:
       - created
@@ -30,6 +32,15 @@ jobs:
       # gather baseline coverage only on pushes to main
       COVERAGE_MODE: ${{ github.event_name == 'push' && github.ref == 'ref/head/main' && 'baseline' || 'report' }}
     steps:
+      - name: Log
+        run:
+          set -euxo pipefail
+          echo "github.event_name = ${{ github.event_name }}"
+          echo "github.ref = ${{ github.ref }}"
+          echo "THING = ${{ github.event_name == 'push' && github.ref == 'ref/head/main' && 'baseline' || 'report' }}"
+          declare -p $COVERAGE_MODE
+          exit 1
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
