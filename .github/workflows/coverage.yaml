@@ -30,10 +30,10 @@ jobs:
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       # gather baseline coverage only on pushes to main
-      COVERAGE_MODE: ${{ github.event_name == 'push' && github.ref == 'ref/head/main' && 'baseline' || 'report' }}
+      COVERAGE_MODE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'baseline' || 'report' }}
     steps:
       - name: Log
-        run:
+        run: |
           set -euxo pipefail
           echo "github.event_name = ${{ github.event_name }}"
           echo "github.ref = ${{ github.ref }}"
