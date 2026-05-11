@@ -1,6 +1,7 @@
-import FishyJoesConfig
 import Foundation
+import RegexBuilder
 import swsh
+import ToolchainConfig
 
 struct BuildConfiguration: Hashable {
     let packagePath: String
@@ -8,7 +9,7 @@ struct BuildConfiguration: Hashable {
     let debug: Bool
     let fat: Bool
     let codeCoveragePath: String?
-    var baseDockerContext: Lazy<DockerContext?>
+    let disableSwiftly: Bool
     let disableParallelism: Bool
     var codeCoverage: Bool { codeCoveragePath != nil }
     var injectedSwiftDependencies: [String: PackageDotSwiftDependency.Dependency]
@@ -22,22 +23,20 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
     case cSharp
     case dart
 
-    enum AndroidArchitecture: String, Hashable, CaseIterable {
-        case armv7, x86_64, aarch64
+    struct AndroidArchitecture: Hashable, CaseIterable {
+        let name: String
+        let triple: String
+        let ndkName: String
 
-        static let apiVersion = 24
-
-        var triple: String {
-            "\(rawValue)-unknown-linux-android\(AndroidArchitecture.apiVersion)"
-        }
-
-        var ndkName: String {
-            switch self {
-            case .armv7: return "armeabi-v7a"
-            case .x86_64: return "x86_64"
-            case .aarch64: return "arm64-v8a"
+        static let allCases: [AndroidArchitecture] = {
+            ToolVersions.shared.swiftAndroid.targets.map {
+                AndroidArchitecture(
+                    name: String($0.triple.components(separatedBy: "-")[0]),
+                    triple: $0.triple,
+                    ndkName: $0.ndkArchName!
+                )
             }
-        }
+        }()
     }
 
     static var allCases: [Platform] {
@@ -55,7 +54,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         case .kotlinSystem:
             return "kotlinSystem"
         case let .kotlinAndroid(arch):
-            return "kotlinAndroid(\(arch.rawValue))"
+            return "kotlinAndroid(\(arch.name))"
         case .cSharp:
             return "cSharp"
         case .dart:
@@ -78,13 +77,6 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         case .node, .kotlinSystem, .cSharp, .dart:
             return true
         }
-    }
-
-    func needsDocker(configuration: BuildConfiguration) -> Bool {
-        if case .kotlinAndroid = self {
-            return configuration.baseDockerContext.get() != nil
-        }
-        return false
     }
 
     func build(product: String? = nil, libs: [String] = [], configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws {
@@ -116,7 +108,26 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
+    private func swiftlyRunSwiftCommand(toolchainVersion: String, configuration: BuildConfiguration) throws -> [String] {
+        if configuration.disableSwiftly {
+            // Try to use the system default version of swift, but first check to make sure the version looks right
+            let installedSwiftVersionString = try cmd("swift", "--version").runString()
+            // It would be nice to make this a more precice check, but there doesn't seem to be a way to get a more structured swift-version
+            let versionMatcher = Regex {
+                "Swift version \(toolchainVersion)"
+                ChoiceOf { Anchor.wordBoundary; "."; "-" }
+            }
+            if try versionMatcher.firstMatch(in: installedSwiftVersionString) == nil {
+                fatalError("Expected swift toolchain \(toolchainVersion) to be installed. Got: \(installedSwiftVersionString)")
+            }
+            return ["swift"]
+        } else {
+            // Use swiftly to get the exact needed toolchain
+            return ["\(Swiftly.binPath)/swiftly", "run", "+\(toolchainVersion)", "++", "swift"]
+        }
+    }
+
+    func swiftBuild(arguments: [String], configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws -> Command {
         var args = arguments
 
         // Read "SWIFT_PACKAGE_RESOLVE" from our environment variables, and pass as flag to swift compiler
@@ -137,17 +148,15 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         env["SWIFT_PACKAGE_FORCE_DYNAMIC"] = "1"
         env["FISHYJOES_TARGET_PLATFORM"] = "\(self)"
         env["EXTRA_LIBPATH"] = relativePath(of: extraLibPathDir(), relativeTo: configuration.packagePath)
-        var dockerContext: DockerContext?
 
         var scratchPath = configuration.scratchPath
         switch self {
         case .wasm:
-            swiftBuild = [
-                "\(Swiftly.binPath)/swiftly", "run",
-                "+\(ToolVersions.shared.swiftWasm.toolchain)", "++",
-                "swift", "build"
-            ]
-            args.append(contentsOf: ["--swift-sdk", "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasi"])
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftWasm.toolchain,
+                configuration: configuration
+            ) + ["build"]
+            args.append(contentsOf: ["--swift-sdk", "\(ToolVersions.shared.swiftWasm.sdk)-\(ToolVersions.shared.swiftWasm.triple)"])
             // custom build paths to avoid different versions of spm destroying each other's caches
             scratchPath = "\(scratchPath)/wasm-build"
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
@@ -163,19 +172,13 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("unknown host OS")
             #endif
         case let .kotlinAndroid(arch):
-            swiftBuild = ["swift-build"]
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftAndroid.toolchain,
+                configuration: configuration
+            ) + ["build"]
+            args.append(contentsOf: ["--swift-sdk", arch.triple])
             scratchPath = "\(scratchPath)/android-build"
-            args.append(
-                contentsOf: [
-                    "--destination", "/swift-android-\(arch)/usr/swiftpm-android-\(arch).json",
-                ]
-            )
             env["ANDROID_COMPATIBLE_ONLY"] = "1"
-
-            dockerContext = configuration.baseDockerContext.get()
-            if dockerContext == nil {
-                Log.warn("WARNING: building for android without using a docker context (expecting to already be inside container)")
-            }
         case .cSharp:
             #if os(macOS)
             swiftBuild = [Platform.nativeMacSwiftBuild]
@@ -196,15 +199,6 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         let encoder = JSONEncoder()
         encoder.outputFormatting = [.withoutEscapingSlashes]
         for (module, dependency) in configuration.injectedSwiftDependencies {
-            var dependency = dependency
-            if let dockerContext = dockerContext {
-                switch dependency {
-                case .local(let path):
-                    // If we're running in docker, swiftpm's absolute paths need to be converted to docker's file system
-                    dependency = .local(path: dockerContext.translateMounted(externalPath: path))
-                default: ()
-                }
-            }
             env["FISHYJOES_DEPENDENCY_\(module)"] = try! encoder.encodeToString(dependency)
         }
 
@@ -215,37 +209,31 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         args.append(contentsOf: ["-Xlinker", "/IGNORE:4217"])
         #endif
 
-        if var dockerContext = dockerContext {
-            dockerContext.env.merge(env) { $1 }
-            try! dockerContext.cmd("env", arguments: []).run()
-            return dockerContext.cmd("swift-build", arguments: args)
-        } else {
-            func escape(_ str: String) -> String {
-                let safeCharacters = CharacterSet(
-                    charactersIn: "/%+-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz="
-                )
-                if str.isEmpty {
-                    return "''"
-                } else if str.unicodeScalars.allSatisfy(safeCharacters.contains) {
-                    return str
-                } else {
-                    return "'\(str.replacingOccurrences(of: "'", with: #"'\''"#))'"
-                }
+        func escape(_ str: String) -> String {
+            let safeCharacters = CharacterSet(
+                charactersIn: "/%+-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz="
+            )
+            if str.isEmpty {
+                return "''"
+            } else if str.unicodeScalars.allSatisfy(safeCharacters.contains) {
+                return str
+            } else {
+                return "'\(str.replacingOccurrences(of: "'", with: #"'\''"#))'"
             }
-
-            if !env.isEmpty {
-                let envStr = env.map {
-                    escape("\($0.key)=\($0.value)")
-                }.joined(separator: " ")
-                print()
-                print("env \(envStr) \\")
-            }
-            return cmd(path, arguments: args, addEnv: env)
         }
+
+        if !env.isEmpty {
+            let envStr = env.map {
+                escape("\($0.key)=\($0.value)")
+            }.joined(separator: " ")
+            print()
+            print("env \(envStr) \\")
+        }
+        return cmd(path, arguments: args, addEnv: env)
     }
 
-    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) -> Command {
-        swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
+    func swiftBuild(_ arguments: String..., configuration: BuildConfiguration, addEnv: [String: String] = [:]) throws -> Command {
+        try swiftBuild(arguments: arguments, configuration: configuration, addEnv: addEnv)
     }
 
     func dylibName(for lib: String) -> String {
@@ -317,7 +305,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func outputDir(_ config: FishyJoesConfig) -> String {
+    func outputDir(_ config: ProjectConfig) -> String {
         switch self {
         case .wasm, .node:
             return "bindings/ts/generated/packages/\(platform)"
@@ -355,7 +343,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         }
     }
 
-    func packageDescription(config: FishyJoesConfig) -> String {
+    func packageDescription(config: ProjectConfig) -> String {
         switch self {
         case .wasm: return "\(config.module) packaged as a typescript library using WebAssembly"
         case .node: return "TypeScript bindings for \(config.module) on \(platform)"
@@ -371,7 +359,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
         } else if case .kotlinAndroid(let arch) = self {
             return "\(configuration.scratchPath)/android-build/\(arch.triple)/\(configuration.debug ? "debug" : "release")"
         } else {
-            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+            return try swiftBuild("--show-bin-path", configuration: configuration).runString().trimmed()
         }
     }
 

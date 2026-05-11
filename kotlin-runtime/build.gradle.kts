@@ -11,14 +11,6 @@ plugins {
 repositories {
     mavenLocal()
     mavenCentral()
-    maven {
-        name = "GitHubPackagesSwiftRuntime"
-        url = uri("https://maven.pkg.github.com/cricut/android-swift-runtime")
-        credentials {
-            username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
-            password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
-        }
-    }
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
@@ -131,8 +123,6 @@ tasks {
 
 dependencies {
     implementation(kotlin("stdlib:1.9.10"))
-    // TODO: can we read this from tool-versions.json?
-    implementation("com.cricut:android-swift-runtime:3.0.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

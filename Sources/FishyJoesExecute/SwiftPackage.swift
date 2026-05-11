@@ -103,11 +103,10 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    var versionInGradleFormat: String {
-        // TODO: figure out how to use gradle version ranges. The solver may not be good enough for this to work properly.
-        // See for example: https://github.com/gradle/gradle/issues/8126
-
-        // https://docs.gradle.org/current/userguide/single_versions.html
+    func versionInGradleFormat(flexibleVersions: Bool = false) -> String {
+        // Gradle version range format using Maven-style syntax.
+        // When flexibleVersions is true, generates inclusive-exclusive ranges: [min,max)
+        // Syntax: '[' = inclusive, ')' = exclusive, '(' = exclusive, ']' = inclusive
         let spec: String
         switch self {
         case .sourceControl(_, _, .branch(let name)):
@@ -115,14 +114,23 @@ extension SwiftPackage.Dependency {
         case .sourceControl(_, _, .revision(let name)):
             spec = name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            // spec = "[\(baseVersion),\(baseVersion.nextMajor))"
-            spec = baseVersion.versionString
+            if flexibleVersions {
+                spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+            } else {
+                spec = baseVersion.versionString
+            }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            // spec = "[\(baseVersion),\(baseVersion.nextMinor))"
-            spec = baseVersion.versionString
-        case .sourceControl(_, _, .range(let lowerBound, _)):
-            // spec = "[\(lowerBound),\(upperBound))"
-            spec = lowerBound.versionString
+            if flexibleVersions {
+                spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+            } else {
+                spec = baseVersion.versionString
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                spec = "[\(lowerBound),\(upperBound))"
+            } else {
+                spec = lowerBound.versionString
+            }
         case .sourceControl(_, _, .exact(let version)):
             spec = version.versionString
         case .fileSystem:
@@ -133,23 +141,30 @@ extension SwiftPackage.Dependency {
         return spec.replacingOccurrences(of: "/", with: "-")
     }
 
-    var versionInNugetFormat: String? {
-        // TODO: Enable nuget version ranges. Should be working, but not enabled to be consistent with other languages
-        // https://learn.microsoft.com/en-us/nuget/concepts/package-versioning
+    func versionInNugetFormat(flexibleVersions: Bool = false) -> String? {
         switch self {
         case .sourceControl(_, _, .branch(let name)):
             return "[\(name)]"
         case .sourceControl(_, _, .revision(let name)):
             return "[\(name)]"
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            // return "[\(baseVersion),\(baseVersion.nextMajor))"
-            return "[\(baseVersion)]"
+            if flexibleVersions {
+                return "[\(baseVersion),\(baseVersion.nextMajor))"
+            } else {
+                return "[\(baseVersion)]"
+            }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            // return "[\(baseVersion),\(baseVersion.nextMinor))"
-            return "[\(baseVersion)]"
-        case .sourceControl(_, _, .range(let lowerBound, _)):
-            // return "[\(lowerBound),\(upperBound))"
-            return "[\(lowerBound)]"
+            if flexibleVersions {
+                return "[\(baseVersion),\(baseVersion.nextMinor))"
+            } else {
+                return "[\(baseVersion)]"
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                return "[\(lowerBound),\(upperBound))"
+            } else {
+                return "[\(lowerBound)]"
+            }
         case .sourceControl(_, _, .exact(let version)):
             return "[\(version)]"
         case .fileSystem:
@@ -157,29 +172,34 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    func versionInNpmFormat(relativeTo: String?, addIfLocalPath: String = "") -> String {
-        // TODO: Enable npm version ranges. Should be working, but not enabled to be consistent with other languages
-
-        // These examples are the most authoritative source I could find without digging into the code of npm itself...
-        // https://semver.npmjs.com/#syntax-examples
+    func versionInNpmFormat(relativeTo: String?, addIfLocalPath: String = "", flexibleVersions: Bool = false) -> String {
         switch self {
         case .sourceControl(_, _, .branch(let name)):
             return name
         case .sourceControl(_, _, .revision(let name)):
             return name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            // if baseVersion.major > 0 {
-            //     return "^\(baseVersion)"
-            // } else {
-            //     return ">=\(baseVersion) <\(baseVersion.nextMajor)"
-            // }
-            return baseVersion.versionString
+            if flexibleVersions {
+                if baseVersion.major > 0 {
+                    return "^\(baseVersion)"
+                } else {
+                    return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+                }
+            } else {
+                return baseVersion.versionString
+            }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            // return "~\(baseVersion)"
-            return baseVersion.versionString
-        case .sourceControl(_, _, .range(let lowerBound, _)):
-            // return ">=\(lowerBound) <\(upperBound)"
-            return lowerBound.versionString
+            if flexibleVersions {
+                return "~\(baseVersion)"
+            } else {
+                return baseVersion.versionString
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                return ">=\(lowerBound) <\(upperBound)"
+            } else {
+                return lowerBound.versionString
+            }
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
         case .fileSystem(_, let absolutePath):
@@ -188,27 +208,34 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    var versionInPubspecFormat: String? {
-        // TODO: figure out how to use pubspec version ranges. Needs non-git hosting.
-        // https://dart.dev/tools/pub/versioning
+    func versionInPubspecFormat(flexibleVersions: Bool = false) -> String? {
         switch self {
         case .sourceControl(_, _, .branch(let name)):
             return name
         case .sourceControl(_, _, .revision(let name)):
             return name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
-            // if baseVersion.major > 0 {
-            //     return "^\(baseVersion)"
-            // } else {
-            //     return ">=\(baseVersion) <\(baseVersion.nextMajor)"
-            // }
-            return baseVersion.versionString
+            if flexibleVersions {
+                if baseVersion.major > 0 {
+                    return "^\(baseVersion)"
+                } else {
+                    return ">=\(baseVersion) <\(baseVersion.nextMajor)"
+                }
+            } else {
+                return baseVersion.versionString
+            }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
-            // return "~\(baseVersion)"
-            return baseVersion.versionString
-        case .sourceControl(_, _, .range(let lowerBound, _)):
-            // return ">=\(lowerBound) <\(upperBound)"
-            return lowerBound.versionString
+            if flexibleVersions {
+                return "~\(baseVersion)"
+            } else {
+                return baseVersion.versionString
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                return ">=\(lowerBound) <\(upperBound)"
+            } else {
+                return lowerBound.versionString
+            }
         case .sourceControl(_, _, .exact(let version)):
             return version.versionString
         case .fileSystem:
@@ -248,7 +275,15 @@ extension SwiftPackage.Dependency.Requirement: Decodable {
             let lowerBound = ranges[0]["lowerBound"].flatMap(SemanticVersion.init),
             let upperBound = ranges[0]["upperBound"].flatMap(SemanticVersion.init)
         {
-            self = .range(lowerBound: lowerBound, upperBound: upperBound)
+            // Swift 6.1+ encodes upToNextMajor/upToNextMinor as explicit ranges
+            // Try to detect and reconstruct the semantic intent
+            if upperBound == lowerBound.nextMinor {
+                self = .upToNextMinor(baseVersion: lowerBound)
+            } else if upperBound == lowerBound.nextMajor {
+                self = .upToNextMajor(baseVersion: lowerBound)
+            } else {
+                self = .range(lowerBound: lowerBound, upperBound: upperBound)
+            }
         } else if let branchNames = try? container.decode([String].self, forKey: .branch), branchNames.count == 1 {
             self = .branch(name: branchNames[0])
         } else if let revisionNames = try? container.decode([String].self, forKey: .revision), revisionNames.count == 1 {

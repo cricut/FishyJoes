@@ -1,9 +1,8 @@
-import SourceryRuntime
+import SourceryDataModel
 
 let translatedAttributedString = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString")),
     converterType: nil,
-    neutralName: "AttributedString",
     nodeName: "Runtime.AttributedString",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString",
@@ -17,7 +16,6 @@ let translatedAttributedString = ExternalTranslatedType(
 let translatedAttributedSubstring = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedSubstring")),
     converterType: nil,
-    neutralName: "AttributedSubstring",
     nodeName: "Runtime.AttributedSubstring",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedSubstring",
@@ -31,7 +29,6 @@ let translatedAttributedSubstring = ExternalTranslatedType(
 let translatedAttributeContainer = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributeContainer")),
     converterType: nil,
-    neutralName: "AttributeContainer",
     nodeName: "Runtime.AttributeContainer",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributeContainer",
@@ -45,7 +42,6 @@ let translatedAttributeContainer = ExternalTranslatedType(
 let translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributeContainer.FoundationAttributes")),
     converterType: nil,
-    neutralName: "AttributeContainer.FoundationAttributes",
     nodeName: "Runtime.AttributeContainer.FoundationAttributes",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributeContainerFoundationAttributes",
@@ -59,7 +55,6 @@ let translatedAttributeContainerFoundationAttributes = ExternalTranslatedType(
 let translatedAttributedStringIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Index")),
     converterType: nil,
-    neutralName: "AttributedString.Index",
     nodeName: "Runtime.AttributedString.Index",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Index",
@@ -73,7 +68,6 @@ let translatedAttributedStringIndex = ExternalTranslatedType(
 let translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.UnicodeScalarView")),
     converterType: nil,
-    neutralName: "AttributedString.UnicodeScalarView",
     nodeName: "Runtime.AttributedString.UnicodeScalarView",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.UnicodeScalarView",
@@ -87,7 +81,6 @@ let translatedAttributedStringUnicodeScalarView = ExternalTranslatedType(
 let translatedAttributedStringCharacterView = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.CharacterView")),
     converterType: nil,
-    neutralName: "AttributedString.CharacterView",
     nodeName: "Runtime.AttributedString.CharacterView",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.CharacterView",
@@ -101,7 +94,6 @@ let translatedAttributedStringCharacterView = ExternalTranslatedType(
 let translatedAttributedStringRuns = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs")),
     converterType: nil,
-    neutralName: "AttributedString.Runs",
     nodeName: "Runtime.AttributedString.Runs",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs",
@@ -115,7 +107,6 @@ let translatedAttributedStringRuns = ExternalTranslatedType(
 let translatedAttributedStringRunsIndex = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs.Index")),
     converterType: nil,
-    neutralName: "AttributedString.Runs.Index",
     nodeName: "Runtime.AttributedString.Runs.Index",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs.Index",
@@ -129,7 +120,6 @@ let translatedAttributedStringRunsIndex = ExternalTranslatedType(
 let translatedAttributedStringRunsRun = ExternalTranslatedType(
     sourceType: BetterType.named(.foundation("AttributedString.Runs.Run")),
     converterType: nil,
-    neutralName: "AttributedString.Runs.Run",
     nodeName: "Runtime.AttributedString.Runs.Run",
     kotlinPackage: "com.cricut.fishyjoes.runtime",
     kotlinName: "AttributedString.Runs.Run",

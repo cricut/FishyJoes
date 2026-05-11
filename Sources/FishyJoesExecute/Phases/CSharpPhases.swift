@@ -18,7 +18,7 @@ class CSharpPhases: IotaPhases, Phases {
                 guard let dependency = options.packageInfo?.dependencyMap[$0.swift] else {
                     return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
                 }
-                if let version = dependency.versionInNugetFormat {
+                if let version = dependency.versionInNugetFormat(flexibleVersions: options.config.flexibleVersions) {
                     return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
                 } else {
                     let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(options.config.module)/")
@@ -79,7 +79,7 @@ class CSharpPhases: IotaPhases, Phases {
             if options.codeCoveragePath != nil, !cmd("dotnet-coverage", "--version").runBool() {
                 printAndFlush("Couldn't find dotnet-coverage! Install with:")
                 printAndFlush()
-                printAndFlush("   dotnet tool install --global dotnet-sonarscanner")
+                printAndFlush("   dotnet tool install --global dotnet-coverage")
                 printAndFlush()
                 printAndFlush("and ensure that $HOME/.dotnet/tools is in your path")
             }
@@ -109,11 +109,11 @@ class CSharpPhases: IotaPhases, Phases {
         }
         var dependencyXDLs = Set<String>()
         // Locate dependencies yaml files
-        let fishyJoesYamlConfigs: [FishyJoesConfig] = try dependencyBindingsPaths.compactMap {
+        let dependencyConfigs: [ProjectConfig] = try dependencyBindingsPaths.compactMap {
             $0.key == options.config.module ? nil : $0.value
-        }.map(FishyJoesConfig.readFromFile(basePath:))
+        }.map(ProjectConfig.readFromFile(basePath:))
 
-        fishyJoesYamlConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
+        dependencyConfigs.forEach { dependencyXDLs.formUnion($0.extraDynamicLibraries) }
         let rmArgs = ["-f"] + dependencyXDLs.flatMap {
             [
                 "c-sharp/Cricut.\(options.config.module)/runtimes/osx/native/lib\($0).dylib",

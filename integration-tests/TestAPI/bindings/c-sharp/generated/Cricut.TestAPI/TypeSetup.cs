@@ -1077,7 +1077,7 @@ namespace Cricut.TestAPI {
             FishyJoes_TestAPI_registerTypes();
 
             Once("setup_Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>(
                     Loader.env,
                     "Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>",
@@ -1085,14 +1085,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (Swift.Float, Swift.Double, Swift.Int) async throws -> Swift.Double) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>",
@@ -1100,7 +1100,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.Int) throws -> Swift.Int, @escaping (Swift.Int) throws -> Swift.Int) throws -> (Swift.Int) throws -> Swift.Int...");
+                // Console.WriteLine("setting up (@escaping (Swift.Int) throws -> Swift.Int, @escaping (Swift.Int) throws -> Swift.Int) throws -> (Swift.Int) throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
                     Loader.env,
                     "Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>",
@@ -1108,7 +1108,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int...");
+                // Console.WriteLine("setting up (@escaping (Swift.Int) async throws -> Swift.Int, @escaping (Swift.Int) async throws -> Swift.Int) throws -> (Swift.Int) async throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>",
@@ -1116,7 +1116,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>",
@@ -1124,7 +1124,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) async throws -> Swift.Int) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>",
@@ -1132,7 +1132,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) async throws -> () async throws -> Swift.Int) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>",
@@ -1140,7 +1140,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping (Swift.String, Swift.String, Swift.String, Swift.String) async throws -> Array<Swift.String>) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>",
@@ -1148,14 +1148,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (Float, Double, Int) async throws -> Double) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (Float, Double, Int) async throws -> Double) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up (@escaping (Int) throws -> Int, @escaping (Int) throws -> Int) throws -> (Int) throws -> Int...");
+                // Console.WriteLine("setting up (@escaping (Int) throws -> Int, @escaping (Int) throws -> Int) throws -> (Int) throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>(
                     Loader.env,
                     "Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>",
@@ -1163,7 +1163,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int...");
+                // Console.WriteLine("setting up (@escaping (Int) async throws -> Int, @escaping (Int) async throws -> Int) throws -> (Int) async throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>",
@@ -1171,35 +1171,35 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (Int) async throws -> Int) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (Int) async throws -> Int) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping (String, String, String, String) async throws -> Array<String>) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping (String, String, String, String) async throws -> Array<String>) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (@escaping () async throws -> Swift.Int) throws -> Future<Swift.String>...");
+                // Console.WriteLine("setting up (@escaping () async throws -> Swift.Int) throws -> Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<string>, System.Func<System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>",
@@ -1207,14 +1207,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>", () => {
-                Console.WriteLine("setting up (@escaping () async throws -> Int) async throws -> String...");
+                // Console.WriteLine("setting up (@escaping () async throws -> Int) async throws -> String...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () => {
-                Console.WriteLine("setting up (@escaping () async throws -> Void) throws -> () async throws -> Void...");
+                // Console.WriteLine("setting up (@escaping () async throws -> Void) throws -> () async throws -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Func<System.Threading.Tasks.Task>, System.Func<System.Threading.Tasks.Task>>(
                     Loader.env,
                     "Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
@@ -1222,7 +1222,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
-                Console.WriteLine("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>>...");
+                // Console.WriteLine("setting up (Optional<Array<Optional<Swift.Int>>>) throws -> Optional<Array<Optional<Swift.Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
                     Loader.env,
                     "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>",
@@ -1230,7 +1230,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
-                Console.WriteLine("setting up (Optional<Array<Optional<Int>>>) throws -> Optional<Array<Optional<Int>>>...");
+                // Console.WriteLine("setting up (Optional<Array<Optional<Int>>>) throws -> Optional<Array<Optional<Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?>(
                     Loader.env,
                     "Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>",
@@ -1238,7 +1238,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () => {
-                Console.WriteLine("setting up (Optional<Swift.UInt8>) throws -> Optional<Swift.UInt8>...");
+                // Console.WriteLine("setting up (Optional<Swift.UInt8>) throws -> Optional<Swift.UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<byte?, byte?>(
                     Loader.env,
                     "Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>",
@@ -1246,7 +1246,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>", () => {
-                Console.WriteLine("setting up (Optional<UInt8>) throws -> Optional<UInt8>...");
+                // Console.WriteLine("setting up (Optional<UInt8>) throws -> Optional<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<byte?, byte?>(
                     Loader.env,
                     "Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>",
@@ -1254,7 +1254,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>", () => {
-                Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Future<Swift.Double>...");
+                // Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Future<Swift.Double>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<double>, float, double, nint>(
                     Loader.env,
                     "Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>",
@@ -1262,7 +1262,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
-                Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Swift.Double...");
+                // Console.WriteLine("setting up (Swift.Float, Swift.Double, Swift.Int) throws -> Swift.Double...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<double, float, double, nint>(
                     Loader.env,
                     "Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>",
@@ -1270,7 +1270,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
-                Console.WriteLine("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
+                // Console.WriteLine("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>, nint, byte[], bool>(
                     Loader.env,
                     "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
@@ -1278,7 +1278,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up (Swift.Int) throws -> Future<Swift.Int>...");
+                // Console.WriteLine("setting up (Swift.Int) throws -> Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<nint>, nint>(
                     Loader.env,
                     "Function1Converter<Swift.Int, FutureConverter<Swift.Int>>",
@@ -1286,7 +1286,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function1Converter<Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (Swift.Int) throws -> Swift.Int...");
+                // Console.WriteLine("setting up (Swift.Int) throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<nint, nint>(
                     Loader.env,
                     "Function1Converter<Swift.Int, Swift.Int>",
@@ -1294,7 +1294,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int, Swift.Int) throws -> Swift.Int...");
+                // Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int, Swift.Int) throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
                     Loader.env,
                     "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>",
@@ -1302,7 +1302,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int) throws -> () throws -> Swift.Int...");
+                // Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () throws -> Swift.Int) throws -> () throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
                     Loader.env,
                     "Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>",
@@ -1310,7 +1310,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) throws -> Future<Swift.Int>...");
+                // Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int, Swift.Int) throws -> Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function6Converter_setup<System.Threading.Tasks.Task<nint>, string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint>(
                     Loader.env,
                     "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>",
@@ -1318,7 +1318,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) throws -> Future<() async throws -> Swift.Int>...");
+                // Console.WriteLine("setting up (Swift.String, Swift.Int, Swift.Double, Swift.String, @escaping () async throws -> Swift.Int) throws -> Future<() async throws -> Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function5Converter_setup<System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>, string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>",
@@ -1326,7 +1326,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Future<Array<Swift.String>>...");
+                // Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Future<Array<Swift.String>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>, string, string, string, string>(
                     Loader.env,
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>",
@@ -1334,7 +1334,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Array<Swift.String>...");
+                // Console.WriteLine("setting up (Swift.String, Swift.String, Swift.String, Swift.String) throws -> Array<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
                     Loader.env,
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
@@ -1342,7 +1342,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
-                Console.WriteLine("setting up (Float, Double, Int) throws -> Double...");
+                // Console.WriteLine("setting up (Float, Double, Int) throws -> Double...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<double, float, double, nint>(
                     Loader.env,
                     "Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>",
@@ -1350,21 +1350,21 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>", () => {
-                Console.WriteLine("setting up (Float, Double, Int) async throws -> Double...");
+                // Console.WriteLine("setting up (Float, Double, Int) async throws -> Double...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
-                Console.WriteLine("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError>...");
+                // Console.WriteLine("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function1Converter<Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (Int) throws -> Int...");
+                // Console.WriteLine("setting up (Int) throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<nint, nint>(
                     Loader.env,
                     "Function1Converter<Swift.Int, Swift.Int>",
@@ -1372,14 +1372,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction1Converter<Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (Int) async throws -> Int...");
+                // Console.WriteLine("setting up (Int) async throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction1Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (String, Int, Double, String, @escaping () throws -> Int, Int) throws -> Int...");
+                // Console.WriteLine("setting up (String, Int, Double, String, @escaping () throws -> Int, Int) throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function6Converter_setup<nint, string, nint, double, string, System.Func<nint>, nint>(
                     Loader.env,
                     "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>",
@@ -1387,7 +1387,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>", () => {
-                Console.WriteLine("setting up (String, Int, Double, String, @escaping () throws -> Int) throws -> () throws -> Int...");
+                // Console.WriteLine("setting up (String, Int, Double, String, @escaping () throws -> Int) throws -> () throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function5Converter_setup<System.Func<nint>, string, nint, double, string, System.Func<nint>>(
                     Loader.env,
                     "Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>",
@@ -1395,21 +1395,21 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int...");
+                // Console.WriteLine("setting up (String, Int, Double, String, @escaping () async throws -> Int, Int) async throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction6Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>", () => {
-                Console.WriteLine("setting up (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int...");
+                // Console.WriteLine("setting up (String, Int, Double, String, @escaping () async throws -> Int) async throws -> () async throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction5Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (String, String, String, String) throws -> Array<String>...");
+                // Console.WriteLine("setting up (String, String, String, String) throws -> Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function4Converter_setup<System.Collections.Generic.IList<string>, string, string, string, string>(
                     Loader.env,
                     "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>",
@@ -1417,14 +1417,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (String, String, String, String) async throws -> Array<String>...");
+                // Console.WriteLine("setting up (String, String, String, String) async throws -> Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction4Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function0Converter<FutureConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up () throws -> Future<Swift.Int>...");
+                // Console.WriteLine("setting up () throws -> Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "Function0Converter<FutureConverter<Swift.Int>>",
@@ -1432,7 +1432,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () => {
-                Console.WriteLine("setting up () throws -> Future<Void>...");
+                // Console.WriteLine("setting up () throws -> Future<Void>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<System.Threading.Tasks.Task>(
                     Loader.env,
                     "Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
@@ -1440,7 +1440,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function0Converter<Swift.Int>", () => {
-                Console.WriteLine("setting up () throws -> Swift.Int...");
+                // Console.WriteLine("setting up () throws -> Swift.Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
                     Loader.env,
                     "Function0Converter<Swift.Int>",
@@ -1448,7 +1448,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Function0Converter<Swift.Int>", () => {
-                Console.WriteLine("setting up () throws -> Int...");
+                // Console.WriteLine("setting up () throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup<nint>(
                     Loader.env,
                     "Function0Converter<Swift.Int>",
@@ -1456,14 +1456,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction0Converter<Swift.Int>", () => {
-                Console.WriteLine("setting up () async throws -> Int...");
+                // Console.WriteLine("setting up () async throws -> Int...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Function0Converter<FishyJoesCommonRuntime.VoidConverter>", () => {
-                Console.WriteLine("setting up () throws -> Void...");
+                // Console.WriteLine("setting up () throws -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function0Converter_setup(
                     Loader.env,
                     "Function0Converter<FishyJoesCommonRuntime.VoidConverter>",
@@ -1471,14 +1471,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", () => {
-                Console.WriteLine("setting up () async throws -> Void...");
+                // Console.WriteLine("setting up () async throws -> Void...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction0Converter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_FutureConverter<Function1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up Future<(Swift.Int) throws -> Swift.Int>...");
+                // Console.WriteLine("setting up Future<(Swift.Int) throws -> Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<nint, nint>>(
                     Loader.env,
                     "FutureConverter<Function1Converter<Swift.Int, Swift.Int>>",
@@ -1486,7 +1486,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up Future<(Swift.Int) async throws -> Swift.Int>...");
+                // Console.WriteLine("setting up Future<(Swift.Int) async throws -> Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<nint, System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>",
@@ -1494,7 +1494,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<Function0Converter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Future<() throws -> Swift.Int>...");
+                // Console.WriteLine("setting up Future<() throws -> Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<nint>>(
                     Loader.env,
                     "FutureConverter<Function0Converter<Swift.Int>>",
@@ -1502,7 +1502,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<AsyncFunction0Converter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Future<() async throws -> Swift.Int>...");
+                // Console.WriteLine("setting up Future<() async throws -> Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<System.Threading.Tasks.Task<nint>>>(
                     Loader.env,
                     "FutureConverter<AsyncFunction0Converter<Swift.Int>>",
@@ -1510,7 +1510,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>", () => {
-                Console.WriteLine("setting up Future<() async throws -> Void>...");
+                // Console.WriteLine("setting up Future<() async throws -> Void>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Func<System.Threading.Tasks.Task>>(
                     Loader.env,
                     "FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>",
@@ -1518,7 +1518,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>", () => {
-                Console.WriteLine("setting up Future<Future<() async throws -> Swift.Int>>...");
+                // Console.WriteLine("setting up Future<Future<() async throws -> Swift.Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>",
@@ -1526,7 +1526,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>", () => {
-                Console.WriteLine("setting up Future<Future<Array<Swift.String>>>...");
+                // Console.WriteLine("setting up Future<Future<Array<Swift.String>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>",
@@ -1534,7 +1534,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
-                Console.WriteLine("setting up Future<Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>>...");
+                // Console.WriteLine("setting up Future<Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
@@ -1542,7 +1542,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<Swift.Double>>", () => {
-                Console.WriteLine("setting up Future<Future<Swift.Double>>...");
+                // Console.WriteLine("setting up Future<Future<Swift.Double>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<double>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Double>>",
@@ -1550,7 +1550,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Future<Future<Swift.Int>>...");
+                // Console.WriteLine("setting up Future<Future<Swift.Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<nint>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.Int>>",
@@ -1558,7 +1558,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up Future<Future<Swift.String>>...");
+                // Console.WriteLine("setting up Future<Future<Swift.String>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task<string>>(
                     Loader.env,
                     "FutureConverter<FutureConverter<Swift.String>>",
@@ -1566,7 +1566,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () => {
-                Console.WriteLine("setting up Future<Future<Void>>...");
+                // Console.WriteLine("setting up Future<Future<Void>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Threading.Tasks.Task>(
                     Loader.env,
                     "FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
@@ -1574,7 +1574,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up Future<Array<Swift.String>>...");
+                // Console.WriteLine("setting up Future<Array<Swift.String>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Collections.Generic.IList<string>>(
                     Loader.env,
                     "FutureConverter<ArrayConverter<Swift.String>>",
@@ -1582,7 +1582,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>", () => {
-                Console.WriteLine("setting up Future<Optional<Array<Optional<Swift.Int>>>>...");
+                // Console.WriteLine("setting up Future<Optional<Array<Optional<Swift.Int>>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<System.Collections.Generic.IList<nint?>?>(
                     Loader.env,
                     "FutureConverter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>",
@@ -1590,7 +1590,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<OptionalConverter<Swift.UInt8>>", () => {
-                Console.WriteLine("setting up Future<Optional<Swift.UInt8>>...");
+                // Console.WriteLine("setting up Future<Optional<Swift.UInt8>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<byte?>(
                     Loader.env,
                     "FutureConverter<OptionalConverter<Swift.UInt8>>",
@@ -1598,7 +1598,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
-                Console.WriteLine("setting up Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
+                // Console.WriteLine("setting up Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>(
                     Loader.env,
                     "FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>",
@@ -1606,7 +1606,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<Swift.Double>", () => {
-                Console.WriteLine("setting up Future<Swift.Double>...");
+                // Console.WriteLine("setting up Future<Swift.Double>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<double>(
                     Loader.env,
                     "FutureConverter<Swift.Double>",
@@ -1614,7 +1614,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up Future<Swift.Int>...");
+                // Console.WriteLine("setting up Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<nint>(
                     Loader.env,
                     "FutureConverter<Swift.Int>",
@@ -1622,7 +1622,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<Swift.String>", () => {
-                Console.WriteLine("setting up Future<Swift.String>...");
+                // Console.WriteLine("setting up Future<Swift.String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<string>(
                     Loader.env,
                     "FutureConverter<Swift.String>",
@@ -1630,7 +1630,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<Swift.UInt>", () => {
-                Console.WriteLine("setting up Future<Swift.UInt>...");
+                // Console.WriteLine("setting up Future<Swift.UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<nuint>(
                     Loader.env,
                     "FutureConverter<Swift.UInt>",
@@ -1638,7 +1638,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_FutureConverter<FishyJoesCommonRuntime.VoidConverter>", () => {
-                Console.WriteLine("setting up Future<Void>...");
+                // Console.WriteLine("setting up Future<Void>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup(
                     Loader.env,
                     "FutureConverter<FishyJoesCommonRuntime.VoidConverter>",
@@ -1646,7 +1646,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Bool>>", () => {
-                Console.WriteLine("setting up Array<Optional<Bool>>...");
+                // Console.WriteLine("setting up Array<Optional<Bool>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<bool?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Bool>>",
@@ -1654,7 +1654,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Double>>", () => {
-                Console.WriteLine("setting up Array<Optional<Double>>...");
+                // Console.WriteLine("setting up Array<Optional<Double>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<double?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Double>>",
@@ -1662,7 +1662,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Float>>", () => {
-                Console.WriteLine("setting up Array<Optional<Float>>...");
+                // Console.WriteLine("setting up Array<Optional<Float>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<float?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Float>>",
@@ -1670,7 +1670,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Array<Optional<Int>>...");
+                // Console.WriteLine("setting up Array<Optional<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<nint?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Int>>",
@@ -1678,7 +1678,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Int16>>", () => {
-                Console.WriteLine("setting up Array<Optional<Int16>>...");
+                // Console.WriteLine("setting up Array<Optional<Int16>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<short?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Int16>>",
@@ -1686,7 +1686,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Int32>>", () => {
-                Console.WriteLine("setting up Array<Optional<Int32>>...");
+                // Console.WriteLine("setting up Array<Optional<Int32>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<int?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Int32>>",
@@ -1694,7 +1694,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Int64>>", () => {
-                Console.WriteLine("setting up Array<Optional<Int64>>...");
+                // Console.WriteLine("setting up Array<Optional<Int64>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<long?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Int64>>",
@@ -1702,7 +1702,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.Int8>>", () => {
-                Console.WriteLine("setting up Array<Optional<Int8>>...");
+                // Console.WriteLine("setting up Array<Optional<Int8>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<sbyte?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.Int8>>",
@@ -1710,7 +1710,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.UInt>>", () => {
-                Console.WriteLine("setting up Array<Optional<UInt>>...");
+                // Console.WriteLine("setting up Array<Optional<UInt>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<nuint?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt>>",
@@ -1718,7 +1718,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.UInt16>>", () => {
-                Console.WriteLine("setting up Array<Optional<UInt16>>...");
+                // Console.WriteLine("setting up Array<Optional<UInt16>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<ushort?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt16>>",
@@ -1726,7 +1726,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.UInt32>>", () => {
-                Console.WriteLine("setting up Array<Optional<UInt32>>...");
+                // Console.WriteLine("setting up Array<Optional<UInt32>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<uint?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt32>>",
@@ -1734,7 +1734,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.UInt64>>", () => {
-                Console.WriteLine("setting up Array<Optional<UInt64>>...");
+                // Console.WriteLine("setting up Array<Optional<UInt64>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<ulong?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt64>>",
@@ -1742,7 +1742,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<OptionalConverter<Swift.UInt8>>", () => {
-                Console.WriteLine("setting up Array<Optional<UInt8>>...");
+                // Console.WriteLine("setting up Array<Optional<UInt8>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<byte?>(
                     Loader.env,
                     "ArrayConverter<OptionalConverter<Swift.UInt8>>",
@@ -1750,7 +1750,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
-                Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
+                // Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
                     Loader.env,
                     "ArrayConverter<Foundation.AttributedString.Runs.Run>",
@@ -1758,7 +1758,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
-                Console.WriteLine("setting up Array<AttributedSubstring>...");
+                // Console.WriteLine("setting up Array<AttributedSubstring>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
                     Loader.env,
                     "ArrayConverter<Foundation.AttributedSubstring>",
@@ -1766,7 +1766,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Bool>", () => {
-                Console.WriteLine("setting up Array<Bool>...");
+                // Console.WriteLine("setting up Array<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<bool>(
                     Loader.env,
                     "ArrayConverter<Swift.Bool>",
@@ -1774,7 +1774,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Double>", () => {
-                Console.WriteLine("setting up Array<Double>...");
+                // Console.WriteLine("setting up Array<Double>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<double>(
                     Loader.env,
                     "ArrayConverter<Swift.Double>",
@@ -1782,7 +1782,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Float>", () => {
-                Console.WriteLine("setting up Array<Float>...");
+                // Console.WriteLine("setting up Array<Float>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<float>(
                     Loader.env,
                     "ArrayConverter<Swift.Float>",
@@ -1790,7 +1790,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up Array<Int>...");
+                // Console.WriteLine("setting up Array<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<nint>(
                     Loader.env,
                     "ArrayConverter<Swift.Int>",
@@ -1798,7 +1798,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Int16>", () => {
-                Console.WriteLine("setting up Array<Int16>...");
+                // Console.WriteLine("setting up Array<Int16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<short>(
                     Loader.env,
                     "ArrayConverter<Swift.Int16>",
@@ -1806,7 +1806,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Int32>", () => {
-                Console.WriteLine("setting up Array<Int32>...");
+                // Console.WriteLine("setting up Array<Int32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<int>(
                     Loader.env,
                     "ArrayConverter<Swift.Int32>",
@@ -1814,7 +1814,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Int64>", () => {
-                Console.WriteLine("setting up Array<Int64>...");
+                // Console.WriteLine("setting up Array<Int64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<long>(
                     Loader.env,
                     "ArrayConverter<Swift.Int64>",
@@ -1822,7 +1822,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.Int8>", () => {
-                Console.WriteLine("setting up Array<Int8>...");
+                // Console.WriteLine("setting up Array<Int8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<sbyte>(
                     Loader.env,
                     "ArrayConverter<Swift.Int8>",
@@ -1830,7 +1830,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.String>", () => {
-                Console.WriteLine("setting up Array<String>...");
+                // Console.WriteLine("setting up Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<string>(
                     Loader.env,
                     "ArrayConverter<Swift.String>",
@@ -1838,7 +1838,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.UInt>", () => {
-                Console.WriteLine("setting up Array<UInt>...");
+                // Console.WriteLine("setting up Array<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<nuint>(
                     Loader.env,
                     "ArrayConverter<Swift.UInt>",
@@ -1846,7 +1846,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.UInt16>", () => {
-                Console.WriteLine("setting up Array<UInt16>...");
+                // Console.WriteLine("setting up Array<UInt16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<ushort>(
                     Loader.env,
                     "ArrayConverter<Swift.UInt16>",
@@ -1854,7 +1854,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.UInt32>", () => {
-                Console.WriteLine("setting up Array<UInt32>...");
+                // Console.WriteLine("setting up Array<UInt32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<uint>(
                     Loader.env,
                     "ArrayConverter<Swift.UInt32>",
@@ -1862,7 +1862,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.UInt64>", () => {
-                Console.WriteLine("setting up Array<UInt64>...");
+                // Console.WriteLine("setting up Array<UInt64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<ulong>(
                     Loader.env,
                     "ArrayConverter<Swift.UInt64>",
@@ -1870,7 +1870,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Swift.UInt8>", () => {
-                Console.WriteLine("setting up Array<UInt8>...");
+                // Console.WriteLine("setting up Array<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<byte>(
                     Loader.env,
                     "ArrayConverter<Swift.UInt8>",
@@ -1878,7 +1878,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>", () => {
-                Console.WriteLine("setting up Array<(Int8, Int16, Int32, Int64)>...");
+                // Console.WriteLine("setting up Array<(Int8, Int16, Int32, Int64)>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<System.Tuple<sbyte, short, int, long>>(
                     Loader.env,
                     "ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>",
@@ -1886,7 +1886,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_DictionaryConverter<Swift.Bool, Swift.Bool>", () => {
-                Console.WriteLine("setting up Dictionary<Bool, Bool>...");
+                // Console.WriteLine("setting up Dictionary<Bool, Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_DictionaryConverter_setup<bool, bool>(
                     Loader.env,
                     "DictionaryConverter<Swift.Bool, Swift.Bool>",
@@ -1894,7 +1894,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Dictionary<Int, Optional<Int>>...");
+                // Console.WriteLine("setting up Dictionary<Int, Optional<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_DictionaryConverter_setup<nint, nint?>(
                     Loader.env,
                     "DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>",
@@ -1902,7 +1902,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_DictionaryConverter<Swift.Int, Swift.Int>", () => {
-                Console.WriteLine("setting up Dictionary<Int, Int>...");
+                // Console.WriteLine("setting up Dictionary<Int, Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_DictionaryConverter_setup<nint, nint>(
                     Loader.env,
                     "DictionaryConverter<Swift.Int, Swift.Int>",
@@ -1910,7 +1910,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_DictionaryConverter<Swift.String, Swift.String>", () => {
-                Console.WriteLine("setting up Dictionary<String, String>...");
+                // Console.WriteLine("setting up Dictionary<String, String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_DictionaryConverter_setup<string, string>(
                     Loader.env,
                     "DictionaryConverter<Swift.String, Swift.String>",
@@ -1918,154 +1918,154 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>", () => {
-                Console.WriteLine("setting up Optional<Array<Optional<Int>>>...");
+                // Console.WriteLine("setting up Optional<Array<Optional<Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<ArrayConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Optional<Array<Int>>...");
+                // Console.WriteLine("setting up Optional<Array<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>", () => {
-                Console.WriteLine("setting up Optional<Dictionary<Int, Optional<Int>>>...");
+                // Console.WriteLine("setting up Optional<Dictionary<Int, Optional<Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<DictionaryConverter<Swift.Int, Swift.Int>>", () => {
-                Console.WriteLine("setting up Optional<Dictionary<Int, Int>>...");
+                // Console.WriteLine("setting up Optional<Dictionary<Int, Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>", () => {
-                Console.WriteLine("setting up Optional<Set<Optional<Int>>>...");
+                // Console.WriteLine("setting up Optional<Set<Optional<Int>>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<SetConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Optional<Set<Int>>...");
+                // Console.WriteLine("setting up Optional<Set<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Bool>", () => {
-                Console.WriteLine("setting up Optional<Bool>...");
+                // Console.WriteLine("setting up Optional<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Double>", () => {
-                Console.WriteLine("setting up Optional<Double>...");
+                // Console.WriteLine("setting up Optional<Double>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Float>", () => {
-                Console.WriteLine("setting up Optional<Float>...");
+                // Console.WriteLine("setting up Optional<Float>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up Optional<Int>...");
+                // Console.WriteLine("setting up Optional<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Int16>", () => {
-                Console.WriteLine("setting up Optional<Int16>...");
+                // Console.WriteLine("setting up Optional<Int16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Int32>", () => {
-                Console.WriteLine("setting up Optional<Int32>...");
+                // Console.WriteLine("setting up Optional<Int32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Int64>", () => {
-                Console.WriteLine("setting up Optional<Int64>...");
+                // Console.WriteLine("setting up Optional<Int64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.Int8>", () => {
-                Console.WriteLine("setting up Optional<Int8>...");
+                // Console.WriteLine("setting up Optional<Int8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<TestAPI.SimpleEnum>", () => {
-                Console.WriteLine("setting up Optional<SimpleEnum>...");
+                // Console.WriteLine("setting up Optional<SimpleEnum>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.String>", () => {
-                Console.WriteLine("setting up Optional<String>...");
+                // Console.WriteLine("setting up Optional<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.UInt>", () => {
-                Console.WriteLine("setting up Optional<UInt>...");
+                // Console.WriteLine("setting up Optional<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.UInt16>", () => {
-                Console.WriteLine("setting up Optional<UInt16>...");
+                // Console.WriteLine("setting up Optional<UInt16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.UInt32>", () => {
-                Console.WriteLine("setting up Optional<UInt32>...");
+                // Console.WriteLine("setting up Optional<UInt32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.UInt64>", () => {
-                Console.WriteLine("setting up Optional<UInt64>...");
+                // Console.WriteLine("setting up Optional<UInt64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_OptionalConverter<Swift.UInt8>", () => {
-                Console.WriteLine("setting up Optional<UInt8>...");
+                // Console.WriteLine("setting up Optional<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Double>", () => {
-                Console.WriteLine("setting up ClosedRange<Double>...");
+                // Console.WriteLine("setting up ClosedRange<Double>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<double>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Double>",
@@ -2073,7 +2073,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Float>", () => {
-                Console.WriteLine("setting up ClosedRange<Float>...");
+                // Console.WriteLine("setting up ClosedRange<Float>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<float>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Float>",
@@ -2081,7 +2081,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up ClosedRange<Int>...");
+                // Console.WriteLine("setting up ClosedRange<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<nint>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Int>",
@@ -2089,7 +2089,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Int16>", () => {
-                Console.WriteLine("setting up ClosedRange<Int16>...");
+                // Console.WriteLine("setting up ClosedRange<Int16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<short>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Int16>",
@@ -2097,7 +2097,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Int32>", () => {
-                Console.WriteLine("setting up ClosedRange<Int32>...");
+                // Console.WriteLine("setting up ClosedRange<Int32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Int32>",
@@ -2105,7 +2105,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Int64>", () => {
-                Console.WriteLine("setting up ClosedRange<Int64>...");
+                // Console.WriteLine("setting up ClosedRange<Int64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<long>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Int64>",
@@ -2113,7 +2113,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.Int8>", () => {
-                Console.WriteLine("setting up ClosedRange<Int8>...");
+                // Console.WriteLine("setting up ClosedRange<Int8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<sbyte>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.Int8>",
@@ -2121,7 +2121,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.String>", () => {
-                Console.WriteLine("setting up ClosedRange<String>...");
+                // Console.WriteLine("setting up ClosedRange<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<string>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.String>",
@@ -2129,7 +2129,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.UInt>", () => {
-                Console.WriteLine("setting up ClosedRange<UInt>...");
+                // Console.WriteLine("setting up ClosedRange<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<nuint>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt>",
@@ -2137,7 +2137,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.UInt16>", () => {
-                Console.WriteLine("setting up ClosedRange<UInt16>...");
+                // Console.WriteLine("setting up ClosedRange<UInt16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<ushort>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt16>",
@@ -2145,7 +2145,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.UInt32>", () => {
-                Console.WriteLine("setting up ClosedRange<UInt32>...");
+                // Console.WriteLine("setting up ClosedRange<UInt32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<uint>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt32>",
@@ -2153,7 +2153,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.UInt64>", () => {
-                Console.WriteLine("setting up ClosedRange<UInt64>...");
+                // Console.WriteLine("setting up ClosedRange<UInt64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<ulong>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt64>",
@@ -2161,7 +2161,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ClosedRangeConverter<Swift.UInt8>", () => {
-                Console.WriteLine("setting up ClosedRange<UInt8>...");
+                // Console.WriteLine("setting up ClosedRange<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<byte>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt8>",
@@ -2169,7 +2169,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
-                Console.WriteLine("setting up Range<AttributedString.Index>...");
+                // Console.WriteLine("setting up Range<AttributedString.Index>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
                     Loader.env,
                     "RangeConverter<Foundation.AttributedString.Index>",
@@ -2177,7 +2177,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up Range<Int>...");
+                // Console.WriteLine("setting up Range<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<nint>(
                     Loader.env,
                     "RangeConverter<Swift.Int>",
@@ -2185,7 +2185,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.Int16>", () => {
-                Console.WriteLine("setting up Range<Int16>...");
+                // Console.WriteLine("setting up Range<Int16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<short>(
                     Loader.env,
                     "RangeConverter<Swift.Int16>",
@@ -2193,7 +2193,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.Int32>", () => {
-                Console.WriteLine("setting up Range<Int32>...");
+                // Console.WriteLine("setting up Range<Int32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<int>(
                     Loader.env,
                     "RangeConverter<Swift.Int32>",
@@ -2201,7 +2201,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.Int64>", () => {
-                Console.WriteLine("setting up Range<Int64>...");
+                // Console.WriteLine("setting up Range<Int64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<long>(
                     Loader.env,
                     "RangeConverter<Swift.Int64>",
@@ -2209,7 +2209,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.Int8>", () => {
-                Console.WriteLine("setting up Range<Int8>...");
+                // Console.WriteLine("setting up Range<Int8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<sbyte>(
                     Loader.env,
                     "RangeConverter<Swift.Int8>",
@@ -2217,7 +2217,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.UInt>", () => {
-                Console.WriteLine("setting up Range<UInt>...");
+                // Console.WriteLine("setting up Range<UInt>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<nuint>(
                     Loader.env,
                     "RangeConverter<Swift.UInt>",
@@ -2225,7 +2225,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.UInt16>", () => {
-                Console.WriteLine("setting up Range<UInt16>...");
+                // Console.WriteLine("setting up Range<UInt16>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<ushort>(
                     Loader.env,
                     "RangeConverter<Swift.UInt16>",
@@ -2233,7 +2233,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.UInt32>", () => {
-                Console.WriteLine("setting up Range<UInt32>...");
+                // Console.WriteLine("setting up Range<UInt32>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<uint>(
                     Loader.env,
                     "RangeConverter<Swift.UInt32>",
@@ -2241,7 +2241,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.UInt64>", () => {
-                Console.WriteLine("setting up Range<UInt64>...");
+                // Console.WriteLine("setting up Range<UInt64>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<ulong>(
                     Loader.env,
                     "RangeConverter<Swift.UInt64>",
@@ -2249,7 +2249,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_RangeConverter<Swift.UInt8>", () => {
-                Console.WriteLine("setting up Range<UInt8>...");
+                // Console.WriteLine("setting up Range<UInt8>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<byte>(
                     Loader.env,
                     "RangeConverter<Swift.UInt8>",
@@ -2257,7 +2257,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>", () => {
-                Console.WriteLine("setting up Result<Int, Methods.TheMethodError>...");
+                // Console.WriteLine("setting up Result<Int, Methods.TheMethodError>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.TheMethodError>(
                     Loader.env,
                     "ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>",
@@ -2265,7 +2265,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ResultConverter<Swift.Int, TestAPI.Results.Error>", () => {
-                Console.WriteLine("setting up Result<Int, Results.Error>...");
+                // Console.WriteLine("setting up Result<Int, Results.Error>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<nint, Cricut.TestAPI.Results.Error>(
                     Loader.env,
                     "ResultConverter<Swift.Int, TestAPI.Results.Error>",
@@ -2273,7 +2273,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_ResultConverter<Swift.String, TestAPI.Results.Error>", () => {
-                Console.WriteLine("setting up Result<String, Results.Error>...");
+                // Console.WriteLine("setting up Result<String, Results.Error>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ResultConverter_setup<string, Cricut.TestAPI.Results.Error>(
                     Loader.env,
                     "ResultConverter<Swift.String, TestAPI.Results.Error>",
@@ -2281,7 +2281,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_SetConverter<OptionalConverter<Swift.Int>>", () => {
-                Console.WriteLine("setting up Set<Optional<Int>>...");
+                // Console.WriteLine("setting up Set<Optional<Int>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<nint?>(
                     Loader.env,
                     "SetConverter<OptionalConverter<Swift.Int>>",
@@ -2289,7 +2289,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_SetConverter<Swift.Bool>", () => {
-                Console.WriteLine("setting up Set<Bool>...");
+                // Console.WriteLine("setting up Set<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<bool>(
                     Loader.env,
                     "SetConverter<Swift.Bool>",
@@ -2297,7 +2297,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_SetConverter<Swift.Int>", () => {
-                Console.WriteLine("setting up Set<Int>...");
+                // Console.WriteLine("setting up Set<Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<nint>(
                     Loader.env,
                     "SetConverter<Swift.Int>",
@@ -2305,7 +2305,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_SetConverter<Swift.String>", () => {
-                Console.WriteLine("setting up Set<String>...");
+                // Console.WriteLine("setting up Set<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_SetConverter_setup<string>(
                     Loader.env,
                     "SetConverter<Swift.String>",
@@ -2313,7 +2313,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () => {
-                Console.WriteLine("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...");
+                // Console.WriteLine("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...");
                 Utilities.Check((out CreatedRef exn) => Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
                     Loader.env,
                     bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
@@ -2328,7 +2328,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Swift.String.PuttingTypesIntoQuestionablePlaces", () => {
-                Console.WriteLine("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...");
+                // Console.WriteLine("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...");
                 Utilities.Check((out CreatedRef exn) => Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
                     Loader.env,
                     bag<_Swift_String_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
@@ -2343,7 +2343,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces", () => {
-                Console.WriteLine("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...");
+                // Console.WriteLine("setting up Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces...");
                 Utilities.Check((out CreatedRef exn) => Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -2376,7 +2376,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Actors.TemperatureLogger", () => {
-                Console.WriteLine("setting up TestAPI.Actors.TemperatureLogger...");
+                // Console.WriteLine("setting up TestAPI.Actors.TemperatureLogger...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Actors_TemperatureLogger_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -2386,7 +2386,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Collections.CollectionHolder", () => {
-                Console.WriteLine("setting up TestAPI.Collections.CollectionHolder...");
+                // Console.WriteLine("setting up TestAPI.Collections.CollectionHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_CollectionHolder_setup(
                     Loader.env,
                     bag<_TestAPI_Collections_CollectionHolderConstructor>((ConsumedRef boolArray, ConsumedRef boolSet, ConsumedRef boolDictionary, ConsumedRef integerArray, ConsumedRef integerSet, ConsumedRef integerDictionary, ConsumedRef stringArray, ConsumedRef stringSet, ConsumedRef stringDictionary, out CreatedRef exn) => Catching(out exn, () => {
@@ -2460,7 +2460,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Methods.TheMethodError", () => {
-                Console.WriteLine("setting up TestAPI.Methods.TheMethodError...");
+                // Console.WriteLine("setting up TestAPI.Methods.TheMethodError...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Methods_TheMethodError_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -2470,7 +2470,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Primitives.PrimitiveHolder", () => {
-                Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
+                // Console.WriteLine("setting up TestAPI.Primitives.PrimitiveHolder...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_PrimitiveHolder_setup(
                     Loader.env,
                     bag<_TestAPI_Primitives_PrimitiveHolderConstructor>(([MarshalAs(UnmanagedType.I1)] bool b, ConsumedRef bq, byte ui8, ConsumedRef ui8q, ushort ui16, ConsumedRef ui16q, uint ui32, ConsumedRef ui32q, ulong ui64, ConsumedRef ui64q, nuint ui, ConsumedRef uiq, sbyte i8, ConsumedRef i8q, short i16, ConsumedRef i16q, int i32, ConsumedRef i32q, long i64, ConsumedRef i64q, nint i, ConsumedRef iq, float f, ConsumedRef fq, double d, ConsumedRef dq, out CreatedRef exn) => Catching(out exn, () => {
@@ -2663,7 +2663,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Results.Error", () => {
-                Console.WriteLine("setting up TestAPI.Results.Error...");
+                // Console.WriteLine("setting up TestAPI.Results.Error...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Results_Error_setup(
                     Loader.env,
                     bag<_TestAPI_Results_ErrorConstructor>((ConsumedRef message, out CreatedRef exn) => Catching(out exn, () => {
@@ -2678,7 +2678,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Structs.MemberwiseStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.MemberwiseStruct...");
+                // Console.WriteLine("setting up TestAPI.Structs.MemberwiseStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MemberwiseStruct_setup(
                     Loader.env,
                     bag<_TestAPI_Structs_MemberwiseStructConstructor>((ConsumedRef immutable, ConsumedRef mutable, out CreatedRef exn) => Catching(out exn, () => {
@@ -2703,7 +2703,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Structs.MutableStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.MutableStruct...");
+                // Console.WriteLine("setting up TestAPI.Structs.MutableStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_MutableStruct_setup(
                     Loader.env,
                     bag<_TestAPI_Structs_MutableStructConstructor>((nint i, out CreatedRef exn) => Catching(out exn, () => {
@@ -2721,7 +2721,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Structs.PuttingTypesIntoQuestionablePlaces", () => {
-                Console.WriteLine("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...");
+                // Console.WriteLine("setting up TestAPI.Structs.PuttingTypesIntoQuestionablePlaces...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -2731,7 +2731,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Structs.ReferenceStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.ReferenceStruct...");
+                // Console.WriteLine("setting up TestAPI.Structs.ReferenceStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_ReferenceStruct_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -2741,7 +2741,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Structs.TwentyOneItemStruct", () => {
-                Console.WriteLine("setting up TestAPI.Structs.TwentyOneItemStruct...");
+                // Console.WriteLine("setting up TestAPI.Structs.TwentyOneItemStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_TwentyOneItemStruct_setup(
                     Loader.env,
                     bag<_TestAPI_Structs_TwentyOneItemStructConstructor>((ConsumedRef a, ConsumedRef b, ConsumedRef c, ConsumedRef d, ConsumedRef e, ConsumedRef f, ConsumedRef g, ConsumedRef h, ConsumedRef i, ConsumedRef j, ConsumedRef k, ConsumedRef l, ConsumedRef m, ConsumedRef n, ConsumedRef o, ConsumedRef p, ConsumedRef q, ConsumedRef r, ConsumedRef s, ConsumedRef t, ConsumedRef u, out CreatedRef exn) => Catching(out exn, () => {
@@ -2899,7 +2899,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._AProtocolConverter", () => {
-                Console.WriteLine("setting up TestAPI.AProtocol...");
+                // Console.WriteLine("setting up TestAPI.AProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__AProtocolConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__AProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -2924,7 +2924,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.AProtocolImplementation", () => {
-                Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
+                // Console.WriteLine("setting up TestAPI.AProtocolImplementation...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AProtocolImplementation_setup(
                     Loader.env,
                     bag<_TestAPI_AProtocolImplementationConstructor>((ConsumedRef foo, [MarshalAs(UnmanagedType.I1)] bool baz, out CreatedRef exn) => Catching(out exn, () => {
@@ -2949,14 +2949,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Actors", () => {
-                Console.WriteLine("setting up TestAPI.Actors...");
+                // Console.WriteLine("setting up TestAPI.Actors...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Actors_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.AssociatedDataEnum", () => {
-                Console.WriteLine("setting up TestAPI.AssociatedDataEnum...");
+                // Console.WriteLine("setting up TestAPI.AssociatedDataEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AssociatedDataEnum_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -3105,56 +3105,56 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.AsyncFunctions", () => {
-                Console.WriteLine("setting up TestAPI.AsyncFunctions...");
+                // Console.WriteLine("setting up TestAPI.AsyncFunctions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AsyncFunctions_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.AttributedStrings", () => {
-                Console.WriteLine("setting up TestAPI.AttributedStrings...");
+                // Console.WriteLine("setting up TestAPI.AttributedStrings...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Bytes", () => {
-                Console.WriteLine("setting up TestAPI.Bytes...");
+                // Console.WriteLine("setting up TestAPI.Bytes...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Bytes_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.ClosedRanges", () => {
-                Console.WriteLine("setting up TestAPI.ClosedRanges...");
+                // Console.WriteLine("setting up TestAPI.ClosedRanges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_ClosedRanges_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Collections", () => {
-                Console.WriteLine("setting up TestAPI.Collections...");
+                // Console.WriteLine("setting up TestAPI.Collections...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Collections_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.DefaultArguments", () => {
-                Console.WriteLine("setting up TestAPI.DefaultArguments...");
+                // Console.WriteLine("setting up TestAPI.DefaultArguments...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_DefaultArguments_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Deprecations", () => {
-                Console.WriteLine("setting up TestAPI.Deprecations...");
+                // Console.WriteLine("setting up TestAPI.Deprecations...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Deprecations_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.EmptyClass", () => {
-                Console.WriteLine("setting up TestAPI.EmptyClass...");
+                // Console.WriteLine("setting up TestAPI.EmptyClass...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3164,7 +3164,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.EmptyClass2", () => {
-                Console.WriteLine("setting up TestAPI.EmptyClass2...");
+                // Console.WriteLine("setting up TestAPI.EmptyClass2...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyClass2_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3174,14 +3174,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.EmptyEnum", () => {
-                Console.WriteLine("setting up TestAPI.EmptyEnum...");
+                // Console.WriteLine("setting up TestAPI.EmptyEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyEnum_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.EmptyStruct", () => {
-                Console.WriteLine("setting up TestAPI.EmptyStruct...");
+                // Console.WriteLine("setting up TestAPI.EmptyStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct_setup(
                     Loader.env,
                     bag<_TestAPI_EmptyStructConstructor>((out CreatedRef exn) => Catching(out exn, () => {
@@ -3192,7 +3192,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.EmptyStruct2", () => {
-                Console.WriteLine("setting up TestAPI.EmptyStruct2...");
+                // Console.WriteLine("setting up TestAPI.EmptyStruct2...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_EmptyStruct2_setup(
                     Loader.env,
                     bag<_TestAPI_EmptyStruct2Constructor>((out CreatedRef exn) => Catching(out exn, () => {
@@ -3203,14 +3203,14 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Functions", () => {
-                Console.WriteLine("setting up TestAPI.Functions...");
+                // Console.WriteLine("setting up TestAPI.Functions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Functions_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Methods", () => {
-                Console.WriteLine("setting up TestAPI.Methods...");
+                // Console.WriteLine("setting up TestAPI.Methods...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Methods_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3220,35 +3220,35 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Primitives", () => {
-                Console.WriteLine("setting up TestAPI.Primitives...");
+                // Console.WriteLine("setting up TestAPI.Primitives...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Primitives_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Ranges", () => {
-                Console.WriteLine("setting up TestAPI.Ranges...");
+                // Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.ReferenceEmptyEnum", () => {
-                Console.WriteLine("setting up TestAPI.ReferenceEmptyEnum...");
+                // Console.WriteLine("setting up TestAPI.ReferenceEmptyEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceEmptyEnum_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Results", () => {
-                Console.WriteLine("setting up TestAPI.Results...");
+                // Console.WriteLine("setting up TestAPI.Results...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Results_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.SimpleEnum", () => {
-                Console.WriteLine("setting up TestAPI.SimpleEnum...");
+                // Console.WriteLine("setting up TestAPI.SimpleEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_SimpleEnum_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -3325,21 +3325,21 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Strings", () => {
-                Console.WriteLine("setting up TestAPI.Strings...");
+                // Console.WriteLine("setting up TestAPI.Strings...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Strings_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.Structs", () => {
-                Console.WriteLine("setting up TestAPI.Structs...");
+                // Console.WriteLine("setting up TestAPI.Structs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Structs_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.TestAsyncForeignSideFunctionsStruct", () => {
-                Console.WriteLine("setting up TestAPI.TestAsyncForeignSideFunctionsStruct...");
+                // Console.WriteLine("setting up TestAPI.TestAsyncForeignSideFunctionsStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
                     Loader.env,
                     bag<_TestAPI_TestAsyncForeignSideFunctionsStructConstructor>((ConsumedRef const42, ConsumedRef iabs, ConsumedRef intCompose, ConsumedRef add3Things, ConsumedRef makeList, ConsumedRef fifthThing, ConsumedRef six, ConsumedRef willThrow, ConsumedRef exercise0Fun, ConsumedRef exercise1Fun, ConsumedRef exercise2Fun, ConsumedRef exercise3Fun, ConsumedRef exercise4Fun, ConsumedRef exercise5Fun, ConsumedRef exercise6Fun, ConsumedRef thunkTwiceMakerFun, out CreatedRef exn) => Catching(out exn, () => {
@@ -3414,7 +3414,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestAsyncFunctions...");
+                // Console.WriteLine("setting up TestAPI.TestAsyncFunctions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3478,7 +3478,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestAsyncSwiftSideFunctionsClass", () => {
-                Console.WriteLine("setting up TestAPI.TestAsyncSwiftSideFunctionsClass...");
+                // Console.WriteLine("setting up TestAPI.TestAsyncSwiftSideFunctionsClass...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3488,7 +3488,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestDefaultComputedProperties...");
+                // Console.WriteLine("setting up TestAPI.TestDefaultComputedProperties...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestDefaultComputedPropertiesConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3504,7 +3504,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestDefaultComputedPropertiesClass", () => {
-                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesClass...");
+                // Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesClass...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesClass_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3514,7 +3514,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestDefaultComputedPropertiesEnum", () => {
-                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesEnum...");
+                // Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesEnum_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -3547,7 +3547,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestDefaultComputedPropertiesStruct", () => {
-                Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
+                // Console.WriteLine("setting up TestAPI.TestDefaultComputedPropertiesStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDefaultComputedPropertiesStruct_setup(
                     Loader.env,
                     bag<_TestAPI_TestDefaultComputedPropertiesStructConstructor>(([MarshalAs(UnmanagedType.I1)] bool spam, nint noot, out CreatedRef exn) => Catching(out exn, () => {
@@ -3572,7 +3572,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestDifferingExportNameProtocol...");
+                // Console.WriteLine("setting up TestAPI.TestDifferingExportNameProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestDifferingExportNameProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3585,7 +3585,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestDifferingExportNameStruct", () => {
-                Console.WriteLine("setting up TestAPI.TestDifferingExportNameStruct...");
+                // Console.WriteLine("setting up TestAPI.TestDifferingExportNameStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestDifferingExportNameStruct_setup(
                     Loader.env,
                     bag<_TestAPI_TestDifferingExportNameStructConstructor>((nint tata, out CreatedRef exn) => Catching(out exn, () => {
@@ -3603,7 +3603,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredProp...");
+                // Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredProp...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestLeadingUnderscoredPropConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3616,7 +3616,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestLeadingUnderscoredPropStruct", () => {
-                Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredPropStruct...");
+                // Console.WriteLine("setting up TestAPI.TestLeadingUnderscoredPropStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestLeadingUnderscoredPropStruct_setup(
                     Loader.env,
                     bag<_TestAPI_TestLeadingUnderscoredPropStructConstructor>((ConsumedRef _leadingUnderscoreProp, out CreatedRef exn) => Catching(out exn, () => {
@@ -3634,7 +3634,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestMethodsProtocolConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
+                // Console.WriteLine("setting up TestAPI.TestMethodsProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3662,7 +3662,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestNonExportedProtocolEnum", () => {
-                Console.WriteLine("setting up TestAPI.TestNonExportedProtocolEnum...");
+                // Console.WriteLine("setting up TestAPI.TestNonExportedProtocolEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestNonExportedProtocolEnum_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -3695,7 +3695,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestOptionalsProtocolConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
+                // Console.WriteLine("setting up TestAPI.TestOptionalsProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3714,7 +3714,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI_CommonInterface._TestPropertiesProtocolConverter", () => {
-                Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
+                // Console.WriteLine("setting up TestAPI.TestPropertiesProtocol...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
                     Loader.env,
                     bag<_TestAPI_CommonInterface__TestPropertiesProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3730,7 +3730,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestProtocolClass", () => {
-                Console.WriteLine("setting up TestAPI.TestProtocolClass...");
+                // Console.WriteLine("setting up TestAPI.TestProtocolClass...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolClass_setup(
                     Loader.env,
                     bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
@@ -3740,7 +3740,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestProtocolEnum", () => {
-                Console.WriteLine("setting up TestAPI.TestProtocolEnum...");
+                // Console.WriteLine("setting up TestAPI.TestProtocolEnum...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolEnum_setup(
                     Loader.env,
                     bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
@@ -3773,7 +3773,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.TestProtocolStruct", () => {
-                Console.WriteLine("setting up TestAPI.TestProtocolStruct...");
+                // Console.WriteLine("setting up TestAPI.TestProtocolStruct...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_TestProtocolStruct_setup(
                     Loader.env,
                     bag<_TestAPI_TestProtocolStructConstructor>((ConsumedRef corge, out CreatedRef exn) => Catching(out exn, () => {
@@ -3791,21 +3791,21 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_TestAPI.Tuples", () => {
-                Console.WriteLine("setting up TestAPI.Tuples...");
+                // Console.WriteLine("setting up TestAPI.Tuples...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Tuples_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_TestAPI.URLs", () => {
-                Console.WriteLine("setting up TestAPI.URLs...");
+                // Console.WriteLine("setting up TestAPI.URLs...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_URLs_setup(
                     Loader.env,
                     out exn
                 ));
             });
             Once("setup_Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", () => {
-                Console.WriteLine("setting up (Bool, Double, Array<String>)...");
+                // Console.WriteLine("setting up (Bool, Double, Array<String>)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, double, System.Collections.Generic.IList<string>>(
                     Loader.env,
                     "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>",
@@ -3813,7 +3813,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", () => {
-                Console.WriteLine("setting up (Bool, Int, String)...");
+                // Console.WriteLine("setting up (Bool, Int, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<bool, nint, string>(
                     Loader.env,
                     "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>",
@@ -3821,7 +3821,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple2Converter<Swift.Int, Swift.String>", () => {
-                Console.WriteLine("setting up (Int, String)...");
+                // Console.WriteLine("setting up (Int, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple2Converter_setup<nint, string>(
                     Loader.env,
                     "Tuple2Converter<Swift.Int, Swift.String>",
@@ -3829,7 +3829,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>", () => {
-                Console.WriteLine("setting up (Int8, Int16, Int32, Int64)...");
+                // Console.WriteLine("setting up (Int8, Int16, Int32, Int64)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple4Converter_setup<sbyte, short, int, long>(
                     Loader.env,
                     "Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>",
@@ -3837,7 +3837,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple3Converter<Swift.String, Swift.Double, Swift.String>", () => {
-                Console.WriteLine("setting up (String, Double, String)...");
+                // Console.WriteLine("setting up (String, Double, String)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple3Converter_setup<string, double, string>(
                     Loader.env,
                     "Tuple3Converter<Swift.String, Swift.Double, Swift.String>",
@@ -3845,7 +3845,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>", () => {
-                Console.WriteLine("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)...");
+                // Console.WriteLine("setting up (String, Int, Double, ((Int, String), (String, Double, String), String, Bool), (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String)), Bool)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple6Converter_setup<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>(
                     Loader.env,
                     "Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>",
@@ -3853,7 +3853,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>", () => {
-                Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
+                // Console.WriteLine("setting up (String, UInt8, ((Int, String), (String, Double, String), String, Bool), (String, Double, String), (Int, String))...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple5Converter_setup<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>(
                     Loader.env,
                     "Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>",
@@ -3861,7 +3861,7 @@ namespace Cricut.TestAPI {
                 ));
             });
             Once("setup_Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>", () => {
-                Console.WriteLine("setting up ((Int, String), (String, Double, String), String, Bool)...");
+                // Console.WriteLine("setting up ((Int, String), (String, Double, String), String, Bool)...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Tuple4Converter_setup<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>(
                     Loader.env,
                     "Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>",

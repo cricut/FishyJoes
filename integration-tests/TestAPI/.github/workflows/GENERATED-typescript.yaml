@@ -16,39 +16,35 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  NODE_VERSION: "18.x"
-  GITHUB_USER: cricut-builduser
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
 
 jobs:
   build-test-pack-ts-mac:
     name: "macOS: Build and test typescript bindings"
-    runs-on: sojo-macos
+    runs-on: macos-26
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Install generation tools
         shell: zsh {0}
         run: |
-          yq --version || brew install yq
+          swift run fishy-joes install-system-dependencies for-generation
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -60,7 +56,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --nodejs --fat generate build
+          swift run -- fishy-joes --nodejs --fat build
 
       - name: Test from node
         shell: zsh {0}
@@ -81,10 +77,11 @@ jobs:
           swift run -- fishy-joes --nodejs --fat --version $VERSION pack
 
       - name: Upload NPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm_mac_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'
@@ -101,42 +98,33 @@ jobs:
   build-test-pack-ts-linux:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:3.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
-        shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          git config --global --add safe.directory '*'
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
-          swift run fishy-joes install-toolchains --swiftly --wasm
+          swift run fishy-joes install-system-dependencies for-wasm
 
-          # Use wasm version of wasm-opt because ubuntu version can be very old
-          npm install -g binaryen
-          wasm-opt --version
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Pre-build hook
         shell: bash
@@ -169,10 +157,11 @@ jobs:
           swift run -- fishy-joes --nodejs --wasm --version $VERSION pack
 
       - name: Upload NPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm_linux_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'
@@ -190,6 +179,9 @@ jobs:
     name: "Windows: Build and test typescript bindings"
     runs-on: windows-2025
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
@@ -200,24 +192,17 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          branch: swift-6.2-release
+          tag: 6.2-RELEASE
 
       - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true
@@ -260,10 +245,11 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs --version $VERSION pack
 
       - name: Upload NPM artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: npm_windows_packages
           path: bindings/packed-npm-packages/cricut-*.tgz
+          if-no-files-found: error
 
       - name: Publish NPM package
         if: success() && github.event_name == 'release'

@@ -1,36 +1,46 @@
 #!/bin/zsh
 
-set -euo pipefail
+set -euxo pipefail
 
-source /VERSIONS || { echo "This script expects to run in android-swift-runtime docker image"; exit 1 }
+if [[ ! -d kotlin-runtime ]]; then
+    echo "Not in root of FishyJoes"
+    exit 1
+fi
 
-set -x
-
-git config --global --add safe.directory '*'
+source ./scripts/_read-tool-versions.sh --verbose
 
 CONFIGURATION="${CONFIGURATION:-release}"
 libdir=kotlin-runtime/src/generated/resources
 
-androidsStupidPlatforms=(
-    "armv7 armeabi-v7a"
-    "aarch64 arm64-v8a"
-    "x86_64 x86_64"
-)
 export ANDROID_COMPATIBLE_ONLY=1
 
-for platformStr in $androidsStupidPlatforms; do
-    platform=(${(z)platformStr})
-    arch=${platform[1]}
-    ndkArch=${platform[2]}
+for ((i = 1; i <= $#swiftAndroidTargetTriples; i++)); do
+    triple=${swiftAndroidTargetTriples[i]}
+    ndkArch=${swiftAndroidTargetNDKArchNames[i]}
 
-    swift-build \
+    swiftBuild=(swiftly run +$swiftAndroidToolchain ++ swift build)
+    if ! swiftly --version; then
+        echo "No swiftly found. Hoping that system swift version is $swiftAndroidToolchain"
+        swift --version
+        swiftBuild=(swift build)
+    fi
+
+    $swiftBuild \
+        --swift-sdk $triple \
         --scratch-path .build/android-build \
         --configuration $CONFIGURATION \
-        --product FishyJoesJavaRuntime \
-        --destination /swift-android-$arch/usr/swiftpm-android-$arch.json
+        --product FishyJoesJavaRuntime
     installDir=$libdir/lib/$ndkArch
     mkdir -p $installDir/
-    cp .build/android-build/$arch-unknown-linux-android$androidAPIVersion/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
+    cp .build/android-build/$triple/$CONFIGURATION/libFishyJoesJavaRuntime.so $installDir/
 done
 
-cp /VERSIONS $libdir/FishyJoesAndroidVersions.txt
+FISHYJOES_ANDROID_DEST=kotlin-runtime/src/generated/resources/lib ./scripts/copy-linux-swift-stdlib.sh
+
+cat >$libdir/FishyJoesAndroidVersions.txt <<EOF
+androidArchs=($swiftAndroidTargetTriples)
+swiftVersion=$swiftAndroidToolchain
+ndkVersion=$swiftAndroidNDKVersion
+swiftAndroidSDKName=$swiftAndroidSDK
+swiftAndroidSDKChecksum=$swiftAndroidSDKChecksum
+EOF

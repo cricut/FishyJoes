@@ -4,7 +4,6 @@ struct TranslatedFuture: TranslatedType {
     let output: TranslatedType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlinx.coroutines"
     let jniType = JNIType.object("kotlinx/coroutines/Deferred")
@@ -16,7 +15,6 @@ struct TranslatedFuture: TranslatedType {
         self.output = output
         self.nodeName = "Promise<\(output.nodeName)>"
         self.kotlinName = "Deferred<\(output.kotlinName)"
-        self.neutralName = "Future<\(output.neutralName)>"
         self.containedNamedTypes = [output]
         self.cSharpType = .task(output.cSharpType)
         self.dartType = .future(output.dartType)

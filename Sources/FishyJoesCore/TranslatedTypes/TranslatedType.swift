@@ -1,9 +1,8 @@
-import SourceryRuntime
+import SourceryDataModel
 
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var converterType: BetterType { get }
-    var neutralName: String { get }
     var nodeName: String { get }
     var kotlinPackage: String? { get }
     var kotlinName: String { get }
@@ -192,36 +191,5 @@ enum ForeignSetupParameter<Typ> {
         case .value(_, _, let writer):
             return writer
         }
-    }
-}
-
-extension Type {
-    // Used both for efficiency and to break cycles
-    fileprivate static var inhabitedCache: [Type: Bool] = [:]
-    var isInhabited: Bool {
-        if let inhabited = Type.inhabitedCache[self] { return inhabited }
-
-        // Will miss some uninhabited, cyclic types, but that's not super important
-        Type.inhabitedCache[self] = true
-        let result: Bool
-        if let self = self as? Enum {
-            result = self.cases.contains { enumCase in
-                enumCase.associatedValues.allSatisfy {
-                    // TODO: fixpoint? (fixpoint is a technique to detect cycles of uninhabited types)
-                    // example:
-                    // 
-                    // indirect enum ComplicatedEmpty {
-                    //   case cantHappen(ComplicatedEmpty)
-                    // }
-                    //
-                    $0.type?.isInhabited ?? true
-                }
-            }
-        } else {
-            result = storedVariables.allSatisfy { $0.isStatic || $0.type?.isInhabited ?? true }
-        }
-
-        Type.inhabitedCache[self] = result
-        return result
     }
 }

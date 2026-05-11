@@ -1,6 +1,6 @@
-import FishyJoesConfig
 import Foundation
 import swsh
+import ToolchainConfig
 import XCTest
 
 #if os(Linux)
@@ -22,17 +22,18 @@ class NAPITests: XCTestCase {
             "swift",
             arguments: [
                 "sdk", "configure",
-                "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasi",
-                "wasm32-unknown-wasi",
+                "\(ToolVersions.shared.swiftWasm.sdk)-wasm32-unknown-wasip1",
+                "wasm32-unknown-wasip1",
                 "--show-configuration",
             ]
         ).runLines()
         return Dictionary(
-            uniqueKeysWithValues: lines.map { line in
-                let keyValue = line.split(separator: ": ").map(String.init)
+            lines.compactMap { line in
+                let keyValue = line.split(separator: ": ", maxSplits: 1).map(String.init)
+                guard keyValue.count == 2 else { return nil }
                 return (keyValue[0], keyValue[1])
             }
-        )
+        ) { value0, _ in value0 }
     }()
 
     lazy var wasiSDKPath = sdkConfig["sdkRootPath"]!
@@ -40,12 +41,12 @@ class NAPITests: XCTestCase {
     lazy var CC = "clang"
     lazy var LD = "clang"
     lazy var CFLAGS: [String] = [
-        "-target", "wasm32-unknown-wasi",
+        "-target", "wasm32-unknown-wasip1",
         "--sysroot", wasiSDKPath,
         "-ISources/NodeAPI/include",
     ]
     lazy var LDFLAGS: [String] = [
-        "-target", "wasm32-unknown-wasi",
+        "-target", "wasm32-unknown-wasip1",
         "-resource-dir", "\(wasiSDKPath)/../swift.xctoolchain/usr/lib/swift_static/clang",
         "--sysroot", wasiSDKPath,
 
@@ -92,7 +93,7 @@ class NAPITests: XCTestCase {
 
     func testNative(_ testName: String, js: [String] = ["test.js"], fixups: [String] = []) throws {
         let path = "\(testDirectory)/\(testName)"
-        try cmd("mkdir", "-p", "\(path)/build/release").run()
+        try cmd("mkdir", "-p", "\(path)/build/Release").run()
 
         let sources: [(source: String, object: String)] = try (
             commonSources + FileManager.default.contentsOfDirectory(atPath: path).compactMap {
@@ -108,9 +109,9 @@ class NAPITests: XCTestCase {
             try swiftly(CC, arguments: CFLAGS + ["-o", object, "-c", source]).run()
         }
 
-        try swiftly(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/release/out.wasm"]).run()
+        try swiftly(LD, arguments: LDFLAGS + sources.map(\.object) + ["-o", "\(path)/build/Release/out.wasm"]).run()
 
-        try cmd("cp", "\(testDirectory)/../runner.js", "\(path)/build/release/\(testName).js").run()
+        try cmd("cp", "\(testDirectory)/../runner.js", "\(path)/build/Release/\(testName).js").run()
 
         for testSource in js {
             print("testing \(path)/\(testSource)")

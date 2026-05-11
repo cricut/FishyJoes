@@ -15,6 +15,10 @@ include: package:lints/recommended.yaml
 
 # Uncomment the following section to specify additional rules.
 
+formatter:
+  page_width: 120
+  trailing_commas: preserve
+
 linter:
   rules:
     avoid_init_to_null: false
@@ -23,6 +27,7 @@ linter:
     camel_case_types: false
     non_constant_identifier_names: false
     prefer_initializing_formals: false
+    require_trailing_commas: true
 
     # Not so sure about these options...
     file_names: false

@@ -1,26 +1,23 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import Foundation
 import PackageDescription
 
-let strictConcurrencyFlags: [SwiftSetting] = []
+let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]
 // [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
-let disableGeneration = env["DISABLE_GENERATION"] == "1"
 let wasmCompatibleOnly = env["WASM_ONLY"] == "1"
-let androidCompatibleOnly = env["ANDROID_COMPATIBLE_ONLY"] == "1"
-let javaHome = env["JAVA_HOME_11_X64"] ?? env["JAVA_HOME"]
 let extraLibPath = env["EXTRA_LIBPATH"]?.split(separator: ";") ?? []
-
-func generationEnabled<T>(_ things: @autoclosure () -> [T]) -> [T] {
-    #if os(macOS)
-    return (disableGeneration || wasmCompatibleOnly || androidCompatibleOnly) ? [] : things()
-    #else
-    return []
-    #endif
-}
+// On Windows debug builds, the Swift compiler emits type metadata references to
+// _FoundationCollections.BigString.Index (an internal Foundation backing type for
+// AttributedString.Runs.Index) that lld-link cannot resolve because the SDK does not
+// ship _FoundationCollections.lib. -Osize enables sufficient optimization to eliminate
+// these unused metadata references while preserving a reasonable level of debugger fidelity.
+let windowsDebugSwiftSettings: [SwiftSetting] = [
+    .unsafeFlags(["-Osize"], .when(platforms: [.windows], configuration: .debug))
+]
 
 func wasmIncompatible<T>(_ things: @autoclosure () -> [T]) -> [T] {
     wasmCompatibleOnly ? [] : things()
@@ -44,32 +41,19 @@ let package = Package(
             P.library(name: "FishyJoesJavaRuntime", type: .dynamic, targets: ["FishyJoesJavaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "FishyJoesIotaRuntime", type: .dynamic, targets: ["FishyJoesIotaRuntime", "FishyJoesCommonRuntime"]),
             P.library(name: "JavaRuntimeTestHarness", type: .dynamic, targets: ["JavaRuntimeTestHarness"]),
-        ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] :
-        [
             P.executable(name: "fishy-joes", targets: ["FishyJoesExecuteMain"]),
         ]
-    ) + generationEnabled(
-        [
-            P.executable(name: "helper-fishy-joes-core", targets: ["FishyJoesExecutionHelper"]),
-        ]
     ),
-    dependencies: generationEnabled(
-        [
-            D.package(
-                url: "https://github.com/cricut/Sourcery", branch: "wasm-compatible"
-            ),
-        ]
-    ) + wasmIncompatible(
+    dependencies: wasmIncompatible(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
-            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.4.0"),
+            D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
-    ]),
+    ),
     targets: [
-        T.target(name: "FishyJoesCommonRuntime"),
+        T.target(name: "SourceryDataModel"),
+        T.target(name: "FishyJoesCommonRuntime", swiftSettings: windowsDebugSwiftSettings),
         // Kotlin / Java
         T.systemLibrary(name: "JNI"),
         T.target(
@@ -78,7 +62,7 @@ let package = Package(
                 .target(name: "JNI"),
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         T.target(
             name: "JavaRuntimeTestHarness",
@@ -93,7 +77,7 @@ let package = Package(
             dependencies: [
                 .target(name: "FishyJoesCommonRuntime"),
             ],
-            swiftSettings: strictConcurrencyFlags
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings
         ),
         // TypeScript Node.js / Wasm
         T.target(
@@ -120,7 +104,7 @@ let package = Package(
             exclude: [
                 "Templates",
             ],
-            swiftSettings: strictConcurrencyFlags,
+            swiftSettings: strictConcurrencyFlags + windowsDebugSwiftSettings,
             linkerSettings: [
                 .unsafeFlags(
                     // These symbols must be defined by the node process that loads the N-API addon.
@@ -282,22 +266,13 @@ let package = Package(
                 ),
             ]
         ),
-    ] + generationEnabled(
+    ] + wasmIncompatible(
         [
             T.target(
                 name: "FishyJoesCore",
                 dependencies: [
-                    .target(name: "GenerationHelpers"),
-                    .product(name: "SourceryRuntime", package: "Sourcery"),
+                    .target(name: "SourceryDataModel"),
                 ],
-                swiftSettings: strictConcurrencyFlags
-            ),
-            T.executableTarget(
-                name: "FishyJoesExecutionHelper",
-                dependencies: [
-                    .target(name: "FishyJoesCore"),
-                ],
-                resources: [.copy("FishyJoes.swifttemplate")],
                 swiftSettings: strictConcurrencyFlags
             ),
             T.testTarget(
@@ -315,47 +290,44 @@ let package = Package(
                 resources: [.copy("Resources")],
                 swiftSettings: strictConcurrencyFlags
             ),
+            T.executableTarget(
+                name: "FishyJoesExecuteMain",
+                dependencies: ["FishyJoesExecute"],
+                swiftSettings: strictConcurrencyFlags,
+                linkerSettings: [
+                    .unsafeFlags(
+                        ["-Xlinker", "/IGNORE:4217"],
+                        .when(platforms: [.windows])
+                    )
+                ]
+            ),
+            T.target(
+                name: "ToolchainConfig",
+                resources: [.copy("tool-versions.json")],
+                swiftSettings: strictConcurrencyFlags
+            ),
+            T.target(
+                name: "FishyJoesExecute",
+                dependencies: [
+                    .target(name: "ToolchainConfig"),
+                    .target(name: "FishyJoesCore"),
+                    .product(name: "swsh", package: "swsh"),
+                    .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                    .product(name: "Yams", package: "Yams")
+                ],
+                resources: [.copy("Resources")],
+                swiftSettings: strictConcurrencyFlags
+            ),
+            T.testTarget(
+                name: "NAPITests",
+                dependencies: [
+                    .target(name: "ToolchainConfig"),
+                    .product(name: "swsh", package: "swsh"),
+                ],
+                exclude: ["node-tests"],
+                swiftSettings: strictConcurrencyFlags
+            ),
         ]
-    ) + (androidCompatibleOnly || wasmCompatibleOnly ? [] : [
-        T.executableTarget(
-            name: "FishyJoesExecuteMain",
-            dependencies: ["FishyJoesExecute"],
-            swiftSettings: strictConcurrencyFlags,
-            linkerSettings: [
-                .unsafeFlags(
-                    ["-Xlinker", "/IGNORE:4217"],
-                    .when(platforms: [.windows])
-                )
-            ]
-        ),
-        T.target(
-            name: "FishyJoesConfig",
-            resources: [.copy("tool-versions.json")]
-        ),
-        T.target(
-            // TODO: better name for this target
-            name: "GenerationHelpers"
-        ),
-        T.target(
-            name: "FishyJoesExecute",
-            dependencies: [
-                .target(name: "FishyJoesConfig"),
-                .target(name: "GenerationHelpers"),
-                .product(name: "swsh", package: "swsh"),
-                .product(name: "ArgumentParser", package: "swift-argument-parser"),
-                .product(name: "Yams", package: "Yams"),
-            ],
-            resources: [.copy("Resources")],
-            swiftSettings: strictConcurrencyFlags
-        ),
-        T.testTarget(
-            name: "NAPITests",
-            dependencies: [
-                .target(name: "FishyJoesConfig"),
-                .product(name: "swsh", package: "swsh"),
-            ],
-            exclude: ["node-tests"],
-            swiftSettings: strictConcurrencyFlags
-        ),
-    ])
+    ),
+    swiftLanguageModes: [.v5]
 )

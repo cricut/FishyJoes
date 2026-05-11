@@ -27,7 +27,8 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
             module: "FishyJoesCommonRuntime",
             name: "AttributeContainer",
             properties: [
-                "merge": (
+                (
+                    name: "merge",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "merge", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             var mutatingSelf = try env.this(converter: AttributeContainer.self)
@@ -45,7 +46,8 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "equals": (
+                (
+                    name: "equals",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "equals", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             guard let lhs = try? env.this(converter: AttributeContainer.self),
@@ -58,7 +60,8 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hashCode": (
+                (
+                    name: "hashCode",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hashCode", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let hashValue = AttributedString("HASH", attributes: try env.this(converter: AttributeContainer.self)).hashValue
@@ -67,7 +70,8 @@ extension AttributeContainer: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "createEmpty": (
+                (
+                    name: "createEmpty",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createEmpty", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try AttributeContainer.toNode(

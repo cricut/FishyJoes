@@ -26,7 +26,8 @@ class NodePhases: BasePhases, Phases {
                 let version = options.packageInfo?.dependencyMap[dependency.swift]?
                     .versionInNpmFormat(
                         relativeTo: "bindings/ts/generated/packages/node-native\(platform)",
-                        addIfLocalPath: dependency.subPath
+                        addIfLocalPath: dependency.subPath,
+                        flexibleVersions: options.config.flexibleVersions
                     )
                     ?? "0.0.1-unknown"
                 return #""@cricut/\#(dependency.npm)": "\#(version)""#
@@ -154,7 +155,7 @@ class NodePhases: BasePhases, Phases {
                 let optArgs = try [
                     "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)",
                 ] + (
-                    options.buildConfig.debug ? ["--debuginfo", "-O1"] : ["-O1"]
+                    options.buildConfig.debug ? ["--debuginfo", "-O1"] : ["-O1", "--strip-dwarf", "--strip-debug"]
                 ) + [
                     "-o", "\(outputDir)/\(nodeModule.name).wasm",
                 ]
@@ -207,6 +208,8 @@ class NodePhases: BasePhases, Phases {
             try installLibrary(nodeModule.name)
             try installLibrary(nodeModule.nativeLibName)
             try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
+
+            try cmd("mkdir", "-p", platform.extraLibPathDir()).run()
 
             // For node to load a library correctly, the file must be ".cjs.node", so compile a shim to load the actual Node interfacing library
             // and copy it into the build directory so it can be installed like any other library
@@ -461,7 +464,7 @@ class NodePhases: BasePhases, Phases {
             args.append(contentsOf: ["-shared", "-undefined", "dynamic_lookup"])
         }
         if optimize {
-            args.append("-Ofast")
+            args.append("-O3")
         }
         for headerSearchPath in headerSearchPaths {
             args.append("-I\(headerSearchPath)")

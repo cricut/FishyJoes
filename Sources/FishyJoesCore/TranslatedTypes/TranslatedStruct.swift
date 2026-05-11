@@ -1,10 +1,9 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedStruct: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
@@ -18,32 +17,29 @@ struct TranslatedStruct: TranslatedType {
     let definingModule: Module
     let conformances: Set<BetterType>
 
-    init(context: FishyJoesContext, type: Type) {
+    init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
             fatalErr("c symbol not specified")
         }
-        guard type.kind == "struct" else { fatalErr("not a struct") }
+        guard type.kind == .struct else { fatalErr("not a struct") }
 
         self.sourceType = BetterType(named: type, context: context)
         self.nodeName = exportAnnotation.name
         self.kotlinName = exportAnnotation.name
-        self.neutralName = "Struct<Named=\(exportAnnotation.name)>"
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
-        self.storedVariables = type.storedVariables.compactMap { Field($0, type: type) }
-        self.computedVariables = Field.fields(type: type)
+        self.storedVariables = type.storedVariables.compactMap { Field($0, inType: type, context: context) }
+        self.computedVariables = Field.fields(type: type, context: context)
 
-        self.methods = Method.methods(type: type)
+        self.methods = Method.methods(type: type, context: context)
         self.documentation = type.documentation
-        self.isInhabited = type.isInhabited
+        self.isInhabited = context.isTypeInhabited(type)
         self.definingModule = context.module
 
-        self.conformances = Set(type.implements.compactMap {
-            return .init(named: $0.value, context: context)
-        })
+        self.conformances = Set(type.implements.map(\.better))
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -107,19 +103,14 @@ struct TranslatedStruct: TranslatedType {
                     fragment.output(#"module: "\#(context.module)","#)
                     fragment.output(#"name: "\#(nodeName)","#)
                     fragment.outputBlock("properties: [", closeWith: "],") {
-                        var hasProperties = false
-                        hasProperties ||= context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
-                        hasProperties ||= context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
+                        context.nodeTranslator.outputProperties(methods: methods, context: context, fragment: fragment, converterName: converterType.name)
+                        context.nodeTranslator.outputProperties(computedVariables: computedVariables, context: context, fragment: fragment, converterName: converterType.name)
 
                         for storedVar in storedVariables {
                             // Limitation in wasm implementation of napi_create_class doesn't allow constructors to assign to non-mutable property.
                             // let mutable = storedVar.isPubliclyWritable
                             let mutable = true
-                            fragment.output("\"\(storedVar.name)\": (.stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
-                            hasProperties = true
-                        }
-                        if !hasProperties {
-                            fragment.output(":")
+                            fragment.output("(name: \"\(storedVar.name)\", .stored(mutable: \(mutable)), isStatic: \(storedVar.isStatic)),")
                         }
                     }
                     fragment.outputBlock("constructor: { env, info in", closeWith: "}") {
@@ -202,7 +193,7 @@ struct TranslatedStruct: TranslatedType {
                         "Self._constructorMethodID",
                     ] + storedVariables.map { storedVar in
                         let resolved = context.resolve(type: storedVar.type)
-                        return "jvalue(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
+                        return "JVALUE.from(\(resolved.converterType.name).toJava(value.\(storedVar.name), env: env))"
                     }
                     fragment.outputMap(args, separator: ",") { $0 }
                 }

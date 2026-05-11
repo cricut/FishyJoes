@@ -15,51 +15,49 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
+  DOTNET_VERSION: '8.0.x'
+  GITHUB_USER: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ github.token }}
+
 jobs:
   integration-tests-mac:
     name: "macOS: Integration tests"
-    runs-on: sojo-macos
+    runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up java
+        uses: actions/setup-java@v5
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
-          java-version: 20
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '6'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - uses: dart-lang/setup-dart@v1
 
       - name: Install generation tools
         shell: zsh {0}
         run: |
-          yq --version || brew install yq
+          set -euo pipefail
 
-      - name: Force clear nuget cache
-        run: "dotnet nuget locals all --clear"
-
-      - uses: dart-lang/setup-dart@v1
+          swift run fishy-joes install-system-dependencies for-generation
 
       - name: Ensure re-generating does not change committed generated code
         shell: zsh {0}
@@ -135,48 +133,33 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
 
-  integration-tests-ubuntu:
-    name: "Ubuntu: Integration tests"
+  integration-tests-ubuntu-and-android:
+    name: "Ubuntu/Android: Integration tests"
+    runs-on: ubuntu-latest
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       CONFIGURATION: debug
 
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up java
+        uses: actions/setup-java@v5
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Login to github registry
-        uses: docker/login-action@v2
-        with:
-          username: cricut-builduser
-          password:  ${{ secrets.CRICUT_GPR_TOKEN }}
-          registry: ghcr.io
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
-          java-version: 20
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '6'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - uses: dart-lang/setup-dart@v1
 
@@ -184,12 +167,17 @@ jobs:
         run: |
           set -euxo pipefail
 
-          sudo apt-get install zsh libcurl4-openssl-dev
+          sudo apt-get update
+          sudo apt-get install -y zsh libcurl4-openssl-dev
 
-          # Sadly, Ubuntu LTS doesn't have an up-to-date binaryen, so use a wasm version instead
-          npm -g install binaryen@111.0.0
+          swift run fishy-joes install-system-dependencies for-wasm for-android
 
-          swift run fishy-joes install-toolchains --swiftly --wasm
+          source ~/.local/share/swiftly/env.sh
+          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
+          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
+
+          swiftly install 6.2.4
+          swiftly use -y 6.2.4
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -229,7 +217,7 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
 
-      - name: Build linux FishyJoesJavaRuntime
+      - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -238,18 +226,7 @@ jobs:
           rm -rf $libdir
           mkdir -p $libdir
           ./scripts/compile-kotlin-native-runtime.sh
-
-      # Running this step messes with permissions significantly,
-      # in particular causing subsequent git checkouts to fail, so testing of Kotlin / Java is being done last
-      - name: Build android FishyJoesJavaRuntime
-        uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/cricut/android-swift-runtime:3.0.2
-          options: -v ${{ github.workspace }}:/work -w /work
-          run: /work/scripts/compile-android-runtime.sh
+          ./scripts/compile-android-runtime.sh
 
       - name: Locally publish kotlin native & android runtimes
         shell: zsh {0}
@@ -270,19 +247,36 @@ jobs:
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
 
-      - name: Upload artifacts for use by Android later
-        uses: actions/upload-artifact@v4
+      - name: Build android test app
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/android-test-app
+          ./gradlew assembleAndroidTest
+
+      # Android emulator steup needs this
+      # https://github.blog/changelog/2023-02-23-hardware-accelerated-android-virtualization-on-actions-windows-and-linux-larger-hosted-runners/
+      - name: Enable KVM group perms
+        run: |
+            echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+            sudo udevadm control --reload-rules
+            sudo udevadm trigger --name-match=kvm
+
+      - name: Test android test app
+        uses: reactivecircus/android-emulator-runner@e89f39f1abbbd05b1113a29cf4db69e7540cae5a  # v2.37.0
         with:
-          name: maven-local
-          path: ~/.m2/repository
+          api-level: 29
+          arch: x86_64
+          # NOTE: each line of this script is executed in its own shell
+          script: |
+            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest
 
   integration-tests-windows:
     name: "Windows: Integration tests"
     runs-on: windows-2025
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
       SWIFT: ${{ github.workspace }}\scripts\swift-shim.ps1
       SWIFT_PACKAGE_RESOLVE: 0
       EXTRA_LIBPATH: '.build\lib'
@@ -292,33 +286,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.1-release
-          tag: 6.1-RELEASE
+          swift-version: swift-6.2-release
+          swift-build: 6.2-RELEASE
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - name: Set up java
+        uses: actions/setup-java@v5
         with:
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
-          java-version: 20
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '6'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - uses: dart-lang/setup-dart@v1
 
@@ -406,54 +394,3 @@ jobs:
 
           cd integration-tests/TestAPI
           "$SWIFT" run -- fishy-joes --kotlin-fast build test
-
-  integration-tests-android:
-    name: "Android: Integration Tests"
-    needs: [integration-tests-ubuntu]
-    runs-on: macOS-13
-    env:
-      GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
-      CONFIGURATION: debug
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      # Must use Java 17 instead of Java 11 because Gradle requires it to build the Android sample app
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 17
-
-      - name: Retrieve artifacts
-        uses: actions/download-artifact@v4
-
-      - name: Build android test app
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          ls -la maven-local
-
-          rm -rf ~/.m2/repository
-          mkdir -p ~/.m2
-          mv maven-local ~/.m2/repository
-
-          cd integration-tests/android-test-app
-          ./gradlew assembleAndroidTest
-
-      - name: Test android test app
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          arch: x86_64
-          # NOTE: each line of this script is executed in its own shell
-          script: |
-            cd integration-tests/android-test-app && ./gradlew connectedAndroidTest

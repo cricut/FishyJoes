@@ -1,11 +1,10 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedUnsignedPrimitive: TranslatedType {
     let sourceType: BetterType
     let cName: String
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
@@ -43,7 +42,6 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.cName = cName
         self.nodeName = nodeName
         self.kotlinName = "U" + jniType.valueType
-        self.neutralName = "UnsignedPrimitive<\(cName)>"
         self.containedNamedTypes = []
         self.kotlinPackage = nil
         self.cSharpType = .primitive(cSharpName)

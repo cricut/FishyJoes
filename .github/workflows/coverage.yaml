@@ -15,53 +15,49 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+env:
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
+  DOTNET_VERSION: '8.0.x'
+  GITHUB_USER: ${{ github.actor }}
+  GITHUB_TOKEN: ${{ github.token }}
+
 jobs:
   coverage:
-    runs-on: sojo-macos
+    runs-on: macos-26
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
-      GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-      GITHUB_USER: cricut-builduser
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # gather baseline coverage only on pushes to main
+      COVERAGE_MODE: ${{ github.event_name == 'push' && github.ref == 'ref/head/main' && 'baseline' || 'report' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up java
+        uses: actions/setup-java@v5
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup JDK
-        uses: actions/setup-java@v3
-        with:
+          java-version: ${{ env.JAVA_VERSION }}
           distribution: zulu
-          java-version: 20
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '6'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Force clear nuget cache
-        run: "dotnet nuget locals all --clear"
-
-      - name: Configure build environment
+      - name: Install tools
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          yq --version || brew install yq
-
-          swift run fishy-joes install-toolchains --swiftly --wasm
-
+          swift run fishy-joes install-system-dependencies for-generation for-wasm
           (cd integration-tests/TestAPI/bindings/ts/tests; npm install)
           (cd Tests/NAPITests/node-tests; npm install)
 
@@ -83,13 +79,117 @@ jobs:
           ./scripts/generate-raw-coverage.sh
           ./scripts/gather-coverage.sh
 
-      - name: Upload to sonar cloud
+      - name: "Get Cache: Coverage history"
+        uses: actions/cache/restore@v5
+        with:
+          key: coverage-history-cache-key
+          path: CoverageHistory
+
+      - name: "Coverage: Generate Reports"
+        uses: danielpalme/ReportGenerator-GitHub-Action@a003c8fb9ac008fd0fffd5faa4f7d3ecb52e0675  # v5
+        with:
+          reports: "\
+            coverage-data/lcov.info;\
+            coverage-data/jacoco-*/test/jacocoTestReport.xml;\
+            coverage-data/integration-tests-c-sharp.xml"
+          filefilters: "+*;-.build/*"
+          sourcedirs: "\
+            kotlin-runtime/src/main/kotlin/com/cricut/fishyjoes/runtime;\
+            kotlin-runtime/src/test/kotlin/com/cricut/fishyjoes/runtime;\
+            integration-tests/TestAPI/bindings/kotlin/generated/src/main/kotlin/com/cricut/testapi;\
+            integration-tests/TestAPI/bindings/kotlin/src/test/kotlin/com/cricut/testapi"
+          targetdir: "CoverageReport"
+
+          reporttypes: "MarkdownSummaryGithub;MarkdownDeltaSummary;Cobertura;Badges;Html_Dark"
+          historydir: "CoverageHistory"
+
+      - name: "Coverage: Check changed lines (diff-cover)"
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          sonar-scanner \
-            '-Dsonar.sources=.' \
-            '-Dsonar.coverageReportPaths=coverage-data/coverage.xml' \
-            '-Dsonar.coverage.jacoco.xmlReportPaths=coverage-data/jacoco-*/test/jacocoTestReport.xml' \
-            '-Dsonar.cs.vscoveragexml.reportsPaths=coverage-data/integration-tests-c-sharp.xml'
+          pip install diff_cover==10.2.0 --quiet
+          diff-cover CoverageReport/Cobertura.xml \
+            --compare-branch=origin/${GITHUB_BASE_REF:-main} \
+            --format markdown:CoverageReport/DiffCoverage.md
+
+      - name: "Upload coverage report as an artifact"
+        id: coverage-artifact-upload-step
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: CoverageReport
+          if-no-files-found: error
+
+      - name: "Coverage: comment on PR"
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/github-script@v9
+        env:
+          COVERAGE_DOWNLOAD_URL: ${{ steps.coverage-artifact-upload-step.outputs.artifact-url }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs          = require('fs');
+            const marker      = '<!-- coverage-report -->';
+            const diffPath    = 'CoverageReport/DiffCoverage.md';
+            const deltaPath   = 'CoverageReport/DeltaSummary.md';
+            const summaryPath = 'CoverageReport/SummaryGithub.md';
+
+            const stripMethodCoveragePlaceholder = (text) =>
+              text.replace(/\|[^|\n]*[Mm]ethod coverage[^|\n]*\|[^\n]*\n?/g, '');
+
+            const stripFullyCoveredFiles = (text) =>
+              text.replace(/^- .+ \(100%\)\n?/gm, '');
+
+            const collapseDiffCoverageDetails = (text) => {
+              const match = text.match(/^[\s\S]*?- \*\*Coverage\*\*:[^\n]*\n/m);
+              if (!match) return text;
+              const rest = text.slice(match[0].length).trim();
+              if (!rest) return text;
+              return match[0] + '\n<details>\n<summary>Per-file coverage details</summary>\n\n' + rest + '\n</details>';
+            };
+
+            let body = marker + '\n';
+            if (fs.existsSync(diffPath)) {
+              body += collapseDiffCoverageDetails(stripFullyCoveredFiles(fs.readFileSync(diffPath, 'utf8'))) + '\n\n---\n\n';
+            }
+            if (fs.existsSync(deltaPath)) {
+              const delta = stripMethodCoveragePlaceholder(fs.readFileSync(deltaPath, 'utf8'));
+              body += '<details>\n<summary>Delta Summary</summary>\n\n' + delta + '\n</details>\n\n---\n\n';
+            }
+            if (fs.existsSync(summaryPath)) {
+              const summary = stripMethodCoveragePlaceholder(fs.readFileSync(summaryPath, 'utf8'));
+              body += '<details>\n<summary>Full Summary</summary>\n\n' + summary + '\n</details>\n\n';
+            } else {
+              body += '### Code Coverage Report\n⚠️ No coverage data found — check that test results were cached correctly.\n\n';
+            }
+            body += `[Download full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner:        context.repo.owner,
+              repo:         context.repo.repo,
+            });
+            const existing = comments.find(c => c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner:      context.repo.owner,
+                repo:       context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner:        context.repo.owner,
+                repo:         context.repo.repo,
+                body,
+              });
+            }
+
+      - name: "Coverage: save updated history"
+        if: ${{ env.COVERAGE_MODE == 'baseline' }}
+        uses: actions/cache/save@v5
+        with:
+          key: coverage-history-cache-key
+          path: CoverageHistory

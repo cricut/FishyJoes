@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedFunction: TranslatedType {
     let parameters: [TranslatedType]
@@ -8,7 +8,6 @@ struct TranslatedFunction: TranslatedType {
     let sourceType: BetterType
     let nodeName: String
     let kotlinName: String
-    let neutralName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = nil
     let jniType: JNIType
@@ -26,7 +25,6 @@ struct TranslatedFunction: TranslatedType {
             isAsync: isAsync,
             isThrowing: isThrowing
         )
-        self.neutralName = "Function<ReturnType=\(returnType.neutralName), Params=[\(parameters.map { $0.neutralName }.joined(separator: ", "))]>"
         self.nodeName = "(\(parameters.enumerated().map { "_\($0.offset): \($0.element.nodeType)" }.joined(separator: ", "))) => \(isAsync ? "Promise<" : "")\(returnType.nodeType)\(isAsync ? ">" : "")"
         let kotlinArgs = parameters.map(\.kotlinPackageQualifiedName).joined(separator: ", ")
         self.kotlinName = "(\(isAsync ? "suspend " : "")(\(kotlinArgs)) -> \(returnType.kotlinPackageQualifiedName))"

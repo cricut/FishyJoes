@@ -1,5 +1,3 @@
-// Generated using Sourcery 2.2.6 — https://github.com/krzysztofzablocki/Sourcery
-// DO NOT EDIT
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
 import FishyJoesNodeRuntime
@@ -7,7 +5,6 @@ import Foundation
 import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
-
 
 // MARK: - NodeInterface/Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces+node.swift
 
@@ -37,7 +34,8 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
             module: "TestAPI",
             name: "AttributedString_PuttingTypesIntoQuestionablePlaces",
             properties: [
-                "testCall": (
+                (
+                    name: "testCall",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -50,7 +48,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
                     },
                     isStatic: false
                 ),
-                "x": (.stored(mutable: true), isStatic: false),
+                (name: "x", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AttributedString_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
@@ -68,7 +66,6 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
         )
     }
 }
-
 
 // MARK: - NodeInterface/Swift.String.PuttingTypesIntoQuestionablePlaces+node.swift
 
@@ -98,7 +95,8 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.
             module: "TestAPI",
             name: "String_PuttingTypesIntoQuestionablePlaces",
             properties: [
-                "testCall": (
+                (
+                    name: "testCall",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -111,7 +109,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.
                     },
                     isStatic: false
                 ),
-                "x": (.stored(mutable: true), isStatic: false),
+                (name: "x", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "String_PuttingTypesIntoQuestionablePlaces_constructor", expectedArgumentCount: 1) { env in
@@ -129,7 +127,6 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.
         )
     }
 }
-
 
 // MARK: - NodeInterface/Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces+node.swift
 
@@ -150,7 +147,8 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeR
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "testCall": (
+            (
+                name: "testCall",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Int.toNode(
@@ -173,7 +171,6 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeR
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AProtocol+node.swift
 
@@ -322,7 +319,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
             module: "TestAPI",
             name: "ExternalWitness_AProtocol",
             properties: [
-                "bar": (
+                (
+                    name: "bar",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
@@ -337,7 +335,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation": (
+                (
+                    name: "hasADefaultImplementation",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
@@ -353,7 +352,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation2": (
+                (
+                    name: "hasADefaultImplementation2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
@@ -370,7 +370,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "baz": (
+                (
+                    name: "baz",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
@@ -381,7 +382,8 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "foo": (
+                (
+                    name: "foo",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
@@ -407,7 +409,6 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AProtocolImplementation+node.swift
 
@@ -444,7 +445,8 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "AProtocolImplementation",
             properties: [
-                "bar": (
+                (
+                    name: "bar",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
@@ -459,7 +461,8 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation": (
+                (
+                    name: "hasADefaultImplementation",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -474,7 +477,8 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "hasADefaultImplementation2": (
+                (
+                    name: "hasADefaultImplementation2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -490,8 +494,8 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "foo": (.stored(mutable: true), isStatic: false),
-                "baz": (.stored(mutable: true), isStatic: false),
+                (name: "foo", .stored(mutable: true), isStatic: false),
+                (name: "baz", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "AProtocolImplementation_constructor", expectedArgumentCount: 2) { env in
@@ -510,7 +514,6 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Actors+node.swift
 
@@ -531,7 +534,6 @@ extension TestAPI.Actors: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Actors",
             properties: [
-                :
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -551,7 +553,6 @@ extension TestAPI.Actors: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Actors.TemperatureLogger+node.swift
 
@@ -583,7 +584,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Actors.TemperatureLogger",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI.Actors.TemperatureLogger.toNode(
@@ -598,7 +600,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "update": (
+                (
+                    name: "update",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "update", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -630,7 +633,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "min": (
+                (
+                    name: "min",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "min", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -660,7 +664,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "extensionIsolatedGetLabel": (
+                (
+                    name: "extensionIsolatedGetLabel",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionIsolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -690,7 +695,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "extensionNonisolatedGetLabel": (
+                (
+                    name: "extensionNonisolatedGetLabel",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -703,7 +709,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "backwardsLabel": (
+                (
+                    name: "backwardsLabel",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "backwardsLabel", expectedArgumentCount: 0) { env in
@@ -714,7 +721,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "extensionNonisolatedVarLabel": (
+                (
+                    name: "extensionNonisolatedVarLabel",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
@@ -725,7 +733,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "label": (
+                (
+                    name: "label",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
@@ -736,7 +745,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -763,7 +773,6 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.AssociatedDataEnum+node.swift
 
@@ -860,7 +869,8 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "AssociatedDataEnum",
             properties: [
-                "plus": (
+                (
+                    name: "plus",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try TestAPI.AssociatedDataEnum.toNode(
@@ -874,7 +884,8 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "intValue": (
+                (
+                    name: "intValue",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
@@ -885,7 +896,8 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "staticThing": (
+                (
+                    name: "staticThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
@@ -919,7 +931,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             name: "AssociatedDataEnum.Thing",
             superclass: superclass,
             properties: [
-                "value": (.stored(mutable: true), isStatic: false),
+                (name: "value", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -945,8 +957,8 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             name: "AssociatedDataEnum.Other",
             superclass: superclass,
             properties: [
-                "unnamed": (.stored(mutable: true), isStatic: false),
-                "_1": (.stored(mutable: true), isStatic: false),
+                (name: "unnamed", .stored(mutable: true), isStatic: false),
+                (name: "_1", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -973,9 +985,9 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             name: "AssociatedDataEnum.Bar",
             superclass: superclass,
             properties: [
-                "named": (.stored(mutable: true), isStatic: false),
-                "_1": (.stored(mutable: true), isStatic: false),
-                "toggled": (.stored(mutable: true), isStatic: false),
+                (name: "named", .stored(mutable: true), isStatic: false),
+                (name: "_1", .stored(mutable: true), isStatic: false),
+                (name: "toggled", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -1002,7 +1014,8 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "AssociatedDataEnum.NoValue",
             superclass: superclass,
-            properties: [:],
+            properties: [
+            ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
                     env, info,
@@ -1026,7 +1039,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             name: "AssociatedDataEnum.SimpleEnum",
             superclass: superclass,
             properties: [
-                "value": (.stored(mutable: true), isStatic: false),
+                (name: "value", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -1049,7 +1062,6 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.AsyncFunctions+node.swift
 
 extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
@@ -1069,7 +1081,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "AsyncFunctions",
             properties: [
-                "exercise0": (
+                (
+                    name: "exercise0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1100,7 +1113,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise1": (
+                (
+                    name: "exercise1",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1131,7 +1145,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise2": (
+                (
+                    name: "exercise2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1162,7 +1177,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise3": (
+                (
+                    name: "exercise3",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1193,7 +1209,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise4": (
+                (
+                    name: "exercise4",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1224,7 +1241,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise5": (
+                (
+                    name: "exercise5",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1255,7 +1273,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise6": (
+                (
+                    name: "exercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -1286,7 +1305,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "thunkTwiceMaker": (
+                (
+                    name: "thunkTwiceMaker",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
@@ -1300,7 +1320,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "add3Things": (
+                (
+                    name: "add3Things",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
@@ -1311,7 +1332,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "const42": (
+                (
+                    name: "const42",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
@@ -1322,7 +1344,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "fifthThing": (
+                (
+                    name: "fifthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
@@ -1333,7 +1356,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "abs": (
+                (
+                    name: "abs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
@@ -1344,7 +1368,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "intCompose": (
+                (
+                    name: "intCompose",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
@@ -1355,7 +1380,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "makeList": (
+                (
+                    name: "makeList",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
@@ -1366,7 +1392,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "sixthThing": (
+                (
+                    name: "sixthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
@@ -1377,7 +1404,8 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "willThrow": (
+                (
+                    name: "willThrow",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
@@ -1408,7 +1436,6 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.AttributedStrings+node.swift
 
 extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
@@ -1428,7 +1455,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "AttributedStrings",
             properties: [
-                "echo": (
+                (
+                    name: "echo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.toNode(
@@ -1442,7 +1470,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "firstIndex": (
+                (
+                    name: "firstIndex",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "firstIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.Index.toNode(
@@ -1456,7 +1485,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "lastIndex": (
+                (
+                    name: "lastIndex",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "lastIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.Index.toNode(
@@ -1470,7 +1500,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "fullRange": (
+                (
+                    name: "fullRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "fullRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Foundation.AttributedString.Index>.toNode(
@@ -1484,7 +1515,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "attributedCharacters": (
+                (
+                    name: "attributedCharacters",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributedCharacters", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Foundation.AttributedSubstring>.toNode(
@@ -1498,7 +1530,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "attributesPreferringDuplicatesNearerStart": (
+                (
+                    name: "attributesPreferringDuplicatesNearerStart",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributesPreferringDuplicatesNearerStart", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributeContainer.toNode(
@@ -1512,7 +1545,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "emptyAttributeRuns": (
+                (
+                    name: "emptyAttributeRuns",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "emptyAttributeRuns", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Foundation.AttributedString.Runs.Run>.toNode(
@@ -1526,7 +1560,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "accent": (
+                (
+                    name: "accent",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
@@ -1537,7 +1572,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chinese": (
+                (
+                    name: "chinese",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
@@ -1548,7 +1584,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chineseBMP": (
+                (
+                    name: "chineseBMP",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
@@ -1559,7 +1596,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chineseSIP": (
+                (
+                    name: "chineseSIP",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
@@ -1570,7 +1608,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "emoji": (
+                (
+                    name: "emoji",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
@@ -1581,7 +1620,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "emojiMulti": (
+                (
+                    name: "emojiMulti",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
@@ -1592,7 +1632,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "polyglot": (
+                (
+                    name: "polyglot",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "polyglot", expectedArgumentCount: 0) { env in
@@ -1603,7 +1644,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "script": (
+                (
+                    name: "script",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
@@ -1614,7 +1656,8 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "simple": (
+                (
+                    name: "simple",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
@@ -1645,7 +1688,6 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Bytes+node.swift
 
 extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
@@ -1665,7 +1707,8 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Bytes",
             properties: [
-                "echoBytes": (
+                (
+                    name: "echoBytes",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBytes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.UInt8>.toNode(
@@ -1679,7 +1722,8 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoData": (
+                (
+                    name: "echoData",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoData", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.Data.toNode(
@@ -1693,7 +1737,8 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "bytes": (
+                (
+                    name: "bytes",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bytes", expectedArgumentCount: 0) { env in
@@ -1704,7 +1749,8 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "data": (
+                (
+                    name: "data",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "data", expectedArgumentCount: 0) { env in
@@ -1735,7 +1781,6 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.ClosedRanges+node.swift
 
 extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
@@ -1755,7 +1800,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "ClosedRanges",
             properties: [
-                "echoUInt8Range": (
+                (
+                    name: "echoUInt8Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt8>.toNode(
@@ -1769,7 +1815,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt16Range": (
+                (
+                    name: "echoUInt16Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt16>.toNode(
@@ -1783,7 +1830,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt32Range": (
+                (
+                    name: "echoUInt32Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt32>.toNode(
@@ -1797,7 +1845,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt64Range": (
+                (
+                    name: "echoUInt64Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt64>.toNode(
@@ -1811,7 +1860,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUIntRange": (
+                (
+                    name: "echoUIntRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt>.toNode(
@@ -1825,7 +1875,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt8Range": (
+                (
+                    name: "echoInt8Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int8>.toNode(
@@ -1839,7 +1890,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt16Range": (
+                (
+                    name: "echoInt16Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int16>.toNode(
@@ -1853,7 +1905,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt32Range": (
+                (
+                    name: "echoInt32Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int32>.toNode(
@@ -1867,7 +1920,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt64Range": (
+                (
+                    name: "echoInt64Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int64>.toNode(
@@ -1881,7 +1935,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoIntRange": (
+                (
+                    name: "echoIntRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int>.toNode(
@@ -1895,7 +1950,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoFloatRange": (
+                (
+                    name: "echoFloatRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloatRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Float>.toNode(
@@ -1909,7 +1965,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoDoubleRange": (
+                (
+                    name: "echoDoubleRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDoubleRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Double>.toNode(
@@ -1923,7 +1980,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoStringRange": (
+                (
+                    name: "echoStringRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoStringRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.String>.toNode(
@@ -1937,7 +1995,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "doubleRange": (
+                (
+                    name: "doubleRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "doubleRange", expectedArgumentCount: 0) { env in
@@ -1948,7 +2007,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "floatRange": (
+                (
+                    name: "floatRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "floatRange", expectedArgumentCount: 0) { env in
@@ -1959,7 +2019,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int16Range": (
+                (
+                    name: "int16Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
@@ -1970,7 +2031,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int32Range": (
+                (
+                    name: "int32Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
@@ -1981,7 +2043,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int64Range": (
+                (
+                    name: "int64Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
@@ -1992,7 +2055,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int8Range": (
+                (
+                    name: "int8Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
@@ -2003,7 +2067,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "intRange": (
+                (
+                    name: "intRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
@@ -2014,7 +2079,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "stringRange": (
+                (
+                    name: "stringRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "stringRange", expectedArgumentCount: 0) { env in
@@ -2025,7 +2091,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt16Range": (
+                (
+                    name: "uInt16Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
@@ -2036,7 +2103,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt32Range": (
+                (
+                    name: "uInt32Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
@@ -2047,7 +2115,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt64Range": (
+                (
+                    name: "uInt64Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
@@ -2058,7 +2127,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt8Range": (
+                (
+                    name: "uInt8Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
@@ -2069,7 +2139,8 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uIntRange": (
+                (
+                    name: "uIntRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
@@ -2100,7 +2171,6 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Collections+node.swift
 
 extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
@@ -2120,7 +2190,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Collections",
             properties: [
-                "echoArrayOfInt": (
+                (
+                    name: "echoArrayOfInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoArrayOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.Int>.toNode(
@@ -2134,7 +2205,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoSetOfInt": (
+                (
+                    name: "echoSetOfInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoSetOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try SetConverter<Swift.Int>.toNode(
@@ -2148,7 +2220,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoDictionaryOfIntToInt": (
+                (
+                    name: "echoDictionaryOfIntToInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDictionaryOfIntToInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try DictionaryConverter<Swift.Int, Swift.Int>.toNode(
@@ -2162,7 +2235,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoMaybeArrayOfMaybeInt": (
+                (
+                    name: "echoMaybeArrayOfMaybeInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeArrayOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toNode(
@@ -2176,7 +2250,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoMaybeSetOfMaybeInt": (
+                (
+                    name: "echoMaybeSetOfMaybeInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeSetOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.toNode(
@@ -2190,7 +2265,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoMaybeDictionaryOfIntToMaybeInt": (
+                (
+                    name: "echoMaybeDictionaryOfIntToMaybeInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.toNode(
@@ -2204,7 +2280,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "collectionMapper": (
+                (
+                    name: "collectionMapper",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "collectionMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toNode(
@@ -2219,7 +2296,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "arrayOfBigTuples": (
+                (
+                    name: "arrayOfBigTuples",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
@@ -2230,7 +2308,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "arrayOfInt": (
+                (
+                    name: "arrayOfInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfInt", expectedArgumentCount: 0) { env in
@@ -2241,7 +2320,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "defaultCollectionHolder": (
+                (
+                    name: "defaultCollectionHolder",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultCollectionHolder", expectedArgumentCount: 0) { env in
@@ -2252,7 +2332,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "dictionaryOfIntToInt": (
+                (
+                    name: "dictionaryOfIntToInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dictionaryOfIntToInt", expectedArgumentCount: 0) { env in
@@ -2263,7 +2344,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeArrayOfInt": (
+                (
+                    name: "maybeArrayOfInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfInt", expectedArgumentCount: 0) { env in
@@ -2274,7 +2356,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeArrayOfMaybeInt": (
+                (
+                    name: "maybeArrayOfMaybeInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfMaybeInt", expectedArgumentCount: 0) { env in
@@ -2285,7 +2368,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeDictionaryOfIntToInt": (
+                (
+                    name: "maybeDictionaryOfIntToInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToInt", expectedArgumentCount: 0) { env in
@@ -2296,7 +2380,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeDictionaryOfIntToMaybeInt": (
+                (
+                    name: "maybeDictionaryOfIntToMaybeInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 0) { env in
@@ -2307,7 +2392,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeSetOfInt": (
+                (
+                    name: "maybeSetOfInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfInt", expectedArgumentCount: 0) { env in
@@ -2318,7 +2404,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maybeSetOfMaybeInt": (
+                (
+                    name: "maybeSetOfMaybeInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfMaybeInt", expectedArgumentCount: 0) { env in
@@ -2329,7 +2416,8 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "setOfInt": (
+                (
+                    name: "setOfInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "setOfInt", expectedArgumentCount: 0) { env in
@@ -2359,7 +2447,6 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Collections.CollectionHolder+node.swift
 
@@ -2438,7 +2525,8 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
             module: "TestAPI",
             name: "Collections.CollectionHolder",
             properties: [
-                "staticMutableProperty": (
+                (
+                    name: "staticMutableProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
@@ -2453,7 +2541,8 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
                         }),
                     isStatic: true
                 ),
-                "staticProperty": (
+                (
+                    name: "staticProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
@@ -2464,15 +2553,15 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
                     ),
                     isStatic: true
                 ),
-                "boolArray": (.stored(mutable: true), isStatic: false),
-                "boolSet": (.stored(mutable: true), isStatic: false),
-                "boolDictionary": (.stored(mutable: true), isStatic: false),
-                "integerArray": (.stored(mutable: true), isStatic: false),
-                "integerSet": (.stored(mutable: true), isStatic: false),
-                "integerDictionary": (.stored(mutable: true), isStatic: false),
-                "stringArray": (.stored(mutable: true), isStatic: false),
-                "stringSet": (.stored(mutable: true), isStatic: false),
-                "stringDictionary": (.stored(mutable: true), isStatic: false),
+                (name: "boolArray", .stored(mutable: true), isStatic: false),
+                (name: "boolSet", .stored(mutable: true), isStatic: false),
+                (name: "boolDictionary", .stored(mutable: true), isStatic: false),
+                (name: "integerArray", .stored(mutable: true), isStatic: false),
+                (name: "integerSet", .stored(mutable: true), isStatic: false),
+                (name: "integerDictionary", .stored(mutable: true), isStatic: false),
+                (name: "stringArray", .stored(mutable: true), isStatic: false),
+                (name: "stringSet", .stored(mutable: true), isStatic: false),
+                (name: "stringDictionary", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Collections.CollectionHolder_constructor", expectedArgumentCount: 9) { env in
@@ -2499,7 +2588,6 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.DefaultArguments+node.swift
 
 extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
@@ -2519,7 +2607,8 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "DefaultArguments",
             properties: [
-                "echoDefaults": (
+                (
+                    name: "echoDefaults",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaults", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try Swift.String.toNode(
@@ -2555,7 +2644,6 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Deprecations+node.swift
 
 extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
@@ -2575,7 +2663,8 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Deprecations",
             properties: [
-                "deprecatedMethod": (
+                (
+                    name: "deprecatedMethod",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2588,7 +2677,8 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "deprecatedVariable": (
+                (
+                    name: "deprecatedVariable",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedVariable", expectedArgumentCount: 0) { env in
@@ -2618,7 +2708,6 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.EmptyClass+node.swift
 
@@ -2650,7 +2739,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "EmptyClass1",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyClass.toNode(
@@ -2663,7 +2753,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "shme": (
+                (
+                    name: "shme",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "shme", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2676,7 +2767,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "Gorpers": (
+                (
+                    name: "Gorpers",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "Gorpers", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2689,7 +2781,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "blarg": (
+                (
+                    name: "blarg",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "blarg", expectedArgumentCount: 0) { env in
@@ -2700,7 +2793,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "wibbledyWobbledyTimeyWhimey": (
+                (
+                    name: "wibbledyWobbledyTimeyWhimey",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "wibbledyWobbledyTimeyWhimey", expectedArgumentCount: 0) { env in
@@ -2711,7 +2805,8 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2738,7 +2833,6 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.EmptyClass2+node.swift
 
@@ -2770,7 +2864,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "EmptyClass2",
             properties: [
-                "make": (
+                (
+                    name: "make",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "make", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyClass2.toNode(
@@ -2783,7 +2878,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "shmee": (
+                (
+                    name: "shmee",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "shmee", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2796,7 +2892,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "gorp": (
+                (
+                    name: "gorp",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "gorp", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2809,7 +2906,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "blorg": (
+                (
+                    name: "blorg",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "blorg", expectedArgumentCount: 0) { env in
@@ -2820,7 +2918,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "wibble": (
+                (
+                    name: "wibble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "wibble", expectedArgumentCount: 0) { env in
@@ -2831,7 +2930,8 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2859,7 +2959,6 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyEnum+node.swift
 
 extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -2879,7 +2978,8 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "EmptyEnum",
             properties: [
-                "notGoingToHappen": (
+                (
+                    name: "notGoingToHappen",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             try (
@@ -2890,7 +2990,8 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "aStaticMethod": (
+                (
+                    name: "aStaticMethod",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -2903,7 +3004,8 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "aStaticProperty": (
+                (
+                    name: "aStaticProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
@@ -2934,7 +3036,6 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyStruct+node.swift
 
 extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
@@ -2958,7 +3059,8 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "EmptyStruct",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyStruct.toNode(
@@ -2971,7 +3073,8 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: true
                 ),
-                "aap": (
+                (
+                    name: "aap",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2984,7 +3087,8 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "zxccxz": (
+                (
+                    name: "zxccxz",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "zxccxz", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -2997,7 +3101,8 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "tatiana": (
+                (
+                    name: "tatiana",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tatiana", expectedArgumentCount: 0) { env in
@@ -3008,7 +3113,8 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "tutu": (
+                (
+                    name: "tutu",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
@@ -3036,7 +3142,6 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.EmptyStruct2+node.swift
 
 extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
@@ -3060,7 +3165,8 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "EmptyStruct2",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyStruct2.toNode(
@@ -3073,7 +3179,8 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: true
                 ),
-                "aap": (
+                (
+                    name: "aap",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3086,7 +3193,8 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "zxccxz": (
+                (
+                    name: "zxccxz",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "zxccxz", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3099,7 +3207,8 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "tatiana": (
+                (
+                    name: "tatiana",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tatiana", expectedArgumentCount: 0) { env in
@@ -3110,7 +3219,8 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "tutu": (
+                (
+                    name: "tutu",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
@@ -3138,7 +3248,6 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Functions+node.swift
 
 extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
@@ -3158,7 +3267,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Functions",
             properties: [
-                "exercise0": (
+                (
+                    name: "exercise0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3172,7 +3282,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise1": (
+                (
+                    name: "exercise1",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3186,7 +3297,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise2": (
+                (
+                    name: "exercise2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3200,7 +3312,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise3": (
+                (
+                    name: "exercise3",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3214,7 +3327,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise4": (
+                (
+                    name: "exercise4",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3228,7 +3342,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise5": (
+                (
+                    name: "exercise5",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3242,7 +3357,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "exercise6": (
+                (
+                    name: "exercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3256,7 +3372,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "willThrow": (
+                (
+                    name: "willThrow",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -3269,7 +3386,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "thunkTwiceMaker": (
+                (
+                    name: "thunkTwiceMaker",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Function0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
@@ -3283,7 +3401,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "add3Things": (
+                (
+                    name: "add3Things",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
@@ -3294,7 +3413,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "const42": (
+                (
+                    name: "const42",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
@@ -3305,7 +3425,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "fifthThing": (
+                (
+                    name: "fifthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
@@ -3316,7 +3437,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "abs": (
+                (
+                    name: "abs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
@@ -3327,7 +3449,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "intCompose": (
+                (
+                    name: "intCompose",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
@@ -3338,7 +3461,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "makeList": (
+                (
+                    name: "makeList",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
@@ -3349,7 +3473,8 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "sixthThing": (
+                (
+                    name: "sixthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
@@ -3379,7 +3504,6 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Methods+node.swift
 
@@ -3411,7 +3535,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Methods",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Methods.toNode(
@@ -3424,7 +3549,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "doublePlusGood": (
+                (
+                    name: "doublePlusGood",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "doublePlusGood", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -3439,7 +3565,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "async42": (
+                (
+                    name: "async42",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3469,7 +3596,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncYield": (
+                (
+                    name: "asyncYield",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncYield", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3499,7 +3627,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncSleep": (
+                (
+                    name: "asyncSleep",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncSleep", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3529,7 +3658,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncVoid": (
+                (
+                    name: "asyncVoid",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncVoid", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3559,7 +3689,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncDouble": (
+                (
+                    name: "asyncDouble",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3591,7 +3722,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncMultipleArgs": (
+                (
+                    name: "asyncMultipleArgs",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3625,7 +3757,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncThrowing": (
+                (
+                    name: "asyncThrowing",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncThrowing", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3655,7 +3788,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "asyncCallbackFunc0": (
+                (
+                    name: "asyncCallbackFunc0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3687,7 +3821,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "staticAsync42": (
+                (
+                    name: "staticAsync42",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsync42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3716,7 +3851,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncYield": (
+                (
+                    name: "staticAsyncYield",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncYield", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3745,7 +3881,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncSleep": (
+                (
+                    name: "staticAsyncSleep",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncSleep", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3774,7 +3911,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncVoid": (
+                (
+                    name: "staticAsyncVoid",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncVoid", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3803,7 +3941,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncDouble": (
+                (
+                    name: "staticAsyncDouble",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3834,7 +3973,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncMultipleArgs": (
+                (
+                    name: "staticAsyncMultipleArgs",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3867,7 +4007,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncThrowing": (
+                (
+                    name: "staticAsyncThrowing",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncThrowing", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3896,7 +4037,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "staticAsyncCallbackFunc0": (
+                (
+                    name: "staticAsyncCallbackFunc0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -3927,7 +4069,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "methodWithNewlinesInTypes": (
+                (
+                    name: "methodWithNewlinesInTypes",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "methodWithNewlinesInTypes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -3941,7 +4084,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "garply": (
+                (
+                    name: "garply",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 0) { env in
@@ -3952,7 +4096,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "instanceGet": (
+                (
+                    name: "instanceGet",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGet", expectedArgumentCount: 0) { env in
@@ -3963,7 +4108,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "instanceGetMethod": (
+                (
+                    name: "instanceGetMethod",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGetMethod", expectedArgumentCount: 0) { env in
@@ -3974,7 +4120,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "instanceModifiable": (
+                (
+                    name: "instanceModifiable",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceModifiable", expectedArgumentCount: 0) { env in
@@ -3992,7 +4139,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "instanceStored": (
+                (
+                    name: "instanceStored",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceStored", expectedArgumentCount: 0) { env in
@@ -4010,7 +4158,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "staticGet": (
+                (
+                    name: "staticGet",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGet", expectedArgumentCount: 0) { env in
@@ -4021,7 +4170,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "staticGetMethod": (
+                (
+                    name: "staticGetMethod",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGetMethod", expectedArgumentCount: 0) { env in
@@ -4032,7 +4182,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "staticModifiable": (
+                (
+                    name: "staticModifiable",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 0) { env in
@@ -4047,7 +4198,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: true
                 ),
-                "staticStored": (
+                (
+                    name: "staticStored",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 0) { env in
@@ -4062,7 +4214,8 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: true
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -4089,7 +4242,6 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Methods.TheMethodError+node.swift
 
@@ -4121,7 +4273,8 @@ extension TestAPI.Methods.TheMethodError: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "TheMethodError",
             properties: [
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -4149,7 +4302,6 @@ extension TestAPI.Methods.TheMethodError: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Primitives+node.swift
 
 extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
@@ -4169,7 +4321,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Primitives",
             properties: [
-                "echoBool": (
+                (
+                    name: "echoBool",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
@@ -4183,7 +4336,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt8": (
+                (
+                    name: "echoUInt8",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt8.toNode(
@@ -4197,7 +4351,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt16": (
+                (
+                    name: "echoUInt16",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt16.toNode(
@@ -4211,7 +4366,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt32": (
+                (
+                    name: "echoUInt32",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt32.toNode(
@@ -4225,7 +4381,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt64": (
+                (
+                    name: "echoUInt64",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt64.toNode(
@@ -4239,7 +4396,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt": (
+                (
+                    name: "echoUInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt.toNode(
@@ -4253,7 +4411,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt8": (
+                (
+                    name: "echoInt8",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int8.toNode(
@@ -4267,7 +4426,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt16": (
+                (
+                    name: "echoInt16",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int16.toNode(
@@ -4281,7 +4441,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt32": (
+                (
+                    name: "echoInt32",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int32.toNode(
@@ -4295,7 +4456,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt64": (
+                (
+                    name: "echoInt64",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int64.toNode(
@@ -4309,7 +4471,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt": (
+                (
+                    name: "echoInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -4323,7 +4486,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoFloat": (
+                (
+                    name: "echoFloat",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Float.toNode(
@@ -4337,7 +4501,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoDouble": (
+                (
+                    name: "echoDouble",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
@@ -4351,7 +4516,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoBool": (
+                (
+                    name: "maybeEchoBool",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Bool>.toNode(
@@ -4365,7 +4531,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoUInt8": (
+                (
+                    name: "maybeEchoUInt8",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt8>.toNode(
@@ -4379,7 +4546,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoUInt16": (
+                (
+                    name: "maybeEchoUInt16",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt16>.toNode(
@@ -4393,7 +4561,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoUInt32": (
+                (
+                    name: "maybeEchoUInt32",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt32>.toNode(
@@ -4407,7 +4576,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoUInt64": (
+                (
+                    name: "maybeEchoUInt64",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt64>.toNode(
@@ -4421,7 +4591,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoUInt": (
+                (
+                    name: "maybeEchoUInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt>.toNode(
@@ -4435,7 +4606,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoInt8": (
+                (
+                    name: "maybeEchoInt8",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int8>.toNode(
@@ -4449,7 +4621,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoInt16": (
+                (
+                    name: "maybeEchoInt16",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int16>.toNode(
@@ -4463,7 +4636,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoInt32": (
+                (
+                    name: "maybeEchoInt32",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int32>.toNode(
@@ -4477,7 +4651,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoInt64": (
+                (
+                    name: "maybeEchoInt64",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int64>.toNode(
@@ -4491,7 +4666,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoInt": (
+                (
+                    name: "maybeEchoInt",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int>.toNode(
@@ -4505,7 +4681,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoFloat": (
+                (
+                    name: "maybeEchoFloat",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Float>.toNode(
@@ -4519,7 +4696,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "maybeEchoDouble": (
+                (
+                    name: "maybeEchoDouble",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
@@ -4533,7 +4711,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "boolOverflow": (
+                (
+                    name: "boolOverflow",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "boolOverflow", expectedArgumentCount: 16, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -4562,7 +4741,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "valueMapper": (
+                (
+                    name: "valueMapper",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt8>.toNode(
@@ -4577,7 +4757,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "bitCountInt": (
+                (
+                    name: "bitCountInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountInt", expectedArgumentCount: 0) { env in
@@ -4588,7 +4769,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "bitCountUInt": (
+                (
+                    name: "bitCountUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountUInt", expectedArgumentCount: 0) { env in
@@ -4599,7 +4781,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "defaultPrimitiveHolder": (
+                (
+                    name: "defaultPrimitiveHolder",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultPrimitiveHolder", expectedArgumentCount: 0) { env in
@@ -4610,7 +4793,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "falseBool": (
+                (
+                    name: "falseBool",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "falseBool", expectedArgumentCount: 0) { env in
@@ -4621,7 +4805,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyBool": (
+                (
+                    name: "manyBool",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyBool", expectedArgumentCount: 0) { env in
@@ -4632,7 +4817,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyDouble": (
+                (
+                    name: "manyDouble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyDouble", expectedArgumentCount: 0) { env in
@@ -4643,7 +4829,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyFloat": (
+                (
+                    name: "manyFloat",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyFloat", expectedArgumentCount: 0) { env in
@@ -4654,7 +4841,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyInt": (
+                (
+                    name: "manyInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt", expectedArgumentCount: 0) { env in
@@ -4665,7 +4853,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyInt16": (
+                (
+                    name: "manyInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt16", expectedArgumentCount: 0) { env in
@@ -4676,7 +4865,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyInt32": (
+                (
+                    name: "manyInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt32", expectedArgumentCount: 0) { env in
@@ -4687,7 +4877,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyInt64": (
+                (
+                    name: "manyInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt64", expectedArgumentCount: 0) { env in
@@ -4698,7 +4889,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyInt8": (
+                (
+                    name: "manyInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt8", expectedArgumentCount: 0) { env in
@@ -4709,7 +4901,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeBool": (
+                (
+                    name: "manyMaybeBool",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeBool", expectedArgumentCount: 0) { env in
@@ -4720,7 +4913,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeDouble": (
+                (
+                    name: "manyMaybeDouble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeDouble", expectedArgumentCount: 0) { env in
@@ -4731,7 +4925,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeFloat": (
+                (
+                    name: "manyMaybeFloat",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeFloat", expectedArgumentCount: 0) { env in
@@ -4742,7 +4937,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeInt": (
+                (
+                    name: "manyMaybeInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt", expectedArgumentCount: 0) { env in
@@ -4753,7 +4949,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeInt16": (
+                (
+                    name: "manyMaybeInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt16", expectedArgumentCount: 0) { env in
@@ -4764,7 +4961,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeInt32": (
+                (
+                    name: "manyMaybeInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt32", expectedArgumentCount: 0) { env in
@@ -4775,7 +4973,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeInt64": (
+                (
+                    name: "manyMaybeInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt64", expectedArgumentCount: 0) { env in
@@ -4786,7 +4985,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeInt8": (
+                (
+                    name: "manyMaybeInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt8", expectedArgumentCount: 0) { env in
@@ -4797,7 +4997,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeUInt": (
+                (
+                    name: "manyMaybeUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt", expectedArgumentCount: 0) { env in
@@ -4808,7 +5009,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeUInt16": (
+                (
+                    name: "manyMaybeUInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt16", expectedArgumentCount: 0) { env in
@@ -4819,7 +5021,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeUInt32": (
+                (
+                    name: "manyMaybeUInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt32", expectedArgumentCount: 0) { env in
@@ -4830,7 +5033,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeUInt64": (
+                (
+                    name: "manyMaybeUInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt64", expectedArgumentCount: 0) { env in
@@ -4841,7 +5045,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyMaybeUInt8": (
+                (
+                    name: "manyMaybeUInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt8", expectedArgumentCount: 0) { env in
@@ -4852,7 +5057,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyUInt": (
+                (
+                    name: "manyUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt", expectedArgumentCount: 0) { env in
@@ -4863,7 +5069,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyUInt16": (
+                (
+                    name: "manyUInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt16", expectedArgumentCount: 0) { env in
@@ -4874,7 +5081,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyUInt32": (
+                (
+                    name: "manyUInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt32", expectedArgumentCount: 0) { env in
@@ -4885,7 +5093,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyUInt64": (
+                (
+                    name: "manyUInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt64", expectedArgumentCount: 0) { env in
@@ -4896,7 +5105,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "manyUInt8": (
+                (
+                    name: "manyUInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt8", expectedArgumentCount: 0) { env in
@@ -4907,7 +5117,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxDouble": (
+                (
+                    name: "maxDouble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxDouble", expectedArgumentCount: 0) { env in
@@ -4918,7 +5129,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxFloat": (
+                (
+                    name: "maxFloat",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxFloat", expectedArgumentCount: 0) { env in
@@ -4929,7 +5141,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxInt": (
+                (
+                    name: "maxInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt", expectedArgumentCount: 0) { env in
@@ -4940,7 +5153,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxInt16": (
+                (
+                    name: "maxInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt16", expectedArgumentCount: 0) { env in
@@ -4951,7 +5165,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxInt32": (
+                (
+                    name: "maxInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt32", expectedArgumentCount: 0) { env in
@@ -4962,7 +5177,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxInt64": (
+                (
+                    name: "maxInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt64", expectedArgumentCount: 0) { env in
@@ -4973,7 +5189,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxInt8": (
+                (
+                    name: "maxInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt8", expectedArgumentCount: 0) { env in
@@ -4984,7 +5201,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxUInt": (
+                (
+                    name: "maxUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt", expectedArgumentCount: 0) { env in
@@ -4995,7 +5213,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxUInt16": (
+                (
+                    name: "maxUInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt16", expectedArgumentCount: 0) { env in
@@ -5006,7 +5225,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxUInt32": (
+                (
+                    name: "maxUInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt32", expectedArgumentCount: 0) { env in
@@ -5017,7 +5237,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxUInt64": (
+                (
+                    name: "maxUInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt64", expectedArgumentCount: 0) { env in
@@ -5028,7 +5249,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "maxUInt8": (
+                (
+                    name: "maxUInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt8", expectedArgumentCount: 0) { env in
@@ -5039,7 +5261,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minDouble": (
+                (
+                    name: "minDouble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minDouble", expectedArgumentCount: 0) { env in
@@ -5050,7 +5273,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minFloat": (
+                (
+                    name: "minFloat",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minFloat", expectedArgumentCount: 0) { env in
@@ -5061,7 +5285,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minInt": (
+                (
+                    name: "minInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt", expectedArgumentCount: 0) { env in
@@ -5072,7 +5297,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minInt16": (
+                (
+                    name: "minInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt16", expectedArgumentCount: 0) { env in
@@ -5083,7 +5309,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minInt32": (
+                (
+                    name: "minInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt32", expectedArgumentCount: 0) { env in
@@ -5094,7 +5321,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minInt64": (
+                (
+                    name: "minInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt64", expectedArgumentCount: 0) { env in
@@ -5105,7 +5333,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minInt8": (
+                (
+                    name: "minInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt8", expectedArgumentCount: 0) { env in
@@ -5116,7 +5345,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minUInt": (
+                (
+                    name: "minUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt", expectedArgumentCount: 0) { env in
@@ -5127,7 +5357,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minUInt16": (
+                (
+                    name: "minUInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt16", expectedArgumentCount: 0) { env in
@@ -5138,7 +5369,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minUInt32": (
+                (
+                    name: "minUInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt32", expectedArgumentCount: 0) { env in
@@ -5149,7 +5381,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minUInt64": (
+                (
+                    name: "minUInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt64", expectedArgumentCount: 0) { env in
@@ -5160,7 +5393,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "minUInt8": (
+                (
+                    name: "minUInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt8", expectedArgumentCount: 0) { env in
@@ -5171,7 +5405,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "trueBool": (
+                (
+                    name: "trueBool",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "trueBool", expectedArgumentCount: 0) { env in
@@ -5182,7 +5417,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroDouble": (
+                (
+                    name: "zeroDouble",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroDouble", expectedArgumentCount: 0) { env in
@@ -5193,7 +5429,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroFloat": (
+                (
+                    name: "zeroFloat",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroFloat", expectedArgumentCount: 0) { env in
@@ -5204,7 +5441,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroInt": (
+                (
+                    name: "zeroInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt", expectedArgumentCount: 0) { env in
@@ -5215,7 +5453,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroInt16": (
+                (
+                    name: "zeroInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt16", expectedArgumentCount: 0) { env in
@@ -5226,7 +5465,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroInt32": (
+                (
+                    name: "zeroInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt32", expectedArgumentCount: 0) { env in
@@ -5237,7 +5477,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroInt64": (
+                (
+                    name: "zeroInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt64", expectedArgumentCount: 0) { env in
@@ -5248,7 +5489,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroInt8": (
+                (
+                    name: "zeroInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt8", expectedArgumentCount: 0) { env in
@@ -5259,7 +5501,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroUInt": (
+                (
+                    name: "zeroUInt",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt", expectedArgumentCount: 0) { env in
@@ -5270,7 +5513,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroUInt16": (
+                (
+                    name: "zeroUInt16",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt16", expectedArgumentCount: 0) { env in
@@ -5281,7 +5525,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroUInt32": (
+                (
+                    name: "zeroUInt32",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt32", expectedArgumentCount: 0) { env in
@@ -5292,7 +5537,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroUInt64": (
+                (
+                    name: "zeroUInt64",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt64", expectedArgumentCount: 0) { env in
@@ -5303,7 +5549,8 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "zeroUInt8": (
+                (
+                    name: "zeroUInt8",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt8", expectedArgumentCount: 0) { env in
@@ -5333,7 +5580,6 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Primitives.PrimitiveHolder+node.swift
 
@@ -5514,7 +5760,8 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "Primitives.PrimitiveHolder",
             properties: [
-                "staticMutableProperty": (
+                (
+                    name: "staticMutableProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
@@ -5529,7 +5776,8 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
                         }),
                     isStatic: true
                 ),
-                "staticProperty": (
+                (
+                    name: "staticProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
@@ -5540,32 +5788,32 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
                     ),
                     isStatic: true
                 ),
-                "b": (.stored(mutable: true), isStatic: false),
-                "bq": (.stored(mutable: true), isStatic: false),
-                "ui8": (.stored(mutable: true), isStatic: false),
-                "ui8q": (.stored(mutable: true), isStatic: false),
-                "ui16": (.stored(mutable: true), isStatic: false),
-                "ui16q": (.stored(mutable: true), isStatic: false),
-                "ui32": (.stored(mutable: true), isStatic: false),
-                "ui32q": (.stored(mutable: true), isStatic: false),
-                "ui64": (.stored(mutable: true), isStatic: false),
-                "ui64q": (.stored(mutable: true), isStatic: false),
-                "ui": (.stored(mutable: true), isStatic: false),
-                "uiq": (.stored(mutable: true), isStatic: false),
-                "i8": (.stored(mutable: true), isStatic: false),
-                "i8q": (.stored(mutable: true), isStatic: false),
-                "i16": (.stored(mutable: true), isStatic: false),
-                "i16q": (.stored(mutable: true), isStatic: false),
-                "i32": (.stored(mutable: true), isStatic: false),
-                "i32q": (.stored(mutable: true), isStatic: false),
-                "i64": (.stored(mutable: true), isStatic: false),
-                "i64q": (.stored(mutable: true), isStatic: false),
-                "i": (.stored(mutable: true), isStatic: false),
-                "iq": (.stored(mutable: true), isStatic: false),
-                "f": (.stored(mutable: true), isStatic: false),
-                "fq": (.stored(mutable: true), isStatic: false),
-                "d": (.stored(mutable: true), isStatic: false),
-                "dq": (.stored(mutable: true), isStatic: false),
+                (name: "b", .stored(mutable: true), isStatic: false),
+                (name: "bq", .stored(mutable: true), isStatic: false),
+                (name: "ui8", .stored(mutable: true), isStatic: false),
+                (name: "ui8q", .stored(mutable: true), isStatic: false),
+                (name: "ui16", .stored(mutable: true), isStatic: false),
+                (name: "ui16q", .stored(mutable: true), isStatic: false),
+                (name: "ui32", .stored(mutable: true), isStatic: false),
+                (name: "ui32q", .stored(mutable: true), isStatic: false),
+                (name: "ui64", .stored(mutable: true), isStatic: false),
+                (name: "ui64q", .stored(mutable: true), isStatic: false),
+                (name: "ui", .stored(mutable: true), isStatic: false),
+                (name: "uiq", .stored(mutable: true), isStatic: false),
+                (name: "i8", .stored(mutable: true), isStatic: false),
+                (name: "i8q", .stored(mutable: true), isStatic: false),
+                (name: "i16", .stored(mutable: true), isStatic: false),
+                (name: "i16q", .stored(mutable: true), isStatic: false),
+                (name: "i32", .stored(mutable: true), isStatic: false),
+                (name: "i32q", .stored(mutable: true), isStatic: false),
+                (name: "i64", .stored(mutable: true), isStatic: false),
+                (name: "i64q", .stored(mutable: true), isStatic: false),
+                (name: "i", .stored(mutable: true), isStatic: false),
+                (name: "iq", .stored(mutable: true), isStatic: false),
+                (name: "f", .stored(mutable: true), isStatic: false),
+                (name: "fq", .stored(mutable: true), isStatic: false),
+                (name: "d", .stored(mutable: true), isStatic: false),
+                (name: "dq", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Primitives.PrimitiveHolder_constructor", expectedArgumentCount: 26) { env in
@@ -5609,7 +5857,6 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Ranges+node.swift
 
 extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
@@ -5629,7 +5876,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Ranges",
             properties: [
-                "echoUInt8Range": (
+                (
+                    name: "echoUInt8Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt8>.toNode(
@@ -5643,7 +5891,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt16Range": (
+                (
+                    name: "echoUInt16Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt16>.toNode(
@@ -5657,7 +5906,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt32Range": (
+                (
+                    name: "echoUInt32Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt32>.toNode(
@@ -5671,7 +5921,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUInt64Range": (
+                (
+                    name: "echoUInt64Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt64>.toNode(
@@ -5685,7 +5936,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoUIntRange": (
+                (
+                    name: "echoUIntRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt>.toNode(
@@ -5699,7 +5951,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt8Range": (
+                (
+                    name: "echoInt8Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int8>.toNode(
@@ -5713,7 +5966,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt16Range": (
+                (
+                    name: "echoInt16Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int16>.toNode(
@@ -5727,7 +5981,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt32Range": (
+                (
+                    name: "echoInt32Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int32>.toNode(
@@ -5741,7 +5996,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoInt64Range": (
+                (
+                    name: "echoInt64Range",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int64>.toNode(
@@ -5755,7 +6011,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "echoIntRange": (
+                (
+                    name: "echoIntRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int>.toNode(
@@ -5769,7 +6026,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "int16Range": (
+                (
+                    name: "int16Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
@@ -5780,7 +6038,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int32Range": (
+                (
+                    name: "int32Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
@@ -5791,7 +6050,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int64Range": (
+                (
+                    name: "int64Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
@@ -5802,7 +6062,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "int8Range": (
+                (
+                    name: "int8Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
@@ -5813,7 +6074,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "intRange": (
+                (
+                    name: "intRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
@@ -5824,7 +6086,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt16Range": (
+                (
+                    name: "uInt16Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
@@ -5835,7 +6098,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt32Range": (
+                (
+                    name: "uInt32Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
@@ -5846,7 +6110,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt64Range": (
+                (
+                    name: "uInt64Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
@@ -5857,7 +6122,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uInt8Range": (
+                (
+                    name: "uInt8Range",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
@@ -5868,7 +6134,8 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "uIntRange": (
+                (
+                    name: "uIntRange",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
@@ -5899,7 +6166,6 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.ReferenceEmptyEnum+node.swift
 
 extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -5919,7 +6185,8 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "ReferenceEmptyEnum",
             properties: [
-                "notGoingToHappen": (
+                (
+                    name: "notGoingToHappen",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             try (
@@ -5930,7 +6197,8 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "aStaticMethod": (
+                (
+                    name: "aStaticMethod",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -5943,7 +6211,8 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "aStaticProperty": (
+                (
+                    name: "aStaticProperty",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
@@ -5974,7 +6243,6 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Results+node.swift
 
 extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
@@ -5994,7 +6262,8 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Results",
             properties: [
-                "processResult": (
+                (
+                    name: "processResult",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "processResult", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -6008,7 +6277,8 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "aFailure": (
+                (
+                    name: "aFailure",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aFailure", expectedArgumentCount: 0) { env in
@@ -6019,7 +6289,8 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "aSuccess": (
+                (
+                    name: "aSuccess",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aSuccess", expectedArgumentCount: 0) { env in
@@ -6050,7 +6321,6 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Results.Error+node.swift
 
 extension TestAPI.Results.Error: FishyJoesNodeRuntime.NodeMutator {
@@ -6079,7 +6349,7 @@ extension TestAPI.Results.Error: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "Results.Error",
             properties: [
-                "message": (.stored(mutable: true), isStatic: false),
+                (name: "message", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Results.Error_constructor", expectedArgumentCount: 1) { env in
@@ -6097,7 +6367,6 @@ extension TestAPI.Results.Error: FishyJoesNodeRuntime.NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.SimpleEnum+node.swift
 
@@ -6124,7 +6393,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "pickAColor": (
+            (
+                name: "pickAColor",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "pickAColor", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try OptionalConverter<TestAPI.SimpleEnum>.toNode(
@@ -6138,7 +6408,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "hexMethod": (
+            (
+                name: "hexMethod",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hexMethod", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
@@ -6151,7 +6422,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "resetFavoriteColor": (
+            (
+                name: "resetFavoriteColor",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "resetFavoriteColor", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -6164,7 +6436,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "favoriteColor": (
+            (
+                name: "favoriteColor",
                 .accessor(
                     getter: { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 0) { env in
@@ -6179,7 +6452,8 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
                     }),
                 isStatic: true
             ),
-            "getHex": (
+            (
+                name: "getHex",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hex", expectedArgumentCount: 1) { env in
                         return try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hex, env: env.env)
@@ -6197,7 +6471,6 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Strings+node.swift
 
@@ -6218,7 +6491,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Strings",
             properties: [
-                "echo": (
+                (
+                    name: "echo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -6232,7 +6506,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "split": (
+                (
+                    name: "split",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "split", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.String>.toNode(
@@ -6247,7 +6522,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "accent": (
+                (
+                    name: "accent",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
@@ -6258,7 +6534,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chinese": (
+                (
+                    name: "chinese",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
@@ -6269,7 +6546,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chineseBMP": (
+                (
+                    name: "chineseBMP",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
@@ -6280,7 +6558,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "chineseSIP": (
+                (
+                    name: "chineseSIP",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
@@ -6291,7 +6570,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "emoji": (
+                (
+                    name: "emoji",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
@@ -6302,7 +6582,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "emojiMulti": (
+                (
+                    name: "emojiMulti",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
@@ -6313,7 +6594,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "script": (
+                (
+                    name: "script",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
@@ -6324,7 +6606,8 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "simple": (
+                (
+                    name: "simple",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
@@ -6355,7 +6638,6 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.Structs+node.swift
 
 extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
@@ -6375,7 +6657,6 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Structs",
             properties: [
-                :
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
@@ -6395,7 +6676,6 @@ extension TestAPI.Structs: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.MemberwiseStruct+node.swift
 
@@ -6432,7 +6712,8 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "Structs.MemberwiseStruct",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.MemberwiseStruct.toNode(
@@ -6445,7 +6726,8 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: true
                 ),
-                "asyncGetMutable": (
+                (
+                    name: "asyncGetMutable",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -6475,8 +6757,8 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "immutable": (.stored(mutable: true), isStatic: false),
-                "mutable": (.stored(mutable: true), isStatic: false),
+                (name: "immutable", .stored(mutable: true), isStatic: false),
+                (name: "mutable", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MemberwiseStruct_constructor", expectedArgumentCount: 2) { env in
@@ -6495,7 +6777,6 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.MutableStruct+node.swift
 
@@ -6526,7 +6807,8 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "Structs.MutableStruct",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.MutableStruct.toNode(
@@ -6539,7 +6821,8 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: true
                 ),
-                "increment": (
+                (
+                    name: "increment",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
@@ -6555,7 +6838,8 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "incrementAsync": (
+                (
+                    name: "incrementAsync",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -6589,7 +6873,8 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "asyncGetI": (
+                (
+                    name: "asyncGetI",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -6619,7 +6904,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "i": (.stored(mutable: true), isStatic: false),
+                (name: "i", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.MutableStruct_constructor", expectedArgumentCount: 1) { env in
@@ -6637,7 +6922,6 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.PuttingTypesIntoQuestionablePlaces+node.swift
 
@@ -6669,7 +6953,8 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
             module: "TestAPI",
             name: "Structs_PuttingTypesIntoQuestionablePlaces",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.toNode(
@@ -6682,7 +6967,8 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
                     },
                     isStatic: true
                 ),
-                "testCall": (
+                (
+                    name: "testCall",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -6695,7 +6981,8 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
                     },
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -6722,7 +7009,6 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.ReferenceStruct+node.swift
 
@@ -6754,7 +7040,8 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Structs.ReferenceStruct",
             properties: [
-                "create": (
+                (
+                    name: "create",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.ReferenceStruct.toNode(
@@ -6767,7 +7054,8 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "asyncGetMutable": (
+                (
+                    name: "asyncGetMutable",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -6797,7 +7085,8 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "immutable": (
+                (
+                    name: "immutable",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "immutable", expectedArgumentCount: 0) { env in
@@ -6808,7 +7097,8 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "mutable": (
+                (
+                    name: "mutable",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 0) { env in
@@ -6826,7 +7116,8 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -6853,7 +7144,6 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Structs.TwentyOneItemStruct+node.swift
 
@@ -7004,27 +7294,27 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesNodeRuntime.NodeMutator 
             module: "TestAPI",
             name: "Structs.TwentyOneItemStruct",
             properties: [
-                "a": (.stored(mutable: true), isStatic: false),
-                "b": (.stored(mutable: true), isStatic: false),
-                "c": (.stored(mutable: true), isStatic: false),
-                "d": (.stored(mutable: true), isStatic: false),
-                "e": (.stored(mutable: true), isStatic: false),
-                "f": (.stored(mutable: true), isStatic: false),
-                "g": (.stored(mutable: true), isStatic: false),
-                "h": (.stored(mutable: true), isStatic: false),
-                "i": (.stored(mutable: true), isStatic: false),
-                "j": (.stored(mutable: true), isStatic: false),
-                "k": (.stored(mutable: true), isStatic: false),
-                "l": (.stored(mutable: true), isStatic: false),
-                "m": (.stored(mutable: true), isStatic: false),
-                "n": (.stored(mutable: true), isStatic: false),
-                "o": (.stored(mutable: true), isStatic: false),
-                "p": (.stored(mutable: true), isStatic: false),
-                "q": (.stored(mutable: true), isStatic: false),
-                "r": (.stored(mutable: true), isStatic: false),
-                "s": (.stored(mutable: true), isStatic: false),
-                "t": (.stored(mutable: true), isStatic: false),
-                "u": (.stored(mutable: true), isStatic: false),
+                (name: "a", .stored(mutable: true), isStatic: false),
+                (name: "b", .stored(mutable: true), isStatic: false),
+                (name: "c", .stored(mutable: true), isStatic: false),
+                (name: "d", .stored(mutable: true), isStatic: false),
+                (name: "e", .stored(mutable: true), isStatic: false),
+                (name: "f", .stored(mutable: true), isStatic: false),
+                (name: "g", .stored(mutable: true), isStatic: false),
+                (name: "h", .stored(mutable: true), isStatic: false),
+                (name: "i", .stored(mutable: true), isStatic: false),
+                (name: "j", .stored(mutable: true), isStatic: false),
+                (name: "k", .stored(mutable: true), isStatic: false),
+                (name: "l", .stored(mutable: true), isStatic: false),
+                (name: "m", .stored(mutable: true), isStatic: false),
+                (name: "n", .stored(mutable: true), isStatic: false),
+                (name: "o", .stored(mutable: true), isStatic: false),
+                (name: "p", .stored(mutable: true), isStatic: false),
+                (name: "q", .stored(mutable: true), isStatic: false),
+                (name: "r", .stored(mutable: true), isStatic: false),
+                (name: "s", .stored(mutable: true), isStatic: false),
+                (name: "t", .stored(mutable: true), isStatic: false),
+                (name: "u", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "Structs.TwentyOneItemStruct_constructor", expectedArgumentCount: 21) { env in
@@ -7062,7 +7352,6 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesNodeRuntime.NodeMutator 
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncForeignSideFunctionsStruct+node.swift
 
@@ -7167,7 +7456,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
             module: "TestAPI",
             name: "TestAsyncForeignSideFunctionsStruct",
             properties: [
-                "exercise0": (
+                (
+                    name: "exercise0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7199,7 +7489,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise1": (
+                (
+                    name: "exercise1",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7231,7 +7522,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise2": (
+                (
+                    name: "exercise2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7263,7 +7555,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise3": (
+                (
+                    name: "exercise3",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7295,7 +7588,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise4": (
+                (
+                    name: "exercise4",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7327,7 +7621,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise5": (
+                (
+                    name: "exercise5",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7359,7 +7654,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "exercise6": (
+                (
+                    name: "exercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7391,7 +7687,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "thunkTwiceMaker": (
+                (
+                    name: "thunkTwiceMaker",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
@@ -7405,7 +7702,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "witness": (
+                (
+                    name: "witness",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
@@ -7418,7 +7716,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "defaultExercise6": (
+                (
+                    name: "defaultExercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7450,22 +7749,22 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                     },
                     isStatic: false
                 ),
-                "const42": (.stored(mutable: true), isStatic: false),
-                "iabs": (.stored(mutable: true), isStatic: false),
-                "intCompose": (.stored(mutable: true), isStatic: false),
-                "add3Things": (.stored(mutable: true), isStatic: false),
-                "makeList": (.stored(mutable: true), isStatic: false),
-                "fifthThing": (.stored(mutable: true), isStatic: false),
-                "six": (.stored(mutable: true), isStatic: false),
-                "willThrow": (.stored(mutable: true), isStatic: false),
-                "exercise0Fun": (.stored(mutable: true), isStatic: false),
-                "exercise1Fun": (.stored(mutable: true), isStatic: false),
-                "exercise2Fun": (.stored(mutable: true), isStatic: false),
-                "exercise3Fun": (.stored(mutable: true), isStatic: false),
-                "exercise4Fun": (.stored(mutable: true), isStatic: false),
-                "exercise5Fun": (.stored(mutable: true), isStatic: false),
-                "exercise6Fun": (.stored(mutable: true), isStatic: false),
-                "thunkTwiceMakerFun": (.stored(mutable: true), isStatic: false),
+                (name: "const42", .stored(mutable: true), isStatic: false),
+                (name: "iabs", .stored(mutable: true), isStatic: false),
+                (name: "intCompose", .stored(mutable: true), isStatic: false),
+                (name: "add3Things", .stored(mutable: true), isStatic: false),
+                (name: "makeList", .stored(mutable: true), isStatic: false),
+                (name: "fifthThing", .stored(mutable: true), isStatic: false),
+                (name: "six", .stored(mutable: true), isStatic: false),
+                (name: "willThrow", .stored(mutable: true), isStatic: false),
+                (name: "exercise0Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise1Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise2Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise3Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise4Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise5Fun", .stored(mutable: true), isStatic: false),
+                (name: "exercise6Fun", .stored(mutable: true), isStatic: false),
+                (name: "thunkTwiceMakerFun", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestAsyncForeignSideFunctionsStruct_constructor", expectedArgumentCount: 16) { env in
@@ -7498,7 +7797,6 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncFunctions+node.swift
 
@@ -7751,7 +8049,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
             module: "TestAPI",
             name: "ExternalWitness_TestAsyncFunctions",
             properties: [
-                "exercise0": (
+                (
+                    name: "exercise0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7783,7 +8082,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise1": (
+                (
+                    name: "exercise1",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7815,7 +8115,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise2": (
+                (
+                    name: "exercise2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7847,7 +8148,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise3": (
+                (
+                    name: "exercise3",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7879,7 +8181,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise4": (
+                (
+                    name: "exercise4",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7911,7 +8214,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise5": (
+                (
+                    name: "exercise5",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7943,7 +8247,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "exercise6": (
+                (
+                    name: "exercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -7975,7 +8280,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "thunkTwiceMaker": (
+                (
+                    name: "thunkTwiceMaker",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
@@ -7989,7 +8295,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "defaultExercise6": (
+                (
+                    name: "defaultExercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8022,7 +8329,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "witness": (
+                (
+                    name: "witness",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
@@ -8035,7 +8343,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "add3Things": (
+                (
+                    name: "add3Things",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
@@ -8046,7 +8355,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "const42": (
+                (
+                    name: "const42",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
@@ -8057,7 +8367,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "fifthThing": (
+                (
+                    name: "fifthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
@@ -8068,7 +8379,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "iabs": (
+                (
+                    name: "iabs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "iabs", expectedArgumentCount: 0) { env in
@@ -8079,7 +8391,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "intCompose": (
+                (
+                    name: "intCompose",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
@@ -8090,7 +8403,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "makeList": (
+                (
+                    name: "makeList",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
@@ -8101,7 +8415,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "six": (
+                (
+                    name: "six",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "six", expectedArgumentCount: 0) { env in
@@ -8112,7 +8427,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "willThrow": (
+                (
+                    name: "willThrow",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
@@ -8138,7 +8454,6 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestAsyncSwiftSideFunctionsClass+node.swift
 
@@ -8170,7 +8485,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
             module: "TestAPI",
             name: "TestAsyncSwiftSideFunctionsClass",
             properties: [
-                "exercise0": (
+                (
+                    name: "exercise0",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8202,7 +8518,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise1": (
+                (
+                    name: "exercise1",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8234,7 +8551,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise2": (
+                (
+                    name: "exercise2",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8266,7 +8584,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise3": (
+                (
+                    name: "exercise3",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8298,7 +8617,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise4": (
+                (
+                    name: "exercise4",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8330,7 +8650,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise5": (
+                (
+                    name: "exercise5",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8362,7 +8683,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "exercise6": (
+                (
+                    name: "exercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8394,7 +8716,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "thunkTwiceMaker": (
+                (
+                    name: "thunkTwiceMaker",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
@@ -8408,7 +8731,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "witness": (
+                (
+                    name: "witness",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
@@ -8421,7 +8745,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "init": (
+                (
+                    name: "init",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.TestAsyncSwiftSideFunctionsClass.toNode(
@@ -8434,7 +8759,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: true
                 ),
-                "defaultExercise6": (
+                (
+                    name: "defaultExercise6",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
@@ -8466,7 +8792,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     },
                     isStatic: false
                 ),
-                "add3Things": (
+                (
+                    name: "add3Things",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
@@ -8477,7 +8804,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "const42": (
+                (
+                    name: "const42",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
@@ -8488,7 +8816,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "fifthThing": (
+                (
+                    name: "fifthThing",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
@@ -8499,7 +8828,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "iabs": (
+                (
+                    name: "iabs",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "iabs", expectedArgumentCount: 0) { env in
@@ -8510,7 +8840,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "intCompose": (
+                (
+                    name: "intCompose",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
@@ -8521,7 +8852,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "makeList": (
+                (
+                    name: "makeList",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
@@ -8532,7 +8864,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "six": (
+                (
+                    name: "six",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "six", expectedArgumentCount: 0) { env in
@@ -8543,7 +8876,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "willThrow": (
+                (
+                    name: "willThrow",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
@@ -8554,7 +8888,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                     ),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -8581,7 +8916,6 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedProperties+node.swift
 
@@ -8705,7 +9039,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
             module: "TestAPI",
             name: "ExternalWitness_TestDefaultComputedProperties",
             properties: [
-                "noot": (
+                (
+                    name: "noot",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
@@ -8717,7 +9052,8 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     ),
                     isStatic: false
                 ),
-                "plutonic": (
+                (
+                    name: "plutonic",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
@@ -8744,7 +9080,6 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesClass+node.swift
 
@@ -8776,7 +9111,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
             module: "TestAPI",
             name: "TestDefaultComputedPropertiesReference",
             properties: [
-                "init": (
+                (
+                    name: "init",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI.TestDefaultComputedPropertiesClass.toNode(
@@ -8791,7 +9127,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                     },
                     isStatic: true
                 ),
-                "noot": (
+                (
+                    name: "noot",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
@@ -8809,7 +9146,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         }),
                     isStatic: false
                 ),
-                "plutonic": (
+                (
+                    name: "plutonic",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
@@ -8820,7 +9158,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                     ),
                     isStatic: false
                 ),
-                "spam": (
+                (
+                    name: "spam",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 0) { env in
@@ -8838,7 +9177,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                         }),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -8866,7 +9206,6 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesEnum+node.swift
 
 extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -8886,7 +9225,8 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "getNoot": (
+            (
+                name: "getNoot",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 1) { env in
                         return try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).noot, env: env.env)
@@ -8894,7 +9234,8 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
                 },
                 isStatic: true
             ),
-            "getPlutonic": (
+            (
+                name: "getPlutonic",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 1) { env in
                         return try Swift.String.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).pluto, env: env.env)
@@ -8902,7 +9243,8 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
                 },
                 isStatic: true
             ),
-            "getSpam": (
+            (
+                name: "getSpam",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
                         return try Swift.Bool.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).spam, env: env.env)
@@ -8920,7 +9262,6 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDefaultComputedPropertiesStruct+node.swift
 
@@ -8957,7 +9298,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesNodeRuntime.Node
             module: "TestAPI",
             name: "TestDefaultComputedPropertiesStruct",
             properties: [
-                "plutonic": (
+                (
+                    name: "plutonic",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
@@ -8968,8 +9310,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesNodeRuntime.Node
                     ),
                     isStatic: false
                 ),
-                "spam": (.stored(mutable: true), isStatic: false),
-                "noot": (.stored(mutable: true), isStatic: false),
+                (name: "spam", .stored(mutable: true), isStatic: false),
+                (name: "noot", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDefaultComputedPropertiesStruct_constructor", expectedArgumentCount: 2) { env in
@@ -8988,7 +9330,6 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesNodeRuntime.Node
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDifferingExportNameProtocol+node.swift
 
@@ -9059,7 +9400,8 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
             module: "TestAPI",
             name: "ExternalWitness_TestDifferingExportNameProtocolDiffy",
             properties: [
-                "tata": (
+                (
+                    name: "tata",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tata", expectedArgumentCount: 0) { env in
@@ -9085,7 +9427,6 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestDifferingExportNameStruct+node.swift
 
@@ -9116,7 +9457,7 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesNodeRuntime.NodeMutato
             module: "TestAPI",
             name: "TestDifferingExportNameStruct",
             properties: [
-                "tata": (.stored(mutable: true), isStatic: false),
+                (name: "tata", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestDifferingExportNameStruct_constructor", expectedArgumentCount: 1) { env in
@@ -9134,7 +9475,6 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesNodeRuntime.NodeMutato
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestLeadingUnderscoredProp+node.swift
 
@@ -9205,7 +9545,8 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
             module: "TestAPI",
             name: "ExternalWitness_TestLeadingUnderscoredProp",
             properties: [
-                "_leadingUnderscoreProp": (
+                (
+                    name: "_leadingUnderscoreProp",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscoreProp", expectedArgumentCount: 0) { env in
@@ -9231,7 +9572,6 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestLeadingUnderscoredPropStruct+node.swift
 
@@ -9262,7 +9602,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesNodeRuntime.NodeMut
             module: "TestAPI",
             name: "TestLeadingUnderscoredPropStruct",
             properties: [
-                "_leadingUnderscoreProp": (.stored(mutable: true), isStatic: false),
+                (name: "_leadingUnderscoreProp", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestLeadingUnderscoredPropStruct_constructor", expectedArgumentCount: 1) { env in
@@ -9280,7 +9620,6 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesNodeRuntime.NodeMut
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestMethodsProtocol+node.swift
 
@@ -9388,7 +9727,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
             module: "TestAPI",
             name: "ExternalWitness_TestMethodsProtocol",
             properties: [
-                "foo": (
+                (
+                    name: "foo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -9401,7 +9741,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "bar": (
+                (
+                    name: "bar",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
@@ -9414,7 +9755,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "baz": (
+                (
+                    name: "baz",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -9428,7 +9770,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "garply": (
+                (
+                    name: "garply",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -9442,7 +9785,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "xyzzy": (
+                (
+                    name: "xyzzy",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -9457,7 +9801,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                     },
                     isStatic: false
                 ),
-                "plugh": (
+                (
+                    name: "plugh",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
@@ -9487,7 +9832,6 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestNonExportedProtocolEnum+node.swift
 
 extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -9507,7 +9851,8 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "hoge": (
+            (
+                name: "hoge",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hoge", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Double.toNode(
@@ -9520,7 +9865,8 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
                 },
                 isStatic: true
             ),
-            "getFuga": (
+            (
+                name: "getFuga",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "fuga", expectedArgumentCount: 1) { env in
                         return try Swift.Double.toNode(env.argument(at: 0, converter: TestAPI.TestNonExportedProtocolEnum.self).fuga, env: env.env)
@@ -9538,7 +9884,6 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestOptionalsProtocol+node.swift
 
@@ -9625,7 +9970,8 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
             module: "TestAPI",
             name: "ExternalWitness_TestOptionalsProtocol",
             properties: [
-                "wombat": (
+                (
+                    name: "wombat",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
@@ -9639,7 +9985,8 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     },
                     isStatic: false
                 ),
-                "spqr": (
+                (
+                    name: "spqr",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -9653,7 +10000,8 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                     },
                     isStatic: false
                 ),
-                "flarp": (
+                (
+                    name: "flarp",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
@@ -9679,7 +10027,6 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestPropertiesProtocol+node.swift
 
@@ -9759,7 +10106,8 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
             module: "TestAPI",
             name: "ExternalWitness_TestPropertiesProtocol",
             properties: [
-                "corge": (
+                (
+                    name: "corge",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
@@ -9770,7 +10118,8 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                     ),
                     isStatic: false
                 ),
-                "frobby": (
+                (
+                    name: "frobby",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
@@ -9796,7 +10145,6 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestProtocolClass+node.swift
 
@@ -9828,7 +10176,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "TestProtocolClass",
             properties: [
-                "foo": (
+                (
+                    name: "foo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -9841,7 +10190,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "bar": (
+                (
+                    name: "bar",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
@@ -9854,7 +10204,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "baz": (
+                (
+                    name: "baz",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -9868,7 +10219,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "garply": (
+                (
+                    name: "garply",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -9882,7 +10234,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "xyzzy": (
+                (
+                    name: "xyzzy",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -9897,7 +10250,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "plugh": (
+                (
+                    name: "plugh",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
@@ -9911,7 +10265,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "init": (
+                (
+                    name: "init",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try TestAPI.TestProtocolClass.toNode(
@@ -9926,7 +10281,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "wombat": (
+                (
+                    name: "wombat",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
@@ -9940,7 +10296,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "spqr": (
+                (
+                    name: "spqr",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
@@ -9954,7 +10311,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: false
                 ),
-                "corge": (
+                (
+                    name: "corge",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
@@ -9972,7 +10330,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "flarp": (
+                (
+                    name: "flarp",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
@@ -9990,7 +10349,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                         }),
                     isStatic: false
                 ),
-                "frobby": (
+                (
+                    name: "frobby",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
@@ -10001,7 +10361,8 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: false
                 ),
-                "toString": (
+                (
+                    name: "toString",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -10029,7 +10390,6 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.TestProtocolEnum+node.swift
 
 extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
@@ -10049,7 +10409,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
     public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
         let object = try env.createObject()
         let props = try NodeClass.descriptorsFor(properties: [
-            "foo": (
+            (
+                name: "foo",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -10062,7 +10423,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "bar": (
+            (
+                name: "bar",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Bool.toNode(
@@ -10075,7 +10437,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "baz": (
+            (
+                name: "baz",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -10089,7 +10452,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "garply": (
+            (
+                name: "garply",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
@@ -10103,7 +10467,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "xyzzy": (
+            (
+                name: "xyzzy",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
@@ -10118,7 +10483,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
                 },
                 isStatic: true
             ),
-            "plugh": (
+            (
+                name: "plugh",
                 .method { env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
@@ -10142,7 +10508,6 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.TestProtocolStruct+node.swift
 
@@ -10173,7 +10538,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
             module: "TestAPI",
             name: "TestProtocolStruct",
             properties: [
-                "foo": (
+                (
+                    name: "foo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -10186,7 +10552,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "bar": (
+                (
+                    name: "bar",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
@@ -10199,7 +10566,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "baz": (
+                (
+                    name: "baz",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
@@ -10213,7 +10581,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "garply": (
+                (
+                    name: "garply",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -10227,7 +10596,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "xyzzy": (
+                (
+                    name: "xyzzy",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
@@ -10242,7 +10612,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "plugh": (
+                (
+                    name: "plugh",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
@@ -10256,7 +10627,8 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     },
                     isStatic: false
                 ),
-                "frobby": (
+                (
+                    name: "frobby",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
@@ -10267,7 +10639,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                     ),
                     isStatic: false
                 ),
-                "corge": (.stored(mutable: true), isStatic: false),
+                (name: "corge", .stored(mutable: true), isStatic: false),
             ],
             constructor: { env, info in
                 callbackBody(env, info, name: "TestProtocolStruct_constructor", expectedArgumentCount: 1) { env in
@@ -10285,7 +10657,6 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
         )
     }
 }
-
 
 // MARK: - NodeInterface/TestAPI.Tuples+node.swift
 
@@ -10306,7 +10677,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "Tuples",
             properties: [
-                "checkTuples": (
+                (
+                    name: "checkTuples",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "checkTuples", expectedArgumentCount: 5, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
@@ -10324,7 +10696,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "tuple2": (
+                (
+                    name: "tuple2",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple2", expectedArgumentCount: 0) { env in
@@ -10335,7 +10708,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "tuple3": (
+                (
+                    name: "tuple3",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple3", expectedArgumentCount: 0) { env in
@@ -10346,7 +10720,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "tuple4": (
+                (
+                    name: "tuple4",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple4", expectedArgumentCount: 0) { env in
@@ -10357,7 +10732,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "tuple5": (
+                (
+                    name: "tuple5",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple5", expectedArgumentCount: 0) { env in
@@ -10368,7 +10744,8 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "tuple6": (
+                (
+                    name: "tuple6",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple6", expectedArgumentCount: 0) { env in
@@ -10399,7 +10776,6 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
-
 // MARK: - NodeInterface/TestAPI.URLs+node.swift
 
 extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
@@ -10419,7 +10795,8 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "URLs",
             properties: [
-                "echo": (
+                (
+                    name: "echo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.URL.toNode(
@@ -10433,7 +10810,8 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
-                "dataImage": (
+                (
+                    name: "dataImage",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dataImage", expectedArgumentCount: 0) { env in
@@ -10444,7 +10822,8 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "localFile": (
+                (
+                    name: "localFile",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "localFile", expectedArgumentCount: 0) { env in
@@ -10455,7 +10834,8 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "remoteFile": (
+                (
+                    name: "remoteFile",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "remoteFile", expectedArgumentCount: 0) { env in
@@ -10466,7 +10846,8 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     ),
                     isStatic: true
                 ),
-                "simple": (
+                (
+                    name: "simple",
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in

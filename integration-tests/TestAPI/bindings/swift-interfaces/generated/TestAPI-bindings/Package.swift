@@ -1,10 +1,10 @@
-// swift-tools-version:5.10
+// swift-tools-version:6.2
 // BEGIN GENERATED CODE
 
 import PackageDescription
 import Foundation
 
-let strictConcurrencyFlags: [SwiftSetting] = []
+let strictConcurrencyFlags: [SwiftSetting] = [.swiftLanguageMode(.v5)]
 // [.enableExperimentalFeature("StrictConcurrency"), .enableUpcomingFeature("InferSendableFromCaptures")]
 
 let env = ProcessInfo.processInfo.environment
@@ -82,7 +82,7 @@ var package = Package(
                 name: "TestAPI_WasmMainShim",
                 dependencies: [.target(name: "TestAPI_NodeInterface")],
                 path: "Sources/WasmMainShim",
-                swiftSettings: [.unsafeFlags(["-warn-concurrency"])] + strictConcurrencyFlags
+                swiftSettings: strictConcurrencyFlags
             ),
         ] : [
             .target(
@@ -110,9 +110,8 @@ var package = Package(
                 ]
             ),
         ]
-    )
+    ),
+    swiftLanguageModes: [.v5]
 )
 // END GENERATED CODE
 // Below is copied from bindings/swift-interfaces/Package.part.swift
-
-

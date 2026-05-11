@@ -9,7 +9,6 @@ binaries=(
     .build/debug/libJavaRuntimeTestHarness.dylib
     .build/debug/libFishyJoesJavaRuntime.dylib
     .build/debug/libFishyJoesIotaRuntime.dylib
-    .build/debug/helper-fishy-joes-core
     integration-tests/TestAPI/.build/bindings/debug/libTestAPI.dylib
     integration-tests/TestAPI/.build/bindings/debug/libTestAPI-java.dylib
     integration-tests/TestAPI/.build/bindings/debug/libTestAPI-node.dylib
@@ -20,12 +19,11 @@ binaries=(
 
 xcrun llvm-profdata merge coverage-data/*.profraw > coverage-data/combined.profdata
 
+ESCAPED_PWD=$(printf "%s" $(realpath .) | sed 's/[[\.*^$()+?{|]/\&/g')
 xcrun llvm-cov export \
       -object=$^binaries \
       -instr-profile=coverage-data/combined.profdata \
       -format=lcov \
+      | sed "s|^SF:$ESCAPED_PWD/|SF:|g" \
+      | swift demangle \
       > coverage-data/lcov.info
-
-./scripts/lcov-to-xml.sh \
-    < coverage-data/lcov.info \
-    > coverage-data/coverage.xml

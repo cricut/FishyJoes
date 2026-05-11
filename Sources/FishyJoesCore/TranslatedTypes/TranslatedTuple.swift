@@ -1,4 +1,4 @@
-import SourceryRuntime
+import SourceryDataModel
 
 struct TranslatedTuple: TranslatedType {
     struct Element {
@@ -16,7 +16,6 @@ struct TranslatedTuple: TranslatedType {
 
     let sourceType: BetterType
     var nodeName: String { "[\(elements.lazy.map { "\($0.type.nodeType)" }.joined(separator: ", "))]" }
-    var neutralName: String { "Tuple<Types=[\(elements.lazy.map(\.type.neutralName).joined(separator: ", "))]>" }
     var containedNamedTypes: [TranslatedType] { Array(elements.lazy.map(\.type.containedNamedTypes).joined()) }
     var kotlinName: String {
         if elements.count == 2 {
