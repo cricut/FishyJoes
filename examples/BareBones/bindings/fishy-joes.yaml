@@ -1,5 +1,0 @@
-module: BareBones
-requiredModules: []
-extraDynamicLibraries: []
-excludeSources: []
-flexibleVersions: false
