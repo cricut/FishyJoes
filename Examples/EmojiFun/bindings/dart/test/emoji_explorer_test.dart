@@ -6,7 +6,7 @@ void main() {
     final _ = ensureLoaded;
   });
 
-  group('EmojiFunTests', () {
+  group('EmojiExplorerTests', () {
     test('hello', () {
         expect(EmojiExplorer.hello, equals("👋🌎"));
     });

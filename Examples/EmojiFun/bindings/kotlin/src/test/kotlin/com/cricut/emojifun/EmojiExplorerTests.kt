@@ -3,7 +3,7 @@ package com.cricut.emojifun
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
-internal class LayoutTest {
+internal class EmojiExplorerTests {
     @Test
     fun hello() {
         assertEquals(EmojiExplorer.hello, "👋🌎")

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Cricut.EmojiFun.Tests
 {
-    public class ExampleTests
+    public class EmojiExplorerTests
     {
         [Fact]
         public void Hello()
