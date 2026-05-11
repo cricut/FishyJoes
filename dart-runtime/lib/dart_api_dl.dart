@@ -49,7 +49,7 @@ final class DartApiDL {
         if (entries.ref.name.toDartString() == name) {
           return entries.ref.function;
         }
-        entries = entries.elementAt(1);
+        entries = entries + 1;
       }
       throw UnsupportedError("Unable to find handle to $name in dart VM C interface");
     }

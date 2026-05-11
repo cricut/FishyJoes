@@ -25,7 +25,7 @@ sealed class Result<T, F> {
   /// This function is a shorthand for `getOrElse { null }` (see [getOrElse]) or
   /// `fold(onSuccess = { it }, onFailure = { null })` (see [fold]).
   T? getOrNull() => switch (this) {
-    ResultSuccess(: var value) => value,
+    ResultSuccess(:var value) => value,
     ResultFailure() => null,
   };
 
@@ -35,7 +35,7 @@ sealed class Result<T, F> {
   /// This function is a shorthand for `fold(onSuccess = { null }, onFailure = { it })` (see [fold]).
   F? exceptionOrNull() => switch (this) {
     ResultSuccess() => null,
-    ResultFailure(: var exception) => exception,
+    ResultFailure(:var exception) => exception,
   };
 
   /// Returns the result of [onSuccess] for the encapsulated value if this instance represents [success][TypedResult.isSuccess]
@@ -43,8 +43,8 @@ sealed class Result<T, F> {
   ///
   /// Note, that this function rethrows any [Throwable] exception thrown by [onSuccess] or by [onFailure] function.
   R fold<R>(R Function(T) onSuccess, R Function(F) onFailure) => switch (this) {
-    ResultSuccess(: var value) => onSuccess(value),
-    ResultFailure(: var exception) => onFailure(exception),
+    ResultSuccess(:var value) => onSuccess(value),
+    ResultFailure(:var exception) => onFailure(exception),
   };
 
   /// Returns the encapsulated result of the given [transform] function applied to the encapsulated value
@@ -52,15 +52,15 @@ sealed class Result<T, F> {
   /// original encapsulated [F] exception if it is [failure][TypedResult.isFailure].
   ///
   /// Note, that this function rethrows any [Throwable] exception thrown by [transform] function.
-  Result<R, F> map<R>(R Function(T) transform) => switch(this) {
-    ResultSuccess(: var value) => ResultSuccess(transform(value)),
-    ResultFailure(: var exception) => ResultFailure(exception),
+  Result<R, F> map<R>(R Function(T) transform) => switch (this) {
+    ResultSuccess(:var value) => ResultSuccess(transform(value)),
+    ResultFailure(:var exception) => ResultFailure(exception),
   };
 
   /// Performs the given [action] on the encapsulated [F] exception if this instance represents [failure][TypedResult.isFailure].
   /// Returns the original `TypedResult` unchanged.
   Result<T, F> onFailure(void Function(F) action) {
-    if (this case ResultFailure(: var exception)) {
+    if (this case ResultFailure(:var exception)) {
       action(exception);
     }
     return this;
@@ -69,7 +69,7 @@ sealed class Result<T, F> {
   /// Performs the given [action] on the encapsulated value if this instance represents [success][TypedResult.isSuccess].
   /// Returns the original `TypedResult` unchanged.
   Result<T, F> onSuccess(void Function(T) action) {
-    if (this case ResultSuccess(: var value)) {
+    if (this case ResultSuccess(:var value)) {
       action(value);
     }
     return this;
@@ -84,8 +84,8 @@ extension ResultGetOrElseExtension<R, T extends R, F> on Result<T, F> {
   ///
   /// This function is a shorthand for `fold(onSuccess = { it }, onFailure = onFailure)` (see [fold]).
   R getOrElse(R Function(F) onFailure) => switch (this) {
-    ResultSuccess(: var value) => value,
-    ResultFailure(: var exception) => onFailure(exception),
+    ResultSuccess(:var value) => value,
+    ResultFailure(:var exception) => onFailure(exception),
   };
 }
 
@@ -95,7 +95,7 @@ extension ResultGetOrThrowsExtension<T, F extends Object> on Result<T, F> {
   ///
   /// This function is a shorthand for `getOrElse { throw it }` (see [getOrElse]).
   T getOrThrow() => switch (this) {
-    ResultSuccess(: var value) => value,
-    ResultFailure(: var exception) => throw exception,
+    ResultSuccess(:var value) => value,
+    ResultFailure(:var exception) => throw exception,
   };
 }
