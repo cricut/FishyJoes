@@ -7,7 +7,7 @@ test('hello', () => {
 test('construction', () => {
     const explorer = EmojiFun.EmojiExplorer.create(128);
     expect(explorer.known.size).toBe(128);
-    expect(explorer.known).toEqual(new Set([
+    expect(Array.from(explorer.known.values()).sort()).toEqual([
         "⌚", "⌛", "⏩", "⏪", "⏫", "⏬", "⏰", "⏳", "◽", "◾", "☔", "☕", "♈", "♉", "♊", "♋",
         "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "♿", "⚓", "⚡", "⚪", "⚫", "⚽", "⚾", "⛄",
         "⛅", "⛎", "⛔", "⛪", "⛲", "⛳", "⛵", "⛺", "⛽", "✅", "✊", "✋", "✨", "❌", "❎", "❓",
@@ -16,7 +16,7 @@ test('construction', () => {
         "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼",
         "🇽", "🇾", "🇿", "🈁", "🈚", "🈯", "🈲", "🈳", "🈴", "🈵", "🈶", "🈸", "🈹", "🈺", "🉐", "🉑",
         "🌀", "🌁", "🌂", "🌃", "🌄", "🌅", "🌆", "🌇", "🌈", "🌉", "🌊", "🌋", "🌌", "🌍", "🌎", "🌏",
-    ]));
+    ].sort());
 
     expect(EmojiFun.EmojiExplorer.create(0).known.size).toBe(0);
     expect(EmojiFun.EmojiExplorer.create(-1).known.size).toBe(0);
@@ -45,7 +45,7 @@ test('randomUnique', () => {
     }
 
     expect(reported.length).toBe(count);
-    expect(new Set(reported)).toEqual(explorer.known);
+    expect(reported.sort()).toEqual(Array.from(explorer.known.values()).sort());
 });
 
 test('enumerateKnown', () => {
@@ -59,7 +59,7 @@ test('enumerateKnown', () => {
     });
 
     expect(reported.length).toBe(count);
-    expect(new Set(reported)).toEqual(explorer.known);
+    expect(reported.sort()).toEqual(Array.from(explorer.known.values()).sort());
 
     let earlyExitReportedCount = 0;
     explorer.enumerateKnown(s => {
