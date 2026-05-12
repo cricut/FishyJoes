@@ -1,0 +1,6 @@
+module: EmojiFun
+publishRepository: github.com/cricut/EmojiFun
+requiredModules: []
+extraDynamicLibraries: []
+excludeSources: []
+flexibleVersions: false

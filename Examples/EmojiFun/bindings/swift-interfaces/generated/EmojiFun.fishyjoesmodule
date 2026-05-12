@@ -1,0 +1,232 @@
+{
+  "types" : [
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "EmojiFun",
+            "name" : "EmojiExplorer",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "EmojiExplorer",
+          "package" : "Cricut.EmojiFun"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "EmojiExplorer",
+          "package" : "EmojiFun"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "EmojiFun"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/emojifun/EmojiExplorer"
+        }
+      },
+      "kotlinName" : "EmojiExplorer",
+      "kotlinPackage" : "com.cricut.emojifun",
+      "nodeName" : "EmojiFun.EmojiExplorer",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "EmojiFun",
+            "name" : "EmojiExplorer",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "typeScriptAnnotations" : {
+    "defaultNamespace" : "EmojiFun",
+    "rootNamespaces" : [
+      {
+        "classes" : [
+          {
+            "constructor" : {
+              "hidden" : {
+
+              }
+            },
+            "documentation" : [
+              "A playground object for working with emoji.",
+              "<!-- FishyJoes.exportReference(EmojiExplorer) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "Emits a hello string.",
+                  "- Returns: A string containing an emoji hello message.",
+                  "<!-- FishyJoes.export(hello) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "hello",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "A collection of emoji strings known to the object.",
+                  "",
+                  "This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.",
+                  "<!-- FishyJoes.export(known) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "known",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Set<string>"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "Creates an object that works with emoji strings.",
+                  "- Parameter count: The number of emoji strings to include in the object's known collection.",
+                  "<!-- FishyJoes.export(create) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "create",
+                "parameters" : [
+                  {
+                    "name" : "count",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "EmojiFun.EmojiExplorer"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "Reports a random emoji string built using the object's collection of known emoji strings.",
+                  "- Returns: A string containing one or more random emoji. In the unusual case that the object knows zero emoji strings, the `hello` string is returned.",
+                  "<!-- FishyJoes.export(random) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "random",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "Reports a random emoji string from the object's collection of known emoji strings, ensuring it is only reported once.",
+                  "- Returns: A random emoji string, or `nil` if all values known to the object have been reported.",
+                  "<!-- FishyJoes.export(randomUnique) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "randomUnique",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "Enumerates the emoji strings known to the object.",
+                  "- Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.",
+                  "<!-- FishyJoes.export(enumerateKnown) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : false,
+                "name" : "enumerateKnown",
+                "parameters" : [
+                  {
+                    "name" : "body",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: string) => boolean"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "void"
+                  }
+                }
+              }
+            ],
+            "name" : "EmojiExplorer"
+          }
+        ],
+        "fields" : [
+
+        ],
+        "interfaces" : [
+
+        ],
+        "methods" : [
+
+        ],
+        "name" : "EmojiFun",
+        "namespaces" : {
+
+        },
+        "typealiases" : [
+
+        ]
+      }
+    ]
+  }
+}
