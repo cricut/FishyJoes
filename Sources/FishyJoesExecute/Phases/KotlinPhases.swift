@@ -10,9 +10,9 @@ class KotlinPhases: BasePhases, Phases {
         ] + options.config.requiredModules.map {
             (swift: $0, groupId: "com.cricut.\($0)", artifactId: $0.lowercased())
         }
-        let gradleDependencyLines = gradleDependencies.map { dependency in
-            let version = options.packageInfo?.dependencyMap[dependency.swift]?.versionInGradleFormat(flexibleVersions: options.config.flexibleVersions) ?? "local"
-            return "api(\"\(dependency.groupId):\(dependency.artifactId):\(version)\")"
+        let gradleDependencyLines = gradleDependencies.flatMap { dependency in
+            let version = options.packageInfo?.dependencyMap[dependency.swift]?.versionInGradleFormat(flexibleVersions: options.config.flexibleVersions) ?? .inline("local")
+            return version.formatLines(forPackage: "\(dependency.groupId):\(dependency.artifactId)")
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
         return replacements

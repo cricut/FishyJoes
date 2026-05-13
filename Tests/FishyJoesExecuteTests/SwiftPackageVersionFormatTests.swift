@@ -149,15 +149,50 @@ class SwiftPackageVersionFormatTests: XCTestCase {
             )
         )
 
-        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: false), "2.19.4")
-        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: true), "[2.19.4,3.0.0)")
-        XCTAssertEqual(upToNextMinor.versionInGradleFormat(flexibleVersions: false), "1.2.3")
-        XCTAssertEqual(upToNextMinor.versionInGradleFormat(flexibleVersions: true), "[1.2.3,1.3.0)")
-        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: false), "1.11.11")
-        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: true), "1.11.11")
-        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: false), "abc123")
-        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: true), "abc123")
-        XCTAssertEqual(range.versionInGradleFormat(flexibleVersions: false), "1.0.0")
-        XCTAssertEqual(range.versionInGradleFormat(flexibleVersions: true), "[1.0.0,2.0.0)")
+        XCTAssertEqual(upToNextMajor.versionInGradleFormat(flexibleVersions: false), .inline("2.19.4"))
+        XCTAssertEqual(
+            upToNextMajor.versionInGradleFormat(flexibleVersions: true),
+            .rich([#"strictly("[2.19.4,3.0.0)")"#, #"prefer("2.19.4")"#])
+        )
+        XCTAssertEqual(upToNextMinor.versionInGradleFormat(flexibleVersions: false), .inline("1.2.3"))
+        XCTAssertEqual(
+            upToNextMinor.versionInGradleFormat(flexibleVersions: true),
+            .rich([#"strictly("[1.2.3,1.3.0)")"#, #"prefer("1.2.3")"#])
+        )
+        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: false), .inline("1.11.11"))
+        XCTAssertEqual(exact.versionInGradleFormat(flexibleVersions: true), .rich([#"strictly("1.11.11")"#]))
+        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: false), .inline("abc123"))
+        XCTAssertEqual(revision.versionInGradleFormat(flexibleVersions: true), .inline("abc123"))
+        XCTAssertEqual(range.versionInGradleFormat(flexibleVersions: false), .inline("1.0.0"))
+        XCTAssertEqual(
+            range.versionInGradleFormat(flexibleVersions: true),
+            .rich([#"strictly("[1.0.0,2.0.0)")"#, #"prefer("1.0.0")"#])
+        )
+    }
+
+    func testGradleVersionFormat() throws {
+            let inlineVersion = SwiftPackage.Dependency.GradleVersion.inline("1.2.3")
+            XCTAssertEqual(
+                inlineVersion.formatLines(forPackage: "com.example:package"),
+                [#"api("com.example:package:1.2.3")"#]
+            )
+
+            let richVersion = SwiftPackage.Dependency.GradleVersion.rich(
+                [
+                    #"strictly("[1.0.0,2.0.0)")"#,
+                    #"prefer("1.0.0")"#
+                ]
+            )
+            XCTAssertEqual(
+                richVersion.formatLines(forPackage: "com.example:package"),
+                [
+                    #"api("com.example:package") {"#,
+                    #"  version {"#,
+                    #"    strictly("[1.0.0,2.0.0)")"#,
+                    #"    prefer("1.0.0")"#,
+                    #"  }"#,
+                    #"}"#,
+                ]
+            )
     }
 }
