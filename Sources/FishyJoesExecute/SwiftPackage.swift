@@ -129,7 +129,7 @@ extension SwiftPackage.Dependency {
         // Gradle version range format using Maven-style syntax. See for details:
         // https://docs.gradle.org/current/userguide/dependency_versions.html#sec:rich-version-constraints
         //
-        // When flexibleVersions is true, generates strict inclusive-exclusive ranges with preference for the min: [min,max)!!min
+        // When flexibleVersions is true, generates strict inclusive-exclusive ranges with preference for the min.
         // Syntax: '[' = inclusive, ')' = exclusive, '(' = exclusive, ']' = inclusive
 
 
