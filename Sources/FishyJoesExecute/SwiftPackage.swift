@@ -132,7 +132,6 @@ extension SwiftPackage.Dependency {
         // When flexibleVersions is true, generates strict inclusive-exclusive ranges with preference for the min.
         // Syntax: '[' = inclusive, ')' = exclusive, '(' = exclusive, ']' = inclusive
 
-
         func gradleDefault(_ version: String) -> GradleVersion {
             // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
             return .inline(version.replacingOccurrences(of: "/", with: "-"))
