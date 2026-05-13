@@ -104,8 +104,10 @@ extension SwiftPackage.Dependency {
     }
 
     func versionInGradleFormat(flexibleVersions: Bool = false) -> String {
-        // Gradle version range format using Maven-style syntax.
-        // When flexibleVersions is true, generates inclusive-exclusive ranges: [min,max)
+        // Gradle version range format using Maven-style syntax. See for details:
+        // https://docs.gradle.org/current/userguide/dependency_versions.html#sec:rich-version-constraints
+        //
+        // When flexibleVersions is true, generates strict inclusive-exclusive ranges with preference for the min: [min,max)!!min
         // Syntax: '[' = inclusive, ')' = exclusive, '(' = exclusive, ']' = inclusive
         let spec: String
         switch self {
@@ -115,24 +117,28 @@ extension SwiftPackage.Dependency {
             spec = name
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
             if flexibleVersions {
-                spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+                spec = "[\(baseVersion),\(baseVersion.nextMajor))!!\(baseVersion)"
             } else {
                 spec = baseVersion.versionString
             }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
             if flexibleVersions {
-                spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+                spec = "[\(baseVersion),\(baseVersion.nextMinor))!!\(baseVersion)"
             } else {
                 spec = baseVersion.versionString
             }
         case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
             if flexibleVersions {
-                spec = "[\(lowerBound),\(upperBound))"
+                spec = "[\(lowerBound),\(upperBound))!!\(lowerBound)"
             } else {
                 spec = lowerBound.versionString
             }
         case .sourceControl(_, _, .exact(let version)):
-            spec = version.versionString
+            if flexibleVersions {
+                spec = "\(version.versionString)!!"
+            } else {
+                spec = version.versionString
+            }
         case .fileSystem:
             spec = "local"
         }
