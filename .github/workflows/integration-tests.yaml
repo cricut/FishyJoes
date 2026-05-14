@@ -31,7 +31,7 @@ jobs:
       CONFIGURATION: debug
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -142,7 +142,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -284,7 +284,7 @@ jobs:
       FISHYJOES: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - uses: compnerd/gha-setup-swift@main
         with:

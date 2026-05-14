@@ -278,5 +278,5 @@ func relativePath(of targetPath: String, relativeTo sourcePath: String) -> Strin
 }
 
 func join(lines: [String], indent: Int) -> String {
-    lines.map { "\n\(String(repeating: " ", count: indent))\($0)" }.joined()
+    lines.map { "\n\($0.isEmpty ? "" : String(repeating: " ", count: indent))\($0)" }.joined()
 }
