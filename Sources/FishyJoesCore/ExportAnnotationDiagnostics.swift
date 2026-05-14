@@ -129,7 +129,7 @@ public enum ExportAnnotationDiagnostics {
             diagnostics.append(
                 contentsOf: sourceAnnotations
                     .filter { !suppressedIDs.contains($0.id) }
-                    .map(misplacedDiagnostic)
+                    .map(unrepresentedSourceAnnotationDiagnostic)
             )
         }
 
@@ -171,6 +171,7 @@ public enum ExportAnnotationDiagnostics {
         let kind: ExportAnnotation.Kind
         let nearestDeclaration: String?
         let isImmediatelyBeforeDeclaration: Bool
+        let sourceAttachedDeclaration: String?
 
         var key: AnnotationKey {
             .init(annotationText: annotationText, exportName: exportName, kind: kind)
@@ -219,7 +220,8 @@ public enum ExportAnnotationDiagnostics {
                         exportName: parsed.exportName,
                         kind: parsed.kind,
                         nearestDeclaration: syntaxIndex.nearestDeclaration(to: annotationLine.lineNumber)?.displayName,
-                        isImmediatelyBeforeDeclaration: syntaxIndex.attachedAnnotationIDs.contains(annotationLine.id)
+                        isImmediatelyBeforeDeclaration: syntaxIndex.attachedAnnotationDeclarationsByID[annotationLine.id] != nil,
+                        sourceAttachedDeclaration: syntaxIndex.attachedAnnotationDeclarationsByID[annotationLine.id]?.displayName
                     )
                     return .init(parsed: parsedAnnotation, parseDiagnostic: nil)
                 }
@@ -351,7 +353,7 @@ public enum ExportAnnotationDiagnostics {
 
     private struct SourceSyntaxIndex {
         let declarations: [SourceDeclaration]
-        let attachedAnnotationIDs: Set<String>
+        let attachedAnnotationDeclarationsByID: [String: SourceDeclaration]
 
         func nearestDeclaration(to lineNumber: Int) -> SourceDeclaration? {
             declarations
@@ -385,7 +387,7 @@ public enum ExportAnnotationDiagnostics {
                 }
                 return $0.displayName < $1.displayName
             },
-            attachedAnnotationIDs: visitor.attachedAnnotationIDs
+            attachedAnnotationDeclarationsByID: visitor.attachedAnnotationDeclarationsByID
         )
     }
 
@@ -393,7 +395,7 @@ public enum ExportAnnotationDiagnostics {
         let filePath: String
         let locationConverter: SourceLocationConverter
         var declarations: [SourceDeclaration] = []
-        var attachedAnnotationIDs = Set<String>()
+        var attachedAnnotationDeclarationsByID: [String: SourceDeclaration] = [:]
 
         init(filePath: String, locationConverter: SourceLocationConverter) {
             self.filePath = filePath
@@ -456,7 +458,8 @@ public enum ExportAnnotationDiagnostics {
 
         private func recordDeclaration(name: String, syntax: Syntax) {
             let lineNumber = locationConverter.location(for: syntax.positionAfterSkippingLeadingTrivia).line
-            declarations.append(.init(displayName: name, lineNumber: lineNumber))
+            let declaration = SourceDeclaration(displayName: name, lineNumber: lineNumber)
+            declarations.append(declaration)
             let leadingTrivia = syntax.leadingTrivia.description
             guard !leadingTrivia.isEmpty else { return }
             for annotationLine in annotationLines(
@@ -465,7 +468,7 @@ public enum ExportAnnotationDiagnostics {
                 startingAt: syntax.position,
                 locationConverter: locationConverter
             ) {
-                attachedAnnotationIDs.insert(annotationLine.id)
+                attachedAnnotationDeclarationsByID[annotationLine.id] = declaration
             }
         }
 
@@ -536,6 +539,30 @@ public enum ExportAnnotationDiagnostics {
 
     private static func looksLikeFishyJoesAnnotation(_ line: String) -> Bool {
         line.contains("<!--") && line.contains("FishyJoes.")
+    }
+
+    private static func unrepresentedSourceAnnotationDiagnostic(for annotation: ParsedSourceAnnotation) -> Diagnostic {
+        if let sourceAttachedDeclaration = annotation.sourceAttachedDeclaration {
+            return sourceProviderMismatchDiagnostic(
+                for: annotation,
+                sourceAttachedDeclaration: sourceAttachedDeclaration
+            )
+        }
+        return misplacedDiagnostic(for: annotation)
+    }
+
+    private static func sourceProviderMismatchDiagnostic(
+        for annotation: ParsedSourceAnnotation,
+        sourceAttachedDeclaration: String
+    ) -> Diagnostic {
+        let message = "\(annotation.annotationText) at \(annotation.filePath):\(annotation.lineNumber) is attached in Swift source to \(sourceAttachedDeclaration), but the current declaration provider did not report it. The annotation will be ignored until the declaration provider and source attachment agree."
+        return .init(
+            filePath: annotation.filePath,
+            lineNumber: annotation.lineNumber,
+            exportName: annotation.exportName,
+            nearestDeclaration: sourceAttachedDeclaration,
+            message: message
+        )
     }
 
     private static func misplacedDiagnostic(for annotation: ParsedSourceAnnotation) -> Diagnostic {

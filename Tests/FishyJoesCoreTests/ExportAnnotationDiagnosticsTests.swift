@@ -129,6 +129,29 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
         XCTAssertEqual(diagnostics, [])
     }
 
+    func testSourceAttachedAnnotationMissingFromDeclarationProviderReportsMismatch() {
+        let source = """
+        public struct Fixture {
+            /// <!-- FishyJoes.export(providerMismatch) -->
+            public func providerMismatch() {}
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: []
+        )
+
+        XCTAssertEqual(diagnostics.count, 1)
+        XCTAssertEqual(diagnostics[0].filePath, "Fixture.swift")
+        XCTAssertEqual(diagnostics[0].lineNumber, 2)
+        XCTAssertEqual(diagnostics[0].exportName, "providerMismatch")
+        XCTAssertEqual(diagnostics[0].nearestDeclaration, "providerMismatch()")
+        XCTAssertTrue(diagnostics[0].message.contains("is attached in Swift source"))
+        XCTAssertTrue(diagnostics[0].message.contains("current declaration provider did not report it"))
+        XCTAssertFalse(diagnostics[0].message.contains("not attached to a declaration"))
+    }
+
     func testAnnotationInsideMethodBodyReportsMisplacedDiagnostic() {
         let source = """
         public struct Fixture {
