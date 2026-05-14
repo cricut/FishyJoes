@@ -77,6 +77,58 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
         XCTAssertEqual(diagnostics, [])
     }
 
+    func testValidAnnotationAboveAttributesAndMultilineFunctionHasNoDiagnosticWhenAttachedBySourcery() {
+        let source = """
+        public struct Fixture {
+            /// <!-- FishyJoes.export(validGenericMethod) -->
+            @available(macOS 13, *)
+            public func validGenericMethod<T>(
+                value: T,
+                count: Int
+            ) -> T {
+                value
+            }
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: [
+                .init(
+                    declarationName: "validGenericMethod(value:count:)",
+                    annotationText: "<!-- FishyJoes.export(validGenericMethod) -->",
+                    exportName: "validGenericMethod",
+                    kind: .unmodified
+                ),
+            ]
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
+    func testValidEnumCaseAnnotationHasNoDiagnosticWhenAttachedBySourcery() {
+        let source = """
+        public enum Fixture {
+            /// <!-- FishyJoes.export(payload) -->
+            case payload(value: Int)
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: [
+                .init(
+                    declarationName: "payload",
+                    annotationText: "<!-- FishyJoes.export(payload) -->",
+                    exportName: "payload",
+                    kind: .unmodified
+                ),
+            ]
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
     func testAnnotationInsideMethodBodyReportsMisplacedDiagnostic() {
         let source = """
         public struct Fixture {
@@ -149,6 +201,21 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
             public func validMethod() {}
         }
         """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: []
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
+    func testAnnotationTextInsideStringLiteralHasNoDiagnostic() {
+        let source = #"""
+        public struct Fixture {
+            public let text = "/// <!-- FishyJoes.export(notAComment) -->"
+        }
+        """#
 
         let diagnostics = ExportAnnotationDiagnostics.diagnostics(
             sourceFiles: [.init(path: "Fixture.swift", contents: source)],
@@ -253,6 +320,29 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
         XCTAssertEqual(diagnostics[0].exportName, "trailingExport")
         XCTAssertEqual(diagnostics[0].nearestDeclaration, "trailingExport()")
         XCTAssertTrue(diagnostics[0].message.contains("not attached to a declaration"))
+    }
+
+    func testMisplacedAnnotationInsideMultilineFunctionReportsNearestDeclaration() {
+        let source = """
+        public struct Fixture {
+            public func multilineNearestDeclaration(
+                value: Int,
+                scale: Double
+            ) -> Int {
+                /// <!-- FishyJoes.export(multilineNearestDeclaration) -->
+                return value
+            }
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: []
+        )
+
+        XCTAssertEqual(diagnostics.count, 1)
+        XCTAssertEqual(diagnostics[0].lineNumber, 6)
+        XCTAssertEqual(diagnostics[0].nearestDeclaration, "multilineNearestDeclaration(value:scale:)")
     }
 
     func testMalformedFishyJoesAnnotationReportsParseDiagnostic() {
