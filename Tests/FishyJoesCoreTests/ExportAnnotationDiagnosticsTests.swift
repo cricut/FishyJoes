@@ -129,6 +129,102 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
         XCTAssertEqual(diagnostics, [])
     }
 
+    func testValidMultilineVariableAnnotationHasNoDiagnosticWhenAttachedBySourcery() {
+        let source = """
+        public struct Fixture {
+            /// <!-- FishyJoes.export(multilineProperty) -->
+            public var multilineProperty:
+                Int {
+                1
+            }
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: [
+                .init(
+                    declarationName: "multilineProperty",
+                    annotationText: "<!-- FishyJoes.export(multilineProperty) -->",
+                    exportName: "multilineProperty",
+                    kind: .unmodified
+                ),
+            ]
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
+    func testValidBlockDocAnnotationAboveDeclarationHasNoDiagnosticWhenAttachedBySourcery() {
+        let source = """
+        public struct Fixture {
+            /**
+             <!-- FishyJoes.export(blockDocMethod) -->
+             */
+            public func blockDocMethod() {}
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: [
+                .init(
+                    declarationName: "blockDocMethod()",
+                    annotationText: "<!-- FishyJoes.export(blockDocMethod) -->",
+                    exportName: "blockDocMethod",
+                    kind: .unmodified
+                ),
+            ]
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
+    func testValidNestedTypeAnnotationHasNoDiagnosticWhenAttachedBySourcery() {
+        let source = """
+        public struct Fixture {
+            /// <!-- FishyJoes.export(NestedFixture) -->
+            public struct NestedFixture {}
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: [
+                .init(
+                    declarationName: "NestedFixture",
+                    annotationText: "<!-- FishyJoes.export(NestedFixture) -->",
+                    exportName: "NestedFixture",
+                    kind: .unmodified
+                ),
+            ]
+        )
+
+        XCTAssertEqual(diagnostics, [])
+    }
+
+    func testAnnotationBetweenAttributeAndDeclarationReportsMisplacedDiagnostic() {
+        let source = """
+        public struct Fixture {
+            @available(macOS 13, *)
+            /// <!-- FishyJoes.export(attributeSeparatedMethod) -->
+            public func attributeSeparatedMethod() {}
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: []
+        )
+
+        XCTAssertEqual(diagnostics.count, 1)
+        XCTAssertEqual(diagnostics[0].filePath, "Fixture.swift")
+        XCTAssertEqual(diagnostics[0].lineNumber, 3)
+        XCTAssertEqual(diagnostics[0].exportName, "attributeSeparatedMethod")
+        XCTAssertEqual(diagnostics[0].nearestDeclaration, "attributeSeparatedMethod()")
+        XCTAssertTrue(diagnostics[0].message.contains("not attached to a declaration"))
+    }
+
     func testSourceAttachedAnnotationMissingFromDeclarationProviderReportsMismatch() {
         let source = """
         public struct Fixture {
