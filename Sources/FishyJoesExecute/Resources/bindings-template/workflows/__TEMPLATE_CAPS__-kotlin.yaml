@@ -23,12 +23,7 @@ jobs:
     name: "macOS: Build and test kotlin bindings"
     runs-on: __CI_RUNNER_MACOS__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -72,12 +67,7 @@ jobs:
     name: "Ubuntu: Build and test kotlin bindings"
     runs-on: __CI_RUNNER_UBUNTU__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -148,18 +138,13 @@ jobs:
     name: "Windows: Build and test kotlin bindings"
     runs-on: __CI_RUNNER_WINDOWS__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -226,12 +211,7 @@ jobs:
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Set up java
         uses: actions/setup-java@v5

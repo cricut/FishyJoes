@@ -19,12 +19,7 @@ jobs:
     name: "macOS: regenerate check"
     runs-on: __CI_RUNNER_MACOS__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Install generation tools
         shell: zsh {0}

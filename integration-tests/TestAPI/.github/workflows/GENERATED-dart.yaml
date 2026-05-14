@@ -27,11 +27,8 @@ jobs:
     name: "macOS: Build and test dart bindings"
     runs-on: macos-26
     steps:
-      - name: Setup git credentials (none provided/needed)
-        run: ""
-
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -79,11 +76,8 @@ jobs:
     name: "Ubuntu: Build and test dart bindings"
     runs-on: ubuntu-latest
     steps:
-      - name: Setup git credentials (none provided/needed)
-        run: ""
-
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -144,9 +138,6 @@ jobs:
     name: "Windows: Build and test dart bindings"
     runs-on: windows-2025
     steps:
-      - name: Setup git credentials (none provided/needed)
-        run: ""
-
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
@@ -154,7 +145,7 @@ jobs:
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 
@@ -219,11 +210,8 @@ jobs:
       - build-test-dart-linux
       - build-test-dart-windows
     steps:
-      - name: Setup git credentials (none provided/needed)
-        run: ""
-
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
 

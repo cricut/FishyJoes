@@ -61,9 +61,9 @@ public struct FileTemplater {
         let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
         replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: lines, indent: 10)
 
-        let credentialStepLines: [String]
-        let credentialUser: String
-        let credentialToken: String
+        var credentialStepLines: [String] = []
+        var credentialUser: String = ""
+        var credentialToken: String = ""
         var ciEnv: [String: String] = [
             "FISHYJOES": "1",
             "JAVA_VERSION": "20",
@@ -87,20 +87,26 @@ public struct FileTemplater {
                 userAndToken = token
             }
             credentialStepLines = [
-                "name: Setup git credentials",
-                "uses: de-vri-es/setup-git-credentials@5dd446b3857806f44ea73acf83c193190a385d63  # v2.2.0",
-                "with:",
-                "  credentials: https://\(userAndToken)@github.com/",
-            ]
-        } else {
-            credentialUser = ""
-            credentialToken = ""
-            credentialStepLines = [
-                "name: Setup git credentials (none provided/needed)",
-                "run: \"\"",
+                "- name: Setup git credentials",
+                "  uses: de-vri-es/setup-git-credentials@5dd446b3857806f44ea73acf83c193190a385d63  # v2.2.0",
+                "  with:",
+                "    credentials: https://\(userAndToken)@github.com/",
+                "",
             ]
         }
-        replacements["__CI_SETUP_GIT_CREDENTIALS_STEP__"] = join(lines: credentialStepLines, indent: 8).trimmed()
+        credentialStepLines.append(
+            contentsOf: [
+                "- name: Checkout",
+                "  uses: actions/checkout@v6",
+                "  with:",
+                "    submodules: recursive",
+            ]
+        )
+        if credentialToken != "" {
+            credentialStepLines.append("    token: '\(credentialToken)'")
+        }
+        credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
+        replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
         replacements["__CI_DEPENDENCY_AUTH_TOKEN__"] = credentialToken
         let envLines = ciEnv.sorted { $0.key < $1.key }.map { "\($0.key): '\($0.value)'" }

@@ -23,12 +23,7 @@ jobs:
     name: "macOS: Build and test typescript bindings"
     runs-on: __CI_RUNNER_MACOS__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Install generation tools
         shell: zsh {0}
@@ -93,12 +88,7 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: __CI_RUNNER_UBUNTU__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Set up node
         uses: actions/setup-node@v6
@@ -171,18 +161,13 @@ jobs:
     name: "Windows: Build and test typescript bindings"
     runs-on: __CI_RUNNER_WINDOWS__
     steps:
-      - __CI_SETUP_GIT_CREDENTIALS_STEP__
-
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - __CI_GIT_STEPS__
 
       - name: Set up node
         uses: actions/setup-node@v6

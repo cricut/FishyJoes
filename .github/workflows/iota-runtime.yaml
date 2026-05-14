@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -48,7 +48,7 @@ jobs:
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure build environment
         run: |
@@ -89,7 +89,7 @@ jobs:
       LIB_DIR: .build/windows-iota-libs
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -143,7 +143,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up node
         uses: actions/setup-node@v6

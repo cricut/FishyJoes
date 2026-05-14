@@ -25,7 +25,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-macos
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -83,7 +83,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up node
         uses: actions/setup-node@v6
@@ -150,7 +150,7 @@ jobs:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-windows
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - uses: compnerd/gha-setup-swift@main
         with:
