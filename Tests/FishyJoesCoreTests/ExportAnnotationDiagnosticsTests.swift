@@ -235,6 +235,26 @@ final class ExportAnnotationDiagnosticsTests: XCTestCase {
         XCTAssertTrue(diagnostics[0].message.contains("not attached to a declaration"))
     }
 
+    func testTrailingAnnotationAfterDeclarationReportsDiagnostic() {
+        let source = """
+        public struct Fixture {
+            public func trailingExport() {} /// <!-- FishyJoes.export(trailingExport) -->
+        }
+        """
+
+        let diagnostics = ExportAnnotationDiagnostics.diagnostics(
+            sourceFiles: [.init(path: "Fixture.swift", contents: source)],
+            attachedAnnotations: []
+        )
+
+        XCTAssertEqual(diagnostics.count, 1)
+        XCTAssertEqual(diagnostics[0].filePath, "Fixture.swift")
+        XCTAssertEqual(diagnostics[0].lineNumber, 2)
+        XCTAssertEqual(diagnostics[0].exportName, "trailingExport")
+        XCTAssertEqual(diagnostics[0].nearestDeclaration, "trailingExport()")
+        XCTAssertTrue(diagnostics[0].message.contains("not attached to a declaration"))
+    }
+
     func testMalformedFishyJoesAnnotationReportsParseDiagnostic() {
         let source = """
         public struct Fixture {
