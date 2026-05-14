@@ -102,7 +102,7 @@ public struct FileTemplater {
                 "    submodules: recursive",
             ]
         )
-        if credentialToken != "" {
+        if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
         credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
