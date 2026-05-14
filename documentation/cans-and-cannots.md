@@ -25,7 +25,7 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
  - :white_check_mark: Enums
    - :white_check_mark: Empty enums (exported as namespaces, usually)
    - :warning: Unnamed associated values (e.g. `case foo(Int, String)`) may look odd in other languages, and be named `foo._0`, `foo._1`
-   - :warning: Enum cases must begin with a lower case letter.
+   - :warning: Enum cases must begin with a lower case letter
  - :white_check_mark: Structs
    - :white_check_mark: :exclamation: Default export requires struct is "Plain Old Data" (POD), meaning:
      1. Every stored variable must be public
@@ -81,7 +81,8 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
  - :white_check_mark: documentation comments
     - :x: cross-references within the comments
  - :white_check_mark: deprecations
- 
+ - Naming conventions are expected to follow the [swift API design guidelines](https://www.swift.org/documentation/api-design-guidelines/), in particular: "Names of types and protocols are `UpperCamelCase`. Everything else is `lowerCamelCase`"
+
 ## WASM things
  - :white_check_mark: Swift, C, C++
  - :x: Using the file system

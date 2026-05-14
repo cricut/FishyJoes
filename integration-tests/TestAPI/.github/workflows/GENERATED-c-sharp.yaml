@@ -16,48 +16,43 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
 
 jobs:
   build-test-c-sharp-mac:
     name: "macOS: Build and test C# bindings"
-    runs-on: sojo-macos
+    runs-on: macos-26
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          owner: ${{ env.GITHUB_USER }}
 
       - name: Install generation tools
         shell: zsh {0}
         run: |
           yq --version || brew install yq
           mint --version || brew install mint
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -79,7 +74,7 @@ jobs:
           swift run -- fishy-joes --c-sharp --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -87,39 +82,35 @@ jobs:
 
   build-test-c-sharp-linux:
     name: "Ubuntu: Build and test C# bindings"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
+
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          owner: ${{ env.GITHUB_USER }}
+
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh
 
       - name: Pre-build hook
         shell: bash
@@ -151,7 +142,7 @@ jobs:
           swift run -- fishy-joes --c-sharp test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -161,6 +152,9 @@ jobs:
     name: "Windows: Build and test C# bindings"
     runs-on: windows-2025
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Configure git and vcpkg
         shell: pwsh
         run: |
@@ -171,21 +165,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          owner: ${{ env.GITHUB_USER }}
 
       - uses: compnerd/gha-setup-swift@main
         with:
@@ -202,12 +188,11 @@ jobs:
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
-      - name: Setup node
-        uses: actions/setup-node@v3
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -229,7 +214,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_generated
           path: bindings/c-sharp/generated/Cricut.TestAPI/runtimes
@@ -245,30 +230,26 @@ jobs:
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Setup git credentials (none provided/needed)
+        run: ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up dotnet
+        uses: actions/setup-dotnet@v5
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.x'
-          source-url: https://nuget.pkg.github.com/cricut/index.json
-          owner: cricut-builduser
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          owner: ${{ env.GITHUB_USER }}
 
       - name: Configure build environment
         run: |
           set -euxo pipefail
 
+          sudo apt-get update
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
@@ -313,7 +294,7 @@ jobs:
               --output bindings/c-sharp/nupkgs
 
       - name: Upload result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-package
           path: bindings/c-sharp/nupkgs/*.nupkg

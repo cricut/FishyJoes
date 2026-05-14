@@ -1,0 +1,59 @@
+export declare namespace EmojiFun {
+    /**
+     * A playground object for working with emoji.
+     * <!-- FishyJoes.exportReference(EmojiExplorer) -->
+     */
+    export class EmojiExplorer {
+        private constructor()
+        private _inhibitStructuralTyping: any
+
+        /**
+         * Emits a hello string.
+         * - Returns: A string containing an emoji hello message.
+         * <!-- FishyJoes.export(hello) -->
+         */
+        static readonly hello: string;
+
+        /**
+         * A collection of emoji strings known to the object.
+         *
+         * This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.
+         * <!-- FishyJoes.export(known) -->
+         */
+        readonly known: Set<string>;
+
+        /**
+         * Creates an object that works with emoji strings.
+         * - Parameter count: The number of emoji strings to include in the object's known collection.
+         * <!-- FishyJoes.export(create) -->
+         */
+        static create(
+            count: number
+        ): EmojiFun.EmojiExplorer;
+
+        /**
+         * Reports a random emoji string built using the object's collection of known emoji strings.
+         * - Returns: A string containing one or more random emoji. In the unusual case that the object knows zero emoji strings, the `hello` string is returned.
+         * <!-- FishyJoes.export(random) -->
+         */
+        random(
+        ): string;
+
+        /**
+         * Reports a random emoji string from the object's collection of known emoji strings, ensuring it is only reported once.
+         * - Returns: A random emoji string, or `nil` if all values known to the object have been reported.
+         * <!-- FishyJoes.export(randomUnique) -->
+         */
+        randomUnique(
+        ): Optional<string>;
+
+        /**
+         * Enumerates the emoji strings known to the object.
+         * - Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.
+         * <!-- FishyJoes.export(enumerateKnown) -->
+         */
+        enumerateKnown(
+            body: (_0: string) => boolean
+        ): void;
+    }
+}

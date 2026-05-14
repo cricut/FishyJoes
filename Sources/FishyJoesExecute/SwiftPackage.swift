@@ -103,42 +103,80 @@ extension SwiftPackage.Dependency {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
     }
 
-    func versionInGradleFormat(flexibleVersions: Bool = false) -> String {
-        // Gradle version range format using Maven-style syntax.
-        // When flexibleVersions is true, generates inclusive-exclusive ranges: [min,max)
+    enum GradleVersion: Equatable {
+        case inline(_ versionString: String) // version expressed as `api("com.example:package:<VERSION_STRING>")`
+        case rich(_ versionLines: [String]) // version expressed as `api("com.example:package") { version { <VERSION_LINES> } }
+
+        func formatLines(forPackage packageName: String) -> [String] {
+            switch self {
+            case .inline(let versionString):
+                return ["api(\"\(packageName):\(versionString)\")"]
+            case .rich(let versionLines):
+                return [
+                    "api(\"\(packageName)\") {",
+                    "    version {",
+                ] + versionLines.map {
+                    "        \($0)"
+                } + [
+                    "    }",
+                    "}",
+                ]
+            }
+        }
+    }
+
+    func versionInGradleFormat(flexibleVersions: Bool = false) -> GradleVersion {
+        // Gradle version range format using Maven-style syntax. See for details:
+        // https://docs.gradle.org/current/userguide/dependency_versions.html#sec:rich-version-constraints
+        //
+        // When flexibleVersions is true, generates strict inclusive-exclusive ranges with preference for the min.
         // Syntax: '[' = inclusive, ')' = exclusive, '(' = exclusive, ']' = inclusive
-        let spec: String
+
+        func gradleDefault(_ version: String) -> GradleVersion {
+            // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
+            return .inline(version.replacingOccurrences(of: "/", with: "-"))
+        }
+        func range(lower: SemanticVersion, upper: SemanticVersion) -> GradleVersion {
+            return .rich(
+                [
+                    "strictly(\"[\(lower),\(upper))\")",
+                    "prefer(\"\(lower)\")",
+                ]
+            )
+        }
+
         switch self {
         case .sourceControl(_, _, .branch(let name)):
-            spec = name
+            return gradleDefault(name)
         case .sourceControl(_, _, .revision(let name)):
-            spec = name
+            return gradleDefault(name)
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
             if flexibleVersions {
-                spec = "[\(baseVersion),\(baseVersion.nextMajor))"
+                return range(lower: baseVersion, upper: baseVersion.nextMajor)
             } else {
-                spec = baseVersion.versionString
+                return gradleDefault(baseVersion.versionString)
             }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
             if flexibleVersions {
-                spec = "[\(baseVersion),\(baseVersion.nextMinor))"
+                return range(lower: baseVersion, upper: baseVersion.nextMinor)
             } else {
-                spec = baseVersion.versionString
+                return gradleDefault(baseVersion.versionString)
             }
         case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
             if flexibleVersions {
-                spec = "[\(lowerBound),\(upperBound))"
+                return range(lower: lowerBound, upper: upperBound)
             } else {
-                spec = lowerBound.versionString
+                return gradleDefault(lowerBound.versionString)
             }
         case .sourceControl(_, _, .exact(let version)):
-            spec = version.versionString
+            if flexibleVersions {
+                return .rich(["strictly(\"\(version)\")"])
+            } else {
+                return gradleDefault(version.versionString)
+            }
         case .fileSystem:
-            spec = "local"
+            return .inline("local")
         }
-
-        // Convert anything like "user/branch" into things gradle can parse, even if it probably won't find a release by that name
-        return spec.replacingOccurrences(of: "/", with: "-")
     }
 
     func versionInNugetFormat(flexibleVersions: Bool = false) -> String? {

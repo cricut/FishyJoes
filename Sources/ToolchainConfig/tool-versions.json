@@ -3,6 +3,7 @@
     "//": "values taken from https://github.com/swiftwasm/swift/releases",
     "toolchain": "6.3-snapshot-2026-02-21",
     "sdk": "6.3-SNAPSHOT-2026-02-21-a",
+    "sdkURL": "https://github.com/swiftwasm/swift/releases/download/swift-wasm-6.3-SNAPSHOT-2026-02-21-a/swift-wasm-6.3-SNAPSHOT-2026-02-21-a-wasm32-unknown-wasip1.artifactbundle.zip",
     "sdkChecksum": "793972161e875b131350dd0f14cb0f2bf887d720102114e5485cf1e9512bc154",
     "targets": [
       {
@@ -11,10 +12,12 @@
     ]
   },
   "swiftAndroid": {
-    "//": "values taken from https://github.com/swift-android-sdk/swift-android-sdk/releases. Should match version in cricut/android-swift-runtime",
-    "toolchain": "6.2",
-    "sdk": "6.2-RELEASE-android-0.1",
-    "sdkChecksum": "ca7e09f09a591b6a661a39134aaf53b1b59d5e3a193b271ab1f20effdfc6e88e",
+    "//": "values taken from https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html",
+    "toolchain": "6.3.1",
+    "sdk": "6.3.1-RELEASE_android",
+    "sdkURL": "https://download.swift.org/swift-6.3.1-release/android-sdk/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE_android.artifactbundle.tar.gz",
+    "sdkChecksum": "8193a4e96538635131a154736c8896fba0e5a1c30e065524f00ed78719bac35a",
+    "ndkVersion": "27.3.13750724",
     "targets": [
       {
         "triple": "armv7-unknown-linux-android28",
@@ -29,10 +32,5 @@
         "ndkArchName": "x86_64"
       }
     ]
-  },
-  "linuxContainer": {
-    "//": "NOTE WHEN UPDATING: This value is also hard-coded in .github/workflows/*.yaml and kotlin-runtime/build.gradle.kts",
-    "image": "ghcr.io/cricut/android-swift-runtime",
-    "version": "4.0.2"
   }
 }

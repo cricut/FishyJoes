@@ -1,9 +1,9 @@
-import FishyJoesConfig
 import Foundation
 import swsh
+import ToolchainConfig
 
 public struct FileTemplater {
-    let config: FishyJoesConfig
+    let config: ProjectConfig
     let phasesList: [any Phases]
     let swiftPackage: SwiftPackage?
     let includeFilesNotMarkedAsGenerated: Bool
@@ -12,7 +12,7 @@ public struct FileTemplater {
     let templateReplacements: [String: String]
 
     init(
-        config: FishyJoesConfig,
+        config: ProjectConfig,
         phasesList: [any Phases],
         swiftPackage: SwiftPackage?,
         includeFilesNotMarkedAsGenerated: Bool
@@ -33,7 +33,6 @@ public struct FileTemplater {
         replacements["__LOWERCASE_MODULE_NAME__"] = config.module.lowercased()
         replacements["__LOWERCASE_FIRST_MODULE_NAME__"] = (config.module.first?.lowercased() ?? "") + config.module.dropFirst()
         replacements["__BINDINGS_REPO__"] = config.publishRepository
-        replacements["__LINUX_CONTAINER_SPEC__"] = ToolVersions.shared.linuxContainer.imageSpec
 
         // A template file is hand-crafted, and then it turns into a generated file, which should not be modified
         replacements["__TEMPLATE__"] = "generated"
@@ -54,9 +53,58 @@ public struct FileTemplater {
         }
 
         // MARK: CI replacements
+        replacements["__CI_RUNNER_MACOS__"] = (config.ciRunners ?? .defaults).macos
+        replacements["__CI_RUNNER_UBUNTU__"] = (config.ciRunners ?? .defaults).ubuntu
+        replacements["__CI_RUNNER_WINDOWS__"] = (config.ciRunners ?? .defaults).windows
+
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
         let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
         replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: lines, indent: 10)
+
+        let credentialStepLines: [String]
+        let credentialUser: String
+        let credentialToken: String
+        var ciEnv: [String: String] = [
+            "FISHYJOES": "1",
+            "JAVA_VERSION": "20",
+            "NODE_VERSION": "18.x",
+            "DOTNET_VERSION": "8.0.x",
+            "GRADLE_OPTS": "-Dorg.gradle.daemon=false",
+        ]
+
+        if let token = config.ciDependencyAuth?.token {
+            credentialToken = token
+            ciEnv["GITHUB_TOKEN"] = token
+            ciEnv["NODE_AUTH_TOKEN"] = token
+            ciEnv["NUGET_AUTH_TOKEN"] = token
+            let userAndToken: String
+            if let user = config.ciDependencyAuth?.user {
+                ciEnv["GITHUB_USER"] = user
+                credentialUser = user
+                userAndToken = "\(user):\(token)"
+            } else {
+                credentialUser = ""
+                userAndToken = token
+            }
+            credentialStepLines = [
+                "name: Setup git credentials",
+                "uses: de-vri-es/setup-git-credentials@5dd446b3857806f44ea73acf83c193190a385d63  # v2.2.0",
+                "with:",
+                "  credentials: https://\(userAndToken)@github.com/",
+            ]
+        } else {
+            credentialUser = ""
+            credentialToken = ""
+            credentialStepLines = [
+                "name: Setup git credentials (none provided/needed)",
+                "run: \"\"",
+            ]
+        }
+        replacements["__CI_SETUP_GIT_CREDENTIALS_STEP__"] = join(lines: credentialStepLines, indent: 8).trimmed()
+        replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
+        replacements["__CI_DEPENDENCY_AUTH_TOKEN__"] = credentialToken
+        let envLines = ciEnv.sorted { $0.key < $1.key }.map { "\($0.key): '\($0.value)'" }
+        replacements["__CI_SHARED_ENV_YAML__"] = join(lines: envLines, indent: 2).trimmed()
 
         self.templateReplacements = replacements
     }

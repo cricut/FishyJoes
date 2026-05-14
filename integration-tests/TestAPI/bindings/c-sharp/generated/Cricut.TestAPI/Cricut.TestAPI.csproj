@@ -5,7 +5,7 @@
   <ItemGroup><PackageReference Include="Cricut.FishyJoesRuntime" Version="[0.0.1-unknown]" /></ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RepositoryUrl>https://__BINDINGS_REPO__</RepositoryUrl>

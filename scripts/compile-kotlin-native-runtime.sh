@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ ! -d kotlin-runtime ]]; then
     echo "Not in root of FishyJoes"
@@ -17,32 +17,50 @@ fi
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
     swift build "${commonOptions[@]}" --product FishyJoesJavaRuntime --arch arm64
     swift build "${commonOptions[@]}" --product FishyJoesJavaRuntime --arch x86_64
-    BIN_DIR=".build/apple/$CONFIGURATION"
-    mkdir -p "$BIN_DIR"
+    binDir=".build/apple/$CONFIGURATION"
+    mkdir -p "$binDir"
     lipo -create \
-         -output "$BIN_DIR/libFishyJoesJavaRuntime.dylib" \
+         -output "$binDir/libFishyJoesJavaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesJavaRuntime.dylib
 elif [[ "$(uname -s)" == *_NT* ]]; then
     ./scripts/swift-shim.ps1 build "${commonOptions[@]}" --product FishyJoesJavaRuntime
-    BIN_DIR="$(./scripts/swift-shim.ps1 build "${commonOptions[@]}" --show-bin-path)"
+    binDir="$(./scripts/swift-shim.ps1 build "${commonOptions[@]}" --show-bin-path)"
 else
     swift build "${commonOptions[@]}" --product FishyJoesJavaRuntime
-    BIN_DIR="$(swift build "${commonOptions[@]}" --show-bin-path)"
+    binDir="$(swift build "${commonOptions[@]}" --show-bin-path)"
 fi
 
 function install-lib {
-    LIB_NAME="$1"
-    LIB_DIR="$2"
-    if [ -e "$BIN_DIR/$LIB_NAME" ]; then
-        mkdir -p "$LIB_DIR"
-        cp "$BIN_DIR/$LIB_NAME" "$LIB_DIR"
-        echo "Copied $LIB_NAME to $LIB_DIR"
+    libName="$1"
+    libDir="$2"
+    if [ -e "$binDir/$libName" ]; then
+        mkdir -p "$libDir"
+        cp "$binDir/$libName" "$libDir"
+        echo "Copied $libName to $libDir"
         return 0
     else
         return 1
     fi
 }
 
-install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows" ||
-    install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac" ||
-    install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+case "$(uname -s)" in
+    (Darwin)
+        # Runtime isn't included for macOS
+        install-lib "libFishyJoesJavaRuntime.dylib" "kotlin-runtime/src/generated/resources/mac"
+        ;;
+    (Linux)
+        FISHYJOES_UBUNTU_DEST=kotlin-runtime/src/generated/resources/linux ./scripts/copy-linux-swift-stdlib.sh
+        install-lib "libFishyJoesJavaRuntime.so" "kotlin-runtime/src/generated/resources/linux"
+        ;;
+    (*_NT*)
+        swiftRuntimeDir="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
+        mkdir -p "kotlin-runtime/src/generated/resources/windows"
+        cp -R "$swiftRuntimeDir"/usr/bin/*.dll "kotlin-runtime/src/generated/resources/windows"
+
+        install-lib "FishyJoesJavaRuntime.dll" "kotlin-runtime/src/generated/resources/windows"
+        ;;
+    (*)
+        echo >&2 "Unknown system type $(uname -s)"
+        exit 1
+        ;;
+esac

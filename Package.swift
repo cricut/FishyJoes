@@ -47,7 +47,7 @@ let package = Package(
     dependencies: wasmIncompatible(
         [
             D.package(url: "https://github.com/mstokercricut/swsh", exact: "5.0.0-alpha1"),
-            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.2.2"),
+            D.package(url: "https://github.com/apple/swift-argument-parser", from: "1.4.0"),
             D.package(url: "https://github.com/swiftlang/swift-syntax.git", exact: "602.0.0"),
             D.package(url: "https://github.com/jpsim/Yams", .upToNextMinor(from: "5.0.3")),
         ]
@@ -305,14 +305,14 @@ let package = Package(
                 ]
             ),
             T.target(
-                name: "FishyJoesConfig",
+                name: "ToolchainConfig",
                 resources: [.copy("tool-versions.json")],
                 swiftSettings: strictConcurrencyFlags
             ),
             T.target(
                 name: "FishyJoesExecute",
                 dependencies: [
-                    .target(name: "FishyJoesConfig"),
+                    .target(name: "ToolchainConfig"),
                     .target(name: "FishyJoesCore"),
                     .product(name: "swsh", package: "swsh"),
                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
@@ -324,7 +324,7 @@ let package = Package(
             T.testTarget(
                 name: "NAPITests",
                 dependencies: [
-                    .target(name: "FishyJoesConfig"),
+                    .target(name: "ToolchainConfig"),
                     .product(name: "swsh", package: "swsh"),
                 ],
                 exclude: ["node-tests"],

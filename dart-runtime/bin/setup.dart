@@ -8,10 +8,14 @@ sealed class TarballSource {
   abstract String version;
   abstract String tarballName;
 }
+
 class Download extends TarballSource {
-  @override String repoName;
-  @override String version;
-  @override String tarballName;
+  @override
+  String repoName;
+  @override
+  String version;
+  @override
+  String tarballName;
 
   Download(this.repoName, this.version, this.tarballName);
 
@@ -22,9 +26,12 @@ class Download extends TarballSource {
 }
 
 class Archive extends TarballSource {
-  @override String repoName;
-  @override String version = "local";
-  @override String tarballName;
+  @override
+  String repoName;
+  @override
+  String version = "local";
+  @override
+  String tarballName;
   String path;
   List<String> files;
 
@@ -42,7 +49,7 @@ void main() async {
 
   dynamic pubspecLock;
   try {
-     pubspecLock = yaml.loadYaml(io.File('pubspec.lock').readAsStringSync());
+    pubspecLock = yaml.loadYaml(io.File('pubspec.lock').readAsStringSync());
   } catch (_) {
     io.stderr.writeln("");
     io.stderr.writeln("Failed to read pubspec.lock in current directory.");
@@ -91,27 +98,30 @@ void main() async {
   }
 
   Credentials? githubCreds =
-    Credentials.readEnv() ??
-    CredentialStore.defaultStore.credentialsFor('github.com') ??
-    CredentialStore.defaultStore.credentialsFor('api.github.com');
+      Credentials.readEnv() ??
+      CredentialStore.defaultStore.credentialsFor('github.com') ??
+      CredentialStore.defaultStore.credentialsFor('api.github.com');
 
   if (githubCreds == null) {
     io.stderr.writeln("");
-    io.stderr.writeln("Failed to find github credentials.");
-    io.stderr.writeln("  Either set credentials for 'api.github.com' in ~/.netrc");
+    io.stderr.writeln("Warning: failed to find github credentials.");
+    io.stderr.writeln("  If private dependencies are required,");
+    io.stderr.writeln("  either set credentials for 'api.github.com' in ~/.netrc");
     io.stderr.writeln("  or set environment variables GITHUB_USER and GITHUB_TOKEN");
     io.stderr.writeln("");
-    io.exit(1);
   }
   print("using $githubCreds");
 
   await io.Directory('native/download-cache/').create(recursive: true);
   for (final tarballSource in tarballSources) {
-    final archivePath = "native/download-cache/${pathSafe(tarballSource.repoName)}-${pathSafe(tarballSource.version)}-${tarballSource.tarballName}";
+    final archivePath =
+        "native/download-cache/${pathSafe(tarballSource.repoName)}-${pathSafe(tarballSource.version)}-${tarballSource.tarballName}";
 
     if (tarballSource is Archive) {
       // Never used cached version for a local dependency
-      final existingFiles = tarballSource.files.where((file) => io.Directory("${tarballSource.path}/$file").existsSync());
+      final existingFiles = tarballSource.files.where(
+        (file) => io.Directory("${tarballSource.path}/$file").existsSync(),
+      );
       if (existingFiles.isEmpty) {
         io.stderr.writeln("Expected built libraries in at least one of:");
         for (final file in tarballSource.files) {
@@ -130,7 +140,8 @@ void main() async {
       print("using cached binary for '${tarballSource.repoName}:${tarballSource.version}' at $archivePath");
     } else if (tarballSource is Download) {
       // Download binaries
-      final releaseURL = "https://api.github.com/repos/cricut/${tarballSource.repoName}/releases/tags/${tarballSource.version}";
+      final releaseURL =
+          "https://api.github.com/repos/cricut/${tarballSource.repoName}/releases/tags/${tarballSource.version}";
       dynamic release;
       try {
         release = await callGithubAPI(Uri.parse(releaseURL), githubCreds);
@@ -145,13 +156,15 @@ void main() async {
         io.exit(1);
       }
       final asset = release['assets'].firstWhere(
-        (asset) => asset['name'] == tarballSource.tarballName,
+        (dynamic asset) => asset['name'] == tarballSource.tarballName,
         orElse: () {
           io.stderr.writeln("Couldn't find asset named '${tarballSource.tarballName}' in release");
-          io.stderr.writeln("  https://github.com/cricut/${tarballSource.repoName}/releases/tag/${tarballSource.version}");
+          io.stderr.writeln(
+            "  https://github.com/cricut/${tarballSource.repoName}/releases/tag/${tarballSource.version}",
+          );
           io.stderr.writeln("Maybe CI/CD failed to generate the asset");
           io.exit(1);
-        }
+        },
       );
       print("downloading $releaseURL => $archivePath");
       await downloadGithubBinary(archivePath, Uri.parse(asset['url']), githubCreds);
@@ -175,10 +188,12 @@ void main() async {
   io.exit(0);
 }
 
-Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
+Future<dynamic> callGithubAPI(Uri url, Credentials? creds) async {
   final request = await io.HttpClient().getUrl(url);
   request.headers.add('Accept', 'application/vnd.github.v3+json');
-  request.headers.add('Authorization', creds.basicAuth());
+  if (creds != null) {
+    request.headers.add('Authorization', creds.basicAuth());
+  }
   final response = await request.close();
   if (response.statusCode != 200) {
     throw Exception("GET $url failed(?) with status code ${response.statusCode}");
@@ -187,10 +202,12 @@ Future<dynamic> callGithubAPI(Uri url, Credentials creds) async {
   return convert.json.decode(stringBody);
 }
 
-Future<void> downloadGithubBinary(String destination, Uri url, Credentials creds) async {
+Future<void> downloadGithubBinary(String destination, Uri url, Credentials? creds) async {
   final request = await io.HttpClient().getUrl(url);
   request.headers.add('Accept', 'application/octet-stream');
-  request.headers.add('Authorization', creds.basicAuth());
+  if (creds != null) {
+    request.headers.add('Authorization', creds.basicAuth());
+  }
   final response = await request.close();
   if (response.statusCode != 200) {
     throw Exception("GET $url failed(?) with status code ${response.statusCode}");
@@ -210,7 +227,9 @@ class Credentials {
   static Credentials? readEnv() {
     var username = io.Platform.environment['GITHUB_USER'];
     var password = io.Platform.environment['GITHUB_TOKEN'];
-    if (username == null || password == null) { return null; }
+    if (username == null || password == null) {
+      return null;
+    }
     return Credentials(username, password);
   }
 
@@ -241,7 +260,9 @@ class _NetRCLexer {
     if (index < contents.length) {
       final chr = contents[index];
       index++;
-      if (chr == '\n') { lineNumber++; }
+      if (chr == '\n') {
+        lineNumber++;
+      }
       return chr;
     } else {
       return '';
@@ -327,15 +348,19 @@ class CredentialStore {
 
   CredentialStore();
 
-  static CredentialStore? tryReadNetRC({ String? file }) {
-    try { return CredentialStore.readNetRC(file: file); } catch(_) { return null; }
+  static CredentialStore? tryReadNetRC({String? file}) {
+    try {
+      return CredentialStore.readNetRC(file: file);
+    } catch (_) {
+      return null;
+    }
   }
 
-  CredentialStore.readNetRC({ String? file }) {
+  CredentialStore.readNetRC({String? file}) {
     if (file == null) {
       String? home;
       // https://stackoverflow.com/a/22320366/73681
-      if(io.Platform.isWindows) {
+      if (io.Platform.isWindows) {
         home = optionalMap(io.Platform.environment['USERPROFILE'], path.absolute);
       } else {
         home = optionalMap(io.Platform.environment['HOME'], path.absolute);
@@ -431,5 +456,5 @@ class CredentialStore {
 
 String pathSafe(String input) => input.replaceAll(RegExp(r'[^-A-Za-z0-9_.]'), '-');
 
-B? optionalMap<A, B>(A? x, B Function (A) f) => x == null ? null : f(x);
-B? optionalFlatMap<A, B>(A? x, B? Function (A) f) => x == null ? null : f(x);
+B? optionalMap<A, B>(A? x, B Function(A) f) => x == null ? null : f(x);
+B? optionalFlatMap<A, B>(A? x, B? Function(A) f) => x == null ? null : f(x);
