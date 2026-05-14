@@ -358,11 +358,126 @@ Keep all commits local. Do not push.
 - A real TestAPI generation path passes.
 - The original CriGeo-style misplaced annotation remains detectable.
 
+## Execution Results
+
+Status: implemented locally on branch `antonio/sourcekit-migration-plan`.
+
+Implementation summary:
+
+- Added `swiftlang/swift-syntax` `602.0.0`, matching the Swift 6.2 package
+  toolchain.
+- Replaced regex-based declaration matching in
+  `ExportAnnotationDiagnostics` with a SwiftSyntax declaration index.
+- Collected source annotations from SwiftSyntax token trivia so strings and
+  ordinary comments do not produce false diagnostics.
+- Preserved the existing attached-metadata cross-check. Unattached comments
+  still warn; they are not used for generation.
+- Kept generation wiring unchanged: diagnostics still run after the declaration
+  model is available and before generated output is written.
+
+Red/green evidence:
+
+- Red test commit:
+  `bc9171ef Add SwiftSyntax linter red tests`
+  - `testMisplacedActiveBlockDocAnnotationReportsDiagnostic` failed because the
+    old scanner reported zero diagnostics.
+  - `testTrailingAnnotationAfterDeclarationReportsDiagnostic` covered trailing
+    doc-comment placement.
+- Green implementation commit:
+  `1f7c75fb Use SwiftSyntax for annotation diagnostics`
+  - Added the SwiftSyntax dependency and syntax-backed declaration/trivia
+    collection.
+- Added coverage for string-literal false positives, attributes, multi-line
+  functions, enum cases, and multi-line nearest-declaration reporting.
+- Follow-up audit commits added a distinct declaration-provider mismatch
+  diagnostic for source-attached annotations that the current declaration
+  provider does not report, plus the remaining planned edge-case coverage for
+  multi-line variables, block documentation comments above declarations,
+  nested declarations, and comments placed between attributes and declarations.
+
+Validation:
+
+```bash
+swift test --disable-sandbox --filter ExportAnnotationDiagnosticsTests
+```
+
+Result:
+
+- `Executed 25 tests, with 0 failures`.
+
+```bash
+swift test --disable-sandbox --filter FishyJoesCoreTests
+```
+
+Result:
+
+- `Executed 34 tests, with 0 failures`.
+
+```bash
+swift build --disable-sandbox
+```
+
+Result:
+
+- Build completed successfully.
+
+```bash
+cd integration-tests/TestAPI
+FISHYJOES=1 fishy-joes code-gen --python generate
+```
+
+Result:
+
+- TestAPI generation completed successfully.
+- Existing default-argument warnings remained unrelated.
+- Regeneration updated the generated Dart `pubspec.yaml` with the local
+  `fishyjoes_dart` dependency override emitted by the current generator.
+- After the audit follow-up slices, TestAPI generation was rerun and left no
+  tracked diff.
+
+All-language TestAPI verification after the audit follow-up slices:
+
+- Python: `FISHYJOES=1 fishy-joes --python generate build test` passed.
+  `unittest discover` ran 95 tests with no skips.
+- Dart: `FISHYJOES=1 fishy-joes --dart generate build test` passed.
+  `dart test --chain-stack-traces` ran 109 tests.
+- Kotlin: `FISHYJOES=1 fishy-joes --kotlin-fast build test` passed when run
+  with JDK 21. The local default JDK 25 is not compatible with this Gradle
+  setup and fails before testing FishyJoes behavior.
+- C#: `FISHYJOES=1 fishy-joes --c-sharp build test` passed with the
+  previously approved temporary `NuGetAudit=false` overrule for the known C#
+  dependency modernization gap. `dotnet test` ran 103 tests. Without that
+  overrule, restore still fails on the already-recorded Newtonsoft.Json,
+  System.Net.Http, and System.Text.RegularExpressions vulnerability audit
+  errors.
+- Node/TypeScript: `FISHYJOES=1 fishy-joes --nodejs generate build test`
+  regenerated and built the TestAPI Node package, but the Jest native macOS
+  test run did not complete. A focused rerun showed `AttributedStrings.test.ts`
+  passing before the process exited without a final suite summary. This remains
+  a verification blocker for the Node path, not a green result. The run also
+  reported one high-severity npm audit finding in the existing dependency tree.
+
+CriGeo validation was run in an isolated copy under `/private/tmp` so the real
+CriGeo checkout was not dirtied.
+
+Result:
+
+```text
+WARNING: <!-- FishyJoes.export(normalUnitLineAt) --> at Sources/CriPath/Curve.swift:1056 is not attached to a declaration and will be ignored. Move it immediately above the intended declaration. Nearest declaration: normalUnit(at:).
+```
+
+The isolated CriGeo generation then completed. Other CriGeo default-expression
+warnings remain unrelated follow-up work.
+
 ## Open Questions
 
 - Should SwiftSyntax live directly in `FishyJoesCore`, or should the linter move
   to a small internal target to isolate dependency cost?
-- Should diagnostics distinguish "misplaced in source" from "SwiftSyntax sees
-  it attached but the current declaration provider did not"?
-- Should conditionally compiled inactive annotations be ignored now, or should
-  that wait for the larger SourceKit/build-context migration?
+
+## Deferred Work
+
+- Conditionally compiled inactive annotations should wait for the broader
+  SourceKit/build-context migration. SwiftSyntax-only trivia inspection should
+  not try to decide active `#if` branches without the compiler arguments,
+  platform, target triple, package settings, and custom `-D` flags that define
+  the real build surface.
