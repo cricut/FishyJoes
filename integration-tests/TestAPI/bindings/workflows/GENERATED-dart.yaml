@@ -16,7 +16,11 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
 
 jobs:
   build-test-dart-mac:

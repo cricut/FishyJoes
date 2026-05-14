@@ -187,10 +187,10 @@ class SwiftPackageVersionFormatTests: XCTestCase {
                 richVersion.formatLines(forPackage: "com.example:package"),
                 [
                     #"api("com.example:package") {"#,
-                    #"  version {"#,
-                    #"    strictly("[1.0.0,2.0.0)")"#,
-                    #"    prefer("1.0.0")"#,
-                    #"  }"#,
+                    #"    version {"#,
+                    #"        strictly("[1.0.0,2.0.0)")"#,
+                    #"        prefer("1.0.0")"#,
+                    #"    }"#,
                     #"}"#,
                 ]
             )
