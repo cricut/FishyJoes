@@ -114,11 +114,11 @@ extension SwiftPackage.Dependency {
             case .rich(let versionLines):
                 return [
                     "api(\"\(packageName)\") {",
-                    "  version {",
+                    "    version {",
                 ] + versionLines.map {
-                    "    \($0)"
+                    "        \($0)"
                 } + [
-                    "  }",
+                    "    }",
                     "}",
                 ]
             }

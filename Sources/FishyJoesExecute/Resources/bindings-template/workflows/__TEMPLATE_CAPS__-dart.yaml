@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FISHYJOES: 1
+  __CI_SHARED_ENV_YAML__
 
 jobs:
   build-test-dart-mac:
