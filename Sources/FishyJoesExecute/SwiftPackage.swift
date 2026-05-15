@@ -280,6 +280,22 @@ extension SwiftPackage.Dependency {
             return nil
         }
     }
+
+    /// Returns the Dart 3.9+ `tag_pattern` + `version:` pair for a git dependency,
+    /// or nil when the requirement can't be expressed as a semver constraint
+    /// (branch/revision refs and local filesystem paths).
+    func tagPatternAndVersionConstraint() -> (tagPattern: String, versionConstraint: String)? {
+        switch self {
+        case .sourceControl(_, _, .branch), .sourceControl(_, _, .revision), .fileSystem:
+            return nil
+        case .sourceControl(_, _, .upToNextMajor),
+             .sourceControl(_, _, .upToNextMinor),
+             .sourceControl(_, _, .range),
+             .sourceControl(_, _, .exact):
+            guard let constraint = versionInPubspecFormat(flexibleVersions: true) else { return nil }
+            return (tagPattern: "{{version}}-dart-publish", versionConstraint: constraint)
+        }
+    }
 }
 
 extension SwiftPackage.Dependency.Requirement: Decodable {

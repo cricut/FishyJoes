@@ -38,6 +38,22 @@ class Archive extends TarballSource {
   Archive(this.repoName, this.path, this.files, this.tarballName);
 }
 
+String releaseVersionForGitLock(String packageName, dynamic depLock) {
+  final description = depLock["description"];
+  final ref = description["ref"];
+  if (ref is String && ref.isNotEmpty) {
+    return ref;
+  }
+
+  final tagPattern = description["tag-pattern"];
+  final version = depLock["version"];
+  if (tagPattern is String && tagPattern.isNotEmpty && version is String && version.isNotEmpty) {
+    return version;
+  }
+
+  throw StateError("No release version found for $packageName in pubspec.lock");
+}
+
 void main() async {
   final pubDepsResult = await io.Process.run('dart', ['pub', 'deps', '--json']);
   io.stderr.write(pubDepsResult.stderr);
@@ -82,14 +98,14 @@ void main() async {
 
     if (source == 'git') {
       final url = Uri.parse(depLock["description"]["url"]);
-      String ref = depLock["description"]["ref"];
+      final version = releaseVersionForGitLock(name, depLock);
       final pathMatch = RegExp(r'cricut/(.*?)(.git)?$').firstMatch(url.path);
       if (pathMatch == null) {
         io.stderr.writeln("Couldn't determing github repo of $name");
         io.exit(1);
       }
       final repoName = pathMatch[1]!;
-      tarballSources.add(Download(repoName, ref, "$repoName-dart-binaries.tgz"));
+      tarballSources.add(Download(repoName, version, "$repoName-dart-binaries.tgz"));
     } else if (source == 'path') {
       final path = depLock["description"]["path"];
       final artifacts = ["macos/native", "linux/native", "windows/native"];

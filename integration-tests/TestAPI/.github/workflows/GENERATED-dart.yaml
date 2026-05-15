@@ -209,6 +209,9 @@ jobs:
       - build-test-dart-mac
       - build-test-dart-linux
       - build-test-dart-windows
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -244,15 +247,68 @@ jobs:
 
       - name: Determine version
         shell: zsh {0}
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           set -euxo pipefail
 
-          VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              VERSION="$RELEASE_TAG"
+          else
+              VERSION=${GITHUB_REF#refs/*/}
+          fi
+
+          if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+            fi
+
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
+
           echo "Detected Version is '$VERSION'"
-          echo VERSION=$VERSION >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
+
+      - name: Prepare Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          yq -i '.version = strenv(VERSION)' bindings/dart/generated/pubspec.yaml
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com"
+          git add bindings/dart/generated/pubspec.yaml
+
+          if git diff --cached --quiet; then
+              echo "bindings/dart/generated/pubspec.yaml already has version '$VERSION'"
+          else
+              git commit -m "chore: prepare Dart publish tag for $VERSION"
+          fi
+
+          git tag "$PUBLISH_TAG"
+          git show --stat --oneline --decorate HEAD
+          git rev-parse "$PUBLISH_TAG"
+
+          echo "Publish tag '$PUBLISH_TAG' prepared locally"
+
+      - name: Push Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$PUBLISH_TAG" >/dev/null 2>&1; then
+              echo "Publish tag '$PUBLISH_TAG' already exists"
+              exit 0
+          fi
+
+          git push origin "refs/tags/$PUBLISH_TAG"
 
       - name: Pack
         shell: zsh {0}
