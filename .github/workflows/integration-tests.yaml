@@ -135,7 +135,7 @@ jobs:
 
   integration-tests-ubuntu-and-android:
     name: "Ubuntu/Android: Integration tests"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       GRADLE_OPTS: -Dorg.gradle.daemon=false
       CONFIGURATION: debug

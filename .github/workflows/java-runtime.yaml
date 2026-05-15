@@ -58,7 +58,7 @@ jobs:
 
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -169,7 +169,7 @@ jobs:
 
   kotlin-publish:
     name: Publish kotlin package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-ubuntu

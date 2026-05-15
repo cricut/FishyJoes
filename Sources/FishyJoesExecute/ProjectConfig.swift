@@ -32,7 +32,7 @@ struct ProjectConfig: Codable {
         let ubuntu: String
         let windows: String
 
-        static let defaults = CIRunners(macos: "macos-26", ubuntu: "ubuntu-latest", windows: "windows-2025")
+        static let defaults = CIRunners(macos: "macos-26", ubuntu: "ubuntu-22.04", windows: "windows-2025")
     }
 
     struct CIDependencyAuth: Codable {
