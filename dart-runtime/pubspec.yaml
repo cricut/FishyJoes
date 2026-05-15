@@ -1,18 +1,14 @@
 name: fishyjoes_dart
 description: The common dart component for fishyjoes-translated swift libraries
-
 environment:
   sdk: '>=3.11.5 <4.0.0'
-
-executables:
-  setup
-
+executables: setup
 dependencies:
   ffi: ^2.0.1
   tuple: ^2.0.1
   path: ^1.8.3
   yaml: ^3.1.2
-
 dev_dependencies:
   lints: ^2.0.0
   test: ^1.16.0
+version: 8.1.0-alpha0
