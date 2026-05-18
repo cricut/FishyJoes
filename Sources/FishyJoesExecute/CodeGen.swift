@@ -450,6 +450,12 @@ extension CodeGen {
                 requiredModulePaths: fishyJoesModuleFiles,
                 extraDynamicLibraries: config.extraDynamicLibraries
             )
+            try ExportAnnotationDiagnostics.warnMisplacedAnnotations(
+                inSourceRoot: translateeSources,
+                excluding: config.excludeSources,
+                templateContext: sourceryDump,
+                context: context
+            )
 
             for (path, contents) in SourceFragment.combine(fragments: context.translateAll()) {
                 guard let path = path else {
