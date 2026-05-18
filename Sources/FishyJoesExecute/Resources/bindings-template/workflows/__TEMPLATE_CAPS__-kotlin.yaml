@@ -87,7 +87,10 @@ jobs:
           set -euxo pipefail
 
           sudo apt-get update
-          sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
+          sudo apt-get install -y zsh libcurl4-openssl-dev
+          # "sdkmanager" for ubuntu 22.04, "google-android-cmdline-tools-13.0-installer" for ubuntu 24.04
+          sudo apt-get install -y sdkmanager pkg-config python3-lldb-13 ||
+            sudo apt-get install -y google-android-cmdline-tools-13.0-installer
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null

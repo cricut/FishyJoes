@@ -58,7 +58,7 @@ jobs:
 
   build-test-kotlin-ubuntu:
     name: "Ubuntu: Build and test kotlin runtime"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -75,7 +75,10 @@ jobs:
 
           source ./scripts/_read-tool-versions.sh
           sudo apt-get update
-          sudo apt-get install -y zsh google-android-cmdline-tools-13.0-installer libcurl4-openssl-dev
+          sudo apt-get install -y zsh libcurl4-openssl-dev
+          # "sdkmanager" for ubuntu 22.04, "google-android-cmdline-tools-13.0-installer" for ubuntu 24.04
+          sudo apt-get install -y sdkmanager pkg-config python3-lldb-13 ||
+            sudo apt-get install -y google-android-cmdline-tools-13.0-installer
 
           # https://developer.android.com/studio/projects/install-ndk#install_ndk_and_cmake_automatically
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
@@ -169,7 +172,7 @@ jobs:
 
   kotlin-publish:
     name: Publish kotlin package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       - build-test-kotlin-mac
       - build-test-kotlin-ubuntu

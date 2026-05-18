@@ -78,7 +78,7 @@ jobs:
 
   build-test-node-ubuntu-native:
     name: "Ubuntu: Build and test node runtime"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       LIB_DIR: node-runtime/fishyjoes-runtime-native-ubuntu
     steps:

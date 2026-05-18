@@ -43,7 +43,7 @@ jobs:
 
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       LIB_DIR: .build/linux-iota-libs
     steps:
@@ -133,7 +133,7 @@ jobs:
 
   iota-publish:
     name: "Publish C# Package and Dart Binaries"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs:
       - build-iota-mac
       - build-iota-ubuntu
