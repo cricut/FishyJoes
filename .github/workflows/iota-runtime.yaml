@@ -216,48 +216,6 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
 
-      - name: Prepare Dart publish tag
-        if: github.event_name == 'release'
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          yq -i '.version = strenv(VERSION)' dart-runtime/pubspec.yaml
-
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com"
-          git add dart-runtime/pubspec.yaml
-
-          if git diff --cached --quiet; then
-              echo "dart-runtime/pubspec.yaml already has version '$VERSION'"
-          else
-              git commit -m "chore: prepare Dart publish tag for $VERSION"
-          fi
-
-          git tag "$PUBLISH_TAG"
-          git show --stat --oneline --decorate HEAD
-          git rev-parse "$PUBLISH_TAG"
-
-          echo "Publish tag '$PUBLISH_TAG' prepared locally"
-
-      - name: Push Dart publish tag
-        if: github.event_name == 'release'
-        shell: zsh {0}
-        env:
-          GH_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
-        run: |
-          set -euxo pipefail
-
-          if git ls-remote --exit-code --tags origin "refs/tags/$PUBLISH_TAG" >/dev/null 2>&1; then
-              echo "Publish tag '$PUBLISH_TAG' already exists"
-              exit 0
-          fi
-
-          git remote add publish-origin https://$GH_PUBLISH_TOKEN@github.com/$OWNER/$REPO.git
-          git push publish-origin "refs/tags/$PUBLISH_TAG"
-
       - name: Pack
         shell: zsh {0}
         run: |
@@ -287,6 +245,43 @@ jobs:
           npm pack ./dart-runtime/flutter-package
           ls
           tar -tf cricut-flutter-fishyjoes-runtime-*.tgz
+
+      - name: Prepare Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          yq -i '.version = strenv(VERSION)' dart-runtime/pubspec.yaml
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com"
+          git add dart-runtime/pubspec.yaml
+
+          if git diff --cached --quiet; then
+              echo "dart-runtime/pubspec.yaml already has version '$VERSION'"
+          else
+              git commit -m "chore: prepare Dart publish tag for $VERSION"
+          fi
+
+          git tag "$PUBLISH_TAG"
+          git show --stat --oneline --decorate HEAD
+          git rev-parse "$PUBLISH_TAG"
+
+          echo "Publish tag '$PUBLISH_TAG' prepared locally"
+
+      - name: Push Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$PUBLISH_TAG" >/dev/null 2>&1; then
+              echo "Publish tag '$PUBLISH_TAG' already exists"
+              exit 0
+          fi
+
+          git push origin "refs/tags/$PUBLISH_TAG"
 
       - name: Upload nuget package
         uses: actions/upload-artifact@v7
