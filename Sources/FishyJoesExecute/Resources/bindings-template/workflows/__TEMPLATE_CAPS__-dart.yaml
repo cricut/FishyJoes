@@ -254,6 +254,23 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
 
+      - name: Pack
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift run fishy-joes pack --dart --version=$VERSION
+
+          tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
+
+      - name: Checkout with release token
+        if: github.event_name == 'release'
+        uses: actions/checkout@v6
+        with:
+          token: ${{ github.token }}
+          ref: ${{ github.event.release.tag_name }}
+          clean: false
+
       - name: Prepare Dart publish tag
         if: github.event_name == 'release'
         shell: zsh {0}
@@ -293,17 +310,7 @@ jobs:
               exit 0
           fi
 
-          git remote add publish-origin https://$GH_PUBLISH_TOKEN@github.com/$OWNER/$REPO.git
-          git push publish-origin "refs/tags/$PUBLISH_TAG"
-
-      - name: Pack
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-
-          swift run fishy-joes pack --dart --version=$VERSION
-
-          tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
+          git push origin "refs/tags/$PUBLISH_TAG"
 
       - name: Upload result
         uses: actions/upload-artifact@v7
