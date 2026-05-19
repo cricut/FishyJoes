@@ -298,10 +298,6 @@ jobs:
       - name: Push Dart publish tag
         if: github.event_name == 'release'
         shell: zsh {0}
-        env:
-          GH_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
         run: |
           set -euxo pipefail
 
