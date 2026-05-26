@@ -223,6 +223,7 @@ jobs:
         if: github.event_name == 'release'
         env:
           GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JFROG_TOKEN: ${{ secrets.JFROG_PROD_ACCESS_TOKEN }}
         run: |
           set -euxo pipefail
 

@@ -45,6 +45,20 @@ publishing {
                 password = System.getenv("GITHUB_PUBLISH_TOKEN")
             }
         }
+        val jfrogCiToken = System.getenv("JFROG_TOKEN")
+        if (!jfrogCiToken.isNullOrEmpty()) {
+            maven {
+                name = "cricut-maven"
+                url = uri("https://packages.cricut.com/artifactory/cricut-maven")
+                authentication {
+                    create("header", HttpHeaderAuthentication::class)
+                }
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Authorization"
+                    value = "Bearer $jfrogCiToken"
+                }
+            }
+        }
     }
     publications {
         create<MavenPublication>("mavenJava") {

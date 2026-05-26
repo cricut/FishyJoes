@@ -213,6 +213,7 @@ jobs:
     if: success()
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      JFROG_TOKEN: ${{ secrets.JFROG_PROD_ACCESS_TOKEN }}
     steps:
       - __CI_GIT_STEPS__
 
