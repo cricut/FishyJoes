@@ -13,8 +13,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ github.token }}
-  GITHUB_USER: ${{ github.actor }}
   FISHYJOES: 1
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
@@ -33,15 +31,7 @@ jobs:
           - "3.14"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
+        uses: actions/checkout@v6
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -121,15 +111,7 @@ jobs:
           - "3.14"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
+        uses: actions/checkout@v6
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -203,15 +185,7 @@ jobs:
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
+        uses: actions/checkout@v6
 
       - name: Setup Python
         uses: actions/setup-python@v5
