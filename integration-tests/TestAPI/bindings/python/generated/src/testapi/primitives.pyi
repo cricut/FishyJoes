@@ -2,22 +2,38 @@
 
 from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
+from .primitives__primitive_holder import Primitives_PrimitiveHolder as Primitives_PrimitiveHolder
 
 class Primitives:
     bit_count_int: ClassVar[int]
     bit_count_uint: ClassVar[int]
+    default_primitive_holder: ClassVar[Primitives_PrimitiveHolder]
     false_bool: ClassVar[bool]
     many_bool: ClassVar[list[bool]]
     many_double: ClassVar[list[float]]
     many_float: ClassVar[list[float]]
     many_int: ClassVar[list[int]]
+    many_int16: ClassVar[Any]
     many_int32: ClassVar[list[int]]
+    many_int64: ClassVar[Any]
+    many_int8: ClassVar[Any]
     many_maybe_bool: ClassVar[list[bool | None]]
     many_maybe_double: ClassVar[list[float | None]]
     many_maybe_float: ClassVar[list[float | None]]
     many_maybe_int: ClassVar[list[int | None]]
+    many_maybe_int16: ClassVar[Any]
     many_maybe_int32: ClassVar[list[int | None]]
+    many_maybe_int64: ClassVar[Any]
+    many_maybe_int8: ClassVar[Any]
+    many_maybe_uint: ClassVar[Any]
+    many_maybe_uint16: ClassVar[Any]
+    many_maybe_uint32: ClassVar[Any]
+    many_maybe_uint64: ClassVar[Any]
     many_maybe_uint8: ClassVar[list[int | None]]
+    many_uint: ClassVar[Any]
+    many_uint16: ClassVar[Any]
+    many_uint32: ClassVar[Any]
+    many_uint64: ClassVar[Any]
     many_uint8: ClassVar[list[int]]
     max_double: ClassVar[float]
     max_float: ClassVar[float]
@@ -93,7 +109,21 @@ class Primitives:
     @staticmethod
     def maybe_echo_int(value: int | None) -> int | None: ...
     @staticmethod
+    def maybe_echo_int16(value: Any) -> Any: ...
+    @staticmethod
     def maybe_echo_int32(value: int | None) -> int | None: ...
+    @staticmethod
+    def maybe_echo_int64(value: Any) -> Any: ...
+    @staticmethod
+    def maybe_echo_int8(value: Any) -> Any: ...
+    @staticmethod
+    def maybe_echo_uint(value: Any) -> Any: ...
+    @staticmethod
+    def maybe_echo_uint16(value: Any) -> Any: ...
+    @staticmethod
+    def maybe_echo_uint32(value: Any) -> Any: ...
+    @staticmethod
+    def maybe_echo_uint64(value: Any) -> Any: ...
     @staticmethod
     def maybe_echo_uint8(value: int | None) -> int | None: ...
     @staticmethod

@@ -49,6 +49,23 @@ class EnumTests(unittest.TestCase):
         self.assertIsInstance(associated.none(), getattr(associated, "None"))
         self.assertEqual(associated.none().int_value, 42)
 
+    def test_settable_static_property_round_trip(self) -> None:
+        simple_enum = self.testapi.SimpleEnum
+        try:
+            # Default is .blue; assignment must reach the native setter, not just
+            # rebind the class attribute (the getter-only bug silently no-oped).
+            self.assertEqual(simple_enum.favorite_color, simple_enum.blue)
+            simple_enum.favorite_color = simple_enum.red
+            self.assertEqual(simple_enum.favorite_color, simple_enum.red)
+            simple_enum.favorite_color = simple_enum.green
+            self.assertEqual(simple_enum.favorite_color, simple_enum.green)
+            # Prove the write actually reached native: reset via an independent
+            # native static method and observe the change through the getter.
+            simple_enum.reset_favorite_color()
+            self.assertEqual(simple_enum.favorite_color, simple_enum.blue)
+        finally:
+            simple_enum.reset_favorite_color()
+
 
 if __name__ == "__main__":
     unittest.main()

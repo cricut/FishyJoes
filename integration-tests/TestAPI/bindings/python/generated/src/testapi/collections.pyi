@@ -5,6 +5,7 @@ from typing import Any, ClassVar, NoReturn
 from .collections__collection_holder import Collections_CollectionHolder as Collections_CollectionHolder
 
 class Collections:
+    array_of_big_tuples: ClassVar[Any]
     array_of_int: ClassVar[list[int]]
     default_collection_holder: ClassVar[Collections_CollectionHolder]
     dictionary_of_int_to_int: ClassVar[dict[int, int]]

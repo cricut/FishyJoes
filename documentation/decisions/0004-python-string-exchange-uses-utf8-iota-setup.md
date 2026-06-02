@@ -75,5 +75,18 @@ from Swift and decode it with `bytes.decode("utf-8")`.
 
 The Swift runtime change is small, isolated, and backward compatible.
 
-String tests must include ASCII, non-ASCII, emoji, combining scalars, and empty
-strings.
+### Invalid UTF-8 is a hard error
+
+A Python `str` can contain lone surrogate code points (for example `"\ud800"`)
+that have no valid UTF-8 encoding. Such a value cannot cross the boundary. The
+runtime rejects it explicitly: encoding an outgoing string raises a clear
+`ValueError` ("String is not valid UTF-8 and cannot cross the FishyJoes
+boundary: ...") rather than surfacing an opaque codec error, silently replacing
+the scalar (`errors="replace"`), or passing it through (`errors="surrogatepass"`).
+This keeps the boundary lossless and predictable, and matches the strict,
+typed-validation philosophy used elsewhere (for example numeric range checks).
+The error is raised at the string boundary and propagated to the caller; it is
+not swallowed.
+
+String tests must include ASCII, non-ASCII, emoji, combining scalars, empty
+strings, and an invalid-UTF-8 (lone surrogate) value that is expected to raise.

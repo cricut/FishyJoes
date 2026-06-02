@@ -206,6 +206,51 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         return value
 
 
+    def _int8_value(value) -> int:
+        if type(value) is not int or value < -(2**7) or value > 2**7 - 1:
+            raise ValueError(f"Expected Int8 value in range -128...127, got {value!r}")
+        return value
+
+
+    def _int16_value(value) -> int:
+        if type(value) is not int or value < -(2**15) or value > 2**15 - 1:
+            raise ValueError(f"Expected Int16 value in range -32768...32767, got {value!r}")
+        return value
+
+
+    def _int64_value(value) -> int:
+        if type(value) is not int or value < -(2**63) or value > 2**63 - 1:
+            raise ValueError(
+                f"Expected Int64 value in range {-(2**63)}...{2**63 - 1}, got {value!r}"
+            )
+        return value
+
+
+    def _uint_value(value) -> int:
+        # UInt is pointer-width (uintptr_t); mirror _int_value's use of sys.maxsize.
+        if type(value) is not int or value < 0 or value > 2 * sys.maxsize + 1:
+            raise ValueError(f"Expected UInt value in range 0...{2 * sys.maxsize + 1}, got {value!r}")
+        return value
+
+
+    def _uint16_value(value) -> int:
+        if type(value) is not int or value < 0 or value > 2**16 - 1:
+            raise ValueError(f"Expected UInt16 value in range 0...65535, got {value!r}")
+        return value
+
+
+    def _uint32_value(value) -> int:
+        if type(value) is not int or value < 0 or value > 2**32 - 1:
+            raise ValueError(f"Expected UInt32 value in range 0...{2**32 - 1}, got {value!r}")
+        return value
+
+
+    def _uint64_value(value) -> int:
+        if type(value) is not int or value < 0 or value > 2**64 - 1:
+            raise ValueError(f"Expected UInt64 value in range 0...{2**64 - 1}, got {value!r}")
+        return value
+
+
     class TypeDescriptor:
         swift_name: str | None = None
         c_type: str = "foreignObject"
@@ -780,6 +825,13 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             self.loop = loop
             self.output = output
             with _handle_lock:
+                # Re-check under the lock so the gate and registration are atomic with
+                # shutdown()'s flag-set-and-snapshot. Without this a promise constructed
+                # concurrently with shutdown() could miss the snapshot and never be
+                # rejected, hanging its awaiter forever. _future_constructor's
+                # `except BaseException` converts this into an out-exn back to Swift.
+                if _is_shutdown:
+                    raise RuntimeError("FishyJoes runtime has been shut down")
                 _pending_promises.add(self)
 
         def resolve(self, result_ref):
@@ -933,6 +985,27 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     UINT8 = Primitive("UInt8", _uint8_value)
     UINT8.swift_name = "Swift.UInt8"
     UINT8.c_type = "uint8_t"
+    INT8 = Primitive("Int8", _int8_value)
+    INT8.swift_name = "Swift.Int8"
+    INT8.c_type = "int8_t"
+    INT16 = Primitive("Int16", _int16_value)
+    INT16.swift_name = "Swift.Int16"
+    INT16.c_type = "int16_t"
+    INT64 = Primitive("Int64", _int64_value)
+    INT64.swift_name = "Swift.Int64"
+    INT64.c_type = "int64_t"
+    UINT = Primitive("UInt", _uint_value)
+    UINT.swift_name = "Swift.UInt"
+    UINT.c_type = "uintptr_t"
+    UINT16 = Primitive("UInt16", _uint16_value)
+    UINT16.swift_name = "Swift.UInt16"
+    UINT16.c_type = "uint16_t"
+    UINT32 = Primitive("UInt32", _uint32_value)
+    UINT32.swift_name = "Swift.UInt32"
+    UINT32.c_type = "uint32_t"
+    UINT64 = Primitive("UInt64", _uint64_value)
+    UINT64.swift_name = "Swift.UInt64"
+    UINT64.c_type = "uint64_t"
     FLOAT = Primitive("Float", _float_value)
     FLOAT.swift_name = "Swift.Float"
     FLOAT.c_type = "float"
@@ -1033,10 +1106,24 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
                 _delete_ref(ref)
 
 
+    def _encode_utf8(value: str) -> bytes:
+        # FishyJoes exchanges strings as UTF-8 (ADR 0004). A Python str may contain lone
+        # surrogates (e.g. "\ud800") that are not valid UTF-8; reject them explicitly with
+        # a clear ValueError rather than surfacing an opaque codec error across the Swift
+        # boundary. This is a hard error by design — the boundary does not lossily replace
+        # or pass through invalid scalars.
+        try:
+            return value.encode("utf-8")
+        except UnicodeEncodeError as error:
+            raise ValueError(
+                f"String is not valid UTF-8 and cannot cross the FishyJoes boundary: {value!r}"
+            ) from error
+
+
     @ffi.callback("int(foreignObject, foreignOutExn)")
     def _string_utf8_length(obj, exn):
         try:
-            return len(ffi.from_handle(obj).encode("utf-8"))
+            return len(_encode_utf8(ffi.from_handle(obj)))
         except BaseException as error:
             exn[0] = _new_handle(error)
             return 0
@@ -1045,7 +1132,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     @ffi.callback("void(foreignObject, char *, foreignOutExn)")
     def _string_get_utf8(obj, out_bytes, exn):
         try:
-            encoded = ffi.from_handle(obj).encode("utf-8")
+            encoded = _encode_utf8(ffi.from_handle(obj))
             ffi.memmove(out_bytes, encoded, len(encoded))
         except BaseException as error:
             exn[0] = _new_handle(error)
@@ -1617,8 +1704,12 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     def shutdown():
         nonlocal _is_shutdown
-        _is_shutdown = True
+        # Set the flag and snapshot pending promises in one critical section so it is
+        # totally ordered against _FuturePromise.__init__'s gate: a promise is either
+        # in this snapshot (and rejected below) or refused at construction. No
+        # never-resolved future can escape.
         with _handle_lock:
+            _is_shutdown = True
             promises = list(_pending_promises)
         for promise in promises:
             promise.reject_for_shutdown()
@@ -2229,8 +2320,15 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         "VOID",
         "BOOL",
         "INT",
+        "INT8",
+        "INT16",
         "INT32",
+        "INT64",
+        "UINT",
         "UINT8",
+        "UINT16",
+        "UINT32",
+        "UINT64",
         "FLOAT",
         "DOUBLE",
         "STRING",

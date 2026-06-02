@@ -41,6 +41,14 @@ class StringTests(unittest.TestCase):
         self.assertEqual(strings.split("one,two,three", ","), ["one", "two", "three"])
         self.assertEqual(strings.split("Olá|こんにちは|你好", "|"), ["Olá", "こんにちは", "你好"])
 
+    def test_invalid_utf8_raises(self) -> None:
+        # A lone surrogate has no valid UTF-8 encoding; the boundary rejects it with a
+        # clear ValueError rather than silently replacing or passing it through (ADR 0004).
+        strings = self.testapi.Strings
+
+        with self.assertRaises(ValueError):
+            strings.echo("\ud800")
+
 
 if __name__ == "__main__":
     unittest.main()

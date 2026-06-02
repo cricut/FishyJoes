@@ -379,10 +379,61 @@ final class PythonTranslator: Translator {
         default:
             baseClass = ""
         }
+        // A settable static/class property cannot be wired through a class-namespace
+        // descriptor: `Klass.attr = value` is dispatched by the metaclass, not by a
+        // descriptor living in the class body, so its __set__ never fires. Emit a
+        // per-class metaclass carrying a real property(get, set) — composed with
+        // enum.EnumMeta for enums — matching the get+set surface every other language
+        // target exposes for a settable Swift `static var`.
+        let settableStaticFields = pythonClass.fields.filter { $0.isStatic && $0.setterSymbol != nil }
+        let classHeaderBases: String
+        if settableStaticFields.isEmpty {
+            classHeaderBases = baseClass
+        } else {
+            let metaclassName = "_\(pythonClass.className)Meta"
+            let baseMetaclass = (pythonClass.setupKind == "enum" && !isAssociatedEnum) ? "enum.EnumMeta" : "type"
+            fragment.output("class \(metaclassName)(\(baseMetaclass)):")
+            fragment.indent {
+                for field in settableStaticFields.sorted(by: { $0.pythonName < $1.pythonName }) {
+                    let fieldFunction = pythonFunctionName(for: field.symbol)
+                    let setterFunction = pythonFunctionName(for: field.setterSymbol!)
+                    let getterExpression: String
+                    if let returnConversion = field.returnConversion {
+                        getterExpression = convertedInvocation(function: fieldFunction, args: [], conversion: returnConversion)
+                    } else {
+                        getterExpression = "_native.check(lambda exn: \(fieldFunction)(_native.env, exn))"
+                    }
+                    let setterConversion = field.returnConversion ?? "None"
+                    fragment.output("@property")
+                    fragment.output("def \(field.pythonName)(cls):")
+                    fragment.indent {
+                        if let deprecationMessage = field.deprecationMessage {
+                            fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
+                        }
+                        fragment.output("return \(getterExpression)")
+                    }
+                    fragment.output("@\(field.pythonName).setter")
+                    fragment.output("def \(field.pythonName)(cls, value):")
+                    fragment.indent {
+                        if let deprecationMessage = field.deprecationMessage {
+                            fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
+                        }
+                        fragment.output("_native.call(\(setterFunction), args=[value], arg_conversions=[\(setterConversion)])")
+                    }
+                }
+            }
+            fragment.blankLine()
+            if baseClass.isEmpty {
+                classHeaderBases = "(metaclass=\(metaclassName))"
+            } else {
+                let inner = String(baseClass.dropFirst().dropLast())
+                classHeaderBases = "(\(inner), metaclass=\(metaclassName))"
+            }
+        }
         if pythonClass.setupKind == "value" {
             fragment.output(pythonClass.isValueHashable ? "@dataclass(unsafe_hash=True)" : "@dataclass")
         }
-        fragment.output("class \(pythonClass.className)\(baseClass):")
+        fragment.output("class \(pythonClass.className)\(classHeaderBases):")
         fragment.indent {
             let origins = ([("__type__", pythonClass.originName)] +
                 pythonClass.fields.map { ($0.pythonName, $0.originName) } +
@@ -432,6 +483,10 @@ final class PythonTranslator: Translator {
                 for field in pythonClass.fields.sorted(by: { $0.pythonName < $1.pythonName }) {
                     let fieldFunction = pythonFunctionName(for: field.symbol)
                     if field.isStatic {
+                        if field.setterSymbol != nil {
+                            // Settable statics are emitted on the per-class metaclass above.
+                            continue
+                        }
                         let valueExpression: String
                         if let returnConversion = field.returnConversion {
                             valueExpression = convertedInvocation(function: fieldFunction, args: [], conversion: returnConversion)
@@ -1201,8 +1256,14 @@ final class PythonTranslator: Translator {
                 return "_native.BOOL"
             case "Swift.Int":
                 return "_native.INT"
+            case "Swift.Int8":
+                return "_native.INT8"
+            case "Swift.Int16":
+                return "_native.INT16"
             case "Swift.Int32":
                 return "_native.INT32"
+            case "Swift.Int64":
+                return "_native.INT64"
             case "Swift.Float":
                 return "_native.FLOAT"
             case "Swift.Double":
@@ -1213,8 +1274,16 @@ final class PythonTranslator: Translator {
         }
         if let unsignedPrimitive = type as? TranslatedUnsignedPrimitive {
             switch unsignedPrimitive.sourceType.name {
+            case "Swift.UInt":
+                return "_native.UINT"
             case "Swift.UInt8":
                 return "_native.UINT8"
+            case "Swift.UInt16":
+                return "_native.UINT16"
+            case "Swift.UInt32":
+                return "_native.UINT32"
+            case "Swift.UInt64":
+                return "_native.UINT64"
             default:
                 return nil
             }
@@ -1512,10 +1581,24 @@ final class PythonTranslator: Translator {
             return "\(nativeModuleName).INT"
         case "intptr_t":
             return "\(nativeModuleName).INT"
+        case "int8_t":
+            return "\(nativeModuleName).INT8"
+        case "int16_t":
+            return "\(nativeModuleName).INT16"
         case "int32_t":
             return "\(nativeModuleName).INT32"
+        case "int64_t":
+            return "\(nativeModuleName).INT64"
+        case "uintptr_t":
+            return "\(nativeModuleName).UINT"
         case "uint8_t":
             return "\(nativeModuleName).UINT8"
+        case "uint16_t":
+            return "\(nativeModuleName).UINT16"
+        case "uint32_t":
+            return "\(nativeModuleName).UINT32"
+        case "uint64_t":
+            return "\(nativeModuleName).UINT64"
         case "double":
             return "\(nativeModuleName).DOUBLE"
         case "void":

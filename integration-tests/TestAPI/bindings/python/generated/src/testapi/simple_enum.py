@@ -14,7 +14,15 @@ _fj___iota_get_TestAPI_SimpleEnum_favoriteColor = _native.bind("__iota_get_TestA
 _fj___iota_get_TestAPI_SimpleEnum_hex = _native.bind("__iota_get_TestAPI_SimpleEnum_hex")
 _fj___iota_set_TestAPI_SimpleEnum_favoriteColor = _native.bind("__iota_set_TestAPI_SimpleEnum_favoriteColor")
 
-class SimpleEnum(enum.Enum):
+class _SimpleEnumMeta(enum.EnumMeta):
+    @property
+    def favorite_color(cls):
+        return _native.call(_fj___iota_get_TestAPI_SimpleEnum_favoriteColor, args=[], return_conversion=_native.ValueType("SimpleEnum"))
+    @favorite_color.setter
+    def favorite_color(cls, value):
+        _native.call(_fj___iota_set_TestAPI_SimpleEnum_favoriteColor, args=[value], arg_conversions=[_native.ValueType("SimpleEnum")])
+
+class SimpleEnum(enum.Enum, metaclass=_SimpleEnumMeta):
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.SimpleEnum",
         "favorite_color": "TestAPI.SimpleEnum.favoriteColor",
@@ -28,7 +36,6 @@ class SimpleEnum(enum.Enum):
     green = "green"
     blue = "blue"
 
-    favorite_color = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_SimpleEnum_favoriteColor, args=[], return_conversion=_native.ValueType("SimpleEnum")))
     @property
     def hex(self):
         return _native.call(_fj___iota_get_TestAPI_SimpleEnum_hex, args=[self], arg_conversions=[_native.ValueType("SimpleEnum")], return_conversion=None)

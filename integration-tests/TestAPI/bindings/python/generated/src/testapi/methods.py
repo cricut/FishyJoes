@@ -9,6 +9,7 @@ _fj___iota_TestAPI_Methods_async42 = _native.bind("__iota_TestAPI_Methods_async4
 _fj___iota_TestAPI_Methods_asyncCallbackFunc0 = _native.bind("__iota_TestAPI_Methods_asyncCallbackFunc0")
 _fj___iota_TestAPI_Methods_asyncDouble = _native.bind("__iota_TestAPI_Methods_asyncDouble")
 _fj___iota_TestAPI_Methods_asyncMultipleArgs = _native.bind("__iota_TestAPI_Methods_asyncMultipleArgs")
+_fj___iota_TestAPI_Methods_asyncSleep = _native.bind("__iota_TestAPI_Methods_asyncSleep")
 _fj___iota_TestAPI_Methods_asyncThrowing = _native.bind("__iota_TestAPI_Methods_asyncThrowing")
 _fj___iota_TestAPI_Methods_asyncVoid = _native.bind("__iota_TestAPI_Methods_asyncVoid")
 _fj___iota_TestAPI_Methods_asyncYield = _native.bind("__iota_TestAPI_Methods_asyncYield")
@@ -19,6 +20,7 @@ _fj___iota_TestAPI_Methods_staticAsync42 = _native.bind("__iota_TestAPI_Methods_
 _fj___iota_TestAPI_Methods_staticAsyncCallbackFunc0 = _native.bind("__iota_TestAPI_Methods_staticAsyncCallbackFunc0")
 _fj___iota_TestAPI_Methods_staticAsyncDouble = _native.bind("__iota_TestAPI_Methods_staticAsyncDouble")
 _fj___iota_TestAPI_Methods_staticAsyncMultipleArgs = _native.bind("__iota_TestAPI_Methods_staticAsyncMultipleArgs")
+_fj___iota_TestAPI_Methods_staticAsyncSleep = _native.bind("__iota_TestAPI_Methods_staticAsyncSleep")
 _fj___iota_TestAPI_Methods_staticAsyncThrowing = _native.bind("__iota_TestAPI_Methods_staticAsyncThrowing")
 _fj___iota_TestAPI_Methods_staticAsyncVoid = _native.bind("__iota_TestAPI_Methods_staticAsyncVoid")
 _fj___iota_TestAPI_Methods_staticAsyncYield = _native.bind("__iota_TestAPI_Methods_staticAsyncYield")
@@ -36,13 +38,28 @@ _fj___iota_set_TestAPI_Methods_instanceStored = _native.bind("__iota_set_TestAPI
 _fj___iota_set_TestAPI_Methods_staticModifiable = _native.bind("__iota_set_TestAPI_Methods_staticModifiable")
 _fj___iota_set_TestAPI_Methods_staticStored = _native.bind("__iota_set_TestAPI_Methods_staticStored")
 
-class Methods(_native.SwiftReference):
+class _MethodsMeta(type):
+    @property
+    def static_modifiable(cls):
+        return _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticModifiable(_native.env, exn))
+    @static_modifiable.setter
+    def static_modifiable(cls, value):
+        _native.call(_fj___iota_set_TestAPI_Methods_staticModifiable, args=[value], arg_conversions=[None])
+    @property
+    def static_stored(cls):
+        return _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticStored(_native.env, exn))
+    @static_stored.setter
+    def static_stored(cls, value):
+        _native.call(_fj___iota_set_TestAPI_Methods_staticStored, args=[value], arg_conversions=[None])
+
+class Methods(_native.SwiftReference, metaclass=_MethodsMeta):
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.Methods",
         "async42": "TestAPI.Methods.async42",
         "async_callback_func0": "TestAPI.Methods.asyncCallbackFunc0",
         "async_double": "TestAPI.Methods.asyncDouble",
         "async_multiple_args": "TestAPI.Methods.asyncMultipleArgs",
+        "async_sleep": "TestAPI.Methods.asyncSleep",
         "async_throwing": "TestAPI.Methods.asyncThrowing",
         "async_void": "TestAPI.Methods.asyncVoid",
         "async_yield": "TestAPI.Methods.asyncYield",
@@ -58,6 +75,7 @@ class Methods(_native.SwiftReference):
         "static_async_callback_func0": "TestAPI.Methods.staticAsyncCallbackFunc0",
         "static_async_double": "TestAPI.Methods.staticAsyncDouble",
         "static_async_multiple_args": "TestAPI.Methods.staticAsyncMultipleArgs",
+        "static_async_sleep": "TestAPI.Methods.staticAsyncSleep",
         "static_async_throwing": "TestAPI.Methods.staticAsyncThrowing",
         "static_async_void": "TestAPI.Methods.staticAsyncVoid",
         "static_async_yield": "TestAPI.Methods.staticAsyncYield",
@@ -90,8 +108,6 @@ class Methods(_native.SwiftReference):
         _native.check(lambda exn: _fj___iota_set_TestAPI_Methods_instanceStored(_native.env, self._iota_ref, value, exn))
     static_get = _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticGet(_native.env, exn))
     static_get_method = _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticGetMethod(_native.env, exn))
-    static_modifiable = _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticModifiable(_native.env, exn))
-    static_stored = _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticStored(_native.env, exn))
 
     def async42(self):
         return _native.call(_fj___iota_TestAPI_Methods_async42, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
@@ -101,6 +117,8 @@ class Methods(_native.SwiftReference):
         return _native.call(_fj___iota_TestAPI_Methods_asyncDouble, args=[self._iota_ref, d], arg_conversions=[None, None], return_conversion=_native.Future("FutureConverter<Swift.Double>", _native.DOUBLE))
     def async_multiple_args(self, i, j):
         return _native.call(_fj___iota_TestAPI_Methods_asyncMultipleArgs, args=[self._iota_ref, i, j], arg_conversions=[None, None, _native.AsyncFunction("AsyncFunction0Converter<Swift.Int>", "Function0Converter<FutureConverter<Swift.Int>>", [], _native.INT)], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
+    def async_sleep(self):
+        return _native.call(_fj___iota_TestAPI_Methods_asyncSleep, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<Swift.UInt>", _native.UINT))
     def async_throwing(self):
         return _native.call(_fj___iota_TestAPI_Methods_asyncThrowing, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<FishyJoesCommonRuntime.VoidConverter>", _native.VOID))
     def async_void(self):
@@ -127,6 +145,9 @@ class Methods(_native.SwiftReference):
     @staticmethod
     def static_async_multiple_args(i, j):
         return _native.call(_fj___iota_TestAPI_Methods_staticAsyncMultipleArgs, args=[i, j], arg_conversions=[None, _native.AsyncFunction("AsyncFunction0Converter<Swift.Int>", "Function0Converter<FutureConverter<Swift.Int>>", [], _native.INT)], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
+    @staticmethod
+    def static_async_sleep():
+        return _native.call(_fj___iota_TestAPI_Methods_staticAsyncSleep, args=[], arg_conversions=[], return_conversion=_native.Future("FutureConverter<Swift.UInt>", _native.UINT))
     @staticmethod
     def static_async_throwing():
         return _native.call(_fj___iota_TestAPI_Methods_staticAsyncThrowing, args=[], arg_conversions=[], return_conversion=_native.Future("FutureConverter<FishyJoesCommonRuntime.VoidConverter>", _native.VOID))

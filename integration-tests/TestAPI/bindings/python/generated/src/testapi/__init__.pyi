@@ -23,6 +23,7 @@ from .empty_struct2 import EmptyStruct2 as EmptyStruct2
 from .functions import Functions as Functions
 from .methods import Methods as Methods
 from .primitives import Primitives as Primitives
+from .primitives__primitive_holder import Primitives_PrimitiveHolder as Primitives_PrimitiveHolder
 from .protocol_witnesses import ProtocolWitnesses as ProtocolWitnesses
 from .python_naming_collisions import PythonNamingCollisions as PythonNamingCollisions
 from .ranges import Ranges as Ranges

@@ -6,16 +6,30 @@ from . import _native
 
 _fj___iota_TestAPI_ClosedRanges_echoDoubleRange = _native.bind("__iota_TestAPI_ClosedRanges_echoDoubleRange")
 _fj___iota_TestAPI_ClosedRanges_echoFloatRange = _native.bind("__iota_TestAPI_ClosedRanges_echoFloatRange")
+_fj___iota_TestAPI_ClosedRanges_echoInt16Range = _native.bind("__iota_TestAPI_ClosedRanges_echoInt16Range")
 _fj___iota_TestAPI_ClosedRanges_echoInt32Range = _native.bind("__iota_TestAPI_ClosedRanges_echoInt32Range")
+_fj___iota_TestAPI_ClosedRanges_echoInt64Range = _native.bind("__iota_TestAPI_ClosedRanges_echoInt64Range")
+_fj___iota_TestAPI_ClosedRanges_echoInt8Range = _native.bind("__iota_TestAPI_ClosedRanges_echoInt8Range")
 _fj___iota_TestAPI_ClosedRanges_echoIntRange = _native.bind("__iota_TestAPI_ClosedRanges_echoIntRange")
 _fj___iota_TestAPI_ClosedRanges_echoStringRange = _native.bind("__iota_TestAPI_ClosedRanges_echoStringRange")
+_fj___iota_TestAPI_ClosedRanges_echoUInt16Range = _native.bind("__iota_TestAPI_ClosedRanges_echoUInt16Range")
+_fj___iota_TestAPI_ClosedRanges_echoUInt32Range = _native.bind("__iota_TestAPI_ClosedRanges_echoUInt32Range")
+_fj___iota_TestAPI_ClosedRanges_echoUInt64Range = _native.bind("__iota_TestAPI_ClosedRanges_echoUInt64Range")
 _fj___iota_TestAPI_ClosedRanges_echoUInt8Range = _native.bind("__iota_TestAPI_ClosedRanges_echoUInt8Range")
+_fj___iota_TestAPI_ClosedRanges_echoUIntRange = _native.bind("__iota_TestAPI_ClosedRanges_echoUIntRange")
 _fj___iota_get_TestAPI_ClosedRanges_doubleRange = _native.bind("__iota_get_TestAPI_ClosedRanges_doubleRange")
 _fj___iota_get_TestAPI_ClosedRanges_floatRange = _native.bind("__iota_get_TestAPI_ClosedRanges_floatRange")
+_fj___iota_get_TestAPI_ClosedRanges_int16Range = _native.bind("__iota_get_TestAPI_ClosedRanges_int16Range")
 _fj___iota_get_TestAPI_ClosedRanges_int32Range = _native.bind("__iota_get_TestAPI_ClosedRanges_int32Range")
+_fj___iota_get_TestAPI_ClosedRanges_int64Range = _native.bind("__iota_get_TestAPI_ClosedRanges_int64Range")
+_fj___iota_get_TestAPI_ClosedRanges_int8Range = _native.bind("__iota_get_TestAPI_ClosedRanges_int8Range")
 _fj___iota_get_TestAPI_ClosedRanges_intRange = _native.bind("__iota_get_TestAPI_ClosedRanges_intRange")
 _fj___iota_get_TestAPI_ClosedRanges_stringRange = _native.bind("__iota_get_TestAPI_ClosedRanges_stringRange")
+_fj___iota_get_TestAPI_ClosedRanges_uInt16Range = _native.bind("__iota_get_TestAPI_ClosedRanges_uInt16Range")
+_fj___iota_get_TestAPI_ClosedRanges_uInt32Range = _native.bind("__iota_get_TestAPI_ClosedRanges_uInt32Range")
+_fj___iota_get_TestAPI_ClosedRanges_uInt64Range = _native.bind("__iota_get_TestAPI_ClosedRanges_uInt64Range")
 _fj___iota_get_TestAPI_ClosedRanges_uInt8Range = _native.bind("__iota_get_TestAPI_ClosedRanges_uInt8Range")
+_fj___iota_get_TestAPI_ClosedRanges_uIntRange = _native.bind("__iota_get_TestAPI_ClosedRanges_uIntRange")
 
 class ClosedRanges:
     __fishyjoes_origin__ = {
@@ -23,23 +37,44 @@ class ClosedRanges:
         "double_range": "TestAPI.ClosedRanges.doubleRange",
         "echo_double_range": "TestAPI.ClosedRanges.echoDoubleRange",
         "echo_float_range": "TestAPI.ClosedRanges.echoFloatRange",
+        "echo_int16_range": "TestAPI.ClosedRanges.echoInt16Range",
         "echo_int32_range": "TestAPI.ClosedRanges.echoInt32Range",
+        "echo_int64_range": "TestAPI.ClosedRanges.echoInt64Range",
+        "echo_int8_range": "TestAPI.ClosedRanges.echoInt8Range",
         "echo_int_range": "TestAPI.ClosedRanges.echoIntRange",
         "echo_string_range": "TestAPI.ClosedRanges.echoStringRange",
+        "echo_uint16_range": "TestAPI.ClosedRanges.echoUInt16Range",
+        "echo_uint32_range": "TestAPI.ClosedRanges.echoUInt32Range",
+        "echo_uint64_range": "TestAPI.ClosedRanges.echoUInt64Range",
         "echo_uint8_range": "TestAPI.ClosedRanges.echoUInt8Range",
+        "echo_uint_range": "TestAPI.ClosedRanges.echoUIntRange",
         "float_range": "TestAPI.ClosedRanges.floatRange",
+        "int16_range": "TestAPI.ClosedRanges.int16Range",
         "int32_range": "TestAPI.ClosedRanges.int32Range",
+        "int64_range": "TestAPI.ClosedRanges.int64Range",
+        "int8_range": "TestAPI.ClosedRanges.int8Range",
         "int_range": "TestAPI.ClosedRanges.intRange",
         "string_range": "TestAPI.ClosedRanges.stringRange",
+        "u_int16_range": "TestAPI.ClosedRanges.uInt16Range",
+        "u_int32_range": "TestAPI.ClosedRanges.uInt32Range",
+        "u_int64_range": "TestAPI.ClosedRanges.uInt64Range",
         "u_int8_range": "TestAPI.ClosedRanges.uInt8Range",
+        "u_int_range": "TestAPI.ClosedRanges.uIntRange",
     }
 
     double_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_doubleRange, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Double>", _native.DOUBLE)))
     float_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_floatRange, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Float>", _native.FLOAT)))
+    int16_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_int16Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int16>", _native.INT16)))
     int32_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_int32Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int32>", _native.INT32)))
+    int64_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_int64Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int64>", _native.INT64)))
+    int8_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_int8Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int8>", _native.INT8)))
     int_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_intRange, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int>", _native.INT)))
     string_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_stringRange, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.String>", _native.STRING)))
+    u_int16_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_uInt16Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt16>", _native.UINT16)))
+    u_int32_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_uInt32Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt32>", _native.UINT32)))
+    u_int64_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_uInt64Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt64>", _native.UINT64)))
     u_int8_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_uInt8Range, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt8>", _native.UINT8)))
+    u_int_range = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ClosedRanges_uIntRange, args=[], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt>", _native.UINT)))
 
     @staticmethod
     def echo_double_range(range):
@@ -48,8 +83,17 @@ class ClosedRanges:
     def echo_float_range(range):
         return _native.call(_fj___iota_TestAPI_ClosedRanges_echoFloatRange, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Float>", _native.FLOAT)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Float>", _native.FLOAT))
     @staticmethod
+    def echo_int16_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoInt16Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Int16>", _native.INT16)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int16>", _native.INT16))
+    @staticmethod
     def echo_int32_range(range):
         return _native.call(_fj___iota_TestAPI_ClosedRanges_echoInt32Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Int32>", _native.INT32)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int32>", _native.INT32))
+    @staticmethod
+    def echo_int64_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoInt64Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Int64>", _native.INT64)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int64>", _native.INT64))
+    @staticmethod
+    def echo_int8_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoInt8Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Int8>", _native.INT8)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int8>", _native.INT8))
     @staticmethod
     def echo_int_range(range):
         return _native.call(_fj___iota_TestAPI_ClosedRanges_echoIntRange, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.Int>", _native.INT)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.Int>", _native.INT))
@@ -57,5 +101,17 @@ class ClosedRanges:
     def echo_string_range(range):
         return _native.call(_fj___iota_TestAPI_ClosedRanges_echoStringRange, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.String>", _native.STRING)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.String>", _native.STRING))
     @staticmethod
+    def echo_uint16_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoUInt16Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.UInt16>", _native.UINT16)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt16>", _native.UINT16))
+    @staticmethod
+    def echo_uint32_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoUInt32Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.UInt32>", _native.UINT32)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt32>", _native.UINT32))
+    @staticmethod
+    def echo_uint64_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoUInt64Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.UInt64>", _native.UINT64)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt64>", _native.UINT64))
+    @staticmethod
     def echo_uint8_range(range):
         return _native.call(_fj___iota_TestAPI_ClosedRanges_echoUInt8Range, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.UInt8>", _native.UINT8)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt8>", _native.UINT8))
+    @staticmethod
+    def echo_uint_range(range):
+        return _native.call(_fj___iota_TestAPI_ClosedRanges_echoUIntRange, args=[range], arg_conversions=[_native.ClosedRange("ClosedRangeConverter<Swift.UInt>", _native.UINT)], return_conversion=_native.ClosedRange("ClosedRangeConverter<Swift.UInt>", _native.UINT))

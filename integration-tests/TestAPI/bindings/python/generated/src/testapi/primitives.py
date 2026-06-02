@@ -22,23 +22,45 @@ _fj___iota_TestAPI_Primitives_maybeEchoBool = _native.bind("__iota_TestAPI_Primi
 _fj___iota_TestAPI_Primitives_maybeEchoDouble = _native.bind("__iota_TestAPI_Primitives_maybeEchoDouble")
 _fj___iota_TestAPI_Primitives_maybeEchoFloat = _native.bind("__iota_TestAPI_Primitives_maybeEchoFloat")
 _fj___iota_TestAPI_Primitives_maybeEchoInt = _native.bind("__iota_TestAPI_Primitives_maybeEchoInt")
+_fj___iota_TestAPI_Primitives_maybeEchoInt16 = _native.bind("__iota_TestAPI_Primitives_maybeEchoInt16")
 _fj___iota_TestAPI_Primitives_maybeEchoInt32 = _native.bind("__iota_TestAPI_Primitives_maybeEchoInt32")
+_fj___iota_TestAPI_Primitives_maybeEchoInt64 = _native.bind("__iota_TestAPI_Primitives_maybeEchoInt64")
+_fj___iota_TestAPI_Primitives_maybeEchoInt8 = _native.bind("__iota_TestAPI_Primitives_maybeEchoInt8")
+_fj___iota_TestAPI_Primitives_maybeEchoUInt = _native.bind("__iota_TestAPI_Primitives_maybeEchoUInt")
+_fj___iota_TestAPI_Primitives_maybeEchoUInt16 = _native.bind("__iota_TestAPI_Primitives_maybeEchoUInt16")
+_fj___iota_TestAPI_Primitives_maybeEchoUInt32 = _native.bind("__iota_TestAPI_Primitives_maybeEchoUInt32")
+_fj___iota_TestAPI_Primitives_maybeEchoUInt64 = _native.bind("__iota_TestAPI_Primitives_maybeEchoUInt64")
 _fj___iota_TestAPI_Primitives_maybeEchoUInt8 = _native.bind("__iota_TestAPI_Primitives_maybeEchoUInt8")
 _fj___iota_TestAPI_Primitives_valueMapper = _native.bind("__iota_TestAPI_Primitives_valueMapper")
 _fj___iota_get_TestAPI_Primitives_bitCountInt = _native.bind("__iota_get_TestAPI_Primitives_bitCountInt")
 _fj___iota_get_TestAPI_Primitives_bitCountUInt = _native.bind("__iota_get_TestAPI_Primitives_bitCountUInt")
+_fj___iota_get_TestAPI_Primitives_defaultPrimitiveHolder = _native.bind("__iota_get_TestAPI_Primitives_defaultPrimitiveHolder")
 _fj___iota_get_TestAPI_Primitives_falseBool = _native.bind("__iota_get_TestAPI_Primitives_falseBool")
 _fj___iota_get_TestAPI_Primitives_manyBool = _native.bind("__iota_get_TestAPI_Primitives_manyBool")
 _fj___iota_get_TestAPI_Primitives_manyDouble = _native.bind("__iota_get_TestAPI_Primitives_manyDouble")
 _fj___iota_get_TestAPI_Primitives_manyFloat = _native.bind("__iota_get_TestAPI_Primitives_manyFloat")
 _fj___iota_get_TestAPI_Primitives_manyInt = _native.bind("__iota_get_TestAPI_Primitives_manyInt")
+_fj___iota_get_TestAPI_Primitives_manyInt16 = _native.bind("__iota_get_TestAPI_Primitives_manyInt16")
 _fj___iota_get_TestAPI_Primitives_manyInt32 = _native.bind("__iota_get_TestAPI_Primitives_manyInt32")
+_fj___iota_get_TestAPI_Primitives_manyInt64 = _native.bind("__iota_get_TestAPI_Primitives_manyInt64")
+_fj___iota_get_TestAPI_Primitives_manyInt8 = _native.bind("__iota_get_TestAPI_Primitives_manyInt8")
 _fj___iota_get_TestAPI_Primitives_manyMaybeBool = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeBool")
 _fj___iota_get_TestAPI_Primitives_manyMaybeDouble = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeDouble")
 _fj___iota_get_TestAPI_Primitives_manyMaybeFloat = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeFloat")
 _fj___iota_get_TestAPI_Primitives_manyMaybeInt = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeInt")
+_fj___iota_get_TestAPI_Primitives_manyMaybeInt16 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeInt16")
 _fj___iota_get_TestAPI_Primitives_manyMaybeInt32 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeInt32")
+_fj___iota_get_TestAPI_Primitives_manyMaybeInt64 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeInt64")
+_fj___iota_get_TestAPI_Primitives_manyMaybeInt8 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeInt8")
+_fj___iota_get_TestAPI_Primitives_manyMaybeUInt = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeUInt")
+_fj___iota_get_TestAPI_Primitives_manyMaybeUInt16 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeUInt16")
+_fj___iota_get_TestAPI_Primitives_manyMaybeUInt32 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeUInt32")
+_fj___iota_get_TestAPI_Primitives_manyMaybeUInt64 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeUInt64")
 _fj___iota_get_TestAPI_Primitives_manyMaybeUInt8 = _native.bind("__iota_get_TestAPI_Primitives_manyMaybeUInt8")
+_fj___iota_get_TestAPI_Primitives_manyUInt = _native.bind("__iota_get_TestAPI_Primitives_manyUInt")
+_fj___iota_get_TestAPI_Primitives_manyUInt16 = _native.bind("__iota_get_TestAPI_Primitives_manyUInt16")
+_fj___iota_get_TestAPI_Primitives_manyUInt32 = _native.bind("__iota_get_TestAPI_Primitives_manyUInt32")
+_fj___iota_get_TestAPI_Primitives_manyUInt64 = _native.bind("__iota_get_TestAPI_Primitives_manyUInt64")
 _fj___iota_get_TestAPI_Primitives_manyUInt8 = _native.bind("__iota_get_TestAPI_Primitives_manyUInt8")
 _fj___iota_get_TestAPI_Primitives_maxDouble = _native.bind("__iota_get_TestAPI_Primitives_maxDouble")
 _fj___iota_get_TestAPI_Primitives_maxFloat = _native.bind("__iota_get_TestAPI_Primitives_maxFloat")
@@ -84,6 +106,7 @@ class Primitives:
         "bit_count_int": "TestAPI.Primitives.bitCountInt",
         "bit_count_uint": "TestAPI.Primitives.bitCountUInt",
         "bool_overflow": "TestAPI.Primitives.boolOverflow",
+        "default_primitive_holder": "TestAPI.Primitives.defaultPrimitiveHolder",
         "echo_bool": "TestAPI.Primitives.echoBool",
         "echo_double": "TestAPI.Primitives.echoDouble",
         "echo_float": "TestAPI.Primitives.echoFloat",
@@ -102,13 +125,27 @@ class Primitives:
         "many_double": "TestAPI.Primitives.manyDouble",
         "many_float": "TestAPI.Primitives.manyFloat",
         "many_int": "TestAPI.Primitives.manyInt",
+        "many_int16": "TestAPI.Primitives.manyInt16",
         "many_int32": "TestAPI.Primitives.manyInt32",
+        "many_int64": "TestAPI.Primitives.manyInt64",
+        "many_int8": "TestAPI.Primitives.manyInt8",
         "many_maybe_bool": "TestAPI.Primitives.manyMaybeBool",
         "many_maybe_double": "TestAPI.Primitives.manyMaybeDouble",
         "many_maybe_float": "TestAPI.Primitives.manyMaybeFloat",
         "many_maybe_int": "TestAPI.Primitives.manyMaybeInt",
+        "many_maybe_int16": "TestAPI.Primitives.manyMaybeInt16",
         "many_maybe_int32": "TestAPI.Primitives.manyMaybeInt32",
+        "many_maybe_int64": "TestAPI.Primitives.manyMaybeInt64",
+        "many_maybe_int8": "TestAPI.Primitives.manyMaybeInt8",
+        "many_maybe_uint": "TestAPI.Primitives.manyMaybeUInt",
+        "many_maybe_uint16": "TestAPI.Primitives.manyMaybeUInt16",
+        "many_maybe_uint32": "TestAPI.Primitives.manyMaybeUInt32",
+        "many_maybe_uint64": "TestAPI.Primitives.manyMaybeUInt64",
         "many_maybe_uint8": "TestAPI.Primitives.manyMaybeUInt8",
+        "many_uint": "TestAPI.Primitives.manyUInt",
+        "many_uint16": "TestAPI.Primitives.manyUInt16",
+        "many_uint32": "TestAPI.Primitives.manyUInt32",
+        "many_uint64": "TestAPI.Primitives.manyUInt64",
         "many_uint8": "TestAPI.Primitives.manyUInt8",
         "max_double": "TestAPI.Primitives.maxDouble",
         "max_float": "TestAPI.Primitives.maxFloat",
@@ -126,7 +163,14 @@ class Primitives:
         "maybe_echo_double": "TestAPI.Primitives.maybeEchoDouble",
         "maybe_echo_float": "TestAPI.Primitives.maybeEchoFloat",
         "maybe_echo_int": "TestAPI.Primitives.maybeEchoInt",
+        "maybe_echo_int16": "TestAPI.Primitives.maybeEchoInt16",
         "maybe_echo_int32": "TestAPI.Primitives.maybeEchoInt32",
+        "maybe_echo_int64": "TestAPI.Primitives.maybeEchoInt64",
+        "maybe_echo_int8": "TestAPI.Primitives.maybeEchoInt8",
+        "maybe_echo_uint": "TestAPI.Primitives.maybeEchoUInt",
+        "maybe_echo_uint16": "TestAPI.Primitives.maybeEchoUInt16",
+        "maybe_echo_uint32": "TestAPI.Primitives.maybeEchoUInt32",
+        "maybe_echo_uint64": "TestAPI.Primitives.maybeEchoUInt64",
         "maybe_echo_uint8": "TestAPI.Primitives.maybeEchoUInt8",
         "min_double": "TestAPI.Primitives.minDouble",
         "min_float": "TestAPI.Primitives.minFloat",
@@ -158,18 +202,33 @@ class Primitives:
 
     bit_count_int = _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_bitCountInt(_native.env, exn))
     bit_count_uint = _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_bitCountUInt(_native.env, exn))
+    default_primitive_holder = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_defaultPrimitiveHolder, args=[], return_conversion=_native.ValueType("Primitives_PrimitiveHolder")))
     false_bool = _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_falseBool(_native.env, exn))
     many_bool = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyBool, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Bool>", _native.BOOL)))
     many_double = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyDouble, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)))
     many_float = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyFloat, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Float>", _native.FLOAT)))
     many_int = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyInt, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int>", _native.INT)))
+    many_int16 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyInt16, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int16>", _native.INT16)))
     many_int32 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyInt32, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int32>", _native.INT32)))
+    many_int64 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyInt64, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int64>", _native.INT64)))
+    many_int8 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyInt8, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int8>", _native.INT8)))
     many_maybe_bool = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeBool, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Bool>>", _native.Optional(_native.BOOL))))
     many_maybe_double = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeDouble, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Double>>", _native.Optional(_native.DOUBLE))))
     many_maybe_float = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeFloat, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Float>>", _native.Optional(_native.FLOAT))))
     many_maybe_int = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeInt, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int>>", _native.Optional(_native.INT))))
+    many_maybe_int16 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeInt16, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int16>>", _native.Optional(_native.INT16))))
     many_maybe_int32 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeInt32, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int32>>", _native.Optional(_native.INT32))))
+    many_maybe_int64 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeInt64, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int64>>", _native.Optional(_native.INT64))))
+    many_maybe_int8 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeInt8, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int8>>", _native.Optional(_native.INT8))))
+    many_maybe_uint = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeUInt, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.UInt>>", _native.Optional(_native.UINT))))
+    many_maybe_uint16 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeUInt16, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.UInt16>>", _native.Optional(_native.UINT16))))
+    many_maybe_uint32 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeUInt32, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.UInt32>>", _native.Optional(_native.UINT32))))
+    many_maybe_uint64 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeUInt64, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.UInt64>>", _native.Optional(_native.UINT64))))
     many_maybe_uint8 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyMaybeUInt8, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.UInt8>>", _native.Optional(_native.UINT8))))
+    many_uint = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyUInt, args=[], return_conversion=_native.Array("ArrayConverter<Swift.UInt>", _native.UINT)))
+    many_uint16 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyUInt16, args=[], return_conversion=_native.Array("ArrayConverter<Swift.UInt16>", _native.UINT16)))
+    many_uint32 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyUInt32, args=[], return_conversion=_native.Array("ArrayConverter<Swift.UInt32>", _native.UINT32)))
+    many_uint64 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyUInt64, args=[], return_conversion=_native.Array("ArrayConverter<Swift.UInt64>", _native.UINT64)))
     many_uint8 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyUInt8, args=[], return_conversion=_native.Array("ArrayConverter<Swift.UInt8>", _native.UINT8)))
     max_double = _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_maxDouble(_native.env, exn))
     max_float = _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_maxFloat(_native.env, exn))
@@ -264,8 +323,29 @@ class Primitives:
     def maybe_echo_int(value):
         return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoInt, args=[value], arg_conversions=[_native.Optional(_native.INT)], return_conversion=_native.Optional(_native.INT))
     @staticmethod
+    def maybe_echo_int16(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoInt16, args=[value], arg_conversions=[_native.Optional(_native.INT16)], return_conversion=_native.Optional(_native.INT16))
+    @staticmethod
     def maybe_echo_int32(value):
         return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoInt32, args=[value], arg_conversions=[_native.Optional(_native.INT32)], return_conversion=_native.Optional(_native.INT32))
+    @staticmethod
+    def maybe_echo_int64(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoInt64, args=[value], arg_conversions=[_native.Optional(_native.INT64)], return_conversion=_native.Optional(_native.INT64))
+    @staticmethod
+    def maybe_echo_int8(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoInt8, args=[value], arg_conversions=[_native.Optional(_native.INT8)], return_conversion=_native.Optional(_native.INT8))
+    @staticmethod
+    def maybe_echo_uint(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoUInt, args=[value], arg_conversions=[_native.Optional(_native.UINT)], return_conversion=_native.Optional(_native.UINT))
+    @staticmethod
+    def maybe_echo_uint16(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoUInt16, args=[value], arg_conversions=[_native.Optional(_native.UINT16)], return_conversion=_native.Optional(_native.UINT16))
+    @staticmethod
+    def maybe_echo_uint32(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoUInt32, args=[value], arg_conversions=[_native.Optional(_native.UINT32)], return_conversion=_native.Optional(_native.UINT32))
+    @staticmethod
+    def maybe_echo_uint64(value):
+        return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoUInt64, args=[value], arg_conversions=[_native.Optional(_native.UINT64)], return_conversion=_native.Optional(_native.UINT64))
     @staticmethod
     def maybe_echo_uint8(value):
         return _native.call(_fj___iota_TestAPI_Primitives_maybeEchoUInt8, args=[value], arg_conversions=[_native.Optional(_native.UINT8)], return_conversion=_native.Optional(_native.UINT8))

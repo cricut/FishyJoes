@@ -11,8 +11,16 @@ _fj___iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty = _nat
 _fj___iota_get_TestAPI_Collections_CollectionHolder_staticProperty = _native.bind("__iota_get_TestAPI_Collections_CollectionHolder_staticProperty")
 _fj___iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty = _native.bind("__iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty")
 
+class _Collections_CollectionHolderMeta(type):
+    @property
+    def static_mutable_property(cls):
+        return _native.call(_fj___iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int>>", _native.Optional(_native.INT)))
+    @static_mutable_property.setter
+    def static_mutable_property(cls, value):
+        _native.call(_fj___iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty, args=[value], arg_conversions=[_native.Array("ArrayConverter<OptionalConverter<Swift.Int>>", _native.Optional(_native.INT))])
+
 @dataclass
-class Collections_CollectionHolder:
+class Collections_CollectionHolder(metaclass=_Collections_CollectionHolderMeta):
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.Collections.CollectionHolder",
         "static_mutable_property": "TestAPI.Collections.CollectionHolder.staticMutableProperty",
@@ -29,7 +37,6 @@ class Collections_CollectionHolder:
     string_set: object
     string_dictionary: object
 
-    static_mutable_property = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int>>", _native.Optional(_native.INT))))
     static_property = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_CollectionHolder_staticProperty, args=[], return_conversion=_native.Array("ArrayConverter<OptionalConverter<Swift.Int>>", _native.Optional(_native.INT))))
 
 _native.setup_value_type(_fj_TestAPI_Collections_CollectionHolder_setup, Collections_CollectionHolder, [_native.Field("bool_array", _native.Array("ArrayConverter<Swift.Bool>", _native.BOOL), mutable=True), _native.Field("bool_set", _native.Set("SetConverter<Swift.Bool>", _native.BOOL), mutable=True), _native.Field("bool_dictionary", _native.Dictionary("DictionaryConverter<Swift.Bool, Swift.Bool>", _native.BOOL, _native.BOOL), mutable=True), _native.Field("integer_array", _native.Array("ArrayConverter<Swift.Int>", _native.INT), mutable=True), _native.Field("integer_set", _native.Set("SetConverter<Swift.Int>", _native.INT), mutable=True), _native.Field("integer_dictionary", _native.Dictionary("DictionaryConverter<Swift.Int, Swift.Int>", _native.INT, _native.INT), mutable=True), _native.Field("string_array", _native.Array("ArrayConverter<Swift.String>", _native.STRING), mutable=True), _native.Field("string_set", _native.Set("SetConverter<Swift.String>", _native.STRING), mutable=True), _native.Field("string_dictionary", _native.Dictionary("DictionaryConverter<Swift.String, Swift.String>", _native.STRING, _native.STRING), mutable=True)])

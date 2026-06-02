@@ -76,6 +76,48 @@ class PrimitiveTests(unittest.TestCase):
         self.assertIsNone(primitives.maybe_echo_double(None))
         self.assertEqual(primitives.maybe_echo_double(1.5), 1.5)
 
+    def test_all_integer_width_constants(self) -> None:
+        # Int8/Int16/Int64/UInt/UInt16/UInt32/UInt64 were previously unsupported in
+        # Python (silently dropped); they are now at parity with the other targets.
+        primitives = self.testapi.Primitives
+
+        self.assertEqual((primitives.min_int8, primitives.max_int8), (-(2**7), 2**7 - 1))
+        self.assertEqual((primitives.min_int16, primitives.max_int16), (-(2**15), 2**15 - 1))
+        self.assertEqual((primitives.min_int64, primitives.max_int64), (-(2**63), 2**63 - 1))
+        self.assertEqual((primitives.min_uint, primitives.max_uint), (0, 2 * sys.maxsize + 1))
+        self.assertEqual((primitives.min_uint16, primitives.max_uint16), (0, 2**16 - 1))
+        self.assertEqual((primitives.min_uint32, primitives.max_uint32), (0, 2**32 - 1))
+        self.assertEqual((primitives.min_uint64, primitives.max_uint64), (0, 2**64 - 1))
+
+    def test_all_integer_width_echo_round_trip(self) -> None:
+        primitives = self.testapi.Primitives
+
+        cases = [
+            (primitives.echo_int8, primitives.min_int8, primitives.max_int8),
+            (primitives.echo_int16, primitives.min_int16, primitives.max_int16),
+            (primitives.echo_int64, primitives.min_int64, primitives.max_int64),
+            (primitives.echo_uint, primitives.min_uint, primitives.max_uint),
+            (primitives.echo_uint16, primitives.min_uint16, primitives.max_uint16),
+            (primitives.echo_uint32, primitives.min_uint32, primitives.max_uint32),
+            (primitives.echo_uint64, primitives.min_uint64, primitives.max_uint64),
+        ]
+        for echo, low, high in cases:
+            self.assertEqual(echo(low), low)
+            self.assertEqual(echo(high), high)
+
+    def test_integer_width_range_validation(self) -> None:
+        primitives = self.testapi.Primitives
+
+        # Composite (optional) path runs the descriptor validators -> ValueError.
+        with self.assertRaises(ValueError):
+            primitives.maybe_echo_int8(2**7)
+        with self.assertRaises(ValueError):
+            primitives.maybe_echo_int8(-(2**7) - 1)
+        with self.assertRaises(ValueError):
+            primitives.maybe_echo_uint16(-1)
+        with self.assertRaises(ValueError):
+            primitives.maybe_echo_uint16(2**16)
+
 
 if __name__ == "__main__":
     unittest.main()

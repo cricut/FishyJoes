@@ -11,6 +11,7 @@ _fj___iota_TestAPI_Collections_echoMaybeArrayOfMaybeInt = _native.bind("__iota_T
 _fj___iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt = _native.bind("__iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt")
 _fj___iota_TestAPI_Collections_echoMaybeSetOfMaybeInt = _native.bind("__iota_TestAPI_Collections_echoMaybeSetOfMaybeInt")
 _fj___iota_TestAPI_Collections_echoSetOfInt = _native.bind("__iota_TestAPI_Collections_echoSetOfInt")
+_fj___iota_get_TestAPI_Collections_arrayOfBigTuples = _native.bind("__iota_get_TestAPI_Collections_arrayOfBigTuples")
 _fj___iota_get_TestAPI_Collections_arrayOfInt = _native.bind("__iota_get_TestAPI_Collections_arrayOfInt")
 _fj___iota_get_TestAPI_Collections_defaultCollectionHolder = _native.bind("__iota_get_TestAPI_Collections_defaultCollectionHolder")
 _fj___iota_get_TestAPI_Collections_dictionaryOfIntToInt = _native.bind("__iota_get_TestAPI_Collections_dictionaryOfIntToInt")
@@ -25,6 +26,7 @@ _fj___iota_get_TestAPI_Collections_setOfInt = _native.bind("__iota_get_TestAPI_C
 class Collections:
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.Collections",
+        "array_of_big_tuples": "TestAPI.Collections.arrayOfBigTuples",
         "array_of_int": "TestAPI.Collections.arrayOfInt",
         "collection_mapper": "TestAPI.Collections.collectionMapper",
         "default_collection_holder": "TestAPI.Collections.defaultCollectionHolder",
@@ -44,6 +46,7 @@ class Collections:
         "set_of_int": "TestAPI.Collections.setOfInt",
     }
 
+    array_of_big_tuples = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_arrayOfBigTuples, args=[], return_conversion=_native.Array("ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>", _native.Tuple("Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>", [_native.INT8, _native.INT16, _native.INT32, _native.INT64]))))
     array_of_int = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_arrayOfInt, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Int>", _native.INT)))
     default_collection_holder = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_defaultCollectionHolder, args=[], return_conversion=_native.ValueType("Collections_CollectionHolder")))
     dictionary_of_int_to_int = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Collections_dictionaryOfIntToInt, args=[], return_conversion=_native.Dictionary("DictionaryConverter<Swift.Int, Swift.Int>", _native.INT, _native.INT)))
