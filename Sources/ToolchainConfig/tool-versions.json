@@ -32,5 +32,10 @@
         "ndkArchName": "x86_64"
       }
     ]
+  },
+  "linuxContainer": {
+    "//": "Used by generated Linux Python workflow jobs.",
+    "image": "ghcr.io/cricut/android-swift-runtime",
+    "version": "4.0.2"
   }
 }

@@ -1,0 +1,6 @@
+cffi
+hatchling
+mypy
+packaging
+auditwheel; sys_platform == "linux"
+delocate; sys_platform == "darwin"

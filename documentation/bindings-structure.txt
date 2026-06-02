@@ -85,3 +85,72 @@ MyGreatLibrary/bindings/
     ├── GENERATED-dart.yaml
     ├── GENERATED-kotlin.yaml
     └── GENERATED-typescript.yaml
+
+Python ideal Option 1 structure:
+
+FishyJoes/
+├── python-runtime/
+│   ├── pyproject.toml
+│   ├── src/
+│   │   └── fishyjoes_runtime/
+│   │       ├── __init__.py
+│   │       ├── config.py
+│   │       ├── dependencies.py
+│   │       ├── diagnostics.py
+│   │       ├── iota.py
+│   │       ├── native.py
+│   │       └── py.typed
+│   └── tests/
+│       └── ... shared runtime tests for pure Python behavior only
+└── MyGreatLibrary/bindings/
+    └── python/
+        ├── pyproject.override.toml    // Optional publisher/project metadata overlay
+        ├── generated/
+        │   ├── _build_wheel.py
+        │   ├── pyproject.toml
+        │   ├── native/    // Not committed
+        │   │   ├── libFishyJoesIotaRuntime.dylib
+        │   │   ├── libMyGreatLibrary.dylib
+        │   │   └── libMyGreatLibrary-iota.dylib
+        │   └── src/
+        │       └── mygreatlibrary/
+        │           ├── __init__.py
+        │           ├── __init__.pyi
+        │           ├── _diagnostics.py
+        │           ├── _native.py
+        │           ├── _declarations.h
+        │           ├── _generated_declarations.h
+        │           ├── _exports.py
+        │           ├── _exports.pyi
+        │           ├── py.typed
+        │           └── ... generated Swift type wrappers and stubs
+        ├── tests/
+        │   ├── test_example.py
+        │   └── ... integration tests against real generated bindings and dylibs
+        └── dist/    // Not committed
+            └── mygreatlibrary-0.0.1-py3-none-{platform}.whl
+
+Python's released package depends on the shared `fishyjoes-runtime` wheel.
+`fishyjoes-runtime` is not a replacement for the Swift `FishyJoesIotaRuntime`
+dynamic library and does not define a second ABI. It is the Python-side binding
+layer for the shared Iota ABI: cffi setup, native-library resolution,
+dependency/version checks, Python value/reference converters, callback lifetime,
+async/future bridging, protocol witnesses, and diagnostics.
+
+The generated package owns only module-specific binding code, the Iota
+declaration headers emitted by the generator, package metadata, and the native
+Swift/Iota libraries for the target platform. Reusable Python/Iota behavior
+lives in `python-runtime/src/fishyjoes_runtime/`, not in generated output.
+
+Generated `mygreatlibrary._native` is intentionally thin: it passes the package
+name, Swift module name, type-registration symbol, declaration file names, and
+native library search roots into `fishyjoes_runtime`. It may re-export runtime
+helpers for generated wrappers, but it must not reimplement converters,
+reference lifetime, async/future bridging, protocol witness plumbing, cffi
+setup, or diagnostics logic.
+
+The runtime extraction is tested incrementally. Each refactor slice first adds
+or keeps an integration test that imports the real generated package from a
+venv, loads real FishyJoes/TestAPI dylibs, and exercises the same behavior as
+other language targets. Shape tests may inspect generated files and wheel
+metadata, but behavior tests must call through real generated bindings.

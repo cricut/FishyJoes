@@ -21,3 +21,5 @@ package-lock.json
 DebugGenerated
 .idea
 *.DotSettings.user
+/python/.venv/
+/python/**/__pycache__/

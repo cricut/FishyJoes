@@ -103,8 +103,20 @@ class CSharpClass: NestedClass {
         String(name.split(separator: ".").last!)
     }
 
+    func memberIdentifier(_ name: String) -> String {
+        var identifier = CSharpClass.deforbidify(name)
+        let nestedTypeNames = Set(innerClasses.map(\.unqualifiedName))
+        if nestedTypeNames.contains(identifier) {
+            identifier += "_"
+        }
+        return identifier
+    }
+
     func output(field: Variable, to fragment: SourceFragment) {
         document(field.documentation, fragment: fragment)
+        let propertyName = memberIdentifier(field.name)
+        let getterMethodName = memberIdentifier("Get\(CSharpClass.deforbidify(field.name))")
+        let setterMethodName = memberIdentifier("Set\(CSharpClass.deforbidify(field.name))")
         let selfFormal = field.isStatic ? "" : "\(CSType.object.pInvokeUnownedName) self, "
         let selfArg = field.isStatic ? "" : "thisHandle.ptr, "
         let getterName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
@@ -147,20 +159,20 @@ class CSharpClass: NestedClass {
         if field.asMethod {
             outputAttributes()
             fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
-            fragment.outputBlock("\(field.type.name) Get\(field.name)() {") {
+            fragment.outputBlock("\(field.type.name) \(getterMethodName)() {") {
                 outputGetterBody()
             }
             if field.isPubliclyWritable {
                 outputAttributes()
                 fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
-                fragment.outputBlock("void Set\(field.name)(\(field.type.name) value) {") {
+                fragment.outputBlock("void \(setterMethodName)(\(field.type.name) value) {") {
                     outputSetterBody()
                 }
             }
         } else {
             outputAttributes()
             fragment.output("public \(field.isOverride ? "override " : "")\(field.isStatic ? "static " : "")", newLineTerminated: false)
-            fragment.outputBlock("\(field.type.name) \(field.name) {") {
+            fragment.outputBlock("\(field.type.name) \(propertyName) {") {
                 fragment.outputBlock("get {") {
                     outputGetterBody()
                 }
@@ -189,13 +201,14 @@ class CSharpClass: NestedClass {
 
     func output(method: Method, to fragment: SourceFragment) {
         if !method.name.hasPrefix("_") {
+            let memberName = memberIdentifier(method.name)
             document(method.documentation, fragment: fragment)
             if let deprecation = method.deprecation {
                 fragment.output("[Obsolete(\"\(deprecation.quotedMessage)\")]")
             }
             fragment.output("public \(method.isOverride ? "override " : "")\(method.isStatic ? "static " : "")", newLineTerminated: false)
             let returnTypeName = method.returnType == .unit ? "void" : method.returnType.name
-            fragment.outputBlock("\(returnTypeName) \(method.name)(", newLineTerminated: false) {
+            fragment.outputBlock("\(returnTypeName) \(memberName)(", newLineTerminated: false) {
                 // put all optional parameters at the end, or C# gets unhappy
                 let requiredParams = method.parameters.filter { $0.defaultValue == nil }
                 let optionalParams = method.parameters.filter { $0.defaultValue != nil }
@@ -439,7 +452,7 @@ class CSharpProductClass: CSharpClass {
                 fragment.output("internal \(unqualifiedName)(ConsumedRef reference): base(reference) {}")
             case .public(let fields):
                 for field in fields {
-                    fragment.output("public \(field.type.name) \(CSharpClass.deforbidify(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
+                    fragment.output("public \(field.type.name) \(memberIdentifier(field.name)) { get; \(field.isPubliclyWritable ? "set;" : "internal set;") }")
                 }
                 fragment.blankLine()
 
@@ -450,7 +463,7 @@ class CSharpProductClass: CSharpClass {
                 }
                 fragment.outputBlock(" {") {
                     for field in fields {
-                        fragment.output("this.\(CSharpClass.deforbidify(field.name)) = \(CSharpClass.deforbidify(field.name));")
+                        fragment.output("this.\(memberIdentifier(field.name)) = \(CSharpClass.deforbidify(field.name));")
                     }
                 }
             }
@@ -548,9 +561,11 @@ extension CSharpClass {
         "String",
         "string",
         "base",
+        "class",
     ]
 
     static func deforbidify(_ name: String) -> String {
-        forbiddenVarNames.contains(name) ? "_\(name)" : name
+        let unescapedName = name.unescapedSwiftIdentifier
+        return forbiddenVarNames.contains(unescapedName) ? "_\(unescapedName)" : unescapedName
     }
 }

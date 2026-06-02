@@ -6,6 +6,9 @@ module.exports = {
   testEnvironment: 'node',
   extensionsToTreatAsEsm: ['.ts', '.wasm'],
   rootDir: "../",
+  setupFilesAfterEnv: [
+    "<rootDir>/generated/fishyjoes.cleanup.ts",
+  ],
   globals: {
     'ts-jest': {
       useESM: true,

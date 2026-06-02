@@ -452,7 +452,7 @@ final class KotlinTranslator: Translator {
                     context.warnMissingDefault(parameter: parameter, in: method)
                 }
             }
-            parameters.append((label, parameter.name, resolved.kotlinType, defaultValue))
+            parameters.append((label, KotlinClass.deforbidify(parameter.name), resolved.kotlinType, defaultValue))
         }
 
         return .method(
@@ -462,9 +462,9 @@ final class KotlinTranslator: Translator {
                 isSuspend: method.isAsync,
                 isOverride: exportAnnotation.isOverride,
                 isDefaultImplementation: method.isDefaultImplementation,
-                name: exportAnnotation.name,
+                name: KotlinClass.deforbidify(exportAnnotation.name),
                 parameters: parameters,
-                compatibilityOrder: exportAnnotation.compatibilityOrder,
+                compatibilityOrder: exportAnnotation.compatibilityOrder.map(KotlinClass.deforbidify),
                 returnType: context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).kotlinType,
                 deprecation: method.deprecation,
                 body: nil
@@ -480,13 +480,13 @@ final class KotlinTranslator: Translator {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
             }
-            ktName = field.name
+            ktName = KotlinClass.deforbidify(field.name)
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
             asMethod = exportAnnotation.kind == .asMethod
-            ktName = exportAnnotation.name
+            ktName = KotlinClass.deforbidify(exportAnnotation.name)
         }
         let resolved = context.resolve(type: field.type)
         if asMethod {
@@ -533,62 +533,23 @@ final class KotlinTranslator: Translator {
         }
     }
 
-    // Very hacky. But values are an entirely separate language to what we process
     func kotlin(value: String) -> String? {
-        if let int = Int(value) {
-            return "\(int)"
+        guard let expression = SwiftDefaultExpression.parse(value) else {
+            return nil
         }
-        if let double = Double(value) {
-            return "\(double)"
-        }
-        switch value {
-        case "Double.ulpOfOne.squareRoot()":
-            return "1.4901161193847656E-8"
-        case "Int8.min":
-            return String(Int8.min)
-        case "Int8.max":
-            return String(Int8.max)
-        case "Int16.min":
-            return String(Int16.min)
-        case "Int16.max":
-            return String(Int16.max)
-        case "Int32.min":
-            return String(Int32.min)
-        case "Int32.max":
-            return String(Int32.max)
-        case "Int64.min":
-            return String(Int64.min)
-        case "Int64.max":
-            return String(Int64.max)
-        case "Int.min":
-            return String(Int.min)
-        case "Int.max":
-            return String(Int.max)
-        case "UInt8.min":
-            return String(UInt8.min)
-        case "UInt8.max":
-            return String(UInt8.max)
-        case "UInt16.min":
-            return String(UInt16.min)
-        case "UInt16.max":
-            return String(UInt16.max)
-        case "UInt32.min":
-            return String(UInt32.min)
-        case "UInt32.max":
-            return String(UInt32.max)
-        case "UInt64.min":
-            return String(UInt64.min)
-        case "UInt64.max":
-            return String(UInt64.max)
-        case "UInt.min":
-            return String(UInt.min)
-        case "UInt.max":
-            return String(UInt.max)
-        case "true", "false":
-            return value
-        case "nil":
+
+        switch expression {
+        case .nilLiteral:
             return "null"
-        default:
+        case let .boolLiteral(value):
+            return value ? "true" : "false"
+        case let .integerLiteral(value), let .floatingPointLiteral(value):
+            return value
+        case .memberAccess:
+            return expression.swiftIntegerLimitValue ?? expression.swiftFloatingPointConstantLiteral
+        case .call:
+            return expression.swiftFloatingPointConstantLiteral
+        case .implicitMember:
             return nil
         }
     }

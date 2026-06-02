@@ -38,6 +38,9 @@ sealed class AssociatedDataEnum {
     const factory AssociatedDataEnum.noValue(
     ) = AssociatedDataEnum_NoValue;
 
+    const factory AssociatedDataEnum.none(
+    ) = AssociatedDataEnum_None;
+
     const factory AssociatedDataEnum.simpleEnum(
         TestAPI.SimpleEnum value
     ) = AssociatedDataEnum_SimpleEnum;
@@ -50,7 +53,8 @@ sealed class AssociatedDataEnum {
         else if (peekedObj is AssociatedDataEnum_Other) { return 1; }
         else if (peekedObj is AssociatedDataEnum_Bar) { return 2; }
         else if (peekedObj is AssociatedDataEnum_NoValue) { return 3; }
-        else if (peekedObj is AssociatedDataEnum_SimpleEnum) { return 4; }
+        else if (peekedObj is AssociatedDataEnum_None) { return 4; }
+        else if (peekedObj is AssociatedDataEnum_SimpleEnum) { return 5; }
         else { throw UnsupportedError('Unknown AssociatedDataEnum subclass'); }
     });
 
@@ -139,6 +143,22 @@ sealed class AssociatedDataEnum {
     ) {
         catching(exn, () {
             final _self = peekRef<AssociatedDataEnum_NoValue>(obj);
+        });
+    }
+
+    static CreatedRef newNone(
+        OutCreatedRef exn
+    ) => catchingRef(exn, () =>
+        createRef(AssociatedDataEnum_None(
+        ))
+    );
+
+    static void extractNone(
+        UnownedRef obj,
+        OutCreatedRef exn
+    ) {
+        catching(exn, () {
+            final _self = peekRef<AssociatedDataEnum_None>(obj);
         });
     }
 
@@ -328,6 +348,24 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     String toString() => 'AssociatedDataEnum.noValue()';
 
     AssociatedDataEnum_NoValue copyWith() => AssociatedDataEnum_NoValue();
+}
+
+class AssociatedDataEnum_None extends AssociatedDataEnum {
+    const AssociatedDataEnum_None();
+
+    @override
+    bool operator ==(Object other) => identical(other, this) || (
+        other.runtimeType == runtimeType
+        && other is AssociatedDataEnum_None
+    );
+
+    @override
+    int get hashCode => runtimeType.hashCode;
+
+    @override
+    String toString() => 'AssociatedDataEnum.none()';
+
+    AssociatedDataEnum_None copyWith() => AssociatedDataEnum_None();
 }
 
 class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {

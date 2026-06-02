@@ -11,6 +11,7 @@ struct ProjectConfig: Codable {
     let excludeSources: [String]
     let ciPreBuildHook: String?
     let flexibleVersions: Bool
+    let python: PythonConfig
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
     // version, so while not recommended normally, this can be used to work
@@ -25,6 +26,92 @@ struct ProjectConfig: Codable {
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
         case remote(String) // Run a specific version using mint
+    }
+
+    struct PythonConfig: Codable, Equatable {
+        let distributionName: String?
+        let importPackageName: String?
+        let runtimeDistributionName: String
+        let dependencies: [String: PythonDependencyConfig]
+
+        static let `default` = PythonConfig(
+            distributionName: nil,
+            importPackageName: nil,
+            runtimeDistributionName: "fishyjoes-runtime",
+            dependencies: [:]
+        )
+
+        func distributionName(forModule module: String) -> String {
+            distributionName ?? defaultDistributionName(forModule: module)
+        }
+
+        func importPackageName(forModule module: String) -> String {
+            importPackageName ?? defaultImportPackageName(forModule: module)
+        }
+
+        func dependencyDistributionName(forModule module: String) -> String {
+            dependencies[module]?.distributionName ?? defaultDistributionName(forModule: module)
+        }
+
+        func dependencyImportPackageName(forModule module: String) -> String {
+            dependencies[module]?.importPackageName ?? defaultImportPackageName(forModule: module)
+        }
+
+        func validate(module: String) throws {
+            try Self.validateDistributionName(distributionName(forModule: module), key: "python.distributionName")
+            try Self.validateImportPackageName(importPackageName(forModule: module), key: "python.importPackageName")
+            try Self.validateDistributionName(runtimeDistributionName, key: "python.runtimeDistributionName")
+            for module in dependencies.keys {
+                try Self.validateDistributionName(
+                    dependencyDistributionName(forModule: module),
+                    key: "python.dependencies.\(module).distributionName"
+                )
+                try Self.validateImportPackageName(
+                    dependencyImportPackageName(forModule: module),
+                    key: "python.dependencies.\(module).importPackageName"
+                )
+            }
+        }
+
+        private func defaultDistributionName(forModule module: String) -> String {
+            module
+                .replacingOccurrences(of: "_", with: "-")
+                .lowercased()
+        }
+
+        private func defaultImportPackageName(forModule module: String) -> String {
+            module
+                .replacingOccurrences(of: "-", with: "_")
+                .replacingOccurrences(of: ".", with: "_")
+                .lowercased()
+        }
+
+        private static func validateDistributionName(_ name: String, key: String) throws {
+            let pattern = #"^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?$"#
+            guard name.range(of: pattern, options: .regularExpression) != nil else {
+                throw ValidationError("fishy-joes.yaml value for key `\(key)` is not a valid Python distribution name")
+            }
+        }
+
+        private static func validateImportPackageName(_ name: String, key: String) throws {
+            let pattern = #"^[A-Za-z_][A-Za-z0-9_]*$"#
+            let pythonKeywords: Set<String> = [
+                "False", "None", "True", "and", "as", "assert", "async", "await", "break",
+                "class", "continue", "def", "del", "elif", "else", "except", "finally",
+                "for", "from", "global", "if", "import", "in", "is", "lambda", "nonlocal",
+                "not", "or", "pass", "raise", "return", "try", "while", "with", "yield",
+            ]
+            guard name.range(of: pattern, options: .regularExpression) != nil,
+                  !pythonKeywords.contains(name)
+            else {
+                throw ValidationError("fishy-joes.yaml value for key `\(key)` is not a valid Python import package name")
+            }
+        }
+    }
+
+    struct PythonDependencyConfig: Codable, Equatable {
+        let distributionName: String?
+        let importPackageName: String?
     }
 
     struct CIRunners: Codable {
@@ -112,6 +199,8 @@ struct ProjectConfig: Codable {
                 throw ValidationError(#"fishy-joes.yaml value for key `sourceryOverride` is \#(obj), not e.g. `{"remote": "krzysztofzablocki/Sourcery@x.y.z"}`, `{"local": "/path/to/sourcery"}`, or `{"local": null}`"#)
             }
         }
+        let python = try readPythonConfig(configDictionary["python"])
+        try python.validate(module: module)
         let ciRunners = try configDictionary["CIRunners"].map { obj -> CIRunners in
             guard let dict = obj as? [String: Any] else {
                 throw ValidationError("fishy-joes.yaml value for key `CIRunners` is not a [String: String] dictionary")
@@ -140,9 +229,61 @@ struct ProjectConfig: Codable {
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
             flexibleVersions: flexibleVersions,
+            python: python,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
             ciDependencyAuth: ciDependencyAuth
+        )
+    }
+
+    private static func readPythonConfig(_ obj: Any?) throws -> PythonConfig {
+        guard let obj else {
+            return .default
+        }
+        guard let dictionary = obj as? [String: Any] else {
+            throw ValidationError("fishy-joes.yaml value for key `python` is not a dictionary")
+        }
+
+        func stringValue(_ key: String) throws -> String? {
+            guard let value = dictionary[key] else {
+                return nil
+            }
+            guard let string = value as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `python.\(key)` is not a string")
+            }
+            return string
+        }
+
+        var dependencies: [String: PythonDependencyConfig] = [:]
+        if let dependenciesObject = dictionary["dependencies"] {
+            guard let dependenciesDictionary = dependenciesObject as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `python.dependencies` is not a dictionary")
+            }
+            for (module, dependencyObject) in dependenciesDictionary {
+                guard let dependencyDictionary = dependencyObject as? [String: Any] else {
+                    throw ValidationError("fishy-joes.yaml value for key `python.dependencies.\(module)` is not a dictionary")
+                }
+                func dependencyStringValue(_ key: String) throws -> String? {
+                    guard let value = dependencyDictionary[key] else {
+                        return nil
+                    }
+                    guard let string = value as? String else {
+                        throw ValidationError("fishy-joes.yaml value for key `python.dependencies.\(module).\(key)` is not a string")
+                    }
+                    return string
+                }
+                dependencies[module] = PythonDependencyConfig(
+                    distributionName: try dependencyStringValue("distributionName"),
+                    importPackageName: try dependencyStringValue("importPackageName")
+                )
+            }
+        }
+
+        return PythonConfig(
+            distributionName: try stringValue("distributionName"),
+            importPackageName: try stringValue("importPackageName"),
+            runtimeDistributionName: try stringValue("runtimeDistributionName") ?? PythonConfig.default.runtimeDistributionName,
+            dependencies: dependencies
         )
     }
 }

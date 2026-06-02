@@ -184,7 +184,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(AssociatedDataEnum) -->
      */
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.None | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
         /**
@@ -205,6 +205,11 @@ export declare namespace TestAPI {
          * Documentation about noValue
          */
         export class NoValue {
+            constructor()
+        }
+
+        interface None extends AssociatedDataEnum_Common {}
+        export class None {
             constructor()
         }
 
@@ -273,6 +278,13 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(delayedConst) -->
+         */
+        function delayedConst(
+            nanoseconds: number
+        ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -814,6 +826,35 @@ export declare namespace TestAPI {
      */
     export type DefaultArguments = never;
     export namespace DefaultArguments {
+        /**
+         * <!-- FishyJoes.export(describeEnumDefault) -->
+         */
+        function describeEnumDefault(
+            value: number,
+            options?: {
+                "color"?: TestAPI.SimpleEnum /* defaults to `.blue` */,
+            }
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
+         */
+        function echoDefaultIntLimits(
+            options?: {
+                "minValue"?: number /* defaults to `.min` */,
+                "maxValue"?: number /* defaults to `.max` */,
+            }
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultTolerance) -->
+         */
+        function echoDefaultTolerance(
+            options?: {
+                "tolerance"?: number /* defaults to `Double.ulpOfOne.squareRoot()` */,
+            }
+        ): number;
+
         /**
          * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
@@ -2188,6 +2229,83 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.export(ProtocolWitnesses) -->
+     */
+    export type ProtocolWitnesses = never;
+    export namespace ProtocolWitnesses {
+        /**
+         * <!-- FishyJoes.export(describeAProtocol) -->
+         */
+        function describeAProtocol(
+            value: TestAPI.AProtocol,
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(returnAProtocol) -->
+         */
+        function returnAProtocol(
+            value: TestAPI.AProtocol
+        ): TestAPI.AProtocol;
+    }
+
+    /**
+     * <!-- FishyJoes.export(PythonNamingCollisions) -->
+     */
+    export type PythonNamingCollisions = never;
+    export namespace PythonNamingCollisions {
+        /**
+         * <!-- FishyJoes.export(URL) -->
+         */
+        const URL: string;
+
+        /**
+         * <!-- FishyJoes.export(Url) -->
+         */
+        const Url: string;
+
+        /**
+         * <!-- FishyJoes.export(__dunder__) -->
+         */
+        const __dunder__: number;
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscore) -->
+         */
+        const _leadingUnderscore: number;
+
+        /**
+         * <!-- FishyJoes.export(class) -->
+         */
+        const class: number;
+
+        /**
+         * <!-- FishyJoes.export(from) -->
+         */
+        function from(
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(isNaN) -->
+         */
+        const isNaN: boolean;
+
+        /**
+         * <!-- FishyJoes.export(keywordArgs) -->
+         */
+        function keywordArgs(
+            `class`: number,
+            list: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(list) -->
+         */
+        const list: number;
+    }
+
+    /**
      * <!-- FishyJoes.export(Ranges) -->
      */
     export type Ranges = never;
@@ -2334,6 +2452,26 @@ export declare namespace TestAPI {
          */
         function notGoingToHappen(
         ): TestAPI.ReferenceEmptyEnum;
+    }
+
+    /**
+     * <!-- FishyJoes.export(ReferenceOnlyTypes) -->
+     */
+    export type ReferenceOnlyTypes = never;
+    export namespace ReferenceOnlyTypes {
+        /**
+         * <!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->
+         */
+        export class Marker {
+            private constructor()
+            private _inhibitStructuralTyping: any
+        }
+
+        /**
+         * <!-- FishyJoes.export(marker) -->
+         */
+        function marker(
+        ): TestAPI.ReferenceOnlyTypes.Marker;
     }
 
     /**

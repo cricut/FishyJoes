@@ -87,6 +87,7 @@ public struct PackageInit: ParsableCommand {
             excludeSources: excludeSources.split(separator: " ").map(String.init),
             ciPreBuildHook: nil,
             flexibleVersions: false,
+            python: .default,
             sourceryOverride: nil,
             ciRunners: nil,
             ciDependencyAuth: nil

@@ -126,7 +126,6 @@ void main() async {
     io.stderr.writeln("  or set environment variables GITHUB_USER and GITHUB_TOKEN");
     io.stderr.writeln("");
   }
-  print("using $githubCreds");
 
   await io.Directory('native/download-cache/').create(recursive: true);
   for (final tarballSource in tarballSources) {
@@ -139,11 +138,13 @@ void main() async {
         (file) => io.Directory("${tarballSource.path}/$file").existsSync(),
       );
       if (existingFiles.isEmpty) {
-        io.stderr.writeln("Expected built libraries in at least one of:");
+        io.stderr.writeln("No built native library archive directories found for local path dependency '${tarballSource.repoName}'.");
+        io.stderr.writeln("Continuing because the active generated package build may provide the required native libraries.");
+        io.stderr.writeln("Checked:");
         for (final file in tarballSource.files) {
           io.stderr.writeln("  ${tarballSource.path}/$file");
         }
-        io.exit(0);
+        continue;
       }
       final tarResult = await io.Process.run('tar', ['-cvzf', archivePath, '-C', tarballSource.path, ...existingFiles]);
       io.stdout.write(tarResult.stdout);

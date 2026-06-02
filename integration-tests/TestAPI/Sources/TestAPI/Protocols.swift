@@ -51,6 +51,21 @@ public struct AProtocolImplementation: AProtocol {
     }
 }
 
+/// <!-- FishyJoes.export(ProtocolWitnesses) -->
+public enum ProtocolWitnesses {
+    /// <!-- FishyJoes.export(describeAProtocol) -->
+    public static func describeAProtocol(_ value: AProtocol, x: Int, y: Int) throws -> String {
+        let returned = try value.bar(x: x, y: y)
+        let defaulted = try value.hasADefaultImplementation(x: x, y: Double(y))
+        return "\(try value.foo)|\(try value.baz)|\(try returned.foo)|\(try returned.baz)|\(defaulted)"
+    }
+
+    /// <!-- FishyJoes.export(returnAProtocol) -->
+    public static func returnAProtocol(_ value: AProtocol) -> AProtocol {
+        value
+    }
+}
+
 /// <!-- FishyJoes.export(TestMethodsProtocol) -->
 public protocol TestMethodsProtocol {
     /// <!-- FishyJoes.export(foo) -->

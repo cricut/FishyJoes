@@ -24,6 +24,13 @@ A system is set up if running the following command succeeds when run in the sam
 
 Bindings are only generated for Swift types which have been annotated for export. Examples of exports are given below:
 
+Export annotations must be Swift documentation comments immediately above the
+declaration they describe. FishyJoes uses the documentation attached by Sourcery
+as the source of truth for generation. A `FishyJoes.export`,
+`FishyJoes.exportReference`, or `FishyJoes.exportAsMethod` comment inside a
+function body, after a declaration line, or otherwise unattached to a
+declaration is ignored for generation and reported as a warning.
+
 ```swift
 // Export a Swift named type for use in foreign languages
 //
@@ -85,6 +92,13 @@ public struct SomeSwiftType {
     // This example would export as "AbcMethod" in C# without the annotation
     /// <!-- FishyJoes.export(abcMethod, cSharp: ABCMethod) -->
     public func abcMethod() { /* ... */ }
+}
+
+// Invalid: this annotation is inside the method body, so it is not attached to
+// the declaration and FishyJoes will warn that it is ignored.
+public func misplacedExportExample() -> Int {
+    /// <!-- FishyJoes.export(misplacedExportExample) -->
+    return 1
 }
 ```
 

@@ -26,6 +26,9 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Dart package")
     var dart = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Python package")
+    var python = false
+
     @Flag(name: [.long, .customLong("wasmopt")], inversion: .prefixedNo, help: "Additional wasm optimizations (takes some time)")
     var wasmOpt = true
 
@@ -70,6 +73,7 @@ public class CodeGen: ParsableCommand {
         case kotlinFast
         case cSharp
         case dart
+        case python
         case wasmOpt
         case version
         case buildStep
@@ -81,16 +85,19 @@ public class CodeGen: ParsableCommand {
 
     var config: ProjectConfig!
     var packageInfo: SwiftPackage!
+    let packageRootPath = FileManager.default.currentDirectoryPath
+    lazy var editedDependencyPaths = SwiftPMWorkspaceState.current.editedDependencyPaths
 
     lazy var buildConfig: BuildConfiguration = {
         // the "module-bindings" subdirectory is needed to avoid this: https://stackoverflow.com/a/71759561
         let swiftBindingsRoot = "bindings/swift-interfaces/generated/\(config.module)-bindings"
 
         // Assemble a build configuration from passed arguments
-        let localPathsNeeded = packageInfo.dependencyMap.entries.values.map(\.localPath)
+        let localPathsNeeded = packageInfo.dependencyMap.entries.values.map { localPath(for: $0) }
 
+        let preferResolvedLocalDependencies = ProcessInfo.processInfo.environment["FISHYJOES"] == "1"
         var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
-            "FishyJoes": .init(from: fishyJoesDependency)
+            "FishyJoes": packageDependency(fishyJoesDependency, preferResolvedLocalPath: preferResolvedLocalDependencies)
         ]
 
         for moduleName in config.requiredModules {
@@ -99,9 +106,9 @@ public class CodeGen: ParsableCommand {
             }
 
             // Sadly, this needs to be an absolute path because it may by used by several `Package.swift`s in different directories.
-            let repoRoot = URL(fileURLWithPath: dependency.localPath).path
+            let repoRoot = URL(fileURLWithPath: localPath(for: dependency)).path
 
-            injectedDependencies[moduleName] = PackageDotSwiftDependency.Dependency(from: dependency)
+            injectedDependencies[moduleName] = packageDependency(dependency, preferResolvedLocalPath: preferResolvedLocalDependencies)
             injectedDependencies["\(moduleName)-bindings"] = .local(
                 path: "\(repoRoot)/bindings/swift-interfaces/generated/\(moduleName)-bindings"
             )
@@ -125,7 +132,7 @@ public class CodeGen: ParsableCommand {
             Log.error("Couldn't locate FishyJoes dependency in Package.swift")
             fatalError()
         }
-        printAndFlush("Found FishyJoes at: \(fishyJoesDependency.localPath)")
+        printAndFlush("Found FishyJoes at: \(localPath(for: fishyJoesDependency))")
         return fishyJoesDependency
     }()
 
@@ -135,6 +142,31 @@ public class CodeGen: ParsableCommand {
 }
 
 extension CodeGen {
+    func localPath(for dependency: SwiftPackage.Dependency) -> String {
+        editedDependencyPaths[dependency.identity.lowercased()] ?? dependency.localPath
+    }
+
+    func absoluteLocalPath(for dependency: SwiftPackage.Dependency) -> String {
+        URL(
+            fileURLWithPath: localPath(for: dependency),
+            relativeTo: URL(fileURLWithPath: packageRootPath, isDirectory: true)
+        ).standardizedFileURL.path
+    }
+
+    func packageDependency(
+        _ dependency: SwiftPackage.Dependency,
+        preferResolvedLocalPath: Bool
+    ) -> PackageDotSwiftDependency.Dependency {
+        if preferResolvedLocalPath, let editedPath = editedDependencyPaths[dependency.identity.lowercased()] {
+            return .local(path: editedPath)
+        }
+
+        return PackageDotSwiftDependency.Dependency(
+            from: dependency,
+            preferResolvedLocalPath: preferResolvedLocalPath
+        )
+    }
+
     public func validate() throws {
         ExternalCommand.verbose = !quiet
 
@@ -171,6 +203,9 @@ extension CodeGen {
         if dart {
             platforms.append(.dart)
         }
+        if python {
+            platforms.append(.python)
+        }
 
         if !Set(buildStep).isDisjoint(with: [.build, .test, .pack]) && platforms.isEmpty {
             throw ValidationError("Must specify at least one platform when building, testing, or packing")
@@ -181,9 +216,10 @@ extension CodeGen {
         // Locate dependency bindings modules required by this bindings module
         var dependencyBindingsPaths: [String: String] = [config.module: "."]
         for moduleName in config.requiredModules {
-            guard let dependencyPath = packageInfo.dependencyMap[moduleName]?.localPath else {
+            guard let dependency = packageInfo.dependencyMap[moduleName] else {
                 fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
             }
+            let dependencyPath = localPath(for: dependency)
             let dependencySourcesPath = "\(dependencyPath)/bindings"
             dependencyBindingsPaths[moduleName] = dependencySourcesPath
         }
@@ -214,6 +250,7 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let generatedSwiftTargets = ["WasmMainShim", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
+            let pythonImportPackageName = config.python.importPackageName(forModule: config.module)
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
@@ -223,11 +260,15 @@ extension CodeGen {
                 "bindings/kotlin/generated/src/main/kotlin/com/cricut/\(config.module.lowercased())",
                 "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
+                "bindings/python/generated/src/\(pythonImportPackageName)",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
+            try cmd("rm", "-rf", "bindings/ts/generated").run()
+            try cmd("rm", "-rf", "bindings/ts/tests/generated").run()
             try cmd("rm", "-rf", "bindings/kotlin/generated").run()
             try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
             try cmd("rm", "-rf", "bindings/dart/generated").run()
+            try cmd("rm", "-rf", "bindings/python/generated/src").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             for target in generatedSwiftTargets {
                 try cmd("echo")
@@ -404,7 +445,7 @@ extension CodeGen {
                 .output(overwritingFile: "\(swiftBindingsRoot)/Package.swift")
                 .input(fragment.contents).run()
 
-            let localFishyJoesPath = packageInfo.dependencyMap["FishyJoes"]!.localPath
+            let localFishyJoesPath = localPath(for: packageInfo.dependencyMap["FishyJoes"]!)
             let sourceryDataModelSwift = try String(
                 contentsOfFile: "\(localFishyJoesPath)/Sources/SourceryDataModel/SourceryDataModel.swift"
             )
@@ -447,8 +488,20 @@ extension CodeGen {
             let context = FishyJoesContext(
                 context: sourceryDump,
                 module: config.module,
+                pythonImportPackageName: pythonImportPackageName,
+                pythonDependencyImportPackageNames: Dictionary(
+                    uniqueKeysWithValues: config.requiredModules.map {
+                        ($0, config.python.dependencyImportPackageName(forModule: $0))
+                    }
+                ),
                 requiredModulePaths: fishyJoesModuleFiles,
                 extraDynamicLibraries: config.extraDynamicLibraries
+            )
+            try ExportAnnotationDiagnostics.warnMisplacedAnnotations(
+                inSourceRoot: translateeSources,
+                excluding: config.excludeSources,
+                templateContext: sourceryDump,
+                context: context
             )
 
             for (path, contents) in SourceFragment.combine(fragments: context.translateAll()) {
@@ -529,6 +582,8 @@ extension CodeGen {
             return CSharpPhases(platform: platform, options: self)
         case .dart:
             return DartPhases(platform: platform, options: self)
+        case .python:
+            return PythonPhases(platform: platform, options: self)
         }
     }
 }
