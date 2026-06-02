@@ -167,6 +167,13 @@ asyncio.run(main())
         with self.assertRaisesRegex(ValueError, "python async callback failed"):
             await functions.exercise0(throw_from_python)
 
+    async def test_async_method_returning_uint(self) -> None:
+        # asyncSleep is exercised in every other language binding but was missing here;
+        # it also covers awaiting a Swift async method that returns the UInt width.
+        result = await self.testapi.Methods.create().async_sleep()
+        self.assertIsInstance(result, int)
+        self.assertGreaterEqual(result, 0)
+
 
 if __name__ == "__main__":
     unittest.main()

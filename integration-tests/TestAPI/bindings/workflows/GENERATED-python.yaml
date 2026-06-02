@@ -16,16 +16,18 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ github.token }}
-  GITHUB_USER: ${{ github.actor }}
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
 
 jobs:
   build-test-python-mac:
     name: "macOS Python ${{ matrix.python-version }}: build, test, pack"
-    runs-on: sojo-macos
+    runs-on: macos-26
     strategy:
       fail-fast: false
       matrix:
@@ -36,15 +38,9 @@ jobs:
           - '3.14'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -114,6 +110,11 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # The wheel was already clean-installed above (--no-index, runtime deps only),
+          # proving the minimal install works. The suite includes tooling tests (mypy
+          # type-check, native-repair introspection), so install the dev tools they need
+          # before running the full suite against the installed wheel.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
@@ -139,7 +140,7 @@ jobs:
 
   build-test-python-linux:
     name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
-    runs-on: k8s
+    runs-on: ubuntu-22.04
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -155,15 +156,9 @@ jobs:
           - '3.14'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -226,6 +221,11 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # The wheel was already clean-installed above (--no-index, runtime deps only),
+          # proving the minimal install works. The suite includes tooling tests (mypy
+          # type-check, native-repair introspection), so install the dev tools they need
+          # before running the full suite against the installed wheel.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
@@ -268,15 +268,9 @@ jobs:
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ github.token }}
-
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://${{ github.actor }}:${{ github.token }}@github.com/
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -354,6 +348,11 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # The wheel was already clean-installed above (--no-index, runtime deps only),
+          # proving the minimal install works. The suite includes tooling tests (mypy
+          # type-check, native-repair introspection), so install the dev tools they need
+          # before running the full suite against the installed wheel.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair

@@ -22,7 +22,7 @@ env:
 jobs:
   python-bindings-macos:
     name: "macOS Python ${{ matrix.python-version }}: build, test, pack"
-    runs-on: sojo-macos
+    runs-on: macos-26
     strategy:
       fail-fast: false
       matrix:
@@ -84,6 +84,9 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
@@ -102,7 +105,7 @@ jobs:
 
   python-bindings-linux:
     name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
-    runs-on: k8s
+    runs-on: ubuntu-22.04
     container:
       image: ghcr.io/cricut/android-swift-runtime:4.0.2
       credentials:
@@ -162,6 +165,9 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
@@ -260,6 +266,9 @@ jobs:
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair

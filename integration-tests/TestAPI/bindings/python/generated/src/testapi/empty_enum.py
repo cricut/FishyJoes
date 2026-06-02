@@ -16,7 +16,7 @@ class EmptyEnum:
         "not_going_to_happen": "TestAPI.EmptyEnum.notGoingToHappen",
     }
 
-    a_static_property = _native.check(lambda exn: _fj___iota_get_TestAPI_EmptyEnum_aStaticProperty(_native.env, exn))
+    a_static_property = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_EmptyEnum_aStaticProperty(_native.env, exn)))
 
     @staticmethod
     def a_static_method():

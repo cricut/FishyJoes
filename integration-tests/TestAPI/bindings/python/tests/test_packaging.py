@@ -42,8 +42,8 @@ class PackagingTests(unittest.TestCase):
         contents = workflow.read_text()
         for python_version in ["3.11", "3.12", "3.13", "3.14"]:
             self.assertIn(f"- '{python_version}'", contents)
-        self.assertIn("runs-on: sojo-macos", contents)
-        self.assertIn("runs-on: k8s", contents)
+        self.assertIn("runs-on: macos-26", contents)
+        self.assertIn("runs-on: ubuntu-22.04", contents)
         self.assertIn("runs-on: windows-2025", contents)
         self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)
         self.assertIn("swift run -- fishy-joes --python generate build test pack", contents)
@@ -70,8 +70,8 @@ class PackagingTests(unittest.TestCase):
         contents = workflow.read_text()
         for python_version in ["3.11", "3.12", "3.13", "3.14"]:
             self.assertIn(f'- "{python_version}"', contents)
-        self.assertIn("runs-on: sojo-macos", contents)
-        self.assertIn("runs-on: k8s", contents)
+        self.assertIn("runs-on: macos-26", contents)
+        self.assertIn("runs-on: ubuntu-22.04", contents)
         self.assertIn("runs-on: windows-2025", contents)
         self.assertIn("cd integration-tests/TestAPI", contents)
         self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)

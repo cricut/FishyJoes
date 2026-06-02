@@ -493,12 +493,14 @@ final class PythonTranslator: Translator {
                         } else {
                             valueExpression = "_native.check(lambda exn: \(fieldFunction)(_native.env, exn))"
                         }
+                        // Always wrap in StaticProperty so the value is fetched lazily on
+                        // each access. A read-only `static var { get }` can change between
+                        // reads, so eagerly evaluating and freezing it at import time would
+                        // serve a stale value.
                         if let deprecationMessage = field.deprecationMessage {
                             fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: _native.deprecated_getter(lambda: \(valueExpression), \"\(deprecationMessage)\"))")
-                        } else if field.returnConversion != nil {
-                            fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: \(valueExpression))")
                         } else {
-                            fragment.output("\(field.pythonName) = \(valueExpression)")
+                            fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: \(valueExpression))")
                         }
                     } else {
                         fragment.output("@property")
@@ -1133,7 +1135,7 @@ final class PythonTranslator: Translator {
             switch primitive.sourceType.name {
             case "Swift.Bool":
                 return PythonType(annotation: "bool")
-            case "Swift.Int", "Swift.Int32":
+            case "Swift.Int", "Swift.Int8", "Swift.Int16", "Swift.Int32", "Swift.Int64":
                 return PythonType(annotation: "int")
             case "Swift.Float", "Swift.Double":
                 return PythonType(annotation: "float")
@@ -1143,7 +1145,7 @@ final class PythonTranslator: Translator {
         }
         if let unsignedPrimitive = type as? TranslatedUnsignedPrimitive {
             switch unsignedPrimitive.sourceType.name {
-            case "Swift.UInt8":
+            case "Swift.UInt", "Swift.UInt8", "Swift.UInt16", "Swift.UInt32", "Swift.UInt64":
                 return PythonType(annotation: "int")
             default:
                 return nil
@@ -1599,6 +1601,8 @@ final class PythonTranslator: Translator {
             return "\(nativeModuleName).UINT32"
         case "uint64_t":
             return "\(nativeModuleName).UINT64"
+        case "float":
+            return "\(nativeModuleName).FLOAT"
         case "double":
             return "\(nativeModuleName).DOUBLE"
         case "void":

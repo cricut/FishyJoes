@@ -104,7 +104,6 @@ FishyJoes/
 │       └── ... shared runtime tests for pure Python behavior only
 └── MyGreatLibrary/bindings/
     └── python/
-        ├── pyproject.override.toml    // Optional publisher/project metadata overlay
         ├── generated/
         │   ├── _build_wheel.py
         │   ├── pyproject.toml

@@ -28,11 +28,11 @@ class PythonNamingCollisions:
         "url_2": "TestAPI.PythonNamingCollisions.Url",
     }
 
-    class_ = _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_class(_native.env, exn))
-    dunder = _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions___dunder__(_native.env, exn))
-    is_nan = _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_isNaN(_native.env, exn))
-    leading_underscore = _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(_native.env, exn))
-    list = _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_list(_native.env, exn))
+    class_ = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_class(_native.env, exn)))
+    dunder = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions___dunder__(_native.env, exn)))
+    is_nan = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_isNaN(_native.env, exn)))
+    leading_underscore = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(_native.env, exn)))
+    list = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_PythonNamingCollisions_list(_native.env, exn)))
     url = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_PythonNamingCollisions_URL, args=[], return_conversion=_native.STRING))
     url_2 = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_PythonNamingCollisions_Url, args=[], return_conversion=_native.STRING))
 

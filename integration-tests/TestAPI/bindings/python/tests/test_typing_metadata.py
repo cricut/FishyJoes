@@ -58,6 +58,18 @@ class TypingMetadataTests(unittest.TestCase):
         self.assertIn("const42: ClassVar[Callable[[], Awaitable[int]]]", async_stub)
         self.assertIn("def delayed_const(nanoseconds: int) -> Awaitable[int]: ...", async_stub)
 
+    def test_all_integer_widths_have_precise_stub_types(self) -> None:
+        # Every fixed-width integer must annotate as `int` in the stubs. A regression
+        # that wires up a width's runtime conversion but forgets pythonType(for:) would
+        # degrade it to `Any` here (silently, since `Any` still type-checks).
+        primitives_stub = (PACKAGE_DIR / "primitives.pyi").read_text()
+        for width in ("int8", "int16", "int64", "uint", "uint16", "uint32", "uint64"):
+            self.assertIn(
+                "def echo_%s(value: int) -> int: ..." % width,
+                primitives_stub,
+                "echo_%s is not typed as int (degraded to Any?)" % width,
+            )
+
     def test_generated_package_type_checks_with_mypy(self) -> None:
         env = os.environ.copy()
         env["MYPYPATH"] = os.pathsep.join(

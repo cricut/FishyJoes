@@ -46,6 +46,20 @@ typedef int32_t (*FishyJoes_Int32ValueFn)(foreignObject object, foreignOutExn ex
 typedef foreignObject (*FishyJoes_Int32ConstructorFn)(int32_t value);
 typedef uint8_t (*FishyJoes_UInt8ValueFn)(foreignObject object, foreignOutExn exn);
 typedef foreignObject (*FishyJoes_UInt8ConstructorFn)(uint8_t value);
+typedef int8_t (*FishyJoes_Int8ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_Int8ConstructorFn)(int8_t value);
+typedef int16_t (*FishyJoes_Int16ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_Int16ConstructorFn)(int16_t value);
+typedef int64_t (*FishyJoes_Int64ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_Int64ConstructorFn)(int64_t value);
+typedef uintptr_t (*FishyJoes_UIntValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_UIntConstructorFn)(uintptr_t value);
+typedef uint16_t (*FishyJoes_UInt16ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_UInt16ConstructorFn)(uint16_t value);
+typedef uint32_t (*FishyJoes_UInt32ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_UInt32ConstructorFn)(uint32_t value);
+typedef uint64_t (*FishyJoes_UInt64ValueFn)(foreignObject object, foreignOutExn exn);
+typedef foreignObject (*FishyJoes_UInt64ConstructorFn)(uint64_t value);
 typedef float_t (*FishyJoes_FloatValueFn)(foreignObject object, foreignOutExn exn);
 typedef foreignObject (*FishyJoes_FloatConstructorFn)(float_t value);
 typedef double (*FishyJoes_DoubleValueFn)(foreignObject object, foreignOutExn exn);
@@ -119,6 +133,41 @@ void Swift_UInt8_setup(
     EnvRef envRef,
     FishyJoes_UInt8ValueFn valueMethod,
     FishyJoes_UInt8ConstructorFn constructor
+);
+void Swift_Int8_setup(
+    EnvRef envRef,
+    FishyJoes_Int8ValueFn valueMethod,
+    FishyJoes_Int8ConstructorFn constructor
+);
+void Swift_Int16_setup(
+    EnvRef envRef,
+    FishyJoes_Int16ValueFn valueMethod,
+    FishyJoes_Int16ConstructorFn constructor
+);
+void Swift_Int64_setup(
+    EnvRef envRef,
+    FishyJoes_Int64ValueFn valueMethod,
+    FishyJoes_Int64ConstructorFn constructor
+);
+void Swift_UInt_setup(
+    EnvRef envRef,
+    FishyJoes_UIntValueFn valueMethod,
+    FishyJoes_UIntConstructorFn constructor
+);
+void Swift_UInt16_setup(
+    EnvRef envRef,
+    FishyJoes_UInt16ValueFn valueMethod,
+    FishyJoes_UInt16ConstructorFn constructor
+);
+void Swift_UInt32_setup(
+    EnvRef envRef,
+    FishyJoes_UInt32ValueFn valueMethod,
+    FishyJoes_UInt32ConstructorFn constructor
+);
+void Swift_UInt64_setup(
+    EnvRef envRef,
+    FishyJoes_UInt64ValueFn valueMethod,
+    FishyJoes_UInt64ConstructorFn constructor
 );
 void Swift_Float_setup(
     EnvRef envRef,

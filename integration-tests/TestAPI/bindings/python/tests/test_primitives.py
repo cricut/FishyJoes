@@ -105,6 +105,27 @@ class PrimitiveTests(unittest.TestCase):
             self.assertEqual(echo(low), low)
             self.assertEqual(echo(high), high)
 
+    def test_all_integer_width_boxed_round_trip(self) -> None:
+        # The boxed/foreignObject path (Optional here) round-trips each width in BOTH
+        # directions, which requires the native per-width converter setup (valueMethod +
+        # constructor). The scalar echo path is cffi-direct and does NOT exercise this,
+        # so this is the regression test for the missing Swift_<Width>_setup wiring.
+        primitives = self.testapi.Primitives
+
+        cases = [
+            (primitives.maybe_echo_int8, primitives.min_int8, primitives.max_int8),
+            (primitives.maybe_echo_int16, primitives.min_int16, primitives.max_int16),
+            (primitives.maybe_echo_int64, primitives.min_int64, primitives.max_int64),
+            (primitives.maybe_echo_uint, primitives.min_uint, primitives.max_uint),
+            (primitives.maybe_echo_uint16, primitives.min_uint16, primitives.max_uint16),
+            (primitives.maybe_echo_uint32, primitives.min_uint32, primitives.max_uint32),
+            (primitives.maybe_echo_uint64, primitives.min_uint64, primitives.max_uint64),
+        ]
+        for echo, low, high in cases:
+            self.assertIsNone(echo(None))
+            self.assertEqual(echo(low), low)
+            self.assertEqual(echo(high), high)
+
     def test_integer_width_range_validation(self) -> None:
         primitives = self.testapi.Primitives
 
@@ -117,6 +138,29 @@ class PrimitiveTests(unittest.TestCase):
             primitives.maybe_echo_uint16(-1)
         with self.assertRaises(ValueError):
             primitives.maybe_echo_uint16(2**16)
+
+    def test_bare_scalar_echo_rejects_out_of_range(self) -> None:
+        # The bare-scalar path marshals through cffi directly; out-of-range input must
+        # still be rejected (cffi raises OverflowError) rather than silently truncating.
+        primitives = self.testapi.Primitives
+
+        with self.assertRaises((ValueError, OverflowError)):
+            primitives.echo_int8(2**7)
+        with self.assertRaises((ValueError, OverflowError)):
+            primitives.echo_uint8(256)
+        with self.assertRaises((ValueError, OverflowError)):
+            primitives.echo_uint64(2**64)
+
+    def test_holder_static_mutable_property_round_trip(self) -> None:
+        # Covers the type-based metaclass path (_Primitives_PrimitiveHolderMeta) with a
+        # composite ([UInt8?]) value flowing through the static setter to native.
+        holder = self.testapi.Primitives_PrimitiveHolder
+        original = holder.static_mutable_property
+        try:
+            holder.static_mutable_property = [None, 1, 255]
+            self.assertEqual(holder.static_mutable_property, [None, 1, 255])
+        finally:
+            holder.static_mutable_property = original
 
 
 if __name__ == "__main__":

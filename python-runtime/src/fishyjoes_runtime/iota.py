@@ -833,6 +833,10 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
                 if _is_shutdown:
                     raise RuntimeError("FishyJoes runtime has been shut down")
                 _pending_promises.add(self)
+            # Forget the promise if the awaiter cancels (or otherwise completes) the
+            # future before Swift calls back, instead of leaking it in _pending_promises
+            # until shutdown(). _forget is idempotent and lock-guarded.
+            future.add_done_callback(lambda _: self._forget())
 
         def resolve(self, result_ref):
             if self.future.done():
@@ -1225,6 +1229,44 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         return _new_handle(int(value))
 
 
+    # The fixed-width integer converters are mechanically identical, differing only by
+    # C type and range validator, so build them from a factory rather than repeating the
+    # boilerplate per width. (Bool/Int/Int32/UInt8/Float/Double keep their bespoke
+    # definitions above because several have non-uniform bodies.)
+    def _make_primitive_value_callback(c_type, validator):
+        @ffi.callback(c_type + "(foreignObject, foreignOutExn)")
+        def callback_value(obj, exn):
+            try:
+                return validator(ffi.from_handle(obj))
+            except BaseException as error:
+                exn[0] = _new_handle(error)
+                return 0
+
+        return callback_value
+
+    def _make_primitive_constructor(c_type):
+        @ffi.callback("foreignObject(" + c_type + ")")
+        def constructor(value):
+            return _new_handle(int(value))
+
+        return constructor
+
+    _int8_callback_value = _make_primitive_value_callback("int8_t", _int8_value)
+    _int8_constructor = _make_primitive_constructor("int8_t")
+    _int16_callback_value = _make_primitive_value_callback("int16_t", _int16_value)
+    _int16_constructor = _make_primitive_constructor("int16_t")
+    _int64_callback_value = _make_primitive_value_callback("int64_t", _int64_value)
+    _int64_constructor = _make_primitive_constructor("int64_t")
+    _uint_callback_value = _make_primitive_value_callback("uintptr_t", _uint_value)
+    _uint_constructor = _make_primitive_constructor("uintptr_t")
+    _uint16_callback_value = _make_primitive_value_callback("uint16_t", _uint16_value)
+    _uint16_constructor = _make_primitive_constructor("uint16_t")
+    _uint32_callback_value = _make_primitive_value_callback("uint32_t", _uint32_value)
+    _uint32_constructor = _make_primitive_constructor("uint32_t")
+    _uint64_callback_value = _make_primitive_value_callback("uint64_t", _uint64_value)
+    _uint64_constructor = _make_primitive_constructor("uint64_t")
+
+
     @ffi.callback("double(foreignObject, foreignOutExn)")
     def _double_callback_value(obj, exn):
         try:
@@ -1468,7 +1510,11 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             def attach_done_callback():
                 future.add_done_callback(lambda completed: _invoke_future_sink_handler(descriptor, completed, handler_context))
 
-            if loop is None:
+            # Mirror _FuturePromise._schedule: when the owning loop is absent, already
+            # closed, or is the current loop, attach inline rather than hopping through
+            # call_soon_threadsafe (which raises on a closed loop and would strand the
+            # Swift sink handler).
+            if loop is None or loop.is_closed() or _running_loop_or_none() is loop:
                 attach_done_callback()
             else:
                 loop.call_soon_threadsafe(attach_done_callback)
@@ -1591,6 +1637,20 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         _bool_callback_value,
         _uint8_callback_value,
         _uint8_constructor,
+        _int8_callback_value,
+        _int8_constructor,
+        _int16_callback_value,
+        _int16_constructor,
+        _int64_callback_value,
+        _int64_constructor,
+        _uint_callback_value,
+        _uint_constructor,
+        _uint16_callback_value,
+        _uint16_constructor,
+        _uint32_callback_value,
+        _uint32_constructor,
+        _uint64_callback_value,
+        _uint64_constructor,
         _int32_callback_value,
         _int32_constructor,
         _int_callback_value,
@@ -1671,6 +1731,41 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         env,
         _uint8_callback_value,
         _uint8_constructor,
+    )
+    runtime_lib.Swift_Int8_setup(
+        env,
+        _int8_callback_value,
+        _int8_constructor,
+    )
+    runtime_lib.Swift_Int16_setup(
+        env,
+        _int16_callback_value,
+        _int16_constructor,
+    )
+    runtime_lib.Swift_Int64_setup(
+        env,
+        _int64_callback_value,
+        _int64_constructor,
+    )
+    runtime_lib.Swift_UInt_setup(
+        env,
+        _uint_callback_value,
+        _uint_constructor,
+    )
+    runtime_lib.Swift_UInt16_setup(
+        env,
+        _uint16_callback_value,
+        _uint16_constructor,
+    )
+    runtime_lib.Swift_UInt32_setup(
+        env,
+        _uint32_callback_value,
+        _uint32_constructor,
+    )
+    runtime_lib.Swift_UInt64_setup(
+        env,
+        _uint64_callback_value,
+        _uint64_constructor,
     )
     runtime_lib.Swift_Float_setup(
         env,

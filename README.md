@@ -8,7 +8,7 @@ Maintainer: Cricut Inc. (Front-end Enablement Team)
 
 # Description
 
-Bindings generator for Swift library code so it can be called from TypeScript, Kotlin, C#, and Dart.
+Bindings generator for Swift library code so it can be called from TypeScript, Kotlin, C#, Dart, and Python.
 
 [What FishyJoes Can and Cannot Do](documentation/cans-and-cannots.md)
 
@@ -18,7 +18,7 @@ TODO: EmojiExplorer example
 
 A system is set up if running the following command succeeds when run in the same directory as Package.swift: 
 
-`swift run fishy-joes generate build test --wasm --kotlin-fast --c-sharp --dart --debug`
+`swift run fishy-joes generate build test --wasm --kotlin-fast --c-sharp --dart --python --debug`
 
 # Export Annotations
 

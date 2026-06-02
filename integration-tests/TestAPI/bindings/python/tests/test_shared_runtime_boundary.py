@@ -113,6 +113,23 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
         self.assertEqual(testapi.AttributedStrings.simple.string, "Hello")
 
+    def test_reference_finalizers_release_on_garbage_collection(self) -> None:
+        # ADR 0005: reference lifetime is driven by finalizers. Create a batch of Swift
+        # reference objects, drop all strong refs, and confirm they are collected (their
+        # weakref-driven finalizers ran) deterministically after gc.collect(), and that
+        # the runtime remains usable afterwards.
+        import weakref
+
+        testapi = importlib.import_module("testapi")
+
+        refs = [weakref.ref(testapi.Methods.create()) for _ in range(64)]
+        gc.collect()
+        alive = [r for r in refs if r() is not None]
+        self.assertEqual([], alive, "Swift reference wrappers were not collected/finalized")
+
+        # Runtime still works after a finalize/GC churn.
+        self.assertEqual(testapi.Methods.create().instance_get, 1234)
+
     def test_missing_native_libraries_fail_loudly(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             temp_src = Path(temp) / "src"

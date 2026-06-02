@@ -13,64 +13,64 @@ class Primitives:
     many_double: ClassVar[list[float]]
     many_float: ClassVar[list[float]]
     many_int: ClassVar[list[int]]
-    many_int16: ClassVar[Any]
+    many_int16: ClassVar[list[int]]
     many_int32: ClassVar[list[int]]
-    many_int64: ClassVar[Any]
-    many_int8: ClassVar[Any]
+    many_int64: ClassVar[list[int]]
+    many_int8: ClassVar[list[int]]
     many_maybe_bool: ClassVar[list[bool | None]]
     many_maybe_double: ClassVar[list[float | None]]
     many_maybe_float: ClassVar[list[float | None]]
     many_maybe_int: ClassVar[list[int | None]]
-    many_maybe_int16: ClassVar[Any]
+    many_maybe_int16: ClassVar[list[int | None]]
     many_maybe_int32: ClassVar[list[int | None]]
-    many_maybe_int64: ClassVar[Any]
-    many_maybe_int8: ClassVar[Any]
-    many_maybe_uint: ClassVar[Any]
-    many_maybe_uint16: ClassVar[Any]
-    many_maybe_uint32: ClassVar[Any]
-    many_maybe_uint64: ClassVar[Any]
+    many_maybe_int64: ClassVar[list[int | None]]
+    many_maybe_int8: ClassVar[list[int | None]]
+    many_maybe_uint: ClassVar[list[int | None]]
+    many_maybe_uint16: ClassVar[list[int | None]]
+    many_maybe_uint32: ClassVar[list[int | None]]
+    many_maybe_uint64: ClassVar[list[int | None]]
     many_maybe_uint8: ClassVar[list[int | None]]
-    many_uint: ClassVar[Any]
-    many_uint16: ClassVar[Any]
-    many_uint32: ClassVar[Any]
-    many_uint64: ClassVar[Any]
+    many_uint: ClassVar[list[int]]
+    many_uint16: ClassVar[list[int]]
+    many_uint32: ClassVar[list[int]]
+    many_uint64: ClassVar[list[int]]
     many_uint8: ClassVar[list[int]]
     max_double: ClassVar[float]
     max_float: ClassVar[float]
     max_int: ClassVar[int]
-    max_int16: ClassVar[Any]
+    max_int16: ClassVar[int]
     max_int32: ClassVar[int]
-    max_int64: ClassVar[Any]
-    max_int8: ClassVar[Any]
-    max_uint: ClassVar[Any]
-    max_uint16: ClassVar[Any]
-    max_uint32: ClassVar[Any]
-    max_uint64: ClassVar[Any]
+    max_int64: ClassVar[int]
+    max_int8: ClassVar[int]
+    max_uint: ClassVar[int]
+    max_uint16: ClassVar[int]
+    max_uint32: ClassVar[int]
+    max_uint64: ClassVar[int]
     max_uint8: ClassVar[int]
     min_double: ClassVar[float]
     min_float: ClassVar[float]
     min_int: ClassVar[int]
-    min_int16: ClassVar[Any]
+    min_int16: ClassVar[int]
     min_int32: ClassVar[int]
-    min_int64: ClassVar[Any]
-    min_int8: ClassVar[Any]
-    min_uint: ClassVar[Any]
-    min_uint16: ClassVar[Any]
-    min_uint32: ClassVar[Any]
-    min_uint64: ClassVar[Any]
+    min_int64: ClassVar[int]
+    min_int8: ClassVar[int]
+    min_uint: ClassVar[int]
+    min_uint16: ClassVar[int]
+    min_uint32: ClassVar[int]
+    min_uint64: ClassVar[int]
     min_uint8: ClassVar[int]
     true_bool: ClassVar[bool]
     zero_double: ClassVar[float]
     zero_float: ClassVar[float]
     zero_int: ClassVar[int]
-    zero_int16: ClassVar[Any]
+    zero_int16: ClassVar[int]
     zero_int32: ClassVar[int]
-    zero_int64: ClassVar[Any]
-    zero_int8: ClassVar[Any]
-    zero_uint: ClassVar[Any]
-    zero_uint16: ClassVar[Any]
-    zero_uint32: ClassVar[Any]
-    zero_uint64: ClassVar[Any]
+    zero_int64: ClassVar[int]
+    zero_int8: ClassVar[int]
+    zero_uint: ClassVar[int]
+    zero_uint16: ClassVar[int]
+    zero_uint32: ClassVar[int]
+    zero_uint64: ClassVar[int]
     zero_uint8: ClassVar[int]
     @staticmethod
     def bool_overflow(b0: bool, b1: bool, b2: bool, b3: bool, b4: bool, b5: bool, b6: bool, b7: bool, b8: bool, b9: bool, ba: bool, bb: bool, bc: bool, bd: bool, be: bool, bf: bool) -> int: ...
@@ -83,21 +83,21 @@ class Primitives:
     @staticmethod
     def echo_int(value: int) -> int: ...
     @staticmethod
-    def echo_int16(value: Any) -> Any: ...
+    def echo_int16(value: int) -> int: ...
     @staticmethod
     def echo_int32(value: int) -> int: ...
     @staticmethod
-    def echo_int64(value: Any) -> Any: ...
+    def echo_int64(value: int) -> int: ...
     @staticmethod
-    def echo_int8(value: Any) -> Any: ...
+    def echo_int8(value: int) -> int: ...
     @staticmethod
-    def echo_uint(value: Any) -> Any: ...
+    def echo_uint(value: int) -> int: ...
     @staticmethod
-    def echo_uint16(value: Any) -> Any: ...
+    def echo_uint16(value: int) -> int: ...
     @staticmethod
-    def echo_uint32(value: Any) -> Any: ...
+    def echo_uint32(value: int) -> int: ...
     @staticmethod
-    def echo_uint64(value: Any) -> Any: ...
+    def echo_uint64(value: int) -> int: ...
     @staticmethod
     def echo_uint8(value: int) -> int: ...
     @staticmethod
@@ -109,21 +109,21 @@ class Primitives:
     @staticmethod
     def maybe_echo_int(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_int16(value: Any) -> Any: ...
+    def maybe_echo_int16(value: int | None) -> int | None: ...
     @staticmethod
     def maybe_echo_int32(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_int64(value: Any) -> Any: ...
+    def maybe_echo_int64(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_int8(value: Any) -> Any: ...
+    def maybe_echo_int8(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_uint(value: Any) -> Any: ...
+    def maybe_echo_uint(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_uint16(value: Any) -> Any: ...
+    def maybe_echo_uint16(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_uint32(value: Any) -> Any: ...
+    def maybe_echo_uint32(value: int | None) -> int | None: ...
     @staticmethod
-    def maybe_echo_uint64(value: Any) -> Any: ...
+    def maybe_echo_uint64(value: int | None) -> int | None: ...
     @staticmethod
     def maybe_echo_uint8(value: int | None) -> int | None: ...
     @staticmethod

@@ -31,6 +31,22 @@ class MethodTests(unittest.TestCase):
         methods.instance_stored = 6002
         self.assertEqual(methods.instance_stored, 6002)
 
+    def test_reference_static_property_setters_reach_native(self) -> None:
+        # Covers the metaclass-on-a-SwiftReference-subclass path (_MethodsMeta): the
+        # highest-risk settable-static shape. A getter-only regression, or a setter that
+        # silently rebinds the class attribute instead of calling native, fails here.
+        methods = self.testapi.Methods
+        original_modifiable = methods.static_modifiable
+        original_stored = methods.static_stored
+        try:
+            methods.static_modifiable = 9001
+            self.assertEqual(methods.static_modifiable, 9001)
+            methods.static_stored = 6002
+            self.assertEqual(methods.static_stored, 6002)
+        finally:
+            methods.static_modifiable = original_modifiable
+            methods.static_stored = original_stored
+
 
 if __name__ == "__main__":
     unittest.main()

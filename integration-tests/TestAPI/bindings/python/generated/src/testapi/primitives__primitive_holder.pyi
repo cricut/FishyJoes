@@ -8,28 +8,28 @@ class Primitives_PrimitiveHolder:
     bq: bool | None
     ui8: int
     ui8q: int | None
-    ui16: Any
-    ui16q: Any
-    ui32: Any
-    ui32q: Any
-    ui64: Any
-    ui64q: Any
-    ui: Any
-    uiq: Any
-    i8: Any
-    i8q: Any
-    i16: Any
-    i16q: Any
+    ui16: int
+    ui16q: int | None
+    ui32: int
+    ui32q: int | None
+    ui64: int
+    ui64q: int | None
+    ui: int
+    uiq: int | None
+    i8: int
+    i8q: int | None
+    i16: int
+    i16q: int | None
     i32: int
     i32q: int | None
-    i64: Any
-    i64q: Any
+    i64: int
+    i64q: int | None
     i: int
     iq: int | None
     f: float
     fq: float | None
     d: float
     dq: float | None
-    def __init__(self, b: bool, bq: bool | None, ui8: int, ui8q: int | None, ui16: Any, ui16q: Any, ui32: Any, ui32q: Any, ui64: Any, ui64q: Any, ui: Any, uiq: Any, i8: Any, i8q: Any, i16: Any, i16q: Any, i32: int, i32q: int | None, i64: Any, i64q: Any, i: int, iq: int | None, f: float, fq: float | None, d: float, dq: float | None) -> None: ...
+    def __init__(self, b: bool, bq: bool | None, ui8: int, ui8q: int | None, ui16: int, ui16q: int | None, ui32: int, ui32q: int | None, ui64: int, ui64q: int | None, ui: int, uiq: int | None, i8: int, i8q: int | None, i16: int, i16q: int | None, i32: int, i32q: int | None, i64: int, i64q: int | None, i: int, iq: int | None, f: float, fq: float | None, d: float, dq: float | None) -> None: ...
     static_mutable_property: ClassVar[list[int | None]]
     static_property: ClassVar[list[int | None]]
