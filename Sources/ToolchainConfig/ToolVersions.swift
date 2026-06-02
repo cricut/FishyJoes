@@ -4,6 +4,7 @@ import Foundation
 public struct ToolVersions: Codable {
     public let swiftWasm: SDKVersion
     public let swiftAndroid: SDKVersion
+    public let linuxContainer: LinuxContainer
 
     public struct SDKVersion: Codable {
         /// The native component of the toolchain (from https://swift.org )
