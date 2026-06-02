@@ -124,11 +124,38 @@ class PythonPhases: IotaPhases, Phases {
 
     private func ensurePythonVirtualEnvironment() throws {
         let venvPython = pythonVirtualEnvironmentPython()
-        guard !FileManager.default.fileExists(atPath: venvPython) else {
+        if !FileManager.default.fileExists(atPath: venvPython) {
+            try cmd(hostPythonExecutable(), "-m", "venv", ".venv").run()
+        }
+        try ensureSupportedPythonVersion(venvPython)
+    }
+
+    // The Python target requires Python 3.11+ (see python-runtime/pyproject.toml
+    // requires-python). Fail fast with an actionable message instead of surfacing
+    // confusing downstream errors (missing stdlib tomllib, delocate arch mismatches,
+    // pip "requires a different Python") when an older interpreter is selected.
+    private func ensureSupportedPythonVersion(_ python: String) throws {
+        let minimum = (major: 3, minor: 11)
+        let reported = try cmd(
+            python, "-c", "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
+        ).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+        let components = reported.split(separator: ".").compactMap { Int($0) }
+        guard components.count >= 2 else {
             return
         }
-
-        try cmd(hostPythonExecutable(), "-m", "venv", ".venv").run()
+        let (major, minor) = (components[0], components[1])
+        if major < minimum.major || (major == minimum.major && minor < minimum.minor) {
+            throw NSError(
+                domain: "FishyJoes.Python",
+                code: 2,
+                userInfo: [
+                    NSLocalizedDescriptionKey: """
+                    FishyJoes Python target requires Python \(minimum.major).\(minimum.minor)+, but the selected interpreter (\(hostPythonExecutable())) is \(reported).
+                    Install Python \(minimum.major).\(minimum.minor) or newer and re-run, or point FISHYJOES_PYTHON at a suitable interpreter, e.g. FISHYJOES_PYTHON=python3.11.
+                    """
+                ]
+            )
+        }
     }
 
     private func installPythonBootstrapDependencies() throws {
