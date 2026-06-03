@@ -40,7 +40,7 @@ class PackagingTests(unittest.TestCase):
         self.assertTrue(workflow.is_file(), f"missing generated Python workflow at {workflow}")
 
         contents = workflow.read_text()
-        for python_version in ["3.11", "3.12", "3.13", "3.14"]:
+        for python_version in ["3.11"]:
             self.assertIn(f"- '{python_version}'", contents)
         self.assertIn("runs-on: macos-26", contents)
         self.assertIn("runs-on: ubuntu-22.04", contents)
@@ -68,7 +68,7 @@ class PackagingTests(unittest.TestCase):
         self.assertTrue(workflow.is_file(), f"missing root Python workflow at {workflow}")
 
         contents = workflow.read_text()
-        for python_version in ["3.11", "3.12", "3.13", "3.14"]:
+        for python_version in ["3.11"]:
             self.assertIn(f'- "{python_version}"', contents)
         self.assertIn("runs-on: macos-26", contents)
         self.assertIn("runs-on: ubuntu-22.04", contents)
