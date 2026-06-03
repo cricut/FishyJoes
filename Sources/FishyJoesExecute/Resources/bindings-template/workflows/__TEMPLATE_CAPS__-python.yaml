@@ -29,9 +29,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - __CI_GIT_STEPS__
 
@@ -143,9 +140,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - __CI_GIT_STEPS__
 
@@ -245,9 +239,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - name: Configure git and vcpkg
         shell: pwsh

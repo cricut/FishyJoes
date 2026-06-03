@@ -33,9 +33,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -151,9 +148,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -257,9 +251,6 @@ jobs:
       matrix:
         python-version:
           - '3.11'
-          - '3.12'
-          - '3.13'
-          - '3.14'
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
