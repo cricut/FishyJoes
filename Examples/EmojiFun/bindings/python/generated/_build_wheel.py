@@ -311,7 +311,7 @@ def repair_wheel(wheel_path: Path) -> Path:
                 report_lines.append(f"repaired={repaired.name}")
                 write_repair_report(wheel_path.parent, platform_name, report_lines)
                 return repaired
-        report_lines.append("repair=not-manylinux-compatible; kept honest private-index linux platform tag")
+        report_lines.append("repair=not-manylinux-compatible; kept honest platform-specific Linux wheel tag for non-PyPI or private-index distribution")
         write_repair_report(wheel_path.parent, platform_name, report_lines)
         return wheel_path
     if system == "Windows":

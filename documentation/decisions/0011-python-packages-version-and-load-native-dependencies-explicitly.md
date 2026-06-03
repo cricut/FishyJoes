@@ -69,9 +69,10 @@ Packaging tools must repair native-library references for each platform:
 
 - macOS wheels use delocate-style dependency repair and install names based on
   package-local paths.
-- Linux wheels use auditwheel only when Swift runtime and bundled library
-  dependencies satisfy manylinux policy; otherwise private-index wheels must use
-  tags that honestly describe the supported platform.
+- Linux wheels use auditwheel when Swift runtime and bundled library
+  dependencies satisfy manylinux policy. Otherwise, generated wheels must keep
+  honest platform-specific tags and should be distributed through an internal/private
+  package index or another controlled channel that supports those tags.
 - Windows wheels configure DLL loading with package-local directories before
   loading generated libraries.
 
