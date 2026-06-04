@@ -48,6 +48,10 @@ public struct IotaSwiftFuture {
     }
 }
 
+private struct SendableForeignObject: @unchecked Sendable {
+    let value: foreignObject
+}
+
 @_cdecl("FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler")
 public func FutureConverter_invokeSinkHandler(
     envRef: EnvRef,
@@ -121,6 +125,7 @@ extension FutureConverter: IotaConverter where OutputConverter: IotaConverter {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
         let (future, promise) = try interface.construct(env: env)
+        let sendablePromise = SendableForeignObject(value: promise)
         value.sink { result in
             env.onThread {
                 // Any errors before `resolution` will be passed to the promise.
@@ -128,10 +133,10 @@ extension FutureConverter: IotaConverter where OutputConverter: IotaConverter {
                 let resolution: () throws -> Void
                 do {
                     let iotaSuccess = try OutputConverter.toIotaObject(result.get(), env: env)
-                    resolution = { try interface.resolve(promise: promise, iotaSuccess, env: env) }
+                    resolution = { try interface.resolve(promise: sendablePromise.value, iotaSuccess, env: env) }
                 } catch {
                     let iotaError = env.newError(error)
-                    resolution = { try interface.reject(promise: promise, iotaError, env: env) }
+                    resolution = { try interface.reject(promise: sendablePromise.value, iotaError, env: env) }
                 }
                 do {
                     try resolution()
