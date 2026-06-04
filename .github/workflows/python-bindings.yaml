@@ -219,7 +219,7 @@ jobs:
         run: |
           set -euxo pipefail
           cd integration-tests/TestAPI
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
