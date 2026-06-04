@@ -164,6 +164,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          swift run fishy-joes install-system-dependencies for-generation
+
       - name: Pre-build hook
         shell: bash
         run: |
@@ -173,7 +179,7 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --python build test pack
+          swift run -- fishy-joes --python generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash

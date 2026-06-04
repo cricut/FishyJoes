@@ -9,6 +9,8 @@ struct InstallSystemDependencies: ParsableCommand {
         abstract: "Script to install FishyJoes' system dependencies",
         aliases: ["install-toolchains"]
     )
+    static let mikeFarahYQVersion = "v4.53.2"
+
     struct Error: Swift.Error {}
 
     enum Component: String, CaseIterable, ExpressibleByArgument {
@@ -162,7 +164,7 @@ struct InstallSystemDependencies: ParsableCommand {
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
         case .yq:
-            return cmd("yq", "--version").runBool()
+            return checkIfMikeFarahYQInstalled()
         case .mint:
             return cmd("mint", "--version").runBool()
         case .wasmOpt:
@@ -301,7 +303,7 @@ struct InstallSystemDependencies: ParsableCommand {
             try cmd("brew", "install", "yq").run()
 
             #elseif os(Linux)
-            try cmd("apt-get", "install", "yq").run()
+            try installMikeFarahYQOnLinux()
 
             #else
             Log.error("Don't know how to install yq on this platform")
@@ -335,6 +337,68 @@ struct InstallSystemDependencies: ParsableCommand {
             Log.error("Don't know how to install wasm-opt on this platform")
             throw InstallSystemDependencies.Error()
             #endif
+        }
+    }
+
+    func checkIfMikeFarahYQInstalled() -> Bool {
+        guard let version = try? cmd("yq", "--version").runString() else {
+            return false
+        }
+        return version.contains("github.com/mikefarah/yq") && version.contains(" version v4.")
+    }
+
+    func installMikeFarahYQOnLinux() throws {
+        let uname = try cmd("uname", "-m").runString().trimmed()
+        let arch: String
+        switch uname {
+        case "x86_64", "amd64":
+            arch = "amd64"
+        case "aarch64", "arm64":
+            arch = "arm64"
+        default:
+            Log.error("Don't know which Mike Farah yq Linux binary to install for architecture \(uname)")
+            throw InstallSystemDependencies.Error()
+        }
+
+        let assetName = "yq_linux_\(arch)"
+        let releaseURL = "https://github.com/mikefarah/yq/releases/download/\(Self.mikeFarahYQVersion)"
+        let tempDir = try cmd("mktemp", "-d").runString().trimmed()
+        defer { try? cmd("rm", "-rf", tempDir).run() }
+
+        let binaryPath = "\(tempDir)/\(assetName)"
+        let checksumsPath = "\(tempDir)/checksums"
+        try cmd("curl", "-fsSL", "-o", binaryPath, "\(releaseURL)/\(assetName)").run()
+        try cmd("curl", "-fsSL", "-o", checksumsPath, "\(releaseURL)/checksums").run()
+
+        let checksums = try String(contentsOfFile: checksumsPath, encoding: .utf8)
+        guard let expectedChecksum = checksums.split(separator: "\n").compactMap({ line -> String? in
+            let fields = line.split { $0 == " " || $0 == "\t" }
+            guard let checksum = fields.first, let fileName = fields.last else {
+                return nil
+            }
+            guard String(fileName) == assetName || fileName.hasSuffix("/\(assetName)") else {
+                return nil
+            }
+            return String(checksum)
+        }).first else {
+            Log.error("Could not locate checksum for \(assetName) in Mike Farah yq \(Self.mikeFarahYQVersion) checksums")
+            throw InstallSystemDependencies.Error()
+        }
+
+        let actualChecksum = try cmd("sha256sum", binaryPath).runString()
+            .split { $0 == " " || $0 == "\t" }
+            .first
+            .map(String.init)
+        guard actualChecksum == expectedChecksum else {
+            Log.error("Checksum mismatch for \(assetName)")
+            Log.error("Expected \(expectedChecksum), got \(actualChecksum ?? "<missing>")")
+            throw InstallSystemDependencies.Error()
+        }
+
+        try cmd("install", "-m", "0755", binaryPath, "/usr/local/bin/yq").run()
+        guard checkIfMikeFarahYQInstalled() else {
+            Log.error("Installed yq did not report a Mike Farah yq v4 version")
+            throw InstallSystemDependencies.Error()
         }
     }
 }
