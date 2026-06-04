@@ -58,6 +58,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -83,7 +88,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash
@@ -148,12 +153,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install generation tools
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-          swift run fishy-joes install-system-dependencies for-generation
-
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
@@ -162,12 +161,17 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --python generate build test pack
+          swift run -- fishy-joes --python build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -193,7 +197,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash
@@ -282,12 +286,17 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -313,7 +322,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash

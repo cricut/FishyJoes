@@ -53,12 +53,17 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
           runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
           if [[ -z "$runtime_native_library" ]]; then
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash
@@ -112,29 +117,28 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install generation tools
-        shell: zsh {0}
-        run: |
-          set -euxo pipefail
-          swift run fishy-joes install-system-dependencies for-generation
-
       - name: Build, test, and pack Python wheel
         shell: zsh {0}
         run: |
           set -euxo pipefail
           cd integration-tests/TestAPI
-          swift run -- fishy-joes --python generate build test pack
+          swift run -- fishy-joes --python build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
           runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
           if [[ -z "$runtime_native_library" ]]; then
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash
@@ -209,18 +213,23 @@ jobs:
         run: |
           set -euxo pipefail
           cd integration-tests/TestAPI
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
           runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
           if [[ -z "$runtime_native_library" ]]; then
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
         shell: bash
