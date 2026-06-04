@@ -202,7 +202,7 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
-          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+          echo SWIFT_WINDOWS_BASH="../../scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
       - name: Build, test, and pack Python wheel
         shell: bash
