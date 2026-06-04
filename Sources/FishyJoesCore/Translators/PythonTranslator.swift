@@ -453,7 +453,7 @@ final class PythonTranslator: Translator {
                 for enumCase in pythonClass.enumCases {
                     fragment.output("\(enumCase.pythonName) = \"\(enumCase.cName)\"")
                 }
-                if !pythonClass.enumCases.isEmpty, (!pythonClass.fields.isEmpty || !pythonClass.methods.isEmpty) {
+                if !pythonClass.enumCases.isEmpty, !pythonClass.fields.isEmpty || !pythonClass.methods.isEmpty {
                     fragment.blankLine()
                 }
             } else if isAssociatedEnum {
@@ -473,7 +473,7 @@ final class PythonTranslator: Translator {
                 for field in pythonClass.storedFields {
                     fragment.output("\(field.pythonName): object")
                 }
-                if !pythonClass.storedFields.isEmpty, (!pythonClass.fields.isEmpty || !pythonClass.methods.isEmpty) {
+                if !pythonClass.storedFields.isEmpty, !pythonClass.fields.isEmpty || !pythonClass.methods.isEmpty {
                     fragment.blankLine()
                 }
             }
@@ -1109,8 +1109,8 @@ final class PythonTranslator: Translator {
             return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonClassName(translatedReference.nodeName))\")", pythonType: pythonType)
         }
         if let translatedProtocol = type as? TranslatedProtocol,
-           (visitedProtocols.contains(translatedProtocol.nodeName) ||
-            canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols)) {
+           visitedProtocols.contains(translatedProtocol.nodeName) ||
+           canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
             return NativeType(cType: "foreignObject", conversion: "_native.ProtocolType(\"\(pythonClassName(translatedProtocol.nodeName))\")", pythonType: pythonType)
         }
         if let externalType = type as? ExternalTranslatedType, externalType.definingModule == Module.runtime {
@@ -1204,8 +1204,8 @@ final class PythonTranslator: Translator {
             return pythonClassType(pythonClassName(translatedReference.nodeName))
         }
         if let translatedProtocol = type as? TranslatedProtocol,
-           (visitedProtocols.contains(translatedProtocol.nodeName) ||
-            canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols)) {
+           visitedProtocols.contains(translatedProtocol.nodeName) ||
+           canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
             return pythonClassType(pythonClassName(translatedProtocol.nodeName))
         }
         if let translatedEnum = type as? TranslatedEnum,

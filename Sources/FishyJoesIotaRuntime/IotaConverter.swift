@@ -483,6 +483,7 @@ public func String_iota_utf8_setup(
 }
 
 struct AllocationError: Error {}
+struct StringDecodingError: Error {}
 
 extension String: IotaConverter {
     fileprivate static var getLengthMethod = Env.CallbackMap<(@convention(c) (foreignObject, foreignOutExn) -> Int)>()
@@ -501,7 +502,10 @@ extension String: IotaConverter {
             defer { free(bytes) }
             try env.check { exn in getUtf8Method[env](value, bytes, exn) }
             let buffer = UnsafeRawBufferPointer(start: bytes, count: len8)
-            return String(decoding: buffer, as: UTF8.self)
+            guard let string = String(bytes: buffer, encoding: .utf8) else {
+                throw StringDecodingError()
+            }
+            return string
         }
 
         let len16 = try env.check { exn in getLengthMethod[env](value, exn) }
