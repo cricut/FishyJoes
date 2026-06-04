@@ -114,14 +114,14 @@ jobs:
           cat bindings/python/dist/native-repair-report-darwin.txt
 
       - name: Upload wheel
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-macos-${{ matrix.python-version }}-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
       - name: Upload native repair report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-macos-${{ matrix.python-version }}-native-report
           path: bindings/python/dist/native-repair-report-*.txt
@@ -218,14 +218,14 @@ jobs:
           cat bindings/python/dist/native-repair-report-linux.txt
 
       - name: Upload wheel
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-linux-${{ matrix.python-version }}-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
       - name: Upload native repair report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-linux-${{ matrix.python-version }}-native-report
           path: bindings/python/dist/native-repair-report-*.txt
@@ -338,14 +338,14 @@ jobs:
           cat bindings/python/dist/native-repair-report-windows.txt
 
       - name: Upload wheel
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-windows-${{ matrix.python-version }}-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
       - name: Upload native repair report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-windows-${{ matrix.python-version }}-native-report
           path: bindings/python/dist/native-repair-report-*.txt

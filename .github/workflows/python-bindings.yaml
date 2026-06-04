@@ -84,7 +84,7 @@ jobs:
           cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-darwin.txt
 
       - name: Upload wheel artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-macos-${{ matrix.python-version }}-wheels
           path: integration-tests/TestAPI/bindings/python/dist/*
@@ -154,7 +154,7 @@ jobs:
           cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-linux.txt
 
       - name: Upload wheel artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-linux-${{ matrix.python-version }}-wheels
           path: integration-tests/TestAPI/bindings/python/dist/*
@@ -244,7 +244,7 @@ jobs:
           cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-windows.txt
 
       - name: Upload wheel artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: python-windows-${{ matrix.python-version }}-wheels
           path: integration-tests/TestAPI/bindings/python/dist/*
