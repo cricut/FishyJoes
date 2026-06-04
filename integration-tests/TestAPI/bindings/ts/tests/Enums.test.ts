@@ -51,6 +51,8 @@ test('AssociatedDataEnum', () => {
         expect(true).toBe(false)
     } else if (switchMe instanceof TestAPI.AssociatedDataEnum.NoValue) {
         expect(true).toBe(false)
+    } else if (switchMe instanceof TestAPI.AssociatedDataEnum.None) {
+        expect(true).toBe(false)
     } else if (switchMe instanceof TestAPI.AssociatedDataEnum.SimpleEnum) {
         // ensure definitions are qualified with namespace (TestApi.SimpleEnum instead of SimpleEnum)
         const _ = TestAPI.SimpleEnum.getHex(switchMe.value);

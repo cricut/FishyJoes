@@ -255,10 +255,19 @@ class PythonPhases: IotaPhases, Phases {
     private func builtNativeLibraryPath(_ library: String) throws -> String {
         if FileManager.default.fileExists(atPath: "../../Package.swift") {
             return try withDirectory("../..") {
-                try platform.dylibPath(for: library, configuration: options.buildConfig)
+                absolutePath(try platform.dylibPath(for: library, configuration: options.buildConfig))
             }
         }
-        return try platform.dylibPath(for: library, configuration: options.buildConfig)
+        return absolutePath(try platform.dylibPath(for: library, configuration: options.buildConfig))
+    }
+
+    private func absolutePath(_ path: String) -> String {
+        URL(
+            fileURLWithPath: path,
+            relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
+        )
+        .standardizedFileURL
+        .path
     }
 
     private func installGeneratedPythonPackage() throws {

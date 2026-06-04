@@ -133,7 +133,8 @@ final class KotlinTranslator: Translator {
                         }
 
                         callBlock {
-                            fragment.outputBlock("let value: \(returnType.converterType.name).SwiftType =", closeWith: "") {
+                            fragment.output("let value: \(returnType.converterType.name).SwiftType =")
+                            fragment.indent {
                                 fragment.outputBlock("try await _javaEnv.withRelinquishedJVMThread(jvm: _vm) {") {
                                     fragment.outputBlock("\(method.isThrowing ? "try " : "")\(method.isAsync ? "await " : "")\(selfExpression)\(callName)(", closeWith: ")") {
                                         fragment.outputMap(method.parameters, separator: ",") { formal in

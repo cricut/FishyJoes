@@ -30,7 +30,7 @@ class ReferenceOnlyTypes_Marker extends SwiftReference {
         )
     ;
     bool operator ==(
-        Object? other,
+        Object other,
     ) =>
         identical(other, this) ||
         (other is TestAPI.ReferenceOnlyTypes_Marker &&

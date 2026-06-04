@@ -68,9 +68,9 @@ jobs:
 
           FISHYJOES=1 swift run -- fishy-joes generate
 
-          if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
+          if [ -n "$(git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
+            echo '::error::   run `FISHYJOES=1 swift run -- fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git diff
             git status
             exit 1
