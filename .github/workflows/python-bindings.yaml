@@ -112,6 +112,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          swift run fishy-joes install-system-dependencies for-generation
+
       - name: Build, test, and pack Python wheel
         shell: zsh {0}
         run: |
