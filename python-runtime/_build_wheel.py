@@ -41,6 +41,20 @@ def iter_package_files(package_name: str, source_dir: Path):
             yield Path(package_name) / path.relative_to(source_dir), path
 
 
+def runtime_config_with_version(data: bytes, version: str) -> bytes:
+    source = data.decode("utf-8")
+    updated = re.sub(
+        r'^FISHYJOES_RUNTIME_VERSION = "[^"]+"$',
+        f'FISHYJOES_RUNTIME_VERSION = "{version}"',
+        source,
+        count=1,
+        flags=re.MULTILINE,
+    )
+    if updated == source:
+        raise RuntimeError("Could not stamp FishyJoes runtime version in config.py")
+    return updated.encode("utf-8")
+
+
 def normalized_platform(value: str) -> str:
     return value.replace("-", "_").replace(".", "_")
 
@@ -95,6 +109,8 @@ def build_wheel(
     with zipfile.ZipFile(wheel_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for archive_path, source_path in iter_package_files(package_name, source_dir):
             data = source_path.read_bytes()
+            if archive_path == Path(package_name) / "config.py":
+                data = runtime_config_with_version(data, version)
             write_bytes(archive, archive_path.as_posix(), data)
         write_bytes(
             archive,

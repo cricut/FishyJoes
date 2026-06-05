@@ -176,6 +176,7 @@ class PackagingTests(unittest.TestCase):
         with zipfile.ZipFile(runtime_wheels[0]) as archive:
             runtime_metadata = archive.read("fishyjoes_runtime-1.2.3.dist-info/METADATA").decode("utf-8")
             runtime_wheel = archive.read("fishyjoes_runtime-1.2.3.dist-info/WHEEL").decode("utf-8")
+            runtime_config = archive.read("fishyjoes_runtime/config.py").decode("utf-8")
             self.assertIn("fishyjoes_runtime/py.typed", archive.namelist())
             self.assertIn(f"fishyjoes_runtime/native/{native_library_name('FishyJoesIotaRuntime')}", archive.namelist())
         self.assertIn("Name: fishyjoes-runtime", runtime_metadata)
@@ -186,6 +187,7 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("Requires-Dist: packaging", runtime_metadata)
         self.assertIn("Root-Is-Purelib: false", runtime_wheel)
         self.assertIn("Tag: py3-none-", runtime_wheel)
+        self.assertIn('FISHYJOES_RUNTIME_VERSION = "1.2.3"', runtime_config)
 
         with tempfile.TemporaryDirectory() as target:
             install = subprocess.run(
@@ -211,7 +213,13 @@ class PackagingTests(unittest.TestCase):
                 [
                     sys.executable,
                     "-c",
-                    "import testapi; assert testapi.SUPPORTED; assert testapi.Strings.simple == 'Hello'",
+                    (
+                        "import fishyjoes_runtime, testapi; "
+                        "assert fishyjoes_runtime.__version__ == '1.2.3'; "
+                        "assert testapi.diagnostics()['runtime']['version'] == '1.2.3'; "
+                        "assert testapi.SUPPORTED; "
+                        "assert testapi.Strings.simple == 'Hello'"
+                    ),
                 ],
                 env={"PYTHONPATH": target},
                 text=True,
