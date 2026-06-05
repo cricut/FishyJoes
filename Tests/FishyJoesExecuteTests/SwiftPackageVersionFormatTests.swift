@@ -130,6 +130,11 @@ class SwiftPackageVersionFormatTests: XCTestCase {
             location: testURL,
             requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 5, patch: 0))
         )
+        let upToNextMajorZeroZero = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 0, patch: 4))
+        )
         let upToNextMinor = SwiftPackage.Dependency.sourceControl(
             identity: "test",
             location: testURL,
@@ -156,9 +161,10 @@ class SwiftPackageVersionFormatTests: XCTestCase {
 
         XCTAssertEqual(upToNextMajor.versionInPythonRequirementFormat(flexibleVersions: false), "==2.19.4")
         XCTAssertEqual(upToNextMajor.versionInPythonRequirementFormat(flexibleVersions: true), ">=2.19.4,<3.0.0")
-        XCTAssertEqual(upToNextMajorZero.versionInPythonRequirementFormat(flexibleVersions: true), ">=0.5.0,<0.6.0")
+        XCTAssertEqual(upToNextMajorZero.versionInPythonRequirementFormat(flexibleVersions: true), ">=0.5.0,<1.0.0")
+        XCTAssertEqual(upToNextMajorZeroZero.versionInPythonRequirementFormat(flexibleVersions: true), ">=0.0.4,<1.0.0")
         XCTAssertEqual(upToNextMinor.versionInPythonRequirementFormat(flexibleVersions: false), "==1.2.3")
-        XCTAssertEqual(upToNextMinor.versionInPythonRequirementFormat(flexibleVersions: true), "~=1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInPythonRequirementFormat(flexibleVersions: true), ">=1.2.3,<1.3.0")
         XCTAssertEqual(exact.versionInPythonRequirementFormat(flexibleVersions: false), "==1.11.11")
         XCTAssertEqual(exact.versionInPythonRequirementFormat(flexibleVersions: true), "==1.11.11")
         XCTAssertNil(revision.versionInPythonRequirementFormat(flexibleVersions: false))

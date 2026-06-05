@@ -316,7 +316,7 @@ class PythonPhases: IotaPhases, Phases {
             return nil
         }
 
-        if version.hasPrefix("==") || version.hasPrefix("~=") {
+        if version.hasPrefix("==") {
             return String(version.dropFirst(2))
         }
 

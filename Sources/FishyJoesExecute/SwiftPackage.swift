@@ -287,19 +287,13 @@ extension SwiftPackage.Dependency {
             return nil
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
             if flexibleVersions {
-                let upperBound: SemanticVersion
-                if baseVersion.major > 0 {
-                    upperBound = SemanticVersion(major: baseVersion.major + 1, minor: 0, patch: 0)
-                } else {
-                    upperBound = SemanticVersion(major: 0, minor: baseVersion.minor + 1, patch: 0)
-                }
-                return ">=\(baseVersion),<\(upperBound)"
+                return ">=\(baseVersion),<\(baseVersion.nextMajor)"
             } else {
                 return "==\(baseVersion)"
             }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
             if flexibleVersions {
-                return "~=\(baseVersion)"
+                return ">=\(baseVersion),<\(baseVersion.nextMinor)"
             } else {
                 return "==\(baseVersion)"
             }

@@ -96,6 +96,41 @@ class FishyJoesConfigTests: XCTestCase {
         XCTAssertTrue(replacements["__PYTHON_RUNTIME_DEPENDENCIES__"]?.contains(#"import_name="shared_swift_bindings""#) == true)
     }
 
+    func testPythonPhaseUsesSwiftPMFlexibleVersionRequirements() throws {
+        let config = try readConfig(
+            """
+            module: FancyLibrary
+            requiredModules:
+              - SharedSwift
+            flexibleVersions: true
+            python:
+              dependencies:
+                SharedSwift:
+                  distributionName: shared-swift-bindings
+                  importPackageName: shared_swift_bindings
+            """
+        )
+        let options = CodeGen()
+        options.config = config
+        options.version = "0.5.0"
+        options.packageInfo = SwiftPackage(
+            dependencies: [
+                .sourceControl(
+                    identity: "sharedswift",
+                    location: URL(string: "https://github.com/example/SharedSwift")!,
+                    requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 5, patch: 0))
+                ),
+            ],
+            targets: []
+        )
+
+        let replacements = try PythonPhases(platform: .python, options: options)
+            .generationPhaseTemplateReplacements()
+
+        XCTAssertTrue(replacements["__PYTHON_DEPENDENCIES__"]?.contains(#""shared-swift-bindings>=0.5.0,<1.0.0","#) == true)
+        XCTAssertTrue(replacements["__PYTHON_RUNTIME_DEPENDENCIES__"]?.contains(#"version_requirement=">=0.5.0,<1.0.0""#) == true)
+    }
+
     func testPackageInitInstallsPythonExampleTestWithConfiguredImportName() throws {
         let config = try readConfig(
             """
