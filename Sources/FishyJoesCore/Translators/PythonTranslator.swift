@@ -93,6 +93,7 @@ final class PythonTranslator: Translator {
         let symbol: String
         let setterSymbol: String?
         let isStatic: Bool
+        let asMethod: Bool
         let returnType: String
         let returnConversion: String?
         let pythonReturnType: PythonType
@@ -493,17 +494,30 @@ final class PythonTranslator: Translator {
                         } else {
                             valueExpression = "_native.check(lambda exn: \(fieldFunction)(_native.env, exn))"
                         }
-                        // Always wrap in StaticProperty so the value is fetched lazily on
-                        // each access. A read-only `static var { get }` can change between
-                        // reads, so eagerly evaluating and freezing it at import time would
-                        // serve a stale value.
-                        if let deprecationMessage = field.deprecationMessage {
-                            fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: _native.deprecated_getter(lambda: \(valueExpression), \"\(deprecationMessage)\"))")
+                        if field.asMethod {
+                            fragment.output("@staticmethod")
+                            fragment.output("def \(field.pythonName)():")
+                            fragment.indent {
+                                if let deprecationMessage = field.deprecationMessage {
+                                    fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
+                                }
+                                fragment.output("return \(valueExpression)")
+                            }
                         } else {
-                            fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: \(valueExpression))")
+                            // Always wrap in StaticProperty so the value is fetched lazily on
+                            // each access. A read-only `static var { get }` can change between
+                            // reads, so eagerly evaluating and freezing it at import time would
+                            // serve a stale value.
+                            if let deprecationMessage = field.deprecationMessage {
+                                fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: _native.deprecated_getter(lambda: \(valueExpression), \"\(deprecationMessage)\"))")
+                            } else {
+                                fragment.output("\(field.pythonName) = _native.StaticProperty(lambda: \(valueExpression))")
+                            }
                         }
                     } else {
-                        fragment.output("@property")
+                        if !field.asMethod {
+                            fragment.output("@property")
+                        }
                         fragment.output("def \(field.pythonName)(self):")
                         fragment.indent {
                             if let deprecationMessage = field.deprecationMessage {
@@ -518,7 +532,7 @@ final class PythonTranslator: Translator {
                                 fragment.output("return _native.check(lambda exn: \(fieldFunction)(_native.env, self._iota_ref, exn))")
                             }
                         }
-                        if let setterSymbol = field.setterSymbol {
+                        if !field.asMethod, let setterSymbol = field.setterSymbol {
                             let setterFunction = pythonFunctionName(for: setterSymbol)
                             fragment.output("@\(field.pythonName).setter")
                             fragment.output("def \(field.pythonName)(self, value):")
@@ -700,7 +714,14 @@ final class PythonTranslator: Translator {
             }
             for field in pythonClass.fields.sorted(by: { $0.pythonName < $1.pythonName }) {
                 let returnAnnotation = pythonTypeAnnotation(field.pythonReturnType, shadowedBuiltinTypes: shadowedBuiltinTypes)
-                if field.isStatic {
+                if field.asMethod {
+                    if field.isStatic {
+                        fragment.output("@staticmethod")
+                        fragment.output("def \(field.pythonName)() -> \(returnAnnotation): ...")
+                    } else {
+                        fragment.output("def \(field.pythonName)(self) -> \(returnAnnotation): ...")
+                    }
+                } else if field.isStatic {
                     fragment.output("\(field.pythonName): ClassVar[\(returnAnnotation)]")
                 } else {
                     fragment.output("@property")
@@ -1013,6 +1034,7 @@ final class PythonTranslator: Translator {
             symbol: symbol,
             setterSymbol: setterSymbol,
             isStatic: field.isStatic,
+            asMethod: exportAnnotation.kind == .asMethod,
             returnType: returnType.cType,
             returnConversion: returnType.conversion,
             pythonReturnType: returnType.pythonType,
@@ -1118,7 +1140,7 @@ final class PythonTranslator: Translator {
         }
         if let externalType = type as? ExternalTranslatedType,
            externalType.isInhabited {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonExternalClassName(externalType))\")", pythonType: pythonType)
+            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonExternalTypeKey(externalType))\")", pythonType: pythonType)
         }
         if let translatedEnum = type as? TranslatedEnum,
            translatedEnum.isInhabited {
@@ -1371,7 +1393,7 @@ final class PythonTranslator: Translator {
         }
         if let externalType = type as? ExternalTranslatedType,
            externalType.isInhabited {
-            return "_native.ValueType(\"\(pythonExternalClassName(externalType))\")"
+            return "_native.ValueType(\"\(pythonExternalTypeKey(externalType))\")"
         }
         if let translatedEnum = type as? TranslatedEnum,
            translatedEnum.isInhabited {
@@ -1795,6 +1817,10 @@ final class PythonTranslator: Translator {
             ? String(type.nodeName.dropFirst(modulePrefix.count))
             : type.nodeName
         return pythonClassName(externalName)
+    }
+
+    private func pythonExternalTypeKey(_ type: ExternalTranslatedType) -> String {
+        type.sourceType.name
     }
 
     private func pythonStringLiteral(_ value: String) -> String {

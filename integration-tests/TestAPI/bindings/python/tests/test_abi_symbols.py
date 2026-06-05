@@ -2,6 +2,7 @@ import importlib
 import platform
 import re
 import subprocess
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -11,7 +12,8 @@ GENERATED = Path(__file__).resolve().parents[1] / "generated"
 GENERATED_SRC = GENERATED / "src"
 GENERATED_PACKAGE = GENERATED_SRC / "testapi"
 RUNTIME_SOURCE = Path(__file__).resolve().parents[5] / "python-runtime" / "src" / "fishyjoes_runtime" / "iota.py"
-sys.path.insert(0, str(GENERATED_SRC))
+if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+    sys.path.insert(0, str(GENERATED_SRC))
 
 
 def exported_symbols(library: Path) -> set[str]:
@@ -39,6 +41,20 @@ class AbiSymbolTests(unittest.TestCase):
             self.assertIn("foreignObject return values are created unless explicitly documented", declarations)
             self.assertIn("foreignObject parameters are borrowed unless explicitly documented", declarations)
             self.assertIn("foreignOutExn is nonnull and receives an optional created error object", declarations)
+
+    def test_utf8_string_callbacks_use_pointer_width_lengths(self) -> None:
+        declarations = (GENERATED_PACKAGE / "_declarations.h").read_text(encoding="utf-8")
+        runtime_source = RUNTIME_SOURCE.read_text(encoding="utf-8")
+
+        self.assertIn("typedef intptr_t (*FishyJoes_StringUtf8LengthFn)", declarations)
+        self.assertIn(
+            "typedef foreignObject (*FishyJoes_StringUtf8ConstructorFn)(const char *bytes, intptr_t length",
+            declarations,
+        )
+        self.assertIn('@ffi.callback("intptr_t(foreignObject, foreignOutExn)")', runtime_source)
+        self.assertIn('@ffi.callback("foreignObject(const char *, intptr_t, foreignOutExn)")', runtime_source)
+        self.assertNotIn("typedef int (*FishyJoes_StringUtf8LengthFn)", declarations)
+        self.assertNotIn("const char *bytes, int length", declarations)
 
     def test_generated_bindings_reference_declared_exported_symbols(self) -> None:
         testapi = importlib.import_module("testapi")

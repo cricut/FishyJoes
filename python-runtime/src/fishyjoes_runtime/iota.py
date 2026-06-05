@@ -163,6 +163,49 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         return _new_handle(_SwiftReferenceValue(type_name, ptr))
 
 
+    def _fishyjoes_type_origin(value_type: type) -> str | None:
+        origin = getattr(value_type, "__fishyjoes_origin__", {}).get("__type__")
+        return origin if isinstance(origin, str) and origin else None
+
+
+    def _fishyjoes_type_keys(value_type: type) -> tuple[str, ...]:
+        keys = [value_type.__name__]
+        origin = _fishyjoes_type_origin(value_type)
+        if origin is not None and origin not in keys:
+            keys.append(origin)
+        return tuple(keys)
+
+
+    def _fishyjoes_primary_type_key(value_type: type) -> str:
+        return _fishyjoes_type_origin(value_type) or value_type.__name__
+
+
+    def _register_value_type(value_type: type, *, external: bool = False) -> None:
+        primary_key = _fishyjoes_primary_type_key(value_type)
+        for key in _fishyjoes_type_keys(value_type):
+            existing = _value_types.get(key)
+            if existing is not None and existing is not value_type:
+                if key == primary_key:
+                    raise RuntimeError(
+                        f"FishyJoes generated type key collision for {key}: "
+                        f"{existing.__module__}.{existing.__name__} and {value_type.__module__}.{value_type.__name__}"
+                    )
+                continue
+            _value_types[key] = value_type
+            if external:
+                _external_value_types.add(key)
+
+
+    def _value_type_for(type_name: str) -> type:
+        try:
+            return _value_types[type_name]
+        except KeyError as error:
+            raise RuntimeError(
+                f"FishyJoes generated type {type_name} is not registered; ensure dependency packages are imported "
+                "and regenerated with this FishyJoes version."
+            ) from error
+
+
     def _utf16_null_terminated(value: str):
         data = value.encode("utf-16-le")
         code_units = [int.from_bytes(data[index : index + 2], "little") for index in range(0, len(data), 2)]
@@ -919,7 +962,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             self.type_name = type_name
 
         def to_iota(self, value):
-            if not isinstance(value, _value_types[self.type_name]):
+            if not isinstance(value, _value_type_for(self.type_name)):
                 raise TypeError(f"Expected {self.type_name}, got {type(value).__name__}")
             if self.type_name in _external_value_types and hasattr(value, "_fishyjoes_external_iota_pointer"):
                 return _new_swift_reference_ref(
@@ -931,7 +974,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             return _new_handle(value)
 
         def peek_iota(self, ref):
-            value_type = _value_types[self.type_name]
+            value_type = _value_type_for(self.type_name)
             if self.type_name in _external_value_types and hasattr(value_type, "_fishyjoes_from_external_iota_pointer"):
                 value = ffi.from_handle(ref)
                 if isinstance(value, _SwiftReferenceValue):
@@ -944,7 +987,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             return value
 
         def consume_iota(self, ref):
-            value_type = _value_types[self.type_name]
+            value_type = _value_type_for(self.type_name)
             if self.type_name in _external_value_types and hasattr(value_type, "_fishyjoes_from_external_iota_pointer"):
                 try:
                     value = ffi.from_handle(ref)
@@ -969,7 +1012,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def to_iota(self, value):
             if hasattr(value, "_iota_ref"):
                 return _new_handle(value)
-            expected_type = _value_types[self.type_name]
+            expected_type = _value_type_for(self.type_name)
             field_names, method_names = _protocol_requirements.get(self.type_name, ((), ()))
             if not isinstance(value, expected_type) and not all(hasattr(value, name) for name in field_names + method_names):
                 raise TypeError(f"Expected {self.type_name}, got {type(value).__name__}")
@@ -1124,7 +1167,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             ) from error
 
 
-    @ffi.callback("int(foreignObject, foreignOutExn)")
+    @ffi.callback("intptr_t(foreignObject, foreignOutExn)")
     def _string_utf8_length(obj, exn):
         try:
             return len(_encode_utf8(ffi.from_handle(obj)))
@@ -1142,7 +1185,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             exn[0] = _new_handle(error)
 
 
-    @ffi.callback("foreignObject(const char *, int, foreignOutExn)")
+    @ffi.callback("foreignObject(const char *, intptr_t, foreignOutExn)")
     def _string_utf8_constructor(bytes_ptr, length, exn):
         try:
             return _new_handle(bytes(ffi.buffer(bytes_ptr, length)).decode("utf-8"))
@@ -1898,7 +1941,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_empty_value_type(setup_function, value_type: type[IotaObject]):
-        _value_types[value_type.__name__] = value_type
+        _register_value_type(value_type)
 
         @ffi.callback("foreignObject(foreignOutExn)")
         def constructor(exn):
@@ -1920,13 +1963,13 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def register_external_type(value_type: type, setup_external=None):
-        _value_types[value_type.__name__] = value_type
-        _external_value_types.add(value_type.__name__)
-        if setup_external is not None and value_type.__name__ not in _external_type_setups:
+        _register_value_type(value_type, external=True)
+        setup_key = _fishyjoes_primary_type_key(value_type)
+        if setup_external is not None and setup_key not in _external_type_setups:
             setup_external(_runtime_namespace)
-            _external_type_setups.add(value_type.__name__)
+            _external_type_setups.add(setup_key)
             return
-        if value_type.__name__ in _external_type_setups:
+        if setup_key in _external_type_setups:
             return
         discovered_setup = _external_setup_hook(value_type)
         if discovered_setup is None:
@@ -1935,7 +1978,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
                 "_fishyjoes_setup_external; regenerate that dependency with this FishyJoes version."
             )
         discovered_setup(_runtime_namespace)
-        _external_type_setups.add(value_type.__name__)
+        _external_type_setups.add(setup_key)
 
 
     def _callback_result(descriptor: TypeDescriptor, value):
@@ -1961,7 +2004,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_value_type(setup_function, value_type: type, fields: list[Field]):
-        _value_types[value_type.__name__] = value_type
+        _register_value_type(value_type)
         for field in fields:
             field.descriptor.ensure_setup()
 
@@ -2007,11 +2050,10 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_protocol_type(setup_function, protocol_type: type[SwiftReference], fields: list[ProtocolField], methods: list[ProtocolMethod]):
-        _value_types[protocol_type.__name__] = protocol_type
-        _protocol_requirements[protocol_type.__name__] = (
-            tuple(field.name for field in fields),
-            tuple(method.name for method in methods),
-        )
+        _register_value_type(protocol_type)
+        requirements = (tuple(field.name for field in fields), tuple(method.name for method in methods))
+        for type_key in _fishyjoes_type_keys(protocol_type):
+            _protocol_requirements[type_key] = requirements
         for field in fields:
             field.descriptor.ensure_setup()
         for method in methods:
@@ -2064,7 +2106,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_simple_enum_type(setup_function, enum_type: type, cases: list[str]):
-        _value_types[enum_type.__name__] = enum_type
+        _register_value_type(enum_type)
 
         @ffi.callback("int(foreignObject, foreignOutExn)")
         def discriminator(obj, exn):
@@ -2104,7 +2146,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_associated_enum_type(setup_function, enum_type: type, cases: list[EnumCase]):
-        _value_types[enum_type.__name__] = enum_type
+        _register_value_type(enum_type)
         for enum_case in cases:
             for field in enum_case.fields:
                 field.descriptor.ensure_setup()
@@ -2166,7 +2208,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def setup_reference_type(setup_function, reference_type: type[SwiftReference]):
-        _value_types[reference_type.__name__] = reference_type
+        _register_value_type(reference_type)
 
         @ffi.callback("foreignObject(void *, foreignOutExn)")
         def constructor(ptr, exn):

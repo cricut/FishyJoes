@@ -8,7 +8,17 @@ from pathlib import Path
 
 
 GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-sys.path.insert(0, str(GENERATED_SRC))
+if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+    sys.path.insert(0, str(GENERATED_SRC))
+
+
+def subprocess_env() -> dict[str, str]:
+    env = os.environ.copy()
+    if env.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
+        env.pop("PYTHONPATH", None)
+    else:
+        env["PYTHONPATH"] = os.pathsep.join([str(GENERATED_SRC), env.get("PYTHONPATH", "")])
+    return env
 
 
 class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
@@ -50,6 +60,73 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await functions.exercise5(lambda _a, _b, _c, _d, thunk: thunk), "83")
         self.assertEqual(await functions.exercise6(lambda _a, _b, _c, _d, _thunk, value: value), "42")
 
+    async def test_async_protocol_witness_round_trips_python_callbacks(self) -> None:
+        testapi = self.testapi
+
+        def compose(f, g):
+            async def composed(value):
+                return await f(await g(value))
+
+            return composed
+
+        async def exercise0(fn):
+            return f"proto {await fn()}"
+
+        async def exercise1(fn):
+            return f"proto {await fn(-8)}"
+
+        async def exercise2(fn):
+            composed = fn(lambda value: value + 2, lambda value: value * 5)
+            return f"proto {await composed(3)}"
+
+        async def exercise3(fn):
+            return f"proto {await fn(1.5, 2.25, 3)}"
+
+        async def exercise4(fn):
+            return "|".join(await fn("a", "b", "c", "d"))
+
+        async def exercise5(fn):
+            thunk = await fn("a", 1, 2.0, "b", lambda: 77)
+            return f"proto {await thunk()}"
+
+        async def exercise6(fn):
+            return f"proto {await fn('a', 1, 2.0, 'b', lambda: 77, 11)}"
+
+        def thunk_twice_maker(thunk):
+            async def twice():
+                await thunk()
+                await thunk()
+
+            return twice
+
+        value = testapi.TestAsyncForeignSideFunctionsStruct(
+            const42=lambda: 42,
+            iabs=lambda value: abs(value),
+            int_compose=compose,
+            add3_things=lambda a, b, c: a + b + c,
+            make_list=lambda a, b, c, d: [a, b, c, d],
+            fifth_thing=lambda _a, _b, _c, _d, thunk: thunk,
+            six=lambda _a, _b, _c, _d, _thunk, value: value,
+            will_throw=lambda: (_ for _ in ()).throw(ValueError("protocol async failure")),
+            exercise0_fun=exercise0,
+            exercise1_fun=exercise1,
+            exercise2_fun=exercise2,
+            exercise3_fun=exercise3,
+            exercise4_fun=exercise4,
+            exercise5_fun=exercise5,
+            exercise6_fun=exercise6,
+            thunk_twice_maker_fun=thunk_twice_maker,
+        )
+
+        witness = value.witness()
+        self.assertEqual(await witness.const42(), 42)
+        self.assertEqual(await witness.iabs(-9), 9)
+        self.assertEqual(await witness.exercise0(lambda: 5), "proto 5")
+        self.assertEqual(await witness.exercise2(compose), "proto 17")
+        self.assertEqual(await witness.default_exercise6(lambda _a, _b, _c, _d, _thunk, value: value), "89")
+        with self.assertRaisesRegex(ValueError, "protocol async failure"):
+            await witness.will_throw()
+
     async def test_swift_async_errors_propagate(self) -> None:
         functions = self.testapi.AsyncFunctions
 
@@ -82,8 +159,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([], loop_errors)
 
     def test_runtime_shutdown_rejects_unresolved_swift_futures(self) -> None:
-        env = os.environ.copy()
-        env["PYTHONPATH"] = os.pathsep.join([str(GENERATED_SRC), env.get("PYTHONPATH", "")])
+        env = subprocess_env()
         script = """
 import asyncio
 import importlib
@@ -125,8 +201,7 @@ asyncio.run(main())
         # Guards the shutdown gate: a Swift future constructed after shutdown must fail
         # fast rather than slip past the rejection snapshot and hang its awaiter forever
         # (the TOCTOU the gate+registration locking closes).
-        env = os.environ.copy()
-        env["PYTHONPATH"] = os.pathsep.join([str(GENERATED_SRC), env.get("PYTHONPATH", "")])
+        env = subprocess_env()
         script = """
 import asyncio
 import importlib

@@ -1,11 +1,13 @@
 import importlib
+import os
 import sys
 import unittest
 from pathlib import Path
 
 
 GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-sys.path.insert(0, str(GENERATED_SRC))
+if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+    sys.path.insert(0, str(GENERATED_SRC))
 
 
 class MethodTests(unittest.TestCase):
@@ -17,10 +19,15 @@ class MethodTests(unittest.TestCase):
 
         self.assertEqual(methods.instance_get, 1234)
         self.assertEqual(methods.garply, 42901)
-        self.assertEqual(methods.instance_get_method, 2345)
+        self.assertTrue(callable(methods.instance_get_method))
+        self.assertEqual(methods.instance_get_method(), 2345)
         self.assertEqual(methods.instance_modifiable, 3456)
         self.assertEqual(methods.instance_stored, 5678)
         self.assertEqual(methods.double_plus_good(21, 20.6), 84)
+
+    def test_reference_static_export_as_method_is_callable(self) -> None:
+        self.assertTrue(callable(self.testapi.Methods.static_get_method))
+        self.assertEqual(self.testapi.Methods.static_get_method(), 234)
 
     def test_reference_instance_property_setters(self) -> None:
         methods = self.testapi.Methods.create()
