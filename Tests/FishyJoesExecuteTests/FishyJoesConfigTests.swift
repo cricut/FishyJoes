@@ -68,8 +68,28 @@ class FishyJoesConfigTests: XCTestCase {
     }
 
     func testInvalidPythonDependencyVersionRequirementFailsLoudly() throws {
-        XCTAssertThrowsError(
-            try readConfig(
+        for requirement in [">=1.0; sys_platform == 'darwin'", ">=*", ">=1.*", ">=1.0+local"] {
+            XCTAssertThrowsError(
+                try readConfig(
+                    """
+                    module: FancyLibrary
+                    requiredModules:
+                      - SharedSwift
+                    python:
+                      dependencies:
+                        SharedSwift:
+                          versionRequirement: "\(requirement)"
+                    """
+                )
+            ) { error in
+                XCTAssertTrue(String(describing: error).contains("python.dependencies.SharedSwift.versionRequirement"))
+            }
+        }
+    }
+
+    func testSupportedPythonDependencyVersionRequirementsAreAccepted() throws {
+        for requirement in [">=1.4.0,<2.0.0", "~=1.4", "==1.*", "!=1.*", "==1.0+local", "===some-version"] {
+            let config = try readConfig(
                 """
                 module: FancyLibrary
                 requiredModules:
@@ -77,11 +97,11 @@ class FishyJoesConfigTests: XCTestCase {
                 python:
                   dependencies:
                     SharedSwift:
-                      versionRequirement: ">=1.0; sys_platform == 'darwin'"
+                      versionRequirement: "\(requirement)"
                 """
             )
-        ) { error in
-            XCTAssertTrue(String(describing: error).contains("python.dependencies.SharedSwift.versionRequirement"))
+
+            XCTAssertEqual(config.python.dependencyVersionRequirement(forModule: "SharedSwift"), requirement)
         }
     }
 

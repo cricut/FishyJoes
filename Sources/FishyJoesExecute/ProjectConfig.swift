@@ -119,8 +119,19 @@ struct ProjectConfig: Codable {
         }
 
         private static func validateVersionRequirement(_ requirement: String, key: String) throws {
-            let version = #"[A-Za-z0-9][A-Za-z0-9._!*+-]*"#
-            let clause = #"(?:===|~=|==|!=|<=|>=|<|>)\s*\#(version)"#
+            let epoch = #"(?:[0-9]+!)?"#
+            let release = #"[0-9]+(?:\.[0-9]+)*"#
+            let pre = #"(?:[-_\.]?(?:a|b|c|rc|alpha|beta|pre|preview)[-_\.]?[0-9]*)?"#
+            let post = #"(?:[-_\.]?(?:post|rev|r)[-_\.]?[0-9]+)?"#
+            let dev = #"(?:[-_\.]?dev[-_\.]?[0-9]*)?"#
+            let local = #"(?:\+[A-Za-z0-9]+(?:[-_\.][A-Za-z0-9]+)*)?"#
+            let publicVersion = #"\#(epoch)\#(release)\#(pre)\#(post)\#(dev)"#
+            let version = #"\#(publicVersion)\#(local)"#
+            let wildcardVersion = #"\#(epoch)\#(release)\.\*"#
+            let orderedClause = #"(?:~=|<=|>=|<|>)\s*\#(publicVersion)"#
+            let equalityClause = #"(?:==|!=)\s*(?:\#(version)|\#(wildcardVersion))"#
+            let arbitraryClause = #"===\s*[A-Za-z0-9][A-Za-z0-9._!*+()-]*"#
+            let clause = #"(?:\#(orderedClause)|\#(equalityClause)|\#(arbitraryClause))"#
             let pattern = #"^\s*\#(clause)(?:\s*,\s*\#(clause))*\s*,?\s*$"#
             guard !requirement.isEmpty,
                   requirement.range(of: pattern, options: .regularExpression) != nil
