@@ -73,8 +73,14 @@ class DartPhases: IotaPhases, Phases {
                 return []
             }
 
-            let localPath = options.editedDependencyPaths[dependency.identity.lowercased()]
-                ?? options.localPath(for: dependency)
+            let localPath: String
+            if let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()] {
+                localPath = editedPath
+            } else if case .fileSystem = dependency {
+                localPath = options.localPath(for: dependency)
+            } else {
+                return []
+            }
             guard FileManager.default.fileExists(atPath: "\(localPath)/\(depNames.path)/pubspec.yaml") else {
                 return []
             }
@@ -87,14 +93,22 @@ class DartPhases: IotaPhases, Phases {
         }
 
         let flutterDependencyOverrideLines = dartDependencies.flatMap { depNames -> [String] in
-            guard
-                let dependency = options.packageInfo.dependencyMap[depNames.swift],
-                FileManager.default.fileExists(
-                    atPath: "\(options.editedDependencyPaths[dependency.identity.lowercased()] ?? options.localPath(for: dependency))/\(depNames.npmSubPath)/pubspec.yaml"
-                )
-            else {
+            guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
                 return []
             }
+
+            let localPath: String
+            if let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()] {
+                localPath = editedPath
+            } else if case .fileSystem = dependency {
+                localPath = options.localPath(for: dependency)
+            } else {
+                return []
+            }
+            guard FileManager.default.fileExists(atPath: "\(localPath)/\(depNames.npmSubPath)/pubspec.yaml") else {
+                return []
+            }
+
             return [
                 "\(depNames.dart):",
                 "  path: ../\(depNames.npm)",
