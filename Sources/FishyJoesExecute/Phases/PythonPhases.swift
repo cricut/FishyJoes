@@ -37,6 +37,9 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     private func pythonVersionRequirement(for module: String) -> String {
+        if let configuredRequirement = options.config.python.dependencyVersionRequirement(forModule: module) {
+            return configuredRequirement
+        }
         guard let dependency = options.packageInfo?.dependencyMap[module],
               let version = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions)
         else {
@@ -297,7 +300,7 @@ class PythonPhases: IotaPhases, Phases {
                 at: dependencyGeneratedPath,
                 module: module,
                 wheelDirectory: ".venv/fishyjoes-generated-wheels/\(module)",
-                versionOverride: pythonLocalPackageVersion(for: dependency),
+                versionOverride: pythonLocalPackageVersion(for: module, dependency: dependency),
                 prepareIsolatedCopy: true
             )
         }
@@ -311,8 +314,13 @@ class PythonPhases: IotaPhases, Phases {
         )
     }
 
-    private func pythonLocalPackageVersion(for dependency: SwiftPackage.Dependency) -> String? {
-        guard let version = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) else {
+    private func pythonLocalPackageVersion(for module: String, dependency: SwiftPackage.Dependency) -> String? {
+        let version: String
+        if let configuredRequirement = options.config.python.dependencyVersionRequirement(forModule: module) {
+            version = configuredRequirement
+        } else if let dependencyRequirement = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) {
+            version = dependencyRequirement
+        } else {
             return nil
         }
 
@@ -329,6 +337,36 @@ class PythonPhases: IotaPhases, Phases {
         }
 
         return nil
+    }
+
+    private func validatePublishablePythonDependencies() throws {
+        for module in options.config.requiredModules {
+            guard options.config.python.dependencyVersionRequirement(forModule: module) == nil else {
+                continue
+            }
+            guard let dependency = options.packageInfo?.dependencyMap[module] else {
+                throw NSError(
+                    domain: "FishyJoes.Python",
+                    code: 1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: "Could not locate required module \(module) in Package.swift"
+                    ]
+                )
+            }
+            if dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) == nil {
+                throw NSError(
+                    domain: "FishyJoes.Python",
+                    code: 1,
+                    userInfo: [
+                        NSLocalizedDescriptionKey: """
+                        Cannot pack Python bindings with non-publishable SwiftPM dependency \(module).
+                        Branch, revision, and local-path SwiftPM dependencies do not describe a Python package that pip can resolve from an index.
+                        Add python.dependencies.\(module).versionRequirement in bindings/fishy-joes.yaml, for example: ">=1.2.3,<2.0.0".
+                        """
+                    ]
+                )
+            }
+        }
     }
 
     private func installGeneratedPythonPackage(
@@ -505,6 +543,7 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     func packPhase() throws {
+        try validatePublishablePythonDependencies()
         try withDirectory("bindings/python") {
             try installPythonDevDependencies()
             try installPythonRuntimePackage()

@@ -36,6 +36,7 @@ class FishyJoesConfigTests: XCTestCase {
         XCTAssertEqual(config.python.runtimeDistributionName, "acme-fishyjoes-runtime")
         XCTAssertEqual(config.python.dependencyDistributionName(forModule: "SharedSwift"), "shared-swift-bindings")
         XCTAssertEqual(config.python.dependencyImportPackageName(forModule: "SharedSwift"), "shared_swift_bindings")
+        XCTAssertNil(config.python.dependencyVersionRequirement(forModule: "SharedSwift"))
     }
 
     func testInvalidPythonImportPackageNameFailsLoudly() throws {
@@ -63,6 +64,24 @@ class FishyJoesConfigTests: XCTestCase {
             )
         ) { error in
             XCTAssertTrue(String(describing: error).contains("python.distributionName"))
+        }
+    }
+
+    func testInvalidPythonDependencyVersionRequirementFailsLoudly() throws {
+        XCTAssertThrowsError(
+            try readConfig(
+                """
+                module: FancyLibrary
+                requiredModules:
+                  - SharedSwift
+                python:
+                  dependencies:
+                    SharedSwift:
+                      versionRequirement: ">=1.0; sys_platform == 'darwin'"
+                """
+            )
+        ) { error in
+            XCTAssertTrue(String(describing: error).contains("python.dependencies.SharedSwift.versionRequirement"))
         }
     }
 
@@ -129,6 +148,74 @@ class FishyJoesConfigTests: XCTestCase {
 
         XCTAssertTrue(replacements["__PYTHON_DEPENDENCIES__"]?.contains(#""shared-swift-bindings>=0.5.0,<1.0.0","#) == true)
         XCTAssertTrue(replacements["__PYTHON_RUNTIME_DEPENDENCIES__"]?.contains(#"version_requirement=">=0.5.0,<1.0.0""#) == true)
+    }
+
+    func testPythonPhaseUsesConfiguredDependencyVersionRequirement() throws {
+        let config = try readConfig(
+            """
+            module: FancyLibrary
+            requiredModules:
+              - SharedSwift
+            python:
+              dependencies:
+                SharedSwift:
+                  distributionName: shared-swift-bindings
+                  importPackageName: shared_swift_bindings
+                  versionRequirement: ">=1.4.0,<2.0.0"
+            """
+        )
+        let options = CodeGen()
+        options.config = config
+        options.version = "0.5.0"
+        options.packageInfo = SwiftPackage(
+            dependencies: [
+                .sourceControl(
+                    identity: "sharedswift",
+                    location: URL(string: "https://github.com/example/SharedSwift")!,
+                    requirement: .branch(name: "main")
+                ),
+            ],
+            targets: []
+        )
+
+        let replacements = try PythonPhases(platform: .python, options: options)
+            .generationPhaseTemplateReplacements()
+
+        XCTAssertEqual(config.python.dependencyVersionRequirement(forModule: "SharedSwift"), ">=1.4.0,<2.0.0")
+        XCTAssertTrue(replacements["__PYTHON_DEPENDENCIES__"]?.contains(#""shared-swift-bindings>=1.4.0,<2.0.0","#) == true)
+        XCTAssertTrue(replacements["__PYTHON_RUNTIME_DEPENDENCIES__"]?.contains(#"version_requirement=">=1.4.0,<2.0.0""#) == true)
+    }
+
+    func testPythonPackRejectsNonPublishableDependencyWithoutVersionRequirement() throws {
+        let config = try readConfig(
+            """
+            module: FancyLibrary
+            requiredModules:
+              - SharedSwift
+            python:
+              dependencies:
+                SharedSwift:
+                  distributionName: shared-swift-bindings
+                  importPackageName: shared_swift_bindings
+            """
+        )
+        let options = CodeGen()
+        options.config = config
+        options.packageInfo = SwiftPackage(
+            dependencies: [
+                .sourceControl(
+                    identity: "sharedswift",
+                    location: URL(string: "https://github.com/example/SharedSwift")!,
+                    requirement: .branch(name: "main")
+                ),
+            ],
+            targets: []
+        )
+
+        XCTAssertThrowsError(try PythonPhases(platform: .python, options: options).packPhase()) { error in
+            XCTAssertTrue(String(describing: error).contains("non-publishable SwiftPM dependency SharedSwift"))
+            XCTAssertTrue(String(describing: error).contains("python.dependencies.SharedSwift.versionRequirement"))
+        }
     }
 
     func testPackageInitInstallsPythonExampleTestWithConfiguredImportName() throws {

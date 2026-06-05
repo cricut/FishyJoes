@@ -57,6 +57,10 @@ struct ProjectConfig: Codable {
             dependencies[module]?.importPackageName ?? defaultImportPackageName(forModule: module)
         }
 
+        func dependencyVersionRequirement(forModule module: String) -> String? {
+            dependencies[module]?.versionRequirement
+        }
+
         func validate(module: String) throws {
             try Self.validateDistributionName(distributionName(forModule: module), key: "python.distributionName")
             try Self.validateImportPackageName(importPackageName(forModule: module), key: "python.importPackageName")
@@ -70,6 +74,12 @@ struct ProjectConfig: Codable {
                     dependencyImportPackageName(forModule: module),
                     key: "python.dependencies.\(module).importPackageName"
                 )
+                if let versionRequirement = dependencyVersionRequirement(forModule: module) {
+                    try Self.validateVersionRequirement(
+                        versionRequirement,
+                        key: "python.dependencies.\(module).versionRequirement"
+                    )
+                }
             }
         }
 
@@ -107,11 +117,23 @@ struct ProjectConfig: Codable {
                 throw ValidationError("fishy-joes.yaml value for key `\(key)` is not a valid Python import package name")
             }
         }
+
+        private static func validateVersionRequirement(_ requirement: String, key: String) throws {
+            let version = #"[A-Za-z0-9][A-Za-z0-9._!*+-]*"#
+            let clause = #"(?:===|~=|==|!=|<=|>=|<|>)\s*\#(version)"#
+            let pattern = #"^\s*\#(clause)(?:\s*,\s*\#(clause))*\s*,?\s*$"#
+            guard !requirement.isEmpty,
+                  requirement.range(of: pattern, options: .regularExpression) != nil
+            else {
+                throw ValidationError("fishy-joes.yaml value for key `\(key)` is not a supported Python version requirement")
+            }
+        }
     }
 
     struct PythonDependencyConfig: Codable, Equatable {
         let distributionName: String?
         let importPackageName: String?
+        let versionRequirement: String?
     }
 
     struct CIRunners: Codable {
@@ -274,7 +296,8 @@ struct ProjectConfig: Codable {
                 }
                 dependencies[module] = PythonDependencyConfig(
                     distributionName: try dependencyStringValue("distributionName"),
-                    importPackageName: try dependencyStringValue("importPackageName")
+                    importPackageName: try dependencyStringValue("importPackageName"),
+                    versionRequirement: try dependencyStringValue("versionRequirement")
                 )
             }
         }
