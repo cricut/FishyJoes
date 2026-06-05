@@ -371,16 +371,7 @@ struct InstallSystemDependencies: ParsableCommand {
         try cmd("curl", "-fsSL", "-o", checksumsPath, "\(releaseURL)/checksums").run()
 
         let checksums = try String(contentsOfFile: checksumsPath, encoding: .utf8)
-        guard let expectedChecksum = checksums.split(separator: "\n").compactMap({ line -> String? in
-            let fields = line.split { $0 == " " || $0 == "\t" }
-            guard let checksum = fields.first, let fileName = fields.last else {
-                return nil
-            }
-            guard String(fileName) == assetName || fileName.hasSuffix("/\(assetName)") else {
-                return nil
-            }
-            return String(checksum)
-        }).first else {
+        guard let expectedChecksum = Self.expectedChecksum(for: assetName, in: checksums) else {
             Log.error("Could not locate checksum for \(assetName) in Mike Farah yq \(Self.mikeFarahYQVersion) checksums")
             throw InstallSystemDependencies.Error()
         }
@@ -399,6 +390,62 @@ struct InstallSystemDependencies: ParsableCommand {
         guard checkIfMikeFarahYQInstalled() else {
             Log.error("Installed yq did not report a Mike Farah yq v4 version")
             throw InstallSystemDependencies.Error()
+        }
+    }
+
+    static func expectedChecksum(for assetName: String, in checksums: String) -> String? {
+        for rawLine in checksums.split(whereSeparator: \.isNewline) {
+            let line = String(rawLine).trimmed()
+            if let checksum = checksumFromBSDLine(line, assetName: assetName) {
+                return checksum
+            }
+
+            let fields = line.split { $0 == " " || $0 == "\t" }.map(String.init)
+            guard fields.count >= 2, let fileName = fields.last else {
+                continue
+            }
+            guard checksumFileName(fileName, matches: assetName) else {
+                continue
+            }
+            if let checksum = fields.first(where: isSHA256Checksum) {
+                return checksum
+            }
+        }
+        return nil
+    }
+
+    private static func checksumFromBSDLine(_ line: String, assetName: String) -> String? {
+        guard line.hasPrefix("SHA256"),
+              let openParen = line.firstIndex(of: "("),
+              let closeParen = line.firstIndex(of: ")"),
+              openParen < closeParen
+        else {
+            return nil
+        }
+
+        let fileNameStart = line.index(after: openParen)
+        let fileName = String(line[fileNameStart..<closeParen])
+        guard checksumFileName(fileName, matches: assetName) else {
+            return nil
+        }
+
+        let suffixStart = line.index(after: closeParen)
+        let suffix = String(line[suffixStart...]).trimmed()
+        guard suffix.hasPrefix("=") else {
+            return nil
+        }
+        let checksum = String(suffix.dropFirst()).trimmed()
+        return isSHA256Checksum(String(checksum)) ? String(checksum) : nil
+    }
+
+    private static func checksumFileName(_ fileName: String, matches assetName: String) -> Bool {
+        let normalized = fileName.trimmingCharacters(in: CharacterSet(charactersIn: "*"))
+        return normalized == assetName || normalized.hasSuffix("/\(assetName)")
+    }
+
+    private static func isSHA256Checksum(_ value: String) -> Bool {
+        value.count == 64 && value.allSatisfy { character in
+            character.isNumber || ("a"..."f").contains(character) || ("A"..."F").contains(character)
         }
     }
 }
