@@ -23,7 +23,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
         /// </summary>
-        public Cricut.TestAPI.AProtocol Bar(
+        publicCricut.TestAPI.AProtocol Bar(
             nint x,
             nint y
         ) {
@@ -43,7 +43,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hasADefaultImplementation) -->
         /// </summary>
-        public string HasADefaultImplementation(
+        publicstring HasADefaultImplementation(
             nint x,
             double y
         ) {
@@ -63,7 +63,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
         /// </summary>
-        public string HasADefaultImplementation2(
+        publicstring HasADefaultImplementation2(
             string a,
             bool b,
             string c
@@ -84,12 +84,12 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        public string GetFoo(
+        publicstring GetFoo(
         ) {
             return Foo;
         }
 
-        public bool GetBaz(
+        publicbool GetBaz(
         ) {
             return Baz;
         }

@@ -22,7 +22,7 @@ extension TestDifferingExportNameProtocolDiffy_FfiHooks on TestDifferingExportNa
     static int ffi_get_tata(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestDifferingExportNameProtocolDiffy>(obj).tata
     ) ?? 0;
 }

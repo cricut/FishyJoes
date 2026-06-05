@@ -13,7 +13,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
      */
     override var corge: kotlin.String
       get() = __jni_get_corge()
-      set(value) { __jni_set_corge(value) } 
+      set(value) { __jni_set_corge(value) }
     @JvmName("__jni_get_corge")
     private external fun __jni_get_corge(): kotlin.String
     @JvmName("__jni_set_corge")
@@ -24,7 +24,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
      */
     override var flarp: kotlin.String?
       get() = __jni_get_flarp()
-      set(value) { __jni_set_flarp(value) } 
+      set(value) { __jni_set_flarp(value) }
     @JvmName("__jni_get_flarp")
     private external fun __jni_get_flarp(): kotlin.String?
     @JvmName("__jni_set_flarp")
@@ -41,7 +41,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(foo) -->
      */
-    override fun foo(
+    overridefun foo(
     ): kotlin.Unit = __jni_foo()
     @JvmName("__jni_foo")
     private external fun __jni_foo(
@@ -50,7 +50,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(bar) -->
      */
-    override fun bar(
+    overridefun bar(
     ): Boolean = __jni_bar()
     @JvmName("__jni_bar")
     private external fun __jni_bar(
@@ -59,7 +59,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(baz) -->
      */
-    override fun baz(
+    overridefun baz(
         qux: Boolean
     ): kotlin.Unit = __jni_baz(qux)
     @JvmName("__jni_baz")
@@ -70,7 +70,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(garply) -->
      */
-    override fun garply(
+    overridefun garply(
         str: kotlin.String
     ): kotlin.String = __jni_garply(str)
     @JvmName("__jni_garply")
@@ -81,7 +81,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(xyzzy) -->
      */
-    override fun xyzzy(
+    overridefun xyzzy(
         thud: Long,
         grault: kotlin.collections.List<Double>
     ): kotlin.String = __jni_xyzzy(thud, grault)
@@ -94,7 +94,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(plugh) -->
      */
-    override fun plugh(
+    overridefun plugh(
         fred: kotlin.Triple<Boolean, Double, kotlin.collections.List<kotlin.String>>
     ): kotlin.Triple<Boolean, Long, kotlin.String> = __jni_plugh(fred)
     @JvmName("__jni_plugh")
@@ -105,7 +105,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(wombat) -->
      */
-    override fun wombat(
+    overridefun wombat(
         zxc: Long?
     ): Double? = __jni_wombat(zxc)
     @JvmName("__jni_wombat")
@@ -116,7 +116,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
     /**
      * <!-- FishyJoes.export(spqr) -->
      */
-    override fun spqr(
+    overridefun spqr(
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long = __jni_spqr(pippo)
     @JvmName("__jni_spqr")
@@ -124,11 +124,11 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long
 
-    override fun equals(
+    overridefun equals(
         other: Any?
     ): Boolean = (other is com.cricut.testapi.TestProtocolClass) && __jni_swiftEquals(this, other)
 
-    override fun hashCode(
+    overridefun hashCode(
     ): Int = __jni_hashCode()
     @JvmName("__jni_hashCode")
     private external fun __jni_hashCode(

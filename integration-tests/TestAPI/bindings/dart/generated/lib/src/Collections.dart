@@ -90,7 +90,7 @@ class Collections {
         )
     ;
     /// <!-- FishyJoes.export(echoArrayOfInt) -->
-    static List<int> echoArrayOfInt(
+    staticList<int> echoArrayOfInt(
         List<int> arrayOfInt,
     ) =>
         GCRef.using(arrayOfInt, (_arrayOfIntHandle) =>
@@ -99,7 +99,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(echoSetOfInt) -->
-    static Set<int> echoSetOfInt(
+    staticSet<int> echoSetOfInt(
         Set<int> setOfInt,
     ) =>
         GCRef.using(setOfInt, (_setOfIntHandle) =>
@@ -108,7 +108,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
-    static Map<int, int> echoDictionaryOfIntToInt(
+    staticMap<int, int> echoDictionaryOfIntToInt(
         Map<int, int> dictionaryOfIntToInt,
     ) =>
         GCRef.using(dictionaryOfIntToInt, (_dictionaryOfIntToIntHandle) =>
@@ -117,7 +117,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
-    static List<int?>? echoMaybeArrayOfMaybeInt(
+    staticList<int?>? echoMaybeArrayOfMaybeInt(
         List<int?>? maybeArrayOfMaybeInt,
     ) =>
         GCRef.using(maybeArrayOfMaybeInt, (_maybeArrayOfMaybeIntHandle) =>
@@ -126,7 +126,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
-    static Set<int?>? echoMaybeSetOfMaybeInt(
+    staticSet<int?>? echoMaybeSetOfMaybeInt(
         Set<int?>? maybeSetOfMaybeInt,
     ) =>
         GCRef.using(maybeSetOfMaybeInt, (_maybeSetOfMaybeIntHandle) =>
@@ -135,7 +135,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
-    static Map<int, int?>? echoMaybeDictionaryOfIntToMaybeInt(
+    staticMap<int, int?>? echoMaybeDictionaryOfIntToMaybeInt(
         Map<int, int?>? maybeDictionaryOfIntToMaybeInt,
     ) =>
         GCRef.using(maybeDictionaryOfIntToMaybeInt, (_maybeDictionaryOfIntToMaybeIntHandle) =>
@@ -144,7 +144,7 @@ class Collections {
     ;
 
     /// <!-- FishyJoes.export(collectionMapper) -->
-    static List<int?>? collectionMapper(
+    staticList<int?>? collectionMapper(
         List<int?>? collection,
         List<int?>? Function(List<int?>?) mapper,
     ) =>

@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(blarg) -->
         /// </summary>
-        public string GetBlarg() {
+        publicstring GetBlarg() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_EmptyClass_blarg(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -27,7 +27,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
         /// </summary>
-        public string GetWibbledyWobbledyTimeyWhimey() {
+        publicstring GetWibbledyWobbledyTimeyWhimey() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(create) -->
         /// </summary>
-        public static Cricut.TestAPI.EmptyClass1 Create(
+        public staticCricut.TestAPI.EmptyClass1 Create(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyClass_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.EmptyClass1>();
         }
@@ -54,7 +54,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(shme) -->
         /// </summary>
-        public string Shme(
+        publicstring Shme(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyClass_shme(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(Gorpers) -->
         /// </summary>
-        public string Gorpers(
+        publicstring Gorpers(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyClass_Gorpers(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
@@ -83,7 +83,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        public override bool Equals(
+        public overridebool Equals(
             object? other
         ) {
             if (other as Cricut.TestAPI.EmptyClass1 == null) { return false; }
@@ -101,7 +101,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        public override int GetHashCode(
+        public overrideint GetHashCode(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_get_TestAPI_EmptyClass_hash(Loader.env, _thisHandle.ptr, out _exn));

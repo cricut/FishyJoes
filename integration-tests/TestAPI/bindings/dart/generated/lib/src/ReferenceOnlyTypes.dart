@@ -24,7 +24,7 @@ class ReferenceOnlyTypes {
     });
 
     /// <!-- FishyJoes.export(marker) -->
-    static TestAPI.ReferenceOnlyTypes_Marker marker(
+    staticTestAPI.ReferenceOnlyTypes_Marker marker(
     ) =>
         consumeCreatedRef<TestAPI.ReferenceOnlyTypes_Marker>(check((OutCreatedRef _exn) => f__iota_TestAPI_ReferenceOnlyTypes_marker(Loader.shared.env, _exn)))
     ;

@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(accent) -->
         /// </summary>
-        public static string Accent {
+        public staticstring Accent {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_accent(Loader.env, out exn).Consume<string>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
         /// </summary>
-        public static string Chinese {
+        public staticstring Chinese {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_chinese(Loader.env, out exn).Consume<string>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseBMP) -->
         /// </summary>
-        public static string ChineseBMP {
+        public staticstring ChineseBMP {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_chineseBMP(Loader.env, out exn).Consume<string>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseSIP) -->
         /// </summary>
-        public static string ChineseSIP {
+        public staticstring ChineseSIP {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_chineseSIP(Loader.env, out exn).Consume<string>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emoji) -->
         /// </summary>
-        public static string Emoji {
+        public staticstring Emoji {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_emoji(Loader.env, out exn).Consume<string>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emojiMulti) -->
         /// </summary>
-        public static string EmojiMulti {
+        public staticstring EmojiMulti {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_emojiMulti(Loader.env, out exn).Consume<string>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(script) -->
         /// </summary>
-        public static string Script {
+        public staticstring Script {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_script(Loader.env, out exn).Consume<string>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(simple) -->
         /// </summary>
-        public static string Simple {
+        public staticstring Simple {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Strings_simple(Loader.env, out exn).Consume<string>()
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static string Echo(
+        public staticstring Echo(
             string _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -143,7 +143,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(split) -->
         /// </summary>
-        public static System.Collections.Generic.IList<string> Split(
+        public staticSystem.Collections.Generic.IList<string> Split(
             string _string,
             string by
         ) {

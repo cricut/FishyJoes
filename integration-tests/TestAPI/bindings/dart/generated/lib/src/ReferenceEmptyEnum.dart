@@ -30,13 +30,13 @@ class ReferenceEmptyEnum {
         )
     ;
     /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
-    static TestAPI.ReferenceEmptyEnum notGoingToHappen(
+    staticTestAPI.ReferenceEmptyEnum notGoingToHappen(
     ) =>
         consumeCreatedRef<TestAPI.ReferenceEmptyEnum>(check((OutCreatedRef _exn) => f__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(aStaticMethod) -->
-    static int aStaticMethod(
+    staticint aStaticMethod(
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod(Loader.shared.env, _exn))
     ;

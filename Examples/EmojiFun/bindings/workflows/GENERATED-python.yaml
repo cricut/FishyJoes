@@ -15,12 +15,17 @@ concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: read
+
 env:
   DOTNET_VERSION: '8.0.x'
   FISHYJOES: '1'
   GRADLE_OPTS: '-Dorg.gradle.daemon=false'
   JAVA_VERSION: '20'
   NODE_VERSION: '18.x'
+  MACOSX_DEPLOYMENT_TARGET: "13.0"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
 
@@ -60,7 +65,12 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --python --fat generate build test pack
+          version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            version_args=(--version "$version")
+          fi
+          swift run -- fishy-joes --python --fat "${version_args[@]}" generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -91,7 +101,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          python -m pip install -r bindings/python/requirements-dev.txt
+          runtime_version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            runtime_version_args=(--version-override "$version")
+          fi
+          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash
@@ -106,13 +122,13 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
           # proving the minimal install works. The suite includes tooling tests (mypy
           # type-check, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -159,6 +175,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          swift run fishy-joes install-system-dependencies for-generation
+
       - name: Pre-build hook
         shell: bash
         run: |
@@ -168,7 +190,12 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          swift run -- fishy-joes --python generate build test pack
+          version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            version_args=(--version "$version")
+          fi
+          swift run -- fishy-joes --python "${version_args[@]}" generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -199,7 +226,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          python -m pip install -r bindings/python/requirements-dev.txt
+          runtime_version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            runtime_version_args=(--version-override "$version")
+          fi
+          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash
@@ -214,13 +247,13 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
           # proving the minimal install works. The suite includes tooling tests (mypy
           # type-check, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -281,7 +314,7 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
-          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+          echo SWIFT_WINDOWS_BASH="scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
       - name: Pre-build hook
         shell: bash
@@ -292,7 +325,12 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack
+          version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            version_args=(--version "$version")
+          fi
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -323,7 +361,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library"
+          python -m pip install -r bindings/python/requirements-dev.txt
+          runtime_version_args=()
+          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
+            version="${GITHUB_REF_NAME#v}"
+            runtime_version_args=(--version-override "$version")
+          fi
+          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash
@@ -338,13 +382,13 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
           # proving the minimal install works. The suite includes tooling tests (mypy
           # type-check, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash

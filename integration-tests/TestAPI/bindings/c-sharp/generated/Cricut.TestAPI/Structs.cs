@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
             /// </summary>
-            public static Cricut.TestAPI.Structs.MutableStruct Create(
+            public staticCricut.TestAPI.Structs.MutableStruct Create(
             ) {
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MutableStruct>();
             }
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(increment) -->
             /// </summary>
-            public void Increment(
+            publicvoid Increment(
             ) {
                 using var _thisHandle = new GCRef(this);
                 Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_increment(Loader.env, _thisHandle.ptr, out _exn));
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(incrementAsync) -->
             /// </summary>
-            public System.Threading.Tasks.Task IncrementAsync(
+            publicSystem.Threading.Tasks.Task IncrementAsync(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_incrementAsync(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task>();
@@ -72,7 +72,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(asyncGetI) -->
             /// </summary>
-            public System.Threading.Tasks.Task<nint> AsyncGetI(
+            publicSystem.Threading.Tasks.Task<nint> AsyncGetI(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MutableStruct_asyncGetI(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
@@ -97,7 +97,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(immutable) -->
             /// </summary>
-            public string Immutable {
+            publicstring Immutable {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(mutable) -->
             /// </summary>
-            public string Mutable {
+            publicstring Mutable {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
@@ -137,7 +137,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
             /// </summary>
-            public static Cricut.TestAPI.Structs.ReferenceStruct Create(
+            public staticCricut.TestAPI.Structs.ReferenceStruct Create(
             ) {
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_ReferenceStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.ReferenceStruct>();
             }
@@ -151,7 +151,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(asyncGetMutable) -->
             /// </summary>
-            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            publicSystem.Threading.Tasks.Task<string> AsyncGetMutable(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
@@ -164,7 +164,7 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
-            public override bool Equals(
+            public overridebool Equals(
                 object? other
             ) {
                 if (other as Cricut.TestAPI.Structs.ReferenceStruct == null) { return false; }
@@ -182,7 +182,7 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
-            public override int GetHashCode(
+            public overrideint GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_get_TestAPI_Structs_ReferenceStruct_hash(Loader.env, _thisHandle.ptr, out _exn));
@@ -216,7 +216,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
             /// </summary>
-            public static Cricut.TestAPI.Structs.MemberwiseStruct Create(
+            public staticCricut.TestAPI.Structs.MemberwiseStruct Create(
             ) {
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MemberwiseStruct_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs.MemberwiseStruct>();
             }
@@ -230,7 +230,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(asyncGetMutable) -->
             /// </summary>
-            public System.Threading.Tasks.Task<string> AsyncGetMutable(
+            publicSystem.Threading.Tasks.Task<string> AsyncGetMutable(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();

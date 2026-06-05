@@ -183,7 +183,7 @@ class TestAsyncSwiftSideFunctionsClass extends SwiftReference implements TestAPI
     ;
 
     /// <!-- FishyJoes.export(init) -->
-    static TestAPI.TestAsyncSwiftSideFunctionsClass init(
+    staticTestAPI.TestAsyncSwiftSideFunctionsClass init(
     ) =>
         consumeCreatedRef<TestAPI.TestAsyncSwiftSideFunctionsClass>(check((OutCreatedRef _exn) => f__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init(Loader.shared.env, _exn)))
     ;

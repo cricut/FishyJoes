@@ -38,7 +38,7 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     static CreatedRef ffi_get_x(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<AttributedString_PuttingTypesIntoQuestionablePlaces>(obj).x
         )
@@ -57,7 +57,7 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(x)
     );

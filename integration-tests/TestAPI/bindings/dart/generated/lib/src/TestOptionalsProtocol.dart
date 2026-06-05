@@ -29,7 +29,7 @@ extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
     static CreatedRef ffi_get_flarp(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestOptionalsProtocol>(obj).flarp
         )
@@ -39,7 +39,7 @@ extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
         UnownedRef obj,
         UnownedRef zxc,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestOptionalsProtocol>(obj).wombat(
                 peekRef(zxc)
@@ -51,7 +51,7 @@ extension TestOptionalsProtocol_FfiHooks on TestOptionalsProtocol {
         UnownedRef obj,
         UnownedRef pippo,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestOptionalsProtocol>(obj).spqr(
             peekRef(pippo)
         )

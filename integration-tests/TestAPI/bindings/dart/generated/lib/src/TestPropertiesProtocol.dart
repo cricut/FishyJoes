@@ -25,7 +25,7 @@ extension TestPropertiesProtocol_FfiHooks on TestPropertiesProtocol {
     static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestPropertiesProtocol>(obj).corge
         )
@@ -34,7 +34,7 @@ extension TestPropertiesProtocol_FfiHooks on TestPropertiesProtocol {
     static CreatedRef ffi_get_frobby(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestPropertiesProtocol>(obj).frobby
         )

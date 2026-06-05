@@ -91,7 +91,6 @@ class Methods(_native.SwiftReference, metaclass=_MethodsMeta):
     @property
     def instance_get(self):
         return _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_instanceGet(_native.env, self._iota_ref, exn))
-    @property
     def instance_get_method(self):
         return _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_instanceGetMethod(_native.env, self._iota_ref, exn))
     @property
@@ -107,7 +106,9 @@ class Methods(_native.SwiftReference, metaclass=_MethodsMeta):
     def instance_stored(self, value):
         _native.check(lambda exn: _fj___iota_set_TestAPI_Methods_instanceStored(_native.env, self._iota_ref, value, exn))
     static_get = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticGet(_native.env, exn)))
-    static_get_method = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticGetMethod(_native.env, exn)))
+    @staticmethod
+    def static_get_method():
+        return _native.check(lambda exn: _fj___iota_get_TestAPI_Methods_staticGetMethod(_native.env, exn))
 
     def async42(self):
         return _native.call(_fj___iota_TestAPI_Methods_async42, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))

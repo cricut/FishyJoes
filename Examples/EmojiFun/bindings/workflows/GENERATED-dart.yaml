@@ -16,26 +16,27 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
-  GITHUB_USER: cricut-builduser
-  FISHYJOES: 1
+  DOTNET_VERSION: '8.0.x'
+  FISHYJOES: '1'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+  JAVA_VERSION: '20'
+  NODE_VERSION: '18.x'
 
 jobs:
   build-test-dart-mac:
     name: "macOS: Build and test dart bindings"
-    runs-on: sojo-macos
+    runs-on: macos-26
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -44,13 +45,6 @@ jobs:
         run: |
           yq --version || brew install yq
           mint --version || brew install mint
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -72,7 +66,7 @@ jobs:
           swift run -- fishy-joes --dart --fat test
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mac_lib
           path: bindings/dart/generated/macos/native/
@@ -80,32 +74,27 @@ jobs:
 
   build-test-dart-linux:
     name: "Ubuntu: Build and test dart bindings"
-    runs-on: k8s
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup Git Credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh
 
       - name: Pre-build hook
         shell: bash
@@ -139,7 +128,7 @@ jobs:
           swift run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ubuntu_lib
           path: bindings/dart/generated/linux/native/
@@ -156,15 +145,15 @@ jobs:
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - uses: dart-lang/setup-dart@v1
 
@@ -182,13 +171,6 @@ jobs:
           swift package resolve
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
-          registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Pre-build hook
         shell: bash
@@ -214,7 +196,7 @@ jobs:
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart test
 
       - name: Upload library
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows_lib
           path: bindings/dart/generated/windows/native/
@@ -227,29 +209,26 @@ jobs:
       - build-test-dart-mac
       - build-test-dart-linux
       - build-test-dart-windows
+    permissions:
+      contents: write
+      packages: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           submodules: recursive
-          token: ${{ secrets.CRICUT_GPR_TOKEN }}
 
-      - name: Setup git credentials
-        uses: de-vri-es/setup-git-credentials@v2
+      - name: Set up node
+        uses: actions/setup-node@v6
         with:
-          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
-
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18.x'
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
-          scope: '@cricut'
 
       - name: Configure build environment
         run: |
           set -euxo pipefail
 
+          sudo apt-get update
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
@@ -268,15 +247,31 @@ jobs:
 
       - name: Determine version
         shell: zsh {0}
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           set -euxo pipefail
 
-          VERSION=${GITHUB_REF#refs/*/}
-          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              VERSION="$RELEASE_TAG"
+          else
+              VERSION=${GITHUB_REF#refs/*/}
+          fi
+
+          if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+            fi
+
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
+
           echo "Detected Version is '$VERSION'"
-          echo VERSION=$VERSION >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
 
       - name: Pack
         shell: zsh {0}
@@ -287,8 +282,53 @@ jobs:
 
           tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
 
+      - name: Checkout with release token
+        if: github.event_name == 'release'
+        uses: actions/checkout@v6
+        with:
+          token: ${{ github.token }}
+          ref: ${{ github.event.release.tag_name }}
+          clean: false
+
+      - name: Prepare Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          yq -i '.version = strenv(VERSION)' bindings/dart/generated/pubspec.yaml
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com"
+          git add bindings/dart/generated/pubspec.yaml
+
+          if git diff --cached --quiet; then
+              echo "bindings/dart/generated/pubspec.yaml already has version '$VERSION'"
+          else
+              git commit -m "chore: prepare Dart publish tag for $VERSION"
+          fi
+
+          git tag "$PUBLISH_TAG"
+          git show --stat --oneline --decorate HEAD
+          git rev-parse "$PUBLISH_TAG"
+
+          echo "Publish tag '$PUBLISH_TAG' prepared locally"
+
+      - name: Push Dart publish tag
+        if: github.event_name == 'release'
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$PUBLISH_TAG" >/dev/null 2>&1; then
+              echo "Publish tag '$PUBLISH_TAG' already exists"
+              exit 0
+          fi
+
+          git push origin "refs/tags/$PUBLISH_TAG"
+
       - name: Upload result
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: EmojiFun-dart-binaries.tgz
           path: bindings/dart/generated/packages/EmojiFun-dart-binaries.tgz
@@ -302,7 +342,7 @@ jobs:
           REPO: ${{ github.event.repository.name }}
           TAG_NAME: ${{ github.event.release.tag_name }}
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euxo pipefail
 
@@ -318,9 +358,10 @@ jobs:
 
           # Publish pure-dart tarball as a release artifact
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f -u "$GITHUB_USER:$GITHUB_PUBLISH_TOKEN" \
+          curl -f \
             -X POST \
             -H 'Content-Type: application/gzip' \
+            -H "Authorization: Bearer $GH_TOKEN" \
             -H 'Accept: application/vnd.github.v3+json' \
             "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$tarballName" \
             --data-binary @$tarballPath

@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
-        public void Foo(
+        publicvoid Foo(
         ) {
             using var _thisHandle = new GCRef(this);
             Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_foo(Loader.env, _thisHandle.ptr, out _exn));
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
         /// </summary>
-        public bool Bar(
+        publicbool Bar(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_TestMethodsProtocol_bar(Loader.env, _thisHandle.ptr, out _exn));
@@ -45,7 +45,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
-        public void Baz(
+        publicvoid Baz(
             bool qux
         ) {
             using var _thisHandle = new GCRef(this);
@@ -63,7 +63,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
-        public string Garply(
+        publicstring Garply(
             string _0
         ) {
             using var _thisHandle = new GCRef(this);
@@ -82,7 +82,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(xyzzy) -->
         /// </summary>
-        public string Xyzzy(
+        publicstring Xyzzy(
             nint thud,
             System.Collections.Generic.IList<double> grault
         ) {
@@ -103,7 +103,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(plugh) -->
         /// </summary>
-        public System.Tuple<bool, nint, string> Plugh(
+        publicSystem.Tuple<bool, nint, string> Plugh(
             System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred
         ) {
             using var _thisHandle = new GCRef(this);

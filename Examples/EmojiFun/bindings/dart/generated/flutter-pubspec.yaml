@@ -5,8 +5,8 @@ description: "A Flutter wrapper for EmojiFun"
 version: "0.0.1-unknown"
 
 environment:
-  sdk: '>=3.1.5 <4.0.0'
-  flutter: '>=3.3.0'
+  sdk: '>=3.11.5 <4.0.0'
+  flutter: '>=3.41.7'
 
 dependencies:
   fishyjoes_dart:
@@ -20,6 +20,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
 
 flutter:
   plugin:

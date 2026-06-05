@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(noot) -->
         /// </summary>
-        public nint GetNoot() {
+        publicnint GetNoot() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota__default_TestAPI_TestDefaultComputedProperties_noot(Loader.env, thisHandle.ptr, out exn)
@@ -27,7 +27,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(plutonic) -->
         /// </summary>
-        public string GetPlutonic() {
+        publicstring GetPlutonic() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota__default_TestAPI_TestDefaultComputedProperties_plutonic(Loader.env, thisHandle.ptr, out exn).Consume<string>()

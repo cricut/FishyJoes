@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tata) -->
         /// </summary>
-        public nint Tata {
+        publicnint Tata {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>

@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(create) -->
         /// </summary>
-        public static Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces Create(
+        public staticCricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces Create(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>();
         }
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(testCall) -->
         /// </summary>
-        public nint TestCall(
+        publicnint TestCall(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(Loader.env, _thisHandle.ptr, out _exn));

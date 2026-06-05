@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(dataImage) -->
         /// </summary>
-        public static System.Uri DataImage {
+        public staticSystem.Uri DataImage {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_URLs_dataImage(Loader.env, out exn).Consume<System.Uri>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(localFile) -->
         /// </summary>
-        public static System.Uri LocalFile {
+        public staticSystem.Uri LocalFile {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_URLs_localFile(Loader.env, out exn).Consume<System.Uri>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(remoteFile) -->
         /// </summary>
-        public static System.Uri RemoteFile {
+        public staticSystem.Uri RemoteFile {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_URLs_remoteFile(Loader.env, out exn).Consume<System.Uri>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(simple) -->
         /// </summary>
-        public static System.Uri Simple {
+        public staticSystem.Uri Simple {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_URLs_simple(Loader.env, out exn).Consume<System.Uri>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static System.Uri Echo(
+        public staticSystem.Uri Echo(
             System.Uri url
         ) {
             using var _urlHandle = new GCRef(url);

@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
-        public bool GetBaz() {
+        publicbool GetBaz() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_AProtocol_baz(Loader.env, thisHandle.ptr, out exn)
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
-        public string GetFoo() {
+        publicstring GetFoo() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_AProtocol_foo(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -39,7 +39,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
         /// </summary>
-        public Cricut.TestAPI.AProtocol Bar(
+        publicCricut.TestAPI.AProtocol Bar(
             nint x,
             nint y
         ) {
@@ -59,7 +59,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hasADefaultImplementation) -->
         /// </summary>
-        public string HasADefaultImplementation(
+        publicstring HasADefaultImplementation(
             nint x,
             double y
         ) {
@@ -79,7 +79,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hasADefaultImplementation2) -->
         /// </summary>
-        public string HasADefaultImplementation2(
+        publicstring HasADefaultImplementation2(
             string a,
             bool b,
             string c

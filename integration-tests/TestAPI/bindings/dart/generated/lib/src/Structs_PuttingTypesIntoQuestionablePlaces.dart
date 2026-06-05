@@ -23,7 +23,7 @@ class Structs_PuttingTypesIntoQuestionablePlaces extends SwiftReference {
     );
 
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
+    staticTestAPI.Structs_PuttingTypesIntoQuestionablePlaces create(
     ) =>
         consumeCreatedRef<TestAPI.Structs_PuttingTypesIntoQuestionablePlaces>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(Loader.shared.env, _exn)))
     ;

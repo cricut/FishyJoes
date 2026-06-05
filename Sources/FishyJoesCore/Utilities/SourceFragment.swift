@@ -38,6 +38,11 @@ public class SourceFragment {
     }
 
     public func output(_ line: String, newLineTerminated: Bool = true) {
+        let line = line.replacingOccurrences(of: #"[ \t]+$"#, with: "", options: .regularExpression)
+        if line.isEmpty, newLineTerminated, isFreshLine {
+            output()
+            return
+        }
         if isFreshLine {
             stringBuilder.append(currentIndentString)
         }

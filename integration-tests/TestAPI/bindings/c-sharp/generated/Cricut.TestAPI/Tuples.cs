@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tuple2) -->
         /// </summary>
-        public static System.Tuple<nint, string> Tuple2 {
+        public staticSystem.Tuple<nint, string> Tuple2 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Tuples_tuple2(Loader.env, out exn).Consume<System.Tuple<nint, string>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tuple3) -->
         /// </summary>
-        public static System.Tuple<string, double, string> Tuple3 {
+        public staticSystem.Tuple<string, double, string> Tuple3 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Tuples_tuple3(Loader.env, out exn).Consume<System.Tuple<string, double, string>>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tuple4) -->
         /// </summary>
-        public static System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> Tuple4 {
+        public staticSystem.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> Tuple4 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Tuples_tuple4(Loader.env, out exn).Consume<System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tuple5) -->
         /// </summary>
-        public static System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>> Tuple5 {
+        public staticSystem.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>> Tuple5 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Tuples_tuple5(Loader.env, out exn).Consume<System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tuple6) -->
         /// </summary>
-        public static System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool> Tuple6 {
+        public staticSystem.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool> Tuple6 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Tuples_tuple6(Loader.env, out exn).Consume<System.Tuple<string, nint, double, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, byte, System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool>, System.Tuple<string, double, string>, System.Tuple<nint, string>>, bool>>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(checkTuples) -->
         /// </summary>
-        public static bool CheckTuples(
+        public staticbool CheckTuples(
             System.Tuple<nint, string> t2,
             System.Tuple<string, double, string> t3,
             System.Tuple<System.Tuple<nint, string>, System.Tuple<string, double, string>, string, bool> t4,

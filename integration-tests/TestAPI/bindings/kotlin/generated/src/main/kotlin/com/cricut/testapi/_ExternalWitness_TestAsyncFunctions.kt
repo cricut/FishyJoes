@@ -72,7 +72,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise0) -->
      */
-    override suspend fun exercise0(
+    overridesuspend fun exercise0(
         fn: (suspend () -> Long)
     ): kotlin.String = __jni_exercise0(fn).await()
     @JvmName("__jni_exercise0")
@@ -83,7 +83,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise1) -->
      */
-    override suspend fun exercise1(
+    overridesuspend fun exercise1(
         fn: (suspend (Long) -> Long)
     ): kotlin.String = __jni_exercise1(fn).await()
     @JvmName("__jni_exercise1")
@@ -94,7 +94,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise2) -->
      */
-    override suspend fun exercise2(
+    overridesuspend fun exercise2(
         fn: (((suspend (Long) -> Long), (suspend (Long) -> Long)) -> (suspend (Long) -> Long))
     ): kotlin.String = __jni_exercise2(fn).await()
     @JvmName("__jni_exercise2")
@@ -105,7 +105,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise3) -->
      */
-    override suspend fun exercise3(
+    overridesuspend fun exercise3(
         fn: (suspend (Float, Double, Long) -> Double)
     ): kotlin.String = __jni_exercise3(fn).await()
     @JvmName("__jni_exercise3")
@@ -116,7 +116,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise4) -->
      */
-    override suspend fun exercise4(
+    overridesuspend fun exercise4(
         fn: (suspend (kotlin.String, kotlin.String, kotlin.String, kotlin.String) -> kotlin.collections.List<kotlin.String>)
     ): kotlin.String = __jni_exercise4(fn).await()
     @JvmName("__jni_exercise4")
@@ -127,7 +127,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise5) -->
      */
-    override suspend fun exercise5(
+    overridesuspend fun exercise5(
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long)) -> (suspend () -> Long))
     ): kotlin.String = __jni_exercise5(fn).await()
     @JvmName("__jni_exercise5")
@@ -138,7 +138,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(exercise6) -->
      */
-    override suspend fun exercise6(
+    overridesuspend fun exercise6(
         fn: (suspend (kotlin.String, Long, Double, kotlin.String, (suspend () -> Long), Long) -> Long)
     ): kotlin.String = __jni_exercise6(fn).await()
     @JvmName("__jni_exercise6")
@@ -149,7 +149,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(thunkTwiceMaker) -->
      */
-    override fun thunkTwiceMaker(
+    overridefun thunkTwiceMaker(
         thunk: (suspend () -> kotlin.Unit)
     ): (suspend () -> kotlin.Unit) = __jni_thunkTwiceMaker(thunk)
     @JvmName("__jni_thunkTwiceMaker")
@@ -160,7 +160,7 @@ private class _ExternalWitness_TestAsyncFunctions private constructor(_swiftRefe
     /**
      * <!-- FishyJoes.export(witness) -->
      */
-    override fun witness(
+    overridefun witness(
     ): com.cricut.testapi.TestAsyncFunctions = __jni_witness()
     @JvmName("__jni_witness")
     private external fun __jni_witness(

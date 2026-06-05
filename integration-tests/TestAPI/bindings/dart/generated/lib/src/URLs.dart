@@ -48,7 +48,7 @@ class URLs {
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
-    static Uri echo(
+    staticUri echo(
         Uri url,
     ) =>
         GCRef.using(url, (_urlHandle) =>

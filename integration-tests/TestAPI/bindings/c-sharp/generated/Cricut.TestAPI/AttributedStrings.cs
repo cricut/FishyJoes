@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(accent) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Accent {
+        public staticCricut.FishyJoesRuntime.AttributedString Accent {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_accent(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chinese) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Chinese {
+        public staticCricut.FishyJoesRuntime.AttributedString Chinese {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_chinese(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseBMP) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString ChineseBMP {
+        public staticCricut.FishyJoesRuntime.AttributedString ChineseBMP {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_chineseBMP(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(chineseSIP) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString ChineseSIP {
+        public staticCricut.FishyJoesRuntime.AttributedString ChineseSIP {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_chineseSIP(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emoji) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Emoji {
+        public staticCricut.FishyJoesRuntime.AttributedString Emoji {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_emoji(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emojiMulti) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString EmojiMulti {
+        public staticCricut.FishyJoesRuntime.AttributedString EmojiMulti {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_emojiMulti(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(polyglot) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Polyglot {
+        public staticCricut.FishyJoesRuntime.AttributedString Polyglot {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_polyglot(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(script) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Script {
+        public staticCricut.FishyJoesRuntime.AttributedString Script {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_script(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(simple) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Simple {
+        public staticCricut.FishyJoesRuntime.AttributedString Simple {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AttributedStrings_simple(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.AttributedString>()
@@ -140,7 +140,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString Echo(
+        public staticCricut.FishyJoesRuntime.AttributedString Echo(
             Cricut.FishyJoesRuntime.AttributedString _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -157,7 +157,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(firstIndex) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString.Index FirstIndex(
+        public staticCricut.FishyJoesRuntime.AttributedString.Index FirstIndex(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -174,7 +174,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(lastIndex) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributedString.Index LastIndex(
+        public staticCricut.FishyJoesRuntime.AttributedString.Index LastIndex(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -191,7 +191,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fullRange) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> FullRange(
+        public staticCricut.FishyJoesRuntime.SwiftRange<Cricut.FishyJoesRuntime.AttributedString.Index> FullRange(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -208,7 +208,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(attributedCharacters) -->
         /// </summary>
-        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedSubstring> AttributedCharacters(
+        public staticSystem.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedSubstring> AttributedCharacters(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -225,7 +225,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
         /// </summary>
-        public static Cricut.FishyJoesRuntime.AttributeContainer AttributesPreferringDuplicatesNearerStart(
+        public staticCricut.FishyJoesRuntime.AttributeContainer AttributesPreferringDuplicatesNearerStart(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);
@@ -242,7 +242,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(emptyAttributeRuns) -->
         /// </summary>
-        public static System.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run> EmptyAttributeRuns(
+        public staticSystem.Collections.Generic.IList<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run> EmptyAttributeRuns(
             Cricut.FishyJoesRuntime.AttributedString /* of */ _string
         ) {
             using var _stringHandle = new GCRef(_string);

@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
         /// </summary>
-        public string _leadingUnderscoreProp {
+        publicstring _leadingUnderscoreProp {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>

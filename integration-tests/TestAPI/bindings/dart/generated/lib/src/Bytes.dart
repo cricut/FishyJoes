@@ -36,7 +36,7 @@ class Bytes {
         )
     ;
     /// <!-- FishyJoes.export(echoBytes) -->
-    static List<int> echoBytes(
+    staticList<int> echoBytes(
         List<int> bytes,
     ) =>
         GCRef.using(bytes, (_bytesHandle) =>
@@ -45,7 +45,7 @@ class Bytes {
     ;
 
     /// <!-- FishyJoes.export(echoData) -->
-    static typed_data.Uint8List echoData(
+    statictyped_data.Uint8List echoData(
         typed_data.Uint8List data,
     ) =>
         GCRef.using(data, (_dataHandle) =>

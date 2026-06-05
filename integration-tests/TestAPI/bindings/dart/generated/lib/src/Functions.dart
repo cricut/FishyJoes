@@ -66,7 +66,7 @@ class Functions {
         )
     ;
     /// <!-- FishyJoes.export(exercise0) -->
-    static String exercise0(
+    staticString exercise0(
         int Function() fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -75,7 +75,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise1) -->
-    static String exercise1(
+    staticString exercise1(
         int Function(int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -84,7 +84,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise2) -->
-    static String exercise2(
+    staticString exercise2(
         int Function(int) Function(int Function(int), int Function(int)) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -93,7 +93,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise3) -->
-    static String exercise3(
+    staticString exercise3(
         double Function(double, double, int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -102,7 +102,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise4) -->
-    static String exercise4(
+    staticString exercise4(
         List<String> Function(String, String, String, String) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -111,7 +111,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise5) -->
-    static String exercise5(
+    staticString exercise5(
         int Function() Function(String, int, double, String, int Function()) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -120,7 +120,7 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(exercise6) -->
-    static String exercise6(
+    staticString exercise6(
         int Function(String, int, double, String, int Function(), int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -129,13 +129,13 @@ class Functions {
     ;
 
     /// <!-- FishyJoes.export(willThrow) -->
-    static String willThrow(
+    staticString willThrow(
     ) =>
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Functions_willThrow(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(thunkTwiceMaker) -->
-    static void Function() thunkTwiceMaker(
+    staticvoid Function() thunkTwiceMaker(
         void Function() thunk,
     ) =>
         GCRef.using(thunk, (_thunkHandle) =>

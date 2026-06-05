@@ -81,7 +81,7 @@ sealed class Structs {
          */
         var mutable: kotlin.String
           get() = __jni_get_mutable()
-          set(value) { __jni_set_mutable(value) } 
+          set(value) { __jni_set_mutable(value) }
         @JvmName("__jni_get_mutable")
         private external fun __jni_get_mutable(): kotlin.String
         @JvmName("__jni_set_mutable")
@@ -96,11 +96,11 @@ sealed class Structs {
         private external fun __jni_asyncGetMutable(
         ): kotlinx.coroutines.Deferred<kotlin.String>
 
-        override fun equals(
+        overridefun equals(
             other: Any?
         ): Boolean = (other is com.cricut.testapi.Structs.ReferenceStruct) && __jni_swiftEquals(this, other)
 
-        override fun hashCode(
+        overridefun hashCode(
         ): Int = __jni_hashCode()
         @JvmName("__jni_hashCode")
         private external fun __jni_hashCode(

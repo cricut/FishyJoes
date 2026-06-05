@@ -102,7 +102,7 @@ class ClosedRanges {
         )
     ;
     /// <!-- FishyJoes.export(echoUInt8Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoUInt8Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoUInt8Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -111,7 +111,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt16Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoUInt16Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoUInt16Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -120,7 +120,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt32Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoUInt32Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoUInt32Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -129,7 +129,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt64Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoUInt64Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoUInt64Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -138,7 +138,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoUIntRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoUIntRange(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoUIntRange(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -147,7 +147,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoInt8Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoInt8Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoInt8Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -156,7 +156,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoInt16Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoInt16Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoInt16Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -165,7 +165,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoInt32Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoInt32Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoInt32Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -174,7 +174,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoInt64Range) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoInt64Range(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoInt64Range(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -183,7 +183,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoIntRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<int> echoIntRange(
+    staticFishyJoesRuntime.SwiftClosedRange<int> echoIntRange(
         FishyJoesRuntime.SwiftClosedRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -192,7 +192,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoFloatRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<double> echoFloatRange(
+    staticFishyJoesRuntime.SwiftClosedRange<double> echoFloatRange(
         FishyJoesRuntime.SwiftClosedRange<double> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -201,7 +201,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoDoubleRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<double> echoDoubleRange(
+    staticFishyJoesRuntime.SwiftClosedRange<double> echoDoubleRange(
         FishyJoesRuntime.SwiftClosedRange<double> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -210,7 +210,7 @@ class ClosedRanges {
     ;
 
     /// <!-- FishyJoes.export(echoStringRange) -->
-    static FishyJoesRuntime.SwiftClosedRange<String> echoStringRange(
+    staticFishyJoesRuntime.SwiftClosedRange<String> echoStringRange(
         FishyJoesRuntime.SwiftClosedRange<String> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>

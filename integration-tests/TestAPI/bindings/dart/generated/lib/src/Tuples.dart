@@ -54,7 +54,7 @@ class Tuples {
         )
     ;
     /// <!-- FishyJoes.export(checkTuples) -->
-    static bool checkTuples(
+    staticbool checkTuples(
         tuple.Tuple2<int, String> t2,
         tuple.Tuple3<String, double, String> t3,
         tuple.Tuple4<tuple.Tuple2<int, String>, tuple.Tuple3<String, double, String>, String, bool> t4,

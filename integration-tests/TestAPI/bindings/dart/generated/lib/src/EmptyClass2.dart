@@ -46,7 +46,7 @@ class EmptyClass2 extends SwiftReference {
         )
     ;
     /// <!-- FishyJoes.export(make) -->
-    static TestAPI.EmptyClass2 make(
+    staticTestAPI.EmptyClass2 make(
     ) =>
         consumeCreatedRef<TestAPI.EmptyClass2>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyClass2_make(Loader.shared.env, _exn)))
     ;

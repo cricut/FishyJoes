@@ -16,7 +16,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fuga) -->
         /// </summary>
-        public double GetFuga() {
+        publicdouble GetFuga() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(Loader.env, thisHandle.ptr, out exn)
@@ -29,7 +29,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hoge) -->
         /// </summary>
-        public double Hoge(
+        publicdouble Hoge(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_TestNonExportedProtocolEnum_hoge(Loader.env, _thisHandle.ptr, out _exn));

@@ -38,7 +38,7 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     static CreatedRef ffi_get_corge(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestProtocolStruct>(obj).corge
         )
@@ -48,7 +48,7 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<TestProtocolStruct>(obj).corge = consumeRef<String>(newValue);
+        peekRef<TestProtocolStruct>(obj).corge =consumeRef<String>(newValue);
     });
 
     @override
@@ -64,7 +64,7 @@ class TestProtocolStruct implements TestAPI.TestMethodsProtocol, TestAPI.TestPro
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(corge)
     );

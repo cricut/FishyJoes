@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
         /// </summary>
-        public static string EchoDefaults(
+        public staticstring EchoDefaults(
             nint? x,
             nint? y = null,
             double /* theLabelForZ */ z = 3.14
@@ -36,7 +36,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(describeEnumDefault) -->
         /// </summary>
-        public static string DescribeEnumDefault(
+        public staticstring DescribeEnumDefault(
             nint value,
             Cricut.TestAPI.SimpleEnum color
         ) {
@@ -55,7 +55,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDefaultTolerance) -->
         /// </summary>
-        public static double EchoDefaultTolerance(
+        public staticdouble EchoDefaultTolerance(
             double tolerance = 1.4901161193847656E-8
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_DefaultArguments_echoDefaultTolerance(Loader.env, tolerance, out _exn));
@@ -71,7 +71,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
         /// </summary>
-        public static string EchoDefaultIntLimits(
+        public staticstring EchoDefaultIntLimits(
             nint minValue,
             nint maxValue
         ) {

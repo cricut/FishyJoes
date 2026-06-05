@@ -16,7 +16,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(UnicodeScalar_PuttingTypesIntoQuestionablePlaces) -->
-sealed class UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
+sealedclass UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
     const factory UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing(
     ) = UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing;
 
@@ -69,7 +69,7 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Thing extends UnicodeScal
     );
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode =>runtimeType.hashCode;
 
     @override
     String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()';

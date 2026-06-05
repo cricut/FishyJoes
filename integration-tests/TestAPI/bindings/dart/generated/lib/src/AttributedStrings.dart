@@ -78,7 +78,7 @@ class AttributedStrings {
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
-    static FishyJoesRuntime.AttributedString echo(
+    staticFishyJoesRuntime.AttributedString echo(
         FishyJoesRuntime.AttributedString string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -87,7 +87,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(firstIndex) -->
-    static FishyJoesRuntime.AttributedString_Index firstIndex(
+    staticFishyJoesRuntime.AttributedString_Index firstIndex(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -96,7 +96,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(lastIndex) -->
-    static FishyJoesRuntime.AttributedString_Index lastIndex(
+    staticFishyJoesRuntime.AttributedString_Index lastIndex(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -105,7 +105,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(fullRange) -->
-    static FishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index> fullRange(
+    staticFishyJoesRuntime.SwiftRange<FishyJoesRuntime.AttributedString_Index> fullRange(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -114,7 +114,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(attributedCharacters) -->
-    static List<FishyJoesRuntime.AttributedSubstring> attributedCharacters(
+    staticList<FishyJoesRuntime.AttributedSubstring> attributedCharacters(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -123,7 +123,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
-    static FishyJoesRuntime.AttributeContainer attributesPreferringDuplicatesNearerStart(
+    staticFishyJoesRuntime.AttributeContainer attributesPreferringDuplicatesNearerStart(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -132,7 +132,7 @@ class AttributedStrings {
     ;
 
     /// <!-- FishyJoes.export(emptyAttributeRuns) -->
-    static List<FishyJoesRuntime.AttributedString_Runs_Run> emptyAttributeRuns(
+    staticList<FishyJoesRuntime.AttributedString_Runs_Run> emptyAttributeRuns(
         FishyJoesRuntime.AttributedString /* of */ string,
     ) =>
         GCRef.using(string, (_stringHandle) =>

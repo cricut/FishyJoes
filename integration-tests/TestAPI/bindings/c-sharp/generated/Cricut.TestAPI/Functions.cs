@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
-        public static System.Func<float, double, nint, double> Add3Things {
+        public staticSystem.Func<float, double, nint, double> Add3Things {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_add3Things(Loader.env, out exn).Consume<System.Func<float, double, nint, double>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
-        public static System.Func<nint> Const42 {
+        public staticSystem.Func<nint> Const42 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_const42(Loader.env, out exn).Consume<System.Func<nint>>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
-        public static System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
+        public staticSystem.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> FifthThing {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_fifthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>>>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(abs) -->
         /// </summary>
-        public static System.Func<nint, nint> Abs {
+        public staticSystem.Func<nint, nint> Abs {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_abs(Loader.env, out exn).Consume<System.Func<nint, nint>>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
-        public static System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> IntCompose {
+        public staticSystem.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> IntCompose {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_intCompose(Loader.env, out exn).Consume<System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>>>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
-        public static System.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
+        public staticSystem.Func<string, string, string, string, System.Collections.Generic.IList<string>> MakeList {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_makeList(Loader.env, out exn).Consume<System.Func<string, string, string, string, System.Collections.Generic.IList<string>>>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(sixthThing) -->
         /// </summary>
-        public static System.Func<string, nint, double, string, System.Func<nint>, nint, nint> SixthThing {
+        public staticSystem.Func<string, nint, double, string, System.Func<nint>, nint, nint> SixthThing {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Functions_sixthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<nint>, nint, nint>>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->
         /// </summary>
-        public static string Exercise0(
+        public staticstring Exercise0(
             System.Func<nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -129,7 +129,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise1) -->
         /// </summary>
-        public static string Exercise1(
+        public staticstring Exercise1(
             System.Func<nint, nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -146,7 +146,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise2) -->
         /// </summary>
-        public static string Exercise2(
+        public staticstring Exercise2(
             System.Func<System.Func<nint, nint>, System.Func<nint, nint>, System.Func<nint, nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -163,7 +163,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise3) -->
         /// </summary>
-        public static string Exercise3(
+        public staticstring Exercise3(
             System.Func<float, double, nint, double> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -180,7 +180,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise4) -->
         /// </summary>
-        public static string Exercise4(
+        public staticstring Exercise4(
             System.Func<string, string, string, string, System.Collections.Generic.IList<string>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -197,7 +197,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise5) -->
         /// </summary>
-        public static string Exercise5(
+        public staticstring Exercise5(
             System.Func<string, nint, double, string, System.Func<nint>, System.Func<nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -214,7 +214,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise6) -->
         /// </summary>
-        public static string Exercise6(
+        public staticstring Exercise6(
             System.Func<string, nint, double, string, System.Func<nint>, nint, nint> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -231,7 +231,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
-        public static string WillThrow(
+        public staticstring WillThrow(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Functions_willThrow(Loader.env, out _exn)).Consume<string>();
         }
@@ -245,7 +245,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(thunkTwiceMaker) -->
         /// </summary>
-        public static System.Action ThunkTwiceMaker(
+        public staticSystem.Action ThunkTwiceMaker(
             System.Action thunk
         ) {
             using var _thunkHandle = new GCRef(thunk);

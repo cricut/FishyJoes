@@ -16,7 +16,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestProtocolEnum) -->
-sealed class TestProtocolEnum implements TestAPI.TestMethodsProtocol {
+sealedclass TestProtocolEnum implements TestAPI.TestMethodsProtocol {
     const factory TestProtocolEnum.qux(
     ) = TestProtocolEnum_Qux;
 
@@ -150,7 +150,7 @@ class TestProtocolEnum_Qux extends TestProtocolEnum {
     );
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode =>runtimeType.hashCode;
 
     @override
     String toString() => 'TestProtocolEnum.qux()';

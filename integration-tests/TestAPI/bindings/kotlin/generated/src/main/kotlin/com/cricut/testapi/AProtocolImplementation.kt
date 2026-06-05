@@ -14,7 +14,7 @@ data class AProtocolImplementation(
     /**
      * <!-- FishyJoes.export(bar) -->
      */
-    override fun bar(
+    overridefun bar(
         x: Long,
         y: Long
     ): com.cricut.testapi.AProtocol = __jni_bar(x, y)
@@ -27,7 +27,7 @@ data class AProtocolImplementation(
     /**
      * <!-- FishyJoes.export(hasADefaultImplementation) -->
      */
-    override fun hasADefaultImplementation(
+    overridefun hasADefaultImplementation(
         x: Long,
         y: Double
     ): kotlin.String = __jni__default_hasADefaultImplementation(x, y)
@@ -40,7 +40,7 @@ data class AProtocolImplementation(
     /**
      * <!-- FishyJoes.export(hasADefaultImplementation2) -->
      */
-    override fun hasADefaultImplementation2(
+    overridefun hasADefaultImplementation2(
         a: kotlin.String,
         b: Boolean,
         c: kotlin.String

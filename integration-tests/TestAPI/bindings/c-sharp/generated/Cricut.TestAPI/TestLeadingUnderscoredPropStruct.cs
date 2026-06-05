@@ -17,7 +17,7 @@ namespace Cricut.TestAPI {
             this._leadingUnderscoreProp = _leadingUnderscoreProp;
         }
 
-        public string Get_leadingUnderscoreProp(
+        publicstring Get_leadingUnderscoreProp(
         ) {
             return _leadingUnderscoreProp;
         }

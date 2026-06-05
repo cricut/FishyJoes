@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bitCountInt) -->
         /// </summary>
-        public static nint BitCountInt {
+        public staticnint BitCountInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_bitCountInt(Loader.env, out exn)
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bitCountUInt) -->
         /// </summary>
-        public static nint BitCountUInt {
+        public staticnint BitCountUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_bitCountUInt(Loader.env, out exn)
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(defaultPrimitiveHolder) -->
         /// </summary>
-        public static Cricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
+        public staticCricut.TestAPI.Primitives.PrimitiveHolder DefaultPrimitiveHolder {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Primitives.PrimitiveHolder>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(falseBool) -->
         /// </summary>
-        public static bool FalseBool {
+        public staticbool FalseBool {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_falseBool(Loader.env, out exn)
@@ -71,7 +71,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyBool) -->
         /// </summary>
-        public static System.Collections.Generic.IList<bool> ManyBool {
+        public staticSystem.Collections.Generic.IList<bool> ManyBool {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyBool(Loader.env, out exn).Consume<System.Collections.Generic.IList<bool>>()
@@ -85,7 +85,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyDouble) -->
         /// </summary>
-        public static System.Collections.Generic.IList<double> ManyDouble {
+        public staticSystem.Collections.Generic.IList<double> ManyDouble {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double>>()
@@ -99,7 +99,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyFloat) -->
         /// </summary>
-        public static System.Collections.Generic.IList<float> ManyFloat {
+        public staticSystem.Collections.Generic.IList<float> ManyFloat {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float>>()
@@ -113,7 +113,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nint> ManyInt {
+        public staticSystem.Collections.Generic.IList<nint> ManyInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
@@ -127,7 +127,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyInt16) -->
         /// </summary>
-        public static System.Collections.Generic.IList<short> ManyInt16 {
+        public staticSystem.Collections.Generic.IList<short> ManyInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<short>>()
@@ -141,7 +141,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyInt32) -->
         /// </summary>
-        public static System.Collections.Generic.IList<int> ManyInt32 {
+        public staticSystem.Collections.Generic.IList<int> ManyInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<int>>()
@@ -155,7 +155,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyInt64) -->
         /// </summary>
-        public static System.Collections.Generic.IList<long> ManyInt64 {
+        public staticSystem.Collections.Generic.IList<long> ManyInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<long>>()
@@ -169,7 +169,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<sbyte> ManyInt8 {
+        public staticSystem.Collections.Generic.IList<sbyte> ManyInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte>>()
@@ -183,7 +183,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeBool) -->
         /// </summary>
-        public static System.Collections.Generic.IList<bool?> ManyMaybeBool {
+        public staticSystem.Collections.Generic.IList<bool?> ManyMaybeBool {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeBool(Loader.env, out exn).Consume<System.Collections.Generic.IList<bool?>>()
@@ -197,7 +197,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeDouble) -->
         /// </summary>
-        public static System.Collections.Generic.IList<double?> ManyMaybeDouble {
+        public staticSystem.Collections.Generic.IList<double?> ManyMaybeDouble {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeDouble(Loader.env, out exn).Consume<System.Collections.Generic.IList<double?>>()
@@ -211,7 +211,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeFloat) -->
         /// </summary>
-        public static System.Collections.Generic.IList<float?> ManyMaybeFloat {
+        public staticSystem.Collections.Generic.IList<float?> ManyMaybeFloat {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeFloat(Loader.env, out exn).Consume<System.Collections.Generic.IList<float?>>()
@@ -225,7 +225,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nint?> ManyMaybeInt {
+        public staticSystem.Collections.Generic.IList<nint?> ManyMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
@@ -239,7 +239,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt16) -->
         /// </summary>
-        public static System.Collections.Generic.IList<short?> ManyMaybeInt16 {
+        public staticSystem.Collections.Generic.IList<short?> ManyMaybeInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<short?>>()
@@ -253,7 +253,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt32) -->
         /// </summary>
-        public static System.Collections.Generic.IList<int?> ManyMaybeInt32 {
+        public staticSystem.Collections.Generic.IList<int?> ManyMaybeInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<int?>>()
@@ -267,7 +267,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt64) -->
         /// </summary>
-        public static System.Collections.Generic.IList<long?> ManyMaybeInt64 {
+        public staticSystem.Collections.Generic.IList<long?> ManyMaybeInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<long?>>()
@@ -281,7 +281,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
+        public staticSystem.Collections.Generic.IList<sbyte?> ManyMaybeInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<sbyte?>>()
@@ -295,7 +295,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nuint?> ManyMaybeUInt {
+        public staticSystem.Collections.Generic.IList<nuint?> ManyMaybeUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint?>>()
@@ -309,7 +309,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt16) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
+        public staticSystem.Collections.Generic.IList<ushort?> ManyMaybeUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort?>>()
@@ -323,7 +323,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt32) -->
         /// </summary>
-        public static System.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
+        public staticSystem.Collections.Generic.IList<uint?> ManyMaybeUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint?>>()
@@ -337,7 +337,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt64) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
+        public staticSystem.Collections.Generic.IList<ulong?> ManyMaybeUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong?>>()
@@ -351,7 +351,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyMaybeUInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
+        public staticSystem.Collections.Generic.IList<byte?> ManyMaybeUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyMaybeUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
@@ -365,7 +365,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt) -->
         /// </summary>
-        public static System.Collections.Generic.IList<nuint> ManyUInt {
+        public staticSystem.Collections.Generic.IList<nuint> ManyUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyUInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nuint>>()
@@ -379,7 +379,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt16) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ushort> ManyUInt16 {
+        public staticSystem.Collections.Generic.IList<ushort> ManyUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyUInt16(Loader.env, out exn).Consume<System.Collections.Generic.IList<ushort>>()
@@ -393,7 +393,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt32) -->
         /// </summary>
-        public static System.Collections.Generic.IList<uint> ManyUInt32 {
+        public staticSystem.Collections.Generic.IList<uint> ManyUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyUInt32(Loader.env, out exn).Consume<System.Collections.Generic.IList<uint>>()
@@ -407,7 +407,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt64) -->
         /// </summary>
-        public static System.Collections.Generic.IList<ulong> ManyUInt64 {
+        public staticSystem.Collections.Generic.IList<ulong> ManyUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyUInt64(Loader.env, out exn).Consume<System.Collections.Generic.IList<ulong>>()
@@ -421,7 +421,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(manyUInt8) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte> ManyUInt8 {
+        public staticSystem.Collections.Generic.IList<byte> ManyUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_manyUInt8(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte>>()
@@ -435,7 +435,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxDouble) -->
         /// </summary>
-        public static double MaxDouble {
+        public staticdouble MaxDouble {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxDouble(Loader.env, out exn)
@@ -449,7 +449,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxFloat) -->
         /// </summary>
-        public static float MaxFloat {
+        public staticfloat MaxFloat {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxFloat(Loader.env, out exn)
@@ -463,7 +463,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxInt) -->
         /// </summary>
-        public static nint MaxInt {
+        public staticnint MaxInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxInt(Loader.env, out exn)
@@ -477,7 +477,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxInt16) -->
         /// </summary>
-        public static short MaxInt16 {
+        public staticshort MaxInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxInt16(Loader.env, out exn)
@@ -491,7 +491,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxInt32) -->
         /// </summary>
-        public static int MaxInt32 {
+        public staticint MaxInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxInt32(Loader.env, out exn)
@@ -505,7 +505,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxInt64) -->
         /// </summary>
-        public static long MaxInt64 {
+        public staticlong MaxInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxInt64(Loader.env, out exn)
@@ -519,7 +519,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxInt8) -->
         /// </summary>
-        public static sbyte MaxInt8 {
+        public staticsbyte MaxInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxInt8(Loader.env, out exn)
@@ -533,7 +533,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt) -->
         /// </summary>
-        public static nuint MaxUInt {
+        public staticnuint MaxUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxUInt(Loader.env, out exn)
@@ -547,7 +547,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt16) -->
         /// </summary>
-        public static ushort MaxUInt16 {
+        public staticushort MaxUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxUInt16(Loader.env, out exn)
@@ -561,7 +561,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt32) -->
         /// </summary>
-        public static uint MaxUInt32 {
+        public staticuint MaxUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxUInt32(Loader.env, out exn)
@@ -575,7 +575,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt64) -->
         /// </summary>
-        public static ulong MaxUInt64 {
+        public staticulong MaxUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxUInt64(Loader.env, out exn)
@@ -589,7 +589,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maxUInt8) -->
         /// </summary>
-        public static byte MaxUInt8 {
+        public staticbyte MaxUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_maxUInt8(Loader.env, out exn)
@@ -603,7 +603,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minDouble) -->
         /// </summary>
-        public static double MinDouble {
+        public staticdouble MinDouble {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minDouble(Loader.env, out exn)
@@ -617,7 +617,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minFloat) -->
         /// </summary>
-        public static float MinFloat {
+        public staticfloat MinFloat {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minFloat(Loader.env, out exn)
@@ -631,7 +631,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minInt) -->
         /// </summary>
-        public static nint MinInt {
+        public staticnint MinInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minInt(Loader.env, out exn)
@@ -645,7 +645,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minInt16) -->
         /// </summary>
-        public static short MinInt16 {
+        public staticshort MinInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minInt16(Loader.env, out exn)
@@ -659,7 +659,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minInt32) -->
         /// </summary>
-        public static int MinInt32 {
+        public staticint MinInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minInt32(Loader.env, out exn)
@@ -673,7 +673,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minInt64) -->
         /// </summary>
-        public static long MinInt64 {
+        public staticlong MinInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minInt64(Loader.env, out exn)
@@ -687,7 +687,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minInt8) -->
         /// </summary>
-        public static sbyte MinInt8 {
+        public staticsbyte MinInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minInt8(Loader.env, out exn)
@@ -701,7 +701,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minUInt) -->
         /// </summary>
-        public static nuint MinUInt {
+        public staticnuint MinUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minUInt(Loader.env, out exn)
@@ -715,7 +715,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minUInt16) -->
         /// </summary>
-        public static ushort MinUInt16 {
+        public staticushort MinUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minUInt16(Loader.env, out exn)
@@ -729,7 +729,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minUInt32) -->
         /// </summary>
-        public static uint MinUInt32 {
+        public staticuint MinUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minUInt32(Loader.env, out exn)
@@ -743,7 +743,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minUInt64) -->
         /// </summary>
-        public static ulong MinUInt64 {
+        public staticulong MinUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minUInt64(Loader.env, out exn)
@@ -757,7 +757,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(minUInt8) -->
         /// </summary>
-        public static byte MinUInt8 {
+        public staticbyte MinUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_minUInt8(Loader.env, out exn)
@@ -771,7 +771,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(trueBool) -->
         /// </summary>
-        public static bool TrueBool {
+        public staticbool TrueBool {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_trueBool(Loader.env, out exn)
@@ -786,7 +786,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroDouble) -->
         /// </summary>
-        public static double ZeroDouble {
+        public staticdouble ZeroDouble {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroDouble(Loader.env, out exn)
@@ -800,7 +800,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroFloat) -->
         /// </summary>
-        public static float ZeroFloat {
+        public staticfloat ZeroFloat {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroFloat(Loader.env, out exn)
@@ -814,7 +814,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt) -->
         /// </summary>
-        public static nint ZeroInt {
+        public staticnint ZeroInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroInt(Loader.env, out exn)
@@ -828,7 +828,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt16) -->
         /// </summary>
-        public static short ZeroInt16 {
+        public staticshort ZeroInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroInt16(Loader.env, out exn)
@@ -842,7 +842,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt32) -->
         /// </summary>
-        public static int ZeroInt32 {
+        public staticint ZeroInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroInt32(Loader.env, out exn)
@@ -856,7 +856,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt64) -->
         /// </summary>
-        public static long ZeroInt64 {
+        public staticlong ZeroInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroInt64(Loader.env, out exn)
@@ -870,7 +870,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroInt8) -->
         /// </summary>
-        public static sbyte ZeroInt8 {
+        public staticsbyte ZeroInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroInt8(Loader.env, out exn)
@@ -884,7 +884,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt) -->
         /// </summary>
-        public static nuint ZeroUInt {
+        public staticnuint ZeroUInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroUInt(Loader.env, out exn)
@@ -898,7 +898,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt16) -->
         /// </summary>
-        public static ushort ZeroUInt16 {
+        public staticushort ZeroUInt16 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroUInt16(Loader.env, out exn)
@@ -912,7 +912,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt32) -->
         /// </summary>
-        public static uint ZeroUInt32 {
+        public staticuint ZeroUInt32 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroUInt32(Loader.env, out exn)
@@ -926,7 +926,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt64) -->
         /// </summary>
-        public static ulong ZeroUInt64 {
+        public staticulong ZeroUInt64 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroUInt64(Loader.env, out exn)
@@ -940,7 +940,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zeroUInt8) -->
         /// </summary>
-        public static byte ZeroUInt8 {
+        public staticbyte ZeroUInt8 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Primitives_zeroUInt8(Loader.env, out exn)
@@ -954,7 +954,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoBool) -->
         /// </summary>
-        public static bool EchoBool(
+        public staticbool EchoBool(
             bool value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoBool(Loader.env, value, out _exn));
@@ -971,7 +971,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt8) -->
         /// </summary>
-        public static byte EchoUInt8(
+        public staticbyte EchoUInt8(
             byte value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt8(Loader.env, value, out _exn));
@@ -987,7 +987,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt16) -->
         /// </summary>
-        public static ushort EchoUInt16(
+        public staticushort EchoUInt16(
             ushort value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt16(Loader.env, value, out _exn));
@@ -1003,7 +1003,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt32) -->
         /// </summary>
-        public static uint EchoUInt32(
+        public staticuint EchoUInt32(
             uint value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt32(Loader.env, value, out _exn));
@@ -1019,7 +1019,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt64) -->
         /// </summary>
-        public static ulong EchoUInt64(
+        public staticulong EchoUInt64(
             ulong value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt64(Loader.env, value, out _exn));
@@ -1035,7 +1035,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt) -->
         /// </summary>
-        public static nuint EchoUInt(
+        public staticnuint EchoUInt(
             nuint value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoUInt(Loader.env, value, out _exn));
@@ -1051,7 +1051,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt8) -->
         /// </summary>
-        public static sbyte EchoInt8(
+        public staticsbyte EchoInt8(
             sbyte value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt8(Loader.env, value, out _exn));
@@ -1067,7 +1067,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt16) -->
         /// </summary>
-        public static short EchoInt16(
+        public staticshort EchoInt16(
             short value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt16(Loader.env, value, out _exn));
@@ -1083,7 +1083,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt32) -->
         /// </summary>
-        public static int EchoInt32(
+        public staticint EchoInt32(
             int value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt32(Loader.env, value, out _exn));
@@ -1099,7 +1099,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt64) -->
         /// </summary>
-        public static long EchoInt64(
+        public staticlong EchoInt64(
             long value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt64(Loader.env, value, out _exn));
@@ -1115,7 +1115,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt) -->
         /// </summary>
-        public static nint EchoInt(
+        public staticnint EchoInt(
             nint value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoInt(Loader.env, value, out _exn));
@@ -1131,7 +1131,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoFloat) -->
         /// </summary>
-        public static float EchoFloat(
+        public staticfloat EchoFloat(
             float value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoFloat(Loader.env, value, out _exn));
@@ -1147,7 +1147,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDouble) -->
         /// </summary>
-        public static double EchoDouble(
+        public staticdouble EchoDouble(
             double value
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Primitives_echoDouble(Loader.env, value, out _exn));
@@ -1163,7 +1163,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoBool) -->
         /// </summary>
-        public static bool? MaybeEchoBool(
+        public staticbool? MaybeEchoBool(
             bool? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1180,7 +1180,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt8) -->
         /// </summary>
-        public static byte? MaybeEchoUInt8(
+        public staticbyte? MaybeEchoUInt8(
             byte? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1197,7 +1197,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt16) -->
         /// </summary>
-        public static ushort? MaybeEchoUInt16(
+        public staticushort? MaybeEchoUInt16(
             ushort? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1214,7 +1214,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt32) -->
         /// </summary>
-        public static uint? MaybeEchoUInt32(
+        public staticuint? MaybeEchoUInt32(
             uint? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1231,7 +1231,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt64) -->
         /// </summary>
-        public static ulong? MaybeEchoUInt64(
+        public staticulong? MaybeEchoUInt64(
             ulong? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1248,7 +1248,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoUInt) -->
         /// </summary>
-        public static nuint? MaybeEchoUInt(
+        public staticnuint? MaybeEchoUInt(
             nuint? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1265,7 +1265,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt8) -->
         /// </summary>
-        public static sbyte? MaybeEchoInt8(
+        public staticsbyte? MaybeEchoInt8(
             sbyte? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1282,7 +1282,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt16) -->
         /// </summary>
-        public static short? MaybeEchoInt16(
+        public staticshort? MaybeEchoInt16(
             short? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1299,7 +1299,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt32) -->
         /// </summary>
-        public static int? MaybeEchoInt32(
+        public staticint? MaybeEchoInt32(
             int? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1316,7 +1316,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt64) -->
         /// </summary>
-        public static long? MaybeEchoInt64(
+        public staticlong? MaybeEchoInt64(
             long? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1333,7 +1333,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoInt) -->
         /// </summary>
-        public static nint? MaybeEchoInt(
+        public staticnint? MaybeEchoInt(
             nint? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1350,7 +1350,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoFloat) -->
         /// </summary>
-        public static float? MaybeEchoFloat(
+        public staticfloat? MaybeEchoFloat(
             float? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1367,7 +1367,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeEchoDouble) -->
         /// </summary>
-        public static double? MaybeEchoDouble(
+        public staticdouble? MaybeEchoDouble(
             double? value
         ) {
             using var _valueHandle = new GCRef(value);
@@ -1384,7 +1384,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(boolOverflow) -->
         /// </summary>
-        public static nint BoolOverflow(
+        public staticnint BoolOverflow(
             bool b0,
             bool b1,
             bool b2,
@@ -1430,7 +1430,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(valueMapper) -->
         /// </summary>
-        public static byte? ValueMapper(
+        public staticbyte? ValueMapper(
             byte? value,
             System.Func<byte?, byte?> mapper
         ) {
@@ -1537,7 +1537,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<byte?> StaticMutableProperty {
+            public staticSystem.Collections.Generic.IList<byte?> StaticMutableProperty {
                 get {
                     return Check((out CreatedRef exn) =>
                         __iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()
@@ -1560,7 +1560,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(staticProperty) -->
             /// </summary>
-            public static System.Collections.Generic.IList<byte?> StaticProperty {
+            public staticSystem.Collections.Generic.IList<byte?> StaticProperty {
                 get {
                     return Check((out CreatedRef exn) =>
                         __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte?>>()

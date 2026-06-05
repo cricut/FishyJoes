@@ -12,7 +12,7 @@ export declare namespace EmojiFun {
          * - Returns: A string containing an emoji hello message.
          * <!-- FishyJoes.export(hello) -->
          */
-        static readonly hello: string;
+        staticreadonlyhello: string;
 
         /**
          * A collection of emoji strings known to the object.
@@ -20,14 +20,14 @@ export declare namespace EmojiFun {
          * This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.
          * <!-- FishyJoes.export(known) -->
          */
-        readonly known: Set<string>;
+        readonlyknown: Set<string>;
 
         /**
          * Creates an object that works with emoji strings.
          * - Parameter count: The number of emoji strings to include in the object's known collection.
          * <!-- FishyJoes.export(create) -->
          */
-        static create(
+        staticcreate(
             count: number
         ): EmojiFun.EmojiExplorer;
 

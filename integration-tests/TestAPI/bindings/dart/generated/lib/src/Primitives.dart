@@ -426,98 +426,98 @@ class Primitives {
         )
     ;
     /// <!-- FishyJoes.export(echoBool) -->
-    static bool echoBool(
+    staticbool echoBool(
         bool value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoBool(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoUInt8) -->
-    static int echoUInt8(
+    staticint echoUInt8(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoUInt8(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoUInt16) -->
-    static int echoUInt16(
+    staticint echoUInt16(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoUInt16(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoUInt32) -->
-    static int echoUInt32(
+    staticint echoUInt32(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoUInt32(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoUInt64) -->
-    static int echoUInt64(
+    staticint echoUInt64(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoUInt64(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoUInt) -->
-    static int echoUInt(
+    staticint echoUInt(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoUInt(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoInt8) -->
-    static int echoInt8(
+    staticint echoInt8(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoInt8(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoInt16) -->
-    static int echoInt16(
+    staticint echoInt16(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoInt16(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoInt32) -->
-    static int echoInt32(
+    staticint echoInt32(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoInt32(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoInt64) -->
-    static int echoInt64(
+    staticint echoInt64(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoInt64(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoInt) -->
-    static int echoInt(
+    staticint echoInt(
         int value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoInt(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoFloat) -->
-    static double echoFloat(
+    staticdouble echoFloat(
         double value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoFloat(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(echoDouble) -->
-    static double echoDouble(
+    staticdouble echoDouble(
         double value,
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_Primitives_echoDouble(Loader.shared.env, value, _exn))
     ;
 
     /// <!-- FishyJoes.export(maybeEchoBool) -->
-    static bool? maybeEchoBool(
+    staticbool? maybeEchoBool(
         bool? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -526,7 +526,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoUInt8) -->
-    static int? maybeEchoUInt8(
+    staticint? maybeEchoUInt8(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -535,7 +535,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoUInt16) -->
-    static int? maybeEchoUInt16(
+    staticint? maybeEchoUInt16(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -544,7 +544,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoUInt32) -->
-    static int? maybeEchoUInt32(
+    staticint? maybeEchoUInt32(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -553,7 +553,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoUInt64) -->
-    static int? maybeEchoUInt64(
+    staticint? maybeEchoUInt64(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -562,7 +562,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoUInt) -->
-    static int? maybeEchoUInt(
+    staticint? maybeEchoUInt(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -571,7 +571,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoInt8) -->
-    static int? maybeEchoInt8(
+    staticint? maybeEchoInt8(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -580,7 +580,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoInt16) -->
-    static int? maybeEchoInt16(
+    staticint? maybeEchoInt16(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -589,7 +589,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoInt32) -->
-    static int? maybeEchoInt32(
+    staticint? maybeEchoInt32(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -598,7 +598,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoInt64) -->
-    static int? maybeEchoInt64(
+    staticint? maybeEchoInt64(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -607,7 +607,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoInt) -->
-    static int? maybeEchoInt(
+    staticint? maybeEchoInt(
         int? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -616,7 +616,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoFloat) -->
-    static double? maybeEchoFloat(
+    staticdouble? maybeEchoFloat(
         double? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -625,7 +625,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(maybeEchoDouble) -->
-    static double? maybeEchoDouble(
+    staticdouble? maybeEchoDouble(
         double? value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
@@ -634,7 +634,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(boolOverflow) -->
-    static int boolOverflow(
+    staticint boolOverflow(
         bool b0,
         bool b1,
         bool b2,
@@ -656,7 +656,7 @@ class Primitives {
     ;
 
     /// <!-- FishyJoes.export(valueMapper) -->
-    static int? valueMapper(
+    staticint? valueMapper(
         int? value,
         int? Function(int?) mapper,
     ) =>

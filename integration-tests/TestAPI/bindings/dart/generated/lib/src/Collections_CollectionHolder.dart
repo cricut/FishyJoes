@@ -78,7 +78,7 @@ class Collections_CollectionHolder {
     static CreatedRef ffi_get_boolArray(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).boolArray
         )
@@ -88,13 +88,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolArray = consumeRef<List<bool>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).boolArray =consumeRef<List<bool>>(newValue);
     });
 
     static CreatedRef ffi_get_boolSet(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).boolSet
         )
@@ -104,13 +104,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolSet = consumeRef<Set<bool>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).boolSet =consumeRef<Set<bool>>(newValue);
     });
 
     static CreatedRef ffi_get_boolDictionary(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).boolDictionary
         )
@@ -120,13 +120,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).boolDictionary = consumeRef<Map<bool, bool>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).boolDictionary =consumeRef<Map<bool, bool>>(newValue);
     });
 
     static CreatedRef ffi_get_integerArray(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).integerArray
         )
@@ -136,13 +136,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerArray = consumeRef<List<int>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).integerArray =consumeRef<List<int>>(newValue);
     });
 
     static CreatedRef ffi_get_integerSet(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).integerSet
         )
@@ -152,13 +152,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerSet = consumeRef<Set<int>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).integerSet =consumeRef<Set<int>>(newValue);
     });
 
     static CreatedRef ffi_get_integerDictionary(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).integerDictionary
         )
@@ -168,13 +168,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).integerDictionary = consumeRef<Map<int, int>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).integerDictionary =consumeRef<Map<int, int>>(newValue);
     });
 
     static CreatedRef ffi_get_stringArray(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).stringArray
         )
@@ -184,13 +184,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringArray = consumeRef<List<String>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).stringArray =consumeRef<List<String>>(newValue);
     });
 
     static CreatedRef ffi_get_stringSet(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).stringSet
         )
@@ -200,13 +200,13 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringSet = consumeRef<Set<String>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).stringSet =consumeRef<Set<String>>(newValue);
     });
 
     static CreatedRef ffi_get_stringDictionary(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Collections_CollectionHolder>(obj).stringDictionary
         )
@@ -216,7 +216,7 @@ class Collections_CollectionHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Collections_CollectionHolder>(obj).stringDictionary = consumeRef<Map<String, String>>(newValue);
+        peekRef<Collections_CollectionHolder>(obj).stringDictionary =consumeRef<Map<String, String>>(newValue);
     });
 
     @override
@@ -240,16 +240,16 @@ class Collections_CollectionHolder {
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(boolArray), 
-        const DeepCollectionEquality().hash(boolSet), 
-        const DeepCollectionEquality().hash(boolDictionary), 
-        const DeepCollectionEquality().hash(integerArray), 
-        const DeepCollectionEquality().hash(integerSet), 
-        const DeepCollectionEquality().hash(integerDictionary), 
-        const DeepCollectionEquality().hash(stringArray), 
-        const DeepCollectionEquality().hash(stringSet), 
+        const DeepCollectionEquality().hash(boolArray),
+        const DeepCollectionEquality().hash(boolSet),
+        const DeepCollectionEquality().hash(boolDictionary),
+        const DeepCollectionEquality().hash(integerArray),
+        const DeepCollectionEquality().hash(integerSet),
+        const DeepCollectionEquality().hash(integerDictionary),
+        const DeepCollectionEquality().hash(stringArray),
+        const DeepCollectionEquality().hash(stringSet),
         const DeepCollectionEquality().hash(stringDictionary)
     );
 

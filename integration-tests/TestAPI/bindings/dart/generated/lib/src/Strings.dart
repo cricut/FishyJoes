@@ -72,7 +72,7 @@ class Strings {
         )
     ;
     /// <!-- FishyJoes.export(echo) -->
-    static String echo(
+    staticString echo(
         String string,
     ) =>
         GCRef.using(string, (_stringHandle) =>
@@ -81,7 +81,7 @@ class Strings {
     ;
 
     /// <!-- FishyJoes.export(split) -->
-    static List<String> split(
+    staticList<String> split(
         String string,
         String by,
     ) =>

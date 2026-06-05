@@ -17,7 +17,7 @@ namespace Cricut.TestAPI {
             this.Tata = Tata;
         }
 
-        public nint GetTata(
+        publicnint GetTata(
         ) {
             return Tata;
         }

@@ -24,7 +24,7 @@ class DefaultArguments {
     });
 
     /// <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
-    static String echoDefaults(
+    staticString echoDefaults(
         int? x,
         {
             int? y = null,
@@ -39,7 +39,7 @@ class DefaultArguments {
     ;
 
     /// <!-- FishyJoes.export(describeEnumDefault) -->
-    static String describeEnumDefault(
+    staticString describeEnumDefault(
         int value,
         TestAPI.SimpleEnum color,
     ) =>
@@ -49,7 +49,7 @@ class DefaultArguments {
     ;
 
     /// <!-- FishyJoes.export(echoDefaultTolerance) -->
-    static double echoDefaultTolerance(
+    staticdouble echoDefaultTolerance(
         {
             double tolerance = 1.4901161193847656E-8,
         }
@@ -58,7 +58,7 @@ class DefaultArguments {
     ;
 
     /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
-    static String echoDefaultIntLimits(
+    staticString echoDefaultIntLimits(
         int minValue,
         int maxValue,
     ) =>

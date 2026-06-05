@@ -16,7 +16,7 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
     /**
      * <!-- FishyJoes.export(wombat) -->
      */
-    override fun wombat(
+    overridefun wombat(
         zxc: Long?
     ): Double? = __jni_wombat(zxc)
     @JvmName("__jni_wombat")
@@ -27,7 +27,7 @@ private class _ExternalWitness_TestOptionalsProtocol private constructor(_swiftR
     /**
      * <!-- FishyJoes.export(spqr) -->
      */
-    override fun spqr(
+    overridefun spqr(
         pippo: com.cricut.testapi.AssociatedDataEnum
     ): Long = __jni_spqr(pippo)
     @JvmName("__jni_spqr")

@@ -63,7 +63,7 @@ class TestDefaultComputedPropertiesReference extends SwiftReference implements T
         ;
     }
     /// <!-- FishyJoes.export(init) -->
-    static TestAPI.TestDefaultComputedPropertiesReference init(
+    staticTestAPI.TestDefaultComputedPropertiesReference init(
         bool spam,
         int noot,
     ) =>

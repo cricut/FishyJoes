@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
-        public System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
+        publicSystem.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -29,7 +29,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
-        public System.Func<System.Threading.Tasks.Task<nint>> Const42 {
+        publicSystem.Func<System.Threading.Tasks.Task<nint>> Const42 {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
+        publicSystem.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -59,7 +59,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(iabs) -->
         /// </summary>
-        public System.Func<nint, System.Threading.Tasks.Task<nint>> Iabs {
+        publicSystem.Func<nint, System.Threading.Tasks.Task<nint>> Iabs {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -74,7 +74,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
-        public System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose {
+        publicSystem.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -89,7 +89,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
-        public System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
+        publicSystem.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -104,7 +104,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(six) -->
         /// </summary>
-        public System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six {
+        publicSystem.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> Six {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -119,7 +119,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
-        public System.Func<System.Threading.Tasks.Task<nint>> WillThrow {
+        publicSystem.Func<System.Threading.Tasks.Task<nint>> WillThrow {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -134,7 +134,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise0(
+        publicSystem.Threading.Tasks.Task<string> Exercise0(
             System.Func<System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -153,7 +153,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise1) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise1(
+        publicSystem.Threading.Tasks.Task<string> Exercise1(
             System.Func<nint, System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -172,7 +172,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise2) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise2(
+        publicSystem.Threading.Tasks.Task<string> Exercise2(
             System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -191,7 +191,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise3) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise3(
+        publicSystem.Threading.Tasks.Task<string> Exercise3(
             System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -210,7 +210,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise4) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise4(
+        publicSystem.Threading.Tasks.Task<string> Exercise4(
             System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -229,7 +229,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise5) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise5(
+        publicSystem.Threading.Tasks.Task<string> Exercise5(
             System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -248,7 +248,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise6) -->
         /// </summary>
-        public System.Threading.Tasks.Task<string> Exercise6(
+        publicSystem.Threading.Tasks.Task<string> Exercise6(
             System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _thisHandle = new GCRef(this);
@@ -267,7 +267,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(thunkTwiceMaker) -->
         /// </summary>
-        public System.Func<System.Threading.Tasks.Task> ThunkTwiceMaker(
+        publicSystem.Func<System.Threading.Tasks.Task> ThunkTwiceMaker(
             System.Func<System.Threading.Tasks.Task> thunk
         ) {
             using var _thisHandle = new GCRef(this);
@@ -286,7 +286,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(witness) -->
         /// </summary>
-        public Cricut.TestAPI.TestAsyncFunctions Witness(
+        publicCricut.TestAPI.TestAsyncFunctions Witness(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_TestAsyncFunctions_witness(Loader.env, _thisHandle.ptr, out _exn)).Consume<Cricut.TestAPI.TestAsyncFunctions>();

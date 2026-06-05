@@ -37,7 +37,7 @@ extension AProtocol_DefaultImplementations on AProtocol {
         int x,
         double y,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<AProtocol>(obj).hasADefaultImplementation(
                 x,
@@ -66,7 +66,7 @@ extension AProtocol_DefaultImplementations on AProtocol {
         bool b,
         UnownedRef c,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<AProtocol>(obj).hasADefaultImplementation2(
                 peekRef<String>(a),
@@ -97,14 +97,14 @@ extension AProtocol_FfiHooks on AProtocol {
     static bool ffi_get_baz(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<AProtocol>(obj).baz
     ) ?? false;
 
     static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<AProtocol>(obj).foo
         )
@@ -115,7 +115,7 @@ extension AProtocol_FfiHooks on AProtocol {
         int x,
         int y,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<AProtocol>(obj).bar(
                 x,

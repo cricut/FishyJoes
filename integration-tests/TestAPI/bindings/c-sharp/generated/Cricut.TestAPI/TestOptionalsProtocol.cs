@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(flarp) -->
         /// </summary>
-        public string? GetFlarp() {
+        publicstring? GetFlarp() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestOptionalsProtocol_flarp(Loader.env, thisHandle.ptr, out exn).Consume<string?>()
@@ -25,7 +25,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(wombat) -->
         /// </summary>
-        public double? Wombat(
+        publicdouble? Wombat(
             nint? zxc
         ) {
             using var _thisHandle = new GCRef(this);
@@ -44,7 +44,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(spqr) -->
         /// </summary>
-        public nint Spqr(
+        publicnint Spqr(
             Cricut.TestAPI.AssociatedDataEnum pippo
         ) {
             using var _thisHandle = new GCRef(this);

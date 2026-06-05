@@ -38,7 +38,7 @@ class Structs_MutableStruct {
     static int ffi_get_i(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<Structs_MutableStruct>(obj).i
     ) ?? 0;
     static void ffi_set_i(
@@ -46,7 +46,7 @@ class Structs_MutableStruct {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_MutableStruct>(obj).i = newValue;
+        peekRef<Structs_MutableStruct>(obj).i =newValue;
     });
 
     @override
@@ -62,7 +62,7 @@ class Structs_MutableStruct {
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(i)
     );
@@ -74,7 +74,7 @@ class Structs_MutableStruct {
     );
 
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MutableStruct create(
+    staticTestAPI.Structs_MutableStruct create(
     ) =>
         consumeCreatedRef<TestAPI.Structs_MutableStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MutableStruct_create(Loader.shared.env, _exn)))
     ;

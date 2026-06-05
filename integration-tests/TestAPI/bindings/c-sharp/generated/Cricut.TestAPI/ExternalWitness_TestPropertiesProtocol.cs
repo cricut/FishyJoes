@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(corge) -->
         /// </summary>
-        public string Corge {
+        publicstring Corge {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -29,7 +29,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(frobby) -->
         /// </summary>
-        public System.Collections.Generic.IList<nint> Frobby {
+        publicSystem.Collections.Generic.IList<nint> Frobby {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>

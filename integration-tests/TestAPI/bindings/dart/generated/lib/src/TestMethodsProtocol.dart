@@ -41,7 +41,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
     static void ffi_foo(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestMethodsProtocol>(obj).foo(
         )
     );
@@ -49,7 +49,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
     static bool ffi_bar(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestMethodsProtocol>(obj).bar(
         )
     ) ?? false;
@@ -58,7 +58,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
         UnownedRef obj,
         bool qux,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestMethodsProtocol>(obj).baz(
             qux
         )
@@ -68,7 +68,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
         UnownedRef obj,
         UnownedRef m_0,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).garply(
                 peekRef(m_0)
@@ -81,7 +81,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
         int thud,
         UnownedRef grault,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).xyzzy(
                 thud,
@@ -94,7 +94,7 @@ extension TestMethodsProtocol_FfiHooks on TestMethodsProtocol {
         UnownedRef obj,
         UnownedRef fred,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestMethodsProtocol>(obj).plugh(
                 peekRef(fred)

@@ -38,7 +38,7 @@ class Results_Error {
     static CreatedRef ffi_get_message(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Results_Error>(obj).message
         )
@@ -57,7 +57,7 @@ class Results_Error {
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(message)
     );

@@ -115,7 +115,7 @@ class Methods extends SwiftReference {
         ;
     }
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Methods create(
+    staticTestAPI.Methods create(
     ) =>
         consumeCreatedRef<TestAPI.Methods>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_create(Loader.shared.env, _exn)))
     ;
@@ -203,38 +203,38 @@ class Methods extends SwiftReference {
     ;
 
     /// <!-- FishyJoes.export(staticAsync42) -->
-    static Future<int> staticAsync42(
+    staticFuture<int> staticAsync42(
     ) =>
         consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsync42(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncYield) -->
-    static Future<int> staticAsyncYield(
+    staticFuture<int> staticAsyncYield(
     ) =>
         consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncYield(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncSleep) -->
-    static Future<int> staticAsyncSleep(
+    staticFuture<int> staticAsyncSleep(
     ) =>
         consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncSleep(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncVoid) -->
-    static Future<void> staticAsyncVoid(
+    staticFuture<void> staticAsyncVoid(
     ) =>
         consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncVoid(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncDouble) -->
-    static Future<double> staticAsyncDouble(
+    staticFuture<double> staticAsyncDouble(
         double d,
     ) =>
         consumeCreatedRef<Future<double>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncDouble(Loader.shared.env, d, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
-    static Future<int> staticAsyncMultipleArgs(
+    staticFuture<int> staticAsyncMultipleArgs(
         int i,
         Future<int> Function() j,
     ) =>
@@ -244,13 +244,13 @@ class Methods extends SwiftReference {
     ;
 
     /// <!-- FishyJoes.export(staticAsyncThrowing) -->
-    static Future<void> staticAsyncThrowing(
+    staticFuture<void> staticAsyncThrowing(
     ) =>
         consumeCreatedRef<Future<void>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Methods_staticAsyncThrowing(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
-    static Future<int> staticAsyncCallbackFunc0(
+    staticFuture<int> staticAsyncCallbackFunc0(
         Future<int> Function() callback,
     ) =>
         GCRef.using(callback, (_callbackHandle) =>
@@ -259,7 +259,7 @@ class Methods extends SwiftReference {
     ;
 
     /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
-    static void methodWithNewlinesInTypes(
+    staticvoid methodWithNewlinesInTypes(
         Future<Result<int, TestAPI.TheMethodError>> Function(int, typed_data.Uint8List, bool) thing,
     ) =>
         GCRef.using(thing, (_thingHandle) =>

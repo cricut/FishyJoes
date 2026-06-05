@@ -66,13 +66,13 @@ class PythonNamingCollisions {
         )
     ;
     /// <!-- FishyJoes.export(from) -->
-    static String from(
+    staticString from(
     ) =>
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_PythonNamingCollisions_from(Loader.shared.env, _exn)))
     ;
 
     /// <!-- FishyJoes.export(keywordArgs) -->
-    static int keywordArgs(
+    staticint keywordArgs(
         int m_class,
         int list,
     ) =>

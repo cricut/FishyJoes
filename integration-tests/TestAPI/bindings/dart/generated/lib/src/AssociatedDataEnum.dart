@@ -16,7 +16,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(AssociatedDataEnum) -->
-sealed class AssociatedDataEnum {
+sealedclass AssociatedDataEnum {
     /// Documentation about thing
     const factory AssociatedDataEnum.thing(
         int value
@@ -50,11 +50,11 @@ sealed class AssociatedDataEnum {
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         final peekedObj = peekRef<AssociatedDataEnum>(obj);
         if (peekedObj is AssociatedDataEnum_Thing) { return 0; }
-        else if (peekedObj is AssociatedDataEnum_Other) { return 1; }
-        else if (peekedObj is AssociatedDataEnum_Bar) { return 2; }
-        else if (peekedObj is AssociatedDataEnum_NoValue) { return 3; }
-        else if (peekedObj is AssociatedDataEnum_None) { return 4; }
-        else if (peekedObj is AssociatedDataEnum_SimpleEnum) { return 5; }
+        elseif (peekedObj is AssociatedDataEnum_Other) { return 1; }
+        elseif (peekedObj is AssociatedDataEnum_Bar) { return 2; }
+        elseif (peekedObj is AssociatedDataEnum_NoValue) { return 3; }
+        elseif (peekedObj is AssociatedDataEnum_None) { return 4; }
+        elseif (peekedObj is AssociatedDataEnum_SimpleEnum) { return 5; }
         else { throw UnsupportedError('Unknown AssociatedDataEnum subclass'); }
     });
 
@@ -239,7 +239,7 @@ class AssociatedDataEnum_Thing extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(value)
     );
@@ -272,7 +272,7 @@ class AssociatedDataEnum_Other extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(unnamed),
         const DeepCollectionEquality().hash(m_1)
@@ -311,7 +311,7 @@ class AssociatedDataEnum_Bar extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(named),
         const DeepCollectionEquality().hash(m_1),
@@ -342,7 +342,7 @@ class AssociatedDataEnum_NoValue extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode =>runtimeType.hashCode;
 
     @override
     String toString() => 'AssociatedDataEnum.noValue()';
@@ -360,7 +360,7 @@ class AssociatedDataEnum_None extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => runtimeType.hashCode;
+    int get hashCode =>runtimeType.hashCode;
 
     @override
     String toString() => 'AssociatedDataEnum.none()';
@@ -383,7 +383,7 @@ class AssociatedDataEnum_SimpleEnum extends AssociatedDataEnum {
     );
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(value)
     );

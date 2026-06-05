@@ -113,7 +113,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).const42
         )
@@ -122,7 +122,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_iabs(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).iabs
         )
@@ -131,7 +131,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_intCompose(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).intCompose
         )
@@ -140,7 +140,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_add3Things(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).add3Things
         )
@@ -149,7 +149,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_makeList(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).makeList
         )
@@ -158,7 +158,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_fifthThing(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).fifthThing
         )
@@ -167,7 +167,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_six(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).six
         )
@@ -176,7 +176,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_willThrow(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).willThrow
         )
@@ -185,7 +185,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise0Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise0Fun
         )
@@ -194,7 +194,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise1Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise1Fun
         )
@@ -203,7 +203,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise2Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise2Fun
         )
@@ -212,7 +212,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise3Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise3Fun
         )
@@ -221,7 +221,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise4Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise4Fun
         )
@@ -230,7 +230,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise5Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise5Fun
         )
@@ -239,7 +239,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_exercise6Fun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).exercise6Fun
         )
@@ -248,7 +248,7 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     static CreatedRef ffi_get_thunkTwiceMakerFun(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncForeignSideFunctionsStruct>(obj).thunkTwiceMakerFun
         )
@@ -282,23 +282,23 @@ class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions 
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(const42), 
-        const DeepCollectionEquality().hash(iabs), 
-        const DeepCollectionEquality().hash(intCompose), 
-        const DeepCollectionEquality().hash(add3Things), 
-        const DeepCollectionEquality().hash(makeList), 
-        const DeepCollectionEquality().hash(fifthThing), 
-        const DeepCollectionEquality().hash(six), 
-        const DeepCollectionEquality().hash(willThrow), 
-        const DeepCollectionEquality().hash(exercise0Fun), 
-        const DeepCollectionEquality().hash(exercise1Fun), 
-        const DeepCollectionEquality().hash(exercise2Fun), 
-        const DeepCollectionEquality().hash(exercise3Fun), 
-        const DeepCollectionEquality().hash(exercise4Fun), 
-        const DeepCollectionEquality().hash(exercise5Fun), 
-        const DeepCollectionEquality().hash(exercise6Fun), 
+        const DeepCollectionEquality().hash(const42),
+        const DeepCollectionEquality().hash(iabs),
+        const DeepCollectionEquality().hash(intCompose),
+        const DeepCollectionEquality().hash(add3Things),
+        const DeepCollectionEquality().hash(makeList),
+        const DeepCollectionEquality().hash(fifthThing),
+        const DeepCollectionEquality().hash(six),
+        const DeepCollectionEquality().hash(willThrow),
+        const DeepCollectionEquality().hash(exercise0Fun),
+        const DeepCollectionEquality().hash(exercise1Fun),
+        const DeepCollectionEquality().hash(exercise2Fun),
+        const DeepCollectionEquality().hash(exercise3Fun),
+        const DeepCollectionEquality().hash(exercise4Fun),
+        const DeepCollectionEquality().hash(exercise5Fun),
+        const DeepCollectionEquality().hash(exercise6Fun),
         const DeepCollectionEquality().hash(thunkTwiceMakerFun)
     );
 

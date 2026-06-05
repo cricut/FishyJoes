@@ -44,7 +44,7 @@ class Structs_MemberwiseStruct {
     static CreatedRef ffi_get_immutable(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Structs_MemberwiseStruct>(obj).immutable
         )
@@ -54,13 +54,13 @@ class Structs_MemberwiseStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj)._immutable = consumeRef<String>(newValue);
+        peekRef<Structs_MemberwiseStruct>(obj)._immutable =consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_mutable(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catchingRef(exn, () =>
+    ) =>catchingRef(exn, () =>
         createRef(
             peekRef<Structs_MemberwiseStruct>(obj).mutable
         )
@@ -70,7 +70,7 @@ class Structs_MemberwiseStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_MemberwiseStruct>(obj).mutable = consumeRef<String>(newValue);
+        peekRef<Structs_MemberwiseStruct>(obj).mutable =consumeRef<String>(newValue);
     });
 
     @override
@@ -87,9 +87,9 @@ class Structs_MemberwiseStruct {
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
+        const DeepCollectionEquality().hash(immutable),
         const DeepCollectionEquality().hash(mutable)
     );
 
@@ -102,7 +102,7 @@ class Structs_MemberwiseStruct {
     );
 
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_MemberwiseStruct create(
+    staticTestAPI.Structs_MemberwiseStruct create(
     ) =>
         consumeCreatedRef<TestAPI.Structs_MemberwiseStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_MemberwiseStruct_create(Loader.shared.env, _exn)))
     ;

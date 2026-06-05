@@ -17,7 +17,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tatiana) -->
         /// </summary>
-        public string GetTatiana() {
+        publicstring GetTatiana() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_EmptyStruct2_tatiana(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(tutu) -->
         /// </summary>
-        public nint GetTutu() {
+        publicnint GetTutu() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_EmptyStruct2_tutu(Loader.env, thisHandle.ptr, out exn)
@@ -43,7 +43,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(create) -->
         /// </summary>
-        public static Cricut.TestAPI.EmptyStruct2 Create(
+        public staticCricut.TestAPI.EmptyStruct2 Create(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyStruct2_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.EmptyStruct2>();
         }
@@ -57,7 +57,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(aap) -->
         /// </summary>
-        public string Aap(
+        publicstring Aap(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyStruct2_aap(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
@@ -73,7 +73,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(zxccxz) -->
         /// </summary>
-        public string Zxccxz(
+        publicstring Zxccxz(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyStruct2_zxccxz(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();

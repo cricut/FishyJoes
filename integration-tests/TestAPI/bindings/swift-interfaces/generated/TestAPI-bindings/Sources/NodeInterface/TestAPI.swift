@@ -36,7 +36,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
             properties: [
                 (
                     name: "testCall",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.self).testCall(
@@ -97,7 +97,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.
             properties: [
                 (
                     name: "testCall",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: Swift.String.PuttingTypesIntoQuestionablePlaces.self).testCall(
@@ -149,7 +149,7 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeR
         let props = try NodeClass.descriptorsFor(properties: [
             (
                 name: "testCall",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Int.toNode(
                             env.argument(at: 0, converter: Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.self).testCall(
@@ -199,7 +199,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let bar = try env.getNamedProperty(napiValue, "bar")
-            let result = try env.callFunction(napiValue, bar, [try Swift.Int.toNode(x, env: env), try Swift.Int.toNode(y, env: env)])
+            let result = try env.callFunction(napiValue, bar,[try Swift.Int.toNode(x, env: env), try Swift.Int.toNode(y, env: env)])
             return try TestAPI_CommonInterface._AProtocolConverter.fromNode(result, env: env)
         }
     }
@@ -207,7 +207,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let hasADefaultImplementation = try env.getNamedProperty(napiValue, "hasADefaultImplementation")
-            let result = try env.callFunction(napiValue, hasADefaultImplementation, [try Swift.Int.toNode(x, env: env), try Swift.Double.toNode(y, env: env)])
+            let result = try env.callFunction(napiValue, hasADefaultImplementation,[try Swift.Int.toNode(x, env: env), try Swift.Double.toNode(y, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -215,7 +215,7 @@ struct _NodeAProtocol: TestAPI.AProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let hasADefaultImplementation2 = try env.getNamedProperty(napiValue, "hasADefaultImplementation2")
-            let result = try env.callFunction(napiValue, hasADefaultImplementation2, [try Swift.String.toNode(a, env: env), try Swift.Bool.toNode(b, env: env), try Swift.String.toNode(c, env: env)])
+            let result = try env.callFunction(napiValue, hasADefaultImplementation2,[try Swift.String.toNode(a, env: env), try Swift.Bool.toNode(b, env: env), try Swift.String.toNode(c, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -256,7 +256,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
 
                 let result = try env.callFunction(object, create, [coreArg])
 
-                let hasADefaultImplementationFunctionCallback: NAPI.Callback = { env, info in
+                let hasADefaultImplementationFunctionCallback: NAPI.Callback ={ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                         let result = try Swift.String.toNode(
@@ -278,7 +278,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                     try env.setNamedProperty(result, "hasADefaultImplementation", hasADefaultImplementationFunction)
                 }
 
-                let hasADefaultImplementation2FunctionCallback: NAPI.Callback = { env, info in
+                let hasADefaultImplementation2FunctionCallback: NAPI.Callback ={ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                         let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                         let result = try Swift.String.toNode(
@@ -321,7 +321,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
             properties: [
                 (
                     name: "bar",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
                                 env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).bar(
@@ -337,7 +337,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "hasADefaultImplementation",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
@@ -354,7 +354,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "hasADefaultImplementation2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let _wrappedSwiftSelf = TestAPI_CommonInterface.AProtocol_sans_hasADefaultImplementation2(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self)))
                             let result = try Swift.String.toNode(
@@ -373,24 +373,24 @@ extension TestAPI_CommonInterface._AProtocolConverter: NodeConverter {
                 (
                     name: "baz",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 0) { env in
                                 return try Swift.Bool.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).baz, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "foo",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._AProtocolConverter.self).foo, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -447,7 +447,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "bar",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
                                 env.this(converter: TestAPI.AProtocolImplementation.self).bar(
@@ -463,7 +463,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "hasADefaultImplementation",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation(
@@ -479,7 +479,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "hasADefaultImplementation2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "hasADefaultImplementation2", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.AProtocolImplementation.self).hasADefaultImplementation2(
@@ -586,7 +586,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI.Actors.TemperatureLogger.toNode(
                                 TestAPI.Actors.TemperatureLogger(
@@ -602,7 +602,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "update",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "update", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
@@ -635,7 +635,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "min",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "min", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
@@ -666,7 +666,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "extensionIsolatedGetLabel",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionIsolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Actors.TemperatureLogger.self))
@@ -697,7 +697,7 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "extensionNonisolatedGetLabel",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedGetLabel", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedGetLabel(
@@ -712,36 +712,36 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "backwardsLabel",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "backwardsLabel", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).backwardsLabel, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "extensionNonisolatedVarLabel",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "extensionNonisolatedVarLabel", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).extensionNonisolatedVarLabel, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "label",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "label", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.Actors.TemperatureLogger.self).label, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -881,7 +881,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "plus",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plus", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try TestAPI.AssociatedDataEnum.toNode(
                                 env.this(converter: TestAPI.AssociatedDataEnum.self).plus(
@@ -897,24 +897,24 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "intValue",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intValue", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.AssociatedDataEnum.self).intValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "staticThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticThing", expectedArgumentCount: 0) { env in
                                 return try TestAPI.AssociatedDataEnum.toNode(TestAPI.AssociatedDataEnum.staticThing, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -1117,7 +1117,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "delayedConst",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "delayedConst", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
@@ -1149,7 +1149,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -1181,7 +1181,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise1",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
@@ -1213,7 +1213,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.self))
@@ -1245,7 +1245,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise3",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self))
@@ -1277,7 +1277,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise4",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self))
@@ -1309,7 +1309,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise5",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
@@ -1341,7 +1341,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -1373,7 +1373,7 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "thunkTwiceMaker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 TestAPI.AsyncFunctions.thunkTwiceMaker(
@@ -1389,96 +1389,96 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "add3Things",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(TestAPI.AsyncFunctions.add3Things, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "const42",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(TestAPI.AsyncFunctions.const42, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "fifthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(TestAPI.AsyncFunctions.fifthThing, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "abs",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(TestAPI.AsyncFunctions.iabs, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "intCompose",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
                                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(TestAPI.AsyncFunctions.intCompose, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "makeList",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(TestAPI.AsyncFunctions.makeList, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "sixthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(TestAPI.AsyncFunctions.six, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "willThrow",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(TestAPI.AsyncFunctions.willThrow, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -1523,7 +1523,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.toNode(
                                 TestAPI.AttributedStrings.echo(
@@ -1538,7 +1538,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "firstIndex",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "firstIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.Index.toNode(
                                 TestAPI.AttributedStrings.firstIndex(
@@ -1553,7 +1553,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "lastIndex",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "lastIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributedString.Index.toNode(
                                 TestAPI.AttributedStrings.lastIndex(
@@ -1568,7 +1568,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "fullRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "fullRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Foundation.AttributedString.Index>.toNode(
                                 TestAPI.AttributedStrings.fullRange(
@@ -1583,7 +1583,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "attributedCharacters",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributedCharacters", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Foundation.AttributedSubstring>.toNode(
                                 TestAPI.AttributedStrings.attributedCharacters(
@@ -1598,7 +1598,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "attributesPreferringDuplicatesNearerStart",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributesPreferringDuplicatesNearerStart", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.AttributeContainer.toNode(
                                 TestAPI.AttributedStrings.attributesPreferringDuplicatesNearerStart(
@@ -1613,7 +1613,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "emptyAttributeRuns",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "emptyAttributeRuns", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Foundation.AttributedString.Runs.Run>.toNode(
                                 TestAPI.AttributedStrings.emptyAttributeRuns(
@@ -1629,108 +1629,108 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "accent",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.accent, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chinese",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chinese, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chineseBMP",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chineseBMP, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chineseSIP",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chineseSIP, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "emoji",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.emoji, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "emojiMulti",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.emojiMulti, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "polyglot",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "polyglot", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.polyglot, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "script",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.script, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "simple",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
                                 return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.simple, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -1775,7 +1775,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoBytes",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBytes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.UInt8>.toNode(
                                 TestAPI.Bytes.echo(
@@ -1790,7 +1790,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoData",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoData", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.Data.toNode(
                                 TestAPI.Bytes.echo(
@@ -1806,24 +1806,24 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "bytes",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bytes", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Bytes.bytes, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "data",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "data", expectedArgumentCount: 0) { env in
                                 return try Foundation.Data.toNode(TestAPI.Bytes.data, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -1868,7 +1868,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoUInt8Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt8>.toNode(
                                 TestAPI.ClosedRanges.echoUInt8Range(
@@ -1883,7 +1883,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt16Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt16>.toNode(
                                 TestAPI.ClosedRanges.echoUInt16Range(
@@ -1898,7 +1898,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt32Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt32>.toNode(
                                 TestAPI.ClosedRanges.echoUInt32Range(
@@ -1913,7 +1913,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt64Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt64>.toNode(
                                 TestAPI.ClosedRanges.echoUInt64Range(
@@ -1928,7 +1928,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUIntRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.UInt>.toNode(
                                 TestAPI.ClosedRanges.echoUIntRange(
@@ -1943,7 +1943,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt8Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int8>.toNode(
                                 TestAPI.ClosedRanges.echoInt8Range(
@@ -1958,7 +1958,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt16Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int16>.toNode(
                                 TestAPI.ClosedRanges.echoInt16Range(
@@ -1973,7 +1973,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt32Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int32>.toNode(
                                 TestAPI.ClosedRanges.echoInt32Range(
@@ -1988,7 +1988,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt64Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int64>.toNode(
                                 TestAPI.ClosedRanges.echoInt64Range(
@@ -2003,7 +2003,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoIntRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Int>.toNode(
                                 TestAPI.ClosedRanges.echoIntRange(
@@ -2018,7 +2018,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoFloatRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloatRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Float>.toNode(
                                 TestAPI.ClosedRanges.echoFloatRange(
@@ -2033,7 +2033,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoDoubleRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDoubleRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.Double>.toNode(
                                 TestAPI.ClosedRanges.echoDoubleRange(
@@ -2048,7 +2048,7 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoStringRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoStringRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ClosedRangeConverter<Swift.String>.toNode(
                                 TestAPI.ClosedRanges.echoStringRange(
@@ -2064,156 +2064,156 @@ extension TestAPI.ClosedRanges: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "doubleRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "doubleRange", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Double>.toNode(TestAPI.ClosedRanges.doubleRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "floatRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "floatRange", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Float>.toNode(TestAPI.ClosedRanges.floatRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int16Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Int16>.toNode(TestAPI.ClosedRanges.int16Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int32Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Int32>.toNode(TestAPI.ClosedRanges.int32Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int64Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Int64>.toNode(TestAPI.ClosedRanges.int64Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int8Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Int8>.toNode(TestAPI.ClosedRanges.int8Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "intRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.Int>.toNode(TestAPI.ClosedRanges.intRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "stringRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "stringRange", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.String>.toNode(TestAPI.ClosedRanges.stringRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt16Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.UInt16>.toNode(TestAPI.ClosedRanges.uInt16Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt32Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.UInt32>.toNode(TestAPI.ClosedRanges.uInt32Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt64Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.UInt64>.toNode(TestAPI.ClosedRanges.uInt64Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt8Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.UInt8>.toNode(TestAPI.ClosedRanges.uInt8Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uIntRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
                                 return try ClosedRangeConverter<Swift.UInt>.toNode(TestAPI.ClosedRanges.uIntRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -2258,7 +2258,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoArrayOfInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoArrayOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.Int>.toNode(
                                 TestAPI.Collections.echo(
@@ -2273,7 +2273,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoSetOfInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoSetOfInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try SetConverter<Swift.Int>.toNode(
                                 TestAPI.Collections.echo(
@@ -2288,7 +2288,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoDictionaryOfIntToInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDictionaryOfIntToInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try DictionaryConverter<Swift.Int, Swift.Int>.toNode(
                                 TestAPI.Collections.echo(
@@ -2303,7 +2303,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoMaybeArrayOfMaybeInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeArrayOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toNode(
                                 TestAPI.Collections.echo(
@@ -2318,7 +2318,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoMaybeSetOfMaybeInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeSetOfMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.toNode(
                                 TestAPI.Collections.echo(
@@ -2333,7 +2333,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoMaybeDictionaryOfIntToMaybeInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoMaybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.toNode(
                                 TestAPI.Collections.echo(
@@ -2348,7 +2348,7 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "collectionMapper",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "collectionMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toNode(
                                 TestAPI.Collections.collectionMapper(
@@ -2365,132 +2365,132 @@ extension TestAPI.Collections: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "arrayOfBigTuples",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfBigTuples", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>.toNode(TestAPI.Collections.arrayOfBigTuples, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "arrayOfInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "arrayOfInt", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int>.toNode(TestAPI.Collections.arrayOfInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "defaultCollectionHolder",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultCollectionHolder", expectedArgumentCount: 0) { env in
                                 return try TestAPI.Collections.CollectionHolder.toNode(TestAPI.Collections.defaultCollectionHolder, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "dictionaryOfIntToInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dictionaryOfIntToInt", expectedArgumentCount: 0) { env in
                                 return try DictionaryConverter<Swift.Int, Swift.Int>.toNode(TestAPI.Collections.dictionaryOfIntToInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeArrayOfInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<ArrayConverter<Swift.Int>>.toNode(TestAPI.Collections.maybeArrayOfInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeArrayOfMaybeInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeArrayOfMaybeInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.toNode(TestAPI.Collections.maybeArrayOfMaybeInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeDictionaryOfIntToInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<DictionaryConverter<Swift.Int, Swift.Int>>.toNode(TestAPI.Collections.maybeDictionaryOfIntToInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeDictionaryOfIntToMaybeInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeDictionaryOfIntToMaybeInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.toNode(TestAPI.Collections.maybeDictionaryOfIntToMaybeInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeSetOfInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<SetConverter<Swift.Int>>.toNode(TestAPI.Collections.maybeSetOfInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maybeSetOfMaybeInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeSetOfMaybeInt", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.toNode(TestAPI.Collections.maybeSetOfMaybeInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "setOfInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "setOfInt", expectedArgumentCount: 0) { env in
                                 return try SetConverter<Swift.Int>.toNode(TestAPI.Collections.setOfInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -2594,12 +2594,12 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
                 (
                     name: "staticMutableProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticMutableProperty, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
                                 TestAPI.Collections.CollectionHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.Int>>.self)
                                 return nil
@@ -2610,12 +2610,12 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesNodeRuntime.NodeMutator
                 (
                     name: "staticProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Collections.CollectionHolder.staticProperty, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -2675,7 +2675,7 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoDefaults",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaults", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.DefaultArguments.echoDefaults(
@@ -2692,7 +2692,7 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "describeEnumDefault",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "describeEnumDefault", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.DefaultArguments.describeEnumDefault(
@@ -2708,7 +2708,7 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoDefaultTolerance",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultTolerance", expectedArgumentCount: 0, hasNamedOptions: true) { env in
                             let result = try Swift.Double.toNode(
                                 TestAPI.DefaultArguments.echoDefaultTolerance(
@@ -2723,7 +2723,7 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoDefaultIntLimits",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultIntLimits", expectedArgumentCount: 0, hasNamedOptions: true) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.DefaultArguments.echoDefaultIntLimits(
@@ -2778,7 +2778,7 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "deprecatedMethod",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Deprecations.deprecatedMethod(
@@ -2793,12 +2793,12 @@ extension TestAPI.Deprecations: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "deprecatedVariable",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "deprecatedVariable", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Deprecations.deprecatedVariable, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -2854,7 +2854,7 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyClass.toNode(
                                 TestAPI.EmptyClass(
@@ -2868,7 +2868,7 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "shme",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "shme", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyClass.self).shme(
@@ -2882,7 +2882,7 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "Gorpers",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "Gorpers", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyClass.self).gorp(
@@ -2897,24 +2897,24 @@ extension TestAPI.EmptyClass: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "blarg",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "blarg", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyClass.self).blarg, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "wibbledyWobbledyTimeyWhimey",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "wibbledyWobbledyTimeyWhimey", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyClass.self).wibble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -2979,7 +2979,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "make",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "make", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyClass2.toNode(
                                 TestAPI.EmptyClass2(
@@ -2993,7 +2993,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "shmee",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "shmee", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyClass2.self).shme(
@@ -3007,7 +3007,7 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "gorp",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "gorp", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyClass2.self).gorp(
@@ -3022,24 +3022,24 @@ extension TestAPI.EmptyClass2: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "blorg",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "blorg", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyClass2.self).blarg, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "wibble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "wibble", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyClass2.self).wibble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -3093,9 +3093,9 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "notGoingToHappen",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            try (
+                            try(
                                 TestAPI.EmptyEnum.notGoingToHappen(
                                 )
                             )
@@ -3105,7 +3105,7 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "aStaticMethod",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 TestAPI.EmptyEnum.aStaticMethod(
@@ -3120,12 +3120,12 @@ extension TestAPI.EmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "aStaticProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.EmptyEnum.aStaticProperty, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -3174,7 +3174,7 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyStruct.toNode(
                                 TestAPI.EmptyStruct(
@@ -3188,7 +3188,7 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "aap",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyStruct.self).aap(
@@ -3202,7 +3202,7 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "zxccxz",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "zxccxz", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyStruct.self).zxc(
@@ -3217,24 +3217,24 @@ extension TestAPI.EmptyStruct: FishyJoesNodeRuntime.NodeMutator {
                 (
                     name: "tatiana",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tatiana", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyStruct.self).tata, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "tutu",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.EmptyStruct.self).tutu, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -3280,7 +3280,7 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.EmptyStruct2.toNode(
                                 TestAPI.EmptyStruct2(
@@ -3294,7 +3294,7 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "aap",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aap", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyStruct2.self).aap(
@@ -3308,7 +3308,7 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "zxccxz",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "zxccxz", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.EmptyStruct2.self).zxc(
@@ -3323,24 +3323,24 @@ extension TestAPI.EmptyStruct2: FishyJoesNodeRuntime.NodeMutator {
                 (
                     name: "tatiana",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tatiana", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.EmptyStruct2.self).tata, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "tutu",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tutu", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.EmptyStruct2.self).tutu, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -3382,7 +3382,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "exercise0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise0(
@@ -3397,7 +3397,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise1",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise1(
@@ -3412,7 +3412,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise2(
@@ -3427,7 +3427,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise3",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise3(
@@ -3442,7 +3442,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise4",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise4(
@@ -3457,7 +3457,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise5",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise5(
@@ -3472,7 +3472,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "exercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.exercise6(
@@ -3487,7 +3487,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "willThrow",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Functions.willThrow(
@@ -3501,7 +3501,7 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "thunkTwiceMaker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Function0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 TestAPI.Functions.thunkTwiceMaker(
@@ -3517,84 +3517,84 @@ extension TestAPI.Functions: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "add3Things",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
                                 return try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(TestAPI.Functions.add3Things, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "const42",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 return try Function0Converter<Swift.Int>.toNode(TestAPI.Functions.const42, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "fifthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
                                 return try Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.toNode(TestAPI.Functions.fifthThing, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "abs",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "abs", expectedArgumentCount: 0) { env in
                                 return try Function1Converter<Swift.Int, Swift.Int>.toNode(TestAPI.Functions.iabs, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "intCompose",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
                                 return try Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.toNode(TestAPI.Functions.intCompose, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "makeList",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 return try Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(TestAPI.Functions.makeList, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "sixthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "sixthThing", expectedArgumentCount: 0) { env in
                                 return try Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(TestAPI.Functions.six, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -3650,7 +3650,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Methods.toNode(
                                 TestAPI.Methods.create(
@@ -3664,7 +3664,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "doublePlusGood",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "doublePlusGood", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: TestAPI.Methods.self).doublePlusGood(
@@ -3680,7 +3680,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "async42",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "async42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
@@ -3711,7 +3711,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncYield",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncYield", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
@@ -3742,7 +3742,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncSleep",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncSleep", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
@@ -3773,7 +3773,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncVoid",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncVoid", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
@@ -3804,7 +3804,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncDouble",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Double.self))
@@ -3837,7 +3837,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncMultipleArgs",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
@@ -3872,7 +3872,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncThrowing",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncThrowing", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Methods.self))
@@ -3903,7 +3903,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncCallbackFunc0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -3936,7 +3936,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsync42",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsync42", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
@@ -3966,7 +3966,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncYield",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncYield", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
@@ -3996,7 +3996,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncSleep",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncSleep", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
@@ -4026,7 +4026,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncVoid",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncVoid", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
@@ -4056,7 +4056,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncDouble",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Double.self))
@@ -4088,7 +4088,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncMultipleArgs",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncMultipleArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
@@ -4122,7 +4122,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncThrowing",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncThrowing", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             Task {
@@ -4152,7 +4152,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "staticAsyncCallbackFunc0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "staticAsyncCallbackFunc0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -4184,7 +4184,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "methodWithNewlinesInTypes",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "methodWithNewlinesInTypes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 TestAPI.Methods.methodWithNewlinesInTypes(
@@ -4200,48 +4200,48 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "garply",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).garply, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "instanceGet",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGet", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGet, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "instanceGetMethod",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceGetMethod", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceGetMethod, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "instanceModifiable",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceModifiable", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceModifiable, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceModifiable", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Methods.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -4255,12 +4255,12 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "instanceStored",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceStored", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.Methods.self).instanceStored, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "instanceStored", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Methods.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -4274,36 +4274,36 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "staticGet",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGet", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Methods.staticGet, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "staticGetMethod",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticGetMethod", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Methods.staticGetMethod, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "staticModifiable",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Methods.staticModifiable, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticModifiable", expectedArgumentCount: 1) { env in
                                 TestAPI.Methods.staticModifiable = try env.argument(at: 0, converter: Swift.Int.self)
                                 return nil
@@ -4314,12 +4314,12 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "staticStored",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Methods.staticStored, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticStored", expectedArgumentCount: 1) { env in
                                 TestAPI.Methods.staticStored = try env.argument(at: 0, converter: Swift.Int.self)
                                 return nil
@@ -4436,7 +4436,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoBool",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
                                 TestAPI.Primitives.echoBool(
@@ -4451,7 +4451,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt8",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt8.toNode(
                                 TestAPI.Primitives.echoUInt8(
@@ -4466,7 +4466,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt16",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt16.toNode(
                                 TestAPI.Primitives.echoUInt16(
@@ -4481,7 +4481,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt32",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt32.toNode(
                                 TestAPI.Primitives.echoUInt32(
@@ -4496,7 +4496,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt64",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt64.toNode(
                                 TestAPI.Primitives.echoUInt64(
@@ -4511,7 +4511,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.UInt.toNode(
                                 TestAPI.Primitives.echoUInt(
@@ -4526,7 +4526,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt8",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int8.toNode(
                                 TestAPI.Primitives.echoInt8(
@@ -4541,7 +4541,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt16",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int16.toNode(
                                 TestAPI.Primitives.echoInt16(
@@ -4556,7 +4556,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt32",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int32.toNode(
                                 TestAPI.Primitives.echoInt32(
@@ -4571,7 +4571,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt64",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int64.toNode(
                                 TestAPI.Primitives.echoInt64(
@@ -4586,7 +4586,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 TestAPI.Primitives.echoInt(
@@ -4601,7 +4601,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoFloat",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Float.toNode(
                                 TestAPI.Primitives.echoFloat(
@@ -4616,7 +4616,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoDouble",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Double.toNode(
                                 TestAPI.Primitives.echoDouble(
@@ -4631,7 +4631,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoBool",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoBool", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Bool>.toNode(
                                 TestAPI.Primitives.maybeEchoBool(
@@ -4646,7 +4646,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoUInt8",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt8>.toNode(
                                 TestAPI.Primitives.maybeEchoUInt8(
@@ -4661,7 +4661,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoUInt16",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt16>.toNode(
                                 TestAPI.Primitives.maybeEchoUInt16(
@@ -4676,7 +4676,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoUInt32",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt32>.toNode(
                                 TestAPI.Primitives.maybeEchoUInt32(
@@ -4691,7 +4691,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoUInt64",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt64>.toNode(
                                 TestAPI.Primitives.maybeEchoUInt64(
@@ -4706,7 +4706,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoUInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoUInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt>.toNode(
                                 TestAPI.Primitives.maybeEchoUInt(
@@ -4721,7 +4721,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoInt8",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt8", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int8>.toNode(
                                 TestAPI.Primitives.maybeEchoInt8(
@@ -4736,7 +4736,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoInt16",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt16", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int16>.toNode(
                                 TestAPI.Primitives.maybeEchoInt16(
@@ -4751,7 +4751,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoInt32",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt32", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int32>.toNode(
                                 TestAPI.Primitives.maybeEchoInt32(
@@ -4766,7 +4766,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoInt64",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt64", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int64>.toNode(
                                 TestAPI.Primitives.maybeEchoInt64(
@@ -4781,7 +4781,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoInt",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Int>.toNode(
                                 TestAPI.Primitives.maybeEchoInt(
@@ -4796,7 +4796,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoFloat",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoFloat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Float>.toNode(
                                 TestAPI.Primitives.maybeEchoFloat(
@@ -4811,7 +4811,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "maybeEchoDouble",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "maybeEchoDouble", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
                                 TestAPI.Primitives.maybeEchoDouble(
@@ -4826,7 +4826,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "boolOverflow",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "boolOverflow", expectedArgumentCount: 16, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 TestAPI.Primitives.boolOverflow(
@@ -4856,7 +4856,7 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "valueMapper",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "valueMapper", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.UInt8>.toNode(
                                 TestAPI.Primitives.valueMapper(
@@ -4873,804 +4873,804 @@ extension TestAPI.Primitives: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "bitCountInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountInt", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Primitives.bitCountInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "bitCountUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "bitCountUInt", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Primitives.bitCountUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "defaultPrimitiveHolder",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultPrimitiveHolder", expectedArgumentCount: 0) { env in
                                 return try TestAPI.Primitives.PrimitiveHolder.toNode(TestAPI.Primitives.defaultPrimitiveHolder, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "falseBool",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "falseBool", expectedArgumentCount: 0) { env in
                                 return try Swift.Bool.toNode(TestAPI.Primitives.falseBool, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyBool",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyBool", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Bool>.toNode(TestAPI.Primitives.manyBool, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyDouble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyDouble", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Double>.toNode(TestAPI.Primitives.manyDouble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyFloat",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyFloat", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Float>.toNode(TestAPI.Primitives.manyFloat, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int>.toNode(TestAPI.Primitives.manyInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt16", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int16>.toNode(TestAPI.Primitives.manyInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt32", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int32>.toNode(TestAPI.Primitives.manyInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt64", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int64>.toNode(TestAPI.Primitives.manyInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyInt8", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int8>.toNode(TestAPI.Primitives.manyInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeBool",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeBool", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Bool>>.toNode(TestAPI.Primitives.manyMaybeBool, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeDouble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeDouble", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Double>>.toNode(TestAPI.Primitives.manyMaybeDouble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeFloat",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeFloat", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Float>>.toNode(TestAPI.Primitives.manyMaybeFloat, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int>>.toNode(TestAPI.Primitives.manyMaybeInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt16", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int16>>.toNode(TestAPI.Primitives.manyMaybeInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt32", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int32>>.toNode(TestAPI.Primitives.manyMaybeInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt64", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int64>>.toNode(TestAPI.Primitives.manyMaybeInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeInt8", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.Int8>>.toNode(TestAPI.Primitives.manyMaybeInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt>>.toNode(TestAPI.Primitives.manyMaybeUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeUInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt16", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt16>>.toNode(TestAPI.Primitives.manyMaybeUInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeUInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt32", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt32>>.toNode(TestAPI.Primitives.manyMaybeUInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeUInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt64", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt64>>.toNode(TestAPI.Primitives.manyMaybeUInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyMaybeUInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyMaybeUInt8", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.manyMaybeUInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt>.toNode(TestAPI.Primitives.manyUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyUInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt16", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt16>.toNode(TestAPI.Primitives.manyUInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyUInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt32", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt32>.toNode(TestAPI.Primitives.manyUInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyUInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt64", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt64>.toNode(TestAPI.Primitives.manyUInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "manyUInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "manyUInt8", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.UInt8>.toNode(TestAPI.Primitives.manyUInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxDouble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxDouble", expectedArgumentCount: 0) { env in
                                 return try Swift.Double.toNode(TestAPI.Primitives.maxDouble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxFloat",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxFloat", expectedArgumentCount: 0) { env in
                                 return try Swift.Float.toNode(TestAPI.Primitives.maxFloat, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Primitives.maxInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.Int16.toNode(TestAPI.Primitives.maxInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.Int32.toNode(TestAPI.Primitives.maxInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.Int64.toNode(TestAPI.Primitives.maxInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.Int8.toNode(TestAPI.Primitives.maxInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt.toNode(TestAPI.Primitives.maxUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxUInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt16.toNode(TestAPI.Primitives.maxUInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxUInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt32.toNode(TestAPI.Primitives.maxUInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxUInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt64.toNode(TestAPI.Primitives.maxUInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "maxUInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "maxUInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt8.toNode(TestAPI.Primitives.maxUInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minDouble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minDouble", expectedArgumentCount: 0) { env in
                                 return try Swift.Double.toNode(TestAPI.Primitives.minDouble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minFloat",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minFloat", expectedArgumentCount: 0) { env in
                                 return try Swift.Float.toNode(TestAPI.Primitives.minFloat, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Primitives.minInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.Int16.toNode(TestAPI.Primitives.minInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.Int32.toNode(TestAPI.Primitives.minInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.Int64.toNode(TestAPI.Primitives.minInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.Int8.toNode(TestAPI.Primitives.minInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt.toNode(TestAPI.Primitives.minUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minUInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt16.toNode(TestAPI.Primitives.minUInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minUInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt32.toNode(TestAPI.Primitives.minUInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minUInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt64.toNode(TestAPI.Primitives.minUInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "minUInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "minUInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt8.toNode(TestAPI.Primitives.minUInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "trueBool",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "trueBool", expectedArgumentCount: 0) { env in
                                 return try Swift.Bool.toNode(TestAPI.Primitives.trueBool, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroDouble",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroDouble", expectedArgumentCount: 0) { env in
                                 return try Swift.Double.toNode(TestAPI.Primitives.zeroDouble, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroFloat",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroFloat", expectedArgumentCount: 0) { env in
                                 return try Swift.Float.toNode(TestAPI.Primitives.zeroFloat, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.Primitives.zeroInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.Int16.toNode(TestAPI.Primitives.zeroInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.Int32.toNode(TestAPI.Primitives.zeroInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.Int64.toNode(TestAPI.Primitives.zeroInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.Int8.toNode(TestAPI.Primitives.zeroInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroUInt",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt.toNode(TestAPI.Primitives.zeroUInt, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroUInt16",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt16", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt16.toNode(TestAPI.Primitives.zeroUInt16, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroUInt32",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt32", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt32.toNode(TestAPI.Primitives.zeroUInt32, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroUInt64",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt64", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt64.toNode(TestAPI.Primitives.zeroUInt64, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "zeroUInt8",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "zeroUInt8", expectedArgumentCount: 0) { env in
                                 return try Swift.UInt8.toNode(TestAPI.Primitives.zeroUInt8, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -5876,12 +5876,12 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
                 (
                     name: "staticMutableProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticMutableProperty, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticMutableProperty", expectedArgumentCount: 1) { env in
                                 TestAPI.Primitives.PrimitiveHolder.staticMutableProperty = try env.argument(at: 0, converter: ArrayConverter<OptionalConverter<Swift.UInt8>>.self)
                                 return nil
@@ -5892,12 +5892,12 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
                 (
                     name: "staticProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "staticProperty", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<OptionalConverter<Swift.UInt8>>.toNode(TestAPI.Primitives.PrimitiveHolder.staticProperty, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -5991,7 +5991,7 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "describeAProtocol",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "describeAProtocol", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.ProtocolWitnesses.describeAProtocol(
@@ -6008,7 +6008,7 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "returnAProtocol",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "returnAProtocol", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
                                 TestAPI.ProtocolWitnesses.returnAProtocol(
@@ -6062,7 +6062,7 @@ extension TestAPI.PythonNamingCollisions: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "from",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "from", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.PythonNamingCollisions.fromValue(
@@ -6076,7 +6076,7 @@ extension TestAPI.PythonNamingCollisions: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "keywordArgs",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "keywordArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 TestAPI.PythonNamingCollisions.keywordArgs(
@@ -6093,84 +6093,84 @@ extension TestAPI.PythonNamingCollisions: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "class",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "class", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.classValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "__dunder__",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "__dunder__", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.dunderValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "isNaN",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "isNaN", expectedArgumentCount: 0) { env in
                                 return try Swift.Bool.toNode(TestAPI.PythonNamingCollisions.isNaNValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "_leadingUnderscore",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscore", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.leadingUnderscoreValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "list",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "list", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.listValue, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "Url",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "Url", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.PythonNamingCollisions.titleUrl, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "URL",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "URL", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.PythonNamingCollisions.upperURL, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -6215,7 +6215,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echoUInt8Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt8>.toNode(
                                 TestAPI.Ranges.echoUInt8Range(
@@ -6230,7 +6230,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt16Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt16>.toNode(
                                 TestAPI.Ranges.echoUInt16Range(
@@ -6245,7 +6245,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt32Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt32>.toNode(
                                 TestAPI.Ranges.echoUInt32Range(
@@ -6260,7 +6260,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUInt64Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt64>.toNode(
                                 TestAPI.Ranges.echoUInt64Range(
@@ -6275,7 +6275,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoUIntRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoUIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.UInt>.toNode(
                                 TestAPI.Ranges.echoUIntRange(
@@ -6290,7 +6290,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt8Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt8Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int8>.toNode(
                                 TestAPI.Ranges.echoInt8Range(
@@ -6305,7 +6305,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt16Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt16Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int16>.toNode(
                                 TestAPI.Ranges.echoInt16Range(
@@ -6320,7 +6320,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt32Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt32Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int32>.toNode(
                                 TestAPI.Ranges.echoInt32Range(
@@ -6335,7 +6335,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoInt64Range",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt64Range", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int64>.toNode(
                                 TestAPI.Ranges.echoInt64Range(
@@ -6350,7 +6350,7 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "echoIntRange",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoIntRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try RangeConverter<Swift.Int>.toNode(
                                 TestAPI.Ranges.echoIntRange(
@@ -6366,120 +6366,120 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "int16Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int16Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.Int16>.toNode(TestAPI.Ranges.int16Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int32Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int32Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.Int32>.toNode(TestAPI.Ranges.int32Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int64Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int64Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.Int64>.toNode(TestAPI.Ranges.int64Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "int8Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "int8Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.Int8>.toNode(TestAPI.Ranges.int8Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "intRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intRange", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.Int>.toNode(TestAPI.Ranges.intRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt16Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt16Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.UInt16>.toNode(TestAPI.Ranges.uInt16Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt32Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt32Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.UInt32>.toNode(TestAPI.Ranges.uInt32Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt64Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt64Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.UInt64>.toNode(TestAPI.Ranges.uInt64Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uInt8Range",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uInt8Range", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.UInt8>.toNode(TestAPI.Ranges.uInt8Range, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "uIntRange",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "uIntRange", expectedArgumentCount: 0) { env in
                                 return try RangeConverter<Swift.UInt>.toNode(TestAPI.Ranges.uIntRange, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -6524,9 +6524,9 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "notGoingToHappen",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "notGoingToHappen", expectedArgumentCount: 0, hasNamedOptions: false) { env in
-                            try (
+                            try(
                                 TestAPI.ReferenceEmptyEnum.notGoingToHappen(
                                 )
                             )
@@ -6536,7 +6536,7 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "aStaticMethod",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticMethod", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 TestAPI.ReferenceEmptyEnum.aStaticMethod(
@@ -6551,12 +6551,12 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "aStaticProperty",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aStaticProperty", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(TestAPI.ReferenceEmptyEnum.aStaticProperty, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -6601,7 +6601,7 @@ extension TestAPI.ReferenceOnlyTypes: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "marker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "marker", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.ReferenceOnlyTypes.Marker.toNode(
                                 TestAPI.ReferenceOnlyTypes.marker(
@@ -6713,7 +6713,7 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "processResult",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "processResult", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Results.processResult(
@@ -6729,24 +6729,24 @@ extension TestAPI.Results: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "aFailure",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aFailure", expectedArgumentCount: 0) { env in
                                 return try ResultConverter<Swift.Int, TestAPI.Results.Error>.toNode(TestAPI.Results.aFailure, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "aSuccess",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "aSuccess", expectedArgumentCount: 0) { env in
                                 return try ResultConverter<Swift.Int, TestAPI.Results.Error>.toNode(TestAPI.Results.aSuccess, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -6844,7 +6844,7 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
         let props = try NodeClass.descriptorsFor(properties: [
             (
                 name: "pickAColor",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "pickAColor", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try OptionalConverter<TestAPI.SimpleEnum>.toNode(
                             TestAPI.SimpleEnum.pickAColor(
@@ -6859,7 +6859,7 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "hexMethod",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hexMethod", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
                             env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hexMethod(
@@ -6873,7 +6873,7 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "resetFavoriteColor",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "resetFavoriteColor", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                             TestAPI.SimpleEnum.resetFavoriteColor(
@@ -6888,12 +6888,12 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
             (
                 name: "favoriteColor",
                 .accessor(
-                    getter: { env, info in
+                    getter:{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 0) { env in
                             return try TestAPI.SimpleEnum.toNode(TestAPI.SimpleEnum.favoriteColor, env: env.env)
                         }
                     },
-                    setter: { env, info in
+                    setter:{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "favoriteColor", expectedArgumentCount: 1) { env in
                             TestAPI.SimpleEnum.favoriteColor = try env.argument(at: 0, converter: TestAPI.SimpleEnum.self)
                             return nil
@@ -6903,7 +6903,7 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "getHex",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hex", expectedArgumentCount: 1) { env in
                         return try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.SimpleEnum.self).hex, env: env.env)
                     }
@@ -6942,7 +6942,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 TestAPI.Strings.echo(
@@ -6957,7 +6957,7 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "split",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "split", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try ArrayConverter<Swift.String>.toNode(
                                 TestAPI.Strings.split(
@@ -6974,96 +6974,96 @@ extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "accent",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.accent, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chinese",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.chinese, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chineseBMP",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.chineseBMP, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "chineseSIP",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.chineseSIP, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "emoji",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.emoji, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "emojiMulti",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.emojiMulti, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "script",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.script, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "simple",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(TestAPI.Strings.simple, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -7163,7 +7163,7 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.MemberwiseStruct.toNode(
                                 TestAPI.Structs.MemberwiseStruct(
@@ -7177,7 +7177,7 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "asyncGetMutable",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MemberwiseStruct.self))
@@ -7258,7 +7258,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.MutableStruct.toNode(
                                 TestAPI.Structs.MutableStruct(
@@ -7272,7 +7272,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "increment",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "increment", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: TestAPI.Structs.MutableStruct.self)
                             FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -7289,7 +7289,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "incrementAsync",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "incrementAsync", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let mutatingSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
@@ -7324,7 +7324,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "asyncGetI",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetI", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.MutableStruct.self))
@@ -7404,7 +7404,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.toNode(
                                 TestAPI.Structs.PuttingTypesIntoQuestionablePlaces(
@@ -7418,7 +7418,7 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRunti
                 ),
                 (
                     name: "testCall",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.self).testCall(
@@ -7491,7 +7491,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "create",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.Structs.ReferenceStruct.toNode(
                                 TestAPI.Structs.ReferenceStruct(
@@ -7505,7 +7505,7 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "asyncGetMutable",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "asyncGetMutable", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let swiftSelf = UncheckedSendableBox(try env.this(converter: TestAPI.Structs.ReferenceStruct.self))
@@ -7537,24 +7537,24 @@ extension TestAPI.Structs.ReferenceStruct: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "immutable",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "immutable", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).immutable, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "mutable",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.Structs.ReferenceStruct.self).mutable, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "mutable", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.Structs.ReferenceStruct.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -7907,7 +7907,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
             properties: [
                 (
                     name: "exercise0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -7940,7 +7940,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise1",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
@@ -7973,7 +7973,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.self))
@@ -8006,7 +8006,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise3",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self))
@@ -8039,7 +8039,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise4",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self))
@@ -8072,7 +8072,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise5",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
@@ -8105,7 +8105,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "exercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -8138,7 +8138,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "thunkTwiceMaker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self).thunkTwiceMaker(
@@ -8153,7 +8153,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "witness",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
                                 env.this(converter: TestAPI.TestAsyncForeignSideFunctionsStruct.self).witness(
@@ -8167,7 +8167,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesNodeRuntime.Node
                 ),
                 (
                     name: "defaultExercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -8328,7 +8328,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise0 = try env.getNamedProperty(napiValue, "exercise0")
-            let result = try env.callFunction(napiValue, exercise0, [try AsyncFunction0Converter<Swift.Int>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise0,[try AsyncFunction0Converter<Swift.Int>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8336,7 +8336,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise1 = try env.getNamedProperty(napiValue, "exercise1")
-            let result = try env.callFunction(napiValue, exercise1, [try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise1,[try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8344,7 +8344,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise2 = try env.getNamedProperty(napiValue, "exercise2")
-            let result = try env.callFunction(napiValue, exercise2, [try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise2,[try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8352,7 +8352,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise3 = try env.getNamedProperty(napiValue, "exercise3")
-            let result = try env.callFunction(napiValue, exercise3, [try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise3,[try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8360,7 +8360,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise4 = try env.getNamedProperty(napiValue, "exercise4")
-            let result = try env.callFunction(napiValue, exercise4, [try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise4,[try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8368,7 +8368,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise5 = try env.getNamedProperty(napiValue, "exercise5")
-            let result = try env.callFunction(napiValue, exercise5, [try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise5,[try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8376,7 +8376,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let exercise6 = try env.getNamedProperty(napiValue, "exercise6")
-            let result = try env.callFunction(napiValue, exercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, exercise6,[try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8384,7 +8384,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let thunkTwiceMaker = try env.getNamedProperty(napiValue, "thunkTwiceMaker")
-            let result = try env.callFunction(napiValue, thunkTwiceMaker, [try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(thunk, env: env)])
+            let result = try env.callFunction(napiValue, thunkTwiceMaker,[try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(thunk, env: env)])
             return try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.fromNode(result, env: env)
         }
     }
@@ -8392,7 +8392,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let defaultExercise6 = try env.getNamedProperty(napiValue, "defaultExercise6")
-            let result = try env.callFunction(napiValue, defaultExercise6, [try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
+            let result = try env.callFunction(napiValue, defaultExercise6,[try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(fn, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -8400,7 +8400,7 @@ struct _NodeTestAsyncFunctions: TestAPI.TestAsyncFunctions {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let witness = try env.getNamedProperty(napiValue, "witness")
-            let result = try env.callFunction(napiValue, witness, [])
+            let result = try env.callFunction(napiValue, witness,[])
             return try TestAPI_CommonInterface._TestAsyncFunctionsConverter.fromNode(result, env: env)
         }
     }
@@ -8441,7 +8441,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
 
                 let result = try env.callFunction(object, create, [coreArg])
 
-                let defaultExercise6FunctionCallback: NAPI.Callback = { env, info in
+                let defaultExercise6FunctionCallback: NAPI.Callback ={ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let (deferred, promise) = try env.env.createPromise()
                         let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -8500,7 +8500,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
             properties: [
                 (
                     name: "exercise0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -8533,7 +8533,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise1",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
@@ -8566,7 +8566,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.self))
@@ -8599,7 +8599,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise3",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self))
@@ -8632,7 +8632,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise4",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self))
@@ -8665,7 +8665,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise5",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
@@ -8698,7 +8698,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "exercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -8731,7 +8731,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "thunkTwiceMaker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).thunkTwiceMaker(
@@ -8746,7 +8746,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "defaultExercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -8780,7 +8780,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 ),
                 (
                     name: "witness",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).witness(
@@ -8795,96 +8795,96 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: NodeConverter {
                 (
                     name: "add3Things",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).add3Things, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "const42",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).const42, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "fifthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).fifthThing, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "iabs",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "iabs", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).iabs, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "intCompose",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
                                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).intCompose, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "makeList",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).makeList, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "six",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "six", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).six, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "willThrow",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestAsyncFunctionsConverter.self).willThrow, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -8936,7 +8936,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
             properties: [
                 (
                     name: "exercise0",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise0", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction0Converter<Swift.Int>.self))
@@ -8969,7 +8969,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise1",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise1", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction1Converter<Swift.Int, Swift.Int>.self))
@@ -9002,7 +9002,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise2",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise2", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.self))
@@ -9035,7 +9035,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise3",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise3", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self))
@@ -9068,7 +9068,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise4",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise4", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self))
@@ -9101,7 +9101,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise5",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise5", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.self))
@@ -9134,7 +9134,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "exercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "exercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -9167,7 +9167,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "thunkTwiceMaker",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "thunkTwiceMaker", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.toNode(
                                 env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).thunkTwiceMaker(
@@ -9182,7 +9182,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "witness",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "witness", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._TestAsyncFunctionsConverter.toNode(
                                 env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).witness(
@@ -9196,7 +9196,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "init",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try TestAPI.TestAsyncSwiftSideFunctionsClass.toNode(
                                 TestAPI.TestAsyncSwiftSideFunctionsClass(
@@ -9210,7 +9210,7 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 ),
                 (
                     name: "defaultExercise6",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultExercise6", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let (deferred, promise) = try env.env.createPromise()
                             let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.self))
@@ -9244,96 +9244,96 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesNodeRuntime.NodeCon
                 (
                     name: "add3Things",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "add3Things", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).add3Things, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "const42",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "const42", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).const42, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "fifthThing",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "fifthThing", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).fifthThing, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "iabs",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "iabs", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction1Converter<Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).iabs, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "intCompose",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "intCompose", expectedArgumentCount: 0) { env in
                                 return try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).intCompose, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "makeList",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "makeList", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).makeList, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "six",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "six", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).six, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "willThrow",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "willThrow", expectedArgumentCount: 0) { env in
                                 return try AsyncFunction0Converter<Swift.Int>.toNode(env.this(converter: TestAPI.TestAsyncSwiftSideFunctionsClass.self).willThrow, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -9426,7 +9426,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
 
                 let result = try env.callFunction(object, create, [coreArg])
 
-                let nootGetterCallback: NAPI.Callback = { env, info in
+                let nootGetterCallback: NAPI.Callback ={ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
                         let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
                         return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
@@ -9448,7 +9448,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                     try env.defineProperties(result, properties: [nootPropertyDesc])
                 }
 
-                let plutonicGetterCallback: NAPI.Callback = { env, info in
+                let plutonicGetterCallback: NAPI.Callback ={ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
                         let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
                         return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
@@ -9491,26 +9491,26 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: NodeC
                 (
                     name: "noot",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
                                 let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_noot(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
                                 return try Swift.Int.toNode(_wrappedSwiftSelf.noot, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "plutonic",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
                                 let _wrappedSwiftSelf = TestAPI_CommonInterface.TestDefaultComputedProperties_sans_pluto(wrapped: try FishyJoesCommonRuntime.silenceTryWarning(env.this(converter: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter.self)))
                                 return try Swift.String.toNode(_wrappedSwiftSelf.pluto, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -9562,7 +9562,7 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
             properties: [
                 (
                     name: "init",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try TestAPI.TestDefaultComputedPropertiesClass.toNode(
                                 TestAPI.TestDefaultComputedPropertiesClass(
@@ -9579,12 +9579,12 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                 (
                     name: "noot",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self).noot, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -9598,24 +9598,24 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesNodeRuntime.NodeC
                 (
                     name: "plutonic",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self).pluto, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "spam",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 0) { env in
                                 return try Swift.Bool.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self).spam, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestDefaultComputedPropertiesClass.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -9676,7 +9676,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
         let props = try NodeClass.descriptorsFor(properties: [
             (
                 name: "getNoot",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "noot", expectedArgumentCount: 1) { env in
                         return try Swift.Int.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).noot, env: env.env)
                     }
@@ -9685,7 +9685,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
             ),
             (
                 name: "getPlutonic",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 1) { env in
                         return try Swift.String.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).pluto, env: env.env)
                     }
@@ -9694,7 +9694,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesNodeRuntime.NodeCo
             ),
             (
                 name: "getSpam",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "spam", expectedArgumentCount: 1) { env in
                         return try Swift.Bool.toNode(env.argument(at: 0, converter: TestAPI.TestDefaultComputedPropertiesEnum.self).spam, env: env.env)
                     }
@@ -9750,12 +9750,12 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesNodeRuntime.Node
                 (
                     name: "plutonic",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "plutonic", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.TestDefaultComputedPropertiesStruct.self).pluto, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -9852,12 +9852,12 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Nod
                 (
                     name: "tata",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tata", expectedArgumentCount: 0) { env in
                                 return try Swift.Int.toNode(env.this(converter: TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter.self).tata, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -9997,12 +9997,12 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: NodeConv
                 (
                     name: "_leadingUnderscoreProp",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscoreProp", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter.self)._leadingUnderscoreProp, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -10079,14 +10079,14 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let foo = try env.getNamedProperty(napiValue, "foo")
-            _ = try env.callFunction(napiValue, foo, [])
+            _ = try env.callFunction(napiValue, foo,[])
         }
     }
     public func bar() throws -> Bool {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let bar = try env.getNamedProperty(napiValue, "bar")
-            let result = try env.callFunction(napiValue, bar, [])
+            let result = try env.callFunction(napiValue, bar,[])
             return try Swift.Bool.fromNode(result, env: env)
         }
     }
@@ -10094,14 +10094,14 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let baz = try env.getNamedProperty(napiValue, "baz")
-            _ = try env.callFunction(napiValue, baz, [try Swift.Bool.toNode(qux, env: env)])
+            _ = try env.callFunction(napiValue, baz,[try Swift.Bool.toNode(qux, env: env)])
         }
     }
     public func garply(_ _0: String) throws -> String {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let garply = try env.getNamedProperty(napiValue, "garply")
-            let result = try env.callFunction(napiValue, garply, [try Swift.String.toNode(_0, env: env)])
+            let result = try env.callFunction(napiValue, garply,[try Swift.String.toNode(_0, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -10109,7 +10109,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let xyzzy = try env.getNamedProperty(napiValue, "xyzzy")
-            let result = try env.callFunction(napiValue, xyzzy, [try Swift.Int.toNode(thud, env: env), try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
+            let result = try env.callFunction(napiValue, xyzzy,[try Swift.Int.toNode(thud, env: env), try ArrayConverter<Swift.Double>.toNode(grault, env: env)])
             return try Swift.String.fromNode(result, env: env)
         }
     }
@@ -10117,7 +10117,7 @@ struct _NodeTestMethodsProtocol: TestAPI.TestMethodsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let plugh = try env.getNamedProperty(napiValue, "plugh")
-            let result = try env.callFunction(napiValue, plugh, [try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toNode(fred, env: env)])
+            let result = try env.callFunction(napiValue, plugh,[try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.toNode(fred, env: env)])
             return try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.fromNode(result, env: env)
         }
     }
@@ -10178,7 +10178,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
             properties: [
                 (
                     name: "foo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).foo(
@@ -10192,7 +10192,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "bar",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).bar(
@@ -10206,7 +10206,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "baz",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).baz(
@@ -10221,7 +10221,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "garply",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).garply(
@@ -10236,7 +10236,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "xyzzy",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).xyzzy(
@@ -10252,7 +10252,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: NodeConverter {
                 ),
                 (
                     name: "plugh",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestMethodsProtocolConverter.self).plugh(
@@ -10302,7 +10302,7 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
         let props = try NodeClass.descriptorsFor(properties: [
             (
                 name: "hoge",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "hoge", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Double.toNode(
                             env.argument(at: 0, converter: TestAPI.TestNonExportedProtocolEnum.self).hoge(
@@ -10316,7 +10316,7 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesNodeRuntime.NodeConverte
             ),
             (
                 name: "getFuga",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "fuga", expectedArgumentCount: 1) { env in
                         return try Swift.Double.toNode(env.argument(at: 0, converter: TestAPI.TestNonExportedProtocolEnum.self).fuga, env: env.env)
                     }
@@ -10352,7 +10352,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let wombat = try env.getNamedProperty(napiValue, "wombat")
-            let result = try env.callFunction(napiValue, wombat, [try OptionalConverter<Swift.Int>.toNode(zxc, env: env)])
+            let result = try env.callFunction(napiValue, wombat,[try OptionalConverter<Swift.Int>.toNode(zxc, env: env)])
             return try OptionalConverter<Swift.Double>.fromNode(result, env: env)
         }
     }
@@ -10360,7 +10360,7 @@ struct _NodeTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
         try syncOnMainThread { env in
             let napiValue = try _nodeWitness.value(env: env)
             let spqr = try env.getNamedProperty(napiValue, "spqr")
-            let result = try env.callFunction(napiValue, spqr, [try TestAPI.AssociatedDataEnum.toNode(pippo, env: env)])
+            let result = try env.callFunction(napiValue, spqr,[try TestAPI.AssociatedDataEnum.toNode(pippo, env: env)])
             return try Swift.Int.fromNode(result, env: env)
         }
     }
@@ -10421,7 +10421,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
             properties: [
                 (
                     name: "wombat",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).wombat(
@@ -10436,7 +10436,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                 ),
                 (
                     name: "spqr",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).spqr(
@@ -10452,12 +10452,12 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: NodeConverter
                 (
                     name: "flarp",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI_CommonInterface._TestOptionalsProtocolConverter.self).flarp, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -10558,24 +10558,24 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: NodeConverte
                 (
                     name: "corge",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).corge, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
                 (
                     name: "frobby",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI_CommonInterface._TestPropertiesProtocolConverter.self).frob, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -10627,7 +10627,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "foo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).foo(
@@ -10641,7 +10641,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "bar",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).bar(
@@ -10655,7 +10655,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "baz",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).baz(
@@ -10670,7 +10670,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "garply",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).garply(
@@ -10685,7 +10685,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "xyzzy",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).xyzzy(
@@ -10701,7 +10701,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "plugh",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).plugh(
@@ -10716,7 +10716,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "init",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "init", expectedArgumentCount: 1, hasNamedOptions: true) { env in
                             let result = try TestAPI.TestProtocolClass.toNode(
                                 TestAPI.TestProtocolClass(
@@ -10732,7 +10732,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "wombat",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "wombat", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try OptionalConverter<Swift.Double>.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).wombat(
@@ -10747,7 +10747,7 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "spqr",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "spqr", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
                                 env.this(converter: TestAPI.TestProtocolClass.self).spqr(
@@ -10763,12 +10763,12 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "corge",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(env.this(converter: TestAPI.TestProtocolClass.self).corge, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "corge", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -10782,12 +10782,12 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "flarp",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 0) { env in
                                 return try OptionalConverter<Swift.String>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).flarp, env: env.env)
                             }
                         },
-                        setter: { env, info in
+                        setter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "flarp", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: TestAPI.TestProtocolClass.self)
                                 FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -10801,12 +10801,12 @@ extension TestAPI.TestProtocolClass: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "frobby",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolClass.self).frob, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -10860,7 +10860,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
         let props = try NodeClass.descriptorsFor(properties: [
             (
                 name: "foo",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).foo(
@@ -10874,7 +10874,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "bar",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                         let result = try Swift.Bool.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).bar(
@@ -10888,7 +10888,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "baz",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).baz(
@@ -10903,7 +10903,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "garply",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).garply(
@@ -10918,7 +10918,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "xyzzy",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                         let result = try Swift.String.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).xyzzy(
@@ -10934,7 +10934,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesNodeRuntime.NodeConverter {
             ),
             (
                 name: "plugh",
-                .method { env, info in
+                .method{ env, info in
                     FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                         let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
                             env.argument(at: 0, converter: TestAPI.TestProtocolEnum.self).plugh(
@@ -10989,7 +10989,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
             properties: [
                 (
                     name: "foo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "foo", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).foo(
@@ -11003,7 +11003,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "bar",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "bar", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).bar(
@@ -11017,7 +11017,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "baz",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "baz", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).baz(
@@ -11032,7 +11032,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "garply",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "garply", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).garply(
@@ -11047,7 +11047,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "xyzzy",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "xyzzy", expectedArgumentCount: 2, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).xyzzy(
@@ -11063,7 +11063,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 ),
                 (
                     name: "plugh",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "plugh", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.toNode(
                                 env.this(converter: TestAPI.TestProtocolStruct.self).plugh(
@@ -11079,12 +11079,12 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
                 (
                     name: "frobby",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "frobby", expectedArgumentCount: 0) { env in
                                 return try ArrayConverter<Swift.Int>.toNode(env.this(converter: TestAPI.TestProtocolStruct.self).frob, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: false
                 ),
@@ -11128,7 +11128,7 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "checkTuples",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "checkTuples", expectedArgumentCount: 5, hasNamedOptions: false) { env in
                             let result = try Swift.Bool.toNode(
                                 TestAPI.Tuples.checkTuples(
@@ -11148,60 +11148,60 @@ extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "tuple2",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple2", expectedArgumentCount: 0) { env in
                                 return try Tuple2Converter<Swift.Int, Swift.String>.toNode(TestAPI.Tuples.tuple2, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "tuple3",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple3", expectedArgumentCount: 0) { env in
                                 return try Tuple3Converter<Swift.String, Swift.Double, Swift.String>.toNode(TestAPI.Tuples.tuple3, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "tuple4",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple4", expectedArgumentCount: 0) { env in
                                 return try Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.toNode(TestAPI.Tuples.tuple4, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "tuple5",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple5", expectedArgumentCount: 0) { env in
                                 return try Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.toNode(TestAPI.Tuples.tuple5, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "tuple6",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "tuple6", expectedArgumentCount: 0) { env in
                                 return try Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.toNode(TestAPI.Tuples.tuple6, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
@@ -11246,7 +11246,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "echo",
-                    .method { env, info in
+                    .method{ env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try Foundation.URL.toNode(
                                 TestAPI.URLs.echo(
@@ -11262,48 +11262,48 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "dataImage",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dataImage", expectedArgumentCount: 0) { env in
                                 return try Foundation.URL.toNode(TestAPI.URLs.dataImage, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "localFile",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "localFile", expectedArgumentCount: 0) { env in
                                 return try Foundation.URL.toNode(TestAPI.URLs.localFile, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "remoteFile",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "remoteFile", expectedArgumentCount: 0) { env in
                                 return try Foundation.URL.toNode(TestAPI.URLs.remoteFile, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "simple",
                     .accessor(
-                        getter: { env, info in
+                        getter:{ env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
                                 return try Foundation.URL.toNode(TestAPI.URLs.simple, env: env.env)
                             }
                         },
-                        setter: nil
+                        setter:nil
                     ),
                     isStatic: true
                 ),

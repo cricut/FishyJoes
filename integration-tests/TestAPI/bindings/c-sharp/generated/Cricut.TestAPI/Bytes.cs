@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bytes, cSharp: TheBytes) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte> TheBytes {
+        public staticSystem.Collections.Generic.IList<byte> TheBytes {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Bytes_bytes(Loader.env, out exn).Consume<System.Collections.Generic.IList<byte>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(data) -->
         /// </summary>
-        public static byte[] Data {
+        public staticbyte[] Data {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Bytes_data(Loader.env, out exn).Consume<byte[]>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoBytes) -->
         /// </summary>
-        public static System.Collections.Generic.IList<byte> EchoBytes(
+        public staticSystem.Collections.Generic.IList<byte> EchoBytes(
             System.Collections.Generic.IList<byte> bytes
         ) {
             using var _bytesHandle = new GCRef(bytes);
@@ -59,7 +59,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoData) -->
         /// </summary>
-        public static byte[] EchoData(
+        public staticbyte[] EchoData(
             byte[] data
         ) {
             using var _dataHandle = new GCRef(data);

@@ -56,7 +56,7 @@ class Structs_ReferenceStruct extends SwiftReference {
         )
     ;
     /// <!-- FishyJoes.export(create) -->
-    static TestAPI.Structs_ReferenceStruct create(
+    staticTestAPI.Structs_ReferenceStruct create(
     ) =>
         consumeCreatedRef<TestAPI.Structs_ReferenceStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_Structs_ReferenceStruct_create(Loader.shared.env, _exn)))
     ;

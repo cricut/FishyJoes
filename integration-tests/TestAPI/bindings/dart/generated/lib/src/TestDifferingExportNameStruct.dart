@@ -38,7 +38,7 @@ class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNamePr
     static int ffi_get_tata(
         UnownedRef obj,
         OutCreatedRef exn
-    ) => catching(exn, () =>
+    ) =>catching(exn, () =>
         peekRef<TestDifferingExportNameStruct>(obj).tata
     ) ?? 0;
     static void ffi_set_tata(
@@ -46,7 +46,7 @@ class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNamePr
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<TestDifferingExportNameStruct>(obj).tata = newValue;
+        peekRef<TestDifferingExportNameStruct>(obj).tata =newValue;
     });
 
     @override
@@ -62,7 +62,7 @@ class TestDifferingExportNameStruct implements TestAPI.TestDifferingExportNamePr
     }
 
     @override
-    int get hashCode => Object.hash(
+    int get hashCode =>Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(tata)
     );

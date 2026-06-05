@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(_leadingUnderscoreProp) -->
         /// </summary>
-        public string Get_leadingUnderscoreProp() {
+        publicstring Get_leadingUnderscoreProp() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp(Loader.env, thisHandle.ptr, out exn).Consume<string>()

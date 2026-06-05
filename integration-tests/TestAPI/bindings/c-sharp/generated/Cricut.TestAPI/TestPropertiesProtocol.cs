@@ -12,7 +12,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(corge) -->
         /// </summary>
-        public string GetCorge() {
+        publicstring GetCorge() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestPropertiesProtocol_corge(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -25,7 +25,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(frobby) -->
         /// </summary>
-        public System.Collections.Generic.IList<nint> GetFrobby() {
+        publicSystem.Collections.Generic.IList<nint> GetFrobby() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestPropertiesProtocol_frobby(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<nint>>()
