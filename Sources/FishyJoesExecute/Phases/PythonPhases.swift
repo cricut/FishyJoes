@@ -194,6 +194,38 @@ class PythonPhases: IotaPhases, Phases {
         }
     }
 
+    private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
+        let runtimeSourcePath = "\(absolutePath(runtimePackagePath))/src/fishyjoes_runtime"
+        let coverageConfig = """
+        [run]
+        source =
+            testapi
+            fishyjoes_runtime
+
+        [paths]
+        testapi =
+            generated/src/testapi
+            */site-packages/testapi
+        fishyjoes_runtime =
+            \(runtimeSourcePath)
+            */site-packages/fishyjoes_runtime
+
+        [report]
+        omit =
+            */__pycache__/*
+        """
+        try coverageConfig.write(toFile: configPath, atomically: true, encoding: .utf8)
+    }
+
+    private func normalizePythonCoverageXML(at coverageXMLPath: String) throws {
+        let repositoryRoot = absolutePath("../../../..")
+        let bindingsPythonPath = "integration-tests/TestAPI/bindings/python/"
+        let xml = try String(contentsOfFile: coverageXMLPath, encoding: .utf8)
+            .replacingOccurrences(of: #"filename="\#(repositoryRoot)/"#, with: #"filename=""#)
+            .replacingOccurrences(of: #"filename="generated/src/"#, with: #"filename="\#(bindingsPythonPath)generated/src/"#)
+        try xml.write(toFile: coverageXMLPath, atomically: true, encoding: .utf8)
+    }
+
     private func pythonRuntimePackagePath() throws -> String {
         var candidates = [
             "../../../../python-runtime",
@@ -457,12 +489,40 @@ class PythonPhases: IotaPhases, Phases {
             try installPythonDevDependencies()
             try installPythonRuntimePackage()
             try installGeneratedPythonPackage()
-            try cmd(
-                pythonVirtualEnvironmentPython(),
-                "-m", "unittest", "discover",
-                "-s", "tests",
-                "-v"
-            ).run()
+            let testArguments = ["-m", "unittest", "discover", "-s", "tests", "-v"]
+            if let codeCoveragePath = options.codeCoveragePath {
+                try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
+                let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
+                try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
+                let coverageEnv = ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
+                try cmd(
+                    pythonVirtualEnvironmentPython(),
+                    "-m", "coverage", "erase",
+                    "--rcfile", coverageConfigPath,
+                    addEnv: coverageEnv
+                ).run()
+                try cmd(
+                    pythonVirtualEnvironmentPython(),
+                    arguments: ["-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
+                    addEnv: coverageEnv
+                ).run()
+                try cmd(
+                    pythonVirtualEnvironmentPython(),
+                    "-m", "coverage", "xml",
+                    "--rcfile", coverageConfigPath,
+                    "-o", "\(codeCoveragePath)/integration-tests-python.xml",
+                    addEnv: coverageEnv
+                ).run()
+                try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
+                try cmd(
+                    pythonVirtualEnvironmentPython(),
+                    "-m", "coverage", "report",
+                    "--rcfile", coverageConfigPath,
+                    addEnv: coverageEnv
+                ).run()
+            } else {
+                try cmd(pythonVirtualEnvironmentPython(), arguments: testArguments).run()
+            }
         }
     }
 

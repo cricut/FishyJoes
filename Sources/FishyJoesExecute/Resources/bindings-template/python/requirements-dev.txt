@@ -1,4 +1,5 @@
 cffi
+coverage
 hatchling
 mypy
 packaging

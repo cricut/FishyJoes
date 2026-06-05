@@ -91,13 +91,16 @@ jobs:
           reports: "\
             coverage-data/lcov.info;\
             coverage-data/jacoco-*/test/jacocoTestReport.xml;\
-            coverage-data/integration-tests-c-sharp.xml"
+            coverage-data/integration-tests-c-sharp.xml;\
+            coverage-data/integration-tests-python.xml"
           filefilters: "+*;-.build/*"
           sourcedirs: "\
             kotlin-runtime/src/main/kotlin/com/cricut/fishyjoes/runtime;\
             kotlin-runtime/src/test/kotlin/com/cricut/fishyjoes/runtime;\
             integration-tests/TestAPI/bindings/kotlin/generated/src/main/kotlin/com/cricut/testapi;\
-            integration-tests/TestAPI/bindings/kotlin/src/test/kotlin/com/cricut/testapi"
+            integration-tests/TestAPI/bindings/kotlin/src/test/kotlin/com/cricut/testapi;\
+            integration-tests/TestAPI/bindings/python;\
+            python-runtime/src"
           targetdir: "CoverageReport"
 
           reporttypes: "MarkdownSummaryGithub;MarkdownDeltaSummary;Cobertura;Badges;Html_Dark"
