@@ -43,14 +43,14 @@ def iter_package_files(package_name: str, source_dir: Path):
 
 def runtime_config_with_version(data: bytes, version: str) -> bytes:
     source = data.decode("utf-8")
-    updated = re.sub(
+    updated, count = re.subn(
         r'^FISHYJOES_RUNTIME_VERSION = "[^"]+"$',
         f'FISHYJOES_RUNTIME_VERSION = "{version}"',
         source,
         count=1,
         flags=re.MULTILINE,
     )
-    if updated == source:
+    if count != 1:
         raise RuntimeError("Could not stamp FishyJoes runtime version in config.py")
     return updated.encode("utf-8")
 
