@@ -1,3 +1,5 @@
+import json
+import os
 import shutil
 import subprocess
 import sys
@@ -13,6 +15,7 @@ TEST_API_ROOT = Path(__file__).resolve().parents[3]
 PYTHON_RUNTIME = REPO_ROOT / "python-runtime"
 GENERATED_PACKAGE = PYTHON_BINDINGS / "generated"
 DIST_DIR = PYTHON_BINDINGS / "dist"
+MACOS_DEPLOYMENT_TARGET = "13.0"
 
 
 def native_library_name(name: str) -> str:
@@ -32,6 +35,29 @@ def built_runtime_library() -> Path:
     if not candidates:
         raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
     return candidates[0]
+
+
+def wheel_build_env() -> dict[str, str]:
+    env = os.environ.copy()
+    if sys.platform == "darwin":
+        env["MACOSX_DEPLOYMENT_TARGET"] = MACOS_DEPLOYMENT_TARGET
+    return env
+
+
+def assert_honest_macos_wheel_tag(
+    testcase: unittest.TestCase,
+    wheel_path: Path,
+    wheel_text: str,
+    wheel_metadata: str | None = None,
+) -> None:
+    if sys.platform != "darwin":
+        return
+
+    expected = f"macosx_{MACOS_DEPLOYMENT_TARGET.replace('.', '_')}"
+    testcase.assertIn(expected, wheel_path.name)
+    testcase.assertIn(expected, wheel_text)
+    if wheel_metadata is not None:
+        testcase.assertIn(expected, json.loads(wheel_metadata)["platform_tag"])
 
 
 class PackagingTests(unittest.TestCase):
@@ -103,6 +129,7 @@ class PackagingTests(unittest.TestCase):
         result = subprocess.run(
             [sys.executable, str(GENERATED_PACKAGE / "_build_wheel.py"), "--outdir", str(DIST_DIR)],
             cwd=GENERATED_PACKAGE,
+            env=wheel_build_env(),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -123,6 +150,7 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("Tag: py3-none-", wheel)
         self.assertIn('"python_requirement": ">=3.11"', wheel_metadata)
         self.assertIn('"platform_tag":', wheel_metadata)
+        assert_honest_macos_wheel_tag(self, wheels[0], wheel, wheel_metadata)
         self.assertTrue(list(DIST_DIR.glob("native-repair-report-*.txt")))
 
         with tempfile.TemporaryDirectory() as target:
@@ -142,6 +170,7 @@ class PackagingTests(unittest.TestCase):
         generated = subprocess.run(
             [sys.executable, str(GENERATED_PACKAGE / "_build_wheel.py"), "--outdir", str(DIST_DIR)],
             cwd=GENERATED_PACKAGE,
+            env=wheel_build_env(),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -161,6 +190,7 @@ class PackagingTests(unittest.TestCase):
                 "1.2.3",
             ],
             cwd=PYTHON_RUNTIME,
+            env=wheel_build_env(),
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
@@ -187,6 +217,7 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("Requires-Dist: packaging", runtime_metadata)
         self.assertIn("Root-Is-Purelib: false", runtime_wheel)
         self.assertIn("Tag: py3-none-", runtime_wheel)
+        assert_honest_macos_wheel_tag(self, runtime_wheels[0], runtime_wheel)
         self.assertIn('FISHYJOES_RUNTIME_VERSION = "1.2.3"', runtime_config)
 
         with tempfile.TemporaryDirectory() as target:
