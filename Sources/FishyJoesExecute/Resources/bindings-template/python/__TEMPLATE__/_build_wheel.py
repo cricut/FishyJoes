@@ -6,6 +6,7 @@ import argparse
 import base64
 import hashlib
 import json
+import os
 import platform
 import re
 import shutil
@@ -88,7 +89,15 @@ def wheel_architectures() -> list[str]:
 
 
 def wheel_platform_tag() -> str:
-    tag = normalized_platform(sysconfig.get_platform())
+    raw_tag = sysconfig.get_platform()
+    if platform.system() == "Darwin":
+        deployment_target = os.environ.get("MACOSX_DEPLOYMENT_TARGET")
+        if deployment_target:
+            parts = raw_tag.split("-")
+            if len(parts) >= 3 and parts[0] == "macosx":
+                parts[1] = deployment_target
+                raw_tag = "-".join(parts)
+    tag = normalized_platform(raw_tag)
     if platform.system() == "Darwin" and set(wheel_architectures()) == {"arm64", "x86_64"}:
         parts = tag.split("_")
         if parts[-1] in {"arm64", "x86_64", "universal2"}:

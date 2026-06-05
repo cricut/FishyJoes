@@ -2,6 +2,7 @@ import gc
 import importlib
 import shutil
 import subprocess
+import os
 import sys
 import tempfile
 import unittest
@@ -14,7 +15,8 @@ RUNTIME_SRC = PYTHON_RUNTIME / "src"
 GENERATED = Path(__file__).resolve().parents[1] / "generated"
 GENERATED_PACKAGE = GENERATED / "src" / "testapi"
 GENERATED_SRC = GENERATED / "src"
-sys.path.insert(0, str(GENERATED_SRC))
+if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+    sys.path.insert(0, str(GENERATED_SRC))
 
 
 def native_library_name(name: str) -> str:

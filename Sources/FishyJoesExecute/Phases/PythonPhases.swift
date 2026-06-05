@@ -38,33 +38,11 @@ class PythonPhases: IotaPhases, Phases {
 
     private func pythonVersionRequirement(for module: String) -> String {
         guard let dependency = options.packageInfo?.dependencyMap[module],
-              let version = dependency.versionInPubspecFormat(flexibleVersions: options.config.flexibleVersions)
+              let version = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions)
         else {
             return ">=0.0.1"
         }
-        if version.hasPrefix("^") {
-            return pythonCompatibleRequirement(for: String(version.dropFirst()))
-        }
-        if version.contains(",") || [">=", "==", "~=", "<=", "!=", ">", "<", "==="].contains(where: { version.hasPrefix($0) }) {
-            return version
-        }
-        return "==\(version)"
-    }
-
-    private func pythonCompatibleRequirement(for version: String) -> String {
-        let parts = version.split(separator: ".").map(String.init)
-        guard let major = Int(parts.first ?? "") else {
-            return "==\(version)"
-        }
-        let upperBound: String
-        if major > 0 {
-            upperBound = "\(major + 1).0.0"
-        } else if parts.count > 1, let minor = Int(parts[1]) {
-            upperBound = "0.\(minor + 1).0"
-        } else {
-            upperBound = "\(major + 1).0.0"
-        }
-        return ">=\(version),<\(upperBound)"
+        return version
     }
 
     private func pythonDependencyLines(_ dependencies: [PythonDependency]) -> String {
@@ -334,12 +312,12 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     private func pythonLocalPackageVersion(for dependency: SwiftPackage.Dependency) -> String? {
-        guard let version = dependency.versionInPubspecFormat(flexibleVersions: options.config.flexibleVersions) else {
+        guard let version = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) else {
             return nil
         }
 
-        if version.hasPrefix("^") {
-            return String(version.dropFirst())
+        if version.hasPrefix("==") || version.hasPrefix("~=") {
+            return String(version.dropFirst(2))
         }
 
         if version.range(of: #"^\d+\.\d+\.\d+$"#, options: .regularExpression) != nil {

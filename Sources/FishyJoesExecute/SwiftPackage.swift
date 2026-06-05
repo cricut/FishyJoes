@@ -281,6 +281,39 @@ extension SwiftPackage.Dependency {
         }
     }
 
+    func versionInPythonRequirementFormat(flexibleVersions: Bool = false) -> String? {
+        switch self {
+        case .sourceControl(_, _, .branch), .sourceControl(_, _, .revision), .fileSystem:
+            return nil
+        case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
+            if flexibleVersions {
+                let upperBound: SemanticVersion
+                if baseVersion.major > 0 {
+                    upperBound = SemanticVersion(major: baseVersion.major + 1, minor: 0, patch: 0)
+                } else {
+                    upperBound = SemanticVersion(major: 0, minor: baseVersion.minor + 1, patch: 0)
+                }
+                return ">=\(baseVersion),<\(upperBound)"
+            } else {
+                return "==\(baseVersion)"
+            }
+        case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
+            if flexibleVersions {
+                return "~=\(baseVersion)"
+            } else {
+                return "==\(baseVersion)"
+            }
+        case .sourceControl(_, _, .range(let lowerBound, let upperBound)):
+            if flexibleVersions {
+                return ">=\(lowerBound),<\(upperBound)"
+            } else {
+                return "==\(lowerBound)"
+            }
+        case .sourceControl(_, _, .exact(let version)):
+            return "==\(version)"
+        }
+    }
+
     /// Returns the Dart 3.9+ `tag_pattern` + `version:` pair for a git dependency,
     /// or nil when the requirement can't be expressed as a semver constraint
     /// (branch/revision refs and local filesystem paths).

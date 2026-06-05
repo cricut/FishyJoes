@@ -12,8 +12,13 @@ concurrency:
   group: python-bindings-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: read
+
 env:
   FISHYJOES: 1
+  MACOSX_DEPLOYMENT_TARGET: "13.0"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
 
@@ -63,6 +68,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
@@ -75,11 +81,11 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
           # the dev tools the tooling tests (mypy type-check, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -144,6 +150,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
@@ -156,11 +163,11 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
           # the dev tools the tooling tests (mypy type-check, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -235,6 +242,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
@@ -251,11 +259,11 @@ jobs:
           "$venv_python" -m pip install --upgrade pip
           "$venv_python" -m pip install cffi packaging
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
           # the dev tools the tooling tests (mypy type-check, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
       - name: Verify native wheel repair
         shell: bash

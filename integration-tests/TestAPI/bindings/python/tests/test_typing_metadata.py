@@ -3,6 +3,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -10,7 +11,8 @@ GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
 PACKAGE_DIR = GENERATED_SRC / "testapi"
 RUNTIME_SRC = Path(__file__).resolve().parents[5] / "python-runtime" / "src"
 TYPECHECK_FIXTURE = Path(__file__).with_name("typecheck_generated_usage.py")
-sys.path.insert(0, str(GENERATED_SRC))
+if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+    sys.path.insert(0, str(GENERATED_SRC))
 
 
 class TypingMetadataTests(unittest.TestCase):
@@ -35,6 +37,18 @@ class TypingMetadataTests(unittest.TestCase):
         enum_stub = (PACKAGE_DIR / "simple_enum.pyi").read_text()
         self.assertIn("class SimpleEnum", enum_stub)
         self.assertIn("green", enum_stub)
+
+    def test_built_wheel_includes_typing_metadata(self) -> None:
+        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+            self.skipTest("wheel metadata is verified in installed-wheel CI runs")
+        wheels = sorted((Path(__file__).resolve().parents[1] / "dist").glob("testapi-*.whl"))
+        self.assertEqual(1, len(wheels), f"expected one generated testapi wheel, found {wheels}")
+        with zipfile.ZipFile(wheels[0]) as archive:
+            names = set(archive.namelist())
+        self.assertIn("testapi/py.typed", names)
+        self.assertIn("testapi/__init__.pyi", names)
+        self.assertIn("testapi/_exports.pyi", names)
+        self.assertIn("testapi/functions.pyi", names)
 
     def test_generated_stubs_use_metadata_driven_types(self) -> None:
         strings_stub = (PACKAGE_DIR / "strings.pyi").read_text()
@@ -72,9 +86,12 @@ class TypingMetadataTests(unittest.TestCase):
 
     def test_generated_package_type_checks_with_mypy(self) -> None:
         env = os.environ.copy()
-        env["MYPYPATH"] = os.pathsep.join(
-            [str(GENERATED_SRC), str(RUNTIME_SRC), env.get("MYPYPATH", "")]
-        )
+        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
+            env.pop("MYPYPATH", None)
+        else:
+            env["MYPYPATH"] = os.pathsep.join(
+                [str(GENERATED_SRC), str(RUNTIME_SRC), env.get("MYPYPATH", "")]
+            )
         env["PYTHONDONTWRITEBYTECODE"] = "1"
         with tempfile.TemporaryDirectory(prefix="fishyjoes-mypy-") as cache_dir:
             result = subprocess.run(

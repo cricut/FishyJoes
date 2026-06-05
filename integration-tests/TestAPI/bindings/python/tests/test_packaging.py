@@ -45,18 +45,24 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("runs-on: macos-26", contents)
         self.assertIn("runs-on: ubuntu-22.04", contents)
         self.assertIn("runs-on: windows-2025", contents)
-        self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)
+        self.assertEqual(contents.count('version_args=(--version "$version")'), 3)
         self.assertIn("install-system-dependencies for-generation", contents)
-        self.assertIn("swift run -- fishy-joes --python generate build test pack", contents)
-        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack', contents)
+        self.assertIn('swift run -- fishy-joes --python --fat "${version_args[@]}" generate build test pack', contents)
+        self.assertIn('swift run -- fishy-joes --python "${version_args[@]}" generate build test pack', contents)
+        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" generate build test pack', contents)
         self.assertEqual(contents.count("Build FishyJoes Python runtime wheel"), 3)
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
+        self.assertEqual(contents.count('--distribution-name "fishyjoes-runtime"'), 3)
+        self.assertEqual(contents.count('"$venv_python" -m pip install -r bindings/python/requirements-dev.txt'), 6)
         self.assertEqual(contents.count('"$venv_python" "$runtime_dir/_build_wheel.py"'), 3)
+        self.assertEqual(contents.count('runtime_version_args=(--version-override "$version")'), 3)
+        self.assertEqual(contents.count('"${runtime_version_args[@]}"'), 3)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
+        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)
         self.assertIn("pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl", contents)
         self.assertIn("import testapi as package; assert package.SUPPORTED", contents)
         self.assertEqual(
-            contents.count('PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
+            contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
             3,
         )
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
@@ -81,12 +87,14 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("swift run -- fishy-joes --python generate build test pack", contents)
         self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack', contents)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
+        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)
         self.assertEqual(
-            contents.count('PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
+            contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
             3,
         )
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
         self.assertEqual(contents.count('"$venv_python" python-runtime/_build_wheel.py'), 3)
+        self.assertEqual(contents.count('"$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt'), 3)
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
 
     def test_pack_builds_installable_platform_wheel(self) -> None:
@@ -149,6 +157,8 @@ class PackagingTests(unittest.TestCase):
                 str(DIST_DIR),
                 "--native-library",
                 str(built_runtime_library()),
+                "--version-override",
+                "1.2.3",
             ],
             cwd=PYTHON_RUNTIME,
             text=True,
@@ -160,15 +170,16 @@ class PackagingTests(unittest.TestCase):
 
         wheels = sorted(DIST_DIR.glob("testapi-0.0.1-py3-none-*.whl"))
         self.assertEqual(len(wheels), 1, [path.name for path in DIST_DIR.glob("*.whl")])
-        runtime_wheels = sorted(DIST_DIR.glob("fishyjoes_runtime-0.0.1-py3-none-*.whl"))
+        runtime_wheels = sorted(DIST_DIR.glob("fishyjoes_runtime-1.2.3-py3-none-*.whl"))
         self.assertEqual(len(runtime_wheels), 1, [path.name for path in DIST_DIR.glob("*.whl")])
 
         with zipfile.ZipFile(runtime_wheels[0]) as archive:
-            runtime_metadata = archive.read("fishyjoes_runtime-0.0.1.dist-info/METADATA").decode("utf-8")
-            runtime_wheel = archive.read("fishyjoes_runtime-0.0.1.dist-info/WHEEL").decode("utf-8")
+            runtime_metadata = archive.read("fishyjoes_runtime-1.2.3.dist-info/METADATA").decode("utf-8")
+            runtime_wheel = archive.read("fishyjoes_runtime-1.2.3.dist-info/WHEEL").decode("utf-8")
             self.assertIn("fishyjoes_runtime/py.typed", archive.namelist())
             self.assertIn(f"fishyjoes_runtime/native/{native_library_name('FishyJoesIotaRuntime')}", archive.namelist())
         self.assertIn("Name: fishyjoes-runtime", runtime_metadata)
+        self.assertIn("Version: 1.2.3", runtime_metadata)
         self.assertIn("Summary: Python-side FishyJoes binding layer for the shared Iota ABI", runtime_metadata)
         self.assertIn("Requires-Python: >=3.11", runtime_metadata)
         self.assertIn("Requires-Dist: cffi", runtime_metadata)

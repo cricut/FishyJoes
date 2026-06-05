@@ -1,4 +1,5 @@
 import importlib
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -14,9 +15,10 @@ class ImportSetupTests(unittest.TestCase):
                 "Python generated package is missing. Run "
                 "`FISHYJOES=1 ../../.build/debug/fishy-joes --python build` "
                 "from integration-tests/TestAPI first."
-            )
+        )
 
-        sys.path.insert(0, str(GENERATED_SRC))
+        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
+            sys.path.insert(0, str(GENERATED_SRC))
         try:
             module = importlib.import_module("testapi")
         except ModuleNotFoundError as error:

@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import base64
 import hashlib
+import json
+import os
 import platform
 import re
 import shutil
@@ -55,13 +57,27 @@ def native_library_filename() -> str:
 
 
 def wheel_platform_tag() -> str:
-    return normalized_platform(sysconfig.get_platform())
+    tag = sysconfig.get_platform()
+    if platform.system() == "Darwin":
+        deployment_target = os.environ.get("MACOSX_DEPLOYMENT_TARGET")
+        if deployment_target:
+            parts = tag.split("-")
+            if len(parts) >= 3 and parts[0] == "macosx":
+                parts[1] = deployment_target
+                tag = "-".join(parts)
+    return normalized_platform(tag)
 
 
-def build_wheel(outdir: Path, native_library: Path) -> Path:
+def build_wheel(
+    outdir: Path,
+    native_library: Path,
+    distribution_name: str | None = None,
+    version_override: str | None = None,
+) -> Path:
     project = PYPROJECT["project"]
-    distribution = normalized_distribution_name(project["name"])
-    version = project["version"]
+    metadata_name = distribution_name or project["name"]
+    distribution = normalized_distribution_name(metadata_name)
+    version = version_override or project["version"]
     package_name, source_dir = package_root()
     tag = f"py3-none-{wheel_platform_tag()}"
     dist_info = f"{distribution}-{version}.dist-info"
@@ -88,7 +104,7 @@ def build_wheel(outdir: Path, native_library: Path) -> Path:
 
         metadata = [
             "Metadata-Version: 2.3",
-            f"Name: {project['name']}",
+            f"Name: {metadata_name}",
             f"Version: {version}",
             f"Requires-Python: {project['requires-python']}",
         ]
@@ -147,18 +163,53 @@ def replace_with_repaired_wheel(original: Path, repaired_dir: Path) -> Path:
     return destination
 
 
+def write_repair_report(outdir: Path, platform_name: str, lines: list[str]) -> None:
+    report = outdir / f"runtime-native-repair-report-{platform_name}.txt"
+    report.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def repair_wheel(wheel_path: Path) -> Path:
     system = platform.system()
-    if system != "Darwin":
+    platform_name = normalized_platform(system.lower())
+    report_lines = [
+        f"wheel={wheel_path.name}",
+        f"platform={wheel_platform_tag()}",
+        f"system={system}",
+    ]
+    if system == "Darwin":
+        delocate_wheel = tool_path("delocate-wheel")
+        if delocate_wheel is None:
+            raise RuntimeError("delocate-wheel is required to repair macOS FishyJoes runtime wheels")
+        with tempfile.TemporaryDirectory() as temp:
+            result = run_command([delocate_wheel, "--verbose", "-w", temp, str(wheel_path)])
+            report_lines.append(result.stdout.rstrip())
+            if result.returncode != 0:
+                raise RuntimeError(f"delocate-wheel failed for {wheel_path.name}:\n{result.stdout}")
+            repaired = replace_with_repaired_wheel(wheel_path, Path(temp))
+        report_lines.append(f"repaired={repaired.name}")
+        write_repair_report(wheel_path.parent, platform_name, report_lines)
+        return repaired
+    if system == "Linux":
+        auditwheel = tool_path("auditwheel")
+        if auditwheel is None:
+            raise RuntimeError("auditwheel is required to repair Linux FishyJoes runtime wheels")
+        show = run_command([auditwheel, "show", str(wheel_path)])
+        report_lines.append(show.stdout.rstrip())
+        with tempfile.TemporaryDirectory() as temp:
+            repair = run_command([auditwheel, "repair", "-w", temp, str(wheel_path)])
+            report_lines.append(repair.stdout.rstrip())
+            if repair.returncode != 0:
+                raise RuntimeError(f"auditwheel repair failed for {wheel_path.name}:\n{repair.stdout}")
+            repaired = replace_with_repaired_wheel(wheel_path, Path(temp))
+        report_lines.append(f"repaired={repaired.name}")
+        write_repair_report(wheel_path.parent, platform_name, report_lines)
+        return repaired
+    if system == "Windows":
+        report_lines.append(json.dumps({"dll": native_library_filename()}, sort_keys=True))
+        report_lines.append("repair=package-local DLL loading is validated by runtime import tests")
+        write_repair_report(wheel_path.parent, platform_name, report_lines)
         return wheel_path
-    delocate_wheel = tool_path("delocate-wheel")
-    if delocate_wheel is None:
-        raise RuntimeError("delocate-wheel is required to repair macOS FishyJoes runtime wheels")
-    with tempfile.TemporaryDirectory() as temp:
-        result = run_command([delocate_wheel, "--verbose", "-w", temp, str(wheel_path)])
-        if result.returncode != 0:
-            raise RuntimeError(f"delocate-wheel failed for {wheel_path.name}:\n{result.stdout}")
-        return replace_with_repaired_wheel(wheel_path, Path(temp))
+    raise RuntimeError(f"Unsupported Python binding platform: {system}")
 
 
 def main() -> None:
@@ -170,9 +221,16 @@ def main() -> None:
         required=True,
         help="FishyJoesIotaRuntime dynamic library to include",
     )
+    parser.add_argument("--distribution-name", help="Wheel distribution name to publish for this runtime package")
+    parser.add_argument("--version-override", help="Build a wheel with this package version without editing runtime files")
     parser.add_argument("--no-repair", action="store_true", help="Build the wheel without native-library repair")
     args = parser.parse_args()
-    wheel = build_wheel(args.outdir, native_library=args.native_library)
+    wheel = build_wheel(
+        args.outdir,
+        native_library=args.native_library,
+        distribution_name=args.distribution_name,
+        version_override=args.version_override,
+    )
     if not args.no_repair:
         wheel = repair_wheel(wheel)
     print(wheel)
