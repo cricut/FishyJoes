@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(class) -->
         /// </summary>
-        public staticnint Class {
+        public static nint Class {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions_class(Loader.env, out exn)
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(__dunder__) -->
         /// </summary>
-        public staticnint __dunder__ {
+        public static nint __dunder__ {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions___dunder__(Loader.env, out exn)
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(isNaN) -->
         /// </summary>
-        public staticbool IsNaN {
+        public static bool IsNaN {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions_isNaN(Loader.env, out exn)
@@ -57,7 +57,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(_leadingUnderscore) -->
         /// </summary>
-        public staticnint _leadingUnderscore {
+        public static nint _leadingUnderscore {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(Loader.env, out exn)
@@ -71,7 +71,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(list) -->
         /// </summary>
-        public staticnint List {
+        public static nint List {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions_list(Loader.env, out exn)
@@ -85,7 +85,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(Url) -->
         /// </summary>
-        public staticstring Url {
+        public static string Url {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions_Url(Loader.env, out exn).Consume<string>()
@@ -99,7 +99,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(URL) -->
         /// </summary>
-        public staticstring URL {
+        public static string URL {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_PythonNamingCollisions_URL(Loader.env, out exn).Consume<string>()
@@ -113,7 +113,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(from) -->
         /// </summary>
-        public staticstring From(
+        public static string From(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_PythonNamingCollisions_from(Loader.env, out _exn)).Consume<string>();
         }
@@ -127,7 +127,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(keywordArgs) -->
         /// </summary>
-        public staticnint KeywordArgs(
+        public static nint KeywordArgs(
             nint _class,
             nint list
         ) {

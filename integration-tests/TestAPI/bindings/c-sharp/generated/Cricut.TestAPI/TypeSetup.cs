@@ -2440,55 +2440,55 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_boolArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray =newValue.Consume<System.Collections.Generic.IList<bool>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolArray = newValue.Consume<System.Collections.Generic.IList<bool>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_boolSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_boolSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet =newValue.Consume<System.Collections.Generic.ISet<bool>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolSet = newValue.Consume<System.Collections.Generic.ISet<bool>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_boolDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_boolDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary =newValue.Consume<System.Collections.Generic.IDictionary<bool, bool>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().BoolDictionary = newValue.Consume<System.Collections.Generic.IDictionary<bool, bool>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_integerArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_integerArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray =newValue.Consume<System.Collections.Generic.IList<nint>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerArray = newValue.Consume<System.Collections.Generic.IList<nint>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_integerSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_integerSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet =newValue.Consume<System.Collections.Generic.ISet<nint>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerSet = newValue.Consume<System.Collections.Generic.ISet<nint>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_integerDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_integerDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary =newValue.Consume<System.Collections.Generic.IDictionary<nint, nint>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().IntegerDictionary = newValue.Consume<System.Collections.Generic.IDictionary<nint, nint>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_stringArrayGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringArraySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray =newValue.Consume<System.Collections.Generic.IList<string>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringArray = newValue.Consume<System.Collections.Generic.IList<string>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_stringSetGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringSetSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet =newValue.Consume<System.Collections.Generic.ISet<string>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringSet = newValue.Consume<System.Collections.Generic.ISet<string>>();
                     })),
                     bag<_TestAPI_Collections_CollectionHolder_stringDictionaryGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary)
                     )),
                     bag<_TestAPI_Collections_CollectionHolder_stringDictionarySetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary =newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
+                        obj.Peek<Cricut.TestAPI.Collections.CollectionHolder>().StringDictionary = newValue.Consume<System.Collections.Generic.IDictionary<string, string>>();
                     })),
                     out exn
                 ));
@@ -2541,157 +2541,157 @@ namespace Cricut.TestAPI {
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().B = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_bqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq =newValue.Consume<bool?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Bq = newValue.Consume<bool?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui8Setter>((UnownedRef obj, byte newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q =newValue.Consume<byte?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui8q = newValue.Consume<byte?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui16Setter>((UnownedRef obj, ushort newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16q =newValue.Consume<ushort?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui16q = newValue.Consume<ushort?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui32Setter>((UnownedRef obj, uint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32q =newValue.Consume<uint?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui32q = newValue.Consume<uint?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui64Setter>((UnownedRef obj, ulong newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_ui64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q =newValue.Consume<ulong?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui64q = newValue.Consume<ulong?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiSetter>((UnownedRef obj, nuint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Ui = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_uiqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq =newValue.Consume<nuint?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Uiq = newValue.Consume<nuint?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i8Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i8Setter>((UnownedRef obj, sbyte newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i8qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i8qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q =newValue.Consume<sbyte?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I8q = newValue.Consume<sbyte?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i16Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i16Setter>((UnownedRef obj, short newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i16qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i16qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q =newValue.Consume<short?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I16q = newValue.Consume<short?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i32Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i32Setter>((UnownedRef obj, int newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i32qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i32qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q =newValue.Consume<int?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I32q = newValue.Consume<int?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i64Getter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i64Setter>((UnownedRef obj, long newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64 =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64 = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i64qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_i64qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q =newValue.Consume<long?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I64q = newValue.Consume<long?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().I = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_iqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_iqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq =newValue.Consume<nint?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Iq = newValue.Consume<nint?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_fSetter>((UnownedRef obj, float newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().F = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_fqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_fqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq =newValue.Consume<float?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Fq = newValue.Consume<float?>();
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_dSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D =newValue;
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().D = newValue;
                     })),
                     bag<_TestAPI_Primitives_PrimitiveHolder_dqGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq)
                     )),
                     bag<_TestAPI_Primitives_PrimitiveHolder_dqSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq =newValue.Consume<double?>();
+                        obj.Peek<Cricut.TestAPI.Primitives.PrimitiveHolder>().Dq = newValue.Consume<double?>();
                     })),
                     out exn
                 ));
@@ -2735,13 +2735,13 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable)
                     )),
                     bag<_TestAPI_Structs_MemberwiseStruct_immutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Immutable = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable)
                     )),
                     bag<_TestAPI_Structs_MemberwiseStruct_mutableSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.MemberwiseStruct>().Mutable = newValue.Consume<string>();
                     })),
                     out exn
                 ));
@@ -2759,7 +2759,7 @@ namespace Cricut.TestAPI {
                         obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I
                     )),
                     bag<_TestAPI_Structs_MutableStruct_iSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I =newValue;
+                        obj.Peek<Cricut.TestAPI.Structs.MutableStruct>().I = newValue;
                     })),
                     out exn
                 ));
@@ -2817,127 +2817,127 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().A)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_aSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().A =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().A = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_bGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().B)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_bSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().B =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().B = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_cGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().C)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_cSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().C =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().C = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_dGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().D)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_dSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().D =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().D = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_eGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().E)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_eSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().E =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().E = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_fGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().F)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_fSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().F =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().F = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_gGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().G)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_gSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().G =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().G = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_hGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().H)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_hSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().H =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().H = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_iGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().I)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_iSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().I =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().I = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_jGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().J)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_jSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().J =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().J = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_kGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().K)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_kSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().K =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().K = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_lGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().L)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_lSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().L =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().L = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_mGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().M)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_mSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().M =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().M = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_nGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().N)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_nSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().N =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().N = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_oGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().O)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_oSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().O =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().O = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_pGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().P)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_pSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().P =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().P = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_qGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().Q)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_qSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().Q =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().Q = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_rGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().R)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_rSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().R =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().R = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_sGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().S)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_sSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().S =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().S = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_tGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().T)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_tSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().T =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().T = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_uGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().U)
                     )),
                     bag<_TestAPI_Structs_TwentyOneItemStruct_uSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().U =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.Structs.TwentyOneItemStruct>().U = newValue.Consume<string>();
                     })),
                     out exn
                 ));
@@ -2981,13 +2981,13 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo)
                     )),
                     bag<_TestAPI_AProtocolImplementation_fooSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Foo = newValue.Consume<string>();
                     })),
                     bag<_TestAPI_AProtocolImplementation_bazGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz
                     )),
                     bag<_TestAPI_AProtocolImplementation_bazSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz =newValue;
+                        obj.Peek<Cricut.TestAPI.AProtocolImplementation>().Baz = newValue;
                     })),
                     out exn
                 ));
@@ -3647,13 +3647,13 @@ namespace Cricut.TestAPI {
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam
                     )),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_spamSetter>((UnownedRef obj, [MarshalAs(UnmanagedType.I1)] bool newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam =newValue;
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Spam = newValue;
                     })),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot
                     )),
                     bag<_TestAPI_TestDefaultComputedPropertiesStruct_nootSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot =newValue;
+                        obj.Peek<Cricut.TestAPI.TestDefaultComputedPropertiesStruct>().Noot = newValue;
                     })),
                     out exn
                 ));
@@ -3684,7 +3684,7 @@ namespace Cricut.TestAPI {
                         obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata
                     )),
                     bag<_TestAPI_TestDifferingExportNameStruct_tataSetter>((UnownedRef obj, nint newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata =newValue;
+                        obj.Peek<Cricut.TestAPI.TestDifferingExportNameStruct>().Tata = newValue;
                     })),
                     out exn
                 ));
@@ -3715,7 +3715,7 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredPropStruct>()._leadingUnderscoreProp)
                     )),
                     bag<_TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredPropStruct>()._leadingUnderscoreProp =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.TestLeadingUnderscoredPropStruct>()._leadingUnderscoreProp = newValue.Consume<string>();
                     })),
                     out exn
                 ));
@@ -3872,7 +3872,7 @@ namespace Cricut.TestAPI {
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge)
                     )),
                     bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
-                        obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge =newValue.Consume<string>();
+                        obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
                     })),
                     out exn
                 ));

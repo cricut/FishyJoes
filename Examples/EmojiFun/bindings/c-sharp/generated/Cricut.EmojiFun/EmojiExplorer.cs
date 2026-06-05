@@ -17,7 +17,7 @@ namespace Cricut.EmojiFun {
         /// <para>- Returns: A string containing an emoji hello message.</para>
         /// <!-- FishyJoes.export(hello) -->
         /// </summary>
-        public staticstring Hello {
+        public static string Hello {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_EmojiFun_EmojiExplorer_hello(Loader.env, out exn).Consume<string>()
@@ -34,7 +34,7 @@ namespace Cricut.EmojiFun {
         /// <para>This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.</para>
         /// <!-- FishyJoes.export(known) -->
         /// </summary>
-        publicSystem.Collections.Generic.ISet<string> Known {
+        public System.Collections.Generic.ISet<string> Known {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -51,7 +51,7 @@ namespace Cricut.EmojiFun {
         /// <para>- Parameter count: The number of emoji strings to include in the object's known collection.</para>
         /// <!-- FishyJoes.export(create) -->
         /// </summary>
-        public staticCricut.EmojiFun.EmojiExplorer Create(
+        public static Cricut.EmojiFun.EmojiExplorer Create(
             nint count
         ) {
             return Check((out CreatedRef _exn) => __iota_EmojiFun_EmojiExplorer_create(Loader.env, count, out _exn)).Consume<Cricut.EmojiFun.EmojiExplorer>();
@@ -69,7 +69,7 @@ namespace Cricut.EmojiFun {
         /// <para>- Returns: A string containing one or more random emoji. In the unusual case that the object knows zero emoji strings, the `hello` string is returned.</para>
         /// <!-- FishyJoes.export(random) -->
         /// </summary>
-        publicstring Random(
+        public string Random(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_EmojiFun_EmojiExplorer_random(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
@@ -87,7 +87,7 @@ namespace Cricut.EmojiFun {
         /// <para>- Returns: A random emoji string, or `nil` if all values known to the object have been reported.</para>
         /// <!-- FishyJoes.export(randomUnique) -->
         /// </summary>
-        publicstring? RandomUnique(
+        public string? RandomUnique(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_EmojiFun_EmojiExplorer_randomUnique(Loader.env, _thisHandle.ptr, out _exn)).Consume<string?>();
@@ -105,7 +105,7 @@ namespace Cricut.EmojiFun {
         /// <para>- Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.</para>
         /// <!-- FishyJoes.export(enumerateKnown) -->
         /// </summary>
-        publicvoid EnumerateKnown(
+        public void EnumerateKnown(
             System.Func<string, bool> body
         ) {
             using var _thisHandle = new GCRef(this);

@@ -163,7 +163,7 @@ class Primitives_PrimitiveHolder {
     static bool ffi_get_b(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).b
     ) ?? false;
     static void ffi_set_b(
@@ -171,13 +171,13 @@ class Primitives_PrimitiveHolder {
         bool newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).b =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).b = newValue;
     });
 
     static CreatedRef ffi_get_bq(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).bq
         )
@@ -187,13 +187,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).bq =consumeRef<bool?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).bq = consumeRef<bool?>(newValue);
     });
 
     static int ffi_get_ui8(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).ui8
     ) ?? 0;
     static void ffi_set_ui8(
@@ -201,13 +201,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui8 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).ui8 = newValue;
     });
 
     static CreatedRef ffi_get_ui8q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).ui8q
         )
@@ -217,13 +217,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui8q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).ui8q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_ui16(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).ui16
     ) ?? 0;
     static void ffi_set_ui16(
@@ -231,13 +231,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui16 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).ui16 = newValue;
     });
 
     static CreatedRef ffi_get_ui16q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).ui16q
         )
@@ -247,13 +247,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui16q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).ui16q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_ui32(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).ui32
     ) ?? 0;
     static void ffi_set_ui32(
@@ -261,13 +261,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui32 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).ui32 = newValue;
     });
 
     static CreatedRef ffi_get_ui32q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).ui32q
         )
@@ -277,13 +277,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui32q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).ui32q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_ui64(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).ui64
     ) ?? 0;
     static void ffi_set_ui64(
@@ -291,13 +291,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui64 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).ui64 = newValue;
     });
 
     static CreatedRef ffi_get_ui64q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).ui64q
         )
@@ -307,13 +307,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui64q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).ui64q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_ui(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).ui
     ) ?? 0;
     static void ffi_set_ui(
@@ -321,13 +321,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).ui =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).ui = newValue;
     });
 
     static CreatedRef ffi_get_uiq(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).uiq
         )
@@ -337,13 +337,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).uiq =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).uiq = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_i8(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).i8
     ) ?? 0;
     static void ffi_set_i8(
@@ -351,13 +351,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i8 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).i8 = newValue;
     });
 
     static CreatedRef ffi_get_i8q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).i8q
         )
@@ -367,13 +367,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i8q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).i8q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_i16(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).i16
     ) ?? 0;
     static void ffi_set_i16(
@@ -381,13 +381,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i16 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).i16 = newValue;
     });
 
     static CreatedRef ffi_get_i16q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).i16q
         )
@@ -397,13 +397,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i16q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).i16q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_i32(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).i32
     ) ?? 0;
     static void ffi_set_i32(
@@ -411,13 +411,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i32 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).i32 = newValue;
     });
 
     static CreatedRef ffi_get_i32q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).i32q
         )
@@ -427,13 +427,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i32q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).i32q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_i64(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).i64
     ) ?? 0;
     static void ffi_set_i64(
@@ -441,13 +441,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i64 =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).i64 = newValue;
     });
 
     static CreatedRef ffi_get_i64q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).i64q
         )
@@ -457,13 +457,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i64q =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).i64q = consumeRef<int?>(newValue);
     });
 
     static int ffi_get_i(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).i
     ) ?? 0;
     static void ffi_set_i(
@@ -471,13 +471,13 @@ class Primitives_PrimitiveHolder {
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).i =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).i = newValue;
     });
 
     static CreatedRef ffi_get_iq(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).iq
         )
@@ -487,13 +487,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).iq =consumeRef<int?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).iq = consumeRef<int?>(newValue);
     });
 
     static double ffi_get_f(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).f
     ) ?? 0.0;
     static void ffi_set_f(
@@ -501,13 +501,13 @@ class Primitives_PrimitiveHolder {
         double newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).f =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).f = newValue;
     });
 
     static CreatedRef ffi_get_fq(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).fq
         )
@@ -517,13 +517,13 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).fq =consumeRef<double?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).fq = consumeRef<double?>(newValue);
     });
 
     static double ffi_get_d(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<Primitives_PrimitiveHolder>(obj).d
     ) ?? 0.0;
     static void ffi_set_d(
@@ -531,13 +531,13 @@ class Primitives_PrimitiveHolder {
         double newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).d =newValue;
+        peekRef<Primitives_PrimitiveHolder>(obj).d = newValue;
     });
 
     static CreatedRef ffi_get_dq(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Primitives_PrimitiveHolder>(obj).dq
         )
@@ -547,7 +547,7 @@ class Primitives_PrimitiveHolder {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Primitives_PrimitiveHolder>(obj).dq =consumeRef<double?>(newValue);
+        peekRef<Primitives_PrimitiveHolder>(obj).dq = consumeRef<double?>(newValue);
     });
 
     @override
@@ -588,7 +588,7 @@ class Primitives_PrimitiveHolder {
     }
 
     @override
-    int get hashCode =>Object.hash(
+    int get hashCode => Object.hash(
         runtimeType,
         Object.hash(
             const DeepCollectionEquality().hash(b),

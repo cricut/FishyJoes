@@ -36,7 +36,7 @@ class Results {
         )
     ;
     /// <!-- FishyJoes.export(processResult) -->
-    staticString processResult(
+    static String processResult(
         Result<String, TestAPI.Results_Error> result,
     ) =>
         GCRef.using(result, (_resultHandle) =>

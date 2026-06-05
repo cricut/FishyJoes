@@ -72,14 +72,14 @@ class AsyncFunctions {
         )
     ;
     /// <!-- FishyJoes.export(delayedConst) -->
-    staticFuture<int> delayedConst(
+    static Future<int> delayedConst(
         int nanoseconds,
     ) =>
         consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_delayedConst(Loader.shared.env, nanoseconds, _exn)))
     ;
 
     /// <!-- FishyJoes.export(exercise0) -->
-    staticFuture<String> exercise0(
+    static Future<String> exercise0(
         Future<int> Function() fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -88,7 +88,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise1) -->
-    staticFuture<String> exercise1(
+    static Future<String> exercise1(
         Future<int> Function(int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -97,7 +97,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise2) -->
-    staticFuture<String> exercise2(
+    static Future<String> exercise2(
         Future<int> Function(int) Function(Future<int> Function(int), Future<int> Function(int)) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -106,7 +106,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise3) -->
-    staticFuture<String> exercise3(
+    static Future<String> exercise3(
         Future<double> Function(double, double, int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -115,7 +115,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise4) -->
-    staticFuture<String> exercise4(
+    static Future<String> exercise4(
         Future<List<String>> Function(String, String, String, String) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -124,7 +124,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise5) -->
-    staticFuture<String> exercise5(
+    static Future<String> exercise5(
         Future<Future<int> Function()> Function(String, int, double, String, Future<int> Function()) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -133,7 +133,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(exercise6) -->
-    staticFuture<String> exercise6(
+    static Future<String> exercise6(
         Future<int> Function(String, int, double, String, Future<int> Function(), int) fn,
     ) =>
         GCRef.using(fn, (_fnHandle) =>
@@ -142,7 +142,7 @@ class AsyncFunctions {
     ;
 
     /// <!-- FishyJoes.export(thunkTwiceMaker) -->
-    staticFuture<void> Function() thunkTwiceMaker(
+    static Future<void> Function() thunkTwiceMaker(
         Future<void> Function() thunk,
     ) =>
         GCRef.using(thunk, (_thunkHandle) =>

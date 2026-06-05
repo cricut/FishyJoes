@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
-        publicbool Baz {
+        public bool Baz {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -30,7 +30,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
-        publicstring Foo {
+        public string Foo {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -45,7 +45,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
         /// </summary>
-        publicCricut.TestAPI.AProtocol Bar(
+        public Cricut.TestAPI.AProtocol Bar(
             nint x,
             nint y
         ) {

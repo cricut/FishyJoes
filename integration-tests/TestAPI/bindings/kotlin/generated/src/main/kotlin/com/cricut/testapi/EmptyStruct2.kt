@@ -43,14 +43,14 @@ class EmptyStruct2(
     private external fun __jni_zxccxz(
     ): kotlin.String
 
-    overridefun equals(
+    override fun equals(
         other: Any?
     ): kotlin.Boolean = other is EmptyStruct2
 
-    overridefun hashCode(
+    override fun hashCode(
     ): kotlin.Int = (EmptyStruct2::class.java.name).hashCode()
 
-    overridefun toString(
+    override fun toString(
     ): kotlin.String = "EmptyStruct2()"
 
     fun copy(

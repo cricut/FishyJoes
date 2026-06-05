@@ -38,7 +38,7 @@ class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscored
     static CreatedRef ffi_get__leadingUnderscoreProp(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp
         )
@@ -48,7 +48,7 @@ class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscored
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp =consumeRef<String>(newValue);
+        peekRef<TestLeadingUnderscoredPropStruct>(obj).m_leadingUnderscoreProp = consumeRef<String>(newValue);
     });
 
     @override
@@ -64,7 +64,7 @@ class TestLeadingUnderscoredPropStruct implements TestAPI.TestLeadingUnderscored
     }
 
     @override
-    int get hashCode =>Object.hash(
+    int get hashCode => Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(m_leadingUnderscoreProp)
     );

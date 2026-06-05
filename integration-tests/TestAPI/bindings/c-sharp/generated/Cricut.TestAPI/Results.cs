@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(aFailure) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error> GetAFailure() {
+        public static Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error> GetAFailure() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Results_aFailure(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error>>()
             );
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(aSuccess) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error> GetASuccess() {
+        public static Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error> GetASuccess() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Results_aSuccess(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.Results.Error>>()
             );
@@ -38,7 +38,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(processResult) -->
         /// </summary>
-        public staticstring ProcessResult(
+        public static string ProcessResult(
             Cricut.FishyJoesRuntime.Result<string, Cricut.TestAPI.Results.Error> result
         ) {
             using var _resultHandle = new GCRef(result);

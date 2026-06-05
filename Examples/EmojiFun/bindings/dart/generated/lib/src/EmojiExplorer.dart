@@ -45,7 +45,7 @@ class EmojiExplorer extends SwiftReference {
     /// Creates an object that works with emoji strings.
     /// - Parameter count: The number of emoji strings to include in the object's known collection.
     /// <!-- FishyJoes.export(create) -->
-    staticEmojiFun.EmojiExplorer create(
+    static EmojiFun.EmojiExplorer create(
         int count,
     ) =>
         consumeCreatedRef<EmojiFun.EmojiExplorer>(check((OutCreatedRef _exn) => f__iota_EmojiFun_EmojiExplorer_create(Loader.shared.env, count, _exn)))

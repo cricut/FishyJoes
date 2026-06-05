@@ -133,7 +133,7 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     ;
 
     /// <!-- FishyJoes.export(init) -->
-    staticTestAPI.TestProtocolClass init(
+    static TestAPI.TestProtocolClass init(
         String corge,
         {
             String? flarp = null,

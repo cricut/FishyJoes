@@ -76,6 +76,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -101,13 +106,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash
@@ -201,6 +206,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -226,13 +236,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash
@@ -336,6 +346,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
+          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.venv/bin/python"
+          fi
           runtime_dir=""
           for candidate in \
             "python-runtime" \
@@ -361,13 +376,13 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          python -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          python "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" "${runtime_version_args[@]}"
 
       - name: Verify clean wheel install
         shell: bash

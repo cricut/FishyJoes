@@ -50,14 +50,14 @@ extension TestDefaultComputedProperties_FfiHooks on TestDefaultComputedPropertie
     static int ffi_get_noot(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<TestDefaultComputedProperties>(obj).noot
     ) ?? 0;
 
     static CreatedRef ffi_get_plutonic(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestDefaultComputedProperties>(obj).plutonic
         )

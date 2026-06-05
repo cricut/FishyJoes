@@ -24,7 +24,7 @@ private class _ExternalWitness_AProtocol private constructor(_swiftReference: Lo
     /**
      * <!-- FishyJoes.export(bar) -->
      */
-    overridefun bar(
+    override fun bar(
         x: Long,
         y: Long
     ): com.cricut.testapi.AProtocol = __jni_bar(x, y)

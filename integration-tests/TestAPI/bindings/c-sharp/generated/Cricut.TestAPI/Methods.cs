@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
-        publicnint GetGarply() {
+        public nint GetGarply() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_garply(Loader.env, thisHandle.ptr, out exn)
@@ -27,7 +27,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(instanceGet) -->
         /// </summary>
-        publicnint GetInstanceGet() {
+        public nint GetInstanceGet() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_instanceGet(Loader.env, thisHandle.ptr, out exn)
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
         /// </summary>
-        publicnint GetInstanceGetMethod() {
+        public nint GetInstanceGetMethod() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_instanceGetMethod(Loader.env, thisHandle.ptr, out exn)
@@ -53,13 +53,13 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(instanceModifiable) -->
         /// </summary>
-        publicnint GetInstanceModifiable() {
+        public nint GetInstanceModifiable() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, out exn)
             );
         }
-        publicvoid SetInstanceModifiable(nint value) {
+        public void SetInstanceModifiable(nint value) {
             using var thisHandle = new GCRef(this);
             Check((out CreatedRef exn) =>
                 __iota_set_TestAPI_Methods_instanceModifiable(Loader.env, thisHandle.ptr, value, out exn)
@@ -75,7 +75,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(instanceStored) -->
         /// </summary>
-        publicnint InstanceStored {
+        public nint InstanceStored {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -99,7 +99,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticGet) -->
         /// </summary>
-        public staticnint GetStaticGet() {
+        public static nint GetStaticGet() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_staticGet(Loader.env, out exn)
             );
@@ -111,7 +111,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
         /// </summary>
-        public staticnint GetStaticGetMethod() {
+        public static nint GetStaticGetMethod() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_staticGetMethod(Loader.env, out exn)
             );
@@ -123,12 +123,12 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticModifiable) -->
         /// </summary>
-        public staticnint GetStaticModifiable() {
+        public static nint GetStaticModifiable() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_Methods_staticModifiable(Loader.env, out exn)
             );
         }
-        public staticvoid SetStaticModifiable(nint value) {
+        public static void SetStaticModifiable(nint value) {
             Check((out CreatedRef exn) =>
                 __iota_set_TestAPI_Methods_staticModifiable(Loader.env, value, out exn)
             );
@@ -143,7 +143,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticStored) -->
         /// </summary>
-        public staticnint StaticStored {
+        public static nint StaticStored {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Methods_staticStored(Loader.env, out exn)
@@ -165,7 +165,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(create) -->
         /// </summary>
-        public staticCricut.TestAPI.Methods Create(
+        public static Cricut.TestAPI.Methods Create(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_create(Loader.env, out _exn)).Consume<Cricut.TestAPI.Methods>();
         }
@@ -179,7 +179,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(doublePlusGood) -->
         /// </summary>
-        publicnint DoublePlusGood(
+        public nint DoublePlusGood(
             nint a,
             double b
         ) {
@@ -199,7 +199,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(async42) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<nint> Async42(
+        public System.Threading.Tasks.Task<nint> Async42(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_async42(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
@@ -215,7 +215,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncYield) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<nint> AsyncYield(
+        public System.Threading.Tasks.Task<nint> AsyncYield(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncYield(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
@@ -231,7 +231,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncSleep) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<nuint> AsyncSleep(
+        public System.Threading.Tasks.Task<nuint> AsyncSleep(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncSleep(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nuint>>();
@@ -247,7 +247,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncVoid) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task AsyncVoid(
+        public System.Threading.Tasks.Task AsyncVoid(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncVoid(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task>();
@@ -263,7 +263,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncDouble) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<double> AsyncDouble(
+        public System.Threading.Tasks.Task<double> AsyncDouble(
             double d
         ) {
             using var _thisHandle = new GCRef(this);
@@ -281,7 +281,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncMultipleArgs) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<nint> AsyncMultipleArgs(
+        public System.Threading.Tasks.Task<nint> AsyncMultipleArgs(
             nint i,
             System.Func<System.Threading.Tasks.Task<nint>> j
         ) {
@@ -302,7 +302,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncThrowing) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task AsyncThrowing(
+        public System.Threading.Tasks.Task AsyncThrowing(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_asyncThrowing(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task>();
@@ -318,7 +318,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(asyncCallbackFunc0) -->
         /// </summary>
-        publicSystem.Threading.Tasks.Task<nint> AsyncCallbackFunc0(
+        public System.Threading.Tasks.Task<nint> AsyncCallbackFunc0(
             System.Func<System.Threading.Tasks.Task<nint>> callback
         ) {
             using var _thisHandle = new GCRef(this);
@@ -337,7 +337,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsync42) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nint> StaticAsync42(
+        public static System.Threading.Tasks.Task<nint> StaticAsync42(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsync42(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
         }
@@ -351,7 +351,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncYield) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nint> StaticAsyncYield(
+        public static System.Threading.Tasks.Task<nint> StaticAsyncYield(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncYield(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
         }
@@ -365,7 +365,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncSleep) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nuint> StaticAsyncSleep(
+        public static System.Threading.Tasks.Task<nuint> StaticAsyncSleep(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncSleep(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task<nuint>>();
         }
@@ -379,7 +379,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncVoid) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task StaticAsyncVoid(
+        public static System.Threading.Tasks.Task StaticAsyncVoid(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncVoid(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task>();
         }
@@ -393,7 +393,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncDouble) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<double> StaticAsyncDouble(
+        public static System.Threading.Tasks.Task<double> StaticAsyncDouble(
             double d
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncDouble(Loader.env, d, out _exn)).Consume<System.Threading.Tasks.Task<double>>();
@@ -409,7 +409,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nint> StaticAsyncMultipleArgs(
+        public static System.Threading.Tasks.Task<nint> StaticAsyncMultipleArgs(
             nint i,
             System.Func<System.Threading.Tasks.Task<nint>> j
         ) {
@@ -428,7 +428,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncThrowing) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task StaticAsyncThrowing(
+        public static System.Threading.Tasks.Task StaticAsyncThrowing(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_Methods_staticAsyncThrowing(Loader.env, out _exn)).Consume<System.Threading.Tasks.Task>();
         }
@@ -442,7 +442,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nint> StaticAsyncCallbackFunc0(
+        public static System.Threading.Tasks.Task<nint> StaticAsyncCallbackFunc0(
             System.Func<System.Threading.Tasks.Task<nint>> callback
         ) {
             using var _callbackHandle = new GCRef(callback);
@@ -459,7 +459,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
         /// </summary>
-        public staticvoid MethodWithNewlinesInTypes(
+        public static void MethodWithNewlinesInTypes(
             System.Func<nint, byte[], bool, System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>> thing
         ) {
             using var _thingHandle = new GCRef(thing);

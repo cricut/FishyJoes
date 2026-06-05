@@ -43,7 +43,7 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
     static bool ffi_get_spam(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<TestDefaultComputedPropertiesStruct>(obj).spam
     ) ?? false;
     static void ffi_set_spam(
@@ -51,13 +51,13 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
         bool newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<TestDefaultComputedPropertiesStruct>(obj).spam =newValue;
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).spam = newValue;
     });
 
     static int ffi_get_noot(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<TestDefaultComputedPropertiesStruct>(obj).noot
     ) ?? 0;
     static void ffi_set_noot(
@@ -65,7 +65,7 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
         int newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<TestDefaultComputedPropertiesStruct>(obj).noot =newValue;
+        peekRef<TestDefaultComputedPropertiesStruct>(obj).noot = newValue;
     });
 
     @override
@@ -82,7 +82,7 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
     }
 
     @override
-    int get hashCode =>Object.hash(
+    int get hashCode => Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(spam),
         const DeepCollectionEquality().hash(noot)

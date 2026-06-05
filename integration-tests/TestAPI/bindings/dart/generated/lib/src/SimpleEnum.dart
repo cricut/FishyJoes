@@ -17,7 +17,7 @@ import 'package:tuple/tuple.dart' as tuple;
 
 /// This is an enum with no associated values
 /// <!-- FishyJoes.export(SimpleEnum) -->
-sealedclass SimpleEnum {
+sealed class SimpleEnum {
     /// red is a nice color
     const factory SimpleEnum.red(
     ) = SimpleEnum_Red;
@@ -35,8 +35,8 @@ sealedclass SimpleEnum {
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         final peekedObj = peekRef<SimpleEnum>(obj);
         if (peekedObj is SimpleEnum_Red) { return 0; }
-        elseif (peekedObj is SimpleEnum_Green) { return 1; }
-        elseif (peekedObj is SimpleEnum_Blue) { return 2; }
+        else if (peekedObj is SimpleEnum_Green) { return 1; }
+        else if (peekedObj is SimpleEnum_Blue) { return 2; }
         else { throw UnsupportedError('Unknown SimpleEnum subclass'); }
     });
 
@@ -111,7 +111,7 @@ sealedclass SimpleEnum {
         )
     ;
     /// <!-- FishyJoes.export(pickAColor) -->
-    staticTestAPI.SimpleEnum? pickAColor(
+    static TestAPI.SimpleEnum? pickAColor(
         int rawValue,
     ) =>
         consumeCreatedRef<TestAPI.SimpleEnum?>(check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_pickAColor(Loader.shared.env, rawValue, _exn)))
@@ -126,7 +126,7 @@ sealedclass SimpleEnum {
     ;
 
     /// <!-- FishyJoes.export(resetFavoriteColor) -->
-    staticvoid resetFavoriteColor(
+    static void resetFavoriteColor(
     ) =>
         check((OutCreatedRef _exn) => f__iota_TestAPI_SimpleEnum_resetFavoriteColor(Loader.shared.env, _exn))
     ;
@@ -171,7 +171,7 @@ class SimpleEnum_Red extends SimpleEnum {
     );
 
     @override
-    int get hashCode =>runtimeType.hashCode;
+    int get hashCode => runtimeType.hashCode;
 
     @override
     String toString() => 'SimpleEnum.red()';
@@ -189,7 +189,7 @@ class SimpleEnum_Green extends SimpleEnum {
     );
 
     @override
-    int get hashCode =>runtimeType.hashCode;
+    int get hashCode => runtimeType.hashCode;
 
     @override
     String toString() => 'SimpleEnum.green()';
@@ -207,7 +207,7 @@ class SimpleEnum_Blue extends SimpleEnum {
     );
 
     @override
-    int get hashCode =>runtimeType.hashCode;
+    int get hashCode => runtimeType.hashCode;
 
     @override
     String toString() => 'SimpleEnum.blue()';

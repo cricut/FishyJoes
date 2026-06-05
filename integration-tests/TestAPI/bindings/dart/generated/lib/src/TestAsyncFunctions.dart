@@ -85,7 +85,7 @@ extension TestAsyncFunctions_DefaultImplementations on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).defaultExercise6(
                 peekRef<Future<int> Function(String, int, double, String, Future<int> Function(), int)>(fn)
@@ -105,7 +105,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_add3Things(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).add3Things
         )
@@ -114,7 +114,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_const42(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).const42
         )
@@ -123,7 +123,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_fifthThing(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).fifthThing
         )
@@ -132,7 +132,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_iabs(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).iabs
         )
@@ -141,7 +141,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_intCompose(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).intCompose
         )
@@ -150,7 +150,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_makeList(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).makeList
         )
@@ -159,7 +159,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_six(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).six
         )
@@ -168,7 +168,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_get_willThrow(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).willThrow
         )
@@ -178,7 +178,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise0(
                 peekRef(fn)
@@ -190,7 +190,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise1(
                 peekRef(fn)
@@ -202,7 +202,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise2(
                 peekRef(fn)
@@ -214,7 +214,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise3(
                 peekRef(fn)
@@ -226,7 +226,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise4(
                 peekRef(fn)
@@ -238,7 +238,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise5(
                 peekRef(fn)
@@ -250,7 +250,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef fn,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).exercise6(
                 peekRef(fn)
@@ -262,7 +262,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
         UnownedRef obj,
         UnownedRef thunk,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).thunkTwiceMaker(
                 peekRef(thunk)
@@ -273,7 +273,7 @@ extension TestAsyncFunctions_FfiHooks on TestAsyncFunctions {
     static CreatedRef ffi_witness(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestAsyncFunctions>(obj).witness(
             )

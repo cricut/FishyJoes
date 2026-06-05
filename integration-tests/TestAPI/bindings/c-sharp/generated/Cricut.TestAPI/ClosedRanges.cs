@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(doubleRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<double> DoubleRange {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<double> DoubleRange {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_doubleRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<double>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(floatRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<float> FloatRange {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<float> FloatRange {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_floatRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<float>>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int16Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<short> Int16Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<short> Int16Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_int16Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<short>>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int32Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<int> Int32Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<int> Int32Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_int32Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<int>>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int64Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<long> Int64Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<long> Int64Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_int64Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<long>>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(int8Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<sbyte> Int8Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<sbyte> Int8Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_int8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<sbyte>>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<nint> IntRange {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<nint> IntRange {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_intRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<nint>>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(stringRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<string> StringRange {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<string> StringRange {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_stringRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<string>>()
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt16Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<ushort> UInt16Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<ushort> UInt16Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_uInt16Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<ushort>>()
@@ -140,7 +140,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt32Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<uint> UInt32Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<uint> UInt32Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_uInt32Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<uint>>()
@@ -154,7 +154,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt64Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<ulong> UInt64Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<ulong> UInt64Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_uInt64Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<ulong>>()
@@ -168,7 +168,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uInt8Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<byte> UInt8Range {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<byte> UInt8Range {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_uInt8Range(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<byte>>()
@@ -182,7 +182,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(uIntRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<nuint> UIntRange {
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<nuint> UIntRange {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_ClosedRanges_uIntRange(Loader.env, out exn).Consume<Cricut.FishyJoesRuntime.SwiftClosedRange<nuint>>()
@@ -196,7 +196,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt8Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<byte> EchoUInt8Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<byte> EchoUInt8Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<byte> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -213,7 +213,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt16Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<ushort> EchoUInt16Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<ushort> EchoUInt16Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<ushort> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -230,7 +230,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt32Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<uint> EchoUInt32Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<uint> EchoUInt32Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<uint> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -247,7 +247,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUInt64Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<ulong> EchoUInt64Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<ulong> EchoUInt64Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<ulong> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -264,7 +264,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoUIntRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<nuint> EchoUIntRange(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<nuint> EchoUIntRange(
             Cricut.FishyJoesRuntime.SwiftClosedRange<nuint> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -281,7 +281,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt8Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<sbyte> EchoInt8Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<sbyte> EchoInt8Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<sbyte> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -298,7 +298,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt16Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<short> EchoInt16Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<short> EchoInt16Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<short> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -315,7 +315,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt32Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<int> EchoInt32Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<int> EchoInt32Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<int> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -332,7 +332,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoInt64Range) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<long> EchoInt64Range(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<long> EchoInt64Range(
             Cricut.FishyJoesRuntime.SwiftClosedRange<long> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -349,7 +349,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoIntRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<nint> EchoIntRange(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<nint> EchoIntRange(
             Cricut.FishyJoesRuntime.SwiftClosedRange<nint> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -366,7 +366,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoFloatRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<float> EchoFloatRange(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<float> EchoFloatRange(
             Cricut.FishyJoesRuntime.SwiftClosedRange<float> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -383,7 +383,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDoubleRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<double> EchoDoubleRange(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<double> EchoDoubleRange(
             Cricut.FishyJoesRuntime.SwiftClosedRange<double> range
         ) {
             using var _rangeHandle = new GCRef(range);
@@ -400,7 +400,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoStringRange) -->
         /// </summary>
-        public staticCricut.FishyJoesRuntime.SwiftClosedRange<string> EchoStringRange(
+        public static Cricut.FishyJoesRuntime.SwiftClosedRange<string> EchoStringRange(
             Cricut.FishyJoesRuntime.SwiftClosedRange<string> range
         ) {
             using var _rangeHandle = new GCRef(range);

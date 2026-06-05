@@ -6,12 +6,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(baz) -->
          */
-        readonlybaz: boolean;
+        readonly baz: boolean;
 
         /**
          * <!-- FishyJoes.export(foo) -->
          */
-        readonlyfoo: string;
+        readonly foo: string;
 
         /**
          * <!-- FishyJoes.export(bar) -->
@@ -43,12 +43,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(baz) -->
          */
-        readonlybaz: boolean;
+        readonly baz: boolean;
 
         /**
          * <!-- FishyJoes.export(foo) -->
          */
-        readonlyfoo: string;
+        readonly foo: string;
 
         /**
          * <!-- FishyJoes.export(bar) -->
@@ -134,22 +134,22 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(backwardsLabel) -->
              */
-            readonlybackwardsLabel: string;
+            readonly backwardsLabel: string;
 
             /**
              * <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
              */
-            readonlyextensionNonisolatedVarLabel: string;
+            readonly extensionNonisolatedVarLabel: string;
 
             /**
              * <!-- FishyJoes.export(label) -->
              */
-            readonlylabel: string;
+            readonly label: string;
 
             /**
              * <!-- FishyJoes.export(create) -->
              */
-            staticcreate(
+            static create(
                 label: string,
                 measurement: number
             ): TestAPI.Actors.TemperatureLogger;
@@ -193,11 +193,11 @@ export declare namespace TestAPI {
         export class Bar {
             constructor(named: string, _1: TestAPI.AssociatedDataEnum, toggled: boolean)
 
-            readonlynamed: string;
+            readonly named: string;
 
-            readonly_1: TestAPI.AssociatedDataEnum;
+            readonly _1: TestAPI.AssociatedDataEnum;
 
-            readonlytoggled: boolean;
+            readonly toggled: boolean;
         }
 
         interface NoValue extends AssociatedDataEnum_Common {}
@@ -217,16 +217,16 @@ export declare namespace TestAPI {
         export class Other {
             constructor(unnamed: string, _1: number)
 
-            readonlyunnamed: string;
+            readonly unnamed: string;
 
-            readonly_1: number;
+            readonly _1: number;
         }
 
         interface SimpleEnum extends AssociatedDataEnum_Common {}
         export class SimpleEnum {
             constructor(value: TestAPI.SimpleEnum)
 
-            readonlyvalue: TestAPI.SimpleEnum;
+            readonly value: TestAPI.SimpleEnum;
         }
 
         interface Thing extends AssociatedDataEnum_Common {}
@@ -236,7 +236,7 @@ export declare namespace TestAPI {
         export class Thing {
             constructor(value: number)
 
-            readonlyvalue: number;
+            readonly value: number;
         }
 
         /**
@@ -249,7 +249,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(intValue) -->
          */
-        readonlyintValue: number;
+        readonly intValue: number;
 
         /**
          * <!-- FishyJoes.export(plus) -->
@@ -282,56 +282,56 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(delayedConst) -->
          */
-        functiondelayedConst(
+        function delayedConst(
             nanoseconds: number
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
          */
-        functionexercise0(
+        function exercise0(
             fn: () => Promise<number>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise1) -->
          */
-        functionexercise1(
+        function exercise1(
             fn: (_0: number) => Promise<number>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise2) -->
          */
-        functionexercise2(
+        function exercise2(
             fn: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise3) -->
          */
-        functionexercise3(
+        function exercise3(
             fn: (_0: number, _1: number, _2: number) => Promise<number>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise4) -->
          */
-        functionexercise4(
+        function exercise4(
             fn: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise5) -->
          */
-        functionexercise5(
+        function exercise5(
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>
         ): Promise<string>;
 
         /**
          * <!-- FishyJoes.export(exercise6) -->
          */
-        functionexercise6(
+        function exercise6(
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>
         ): Promise<string>;
 
@@ -358,7 +358,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(thunkTwiceMaker) -->
          */
-        functionthunkTwiceMaker(
+        function thunkTwiceMaker(
             thunk: () => Promise<void>
         ): () => Promise<void>;
 
@@ -374,7 +374,7 @@ export declare namespace TestAPI {
     export class AttributedString_PuttingTypesIntoQuestionablePlaces {
         constructor(x: string)
 
-        readonlyx: string;
+        readonly x: string;
 
         /**
          * <!-- FishyJoes.export(testCall) -->
@@ -396,14 +396,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(attributedCharacters) -->
          */
-        functionattributedCharacters(
+        function attributedCharacters(
             /* of */ string: Runtime.AttributedString
         ): Runtime.AttributedSubstring[];
 
         /**
          * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
          */
-        functionattributesPreferringDuplicatesNearerStart(
+        function attributesPreferringDuplicatesNearerStart(
             /* of */ string: Runtime.AttributedString
         ): Runtime.AttributeContainer;
 
@@ -425,7 +425,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echo) -->
          */
-        functionecho(
+        function echo(
             string: Runtime.AttributedString
         ): Runtime.AttributedString;
 
@@ -442,28 +442,28 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(emptyAttributeRuns) -->
          */
-        functionemptyAttributeRuns(
+        function emptyAttributeRuns(
             /* of */ string: Runtime.AttributedString
         ): Runtime.AttributedString.Runs.Run[];
 
         /**
          * <!-- FishyJoes.export(firstIndex) -->
          */
-        functionfirstIndex(
+        function firstIndex(
             /* of */ string: Runtime.AttributedString
         ): Runtime.AttributedString.Index;
 
         /**
          * <!-- FishyJoes.export(fullRange) -->
          */
-        functionfullRange(
+        function fullRange(
             /* of */ string: Runtime.AttributedString
         ): Runtime.SwiftRange<Runtime.AttributedString.Index>;
 
         /**
          * <!-- FishyJoes.export(lastIndex) -->
          */
-        functionlastIndex(
+        function lastIndex(
             /* of */ string: Runtime.AttributedString
         ): Runtime.AttributedString.Index;
 
@@ -501,14 +501,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoBytes) -->
          */
-        functionechoBytes(
+        function echoBytes(
             bytes: number[]
         ): number[];
 
         /**
          * <!-- FishyJoes.export(echoData) -->
          */
-        functionechoData(
+        function echoData(
             data: ArrayBuffer
         ): ArrayBuffer;
     }
@@ -526,91 +526,91 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoDoubleRange) -->
          */
-        functionechoDoubleRange(
+        function echoDoubleRange(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoFloatRange) -->
          */
-        functionechoFloatRange(
+        function echoFloatRange(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
-        functionechoInt16Range(
+        function echoInt16Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
-        functionechoInt32Range(
+        function echoInt32Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
-        functionechoInt64Range(
+        function echoInt64Range(
             range: Runtime.SwiftClosedRange<bigint>
         ): Runtime.SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
-        functionechoInt8Range(
+        function echoInt8Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
-        functionechoIntRange(
+        function echoIntRange(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoStringRange) -->
          */
-        functionechoStringRange(
+        function echoStringRange(
             range: Runtime.SwiftClosedRange<string>
         ): Runtime.SwiftClosedRange<string>;
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
-        functionechoUInt16Range(
+        function echoUInt16Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
-        functionechoUInt32Range(
+        function echoUInt32Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
-        functionechoUInt64Range(
+        function echoUInt64Range(
             range: Runtime.SwiftClosedRange<bigint>
         ): Runtime.SwiftClosedRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
-        functionechoUInt8Range(
+        function echoUInt8Range(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
-        functionechoUIntRange(
+        function echoUIntRange(
             range: Runtime.SwiftClosedRange<number>
         ): Runtime.SwiftClosedRange<number>;
 
@@ -707,12 +707,12 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            staticstaticMutableProperty: Optional<number>[];
+            static staticMutableProperty: Optional<number>[];
 
             /**
              * <!-- FishyJoes.export(staticProperty) -->
              */
-            staticreadonlystaticProperty: Optional<number>[];
+            static readonly staticProperty: Optional<number>[];
         }
 
         /**
@@ -728,7 +728,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(collectionMapper) -->
          */
-        functioncollectionMapper(
+        function collectionMapper(
             collection: Optional<Optional<number>[]>,
             mapper: (_0: Optional<Optional<number>[]>) => Optional<Optional<number>[]>
         ): Optional<Optional<number>[]>;
@@ -746,42 +746,42 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoArrayOfInt) -->
          */
-        functionechoArrayOfInt(
+        function echoArrayOfInt(
             arrayOfInt: number[]
         ): number[];
 
         /**
          * <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
          */
-        functionechoDictionaryOfIntToInt(
+        function echoDictionaryOfIntToInt(
             dictionaryOfIntToInt: Map<number, number>
         ): Map<number, number>;
 
         /**
          * <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
          */
-        functionechoMaybeArrayOfMaybeInt(
+        function echoMaybeArrayOfMaybeInt(
             maybeArrayOfMaybeInt: Optional<Optional<number>[]>
         ): Optional<Optional<number>[]>;
 
         /**
          * <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
          */
-        functionechoMaybeDictionaryOfIntToMaybeInt(
+        function echoMaybeDictionaryOfIntToMaybeInt(
             maybeDictionaryOfIntToMaybeInt: Optional<Map<number, Optional<number>>>
         ): Optional<Map<number, Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
          */
-        functionechoMaybeSetOfMaybeInt(
+        function echoMaybeSetOfMaybeInt(
             maybeSetOfMaybeInt: Optional<Set<Optional<number>>>
         ): Optional<Set<Optional<number>>>;
 
         /**
          * <!-- FishyJoes.export(echoSetOfInt) -->
          */
-        functionechoSetOfInt(
+        function echoSetOfInt(
             setOfInt: Set<number>
         ): Set<number>;
 
@@ -829,7 +829,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(describeEnumDefault) -->
          */
-        functiondescribeEnumDefault(
+        function describeEnumDefault(
             value: number,
             options?: {
                 "color"?: TestAPI.SimpleEnum /* defaults to `.blue` */,
@@ -839,7 +839,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoDefaultIntLimits) -->
          */
-        functionechoDefaultIntLimits(
+        function echoDefaultIntLimits(
             options?: {
                 "minValue"?: number /* defaults to `.min` */,
                 "maxValue"?: number /* defaults to `.max` */,
@@ -849,7 +849,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoDefaultTolerance) -->
          */
-        functionechoDefaultTolerance(
+        function echoDefaultTolerance(
             options?: {
                 "tolerance"?: number /* defaults to `Double.ulpOfOne.squareRoot()` */,
             }
@@ -858,7 +858,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
-        functionechoDefaults(
+        function echoDefaults(
             x: Optional<number>,
             options?: {
                 "y"?: Optional<number> /* defaults to `nil` */,
@@ -876,7 +876,7 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(deprecatedMethod) -->
          * @deprecated don't use this
          */
-        functiondeprecatedMethod(
+        function deprecatedMethod(
         ): string;
 
         /**
@@ -896,17 +896,17 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(blarg) -->
          */
-        readonlyblarg: string;
+        readonly blarg: string;
 
         /**
          * <!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->
          */
-        readonlywibbledyWobbledyTimeyWhimey: string;
+        readonly wibbledyWobbledyTimeyWhimey: string;
 
         /**
          * <!-- FishyJoes.export(create) -->
          */
-        staticcreate(
+        static create(
         ): TestAPI.EmptyClass1;
 
         /**
@@ -932,17 +932,17 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(blorg) -->
          */
-        readonlyblorg: string;
+        readonly blorg: string;
 
         /**
          * <!-- FishyJoes.export(wibble) -->
          */
-        readonlywibble: string;
+        readonly wibble: string;
 
         /**
          * <!-- FishyJoes.export(make) -->
          */
-        staticmake(
+        static make(
         ): TestAPI.EmptyClass2;
 
         /**
@@ -966,7 +966,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(aStaticMethod) -->
          */
-        functionaStaticMethod(
+        function aStaticMethod(
         ): number;
 
         /**
@@ -977,7 +977,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
-        functionnotGoingToHappen(
+        function notGoingToHappen(
         ): TestAPI.EmptyEnum;
     }
 
@@ -990,17 +990,17 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(tatiana) -->
          */
-        readonlytatiana: string;
+        readonly tatiana: string;
 
         /**
          * <!-- FishyJoes.export(tutu) -->
          */
-        readonlytutu: number;
+        readonly tutu: number;
 
         /**
          * <!-- FishyJoes.export(create) -->
          */
-        staticcreate(
+        static create(
         ): EmptyStruct;
 
         /**
@@ -1025,17 +1025,17 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(tatiana) -->
          */
-        readonlytatiana: string;
+        readonly tatiana: string;
 
         /**
          * <!-- FishyJoes.export(tutu) -->
          */
-        readonlytutu: number;
+        readonly tutu: number;
 
         /**
          * <!-- FishyJoes.export(create) -->
          */
-        staticcreate(
+        static create(
         ): EmptyStruct2;
 
         /**
@@ -1058,12 +1058,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(baz) -->
          */
-        readonlybaz: boolean;
+        readonly baz: boolean;
 
         /**
          * <!-- FishyJoes.export(foo) -->
          */
-        readonlyfoo: string;
+        readonly foo: string;
 
         /**
          * <!-- FishyJoes.export(bar) -->
@@ -1098,42 +1098,42 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(add3Things) -->
          */
-        readonlyadd3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(const42) -->
          */
-        readonlyconst42: () => Promise<number>;
+        readonly const42: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(fifthThing) -->
          */
-        readonlyfifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
 
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
-        readonlyiabs: (_0: number) => Promise<number>;
+        readonly iabs: (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(intCompose) -->
          */
-        readonlyintCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(makeList) -->
          */
-        readonlymakeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
         /**
          * <!-- FishyJoes.export(six) -->
          */
-        readonlysix: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        readonlywillThrow: () => Promise<number>;
+        readonly willThrow: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -1212,12 +1212,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(noot) -->
          */
-        readonlynoot: number;
+        readonly noot: number;
 
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonlyplutonic: string;
+        readonly plutonic: string;
     }
 
     export class ExternalWitness_TestDifferingExportNameProtocolDiffy {
@@ -1227,7 +1227,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(tata) -->
          */
-        readonlytata: number;
+        readonly tata: number;
     }
 
     export class ExternalWitness_TestLeadingUnderscoredProp {
@@ -1237,7 +1237,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(_leadingUnderscoreProp) -->
          */
-        readonly_leadingUnderscoreProp: string;
+        readonly _leadingUnderscoreProp: string;
     }
 
     export class ExternalWitness_TestMethodsProtocol {
@@ -1293,7 +1293,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(flarp) -->
          */
-        readonlyflarp?: string;
+        readonly flarp?: string;
 
         /**
          * <!-- FishyJoes.export(wombat) -->
@@ -1317,12 +1317,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(corge) -->
          */
-        readonlycorge: string;
+        readonly corge: string;
 
         /**
          * <!-- FishyJoes.export(frobby) -->
          */
-        readonlyfrobby: number[];
+        readonly frobby: number[];
     }
 
     /**
@@ -1348,49 +1348,49 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(exercise0) -->
          */
-        functionexercise0(
+        function exercise0(
             fn: () => number
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise1) -->
          */
-        functionexercise1(
+        function exercise1(
             fn: (_0: number) => number
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise2) -->
          */
-        functionexercise2(
+        function exercise2(
             fn: (_0: (_0: number) => number, _1: (_0: number) => number) => (_0: number) => number
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise3) -->
          */
-        functionexercise3(
+        function exercise3(
             fn: (_0: number, _1: number, _2: number) => number
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise4) -->
          */
-        functionexercise4(
+        function exercise4(
             fn: (_0: string, _1: string, _2: string, _3: string) => string[]
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise5) -->
          */
-        functionexercise5(
+        function exercise5(
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => number) => () => number
         ): string;
 
         /**
          * <!-- FishyJoes.export(exercise6) -->
          */
-        functionexercise6(
+        function exercise6(
             fn: (_0: string, _1: number, _2: number, _3: string, _4: () => number, _5: number) => number
         ): string;
 
@@ -1417,14 +1417,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(thunkTwiceMaker) -->
          */
-        functionthunkTwiceMaker(
+        function thunkTwiceMaker(
             thunk: () => void
         ): () => void;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        functionwillThrow(
+        function willThrow(
         ): string;
     }
 
@@ -1438,17 +1438,17 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(garply) -->
          */
-        readonlygarply: number;
+        readonly garply: number;
 
         /**
          * <!-- FishyJoes.export(instanceGet) -->
          */
-        readonlyinstanceGet: number;
+        readonly instanceGet: number;
 
         /**
          * <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->
          */
-        readonlyinstanceGetMethod: number;
+        readonly instanceGetMethod: number;
 
         /**
          * <!-- FishyJoes.export(instanceModifiable) -->
@@ -1463,27 +1463,27 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(staticGet) -->
          */
-        staticreadonlystaticGet: number;
+        static readonly staticGet: number;
 
         /**
          * <!-- FishyJoes.exportAsMethod(staticGetMethod) -->
          */
-        staticreadonlystaticGetMethod: number;
+        static readonly staticGetMethod: number;
 
         /**
          * <!-- FishyJoes.export(staticModifiable) -->
          */
-        staticstaticModifiable: number;
+        static staticModifiable: number;
 
         /**
          * <!-- FishyJoes.export(staticStored) -->
          */
-        staticstaticStored: number;
+        static staticStored: number;
 
         /**
          * <!-- FishyJoes.export(create) -->
          */
-        staticcreate(
+        static create(
         ): TestAPI.Methods;
 
         /**
@@ -1549,38 +1549,38 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(staticAsync42) -->
          */
-        staticstaticAsync42(
+        static staticAsync42(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncYield) -->
          */
-        staticstaticAsyncYield(
+        static staticAsyncYield(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncSleep) -->
          */
-        staticstaticAsyncSleep(
+        static staticAsyncSleep(
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncVoid) -->
          */
-        staticstaticAsyncVoid(
+        static staticAsyncVoid(
         ): Promise<void>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncDouble) -->
          */
-        staticstaticAsyncDouble(
+        static staticAsyncDouble(
             d: number
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncMultipleArgs) -->
          */
-        staticstaticAsyncMultipleArgs(
+        static staticAsyncMultipleArgs(
             i: number,
             j: () => Promise<number>
         ): Promise<number>;
@@ -1588,20 +1588,20 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(staticAsyncThrowing) -->
          */
-        staticstaticAsyncThrowing(
+        static staticAsyncThrowing(
         ): Promise<void>;
 
         /**
          * <!-- FishyJoes.export(staticAsyncCallbackFunc0) -->
          */
-        staticstaticAsyncCallbackFunc0(
+        static staticAsyncCallbackFunc0(
             callback: () => Promise<number>
         ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
          */
-        staticmethodWithNewlinesInTypes(
+        static methodWithNewlinesInTypes(
             thing: (_0: number, _1: ArrayBuffer, _2: boolean) => Promise<Runtime.Result<number, TheMethodError>>
         ): void;
     }
@@ -1672,12 +1672,12 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(staticMutableProperty) -->
              */
-            staticstaticMutableProperty: Optional<number>[];
+            static staticMutableProperty: Optional<number>[];
 
             /**
              * <!-- FishyJoes.export(staticProperty) -->
              */
-            staticreadonlystaticProperty: Optional<number>[];
+            static readonly staticProperty: Optional<number>[];
         }
 
         /**
@@ -1693,7 +1693,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(boolOverflow) -->
          */
-        functionboolOverflow(
+        function boolOverflow(
             b0: boolean,
             b1: boolean,
             b2: boolean,
@@ -1720,91 +1720,91 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoBool) -->
          */
-        functionechoBool(
+        function echoBool(
             value: boolean
         ): boolean;
 
         /**
          * <!-- FishyJoes.export(echoDouble) -->
          */
-        functionechoDouble(
+        function echoDouble(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoFloat) -->
          */
-        functionechoFloat(
+        function echoFloat(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoInt) -->
          */
-        functionechoInt(
+        function echoInt(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoInt16) -->
          */
-        functionechoInt16(
+        function echoInt16(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoInt32) -->
          */
-        functionechoInt32(
+        function echoInt32(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoInt64) -->
          */
-        functionechoInt64(
+        function echoInt64(
             value: bigint
         ): bigint;
 
         /**
          * <!-- FishyJoes.export(echoInt8) -->
          */
-        functionechoInt8(
+        function echoInt8(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoUInt) -->
          */
-        functionechoUInt(
+        function echoUInt(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoUInt16) -->
          */
-        functionechoUInt16(
+        function echoUInt16(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoUInt32) -->
          */
-        functionechoUInt32(
+        function echoUInt32(
             value: number
         ): number;
 
         /**
          * <!-- FishyJoes.export(echoUInt64) -->
          */
-        functionechoUInt64(
+        function echoUInt64(
             value: bigint
         ): bigint;
 
         /**
          * <!-- FishyJoes.export(echoUInt8) -->
          */
-        functionechoUInt8(
+        function echoUInt8(
             value: number
         ): number;
 
@@ -2006,91 +2006,91 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(maybeEchoBool) -->
          */
-        functionmaybeEchoBool(
+        function maybeEchoBool(
             value: Optional<boolean>
         ): Optional<boolean>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoDouble) -->
          */
-        functionmaybeEchoDouble(
+        function maybeEchoDouble(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoFloat) -->
          */
-        functionmaybeEchoFloat(
+        function maybeEchoFloat(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt) -->
          */
-        functionmaybeEchoInt(
+        function maybeEchoInt(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt16) -->
          */
-        functionmaybeEchoInt16(
+        function maybeEchoInt16(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt32) -->
          */
-        functionmaybeEchoInt32(
+        function maybeEchoInt32(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt64) -->
          */
-        functionmaybeEchoInt64(
+        function maybeEchoInt64(
             value: Optional<bigint>
         ): Optional<bigint>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoInt8) -->
          */
-        functionmaybeEchoInt8(
+        function maybeEchoInt8(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt) -->
          */
-        functionmaybeEchoUInt(
+        function maybeEchoUInt(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt16) -->
          */
-        functionmaybeEchoUInt16(
+        function maybeEchoUInt16(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt32) -->
          */
-        functionmaybeEchoUInt32(
+        function maybeEchoUInt32(
             value: Optional<number>
         ): Optional<number>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt64) -->
          */
-        functionmaybeEchoUInt64(
+        function maybeEchoUInt64(
             value: Optional<bigint>
         ): Optional<bigint>;
 
         /**
          * <!-- FishyJoes.export(maybeEchoUInt8) -->
          */
-        functionmaybeEchoUInt8(
+        function maybeEchoUInt8(
             value: Optional<number>
         ): Optional<number>;
 
@@ -2162,7 +2162,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(valueMapper) -->
          */
-        functionvalueMapper(
+        function valueMapper(
             value: Optional<number>,
             mapper: (_0: Optional<number>) => Optional<number>
         ): Optional<number>;
@@ -2236,7 +2236,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(describeAProtocol) -->
          */
-        functiondescribeAProtocol(
+        function describeAProtocol(
             value: TestAPI.AProtocol,
             x: number,
             y: number
@@ -2245,7 +2245,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(returnAProtocol) -->
          */
-        functionreturnAProtocol(
+        function returnAProtocol(
             value: TestAPI.AProtocol
         ): TestAPI.AProtocol;
     }
@@ -2283,7 +2283,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(from) -->
          */
-        functionfrom(
+        function from(
         ): string;
 
         /**
@@ -2294,7 +2294,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(keywordArgs) -->
          */
-        functionkeywordArgs(
+        function keywordArgs(
             `class`: number,
             list: number
         ): number;
@@ -2313,70 +2313,70 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echoInt16Range) -->
          */
-        functionechoInt16Range(
+        function echoInt16Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt32Range) -->
          */
-        functionechoInt32Range(
+        function echoInt32Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoInt64Range) -->
          */
-        functionechoInt64Range(
+        function echoInt64Range(
             range: Runtime.SwiftRange<bigint>
         ): Runtime.SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoInt8Range) -->
          */
-        functionechoInt8Range(
+        function echoInt8Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoIntRange) -->
          */
-        functionechoIntRange(
+        function echoIntRange(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt16Range) -->
          */
-        functionechoUInt16Range(
+        function echoUInt16Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt32Range) -->
          */
-        functionechoUInt32Range(
+        function echoUInt32Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUInt64Range) -->
          */
-        functionechoUInt64Range(
+        function echoUInt64Range(
             range: Runtime.SwiftRange<bigint>
         ): Runtime.SwiftRange<bigint>;
 
         /**
          * <!-- FishyJoes.export(echoUInt8Range) -->
          */
-        functionechoUInt8Range(
+        function echoUInt8Range(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
         /**
          * <!-- FishyJoes.export(echoUIntRange) -->
          */
-        functionechoUIntRange(
+        function echoUIntRange(
             range: Runtime.SwiftRange<number>
         ): Runtime.SwiftRange<number>;
 
@@ -2439,7 +2439,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(aStaticMethod) -->
          */
-        functionaStaticMethod(
+        function aStaticMethod(
         ): number;
 
         /**
@@ -2450,7 +2450,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
          */
-        functionnotGoingToHappen(
+        function notGoingToHappen(
         ): TestAPI.ReferenceEmptyEnum;
     }
 
@@ -2470,7 +2470,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(marker) -->
          */
-        functionmarker(
+        function marker(
         ): TestAPI.ReferenceOnlyTypes.Marker;
     }
 
@@ -2485,7 +2485,7 @@ export declare namespace TestAPI {
         export class Error {
             constructor(message: string)
 
-            readonlymessage: string;
+            readonly message: string;
         }
 
         /**
@@ -2501,7 +2501,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(processResult) -->
          */
-        functionprocessResult(
+        function processResult(
             result: Runtime.Result<string, Results.Error>
         ): string;
     }
@@ -2524,28 +2524,28 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(hex) -->
          */
-        functiongetHex(
+        function getHex(
             self: TestAPI.SimpleEnum
         ): number;
 
         /**
          * <!-- FishyJoes.export(hexMethod) -->
          */
-        functionhexMethod(
+        function hexMethod(
             self: TestAPI.SimpleEnum
         ): string;
 
         /**
          * <!-- FishyJoes.export(pickAColor) -->
          */
-        functionpickAColor(
+        function pickAColor(
             rawValue: number
         ): Optional<TestAPI.SimpleEnum>;
 
         /**
          * <!-- FishyJoes.export(resetFavoriteColor) -->
          */
-        functionresetFavoriteColor(
+        function resetFavoriteColor(
         ): void;
     }
 
@@ -2555,7 +2555,7 @@ export declare namespace TestAPI {
     export class String_PuttingTypesIntoQuestionablePlaces {
         constructor(x: string)
 
-        readonlyx: string;
+        readonly x: string;
 
         /**
          * <!-- FishyJoes.export(testCall) -->
@@ -2592,7 +2592,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echo) -->
          */
-        functionecho(
+        function echo(
             string: string
         ): string;
 
@@ -2619,7 +2619,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(split) -->
          */
-        functionsplit(
+        function split(
             string: string,
             by: string
         ): string[];
@@ -2636,14 +2636,14 @@ export declare namespace TestAPI {
         export class MemberwiseStruct {
             constructor(immutable: string, mutable: string)
 
-            readonlyimmutable: string;
+            readonly immutable: string;
 
             mutable: string;
 
             /**
              * <!-- FishyJoes.export(create) -->
              */
-            staticcreate(
+            static create(
             ): Structs.MemberwiseStruct;
 
             /**
@@ -2664,7 +2664,7 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(create) -->
              */
-            staticcreate(
+            static create(
             ): Structs.MutableStruct;
 
             /**
@@ -2696,7 +2696,7 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(immutable) -->
              */
-            readonlyimmutable: string;
+            readonly immutable: string;
 
             /**
              * <!-- FishyJoes.export(mutable) -->
@@ -2706,7 +2706,7 @@ export declare namespace TestAPI {
             /**
              * <!-- FishyJoes.export(create) -->
              */
-            staticcreate(
+            static create(
             ): TestAPI.Structs.ReferenceStruct;
 
             /**
@@ -2776,7 +2776,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(create) -->
          */
-        staticcreate(
+        static create(
         ): TestAPI.Structs_PuttingTypesIntoQuestionablePlaces;
 
         /**
@@ -2792,37 +2792,37 @@ export declare namespace TestAPI {
     export class TestAsyncForeignSideFunctionsStruct implements TestAPI.TestAsyncFunctions {
         constructor(const42: () => Promise<number>, iabs: (_0: number) => Promise<number>, intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>, add3Things: (_0: number, _1: number, _2: number) => Promise<number>, makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>, fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>, six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>, willThrow: () => Promise<number>, exercise0Fun: (_0: () => Promise<number>) => Promise<string>, exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>, exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>, exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>, exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>, exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>, exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>, thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>)
 
-        readonlyconst42: () => Promise<number>;
+        readonly const42: () => Promise<number>;
 
-        readonlyiabs: (_0: number) => Promise<number>;
+        readonly iabs: (_0: number) => Promise<number>;
 
-        readonlyintCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
 
-        readonlyadd3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
 
-        readonlymakeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
-        readonlyfifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
 
-        readonlysix: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
-        readonlywillThrow: () => Promise<number>;
+        readonly willThrow: () => Promise<number>;
 
-        readonlyexercise0Fun: (_0: () => Promise<number>) => Promise<string>;
+        readonly exercise0Fun: (_0: () => Promise<number>) => Promise<string>;
 
-        readonlyexercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>;
+        readonly exercise1Fun: (_0: (_0: number) => Promise<number>) => Promise<string>;
 
-        readonlyexercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>;
+        readonly exercise2Fun: (_0: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>) => Promise<string>;
 
-        readonlyexercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>;
+        readonly exercise3Fun: (_0: (_0: number, _1: number, _2: number) => Promise<number>) => Promise<string>;
 
-        readonlyexercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>;
+        readonly exercise4Fun: (_0: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>) => Promise<string>;
 
-        readonlyexercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>;
+        readonly exercise5Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>) => Promise<string>;
 
-        readonlyexercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>;
+        readonly exercise6Fun: (_0: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>) => Promise<string>;
 
-        readonlythunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>;
+        readonly thunkTwiceMakerFun: (_0: () => Promise<void>) => () => Promise<void>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -2901,42 +2901,42 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(add3Things) -->
          */
-        readonlyadd3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(const42) -->
          */
-        readonlyconst42: () => Promise<number>;
+        readonly const42: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(fifthThing) -->
          */
-        readonlyfifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
 
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
-        readonlyiabs: (_0: number) => Promise<number>;
+        readonly iabs: (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(intCompose) -->
          */
-        readonlyintCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(makeList) -->
          */
-        readonlymakeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
         /**
          * <!-- FishyJoes.export(six) -->
          */
-        readonlysix: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        readonlywillThrow: () => Promise<number>;
+        readonly willThrow: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -3012,42 +3012,42 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(add3Things) -->
          */
-        readonlyadd3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(const42) -->
          */
-        readonlyconst42: () => Promise<number>;
+        readonly const42: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(fifthThing) -->
          */
-        readonlyfifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
 
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
-        readonlyiabs: (_0: number) => Promise<number>;
+        readonly iabs: (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(intCompose) -->
          */
-        readonlyintCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(makeList) -->
          */
-        readonlymakeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
         /**
          * <!-- FishyJoes.export(six) -->
          */
-        readonlysix: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        readonlywillThrow: () => Promise<number>;
+        readonly willThrow: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -3143,42 +3143,42 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(add3Things) -->
          */
-        readonlyadd3Things: (_0: number, _1: number, _2: number) => Promise<number>;
+        readonly add3Things: (_0: number, _1: number, _2: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(const42) -->
          */
-        readonlyconst42: () => Promise<number>;
+        readonly const42: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(fifthThing) -->
          */
-        readonlyfifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
+        readonly fifthThing: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>) => Promise<() => Promise<number>>;
 
         /**
          * <!-- FishyJoes.export(iabs) -->
          */
-        readonlyiabs: (_0: number) => Promise<number>;
+        readonly iabs: (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(intCompose) -->
          */
-        readonlyintCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
+        readonly intCompose: (_0: (_0: number) => Promise<number>, _1: (_0: number) => Promise<number>) => (_0: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(makeList) -->
          */
-        readonlymakeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
+        readonly makeList: (_0: string, _1: string, _2: string, _3: string) => Promise<string[]>;
 
         /**
          * <!-- FishyJoes.export(six) -->
          */
-        readonlysix: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
+        readonly six: (_0: string, _1: number, _2: number, _3: string, _4: () => Promise<number>, _5: number) => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(willThrow) -->
          */
-        readonlywillThrow: () => Promise<number>;
+        readonly willThrow: () => Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -3245,7 +3245,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(init) -->
          */
-        staticinit(
+        static init(
         ): TestAPI.TestAsyncSwiftSideFunctionsClass;
 
         /**
@@ -3263,24 +3263,24 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(noot) -->
          */
-        readonlynoot: number;
+        readonly noot: number;
 
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonlyplutonic: string;
+        readonly plutonic: string;
     }
 
     interface TestDefaultComputedPropertiesCore {
         /**
          * <!-- FishyJoes.export(noot) -->
          */
-        readonlynoot?: number;
+        readonly noot?: number;
 
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonlyplutonic?: string;
+        readonly plutonic?: string;
     }
 
     namespace TestDefaultComputedProperties {
@@ -3295,21 +3295,21 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(noot) -->
          */
-        functiongetNoot(
+        function getNoot(
             self: TestAPI.TestDefaultComputedPropertiesEnum
         ): number;
 
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        functiongetPlutonic(
+        function getPlutonic(
             self: TestAPI.TestDefaultComputedProperties
         ): string;
 
         /**
          * <!-- FishyJoes.export(spam) -->
          */
-        functiongetSpam(
+        function getSpam(
             self: TestAPI.TestDefaultComputedPropertiesEnum
         ): boolean;
     }
@@ -3329,7 +3329,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonlyplutonic: string;
+        readonly plutonic: string;
 
         /**
          * <!-- FishyJoes.export(spam) -->
@@ -3339,7 +3339,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(init) -->
          */
-        staticinit(
+        static init(
             spam: boolean,
             noot: number
         ): TestAPI.TestDefaultComputedPropertiesReference;
@@ -3358,7 +3358,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(plutonic) -->
          */
-        readonlyplutonic: string;
+        readonly plutonic: string;
     }
 
     /**
@@ -3368,7 +3368,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(tata) -->
          */
-        readonlytata: number;
+        readonly tata: number;
     }
 
     /**
@@ -3387,7 +3387,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(_leadingUnderscoreProp) -->
          */
-        readonly_leadingUnderscoreProp: string;
+        readonly _leadingUnderscoreProp: string;
     }
 
     /**
@@ -3453,14 +3453,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(fuga) -->
          */
-        functiongetFuga(
+        function getFuga(
             self: TestAPI.TestNonExportedProtocolEnum
         ): number;
 
         /**
          * <!-- FishyJoes.export(hoge) -->
          */
-        functionhoge(
+        function hoge(
             self: TestAPI.TestNonExportedProtocolEnum
         ): number;
     }
@@ -3472,7 +3472,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(flarp) -->
          */
-        readonlyflarp?: string;
+        readonly flarp?: string;
 
         /**
          * <!-- FishyJoes.export(wombat) -->
@@ -3496,12 +3496,12 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(corge) -->
          */
-        readonlycorge: string;
+        readonly corge: string;
 
         /**
          * <!-- FishyJoes.export(frobby) -->
          */
-        readonlyfrobby: number[];
+        readonly frobby: number[];
     }
 
     /**
@@ -3524,7 +3524,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(frobby) -->
          */
-        readonlyfrobby: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -3570,7 +3570,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(init) -->
          */
-        staticinit(
+        static init(
             corge: string,
             options?: {
                 "flarp"?: Optional<string> /* defaults to `nil` */,
@@ -3600,14 +3600,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(bar) -->
          */
-        functionbar(
+        function bar(
             self: TestAPI.TestProtocolEnum
         ): boolean;
 
         /**
          * <!-- FishyJoes.export(baz) -->
          */
-        functionbaz(
+        function baz(
             self: TestAPI.TestProtocolEnum,
             qux: boolean
         ): void;
@@ -3615,14 +3615,14 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(foo) -->
          */
-        functionfoo(
+        function foo(
             self: TestAPI.TestProtocolEnum
         ): void;
 
         /**
          * <!-- FishyJoes.export(garply) -->
          */
-        functiongarply(
+        function garply(
             self: TestAPI.TestProtocolEnum,
             str: string
         ): string;
@@ -3630,7 +3630,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(plugh) -->
          */
-        functionplugh(
+        function plugh(
             self: TestAPI.TestProtocolEnum,
             fred: [boolean, number, string[]]
         ): [boolean, number, string];
@@ -3638,7 +3638,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(xyzzy) -->
          */
-        functionxyzzy(
+        function xyzzy(
             self: TestAPI.TestProtocolEnum,
             thud: number,
             grault: number[]
@@ -3656,7 +3656,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(frobby) -->
          */
-        readonlyfrobby: number[];
+        readonly frobby: number[];
 
         /**
          * <!-- FishyJoes.export(foo) -->
@@ -3716,7 +3716,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(checkTuples) -->
          */
-        functioncheckTuples(
+        function checkTuples(
             t2: [number, string],
             t3: [string, number, string],
             t4: [[number, string], [string, number, string], string, boolean],
@@ -3763,7 +3763,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(echo) -->
          */
-        functionecho(
+        function echo(
             url: URL
         ): URL;
 
@@ -3791,7 +3791,7 @@ export declare namespace TestAPI {
         /**
          * <!-- FishyJoes.export(testCall) -->
          */
-        functiontestCall(
+        function testCall(
             self: TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
         ): number;
     }

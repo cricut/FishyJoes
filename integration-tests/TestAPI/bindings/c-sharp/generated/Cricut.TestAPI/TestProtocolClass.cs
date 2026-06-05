@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(corge) -->
         /// </summary>
-        publicstring Corge {
+        public string Corge {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -39,7 +39,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(flarp) -->
         /// </summary>
-        publicstring? Flarp {
+        public string? Flarp {
             get {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
@@ -64,7 +64,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(frobby) -->
         /// </summary>
-        publicSystem.Collections.Generic.IList<nint> GetFrobby() {
+        public System.Collections.Generic.IList<nint> GetFrobby() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_TestProtocolClass_frobby(Loader.env, thisHandle.ptr, out exn).Consume<System.Collections.Generic.IList<nint>>()
@@ -77,7 +77,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(corge) -->
         /// </summary>
-        publicstring GetCorge(
+        public string GetCorge(
         ) {
             return Corge;
         }
@@ -85,7 +85,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(flarp) -->
         /// </summary>
-        publicstring? GetFlarp(
+        public string? GetFlarp(
         ) {
             return Flarp;
         }
@@ -93,7 +93,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(foo) -->
         /// </summary>
-        publicvoid Foo(
+        public void Foo(
         ) {
             using var _thisHandle = new GCRef(this);
             Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_foo(Loader.env, _thisHandle.ptr, out _exn));
@@ -109,7 +109,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(bar) -->
         /// </summary>
-        publicbool Bar(
+        public bool Bar(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_TestProtocolClass_bar(Loader.env, _thisHandle.ptr, out _exn));
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(baz) -->
         /// </summary>
-        publicvoid Baz(
+        public void Baz(
             bool qux
         ) {
             using var _thisHandle = new GCRef(this);
@@ -144,7 +144,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(garply) -->
         /// </summary>
-        publicstring Garply(
+        public string Garply(
             string str
         ) {
             using var _thisHandle = new GCRef(this);
@@ -163,7 +163,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(xyzzy) -->
         /// </summary>
-        publicstring Xyzzy(
+        public string Xyzzy(
             nint thud,
             System.Collections.Generic.IList<double> grault
         ) {
@@ -184,7 +184,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(plugh) -->
         /// </summary>
-        publicSystem.Tuple<bool, nint, string> Plugh(
+        public System.Tuple<bool, nint, string> Plugh(
             System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred
         ) {
             using var _thisHandle = new GCRef(this);
@@ -203,7 +203,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(init) -->
         /// </summary>
-        public staticCricut.TestAPI.TestProtocolClass Init(
+        public static Cricut.TestAPI.TestProtocolClass Init(
             string corge,
             string? flarp = null
         ) {
@@ -223,7 +223,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(wombat) -->
         /// </summary>
-        publicdouble? Wombat(
+        public double? Wombat(
             nint? zxc
         ) {
             using var _thisHandle = new GCRef(this);
@@ -242,7 +242,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(spqr) -->
         /// </summary>
-        publicnint Spqr(
+        public nint Spqr(
             Cricut.TestAPI.AssociatedDataEnum pippo
         ) {
             using var _thisHandle = new GCRef(this);
@@ -258,7 +258,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        public overridebool Equals(
+        public override bool Equals(
             object? other
         ) {
             if (other as Cricut.TestAPI.TestProtocolClass == null) { return false; }
@@ -276,7 +276,7 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        public overrideint GetHashCode(
+        public override int GetHashCode(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_get_TestAPI_TestProtocolClass_hash(Loader.env, _thisHandle.ptr, out _exn));

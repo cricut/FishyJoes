@@ -46,7 +46,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intValue) -->
         /// </summary>
-        publicnint GetIntValue() {
+        public nint GetIntValue() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_AssociatedDataEnum_intValue(Loader.env, thisHandle.ptr, out exn)
@@ -59,7 +59,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(staticThing) -->
         /// </summary>
-        public staticCricut.TestAPI.AssociatedDataEnum StaticThing {
+        public static Cricut.TestAPI.AssociatedDataEnum StaticThing {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AssociatedDataEnum_staticThing(Loader.env, out exn).Consume<Cricut.TestAPI.AssociatedDataEnum>()
@@ -73,7 +73,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(plus) -->
         /// </summary>
-        publicCricut.TestAPI.AssociatedDataEnum Plus(
+        public Cricut.TestAPI.AssociatedDataEnum Plus(
             Cricut.TestAPI.AssociatedDataEnum other
         ) {
             using var _thisHandle = new GCRef(this);

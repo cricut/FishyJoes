@@ -43,7 +43,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     static CreatedRef ffi_get_foo(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<AProtocolImplementation>(obj).foo
         )
@@ -53,13 +53,13 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).foo =consumeRef<String>(newValue);
+        peekRef<AProtocolImplementation>(obj).foo = consumeRef<String>(newValue);
     });
 
     static bool ffi_get_baz(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catching(exn, () =>
+    ) => catching(exn, () =>
         peekRef<AProtocolImplementation>(obj).baz
     ) ?? false;
     static void ffi_set_baz(
@@ -67,7 +67,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
         bool newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<AProtocolImplementation>(obj).baz =newValue;
+        peekRef<AProtocolImplementation>(obj).baz = newValue;
     });
 
     @override
@@ -84,7 +84,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     }
 
     @override
-    int get hashCode =>Object.hash(
+    int get hashCode => Object.hash(
         runtimeType,
         const DeepCollectionEquality().hash(foo),
         const DeepCollectionEquality().hash(baz)

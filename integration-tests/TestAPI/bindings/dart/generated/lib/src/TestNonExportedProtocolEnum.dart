@@ -16,7 +16,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: annotate_overrides
 
 /// <!-- FishyJoes.export(TestNonExportedProtocolEnum) -->
-sealedclass TestNonExportedProtocolEnum {
+sealed class TestNonExportedProtocolEnum {
     const factory TestNonExportedProtocolEnum.hogehoge(
     ) = TestNonExportedProtocolEnum_Hogehoge;
 
@@ -82,7 +82,7 @@ class TestNonExportedProtocolEnum_Hogehoge extends TestNonExportedProtocolEnum {
     );
 
     @override
-    int get hashCode =>runtimeType.hashCode;
+    int get hashCode => runtimeType.hashCode;
 
     @override
     String toString() => 'TestNonExportedProtocolEnum.hogehoge()';

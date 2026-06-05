@@ -23,7 +23,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(plutonic) -->
         /// </summary>
-        publicstring GetPlutonic() {
+        public string GetPlutonic() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -33,7 +33,7 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern CreatedRef __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(IntPtr envRef, UnownedRef self, out CreatedRef exn);
 
-        publicnint GetNoot(
+        public nint GetNoot(
         ) {
             return Noot;
         }

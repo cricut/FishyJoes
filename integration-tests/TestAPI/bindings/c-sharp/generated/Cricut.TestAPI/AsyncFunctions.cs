@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(add3Things) -->
         /// </summary>
-        public staticSystem.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
+        public static System.Func<float, double, nint, System.Threading.Tasks.Task<double>> Add3Things {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_add3Things(Loader.env, out exn).Consume<System.Func<float, double, nint, System.Threading.Tasks.Task<double>>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(const42) -->
         /// </summary>
-        public staticSystem.Func<System.Threading.Tasks.Task<nint>> Const42 {
+        public static System.Func<System.Threading.Tasks.Task<nint>> Const42 {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_const42(Loader.env, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(fifthThing) -->
         /// </summary>
-        public staticSystem.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
+        public static System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> FifthThing {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_fifthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>>>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(abs) -->
         /// </summary>
-        public staticSystem.Func<nint, System.Threading.Tasks.Task<nint>> Abs {
+        public static System.Func<nint, System.Threading.Tasks.Task<nint>> Abs {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_abs(Loader.env, out exn).Consume<System.Func<nint, System.Threading.Tasks.Task<nint>>>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(intCompose) -->
         /// </summary>
-        public staticSystem.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose {
+        public static System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> IntCompose {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_intCompose(Loader.env, out exn).Consume<System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>>>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(makeList) -->
         /// </summary>
-        public staticSystem.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
+        public static System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> MakeList {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_makeList(Loader.env, out exn).Consume<System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>>>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(sixthThing) -->
         /// </summary>
-        public staticSystem.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> SixthThing {
+        public static System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> SixthThing {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_sixthThing(Loader.env, out exn).Consume<System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>>>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(willThrow) -->
         /// </summary>
-        public staticSystem.Func<System.Threading.Tasks.Task<nint>> WillThrow {
+        public static System.Func<System.Threading.Tasks.Task<nint>> WillThrow {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_AsyncFunctions_willThrow(Loader.env, out exn).Consume<System.Func<System.Threading.Tasks.Task<nint>>>()
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(delayedConst) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<nint> DelayedConst(
+        public static System.Threading.Tasks.Task<nint> DelayedConst(
             nint nanoseconds
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_AsyncFunctions_delayedConst(Loader.env, nanoseconds, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
@@ -142,7 +142,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise0(
+        public static System.Threading.Tasks.Task<string> Exercise0(
             System.Func<System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -159,7 +159,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise1) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise1(
+        public static System.Threading.Tasks.Task<string> Exercise1(
             System.Func<nint, System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -176,7 +176,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise2) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise2(
+        public static System.Threading.Tasks.Task<string> Exercise2(
             System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -193,7 +193,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise3) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise3(
+        public static System.Threading.Tasks.Task<string> Exercise3(
             System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -210,7 +210,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise4) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise4(
+        public static System.Threading.Tasks.Task<string> Exercise4(
             System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -227,7 +227,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise5) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise5(
+        public static System.Threading.Tasks.Task<string> Exercise5(
             System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -244,7 +244,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(exercise6) -->
         /// </summary>
-        public staticSystem.Threading.Tasks.Task<string> Exercise6(
+        public static System.Threading.Tasks.Task<string> Exercise6(
             System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn
         ) {
             using var _fnHandle = new GCRef(fn);
@@ -261,7 +261,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(thunkTwiceMaker) -->
         /// </summary>
-        public staticSystem.Func<System.Threading.Tasks.Task> ThunkTwiceMaker(
+        public static System.Func<System.Threading.Tasks.Task> ThunkTwiceMaker(
             System.Func<System.Threading.Tasks.Task> thunk
         ) {
             using var _thunkHandle = new GCRef(thunk);

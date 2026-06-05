@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(aStaticProperty) -->
         /// </summary>
-        public staticnint GetAStaticProperty() {
+        public static nint GetAStaticProperty() {
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_EmptyEnum_aStaticProperty(Loader.env, out exn)
             );
@@ -26,7 +26,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(notGoingToHappen, noReturn: true) -->
         /// </summary>
-        public staticCricut.TestAPI.EmptyEnum NotGoingToHappen(
+        public static Cricut.TestAPI.EmptyEnum NotGoingToHappen(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyEnum_notGoingToHappen(Loader.env, out _exn)).Consume<Cricut.TestAPI.EmptyEnum>();
         }
@@ -40,7 +40,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(aStaticMethod) -->
         /// </summary>
-        public staticnint AStaticMethod(
+        public static nint AStaticMethod(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_EmptyEnum_aStaticMethod(Loader.env, out _exn));
         }

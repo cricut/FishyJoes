@@ -138,7 +138,7 @@ class Structs_TwentyOneItemStruct {
     static CreatedRef ffi_get_a(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).a
         )
@@ -148,13 +148,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).a =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).a = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_b(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).b
         )
@@ -164,13 +164,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).b =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).b = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_c(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).c
         )
@@ -180,13 +180,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).c =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).c = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_d(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).d
         )
@@ -196,13 +196,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).d =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).d = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_e(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).e
         )
@@ -212,13 +212,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).e =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).e = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_f(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).f
         )
@@ -228,13 +228,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).f =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).f = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_g(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).g
         )
@@ -244,13 +244,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).g =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).g = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_h(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).h
         )
@@ -260,13 +260,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).h =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).h = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_i(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).i
         )
@@ -276,13 +276,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).i =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).i = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_j(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).j
         )
@@ -292,13 +292,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).j =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).j = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_k(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).k
         )
@@ -308,13 +308,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).k =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).k = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_l(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).l
         )
@@ -324,13 +324,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).l =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).l = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_m(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).m
         )
@@ -340,13 +340,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).m =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).m = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_n(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).n
         )
@@ -356,13 +356,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).n =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).n = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_o(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).o
         )
@@ -372,13 +372,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).o =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).o = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_p(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).p
         )
@@ -388,13 +388,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).p =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).p = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_q(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).q
         )
@@ -404,13 +404,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).q =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).q = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_r(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).r
         )
@@ -420,13 +420,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).r =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).r = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_s(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).s
         )
@@ -436,13 +436,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).s =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).s = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_t(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).t
         )
@@ -452,13 +452,13 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).t =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).t = consumeRef<String>(newValue);
     });
 
     static CreatedRef ffi_get_u(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<Structs_TwentyOneItemStruct>(obj).u
         )
@@ -468,7 +468,7 @@ class Structs_TwentyOneItemStruct {
         ConsumedRef newValue,
         OutCreatedRef exn
     ) => catching(exn, () {
-        peekRef<Structs_TwentyOneItemStruct>(obj).u =consumeRef<String>(newValue);
+        peekRef<Structs_TwentyOneItemStruct>(obj).u = consumeRef<String>(newValue);
     });
 
     @override
@@ -504,7 +504,7 @@ class Structs_TwentyOneItemStruct {
     }
 
     @override
-    int get hashCode =>Object.hash(
+    int get hashCode => Object.hash(
         runtimeType,
         Object.hash(
             const DeepCollectionEquality().hash(a),

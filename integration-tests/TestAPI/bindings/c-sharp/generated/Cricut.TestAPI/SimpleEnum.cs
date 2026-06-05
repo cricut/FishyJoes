@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(favoriteColor) -->
         /// </summary>
-        public staticCricut.TestAPI.SimpleEnum FavoriteColor {
+        public static Cricut.TestAPI.SimpleEnum FavoriteColor {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_SimpleEnum_favoriteColor(Loader.env, out exn).Consume<Cricut.TestAPI.SimpleEnum>()
@@ -51,7 +51,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hex) -->
         /// </summary>
-        publicnint GetHex() {
+        public nint GetHex() {
             using var thisHandle = new GCRef(this);
             return Check((out CreatedRef exn) =>
                 __iota_get_TestAPI_SimpleEnum_hex(Loader.env, thisHandle.ptr, out exn)
@@ -64,7 +64,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(pickAColor) -->
         /// </summary>
-        public staticCricut.TestAPI.SimpleEnum? PickAColor(
+        public static Cricut.TestAPI.SimpleEnum? PickAColor(
             nint rawValue
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_SimpleEnum_pickAColor(Loader.env, rawValue, out _exn)).Consume<Cricut.TestAPI.SimpleEnum?>();
@@ -80,7 +80,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(hexMethod) -->
         /// </summary>
-        publicstring HexMethod(
+        public string HexMethod(
         ) {
             using var _thisHandle = new GCRef(this);
             return Check((out CreatedRef _exn) => __iota_TestAPI_SimpleEnum_hexMethod(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();
@@ -96,7 +96,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(resetFavoriteColor) -->
         /// </summary>
-        public staticvoid ResetFavoriteColor(
+        public static void ResetFavoriteColor(
         ) {
             Check((out CreatedRef _exn) => __iota_TestAPI_SimpleEnum_resetFavoriteColor(Loader.env, out _exn));
         }

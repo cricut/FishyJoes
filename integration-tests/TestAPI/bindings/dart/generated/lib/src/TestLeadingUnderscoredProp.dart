@@ -22,7 +22,7 @@ extension TestLeadingUnderscoredProp_FfiHooks on TestLeadingUnderscoredProp {
     static CreatedRef ffi_get__leadingUnderscoreProp(
         UnownedRef obj,
         OutCreatedRef exn
-    ) =>catchingRef(exn, () =>
+    ) => catchingRef(exn, () =>
         createRef(
             peekRef<TestLeadingUnderscoredProp>(obj).m_leadingUnderscoreProp
         )

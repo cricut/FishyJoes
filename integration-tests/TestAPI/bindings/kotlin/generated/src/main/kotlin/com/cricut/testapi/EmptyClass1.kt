@@ -42,11 +42,11 @@ class EmptyClass1 private constructor(_swiftReference: Long): com.cricut.fishyjo
     private external fun __jni_Gorpers(
     ): kotlin.String
 
-    overridefun equals(
+    override fun equals(
         other: Any?
     ): Boolean = (other is com.cricut.testapi.EmptyClass1) && __jni_swiftEquals(this, other)
 
-    overridefun hashCode(
+    override fun hashCode(
     ): Int = __jni_hashCode()
     @JvmName("__jni_hashCode")
     private external fun __jni_hashCode(

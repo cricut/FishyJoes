@@ -96,11 +96,11 @@ sealed class Structs {
         private external fun __jni_asyncGetMutable(
         ): kotlinx.coroutines.Deferred<kotlin.String>
 
-        overridefun equals(
+        override fun equals(
             other: Any?
         ): Boolean = (other is com.cricut.testapi.Structs.ReferenceStruct) && __jni_swiftEquals(this, other)
 
-        overridefun hashCode(
+        override fun hashCode(
         ): Int = __jni_hashCode()
         @JvmName("__jni_hashCode")
         private external fun __jni_hashCode(

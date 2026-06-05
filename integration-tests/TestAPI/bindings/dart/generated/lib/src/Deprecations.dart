@@ -32,7 +32,7 @@ class Deprecations {
     ;
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     @Deprecated("don't use this")
-    staticString deprecatedMethod(
+    static String deprecatedMethod(
     ) =>
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_Deprecations_deprecatedMethod(Loader.shared.env, _exn)))
     ;

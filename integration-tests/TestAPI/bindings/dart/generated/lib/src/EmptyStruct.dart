@@ -40,7 +40,7 @@ class EmptyStruct {
     }
 
     @override
-    int get hashCode =>runtimeType.hashCode;
+    int get hashCode => runtimeType.hashCode;
 
     EmptyStruct copyWith() => EmptyStruct();
 
@@ -61,7 +61,7 @@ class EmptyStruct {
         )
     ;
     /// <!-- FishyJoes.export(create) -->
-    staticTestAPI.EmptyStruct create(
+    static TestAPI.EmptyStruct create(
     ) =>
         consumeCreatedRef<TestAPI.EmptyStruct>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyStruct_create(Loader.shared.env, _exn)))
     ;

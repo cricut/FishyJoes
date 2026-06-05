@@ -37,7 +37,7 @@ extension EmojiFun.EmojiExplorer: FishyJoesNodeRuntime.NodeConverter {
             properties: [
                 (
                     name: "create",
-                    .method{ env, info in
+                    .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "create", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try EmojiFun.EmojiExplorer.toNode(
                                 EmojiFun.EmojiExplorer(
@@ -52,7 +52,7 @@ extension EmojiFun.EmojiExplorer: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "random",
-                    .method{ env, info in
+                    .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "random", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
                                 env.this(converter: EmojiFun.EmojiExplorer.self).random(
@@ -66,7 +66,7 @@ extension EmojiFun.EmojiExplorer: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "randomUnique",
-                    .method{ env, info in
+                    .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "randomUnique", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             var mutatingSelf = try env.this(converter: EmojiFun.EmojiExplorer.self)
                             FishyJoesCommonRuntime.silenceMutationWarning(&mutatingSelf)
@@ -83,7 +83,7 @@ extension EmojiFun.EmojiExplorer: FishyJoesNodeRuntime.NodeConverter {
                 ),
                 (
                     name: "enumerateKnown",
-                    .method{ env, info in
+                    .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "enumerateKnown", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 env.this(converter: EmojiFun.EmojiExplorer.self).enumerateKnown(
@@ -99,24 +99,24 @@ extension EmojiFun.EmojiExplorer: FishyJoesNodeRuntime.NodeConverter {
                 (
                     name: "hello",
                     .accessor(
-                        getter:{ env, info in
+                        getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "hello", expectedArgumentCount: 0) { env in
                                 return try Swift.String.toNode(EmojiFun.EmojiExplorer.hello, env: env.env)
                             }
                         },
-                        setter:nil
+                        setter: nil
                     ),
                     isStatic: true
                 ),
                 (
                     name: "known",
                     .accessor(
-                        getter:{ env, info in
+                        getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "known", expectedArgumentCount: 0) { env in
                                 return try SetConverter<Swift.String>.toNode(env.this(converter: EmojiFun.EmojiExplorer.self).known, env: env.env)
                             }
                         },
-                        setter:nil
+                        setter: nil
                     ),
                     isStatic: false
                 ),

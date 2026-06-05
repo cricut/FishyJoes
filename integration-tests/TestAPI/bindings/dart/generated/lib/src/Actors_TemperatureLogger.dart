@@ -47,7 +47,7 @@ class Actors_TemperatureLogger extends SwiftReference {
         )
     ;
     /// <!-- FishyJoes.export(create) -->
-    staticTestAPI.Actors_TemperatureLogger create(
+    static TestAPI.Actors_TemperatureLogger create(
         String label,
         int measurement,
     ) =>

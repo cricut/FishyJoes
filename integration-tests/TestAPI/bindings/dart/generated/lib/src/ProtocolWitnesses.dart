@@ -24,7 +24,7 @@ class ProtocolWitnesses {
     });
 
     /// <!-- FishyJoes.export(describeAProtocol) -->
-    staticString describeAProtocol(
+    static String describeAProtocol(
         TestAPI.AProtocol value,
         int x,
         int y,
@@ -35,7 +35,7 @@ class ProtocolWitnesses {
     ;
 
     /// <!-- FishyJoes.export(returnAProtocol) -->
-    staticTestAPI.AProtocol returnAProtocol(
+    static TestAPI.AProtocol returnAProtocol(
         TestAPI.AProtocol value,
     ) =>
         GCRef.using(value, (_valueHandle) =>

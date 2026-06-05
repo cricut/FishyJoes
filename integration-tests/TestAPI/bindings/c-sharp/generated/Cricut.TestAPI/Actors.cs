@@ -20,7 +20,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(backwardsLabel) -->
             /// </summary>
-            publicstring GetBackwardsLabel() {
+            public string GetBackwardsLabel() {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -33,7 +33,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(extensionNonisolatedVarLabel) -->
             /// </summary>
-            publicstring GetExtensionNonisolatedVarLabel() {
+            public string GetExtensionNonisolatedVarLabel() {
                 using var thisHandle = new GCRef(this);
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(Loader.env, thisHandle.ptr, out exn).Consume<string>()
@@ -46,7 +46,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(label) -->
             /// </summary>
-            publicstring Label {
+            public string Label {
                 get {
                     using var thisHandle = new GCRef(this);
                     return Check((out CreatedRef exn) =>
@@ -61,7 +61,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(create) -->
             /// </summary>
-            public staticCricut.TestAPI.Actors.TemperatureLogger Create(
+            public static Cricut.TestAPI.Actors.TemperatureLogger Create(
                 string label,
                 nint measurement
             ) {
@@ -80,7 +80,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(update) -->
             /// </summary>
-            publicSystem.Threading.Tasks.Task Update(
+            public System.Threading.Tasks.Task Update(
                 nint /* with */ measurement
             ) {
                 using var _thisHandle = new GCRef(this);
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(min) -->
             /// </summary>
-            publicSystem.Threading.Tasks.Task<nint> Min(
+            public System.Threading.Tasks.Task<nint> Min(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Actors_TemperatureLogger_min(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
@@ -114,7 +114,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(extensionIsolatedGetLabel) -->
             /// </summary>
-            publicSystem.Threading.Tasks.Task<string> ExtensionIsolatedGetLabel(
+            public System.Threading.Tasks.Task<string> ExtensionIsolatedGetLabel(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(Loader.env, _thisHandle.ptr, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
@@ -130,7 +130,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(extensionNonisolatedGetLabel) -->
             /// </summary>
-            publicstring ExtensionNonisolatedGetLabel(
+            public string ExtensionNonisolatedGetLabel(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel(Loader.env, _thisHandle.ptr, out _exn)).Consume<string>();

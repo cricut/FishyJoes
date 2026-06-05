@@ -84,7 +84,7 @@ class Ranges {
         )
     ;
     /// <!-- FishyJoes.export(echoUInt8Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoUInt8Range(
+    static FishyJoesRuntime.SwiftRange<int> echoUInt8Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -93,7 +93,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt16Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoUInt16Range(
+    static FishyJoesRuntime.SwiftRange<int> echoUInt16Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -102,7 +102,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt32Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoUInt32Range(
+    static FishyJoesRuntime.SwiftRange<int> echoUInt32Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -111,7 +111,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoUInt64Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoUInt64Range(
+    static FishyJoesRuntime.SwiftRange<int> echoUInt64Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -120,7 +120,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoUIntRange) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoUIntRange(
+    static FishyJoesRuntime.SwiftRange<int> echoUIntRange(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -129,7 +129,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoInt8Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoInt8Range(
+    static FishyJoesRuntime.SwiftRange<int> echoInt8Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -138,7 +138,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoInt16Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoInt16Range(
+    static FishyJoesRuntime.SwiftRange<int> echoInt16Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -147,7 +147,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoInt32Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoInt32Range(
+    static FishyJoesRuntime.SwiftRange<int> echoInt32Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -156,7 +156,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoInt64Range) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoInt64Range(
+    static FishyJoesRuntime.SwiftRange<int> echoInt64Range(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>
@@ -165,7 +165,7 @@ class Ranges {
     ;
 
     /// <!-- FishyJoes.export(echoIntRange) -->
-    staticFishyJoesRuntime.SwiftRange<int> echoIntRange(
+    static FishyJoesRuntime.SwiftRange<int> echoIntRange(
         FishyJoesRuntime.SwiftRange<int> range,
     ) =>
         GCRef.using(range, (_rangeHandle) =>

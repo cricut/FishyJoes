@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(marker) -->
         /// </summary>
-        public staticCricut.TestAPI.ReferenceOnlyTypes.Marker Marker_(
+        public static Cricut.TestAPI.ReferenceOnlyTypes.Marker Marker_(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_ReferenceOnlyTypes_marker(Loader.env, out _exn)).Consume<Cricut.TestAPI.ReferenceOnlyTypes.Marker>();
         }
@@ -31,7 +31,7 @@ namespace Cricut.TestAPI {
         public class Marker : SwiftReference {
             internal Marker(ConsumedRef reference): base(reference) {}
 
-            public overridebool Equals(
+            public override bool Equals(
                 object? other
             ) {
                 if (other as Cricut.TestAPI.ReferenceOnlyTypes.Marker == null) { return false; }
@@ -49,7 +49,7 @@ namespace Cricut.TestAPI {
                 out CreatedRef exn
             );
 
-            public overrideint GetHashCode(
+            public override int GetHashCode(
             ) {
                 using var _thisHandle = new GCRef(this);
                 return Check((out CreatedRef _exn) => __iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash(Loader.env, _thisHandle.ptr, out _exn));

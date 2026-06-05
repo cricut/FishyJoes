@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(arrayOfBigTuples) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>> ArrayOfBigTuples {
+        public static System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>> ArrayOfBigTuples {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_arrayOfBigTuples(Loader.env, out exn).Consume<System.Collections.Generic.IList<System.Tuple<sbyte, short, int, long>>>()
@@ -28,7 +28,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(arrayOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint> ArrayOfInt {
+        public static System.Collections.Generic.IList<nint> ArrayOfInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_arrayOfInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>>()
@@ -42,7 +42,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(defaultCollectionHolder) -->
         /// </summary>
-        public staticCricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
+        public static Cricut.TestAPI.Collections.CollectionHolder DefaultCollectionHolder {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_defaultCollectionHolder(Loader.env, out exn).Consume<Cricut.TestAPI.Collections.CollectionHolder>()
@@ -56,7 +56,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(dictionaryOfIntToInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
+        public static System.Collections.Generic.IDictionary<nint, nint> DictionaryOfIntToInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_dictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>>()
@@ -70,7 +70,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint>? MaybeArrayOfInt {
+        public static System.Collections.Generic.IList<nint>? MaybeArrayOfInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeArrayOfInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint>?>()
@@ -84,7 +84,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeArrayOfMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint?>? MaybeArrayOfMaybeInt {
+        public static System.Collections.Generic.IList<nint?>? MaybeArrayOfMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>?>()
@@ -98,7 +98,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
+        public static System.Collections.Generic.IDictionary<nint, nint>? MaybeDictionaryOfIntToInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint>?>()
@@ -112,7 +112,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IDictionary<nint, nint?>? MaybeDictionaryOfIntToMaybeInt {
+        public static System.Collections.Generic.IDictionary<nint, nint?>? MaybeDictionaryOfIntToMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.IDictionary<nint, nint?>?>()
@@ -126,7 +126,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeSetOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.ISet<nint>? MaybeSetOfInt {
+        public static System.Collections.Generic.ISet<nint>? MaybeSetOfInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeSetOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>?>()
@@ -140,7 +140,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(maybeSetOfMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
+        public static System.Collections.Generic.ISet<nint?>? MaybeSetOfMaybeInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint?>?>()
@@ -154,7 +154,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(setOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.ISet<nint> SetOfInt {
+        public static System.Collections.Generic.ISet<nint> SetOfInt {
             get {
                 return Check((out CreatedRef exn) =>
                     __iota_get_TestAPI_Collections_setOfInt(Loader.env, out exn).Consume<System.Collections.Generic.ISet<nint>>()
@@ -168,7 +168,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoArrayOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint> EchoArrayOfInt(
+        public static System.Collections.Generic.IList<nint> EchoArrayOfInt(
             System.Collections.Generic.IList<nint> arrayOfInt
         ) {
             using var _arrayOfIntHandle = new GCRef(arrayOfInt);
@@ -185,7 +185,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoSetOfInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.ISet<nint> EchoSetOfInt(
+        public static System.Collections.Generic.ISet<nint> EchoSetOfInt(
             System.Collections.Generic.ISet<nint> setOfInt
         ) {
             using var _setOfIntHandle = new GCRef(setOfInt);
@@ -202,7 +202,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoDictionaryOfIntToInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IDictionary<nint, nint> EchoDictionaryOfIntToInt(
+        public static System.Collections.Generic.IDictionary<nint, nint> EchoDictionaryOfIntToInt(
             System.Collections.Generic.IDictionary<nint, nint> dictionaryOfIntToInt
         ) {
             using var _dictionaryOfIntToIntHandle = new GCRef(dictionaryOfIntToInt);
@@ -219,7 +219,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoMaybeArrayOfMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint?>? EchoMaybeArrayOfMaybeInt(
+        public static System.Collections.Generic.IList<nint?>? EchoMaybeArrayOfMaybeInt(
             System.Collections.Generic.IList<nint?>? maybeArrayOfMaybeInt
         ) {
             using var _maybeArrayOfMaybeIntHandle = new GCRef(maybeArrayOfMaybeInt);
@@ -236,7 +236,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoMaybeSetOfMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.ISet<nint?>? EchoMaybeSetOfMaybeInt(
+        public static System.Collections.Generic.ISet<nint?>? EchoMaybeSetOfMaybeInt(
             System.Collections.Generic.ISet<nint?>? maybeSetOfMaybeInt
         ) {
             using var _maybeSetOfMaybeIntHandle = new GCRef(maybeSetOfMaybeInt);
@@ -253,7 +253,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(echoMaybeDictionaryOfIntToMaybeInt) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IDictionary<nint, nint?>? EchoMaybeDictionaryOfIntToMaybeInt(
+        public static System.Collections.Generic.IDictionary<nint, nint?>? EchoMaybeDictionaryOfIntToMaybeInt(
             System.Collections.Generic.IDictionary<nint, nint?>? maybeDictionaryOfIntToMaybeInt
         ) {
             using var _maybeDictionaryOfIntToMaybeIntHandle = new GCRef(maybeDictionaryOfIntToMaybeInt);
@@ -270,7 +270,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(collectionMapper) -->
         /// </summary>
-        public staticSystem.Collections.Generic.IList<nint?>? CollectionMapper(
+        public static System.Collections.Generic.IList<nint?>? CollectionMapper(
             System.Collections.Generic.IList<nint?>? collection,
             System.Func<System.Collections.Generic.IList<nint?>?, System.Collections.Generic.IList<nint?>?> mapper
         ) {
@@ -326,7 +326,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(staticMutableProperty) -->
             /// </summary>
-            public staticSystem.Collections.Generic.IList<nint?> StaticMutableProperty {
+            public static System.Collections.Generic.IList<nint?> StaticMutableProperty {
                 get {
                     return Check((out CreatedRef exn) =>
                         __iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()
@@ -349,7 +349,7 @@ namespace Cricut.TestAPI {
             /// <summary>
             /// <!-- FishyJoes.export(staticProperty) -->
             /// </summary>
-            public staticSystem.Collections.Generic.IList<nint?> StaticProperty {
+            public static System.Collections.Generic.IList<nint?> StaticProperty {
                 get {
                     return Check((out CreatedRef exn) =>
                         __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(Loader.env, out exn).Consume<System.Collections.Generic.IList<nint?>>()

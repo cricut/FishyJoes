@@ -14,7 +14,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(describeAProtocol) -->
         /// </summary>
-        public staticstring DescribeAProtocol(
+        public static string DescribeAProtocol(
             Cricut.TestAPI.AProtocol value,
             nint x,
             nint y
@@ -35,7 +35,7 @@ namespace Cricut.TestAPI {
         /// <summary>
         /// <!-- FishyJoes.export(returnAProtocol) -->
         /// </summary>
-        public staticCricut.TestAPI.AProtocol ReturnAProtocol(
+        public static Cricut.TestAPI.AProtocol ReturnAProtocol(
             Cricut.TestAPI.AProtocol value
         ) {
             using var _valueHandle = new GCRef(value);

@@ -28,11 +28,11 @@ sealed class ReferenceOnlyTypes {
      * <!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->
      */
     class Marker private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
-        overridefun equals(
+        override fun equals(
             other: Any?
         ): Boolean = (other is com.cricut.testapi.ReferenceOnlyTypes.Marker) && __jni_swiftEquals(this, other)
 
-        overridefun hashCode(
+        override fun hashCode(
         ): Int = __jni_hashCode()
         @JvmName("__jni_hashCode")
         private external fun __jni_hashCode(
