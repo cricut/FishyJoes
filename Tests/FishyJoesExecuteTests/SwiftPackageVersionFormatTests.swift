@@ -92,6 +92,15 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         XCTAssertEqual(revision.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "abc123")
         XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "1.0.0")
         XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), ">=1.0.0 <2.0.0")
+
+        let localRuntime = SwiftPackage.Dependency.fileSystem(identity: "fishyjoes", path: "/repo")
+        XCTAssertEqual(
+            localRuntime.versionInNpmFormat(
+                relativeTo: "/repo/integration-tests/TestAPI/bindings/ts/generated/packages/node-native-macos",
+                addIfLocalPath: "node-runtime/fishyjoes-runtime-native-macos"
+            ),
+            "file:../../../../../../../node-runtime/fishyjoes-runtime-native-macos"
+        )
     }
 
     func testVersionFormatPubspec() throws {
