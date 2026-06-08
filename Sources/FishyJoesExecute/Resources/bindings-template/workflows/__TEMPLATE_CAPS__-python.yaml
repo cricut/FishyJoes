@@ -324,7 +324,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             version_args=(--version "$version")
           fi
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" generate build test pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash

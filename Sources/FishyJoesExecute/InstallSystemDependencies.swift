@@ -368,7 +368,7 @@ struct InstallSystemDependencies: ParsableCommand {
         let binaryPath = "\(tempDir)/\(assetName)"
         let checksumsPath = "\(tempDir)/checksums"
         try cmd("curl", "-fsSL", "-o", binaryPath, "\(releaseURL)/\(assetName)").run()
-        try cmd("curl", "-fsSL", "-o", checksumsPath, "\(releaseURL)/checksums").run()
+        try cmd("curl", "-fsSL", "-o", checksumsPath, "\(releaseURL)/checksums-bsd").run()
 
         let checksums = try String(contentsOfFile: checksumsPath, encoding: .utf8)
         guard let expectedChecksum = Self.expectedChecksum(for: assetName, in: checksums) else {
