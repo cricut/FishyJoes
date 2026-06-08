@@ -75,7 +75,7 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("install-system-dependencies for-generation", contents)
         self.assertIn('swift run -- fishy-joes --python --fat "${version_args[@]}" generate build test pack', contents)
         self.assertIn('swift run -- fishy-joes --python "${version_args[@]}" generate build test pack', contents)
-        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" generate build test pack', contents)
+        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" build test pack', contents)
         self.assertEqual(contents.count("Build FishyJoes Python runtime wheel"), 3)
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
         self.assertEqual(contents.count('--distribution-name "fishyjoes-runtime"'), 3)
@@ -111,7 +111,7 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)
         self.assertIn("install-system-dependencies for-generation", contents)
         self.assertIn("swift run -- fishy-joes --python generate build test pack", contents)
-        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python generate build test pack', contents)
+        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack', contents)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
         self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)
         self.assertEqual(

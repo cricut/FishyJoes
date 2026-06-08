@@ -30,9 +30,10 @@ def native_library_name(name: str) -> str:
 
 
 def built_runtime_library() -> Path:
-    candidates = sorted((REPO_ROOT / "integration-tests" / "TestAPI" / ".build" / "bindings").glob(
-        f"*/release/{native_library_name('FishyJoesIotaRuntime')}"
-    ))
+    bindings_build = REPO_ROOT / "integration-tests" / "TestAPI" / ".build" / "bindings"
+    candidates = sorted(bindings_build.glob(f"*/release/{native_library_name('FishyJoesIotaRuntime')}"))
+    if not candidates:
+        candidates = sorted(bindings_build.glob(f"*/debug/{native_library_name('FishyJoesIotaRuntime')}"))
     if not candidates:
         raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
     return candidates[0]
