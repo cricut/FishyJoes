@@ -14,5 +14,4 @@ dependencies:__PUBSPEC_DART_DEPENDENCIES__
 
 dev_dependencies:
   lints: ^2.0.0
-  test: ^1.16.0
-__PUBSPEC_DART_DEPENDENCY_OVERRIDES__
+  test: ^1.16.0__PUBSPEC_DART_DEPENDENCY_OVERRIDES__
