@@ -317,6 +317,7 @@ struct InstallSystemDependencies: ParsableCommand {
             #elseif os(Linux)
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
+            try installMintBuildDependenciesOnLinux()
             try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
             try cmd("swift", "build", "--package-path=\(tempDir)/mint", "--configuration", "release", "--product", "mint").run()
             try cmd("install", "-m", "0755", "\(tempDir)/mint/.build/release/mint", "/usr/local/bin/mint").run()
@@ -343,6 +344,18 @@ struct InstallSystemDependencies: ParsableCommand {
             throw InstallSystemDependencies.Error()
             #endif
         }
+    }
+
+    func installMintBuildDependenciesOnLinux() throws {
+        guard !cmd("test", "-f", "/usr/include/sqlite3.h").runBool() else {
+            return
+        }
+        guard cmd("apt-get", "--version").runBool() else {
+            Log.error("Mint generation dependencies require sqlite3.h, but apt-get is unavailable")
+            throw InstallSystemDependencies.Error()
+        }
+        try cmd("apt-get", "update").run()
+        try cmd("apt-get", "install", "-y", "libsqlite3-dev").run()
     }
 
     func checkIfMikeFarahYQInstalled() -> Bool {
