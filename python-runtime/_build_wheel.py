@@ -114,28 +114,24 @@ def _pe_rva_to_offset(ranges: list[tuple[int, int, int]], rva: int) -> int | Non
     return None
 
 
-def windows_imported_dll_names(path: Path) -> set[str]:
-    data = path.read_bytes()
-    if len(data) < 0x40 or data[:2] != b"MZ":
-        return set()
-    pe_offset = int.from_bytes(data[0x3C:0x40], "little")
-    if pe_offset + 24 > len(data) or data[pe_offset:pe_offset + 4] != b"PE\0\0":
-        return set()
-
+def _pe_data_directory_rva(data: bytes, pe_offset: int, index: int) -> int | None:
     coff_offset = pe_offset + 4
     optional_header_offset = coff_offset + 20
     optional_header_size = int.from_bytes(data[coff_offset + 16:coff_offset + 18], "little")
     if optional_header_offset + optional_header_size > len(data):
-        return set()
+        return None
     magic = int.from_bytes(data[optional_header_offset:optional_header_offset + 2], "little")
     data_directory_offset = optional_header_offset + (112 if magic == 0x20B else 96 if magic == 0x10B else 0)
-    if data_directory_offset == optional_header_offset or data_directory_offset + 16 > len(data):
-        return set()
+    if data_directory_offset == optional_header_offset:
+        return None
+    entry_offset = data_directory_offset + index * 8
+    if entry_offset + 8 > len(data):
+        return None
+    rva = int.from_bytes(data[entry_offset:entry_offset + 4], "little")
+    return rva if rva != 0 else None
 
-    import_rva = int.from_bytes(data[data_directory_offset + 8:data_directory_offset + 12], "little")
-    if import_rva == 0:
-        return set()
-    section_ranges = _pe_section_ranges(data)
+
+def _pe_imported_dll_names(data: bytes, section_ranges: list[tuple[int, int, int]], import_rva: int) -> set[str]:
     descriptor_offset = _pe_rva_to_offset(section_ranges, import_rva)
     if descriptor_offset is None:
         return set()
@@ -156,6 +152,68 @@ def windows_imported_dll_names(path: Path) -> set[str]:
     return dlls
 
 
+def _pe_delay_imported_dll_names(data: bytes, section_ranges: list[tuple[int, int, int]], import_rva: int) -> set[str]:
+    descriptor_offset = _pe_rva_to_offset(section_ranges, import_rva)
+    if descriptor_offset is None:
+        return set()
+
+    dlls: set[str] = set()
+    offset = descriptor_offset
+    while offset + 32 <= len(data):
+        descriptor = data[offset:offset + 32]
+        if descriptor == b"\0" * 32:
+            break
+        name_rva = int.from_bytes(descriptor[4:8], "little")
+        name_offset = _pe_rva_to_offset(section_ranges, name_rva)
+        if name_offset is not None:
+            name = _read_c_string(data, name_offset)
+            if name is not None:
+                dlls.add(name)
+        offset += 32
+    return dlls
+
+
+def windows_imported_dll_names(path: Path) -> set[str]:
+    data = path.read_bytes()
+    if len(data) < 0x40 or data[:2] != b"MZ":
+        return set()
+    pe_offset = int.from_bytes(data[0x3C:0x40], "little")
+    if pe_offset + 24 > len(data) or data[pe_offset:pe_offset + 4] != b"PE\0\0":
+        return set()
+
+    section_ranges = _pe_section_ranges(data)
+    dlls = set()
+    if import_rva := _pe_data_directory_rva(data, pe_offset, 1):
+        dlls.update(_pe_imported_dll_names(data, section_ranges, import_rva))
+    if delay_import_rva := _pe_data_directory_rva(data, pe_offset, 13):
+        dlls.update(_pe_delay_imported_dll_names(data, section_ranges, delay_import_rva))
+    return dlls
+
+
+def _should_bundle_windows_path_dependency(dll_name: str, path: Path) -> bool:
+    lower_name = dll_name.lower()
+    if not (
+        lower_name.startswith("swift")
+        or lower_name.startswith("foundation")
+        or lower_name in {"blocksruntime.dll", "dispatch.dll"}
+    ):
+        return False
+    return "windows\\system32" not in str(path).lower()
+
+
+def _windows_dependency_candidate(native_dir: Path, dll_name: str) -> Path | None:
+    adjacent = native_dir / dll_name
+    if adjacent.exists() and adjacent.suffix.lower() == ".dll":
+        return adjacent
+    path = shutil.which(dll_name)
+    if path is None:
+        return None
+    candidate = Path(path)
+    if candidate.exists() and _should_bundle_windows_path_dependency(dll_name, candidate):
+        return candidate
+    return None
+
+
 def windows_runtime_dependency_dlls(native_library: Path) -> list[Path]:
     native_dir = native_library.parent
     copied: dict[str, Path] = {native_library.name.lower(): native_library}
@@ -165,8 +223,8 @@ def windows_runtime_dependency_dlls(native_library: Path) -> list[Path]:
         for dll_name in sorted(windows_imported_dll_names(current), key=str.lower):
             if dll_name.lower() in copied:
                 continue
-            candidate = native_dir / dll_name
-            if candidate.exists() and candidate.suffix.lower() == ".dll":
+            candidate = _windows_dependency_candidate(native_dir, dll_name)
+            if candidate is not None:
                 copied[dll_name.lower()] = candidate
                 pending.append(candidate)
     return [path for name, path in sorted(copied.items()) if path != native_library]

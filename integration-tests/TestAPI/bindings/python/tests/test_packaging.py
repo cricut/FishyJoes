@@ -111,6 +111,29 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("fishyjoes_runtime/native/swiftCore.dll", names)
         self.assertNotIn("fishyjoes_runtime/native/TestAPI.dll", names)
 
+    def test_runtime_windows_dependency_resolver_finds_swift_dlls_on_path(self) -> None:
+        builder = load_runtime_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / "FishyJoesIotaRuntime.dll"
+            swift_core = temp_path / "toolchain" / "swiftCore.dll"
+            native.write_bytes(b"runtime")
+            swift_core.parent.mkdir()
+            swift_core.write_bytes(b"swift")
+
+            original_imports = builder.windows_imported_dll_names
+            original_which = builder.shutil.which
+            builder.windows_imported_dll_names = lambda path: {"swiftCore.dll", "KERNEL32.dll"} if path == native else set()
+            builder.shutil.which = lambda name: str(swift_core) if name == "swiftCore.dll" else None
+            try:
+                dependencies = builder.windows_runtime_dependency_dlls(native)
+            finally:
+                builder.windows_imported_dll_names = original_imports
+                builder.shutil.which = original_which
+
+        self.assertEqual(dependencies, [swift_core])
+
     def test_generated_python_workflow_declares_release_compatibility_matrix(self) -> None:
         workflow = TEST_API_ROOT / ".github" / "workflows" / "GENERATED-python.yaml"
         self.assertTrue(workflow.is_file(), f"missing generated Python workflow at {workflow}")
