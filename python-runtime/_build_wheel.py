@@ -14,11 +14,14 @@ import sysconfig
 import tempfile
 import tomllib
 import zipfile
+from collections.abc import Sequence
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
 PYPROJECT = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+WINDOWS_RUNTIME_DLL_NAMES = {"blocksruntime.dll", "dispatch.dll"}
+WINDOWS_RUNTIME_DLL_PREFIXES = ("swift", "foundation")
 
 
 def normalized_distribution_name(name: str) -> str:
@@ -193,37 +196,61 @@ def windows_imported_dll_names(path: Path) -> set[str]:
 def _should_bundle_windows_path_dependency(dll_name: str, path: Path) -> bool:
     lower_name = dll_name.lower()
     if not (
-        lower_name.startswith("swift")
-        or lower_name.startswith("foundation")
-        or lower_name in {"blocksruntime.dll", "dispatch.dll"}
+        lower_name.startswith(WINDOWS_RUNTIME_DLL_PREFIXES)
+        or lower_name in WINDOWS_RUNTIME_DLL_NAMES
     ):
         return False
     return "windows\\system32" not in str(path).lower()
 
 
-def _windows_dependency_candidate(native_dir: Path, dll_name: str) -> Path | None:
-    adjacent = native_dir / dll_name
-    if adjacent.exists() and adjacent.suffix.lower() == ".dll":
-        return adjacent
-    path = shutil.which(dll_name)
-    if path is None:
-        return None
-    candidate = Path(path)
-    if candidate.exists() and _should_bundle_windows_path_dependency(dll_name, candidate):
+def _windows_path_entries() -> list[Path]:
+    return [Path(entry) for entry in os.environ.get("PATH", "").split(os.pathsep) if entry]
+
+
+def _windows_path_file(dll_name: str) -> Path | None:
+    for directory in _windows_path_entries():
+        candidate = directory / dll_name
+        if candidate.exists() and candidate.suffix.lower() == ".dll":
+            return candidate
+    return None
+
+
+def _windows_dependency_candidate(search_dirs: Sequence[Path], dll_name: str) -> Path | None:
+    for directory in search_dirs:
+        adjacent = directory / dll_name
+        if adjacent.exists() and adjacent.suffix.lower() == ".dll":
+            return adjacent
+    candidate = _windows_path_file(dll_name)
+    if candidate is not None and _should_bundle_windows_path_dependency(dll_name, candidate):
         return candidate
     return None
+
+
+def windows_runtime_support_dlls_on_path() -> list[Path]:
+    dlls: dict[str, Path] = {}
+    for directory in _windows_path_entries():
+        if not directory.exists():
+            continue
+        for path in directory.glob("*.dll"):
+            if _should_bundle_windows_path_dependency(path.name, path):
+                dlls.setdefault(path.name.lower(), path)
+    return [path for _, path in sorted(dlls.items())]
 
 
 def windows_runtime_dependency_dlls(native_library: Path) -> list[Path]:
     native_dir = native_library.parent
     copied: dict[str, Path] = {native_library.name.lower(): native_library}
     pending = [native_library]
+    for path in windows_runtime_support_dlls_on_path():
+        if path.name.lower() not in copied:
+            copied[path.name.lower()] = path
+            pending.append(path)
     while pending:
         current = pending.pop()
         for dll_name in sorted(windows_imported_dll_names(current), key=str.lower):
             if dll_name.lower() in copied:
                 continue
-            candidate = _windows_dependency_candidate(native_dir, dll_name)
+            candidate = _windows_dependency_candidate([native_dir, current.parent], dll_name)
             if candidate is not None:
                 copied[dll_name.lower()] = candidate
                 pending.append(candidate)

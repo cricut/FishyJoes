@@ -123,14 +123,17 @@ class PackagingTests(unittest.TestCase):
             swift_core.write_bytes(b"swift")
 
             original_imports = builder.windows_imported_dll_names
-            original_which = builder.shutil.which
-            builder.windows_imported_dll_names = lambda path: {"swiftCore.dll", "KERNEL32.dll"} if path == native else set()
-            builder.shutil.which = lambda name: str(swift_core) if name == "swiftCore.dll" else None
+            original_path = builder.os.environ.get("PATH")
+            builder.windows_imported_dll_names = lambda path: {"KERNEL32.dll"} if path == native else set()
+            builder.os.environ["PATH"] = str(swift_core.parent)
             try:
                 dependencies = builder.windows_runtime_dependency_dlls(native)
             finally:
                 builder.windows_imported_dll_names = original_imports
-                builder.shutil.which = original_which
+                if original_path is None:
+                    del builder.os.environ["PATH"]
+                else:
+                    builder.os.environ["PATH"] = original_path
 
         self.assertEqual(dependencies, [swift_core])
 
