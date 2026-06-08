@@ -1,4 +1,5 @@
 @testable import FishyJoesExecute
+import Foundation
 import XCTest
 
 class SwiftPackageVersionFormatTests: XCTestCase {
@@ -96,10 +97,53 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         let localRuntime = SwiftPackage.Dependency.fileSystem(identity: "fishyjoes", path: "/repo")
         XCTAssertEqual(
             localRuntime.versionInNpmFormat(
-                relativeTo: "/repo/integration-tests/TestAPI/bindings/ts/generated/packages/node-native-macos",
+                relativeTo: "/repo/generated/package",
                 addIfLocalPath: "node-runtime/fishyjoes-runtime-native-macos"
             ),
-            "file:../../../../../../../node-runtime/fishyjoes-runtime-native-macos"
+            "file:../../node-runtime/fishyjoes-runtime-native-macos"
+        )
+    }
+
+    func testNodePhaseGeneratedNpmDependenciesUsePackageRootRelativeLocalRuntime() throws {
+        let fileManager = FileManager.default
+        let originalDirectory = fileManager.currentDirectoryPath
+        let temporaryRoot = fileManager.temporaryDirectory
+            .appendingPathComponent("fishyjoes-node-phase-\(UUID().uuidString)", isDirectory: true)
+        let otherDirectory = temporaryRoot.appendingPathComponent("other", isDirectory: true)
+        try fileManager.createDirectory(at: otherDirectory, withIntermediateDirectories: true)
+        defer {
+            _ = fileManager.changeCurrentDirectoryPath(originalDirectory)
+            try? fileManager.removeItem(at: temporaryRoot)
+        }
+
+        let codeGen = CodeGen()
+        codeGen.config = ProjectConfig(
+            module: "TestAPI",
+            publishRepository: nil,
+            requiredModules: [],
+            extraDynamicLibraries: [],
+            excludeSources: [],
+            ciPreBuildHook: nil,
+            flexibleVersions: false,
+            python: .default,
+            sourceryOverride: nil,
+            ciRunners: nil,
+            ciDependencyAuth: nil
+        )
+        codeGen.packageInfo = SwiftPackage(
+            dependencies: [
+                .fileSystem(identity: "fishyjoes", path: codeGen.packageRootPath),
+            ],
+            targets: []
+        )
+        XCTAssertTrue(fileManager.changeCurrentDirectoryPath(otherDirectory.path))
+
+        let replacements = try NodePhases(platform: .node, options: codeGen)
+            .generationPhaseTemplateReplacements()
+
+        XCTAssertEqual(
+            replacements["__NPM_DEPENDENCIES_macos__"],
+            #""@cricut/fishyjoes-runtime-native-macos": "file:../../../../../node-runtime/fishyjoes-runtime-native-macos""#
         )
     }
 

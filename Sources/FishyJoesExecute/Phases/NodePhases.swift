@@ -7,6 +7,7 @@ class NodePhases: BasePhases, Phases {
 
         // Possible TODO: should the `Platform` type be able to describe node-native on windows when building on a mac?
         for platform in ["macos", "ubuntu", "windows"] {
+            let packageOutputPath = nodePackageOutputPath(for: platform)
             let npmDependencies = [
                 (
                     swift: "FishyJoes",
@@ -28,12 +29,12 @@ class NodePhases: BasePhases, Phases {
                     if let editedPath = options.editedDependencyPaths[swiftDependency.identity.lowercased()] {
                         let localPath = relativePath(
                             of: editedPath,
-                            relativeTo: "bindings/ts/generated/packages/node-native-\(platform)"
+                            relativeTo: packageOutputPath
                         )
                         version = "file:\(localPath)/\(dependency.subPath)"
                     } else {
                         version = swiftDependency.versionInNpmFormat(
-                            relativeTo: "bindings/ts/generated/packages/node-native-\(platform)",
+                            relativeTo: packageOutputPath,
                             addIfLocalPath: dependency.subPath,
                             flexibleVersions: options.config.flexibleVersions
                         )
@@ -62,6 +63,13 @@ class NodePhases: BasePhases, Phases {
         }
 
         return replacements
+    }
+
+    private func nodePackageOutputPath(for platform: String) -> String {
+        URL(fileURLWithPath: options.packageRootPath, isDirectory: true)
+            .appendingPathComponent("bindings/ts/generated/packages/node-native-\(platform)")
+            .standardizedFileURL
+            .path
     }
 
     override func preBuildPhase() throws {
