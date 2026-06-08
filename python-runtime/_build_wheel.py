@@ -44,8 +44,8 @@ def iter_package_files(package_name: str, source_dir: Path):
 def runtime_config_with_version(data: bytes, version: str) -> bytes:
     source = data.decode("utf-8")
     updated, count = re.subn(
-        r'^FISHYJOES_RUNTIME_VERSION = "[^"]+"$',
-        f'FISHYJOES_RUNTIME_VERSION = "{version}"',
+        r'^(FISHYJOES_RUNTIME_VERSION = ")[^"]+(")(\r?)$',
+        rf"\g<1>{version}\g<2>\g<3>",
         source,
         count=1,
         flags=re.MULTILINE,

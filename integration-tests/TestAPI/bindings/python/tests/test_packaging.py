@@ -1,3 +1,4 @@
+import importlib.util
 import json
 import os
 import shutil
@@ -16,6 +17,15 @@ PYTHON_RUNTIME = REPO_ROOT / "python-runtime"
 GENERATED_PACKAGE = PYTHON_BINDINGS / "generated"
 DIST_DIR = PYTHON_BINDINGS / "dist"
 MACOS_DEPLOYMENT_TARGET = "13.0"
+
+
+def load_runtime_wheel_builder():
+    spec = importlib.util.spec_from_file_location("fishyjoes_runtime_build_wheel", PYTHON_RUNTIME / "_build_wheel.py")
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def native_library_name(name: str) -> str:
@@ -61,6 +71,17 @@ def assert_honest_macos_wheel_tag(
 
 
 class PackagingTests(unittest.TestCase):
+    def test_runtime_config_version_stamp_accepts_windows_line_endings(self) -> None:
+        builder = load_runtime_wheel_builder()
+        config = b'from __future__ import annotations\r\nFISHYJOES_RUNTIME_VERSION = "0.0.1"\r\n'
+
+        stamped = builder.runtime_config_with_version(config, "1.2.3")
+
+        self.assertEqual(
+            stamped,
+            b'from __future__ import annotations\r\nFISHYJOES_RUNTIME_VERSION = "1.2.3"\r\n',
+        )
+
     def test_generated_python_workflow_declares_release_compatibility_matrix(self) -> None:
         workflow = TEST_API_ROOT / ".github" / "workflows" / "GENERATED-python.yaml"
         self.assertTrue(workflow.is_file(), f"missing generated Python workflow at {workflow}")
