@@ -318,7 +318,12 @@ struct InstallSystemDependencies: ParsableCommand {
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
             try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
-            try cmd("swift", "run", "--package-path=\(tempDir)/mint", "mint", "install", "yonaskolb/mint").run()
+            try cmd("swift", "build", "--package-path=\(tempDir)/mint", "--configuration", "release", "--product", "mint").run()
+            try cmd("install", "-m", "0755", "\(tempDir)/mint/.build/release/mint", "/usr/local/bin/mint").run()
+            guard cmd("mint", "--version").runBool() else {
+                Log.error("Installed mint but it is not available on PATH")
+                throw InstallSystemDependencies.Error()
+            }
 
             #else
             Log.error("Installing mint not supported on this platform")
