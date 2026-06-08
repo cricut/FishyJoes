@@ -77,20 +77,20 @@ public struct FileTemplater {
             ciEnv["GITHUB_TOKEN"] = token
             ciEnv["NODE_AUTH_TOKEN"] = token
             ciEnv["NUGET_AUTH_TOKEN"] = token
-            let userAndToken: String
             if let user = config.ciDependencyAuth?.user {
                 ciEnv["GITHUB_USER"] = user
                 credentialUser = user
-                userAndToken = "\(user):\(token)"
             } else {
                 credentialUser = ""
-                userAndToken = token
             }
+            // setup-netrc writes ~/.netrc directly instead of mutating
+            // `git config credential.helper`, which accumulates stale values
+            // on persistent self-hosted runners and fails subsequent jobs with
+            // `cannot overwrite multiple values with a single value`.
             credentialStepLines = [
-                "- name: Setup git credentials",
-                "  uses: de-vri-es/setup-git-credentials@5dd446b3857806f44ea73acf83c193190a385d63  # v2.2.0",
+                "- uses: cricut/actions/.github/actions/setup-netrc@9316fb92c29e1903fb4188772540d9aff06e4cbb # v4.1.0",
                 "  with:",
-                "    credentials: https://\(userAndToken)@github.com/",
+                "    token: \(token)",
                 "",
             ]
         }
