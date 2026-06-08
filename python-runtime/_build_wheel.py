@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import contextlib
 import hashlib
 import json
 import os
@@ -70,6 +71,114 @@ def native_library_filename() -> str:
     raise RuntimeError(f"Unsupported Python binding platform: {system}")
 
 
+def _read_c_string(data: bytes, offset: int) -> str | None:
+    if offset < 0 or offset >= len(data):
+        return None
+    end = data.find(b"\0", offset)
+    if end == -1:
+        return None
+    with contextlib.suppress(UnicodeDecodeError):
+        return data[offset:end].decode("ascii")
+    return None
+
+
+def _pe_section_ranges(data: bytes) -> list[tuple[int, int, int]]:
+    if len(data) < 0x40 or data[:2] != b"MZ":
+        return []
+    pe_offset = int.from_bytes(data[0x3C:0x40], "little")
+    if pe_offset + 24 > len(data) or data[pe_offset:pe_offset + 4] != b"PE\0\0":
+        return []
+    coff_offset = pe_offset + 4
+    section_count = int.from_bytes(data[coff_offset + 2:coff_offset + 4], "little")
+    optional_header_size = int.from_bytes(data[coff_offset + 16:coff_offset + 18], "little")
+    section_table = coff_offset + 20 + optional_header_size
+    ranges: list[tuple[int, int, int]] = []
+    for index in range(section_count):
+        offset = section_table + index * 40
+        if offset + 40 > len(data):
+            break
+        virtual_size = int.from_bytes(data[offset + 8:offset + 12], "little")
+        virtual_address = int.from_bytes(data[offset + 12:offset + 16], "little")
+        raw_size = int.from_bytes(data[offset + 16:offset + 20], "little")
+        raw_pointer = int.from_bytes(data[offset + 20:offset + 24], "little")
+        size = max(virtual_size, raw_size)
+        if size > 0:
+            ranges.append((virtual_address, size, raw_pointer))
+    return ranges
+
+
+def _pe_rva_to_offset(ranges: list[tuple[int, int, int]], rva: int) -> int | None:
+    for virtual_address, size, raw_pointer in ranges:
+        if virtual_address <= rva < virtual_address + size:
+            return raw_pointer + (rva - virtual_address)
+    return None
+
+
+def windows_imported_dll_names(path: Path) -> set[str]:
+    data = path.read_bytes()
+    if len(data) < 0x40 or data[:2] != b"MZ":
+        return set()
+    pe_offset = int.from_bytes(data[0x3C:0x40], "little")
+    if pe_offset + 24 > len(data) or data[pe_offset:pe_offset + 4] != b"PE\0\0":
+        return set()
+
+    coff_offset = pe_offset + 4
+    optional_header_offset = coff_offset + 20
+    optional_header_size = int.from_bytes(data[coff_offset + 16:coff_offset + 18], "little")
+    if optional_header_offset + optional_header_size > len(data):
+        return set()
+    magic = int.from_bytes(data[optional_header_offset:optional_header_offset + 2], "little")
+    data_directory_offset = optional_header_offset + (112 if magic == 0x20B else 96 if magic == 0x10B else 0)
+    if data_directory_offset == optional_header_offset or data_directory_offset + 16 > len(data):
+        return set()
+
+    import_rva = int.from_bytes(data[data_directory_offset + 8:data_directory_offset + 12], "little")
+    if import_rva == 0:
+        return set()
+    section_ranges = _pe_section_ranges(data)
+    descriptor_offset = _pe_rva_to_offset(section_ranges, import_rva)
+    if descriptor_offset is None:
+        return set()
+
+    dlls: set[str] = set()
+    offset = descriptor_offset
+    while offset + 20 <= len(data):
+        descriptor = data[offset:offset + 20]
+        if descriptor == b"\0" * 20:
+            break
+        name_rva = int.from_bytes(descriptor[12:16], "little")
+        name_offset = _pe_rva_to_offset(section_ranges, name_rva)
+        if name_offset is not None:
+            name = _read_c_string(data, name_offset)
+            if name is not None:
+                dlls.add(name)
+        offset += 20
+    return dlls
+
+
+def windows_runtime_dependency_dlls(native_library: Path) -> list[Path]:
+    native_dir = native_library.parent
+    copied: dict[str, Path] = {native_library.name.lower(): native_library}
+    pending = [native_library]
+    while pending:
+        current = pending.pop()
+        for dll_name in sorted(windows_imported_dll_names(current), key=str.lower):
+            if dll_name.lower() in copied:
+                continue
+            candidate = native_dir / dll_name
+            if candidate.exists() and candidate.suffix.lower() == ".dll":
+                copied[dll_name.lower()] = candidate
+                pending.append(candidate)
+    return [path for name, path in sorted(copied.items()) if path != native_library]
+
+
+def native_library_files(native_library: Path) -> list[Path]:
+    files = [native_library]
+    if platform.system() == "Windows":
+        files.extend(windows_runtime_dependency_dlls(native_library))
+    return files
+
+
 def wheel_platform_tag() -> str:
     tag = sysconfig.get_platform()
     if platform.system() == "Darwin":
@@ -112,11 +221,9 @@ def build_wheel(
             if archive_path == Path(package_name) / "config.py":
                 data = runtime_config_with_version(data, version)
             write_bytes(archive, archive_path.as_posix(), data)
-        write_bytes(
-            archive,
-            (Path(package_name) / "native" / native_library_filename()).as_posix(),
-            native_library.read_bytes(),
-        )
+        for library_file in native_library_files(native_library):
+            archive_path = Path(package_name) / "native" / library_file.name
+            write_bytes(archive, archive_path.as_posix(), library_file.read_bytes())
 
         metadata = [
             "Metadata-Version: 2.3",
@@ -221,7 +328,15 @@ def repair_wheel(wheel_path: Path) -> Path:
         write_repair_report(wheel_path.parent, platform_name, report_lines)
         return repaired
     if system == "Windows":
-        report_lines.append(json.dumps({"dll": native_library_filename()}, sort_keys=True))
+        with zipfile.ZipFile(wheel_path) as archive:
+            dlls = [
+                Path(name).name
+                for name in archive.namelist()
+                if name.startswith("fishyjoes_runtime/native/") and name.lower().endswith(".dll")
+            ]
+        report_lines.append(
+            json.dumps({"dlls": sorted(dlls, key=str.lower)}, sort_keys=True)
+        )
         report_lines.append("repair=package-local DLL loading is validated by runtime import tests")
         write_repair_report(wheel_path.parent, platform_name, report_lines)
         return wheel_path

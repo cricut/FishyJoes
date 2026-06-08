@@ -82,6 +82,35 @@ class PackagingTests(unittest.TestCase):
             b'from __future__ import annotations\r\nFISHYJOES_RUNTIME_VERSION = "1.2.3"\r\n',
         )
 
+    def test_runtime_windows_wheel_bundles_imported_adjacent_dlls(self) -> None:
+        builder = load_runtime_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / "FishyJoesIotaRuntime.dll"
+            runtime_dependency = temp_path / "swiftCore.dll"
+            downstream_library = temp_path / "TestAPI.dll"
+            native.write_bytes(b"runtime")
+            runtime_dependency.write_bytes(b"swift")
+            downstream_library.write_bytes(b"downstream")
+
+            original_system = builder.platform.system
+            original_dependencies = builder.windows_runtime_dependency_dlls
+            builder.platform.system = lambda: "Windows"
+            builder.windows_runtime_dependency_dlls = lambda path: [runtime_dependency]
+            try:
+                wheel = builder.build_wheel(temp_path / "dist", native, version_override="1.2.3")
+            finally:
+                builder.platform.system = original_system
+                builder.windows_runtime_dependency_dlls = original_dependencies
+
+            with zipfile.ZipFile(wheel) as archive:
+                names = set(archive.namelist())
+
+        self.assertIn("fishyjoes_runtime/native/FishyJoesIotaRuntime.dll", names)
+        self.assertIn("fishyjoes_runtime/native/swiftCore.dll", names)
+        self.assertNotIn("fishyjoes_runtime/native/TestAPI.dll", names)
+
     def test_generated_python_workflow_declares_release_compatibility_matrix(self) -> None:
         workflow = TEST_API_ROOT / ".github" / "workflows" / "GENERATED-python.yaml"
         self.assertTrue(workflow.is_file(), f"missing generated Python workflow at {workflow}")
