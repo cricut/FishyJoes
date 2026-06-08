@@ -162,12 +162,17 @@ class DartPhases: IotaPhases, Phases {
     func testPhase() throws {
         // Use dart to execute the test suite
         try withDirectory("bindings/dart/generated") {
-            let env = options.codeCoveragePath.map {
-                [
-                    "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-                ]
-            } ?? [:]
-            try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+            let tempDirectory = "\(FileManager.default.currentDirectoryPath)/.dart_tool/fishyjoes-test-tmp"
+            try cmd("mkdir", "-p", tempDirectory).run()
+            var env = [
+                "TMPDIR": tempDirectory,
+                "TMP": tempDirectory,
+                "TEMP": tempDirectory,
+            ]
+            if let codeCoveragePath = options.codeCoveragePath {
+                env["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-test-\(platform)-\(UUID()).profraw"
+            }
+            try cmd("dart", "test", "--chain-stack-traces", "--concurrency=1", addEnv: env).run()
         }
     }
 
