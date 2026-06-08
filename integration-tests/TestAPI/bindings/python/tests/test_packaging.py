@@ -39,9 +39,10 @@ def native_library_name(name: str) -> str:
 
 
 def built_runtime_library() -> Path:
-    candidates = sorted((TEST_API_ROOT / ".build" / "bindings").glob(
-        f"*/release/{native_library_name('FishyJoesIotaRuntime')}"
-    ))
+    build_root = TEST_API_ROOT / ".build" / "bindings"
+    candidates = sorted(build_root.glob(f"*/release/{native_library_name('FishyJoesIotaRuntime')}"))
+    if not candidates:
+        candidates = sorted(build_root.glob(f"*/debug/{native_library_name('FishyJoesIotaRuntime')}"))
     if not candidates:
         raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
     return candidates[0]
@@ -316,6 +317,8 @@ class PackagingTests(unittest.TestCase):
             )
             self.assertEqual(install.returncode, 0, install.stdout)
 
+            import_env = os.environ.copy()
+            import_env["PYTHONPATH"] = target
             imported = subprocess.run(
                 [
                     sys.executable,
@@ -328,7 +331,7 @@ class PackagingTests(unittest.TestCase):
                         "assert testapi.Strings.simple == 'Hello'"
                     ),
                 ],
-                env={"PYTHONPATH": target},
+                env=import_env,
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,

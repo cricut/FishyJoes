@@ -347,15 +347,22 @@ struct InstallSystemDependencies: ParsableCommand {
     }
 
     func installMintBuildDependenciesOnLinux() throws {
-        guard !cmd("test", "-f", "/usr/include/sqlite3.h").runBool() else {
+        var packages = [String]()
+        if !cmd("test", "-f", "/usr/include/sqlite3.h").runBool() {
+            packages.append("libsqlite3-dev")
+        }
+        if (try? cmd("ldconfig", "-p").runString().contains("libncurses.so")) != true {
+            packages.append("libncurses-dev")
+        }
+        guard !packages.isEmpty else {
             return
         }
         guard cmd("apt-get", "--version").runBool() else {
-            Log.error("Mint generation dependencies require sqlite3.h, but apt-get is unavailable")
+            Log.error("Mint generation dependencies require \(packages.joined(separator: ", ")), but apt-get is unavailable")
             throw InstallSystemDependencies.Error()
         }
         try cmd("apt-get", "update").run()
-        try cmd("apt-get", "install", "-y", "libsqlite3-dev").run()
+        try cmd("apt-get", arguments: ["install", "-y"] + packages).run()
     }
 
     func checkIfMikeFarahYQInstalled() -> Bool {
