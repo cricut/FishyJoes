@@ -44,8 +44,7 @@ final class GeneratedPublicManifestTests: XCTestCase {
         var url = URL(fileURLWithPath: #filePath)
         while url.path != "/" {
             if FileManager.default.fileExists(atPath: url.appendingPathComponent("Package.swift").path),
-               FileManager.default.fileExists(atPath: url.appendingPathComponent("Examples/EmojiFun").path)
-            {
+               FileManager.default.fileExists(atPath: url.appendingPathComponent("Examples/EmojiFun").path) {
                 return url
             }
             url.deleteLastPathComponent()
