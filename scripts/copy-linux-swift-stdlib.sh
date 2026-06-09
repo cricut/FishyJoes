@@ -109,6 +109,7 @@ if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
     ubuntuRoots=(
         $runtimeLibraryPath/libFoundation.so
         $runtimeLibraryPath/libFoundationXML.so
+        $runtimeLibraryPath/libswiftSwiftOnoneSupport.so
         /usr/lib/x86_64-linux-gnu/libxml2.so.2
 
         # Uncomment this if networking is needed
