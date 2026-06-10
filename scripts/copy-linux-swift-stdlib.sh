@@ -111,6 +111,8 @@ if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
         $runtimeLibraryPath/libFoundationXML.so
         $runtimeLibraryPath/libswiftSwiftOnoneSupport.so
         /usr/lib/x86_64-linux-gnu/libxml2.so.2
+        /usr/lib/x86_64-linux-gnu/libicuuc.so.70
+        /usr/lib/x86_64-linux-gnu/libicudata.so.70
 
         # Uncomment this if networking is needed
         # $runtimeLibraryPath/libFoundationNetworking.so
@@ -125,6 +127,10 @@ if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
 
     libSearchPaths=($runtimeLibraryPath)
     copyLibrariesAndDependencies $platformDir $ubuntuRoots
+
+    patchelf --set-rpath '$ORIGIN' $platformDir/libxml2.so.2
+    patchelf --set-rpath '$ORIGIN' $platformDir/libicuuc.so.70
+
     cat $libListFile
 fi
 
