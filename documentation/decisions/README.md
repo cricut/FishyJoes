@@ -51,6 +51,7 @@ project rule, so that record intentionally does not consider alternatives.
 - [0010. Python Async Uses Explicit asyncio Loop Ownership](0010-python-async-uses-explicit-asyncio-loop-ownership.md)
 - [0011. Python Packages Version And Load Native Dependencies Explicitly](0011-python-packages-version-and-load-native-dependencies-explicitly.md)
 - [0012. Python UX Includes Typing And Diagnostics](0012-python-ux-includes-typing-and-diagnostics.md)
+- [0013. Python Docstrings Come From Translated Metadata](0013-python-docstrings-come-from-translated-metadata.md)
 
 ## Style
 
