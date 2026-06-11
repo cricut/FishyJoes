@@ -40,12 +40,20 @@ def native_library_name(name: str) -> str:
 
 def built_runtime_library() -> Path:
     build_root = TEST_API_ROOT / ".build" / "bindings"
-    candidates = sorted(build_root.glob(f"*/release/{native_library_name('FishyJoesIotaRuntime')}"))
-    if not candidates:
-        candidates = sorted(build_root.glob(f"*/debug/{native_library_name('FishyJoesIotaRuntime')}"))
-    if not candidates:
-        raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
-    return candidates[0]
+    library = native_library_name("FishyJoesIotaRuntime")
+    # Classic SwiftPM lays products out as <triple>/<configuration>/; the
+    # Swift Build system uses out/Products/<Configuration>/.
+    patterns = (
+        f"*/release/{library}",
+        f"out/Products/Release/{library}",
+        f"*/debug/{library}",
+        f"out/Products/Debug/{library}",
+    )
+    for pattern in patterns:
+        candidates = sorted(build_root.glob(pattern))
+        if candidates:
+            return candidates[0]
+    raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
 
 
 def wheel_build_env() -> dict[str, str]:

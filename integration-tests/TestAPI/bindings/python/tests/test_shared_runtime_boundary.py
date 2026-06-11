@@ -31,12 +31,20 @@ def native_library_name(name: str) -> str:
 
 def built_runtime_library() -> Path:
     bindings_build = REPO_ROOT / "integration-tests" / "TestAPI" / ".build" / "bindings"
-    candidates = sorted(bindings_build.glob(f"*/release/{native_library_name('FishyJoesIotaRuntime')}"))
-    if not candidates:
-        candidates = sorted(bindings_build.glob(f"*/debug/{native_library_name('FishyJoesIotaRuntime')}"))
-    if not candidates:
-        raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
-    return candidates[0]
+    library = native_library_name("FishyJoesIotaRuntime")
+    # Classic SwiftPM lays products out as <triple>/<configuration>/; the
+    # Swift Build system uses out/Products/<Configuration>/.
+    patterns = (
+        f"*/release/{library}",
+        f"out/Products/Release/{library}",
+        f"*/debug/{library}",
+        f"out/Products/Debug/{library}",
+    )
+    for pattern in patterns:
+        candidates = sorted(bindings_build.glob(pattern))
+        if candidates:
+            return candidates[0]
+    raise AssertionError("Missing built FishyJoesIotaRuntime library; run FishyJoes Python build first")
 
 
 def copy_built_runtime_library(native_dir: Path) -> None:
