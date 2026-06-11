@@ -123,7 +123,18 @@ public struct FileTemplater {
     }
 
     func installTemplate() throws {
-        let templateRoot = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
+        // SwiftPM's classic build system places the copied `Resources`
+        // directory's children at the bundle resource root; the Swift Build
+        // system (default on newer toolchains) preserves the `Resources`
+        // path component. Accept whichever layout this toolchain produced.
+        let resourceURL = Bundle.module.resourceURL!
+        let candidates = [
+            resourceURL.appendingPathComponent("bindings-template", isDirectory: true),
+            resourceURL.appendingPathComponent("Resources/bindings-template", isDirectory: true),
+        ]
+        guard let templateRoot = candidates.first(where: { FileManager.default.fileExists(atPath: $0.path) })?.path else {
+            fatalError("bindings-template resources not found in \(candidates.map(\.path))")
+        }
         try install(".", in: templateRoot, to: "bindings")
     }
 
