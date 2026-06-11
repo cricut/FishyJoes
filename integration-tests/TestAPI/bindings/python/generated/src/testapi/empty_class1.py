@@ -14,6 +14,7 @@ _fj___iota_get_TestAPI_EmptyClass_hash = _native.bind("__iota_get_TestAPI_EmptyC
 _fj___iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey = _native.bind("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey")
 
 class EmptyClass1(_native.SwiftReference):
+    """A reference type with playful members for binding coverage."""
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.EmptyClass",
         "blarg": "TestAPI.EmptyClass.blarg",
@@ -25,6 +26,7 @@ class EmptyClass1(_native.SwiftReference):
 
     @property
     def blarg(self):
+        """A cheerful nonsense string."""
         return _native.call(_fj___iota_get_TestAPI_EmptyClass_blarg, args=[self._iota_ref], return_conversion=_native.STRING)
     @property
     def wibbledy_wobbledy_timey_whimey(self):
@@ -36,6 +38,7 @@ class EmptyClass1(_native.SwiftReference):
     def gorpers(self):
         return _native.call(_fj___iota_TestAPI_EmptyClass_Gorpers, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     def shme(self):
+        """Returns a short pirate greeting."""
         return _native.call(_fj___iota_TestAPI_EmptyClass_shme, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     def __eq__(self, other):
         if not isinstance(other, EmptyClass1):

@@ -16,6 +16,7 @@ _fj___iota_get_TestAPI_Strings_script = _native.bind("__iota_get_TestAPI_Strings
 _fj___iota_get_TestAPI_Strings_simple = _native.bind("__iota_get_TestAPI_Strings_simple")
 
 class Strings:
+    """Sample strings and string operations for Unicode round-trips."""
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.Strings",
         "accent": "TestAPI.Strings.accent",
@@ -41,7 +42,11 @@ class Strings:
 
     @staticmethod
     def echo(string):
+        """Returns the given string unchanged."""
         return _native.call(_fj___iota_TestAPI_Strings_echo, args=[string], arg_conversions=[_native.STRING], return_conversion=_native.STRING)
     @staticmethod
     def split(string, by):
+        """Splits the string on each occurrence of the separator.
+        Returns the pieces in order without the separator.
+        """
         return _native.call(_fj___iota_TestAPI_Strings_split, args=[string, by], arg_conversions=[_native.STRING, _native.STRING], return_conversion=_native.Array("ArrayConverter<Swift.String>", _native.STRING))

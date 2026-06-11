@@ -23,6 +23,7 @@ class _SimpleEnumMeta(enum.EnumMeta):
         _native.call(_fj___iota_set_TestAPI_SimpleEnum_favoriteColor, args=[value], arg_conversions=[_native.ValueType("SimpleEnum")])
 
 class SimpleEnum(enum.Enum, metaclass=_SimpleEnumMeta):
+    """This is an enum with no associated values"""
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.SimpleEnum",
         "favorite_color": "TestAPI.SimpleEnum.favoriteColor",

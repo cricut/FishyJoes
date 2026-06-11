@@ -3887,6 +3887,7 @@
               }
             },
             "documentation" : [
+              "A reference type with playful members for binding coverage.",
               "<!-- FishyJoes.exportReference(EmptyClass1) -->"
             ],
             "extends" : [
@@ -3895,6 +3896,7 @@
             "fields" : [
               {
                 "documentation" : [
+                  "A cheerful nonsense string.",
                   "<!-- FishyJoes.export(blarg) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -3945,6 +3947,7 @@
               },
               {
                 "documentation" : [
+                  "Returns a short pirate greeting.",
                   "<!-- FishyJoes.export(shme) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -11181,6 +11184,7 @@
             "methods" : [
               {
                 "documentation" : [
+                  "An old greeting kept only for deprecation coverage.",
                   "<!-- FishyJoes.export(deprecatedMethod) -->",
                   "@deprecated don't use this"
                 ],
@@ -15265,6 +15269,7 @@
               },
               {
                 "documentation" : [
+                  "A simple ASCII greeting.",
                   "<!-- FishyJoes.export(simple) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -15284,6 +15289,7 @@
             "methods" : [
               {
                 "documentation" : [
+                  "Returns the given string unchanged.",
                   "<!-- FishyJoes.export(echo) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -15308,6 +15314,8 @@
               },
               {
                 "documentation" : [
+                  "Splits the string on each occurrence of the separator.",
+                  "Returns the pieces in order without the separator.",
                   "<!-- FishyJoes.export(split) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -15371,6 +15379,7 @@
                   }
                 },
                 "documentation" : [
+                  "A plain value type with one immutable and one mutable field.",
                   "<!-- FishyJoes.export(Structs.MemberwiseStruct) -->"
                 ],
                 "extends" : [
@@ -17089,6 +17098,7 @@
           },
           {
             "documentation" : [
+              "Sample strings and string operations for Unicode round-trips.",
               "<!-- FishyJoes.export(Strings) -->"
             ],
             "name" : "Strings",

@@ -21,6 +21,7 @@ class AssociatedDataEnum:
 
     @classmethod
     def thing(cls, value):
+        """Documentation about thing"""
         return AssociatedDataEnum_Thing(value)
 
     @classmethod
@@ -29,10 +30,12 @@ class AssociatedDataEnum:
 
     @classmethod
     def bar(cls, named, m_1, toggled):
+        """Documentation about bar"""
         return AssociatedDataEnum_Bar(named, m_1, toggled)
 
     @classmethod
     def no_value(cls):
+        """Documentation about noValue"""
         return AssociatedDataEnum_NoValue()
 
     @classmethod
@@ -53,6 +56,7 @@ class AssociatedDataEnum:
 
 @dataclass(frozen=True)
 class AssociatedDataEnum_Thing(AssociatedDataEnum):
+    """Documentation about thing"""
     value: object
 
 @dataclass(frozen=True)
@@ -62,12 +66,14 @@ class AssociatedDataEnum_Other(AssociatedDataEnum):
 
 @dataclass(frozen=True)
 class AssociatedDataEnum_Bar(AssociatedDataEnum):
+    """Documentation about bar"""
     named: object
     m_1: object
     toggled: object
 
 @dataclass(frozen=True)
 class AssociatedDataEnum_NoValue(AssociatedDataEnum):
+    """Documentation about noValue"""
     pass
 
 @dataclass(frozen=True)

@@ -12,6 +12,7 @@ _fj___iota_TestAPI_Structs_MemberwiseStruct_create = _native.bind("__iota_TestAP
 
 @dataclass(unsafe_hash=True)
 class Structs_MemberwiseStruct:
+    """A plain value type with one immutable and one mutable field."""
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.Structs.MemberwiseStruct",
         "async_get_mutable": "TestAPI.Structs.MemberwiseStruct.asyncGetMutable",

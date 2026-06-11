@@ -5,10 +5,12 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
+ * A reference type with playful members for binding coverage.
  * <!-- FishyJoes.exportReference(EmptyClass1) -->
  */
 class EmptyClass1 private constructor(_swiftReference: Long): com.cricut.fishyjoes.runtime.SwiftReference(_swiftReference) {
     /**
+     * A cheerful nonsense string.
      * <!-- FishyJoes.export(blarg) -->
      */
     val blarg: kotlin.String
@@ -25,6 +27,7 @@ class EmptyClass1 private constructor(_swiftReference: Long): com.cricut.fishyjo
     private external fun __jni_get_wibbledyWobbledyTimeyWhimey(): kotlin.String
 
     /**
+     * Returns a short pirate greeting.
      * <!-- FishyJoes.export(shme) -->
      */
     fun shme(

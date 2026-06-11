@@ -70,6 +70,7 @@ final class PythonTranslator: Translator {
         let conversion: String
         let pythonType: PythonType
         let isMutable: Bool
+        let documentation: [String]
     }
 
     struct NativeEnumCase {
@@ -77,6 +78,7 @@ final class PythonTranslator: Translator {
         let cName: String
         let className: String
         var values: [NativeEnumCaseValue]
+        let documentation: [String]
     }
 
     struct NativeEnumCaseValue {
@@ -99,6 +101,7 @@ final class PythonTranslator: Translator {
         let pythonReturnType: PythonType
         let deprecationMessage: String?
         let originName: String
+        let documentation: [String]
     }
 
     struct NativeParameter {
@@ -132,6 +135,7 @@ final class PythonTranslator: Translator {
         let pythonReturnType: PythonType
         let deprecationMessage: String?
         let originName: String
+        let documentation: [String]
     }
 
     struct PythonClass {
@@ -148,6 +152,7 @@ final class PythonTranslator: Translator {
         let enumCases: [NativeEnumCase]
         let fields: [NativeField]
         let methods: [NativeMethod]
+        let documentation: [String]
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
@@ -333,6 +338,12 @@ final class PythonTranslator: Translator {
         return fragments
     }
 
+    private func outputDocstring(_ documentation: [String], into fragment: SourceFragment) {
+        for line in PythonDocstring.lines(documentation) {
+            fragment.output(line)
+        }
+    }
+
     private func classFragment(_ pythonClass: PythonClass) -> SourceFragment {
         let fragment = SourceFragment(destinationPath: "python/generated/src/\(pythonClass.fileName)")
         let isAssociatedEnum = hasAssociatedValues(pythonClass)
@@ -408,6 +419,7 @@ final class PythonTranslator: Translator {
                     fragment.output("@property")
                     fragment.output("def \(field.pythonName)(cls):")
                     fragment.indent {
+                        outputDocstring(field.documentation, into: fragment)
                         if let deprecationMessage = field.deprecationMessage {
                             fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
                         }
@@ -436,6 +448,7 @@ final class PythonTranslator: Translator {
         }
         fragment.output("class \(pythonClass.className)\(classHeaderBases):")
         fragment.indent {
+            outputDocstring(pythonClass.documentation, into: fragment)
             let origins = ([("__type__", pythonClass.originName)] +
                 pythonClass.fields.map { ($0.pythonName, $0.originName) } +
                 pythonClass.methods.map { ($0.pythonName, $0.originName) })
@@ -464,6 +477,7 @@ final class PythonTranslator: Translator {
                     let allSignatureParams = signature.isEmpty ? "cls" : "cls, \(signature)"
                     fragment.output("def \(enumCase.pythonName)(\(allSignatureParams)):")
                     fragment.indent {
+                        outputDocstring(enumCase.documentation, into: fragment)
                         let args = enumCase.values.map(\.pythonName).joined(separator: ", ")
                         fragment.output("return \(enumCase.className)(\(args))")
                     }
@@ -498,6 +512,7 @@ final class PythonTranslator: Translator {
                             fragment.output("@staticmethod")
                             fragment.output("def \(field.pythonName)():")
                             fragment.indent {
+                                outputDocstring(field.documentation, into: fragment)
                                 if let deprecationMessage = field.deprecationMessage {
                                     fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
                                 }
@@ -520,6 +535,7 @@ final class PythonTranslator: Translator {
                         }
                         fragment.output("def \(field.pythonName)(self):")
                         fragment.indent {
+                            outputDocstring(field.documentation, into: fragment)
                             if let deprecationMessage = field.deprecationMessage {
                                 fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
                             }
@@ -573,6 +589,7 @@ final class PythonTranslator: Translator {
                     let allSignatureParams = method.isStatic ? signatureParams : (signatureParams.isEmpty ? "self" : "self, \(signatureParams)")
                     fragment.output("def \(method.pythonName)(\(allSignatureParams)):")
                     fragment.indent {
+                        outputDocstring(method.documentation, into: fragment)
                         if let deprecationMessage = method.deprecationMessage {
                             fragment.output("_native.warn_deprecated(\"\(deprecationMessage)\")")
                         }
@@ -617,6 +634,7 @@ final class PythonTranslator: Translator {
                 fragment.output("@dataclass(frozen=True)")
                 fragment.output("class \(enumCase.className)(\(pythonClass.className)):")
                 fragment.indent {
+                    outputDocstring(enumCase.documentation, into: fragment)
                     if enumCase.values.isEmpty {
                         fragment.output("pass")
                     } else {
@@ -873,12 +891,14 @@ final class PythonTranslator: Translator {
         let isValueHashable: Bool
         let storedFields: [NativeStoredField]
         let enumCases: [NativeEnumCase]
+        let typeDocumentation: [String]
 
         switch type {
         case let translatedEnum as TranslatedEnum:
             className = pythonClassName(translatedEnum.nodeName)
             fields = translatedEnum.fields
             methods = translatedEnum.methods
+            typeDocumentation = translatedEnum.documentation
             setupKind = translatedEnum.isInhabited ? "enum" : nil
             equalsSymbol = nil
             hashSymbol = nil
@@ -910,7 +930,8 @@ final class PythonTranslator: Translator {
                     pythonName: enumCase.name,
                     cName: enumCase.name.mangled,
                     className: "\(className)_\(upperCaseFirst(enumCase.name))",
-                    values: values
+                    values: values,
+                    documentation: enumCase.documentation
                 )
             }
             guard enumCases.count == translatedEnum.cases.count else {
@@ -920,6 +941,7 @@ final class PythonTranslator: Translator {
             className = pythonClassName(translatedStruct.nodeName)
             fields = translatedStruct.computedVariables
             methods = translatedStruct.methods
+            typeDocumentation = translatedStruct.documentation
             let translatedFields = translatedStruct.storedVariables.compactMap { nativeStoredField($0, context: context) }
             guard translatedFields.count == translatedStruct.storedVariables.count else {
                 return nil
@@ -934,6 +956,7 @@ final class PythonTranslator: Translator {
             className = pythonClassName(translatedReference.nodeName)
             fields = translatedReference.computedVariables
             methods = translatedReference.methods
+            typeDocumentation = translatedReference.documentation
             setupKind = "reference"
             equalsSymbol = translatedReference.equatable ? "__iota_\(translatedReference.sourceType.name.mangled)_equals" : nil
             hashSymbol = translatedReference.hashable ? "__iota_get_\(translatedReference.sourceType.name.mangled)_hash" : nil
@@ -947,6 +970,7 @@ final class PythonTranslator: Translator {
             className = pythonClassName(translatedProtocol.nodeName)
             fields = translatedProtocol.fields
             methods = translatedProtocol.methods
+            typeDocumentation = translatedProtocol.documentation
             setupKind = "protocol"
             equalsSymbol = nil
             hashSymbol = nil
@@ -986,7 +1010,8 @@ final class PythonTranslator: Translator {
             storedFields: finalStoredFields,
             enumCases: finalEnumCases,
             fields: nativeFields,
-            methods: nativeMethods
+            methods: nativeMethods,
+            documentation: typeDocumentation
         )
     }
 
@@ -1002,7 +1027,8 @@ final class PythonTranslator: Translator {
             cType: nativeType.cType,
             conversion: conversion,
             pythonType: nativeType.pythonType,
-            isMutable: field.isMutable
+            isMutable: field.isMutable,
+            documentation: field.documentation
         )
     }
 
@@ -1039,7 +1065,8 @@ final class PythonTranslator: Translator {
             returnConversion: returnType.conversion,
             pythonReturnType: returnType.pythonType,
             deprecationMessage: field.deprecation?.quotedMessage,
-            originName: "\(sourceName).\(exportAnnotation.name)"
+            originName: "\(sourceName).\(exportAnnotation.name)",
+            documentation: field.documentation
         )
     }
 
@@ -1096,7 +1123,8 @@ final class PythonTranslator: Translator {
             returnConversion: returnType.conversion,
             pythonReturnType: returnType.pythonType,
             deprecationMessage: method.deprecation?.quotedMessage,
-            originName: "\(sourceName).\(method.exportAnnotation.name)"
+            originName: "\(sourceName).\(method.exportAnnotation.name)",
+            documentation: method.documentation
         )
     }
 

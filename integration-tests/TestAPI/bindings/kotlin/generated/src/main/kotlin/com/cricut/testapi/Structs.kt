@@ -133,6 +133,7 @@ sealed class Structs {
     }
 
     /**
+     * A plain value type with one immutable and one mutable field.
      * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
      */
     data class MemberwiseStruct(

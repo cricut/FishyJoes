@@ -7,6 +7,7 @@
 
 /// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
+    /// A plain value type with one immutable and one mutable field.
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"

@@ -18,5 +18,6 @@ class Deprecations:
 
     @staticmethod
     def deprecated_method():
+        """An old greeting kept only for deprecation coverage."""
         _native.warn_deprecated("don't use this")
         return _native.call(_fj___iota_TestAPI_Deprecations_deprecatedMethod, args=[], arg_conversions=[], return_conversion=_native.STRING)

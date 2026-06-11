@@ -873,6 +873,7 @@ export declare namespace TestAPI {
     export type Deprecations = never;
     export namespace Deprecations {
         /**
+         * An old greeting kept only for deprecation coverage.
          * <!-- FishyJoes.export(deprecatedMethod) -->
          * @deprecated don't use this
          */
@@ -887,6 +888,7 @@ export declare namespace TestAPI {
     }
 
     /**
+     * A reference type with playful members for binding coverage.
      * <!-- FishyJoes.exportReference(EmptyClass1) -->
      */
     export class EmptyClass1 {
@@ -894,6 +896,7 @@ export declare namespace TestAPI {
         private _inhibitStructuralTyping: any
 
         /**
+         * A cheerful nonsense string.
          * <!-- FishyJoes.export(blarg) -->
          */
         readonly blarg: string;
@@ -910,6 +913,7 @@ export declare namespace TestAPI {
         ): TestAPI.EmptyClass1;
 
         /**
+         * Returns a short pirate greeting.
          * <!-- FishyJoes.export(shme) -->
          */
         shme(
@@ -2565,6 +2569,7 @@ export declare namespace TestAPI {
     }
 
     /**
+     * Sample strings and string operations for Unicode round-trips.
      * <!-- FishyJoes.export(Strings) -->
      */
     export type Strings = never;
@@ -2590,6 +2595,7 @@ export declare namespace TestAPI {
         const chineseSIP: string;
 
         /**
+         * Returns the given string unchanged.
          * <!-- FishyJoes.export(echo) -->
          */
         function echo(
@@ -2612,11 +2618,14 @@ export declare namespace TestAPI {
         const script: string;
 
         /**
+         * A simple ASCII greeting.
          * <!-- FishyJoes.export(simple) -->
          */
         const simple: string;
 
         /**
+         * Splits the string on each occurrence of the separator.
+         * Returns the pieces in order without the separator.
          * <!-- FishyJoes.export(split) -->
          */
         function split(
@@ -2631,6 +2640,7 @@ export declare namespace TestAPI {
     export type Structs = never;
     export namespace Structs {
         /**
+         * A plain value type with one immutable and one mutable field.
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
          */
         export class MemberwiseStruct {
