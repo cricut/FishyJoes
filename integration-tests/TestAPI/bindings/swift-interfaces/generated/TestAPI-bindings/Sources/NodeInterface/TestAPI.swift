@@ -2624,6 +2624,37 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                (
+                    name: "echoDefaultIntLimits",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultIntLimits", expectedArgumentCount: 0, hasNamedOptions: true) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.DefaultArguments.echoDefaultIntLimits(
+                                    minValue: try env.argument(named: "minValue", default: .min, converter: Swift.Int.self),
+                                    maxValue: try env.argument(named: "maxValue", default: .max, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "echoExplicitIntMax",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoExplicitIntMax", expectedArgumentCount: 0, hasNamedOptions: true) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.DefaultArguments.echoExplicitIntMax(
+                                    value: try env.argument(named: "value", default: Int.max, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

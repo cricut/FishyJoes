@@ -21,6 +21,10 @@ class CSharpClass: NestedClass {
         let returnType: CSType
         let deprecation: Deprecation?
         let body: [String]?
+        // Parameters whose Swift default value depends on the platform word width (e.g. `Int.max`),
+        // which C# can't express as a default constant. They become nullable with a `null` default,
+        // resolved against an `__iota_..._default_<name>` provider when omitted.
+        var runtimeDefaultedParameters: Set<String> = []
     }
 
     struct Variable: Equatable {
@@ -204,7 +208,8 @@ class CSharpClass: NestedClass {
                 fragment.outputMap(parameters, separator: ",") { parameter in
                     let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
                     let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                    return "\(parameter.type.name) \(labelComment)\(CSharpClass.deforbidify(parameter.name))\(defaultValue)"
+                    let nullableMark = method.runtimeDefaultedParameters.contains(parameter.name) ? "?" : ""
+                    return "\(parameter.type.name)\(nullableMark) \(labelComment)\(CSharpClass.deforbidify(parameter.name))\(defaultValue)"
                 }
             }
             fragment.outputBlock(" {") {
@@ -221,6 +226,9 @@ class CSharpClass: NestedClass {
                         if param.type.isObject {
                             fragment.output("using var _\(param.name)Handle = new GCRef(\(CSharpClass.deforbidify(param.name)));")
                             paramStrings.append("_\(param.name)Handle.ptr")
+                        } else if method.runtimeDefaultedParameters.contains(param.name) {
+                            fragment.output("\(param.type.name) _\(param.name) = \(CSharpClass.deforbidify(param.name)) ?? Check((out CreatedRef _exn) => __iota_\(method.mangledName)_default_\(param.name)(Loader.env, out _exn));")
+                            paramStrings.append("_\(param.name)")
                         } else {
                             paramStrings.append("\(CSharpClass.deforbidify(param.name))")
                         }
@@ -252,6 +260,13 @@ class CSharpClass: NestedClass {
                     fragment.output("\(parameter.type.pInvokeUnownedName) \(CSharpClass.deforbidify(parameter.name)),")
                 }
                 fragment.output("out CreatedRef exn")
+            }
+            for parameter in method.parameters where method.runtimeDefaultedParameters.contains(parameter.name) {
+                fragment.blankLine()
+                fragment.output(module.dllImportMark)
+                let created = parameter.type.pInvokeCreatedName
+                created.outputReturnMark(to: fragment)
+                fragment.output("private static extern \(created.name) __iota_\(method.mangledName)_default_\(parameter.name)(IntPtr envRef, out CreatedRef exn);")
             }
         }
         fragment.blankLine()

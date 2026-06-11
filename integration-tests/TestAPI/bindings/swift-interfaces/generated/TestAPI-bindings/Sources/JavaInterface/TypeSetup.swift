@@ -1054,9 +1054,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.DefaultArguments.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_echoDefaultIntLimits"),
+                signature: bag.add("(JJ)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultIntLimits, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_echoDefaults"),
                 signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaults, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoExplicitIntMax"),
+                signature: bag.add("(J)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoExplicitIntMax, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Deprecations...")

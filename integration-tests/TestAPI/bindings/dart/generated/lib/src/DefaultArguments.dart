@@ -38,6 +38,29 @@ class DefaultArguments {
         )
     ;
 
+    /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
+    static String echoDefaultIntLimits(
+        int minValue,
+        int maxValue,
+    ) =>
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits(Loader.shared.env, minValue, maxValue, _exn)))
+    ;
+
+    /// <!-- FishyJoes.export(echoExplicitIntMax) -->
+    static String echoExplicitIntMax(
+        {
+            int value = 9223372036854775807,
+        }
+    ) =>
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoExplicitIntMax(Loader.shared.env, value, _exn)))
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        int minValue,
+        int maxValue,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits;
     static late CreatedRef Function(
         Env env,
         UnownedRef y,
@@ -45,4 +68,9 @@ class DefaultArguments {
         double z,
         OutCreatedRef _exn
     ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    static late CreatedRef Function(
+        Env env,
+        int value,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_echoExplicitIntMax;
 }

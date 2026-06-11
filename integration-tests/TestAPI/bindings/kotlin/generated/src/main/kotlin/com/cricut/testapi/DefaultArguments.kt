@@ -34,6 +34,32 @@ sealed class DefaultArguments {
             z: Double
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
+         */
+        fun echoDefaultIntLimits(
+            minValue: Long,
+            maxValue: Long
+        ): kotlin.String = __jni_echoDefaultIntLimits(minValue, maxValue)
+        @JvmStatic
+        @JvmName("__jni_echoDefaultIntLimits")
+        private external fun __jni_echoDefaultIntLimits(
+            minValue: Long,
+            maxValue: Long
+        ): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(echoExplicitIntMax) -->
+         */
+        fun echoExplicitIntMax(
+            value: Long = 9223372036854775807
+        ): kotlin.String = __jni_echoExplicitIntMax(value)
+        @JvmStatic
+        @JvmName("__jni_echoExplicitIntMax")
+        private external fun __jni_echoExplicitIntMax(
+            value: Long
+        ): kotlin.String
+
         init { loadNativeLibs() }
     }
 }

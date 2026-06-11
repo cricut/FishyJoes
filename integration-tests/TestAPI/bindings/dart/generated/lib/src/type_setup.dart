@@ -2217,6 +2217,20 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Collections_echoSetOfInt");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr minValue,
+            ffi.IntPtr maxValue,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int minValue,
+            int maxValue,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_echoDefaultIntLimits");
     TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaults = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2233,6 +2247,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_DefaultArguments_echoDefaults");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoExplicitIntMax = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int value,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_echoExplicitIntMax");
     TestAPI.Deprecations.f__iota_TestAPI_Deprecations_deprecatedMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

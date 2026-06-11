@@ -38,4 +38,11 @@ internal class DefaultArgumentsTests {
         assertEquals("1 52 42.0", method2.invoke(DefaultArguments.Companion, 1L, 42.0))
         assertEquals("1 2 4.8", method3.invoke(DefaultArguments.Companion, 2L, 1L, 4.8))
     }
+
+    @Test
+    fun testExplicitIntMaxDefault() {
+        // Kotlin maps Swift Int to Long, which matches Int.max on 64-bit platforms
+        assertEquals(Long.MAX_VALUE.toString(), DefaultArguments.echoExplicitIntMax())
+        assertEquals("7", DefaultArguments.echoExplicitIntMax(value = 7))
+    }
 }

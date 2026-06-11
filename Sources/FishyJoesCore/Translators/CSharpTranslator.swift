@@ -86,6 +86,7 @@ final class CSharpTranslator: Translator {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
         var parameters: [(labelComment: String?, name: String, type: CSharpClass.CSType, defaultValue: String?)] = []
+        var runtimeDefaultedParameters: Set<String> = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -99,7 +100,16 @@ final class CSharpTranslator: Translator {
             }
             var defaultValue: String?
             if let swiftDefaultValue = parameter.defaultValue {
-                if let cSharpDefaultValue = cSharp(value: swiftDefaultValue) {
+                if resolved is TranslatedPrimitive || resolved is TranslatedUnsignedPrimitive,
+                   SwiftDefaultExpression.isPlatformWidthIntegerLimit(
+                       swiftDefaultValue,
+                       parameterTypeName: resolved.sourceType.nonNamespacedName
+                   ) {
+                    // The value (e.g. `Int.max`) varies with the platform word width, so it can't
+                    // be a C# default constant on `nint`/`nuint`. Fetch it from the iota library.
+                    defaultValue = "null"
+                    runtimeDefaultedParameters.insert(parameter.name)
+                } else if let cSharpDefaultValue = cSharp(value: swiftDefaultValue) {
                     defaultValue = cSharpDefaultValue
                 } else {
                     context.warnMissingDefault(parameter: parameter, in: method)
@@ -120,7 +130,8 @@ final class CSharpTranslator: Translator {
                 parameters: parameters,
                 returnType: method.isAsync ? .task(returnType) : returnType,
                 deprecation: method.deprecation,
-                body: nil
+                body: nil,
+                runtimeDefaultedParameters: runtimeDefaultedParameters
             )
         )
     }

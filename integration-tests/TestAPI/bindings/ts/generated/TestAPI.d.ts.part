@@ -815,6 +815,16 @@ export declare namespace TestAPI {
     export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
+         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
+         */
+        function echoDefaultIntLimits(
+            options?: {
+                "minValue"?: number /* defaults to `.min` */,
+                "maxValue"?: number /* defaults to `.max` */,
+            }
+        ): string;
+
+        /**
          * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
         function echoDefaults(
@@ -822,6 +832,15 @@ export declare namespace TestAPI {
             options?: {
                 "y"?: Optional<number> /* defaults to `nil` */,
                 "theLabelForZ"?: number /* defaults to `3.14` */,
+            }
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoExplicitIntMax) -->
+         */
+        function echoExplicitIntMax(
+            options?: {
+                "value"?: number /* defaults to `Int.max` */,
             }
         ): string;
     }
