@@ -1,0 +1,280 @@
+---
+name: "Python Bindings"
+
+"on":
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: python-bindings-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  FISHYJOES: 1
+  MACOSX_DEPLOYMENT_TARGET: "13.0"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_CACHE_DIR: "1"
+
+jobs:
+  python-bindings-macos:
+    name: "macOS Python ${{ matrix.python-version }}: build, test, pack"
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.11"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          yq --version || brew install yq
+          mint --version || brew install mint
+
+      - name: Build, test, and pack Python wheel
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          swift run -- fishy-joes --python --fat generate build test pack
+
+      - name: Build FishyJoes Python runtime wheel
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
+          runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
+          if [[ -z "$runtime_native_library" ]]; then
+            echo "Could not locate FishyJoesIotaRuntime native library"
+            exit 1
+          fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+
+      - name: Verify clean wheel install
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          python -m venv bindings/python/.wheel-test-venv
+          venv_python="bindings/python/.wheel-test-venv/bin/python"
+          "$venv_python" -m pip install --upgrade pip
+          "$venv_python" -m pip install cffi packaging
+          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+
+      - name: Verify native wheel repair
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -f integration-tests/TestAPI/bindings/python/dist/native-repair-report-darwin.txt
+          cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-darwin.txt
+
+      - name: Upload wheel artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-macos-${{ matrix.python-version }}-wheels
+          path: integration-tests/TestAPI/bindings/python/dist/*
+          if-no-files-found: error
+
+  python-bindings-linux:
+    name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
+    runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/cricut/android-swift-runtime:4.0.2
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.11"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install generation tools
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          swift run fishy-joes install-system-dependencies for-generation
+
+      - name: Build, test, and pack Python wheel
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          swift run -- fishy-joes --python generate build test pack
+
+      - name: Build FishyJoes Python runtime wheel
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
+          runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
+          if [[ -z "$runtime_native_library" ]]; then
+            echo "Could not locate FishyJoesIotaRuntime native library"
+            exit 1
+          fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+
+      - name: Verify clean wheel install
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          python -m venv bindings/python/.wheel-test-venv
+          venv_python="bindings/python/.wheel-test-venv/bin/python"
+          "$venv_python" -m pip install --upgrade pip
+          "$venv_python" -m pip install cffi packaging
+          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+
+      - name: Verify native wheel repair
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -f integration-tests/TestAPI/bindings/python/dist/native-repair-report-linux.txt
+          cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-linux.txt
+
+      - name: Upload wheel artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-linux-${{ matrix.python-version }}-wheels
+          path: integration-tests/TestAPI/bindings/python/dist/*
+          if-no-files-found: error
+
+  python-bindings-windows:
+    name: "Windows Python ${{ matrix.python-version }}: build, test, pack"
+    runs-on: windows-2025
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.11"
+    steps:
+      - name: Configure git and vcpkg
+        shell: pwsh
+        run: |
+          git config --system core.longpaths true
+          echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - uses: compnerd/gha-setup-swift@main
+        with:
+          branch: swift-6.2-release
+          tag: 6.2-RELEASE
+
+      - name: Pre-resolve required SwiftPM packages
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'SilentlyContinue'
+          swift package resolve
+          swift package resolve
+          swift package resolve
+          echo SWIFT_WINDOWS_BASH="../../scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+
+      - name: Build, test, and pack Python wheel
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack
+
+      - name: Build FishyJoes Python runtime wheel
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if [[ -x integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe ]]; then
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/Scripts/python.exe"
+          else
+            venv_python="integration-tests/TestAPI/bindings/python/.venv/bin/python"
+          fi
+          runtime_native_library="$(find integration-tests/TestAPI/.build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
+          if [[ -z "$runtime_native_library" ]]; then
+            echo "Could not locate FishyJoesIotaRuntime native library"
+            exit 1
+          fi
+          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
+
+      - name: Verify clean wheel install
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd integration-tests/TestAPI
+          python -m venv bindings/python/.wheel-test-venv
+          if [[ -x bindings/python/.wheel-test-venv/Scripts/python.exe ]]; then
+            venv_python="bindings/python/.wheel-test-venv/Scripts/python.exe"
+          else
+            venv_python="bindings/python/.wheel-test-venv/bin/python"
+          fi
+          "$venv_python" -m pip install --upgrade pip
+          "$venv_python" -m pip install cffi packaging
+          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
+          # Wheel already clean-installed above (--no-index, runtime deps only); install
+          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+
+      - name: Verify native wheel repair
+        shell: bash
+        run: |
+          set -euxo pipefail
+          test -f integration-tests/TestAPI/bindings/python/dist/native-repair-report-windows.txt
+          cat integration-tests/TestAPI/bindings/python/dist/native-repair-report-windows.txt
+
+      - name: Upload wheel artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: python-windows-${{ matrix.python-version }}-wheels
+          path: integration-tests/TestAPI/bindings/python/dist/*
+          if-no-files-found: error

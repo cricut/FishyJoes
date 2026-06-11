@@ -70,10 +70,11 @@ class EmptyClass1 extends SwiftReference {
     bool operator ==(
         Object other,
     ) =>
-        other is TestAPI.EmptyClass1 &&
-        GCRef.using(this, (thisHandle) =>
-            GCRef.using(other, (otherHandle) =>
-                check((exn) => f__iota_TestAPI_EmptyClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+        identical(other, this) ||
+        (other is TestAPI.EmptyClass1 &&
+            GCRef.using(this, (thisHandle) =>
+                GCRef.using(other, (otherHandle) =>
+                    check((exn) => f__iota_TestAPI_EmptyClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))
     ;
 
     static late CreatedRef Function(

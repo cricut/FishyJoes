@@ -201,3 +201,16 @@ public struct EmptyStruct2 {
         "Cambridge University (England)2"
     }
 }
+
+/// <!-- FishyJoes.export(ReferenceOnlyTypes) -->
+public enum ReferenceOnlyTypes {
+    /// <!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->
+    public struct Marker: Hashable {
+        public init() {}
+    }
+
+    /// <!-- FishyJoes.export(marker) -->
+    public static func marker() -> Marker {
+        Marker()
+    }
+}

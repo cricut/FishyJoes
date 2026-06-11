@@ -81,7 +81,7 @@ sealed class Structs {
          */
         var mutable: kotlin.String
           get() = __jni_get_mutable()
-          set(value) { __jni_set_mutable(value) } 
+          set(value) { __jni_set_mutable(value) }
         @JvmName("__jni_get_mutable")
         private external fun __jni_get_mutable(): kotlin.String
         @JvmName("__jni_set_mutable")

@@ -89,7 +89,7 @@ class Structs_MemberwiseStruct {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
+        const DeepCollectionEquality().hash(immutable),
         const DeepCollectionEquality().hash(mutable)
     );
 

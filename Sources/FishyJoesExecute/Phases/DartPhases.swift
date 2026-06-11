@@ -28,6 +28,14 @@ class DartPhases: IotaPhases, Phases {
                     "  path: DEPENDENCY_NOT_FOUND",
                 ]
             }
+            if let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()] {
+                let dependencyPath = relativePath(of: editedPath, relativeTo: "bindings/dart/generated")
+                return lines + [
+                    "  path: \(dependencyPath)/\(depNames.path)",
+                ]
+            }
+            // Always use exact version for git ref: git does not support semver range syntax.
+            // Flexible versions for Dart are expressed via flutter-package.json (npm), not pubspec.yaml.
             if options.config.flexibleVersions,
                let tagPattern = dependency.tagPatternAndVersionConstraint() {
                 return lines + [
@@ -46,7 +54,7 @@ class DartPhases: IotaPhases, Phases {
                     #"    path: "\#(depNames.path)""#,
                 ]
             } else {
-                let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")
+                let dependencyPath = relativePath(of: options.localPath(for: dependency), relativeTo: "bindings/dart/generated")
                 return lines + [
                     "  path: \(dependencyPath)/\(depNames.path)",
                 ]
@@ -55,6 +63,53 @@ class DartPhases: IotaPhases, Phases {
 
         let flutterDependencyLines = dartDependencies.flatMap { depNames in
             [
+                "\(depNames.dart):",
+                "  path: ../\(depNames.npm)",
+            ]
+        }
+
+        let pureDartDependencyOverrideLines = dartDependencies.flatMap { depNames -> [String] in
+            guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
+                return []
+            }
+
+            let localPath: String
+            if let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()] {
+                localPath = editedPath
+            } else if case .fileSystem = dependency {
+                localPath = options.localPath(for: dependency)
+            } else {
+                return []
+            }
+            guard FileManager.default.fileExists(atPath: "\(localPath)/\(depNames.path)/pubspec.yaml") else {
+                return []
+            }
+
+            let dependencyPath = relativePath(of: localPath, relativeTo: "bindings/dart/generated")
+            return [
+                "\(depNames.dart):",
+                "  path: \(dependencyPath)/\(depNames.path)",
+            ]
+        }
+
+        let flutterDependencyOverrideLines = dartDependencies.flatMap { depNames -> [String] in
+            guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
+                return []
+            }
+
+            let localPath: String
+            if let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()] {
+                localPath = editedPath
+            } else if case .fileSystem = dependency {
+                localPath = options.localPath(for: dependency)
+            } else {
+                return []
+            }
+            guard FileManager.default.fileExists(atPath: "\(localPath)/\(depNames.npmSubPath)/pubspec.yaml") else {
+                return []
+            }
+
+            return [
                 "\(depNames.dart):",
                 "  path: ../\(depNames.npm)",
             ]
@@ -74,15 +129,22 @@ class DartPhases: IotaPhases, Phases {
         return [
             "__PUBSPEC_DART_DEPENDENCIES__": join(lines: pureDartDependencyLines, indent: 2),
             "__PUBSPEC_FLUTTER_DEPENDENCIES__": join(lines: flutterDependencyLines, indent: 2),
+            "__PUBSPEC_DART_DEPENDENCY_OVERRIDES__": dependencyOverrides(pureDartDependencyOverrideLines),
+            "__PUBSPEC_FLUTTER_DEPENDENCY_OVERRIDES__": dependencyOverrides(flutterDependencyOverrideLines),
             "__NPM_FLUTTER_DEPENDENCIES__": npmFlutterDependencyLines.joined(separator: ",\n    ")
         ]
     }
 
+    private func dependencyOverrides(_ lines: [String]) -> String {
+        guard !lines.isEmpty else { return "" }
+        return "\n\ndependency_overrides:\(join(lines: lines, indent: 2))"
+    }
+
     func installPhase() throws {
-        // Install the module library and interfacing library
-        try installLibrary(options.config.module)
-        try installLibrary("\(options.config.module)-iota")
-        try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
+        let translatedLibraries = ([options.config.module] + options.config.requiredModules)
+            .flatMap { [$0, "\($0)-iota"] }
+        let nativeLibraries = options.config.extraDynamicLibraries + translatedLibraries + ["FishyJoesIotaRuntime"]
+        try nativeLibraries.forEach { try installLibrary($0) }
     }
 
     func compileHostLanguagePhase() throws {
@@ -100,12 +162,17 @@ class DartPhases: IotaPhases, Phases {
     func testPhase() throws {
         // Use dart to execute the test suite
         try withDirectory("bindings/dart/generated") {
-            let env = options.codeCoveragePath.map {
-                [
-                    "LLVM_PROFILE_FILE": "\($0)/fishy-joes-test-\(platform)-\(UUID()).profraw",
-                ]
-            } ?? [:]
-            try cmd("dart", "test", "--chain-stack-traces", addEnv: env).run()
+            let tempDirectory = "\(FileManager.default.currentDirectoryPath)/.dart_tool/fishyjoes-test-tmp"
+            try cmd("mkdir", "-p", tempDirectory).run()
+            var env = [
+                "TMPDIR": tempDirectory,
+                "TMP": tempDirectory,
+                "TEMP": tempDirectory,
+            ]
+            if let codeCoveragePath = options.codeCoveragePath {
+                env["LLVM_PROFILE_FILE"] = "\(codeCoveragePath)/fishy-joes-test-\(platform)-\(UUID()).profraw"
+            }
+            try cmd("dart", "test", "--chain-stack-traces", "--concurrency=1", addEnv: env).run()
         }
     }
 

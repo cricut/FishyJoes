@@ -38,6 +38,50 @@ class DefaultArguments {
         )
     ;
 
+    /// <!-- FishyJoes.export(describeEnumDefault) -->
+    static String describeEnumDefault(
+        int value,
+        TestAPI.SimpleEnum color,
+    ) =>
+        GCRef.using(color, (_colorHandle) =>
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_describeEnumDefault(Loader.shared.env, value, _colorHandle.ptr, _exn)))
+        )
+    ;
+
+    /// <!-- FishyJoes.export(echoDefaultTolerance) -->
+    static double echoDefaultTolerance(
+        {
+            double tolerance = 1.4901161193847656E-8,
+        }
+    ) =>
+        check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultTolerance(Loader.shared.env, tolerance, _exn))
+    ;
+
+    /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
+    static String echoDefaultIntLimits(
+        int minValue,
+        int maxValue,
+    ) =>
+        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits(Loader.shared.env, minValue, maxValue, _exn)))
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        int value,
+        UnownedRef color,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_describeEnumDefault;
+    static late CreatedRef Function(
+        Env env,
+        int minValue,
+        int maxValue,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits;
+    static late double Function(
+        Env env,
+        double tolerance,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_echoDefaultTolerance;
     static late CreatedRef Function(
         Env env,
         UnownedRef y,

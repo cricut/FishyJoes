@@ -84,6 +84,18 @@ sealed class AsyncFunctions {
         private external fun __jni_get_willThrow(): (suspend () -> Long)
 
         /**
+         * <!-- FishyJoes.export(delayedConst) -->
+         */
+        suspend fun delayedConst(
+            nanoseconds: Long
+        ): Long = __jni_delayedConst(nanoseconds).await()
+        @JvmStatic
+        @JvmName("__jni_delayedConst")
+        private external fun __jni_delayedConst(
+            nanoseconds: Long
+        ): kotlinx.coroutines.Deferred<Long>
+
+        /**
          * <!-- FishyJoes.export(exercise0) -->
          */
         suspend fun exercise0(

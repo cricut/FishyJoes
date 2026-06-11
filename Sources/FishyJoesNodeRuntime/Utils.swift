@@ -233,12 +233,39 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
     )
 }
 
+public func shutdownOnMainThreadEntryPoint() {
+    try? JSMainThread.dispatchFunction?.release(mode: .release)
+    JSMainThread.dispatchFunction = nil
+    JSMainThread.env = nil
+    #if !os(WASI)
+    JSMainThread.thread = nil
+    #endif
+}
+
+private let cShutdownOnMainThreadEntryPoint: napi_callback = { env, info in
+    callbackBody(env, info, name: "__fishyjoesCleanup", expectedArgumentCount: 0) { env in
+        shutdownOnMainThreadEntryPoint()
+        return try env.env.getUndefined()
+    }
+}
+
+public func installNodeCleanup(env: NAPI.Env, module: NAPI.Value) throws {
+    let cleanup = try env.createFunction("__fishyjoesCleanup", cShutdownOnMainThreadEntryPoint, nil)
+    try env.setNamedProperty(module, "__fishyjoesCleanup", cleanup)
+}
+
 /// Perform an operation on the main thread.
 /// - Parameter operation: The function to execute on the main thread.
 /// - Parameter env: The main thread NAPI.Env.
 public func onMainThread(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> Void) throws {
     let box = Box(operation)
-    try JSMainThread.dispatchFunction!.dispatch(data: box.retainedOpaque(), callMode: callMode)
+    let data = box.retainedOpaque()
+    do {
+        try JSMainThread.dispatchFunction!.dispatch(data: data, callMode: callMode)
+    } catch {
+        _ = try? Box<(NAPI.Env) throws -> Void>.takeRetainedOpaque(data)
+        throw error
+    }
 }
 
 /// Perform an operation on the main thread and wait for the result.

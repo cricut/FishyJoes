@@ -810,6 +810,10 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             return noValue
         }
 
+        if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.None", module: "TestAPI", env: env)) {
+            return none
+        }
+
         if try env.instanceof(value, NodeClass.constructor(for: "AssociatedDataEnum.SimpleEnum", module: "TestAPI", env: env)) {
             let _value = try env.getNamedProperty(value, "value")
             return Self.simpleEnum(
@@ -849,6 +853,12 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
         case .noValue:
             return try env.newInstance(
                 NodeClass.constructor(for: "AssociatedDataEnum.NoValue", module: "TestAPI", env: env),
+                [
+                ]
+            )
+        case .none:
+            return try env.newInstance(
+                NodeClass.constructor(for: "AssociatedDataEnum.None", module: "TestAPI", env: env),
                 [
                 ]
             )
@@ -1033,6 +1043,30 @@ extension TestAPI.AssociatedDataEnum: FishyJoesNodeRuntime.NodeConverter {
             path: "AssociatedDataEnum.NoValue",
             nodeClass: noValueClass.constructor.value(env: env)
         )
+        let noneClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "AssociatedDataEnum.None",
+            superclass: superclass,
+            properties: [
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "AssociatedDataEnum.None_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    let this = try env.this()
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "AssociatedDataEnum.None",
+            nodeClass: noneClass.constructor.value(env: env)
+        )
         let simpleEnumClass = try NodeClass(
             env: env,
             module: "TestAPI",
@@ -1081,6 +1115,38 @@ extension TestAPI.AsyncFunctions: FishyJoesNodeRuntime.NodeConverter {
             module: "TestAPI",
             name: "AsyncFunctions",
             properties: [
+                (
+                    name: "delayedConst",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "delayedConst", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
+                            Task {
+                                do {
+                                    let taskResult: Int = try await TestAPI.AsyncFunctions.delayedConst(
+                                        nanoseconds: arg0.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Int.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
                 (
                     name: "exercise0",
                     .method { env, info in
@@ -2616,6 +2682,53 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                                     y: try env.argument(named: "y", default: nil, converter: OptionalConverter<Swift.Int>.self),
                                     x: try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self),
                                     theLabelForZ: try env.argument(named: "theLabelForZ", default: 3.14, converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "describeEnumDefault",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "describeEnumDefault", expectedArgumentCount: 1, hasNamedOptions: true) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.DefaultArguments.describeEnumDefault(
+                                    try env.argument(at: 0, converter: Swift.Int.self),
+                                    color: try env.argument(named: "color", default: .blue, converter: TestAPI.SimpleEnum.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "echoDefaultTolerance",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultTolerance", expectedArgumentCount: 0, hasNamedOptions: true) { env in
+                            let result = try Swift.Double.toNode(
+                                TestAPI.DefaultArguments.echoDefaultTolerance(
+                                    try env.argument(named: "tolerance", default: Double.ulpOfOne.squareRoot(), converter: Swift.Double.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "echoDefaultIntLimits",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultIntLimits", expectedArgumentCount: 0, hasNamedOptions: true) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.DefaultArguments.echoDefaultIntLimits(
+                                    minValue: try env.argument(named: "minValue", default: .min, converter: Swift.Int.self),
+                                    maxValue: try env.argument(named: "maxValue", default: .max, converter: Swift.Int.self)
                                 ),
                                 env: env.env
                             )
@@ -5857,6 +5970,230 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
+// MARK: - NodeInterface/TestAPI.ProtocolWitnesses+node.swift
+
+extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.ProtocolWitnesses")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ProtocolWitnesses",
+            properties: [
+                (
+                    name: "describeAProtocol",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "describeAProtocol", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.ProtocolWitnesses.describeAProtocol(
+                                    try env.argument(at: 0, converter: TestAPI_CommonInterface._AProtocolConverter.self),
+                                    x: try env.argument(at: 1, converter: Swift.Int.self),
+                                    y: try env.argument(at: 2, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "returnAProtocol",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "returnAProtocol", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
+                                TestAPI.ProtocolWitnesses.returnAProtocol(
+                                    try env.argument(at: 0, converter: TestAPI_CommonInterface._AProtocolConverter.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ProtocolWitnesses_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ProtocolWitnesses",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - NodeInterface/TestAPI.PythonNamingCollisions+node.swift
+
+extension TestAPI.PythonNamingCollisions: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.PythonNamingCollisions")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "PythonNamingCollisions",
+            properties: [
+                (
+                    name: "from",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "from", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                TestAPI.PythonNamingCollisions.fromValue(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "keywordArgs",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "keywordArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.PythonNamingCollisions.keywordArgs(
+                                    `class`: try env.argument(at: 0, converter: Swift.Int.self),
+                                    list: try env.argument(at: 1, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "class",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "class", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.classValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "__dunder__",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "__dunder__", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.dunderValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "isNaN",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "isNaN", expectedArgumentCount: 0) { env in
+                                return try Swift.Bool.toNode(TestAPI.PythonNamingCollisions.isNaNValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "_leadingUnderscore",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "_leadingUnderscore", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.leadingUnderscoreValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "list",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "list", expectedArgumentCount: 0) { env in
+                                return try Swift.Int.toNode(TestAPI.PythonNamingCollisions.listValue, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "Url",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "Url", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(TestAPI.PythonNamingCollisions.titleUrl, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+                (
+                    name: "URL",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "URL", expectedArgumentCount: 0) { env in
+                                return try Swift.String.toNode(TestAPI.PythonNamingCollisions.upperURL, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "PythonNamingCollisions_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "PythonNamingCollisions",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - NodeInterface/TestAPI.Ranges+node.swift
 
 extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
@@ -6239,6 +6576,118 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {
             module: module,
             path: "ReferenceEmptyEnum",
             nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - NodeInterface/TestAPI.ReferenceOnlyTypes+node.swift
+
+extension TestAPI.ReferenceOnlyTypes: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.ReferenceOnlyTypes")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ReferenceOnlyTypes",
+            properties: [
+                (
+                    name: "marker",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "marker", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try TestAPI.ReferenceOnlyTypes.Marker.toNode(
+                                TestAPI.ReferenceOnlyTypes.marker(
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ReferenceOnlyTypes_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ReferenceOnlyTypes",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - NodeInterface/TestAPI.ReferenceOnlyTypes.Marker+node.swift
+
+extension TestAPI.ReferenceOnlyTypes.Marker: FishyJoesNodeRuntime.NodeConverter {
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> TestAPI.ReferenceOnlyTypes.Marker {
+        guard let nonNilPointer = try env.unwrap(value) else {
+            throw JSException(message: "expected TestAPI.ReferenceOnlyTypes.Marker, got nil")
+        }
+        return try Box<TestAPI.ReferenceOnlyTypes.Marker>.takeUnretainedOpaque(nonNilPointer).value
+    }
+
+    public static func toNode(_ value: TestAPI.ReferenceOnlyTypes.Marker, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try FishyJoesNodeRuntime.NodeClass.constructor(for: "ReferenceOnlyTypes.Marker", module: "TestAPI", env: env)
+        let arg = try FishyJoesNodeRuntime.Box(value).retainedExternal(env: env)
+        return try env.newInstance(constructor, [arg])
+    }
+
+    public static func mutateNode(_ value: TestAPI.ReferenceOnlyTypes.Marker, this: NAPI.Value, env: NAPI.Env) throws {
+        guard let pointer = try env.unwrap(this) else {
+            throw JSException(message: "expected TestAPI.ReferenceOnlyTypes.Marker, got nil")
+        }
+        try Box<TestAPI.ReferenceOnlyTypes.Marker>.takeUnretainedOpaque(pointer).value = value
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ReferenceOnlyTypes.Marker",
+            properties: [
+                (
+                    name: "toString",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "toString", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let result = try Swift.String.toNode(
+                                "\(env.this(converter: TestAPI.ReferenceOnlyTypes.Marker.self))",
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: false
+                )
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(env, info, name: "ReferenceOnlyTypes.Marker_constructor", expectedArgumentCount: 1) { env in
+                    try FishyJoesNodeRuntime.Box<TestAPI.ReferenceOnlyTypes.Marker>.construct(env: env)
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ReferenceOnlyTypes.Marker",
+            nodeClass: nodeClass.constructor.value(env: env)
         )
     }
 }

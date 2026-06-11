@@ -4,7 +4,7 @@
   <ItemGroup><PackageReference Include="Cricut.FishyJoesRuntime" Version="[7.0.0]" /></ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RepositoryUrl>https://github.com/cricut/EmojiFun</RepositoryUrl>

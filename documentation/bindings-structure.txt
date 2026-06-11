@@ -80,8 +80,32 @@ MyGreatLibrary/bindings/
 │   │   └── packages/    // Not committed
 │   └── test/
 │       └── example_test.dart
+├── python/
+│   ├── generated/
+│   │   ├── _build_wheel.py
+│   │   ├── pyproject.toml
+│   │   ├── native/    // Not committed
+│   │   │   ├── libFishyJoesIotaRuntime.dylib
+│   │   │   ├── libMyGreatLibrary.dylib
+│   │   │   └── libMyGreatLibrary-iota.dylib
+│   │   ├── dist/    // Not committed
+│   │   │   └── mygreatlibrary-0.0.1-py3-none-{platform}.whl
+│   │   └── src/
+│   │       └── mygreatlibrary/
+│   │           ├── __init__.py
+│   │           ├── __init__.pyi
+│   │           ├── _native.py
+│   │           ├── _declarations.h
+│   │           ├── _generated_declarations.h
+│   │           ├── _exports.py
+│   │           ├── _exports.pyi
+│   │           ├── py.typed
+│   │           └── Path.py
+│   └── tests/
+│       └── test_example.py
 └── workflows/
     ├── GENERATED-c-sharp.yaml
     ├── GENERATED-dart.yaml
     ├── GENERATED-kotlin.yaml
+    ├── GENERATED-python.yaml
     └── GENERATED-typescript.yaml

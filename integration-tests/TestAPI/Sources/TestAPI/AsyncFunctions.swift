@@ -39,6 +39,12 @@ public enum AsyncFunctions {
 
     public struct TheAsyncError: Error {}
 
+    /// <!-- FishyJoes.export(delayedConst) -->
+    public static func delayedConst(nanoseconds: Int) async throws -> Int {
+        try await Task.sleep(nanoseconds: UInt64(nanoseconds))
+        return 42
+    }
+
     /// <!-- FishyJoes.export(exercise0) -->
     public static func exercise0(_ fn: AFun0) async rethrows -> String {
         try await "\(fn())"

@@ -32,7 +32,7 @@ class EmojiExplorer extends SwiftReference {
         )
     ;
     /// A collection of emoji strings known to the object.
-    /// 
+    ///
     /// This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.
     /// <!-- FishyJoes.export(known) -->
     Set<String> get known =>

@@ -1,4 +1,5 @@
 @testable import FishyJoesExecute
+import Foundation
 import XCTest
 
 class SwiftPackageVersionFormatTests: XCTestCase {
@@ -92,6 +93,58 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         XCTAssertEqual(revision.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), "abc123")
         XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: false), "1.0.0")
         XCTAssertEqual(range.versionInNpmFormat(relativeTo: nil, flexibleVersions: true), ">=1.0.0 <2.0.0")
+
+        let localRuntime = SwiftPackage.Dependency.fileSystem(identity: "fishyjoes", path: "/repo")
+        XCTAssertEqual(
+            localRuntime.versionInNpmFormat(
+                relativeTo: "/repo/generated/package",
+                addIfLocalPath: "node-runtime/fishyjoes-runtime-native-macos"
+            ),
+            "file:../../node-runtime/fishyjoes-runtime-native-macos"
+        )
+    }
+
+    func testNodePhaseGeneratedNpmDependenciesUsePackageRootRelativeLocalRuntime() throws {
+        let fileManager = FileManager.default
+        let originalDirectory = fileManager.currentDirectoryPath
+        let temporaryRoot = fileManager.temporaryDirectory
+            .appendingPathComponent("fishyjoes-node-phase-\(UUID().uuidString)", isDirectory: true)
+        let otherDirectory = temporaryRoot.appendingPathComponent("other", isDirectory: true)
+        try fileManager.createDirectory(at: otherDirectory, withIntermediateDirectories: true)
+        defer {
+            _ = fileManager.changeCurrentDirectoryPath(originalDirectory)
+            try? fileManager.removeItem(at: temporaryRoot)
+        }
+
+        let codeGen = CodeGen()
+        codeGen.config = ProjectConfig(
+            module: "TestAPI",
+            publishRepository: nil,
+            requiredModules: [],
+            extraDynamicLibraries: [],
+            excludeSources: [],
+            ciPreBuildHook: nil,
+            flexibleVersions: false,
+            python: .default,
+            sourceryOverride: nil,
+            ciRunners: nil,
+            ciDependencyAuth: nil
+        )
+        codeGen.packageInfo = SwiftPackage(
+            dependencies: [
+                .fileSystem(identity: "fishyjoes", path: codeGen.packageRootPath),
+            ],
+            targets: []
+        )
+        XCTAssertTrue(fileManager.changeCurrentDirectoryPath(otherDirectory.path))
+
+        let replacements = try NodePhases(platform: .node, options: codeGen)
+            .generationPhaseTemplateReplacements()
+
+        XCTAssertEqual(
+            replacements["__NPM_DEPENDENCIES_macos__"],
+            #""@cricut/fishyjoes-runtime-native-macos": "file:../../../../../node-runtime/fishyjoes-runtime-native-macos""#
+        )
     }
 
     func testVersionFormatPubspec() throws {
@@ -117,6 +170,60 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: true), "~1.2.3")
         XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: false), "1.11.11")
         XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: true), "1.11.11")
+    }
+
+    func testVersionFormatPythonRequirement() throws {
+        let upToNextMajor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 2, minor: 19, patch: 4))
+        )
+        let upToNextMajorZero = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 5, patch: 0))
+        )
+        let upToNextMajorZeroZero = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMajor(baseVersion: SemanticVersion(major: 0, minor: 0, patch: 4))
+        )
+        let upToNextMinor = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .upToNextMinor(baseVersion: SemanticVersion(major: 1, minor: 2, patch: 3))
+        )
+        let exact = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .exact(version: SemanticVersion(major: 1, minor: 11, patch: 11))
+        )
+        let revision = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .revision(name: "abc123")
+        )
+        let range = SwiftPackage.Dependency.sourceControl(
+            identity: "test",
+            location: testURL,
+            requirement: .range(
+                lowerBound: SemanticVersion(major: 1, minor: 0, patch: 0),
+                upperBound: SemanticVersion(major: 2, minor: 0, patch: 0)
+            )
+        )
+
+        XCTAssertEqual(upToNextMajor.versionInPythonRequirementFormat(flexibleVersions: false), "==2.19.4")
+        XCTAssertEqual(upToNextMajor.versionInPythonRequirementFormat(flexibleVersions: true), ">=2.19.4,<3.0.0")
+        XCTAssertEqual(upToNextMajorZero.versionInPythonRequirementFormat(flexibleVersions: true), ">=0.5.0,<1.0.0")
+        XCTAssertEqual(upToNextMajorZeroZero.versionInPythonRequirementFormat(flexibleVersions: true), ">=0.0.4,<1.0.0")
+        XCTAssertEqual(upToNextMinor.versionInPythonRequirementFormat(flexibleVersions: false), "==1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInPythonRequirementFormat(flexibleVersions: true), ">=1.2.3,<1.3.0")
+        XCTAssertEqual(exact.versionInPythonRequirementFormat(flexibleVersions: false), "==1.11.11")
+        XCTAssertEqual(exact.versionInPythonRequirementFormat(flexibleVersions: true), "==1.11.11")
+        XCTAssertNil(revision.versionInPythonRequirementFormat(flexibleVersions: false))
+        XCTAssertNil(revision.versionInPythonRequirementFormat(flexibleVersions: true))
+        XCTAssertEqual(range.versionInPythonRequirementFormat(flexibleVersions: false), "==1.0.0")
+        XCTAssertEqual(range.versionInPythonRequirementFormat(flexibleVersions: true), ">=1.0.0,<2.0.0")
     }
 
     func testTagPatternAndVersionConstraint() throws {

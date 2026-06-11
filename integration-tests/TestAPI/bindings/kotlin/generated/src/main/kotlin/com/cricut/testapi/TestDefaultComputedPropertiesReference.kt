@@ -13,7 +13,7 @@ class TestDefaultComputedPropertiesReference private constructor(_swiftReference
      */
     override var noot: Long
       get() = __jni_get_noot()
-      set(value) { __jni_set_noot(value) } 
+      set(value) { __jni_set_noot(value) }
     @JvmName("__jni_get_noot")
     private external fun __jni_get_noot(): Long
     @JvmName("__jni_set_noot")
@@ -32,7 +32,7 @@ class TestDefaultComputedPropertiesReference private constructor(_swiftReference
      */
     var spam: Boolean
       get() = __jni_get_spam()
-      set(value) { __jni_set_spam(value) } 
+      set(value) { __jni_set_spam(value) }
     @JvmName("__jni_get_spam")
     private external fun __jni_get_spam(): Boolean
     @JvmName("__jni_set_spam")

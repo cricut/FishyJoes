@@ -283,6 +283,7 @@ struct NodeTranslator: Translator {
             typeSetupFragment.output("let module = try env.createObject()")
             typeSetupFragment.output("try env.setNamedProperty(exports, \"\(context.module.name)\", module)")
             typeSetupFragment.output("try env.setNamedProperty(exports, \"default\", module)")
+            typeSetupFragment.output("try installNodeCleanup(env: env, module: module)")
             typeSetupFragment.blankLine()
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)

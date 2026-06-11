@@ -1301,6 +1301,114 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "ProtocolWitnesses",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ProtocolWitnesses",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ProtocolWitnesses",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ProtocolWitnesses"
+        }
+      },
+      "kotlinName" : "ProtocolWitnesses",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ProtocolWitnesses",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ProtocolWitnesses",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PythonNamingCollisions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "PythonNamingCollisions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "PythonNamingCollisions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/PythonNamingCollisions"
+        }
+      },
+      "kotlinName" : "PythonNamingCollisions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.PythonNamingCollisions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PythonNamingCollisions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -1399,6 +1507,114 @@
             "name" : "ReferenceEmptyEnum",
             "namespace" : [
 
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceOnlyTypes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceOnlyTypes"
+        }
+      },
+      "kotlinName" : "ReferenceOnlyTypes",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceOnlyTypes",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceOnlyTypes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Marker",
+            "namespace" : [
+              "ReferenceOnlyTypes"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes.Marker",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes_Marker",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceOnlyTypes$Marker"
+        }
+      },
+      "kotlinName" : "ReferenceOnlyTypes.Marker",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceOnlyTypes.Marker",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Marker",
+            "namespace" : [
+              "ReferenceOnlyTypes"
             ]
           }
         }
@@ -8732,6 +8948,34 @@
                 "constructor" : {
                   "visible" : {
                     "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "None"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
                       "value"
                     ],
                     "types" : [
@@ -8926,6 +9170,34 @@
 
             ],
             "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(delayedConst) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "delayedConst",
+                "parameters" : [
+                  {
+                    "name" : "nanoseconds",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
@@ -10768,6 +11040,98 @@
                     "defaultValue" : "3.14",
                     "label" : "theLabelForZ",
                     "name" : "z",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(describeEnumDefault) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "describeEnumDefault",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : ".blue",
+                    "name" : "color",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDefaultTolerance) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "echoDefaultTolerance",
+                "parameters" : [
+                  {
+                    "defaultValue" : "Double.ulpOfOne.squareRoot()",
+                    "name" : "tolerance",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDefaultIntLimits) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "echoDefaultIntLimits",
+                "parameters" : [
+                  {
+                    "defaultValue" : ".min",
+                    "name" : "minValue",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : ".max",
+                    "name" : "maxValue",
                     "type" : {
                       "named" : {
                         "_0" : "number"
@@ -13780,6 +14144,256 @@
 
             ]
           },
+          "ProtocolWitnesses" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(describeAProtocol) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "describeAProtocol",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AProtocol"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(returnAProtocol) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "returnAProtocol",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AProtocol"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              }
+            ],
+            "name" : "ProtocolWitnesses",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "PythonNamingCollisions" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(class) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "class",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(__dunder__) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "__dunder__",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(isNaN) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "isNaN",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(_leadingUnderscore) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "_leadingUnderscore",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(list) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "list",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(Url) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "Url",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(URL) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "URL",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(from) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "from",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(keywordArgs) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "keywordArgs",
+                "parameters" : [
+                  {
+                    "name" : "`class`",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "list",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "PythonNamingCollisions",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Ranges" : {
             "classes" : [
 
@@ -14239,6 +14853,65 @@
               }
             ],
             "name" : "ReferenceEmptyEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "ReferenceOnlyTypes" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Marker"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(marker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "marker",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceOnlyTypes.Marker"
+                  }
+                }
+              }
+            ],
+            "name" : "ReferenceOnlyTypes",
             "namespaces" : {
 
             },
@@ -16162,6 +16835,11 @@
                   },
                   {
                     "named" : {
+                      "_0" : "AssociatedDataEnum.None"
+                    }
+                  },
+                  {
+                    "named" : {
                       "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
@@ -16301,6 +16979,32 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(ProtocolWitnesses) -->"
+            ],
+            "name" : "ProtocolWitnesses",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(PythonNamingCollisions) -->"
+            ],
+            "name" : "PythonNamingCollisions",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(Ranges) -->"
             ],
             "name" : "Ranges",
@@ -16317,6 +17021,19 @@
               "<!-- FishyJoes.export(ReferenceEmptyEnum) -->"
             ],
             "name" : "ReferenceEmptyEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(ReferenceOnlyTypes) -->"
+            ],
+            "name" : "ReferenceOnlyTypes",
             "value" : {
               "union" : {
                 "_0" : [

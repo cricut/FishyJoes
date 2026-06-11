@@ -14,9 +14,10 @@ namespace Cricut.TestAPI.Tests {
             Console.WriteLine("TEARDOWN");
             Cricut.FishyJoesRuntime.Utilities.PrintOutstandingHandles();
             #if DEBUG
-            if (Cricut.FishyJoesRuntime.Utilities.OutstandingHandleCount() != 2) {
+            var outstandingHandleCount = Cricut.FishyJoesRuntime.Utilities.OutstandingHandleCount();
+            if (outstandingHandleCount != 0 && outstandingHandleCount != 2) {
                 throw new Exception(
-                    "Expected only 'true' and 'false' to still be referenced. Probably a memory leak!\n"
+                    "Expected no outstanding handles, or only 'true' and 'false' to still be referenced. Probably a memory leak!\n"
                     + "Or possibly a test class was run without the [Collection(\"root\")] annotation"
                 );
             }

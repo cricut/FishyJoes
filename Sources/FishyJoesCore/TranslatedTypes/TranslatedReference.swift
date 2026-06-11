@@ -518,10 +518,11 @@ struct TranslatedReference: TranslatedType {
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
                         body: [
-                            "other is \(dartType.name()) &&",
-                            "GCRef.using(this, (thisHandle) =>",
-                            "    GCRef.using(other, (otherHandle) =>",
-                            "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
+                            "identical(other, this) ||",
+                            "(other is \(dartType.name()) &&",
+                            "    GCRef.using(this, (thisHandle) =>",
+                            "        GCRef.using(other, (otherHandle) =>",
+                            "            check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))",
                         ],
                         isDefaultImplementation: false
                     )

@@ -15,7 +15,34 @@ class KotlinPhases: BasePhases, Phases {
             return version.formatLines(forPackage: "\(dependency.groupId):\(dependency.artifactId)")
         }
         replacements["__GRADLE_DEPENDENCIES__"] = join(lines: gradleDependencyLines, indent: 4)
+        let localBuilds = localDependencyBuilds()
+        replacements["__GRADLE_INCLUDED_BUILDS__"] = localBuilds.isEmpty ? "" : "\n" + join(lines: localBuilds, indent: 0)
         return replacements
+    }
+
+    private func localDependencyBuilds() -> [String] {
+        options.config.requiredModules.compactMap { moduleName -> (path: String, moduleName: String)? in
+            guard
+                let dependency = options.packageInfo?.dependencyMap[moduleName],
+                let editedPath = options.editedDependencyPaths[dependency.identity.lowercased()]
+            else {
+                return nil
+            }
+            let path = relativePath(
+                of: "\(editedPath)/bindings/kotlin/generated",
+                relativeTo: "bindings/kotlin/generated"
+            )
+            return (path, moduleName)
+        }.map { path, moduleName in
+            """
+            includeBuild("\(path)") {
+                name = "\(moduleName)"
+                dependencySubstitution {
+                    substitute(module("com.cricut.\(moduleName):\(moduleName.lowercased())")).using(project(":"))
+                }
+            }
+            """
+        }
     }
 
     func buildSwiftPhase() throws {
@@ -29,10 +56,10 @@ class KotlinPhases: BasePhases, Phases {
     }
 
     func installPhase() throws {
-        // Install the module library and interfacing JNI library
-        try installLibrary(options.config.module)
-        try installLibrary("\(options.config.module)-java")
-        try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
+        let translatedLibraries = ([options.config.module] + options.config.requiredModules)
+            .flatMap { [$0, "\($0)-java"] }
+        let nativeLibraries = options.config.extraDynamicLibraries + translatedLibraries
+        try nativeLibraries.forEach { try installLibrary($0) }
     }
 
     func compileHostLanguagePhase() throws {
