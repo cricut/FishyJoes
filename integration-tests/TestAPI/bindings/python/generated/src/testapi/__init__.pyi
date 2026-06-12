@@ -63,10 +63,11 @@ from .tuples import Tuples as Tuples
 from .urls import URLs as URLs
 from .unicode_scalar__putting_types_into_questionable_places import UnicodeScalar_PuttingTypesIntoQuestionablePlaces as UnicodeScalar_PuttingTypesIntoQuestionablePlaces
 
+from ._native import ResultFailure as ResultFailure
+from ._native import ResultSuccess as ResultSuccess
+from ._native import SwiftClosedRange as SwiftClosedRange
+from ._native import SwiftRange as SwiftRange
+
 SUPPORTED: bool
-ResultFailure: Any
-ResultSuccess: Any
-SwiftClosedRange: Any
-SwiftRange: Any
 def diagnostics() -> dict[str, Any]: ...
 __all__: list[str]

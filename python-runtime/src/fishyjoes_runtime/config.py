@@ -18,6 +18,8 @@ WHEEL_METADATA_NAME = "__fishyjoes_wheel.json"
 
 @dataclass(frozen=True)
 class RuntimeDependency:
+    """A generated dependency package this binding needs at import time."""
+
     import_name: str
     distribution_name: str
     version_requirement: str
@@ -26,6 +28,14 @@ class RuntimeDependency:
 
 @dataclass(frozen=True)
 class RuntimeConfig:
+    """How a generated binding package configures its Iota runtime.
+
+    Generated packages construct one of these and pass it to
+    create_runtime(); the fields describe where native libraries live, which
+    declaration files define the ABI, and which runtime/dependency versions
+    are compatible.
+    """
+
     package_dir: Path
     module_name: str
     package_version: str

@@ -19,6 +19,12 @@ from .native import load_library, read_declarations, resolve_library_paths
 
 
 def create_runtime(config: RuntimeConfig) -> dict[str, object]:
+    """Create the Iota runtime namespace for one generated binding package.
+
+    Validates platform/dependency compatibility, loads the package's native
+    libraries over cffi, and returns the namespace of runtime entry points
+    and value types that the generated package's _native module re-exports.
+    """
     ffi = FFI()
     _PACKAGE_DIR = config.package_dir
     _NATIVE_DIR_CANDIDATES = list(config.native_dir_candidates)
@@ -51,18 +57,24 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     @dataclass(frozen=True)
     class SwiftRange:
+        """A Swift `Range<Int>`; `upper_bound` is excluded."""
+
         lower_bound: int
         upper_bound: int
 
 
     @dataclass(frozen=True)
     class SwiftClosedRange:
+        """A Swift `ClosedRange<Int>`; `upper_bound` is included."""
+
         lower_bound: int
         upper_bound: int
 
 
     @dataclass(frozen=True)
     class ResultSuccess:
+        """The success case of a Swift `Result`, carrying the value."""
+
         value: object
 
         def get_or_none(self):
@@ -74,6 +86,8 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     @dataclass(frozen=True)
     class ResultFailure:
+        """The failure case of a Swift `Result`, carrying the error."""
+
         error: object
 
         def get_or_none(self):

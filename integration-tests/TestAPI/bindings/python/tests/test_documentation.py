@@ -92,6 +92,74 @@ class DocumentationTests(unittest.TestCase):
         self.assertIsNone(doc)
 
 
+class RuntimeTypingStubTests(unittest.TestCase):
+    """Runtime value types must be precisely typed, never Any (R32)."""
+
+    def setUp(self) -> None:
+        self.testapi = importlib.import_module("testapi")
+        self.package_dir = Path(self.testapi.__file__).resolve().parent
+
+    def read_stub(self, name: str) -> str:
+        return (self.package_dir / name).read_text(encoding="utf-8")
+
+    def test_init_stub_reexports_value_types_instead_of_any(self) -> None:
+        stub = self.read_stub("__init__.pyi")
+
+        self.assertNotIn("SwiftRange: Any", stub)
+        self.assertNotIn("ResultSuccess: Any", stub)
+        self.assertIn("from ._native import", stub)
+        self.assertIn("SwiftRange as SwiftRange", stub)
+
+    def test_native_stub_types_swift_ranges(self) -> None:
+        stub = self.read_stub("_native.pyi")
+
+        self.assertIn("class SwiftRange:", stub)
+        self.assertIn("class SwiftClosedRange:", stub)
+        self.assertIn("lower_bound: int", stub)
+        self.assertIn("upper_bound: int", stub)
+        self.assertIn("@dataclass(frozen=True)", stub)
+
+    def test_native_stub_types_result_types(self) -> None:
+        stub = self.read_stub("_native.pyi")
+
+        self.assertIn("class ResultSuccess:", stub)
+        self.assertIn("value: object", stub)
+        self.assertIn("class ResultFailure:", stub)
+        self.assertIn("error: object", stub)
+        self.assertIn("def get_or_none(self)", stub)
+        self.assertIn("def exception_or_none(self)", stub)
+
+    def test_runtime_value_types_have_docstrings(self) -> None:
+        # The dynamic classes created by create_runtime carry docstrings so
+        # help() works on the re-exported value types.
+        for value_type in (
+            self.testapi.SwiftRange,
+            self.testapi.SwiftClosedRange,
+            self.testapi.ResultSuccess,
+            self.testapi.ResultFailure,
+        ):
+            self.assertIsNotNone(inspect.getdoc(value_type))
+
+
+class RuntimePackageDocumentationTests(unittest.TestCase):
+    """The shared fishyjoes_runtime package documents its own public API."""
+
+    def setUp(self) -> None:
+        self.runtime = importlib.import_module("fishyjoes_runtime")
+
+    def test_module_docstring(self) -> None:
+        self.assertIsNotNone(inspect.getdoc(self.runtime))
+
+    def test_config_class_docstrings(self) -> None:
+        self.assertIsNotNone(inspect.getdoc(self.runtime.RuntimeConfig))
+        self.assertIsNotNone(inspect.getdoc(self.runtime.RuntimeDependency))
+
+    def test_create_runtime_docstring(self) -> None:
+        doc = inspect.getdoc(self.runtime.create_runtime)
+
+        self.assertIsNotNone(doc)
+
+
 class StubDocumentationTests(unittest.TestCase):
     """Generated .pyi stubs carry the same documentation for IDE hover."""
 
