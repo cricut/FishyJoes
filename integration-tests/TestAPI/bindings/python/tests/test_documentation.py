@@ -92,5 +92,68 @@ class DocumentationTests(unittest.TestCase):
         self.assertIsNone(doc)
 
 
+class StubDocumentationTests(unittest.TestCase):
+    """Generated .pyi stubs carry the same documentation for IDE hover."""
+
+    def setUp(self) -> None:
+        self.testapi = importlib.import_module("testapi")
+        self.package_dir = Path(self.testapi.__file__).resolve().parent
+
+    def read_stub(self, name: str) -> str:
+        return (self.package_dir / name).read_text(encoding="utf-8")
+
+    def test_class_docstring_in_stub(self) -> None:
+        stub = self.read_stub("strings.pyi")
+
+        self.assertIn(
+            '"""Sample strings and string operations for Unicode round-trips."""',
+            stub,
+        )
+
+    def test_method_docstring_in_stub(self) -> None:
+        stub = self.read_stub("strings.pyi")
+
+        self.assertIn('"""Returns the given string unchanged."""', stub)
+
+    def test_class_attribute_docstring_in_stub(self) -> None:
+        stub = self.read_stub("strings.pyi")
+
+        self.assertIn("simple: ClassVar[str]", stub)
+        self.assertIn('"""A simple ASCII greeting."""', stub)
+
+    def test_property_docstring_in_stub(self) -> None:
+        stub = self.read_stub("empty_class1.pyi")
+
+        self.assertIn('"""A cheerful nonsense string."""', stub)
+
+    def test_enum_case_docstring_in_stub(self) -> None:
+        stub = self.read_stub("simple_enum.pyi")
+
+        self.assertIn('"""red is a nice color"""', stub)
+
+    def test_deprecated_method_marked_in_stub(self) -> None:
+        stub = self.read_stub("deprecations.pyi")
+
+        self.assertIn("from typing_extensions import deprecated", stub)
+        self.assertIn('@deprecated("don\'t use this")', stub)
+
+    def test_undeprecated_stub_has_no_typing_extensions_import(self) -> None:
+        stub = self.read_stub("strings.pyi")
+
+        self.assertNotIn("typing_extensions", stub)
+
+    def test_undocumented_stub_symbols_stay_bare(self) -> None:
+        stub = self.read_stub("empty_class1.pyi")
+
+        self.assertIn("def gorpers(self) -> str: ...", stub)
+
+    def test_annotations_do_not_leak_into_stubs(self) -> None:
+        for name in ("strings.pyi", "empty_class1.pyi", "simple_enum.pyi"):
+            stub = self.read_stub(name)
+
+            self.assertNotIn("<!--", stub)
+            self.assertNotIn("FishyJoes.export", stub)
+
+
 if __name__ == "__main__":
     unittest.main()

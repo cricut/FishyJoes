@@ -52,6 +52,7 @@ project rule, so that record intentionally does not consider alternatives.
 - [0011. Python Packages Version And Load Native Dependencies Explicitly](0011-python-packages-version-and-load-native-dependencies-explicitly.md)
 - [0012. Python UX Includes Typing And Diagnostics](0012-python-ux-includes-typing-and-diagnostics.md)
 - [0013. Python Docstrings Come From Translated Metadata](0013-python-docstrings-come-from-translated-metadata.md)
+- [0014. Python Stubs Mark Deprecations With PEP 702](0014-python-stubs-mark-deprecations-with-pep-702.md)
 
 ## Style
 

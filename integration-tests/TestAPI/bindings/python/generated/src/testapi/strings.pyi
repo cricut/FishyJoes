@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
 
 class Strings:
+    """Sample strings and string operations for Unicode round-trips."""
     accent: ClassVar[str]
     chinese: ClassVar[str]
     chinese_bmp: ClassVar[str]
@@ -12,7 +13,12 @@ class Strings:
     emoji_multi: ClassVar[str]
     script: ClassVar[str]
     simple: ClassVar[str]
+    """A simple ASCII greeting."""
     @staticmethod
-    def echo(string: str) -> str: ...
+    def echo(string: str) -> str:
+        """Returns the given string unchanged."""
     @staticmethod
-    def split(string: str, by: str) -> list[str]: ...
+    def split(string: str, by: str) -> list[str]:
+        """Splits the string on each occurrence of the separator.
+        Returns the pieces in order without the separator.
+        """

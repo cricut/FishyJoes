@@ -5,9 +5,14 @@ from typing import Any, ClassVar, NoReturn
 import enum
 
 class SimpleEnum(enum.Enum):
+    """This is an enum with no associated values"""
     red = ...
+    """red is a nice color"""
     green = ...
     blue = ...
+    """blue is less good
+    opinions may vary
+    """
     favorite_color: ClassVar[SimpleEnum]
     @property
     def hex(self) -> int: ...

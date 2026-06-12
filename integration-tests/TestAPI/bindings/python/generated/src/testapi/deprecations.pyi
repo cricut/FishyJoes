@@ -2,8 +2,11 @@
 
 from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
+from typing_extensions import deprecated
 
 class Deprecations:
     deprecated_variable: ClassVar[int]
+    @deprecated("don't use this")
     @staticmethod
-    def deprecated_method() -> str: ...
+    def deprecated_method() -> str:
+        """An old greeting kept only for deprecation coverage."""

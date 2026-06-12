@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
 
 class Structs_MemberwiseStruct:
+    """A plain value type with one immutable and one mutable field."""
     immutable: str
     mutable: str
     def __init__(self, immutable: str, mutable: str) -> None: ...

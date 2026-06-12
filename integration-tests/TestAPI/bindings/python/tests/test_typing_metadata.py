@@ -53,7 +53,8 @@ class TypingMetadataTests(unittest.TestCase):
     def test_generated_stubs_use_metadata_driven_types(self) -> None:
         strings_stub = (PACKAGE_DIR / "strings.pyi").read_text()
         self.assertIn("simple: ClassVar[str]", strings_stub)
-        self.assertIn("def echo(string: str) -> str: ...", strings_stub)
+        # echo carries a docstring body, so the stub ends with `:` not `: ...`.
+        self.assertIn("def echo(string: str) -> str:", strings_stub)
 
         bytes_stub = (PACKAGE_DIR / "bytes.pyi").read_text()
         self.assertIn("bytes: ClassVar[list[int]]", bytes_stub)

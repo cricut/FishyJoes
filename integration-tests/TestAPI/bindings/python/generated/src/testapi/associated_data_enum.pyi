@@ -6,16 +6,19 @@ from .simple_enum import SimpleEnum as SimpleEnum
 
 class AssociatedDataEnum:
     @classmethod
-    def thing(cls, value: int) -> AssociatedDataEnum: ...
+    def thing(cls, value: int) -> AssociatedDataEnum:
+        """Documentation about thing"""
     Thing: ClassVar[type[AssociatedDataEnum_Thing]]
     @classmethod
     def other(cls, unnamed: str, m_1: int) -> AssociatedDataEnum: ...
     Other: ClassVar[type[AssociatedDataEnum_Other]]
     @classmethod
-    def bar(cls, named: str, m_1: AssociatedDataEnum, toggled: bool) -> AssociatedDataEnum: ...
+    def bar(cls, named: str, m_1: AssociatedDataEnum, toggled: bool) -> AssociatedDataEnum:
+        """Documentation about bar"""
     Bar: ClassVar[type[AssociatedDataEnum_Bar]]
     @classmethod
-    def no_value(cls) -> AssociatedDataEnum: ...
+    def no_value(cls) -> AssociatedDataEnum:
+        """Documentation about noValue"""
     NoValue: ClassVar[type[AssociatedDataEnum_NoValue]]
     @classmethod
     def none(cls) -> AssociatedDataEnum: ...
@@ -28,6 +31,7 @@ class AssociatedDataEnum:
     def plus(self, other: AssociatedDataEnum) -> AssociatedDataEnum: ...
 
 class AssociatedDataEnum_Thing(AssociatedDataEnum):
+    """Documentation about thing"""
     value: int
 
 class AssociatedDataEnum_Other(AssociatedDataEnum):
@@ -35,12 +39,13 @@ class AssociatedDataEnum_Other(AssociatedDataEnum):
     m_1: int
 
 class AssociatedDataEnum_Bar(AssociatedDataEnum):
+    """Documentation about bar"""
     named: str
     m_1: AssociatedDataEnum
     toggled: bool
 
 class AssociatedDataEnum_NoValue(AssociatedDataEnum):
-    pass
+    """Documentation about noValue"""
 
 class AssociatedDataEnum_None(AssociatedDataEnum):
     pass

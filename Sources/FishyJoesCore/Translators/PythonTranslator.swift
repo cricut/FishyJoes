@@ -674,8 +674,29 @@ final class PythonTranslator: Translator {
         fragment.blankLine()
         fragment.output("from collections.abc import Awaitable, Callable")
         fragment.output("from typing import Any, ClassVar, NoReturn")
+        // PEP 702 deprecation markers only decorate function-shaped members;
+        // ClassVar attributes cannot carry them.
+        let needsDeprecatedImport = pythonClass.methods.contains { $0.deprecationMessage != nil }
+            || pythonClass.fields.contains { $0.deprecationMessage != nil && ($0.asMethod || !$0.isStatic) }
+        if needsDeprecatedImport {
+            fragment.output("from typing_extensions import deprecated")
+        }
         if !shadowedBuiltinTypes.isEmpty {
             fragment.output("import builtins")
+        }
+
+        func outputStubFunction(_ declaration: String, documentation: [String]) {
+            let docstring = PythonDocstring.lines(documentation)
+            if docstring.isEmpty {
+                fragment.output("\(declaration): ...")
+            } else {
+                fragment.output("\(declaration):")
+                fragment.indent {
+                    for line in docstring {
+                        fragment.output(line)
+                    }
+                }
+            }
         }
         if pythonClass.setupKind == "enum" && !isAssociatedEnum {
             fragment.output("import enum")
@@ -697,10 +718,15 @@ final class PythonTranslator: Translator {
         }
         fragment.output("class \(pythonClass.className)\(baseClass):")
         fragment.indent {
-            var emittedMember = false
+            let classDocstring = PythonDocstring.lines(pythonClass.documentation)
+            for line in classDocstring {
+                fragment.output(line)
+            }
+            var emittedMember = !classDocstring.isEmpty
             if pythonClass.setupKind == "enum" && !isAssociatedEnum {
                 for enumCase in pythonClass.enumCases {
                     fragment.output("\(enumCase.pythonName) = ...")
+                    outputDocstring(enumCase.documentation, into: fragment)
                     emittedMember = true
                 }
             } else if isAssociatedEnum {
@@ -710,7 +736,10 @@ final class PythonTranslator: Translator {
                     }.joined(separator: ", ")
                     let signature = parameters.isEmpty ? "cls" : "cls, \(parameters)"
                     fragment.output("@classmethod")
-                    fragment.output("def \(enumCase.pythonName)(\(signature)) -> \(pythonClass.className): ...")
+                    outputStubFunction(
+                        "def \(enumCase.pythonName)(\(signature)) -> \(pythonClass.className)",
+                        documentation: enumCase.documentation
+                    )
                     let caseTypeName = upperCaseFirst(enumCase.cName)
                     if canEmitPythonStubAttribute(caseTypeName) {
                         fragment.output("\(caseTypeName): ClassVar[type[\(enumCase.className)]]")
@@ -721,6 +750,7 @@ final class PythonTranslator: Translator {
             if pythonClass.setupKind == "value" {
                 for field in pythonClass.storedFields {
                     fragment.output("\(field.pythonName): \(pythonTypeAnnotation(field.pythonType, shadowedBuiltinTypes: shadowedBuiltinTypes))")
+                    outputDocstring(field.documentation, into: fragment)
                     emittedMember = true
                 }
                 let constructorParams = pythonClass.storedFields.map { field in
@@ -733,17 +763,24 @@ final class PythonTranslator: Translator {
             for field in pythonClass.fields.sorted(by: { $0.pythonName < $1.pythonName }) {
                 let returnAnnotation = pythonTypeAnnotation(field.pythonReturnType, shadowedBuiltinTypes: shadowedBuiltinTypes)
                 if field.asMethod {
+                    if let deprecationMessage = field.deprecationMessage {
+                        fragment.output("@deprecated(\"\(deprecationMessage)\")")
+                    }
                     if field.isStatic {
                         fragment.output("@staticmethod")
-                        fragment.output("def \(field.pythonName)() -> \(returnAnnotation): ...")
+                        outputStubFunction("def \(field.pythonName)() -> \(returnAnnotation)", documentation: field.documentation)
                     } else {
-                        fragment.output("def \(field.pythonName)(self) -> \(returnAnnotation): ...")
+                        outputStubFunction("def \(field.pythonName)(self) -> \(returnAnnotation)", documentation: field.documentation)
                     }
                 } else if field.isStatic {
                     fragment.output("\(field.pythonName): ClassVar[\(returnAnnotation)]")
+                    outputDocstring(field.documentation, into: fragment)
                 } else {
                     fragment.output("@property")
-                    fragment.output("def \(field.pythonName)(self) -> \(returnAnnotation): ...")
+                    if let deprecationMessage = field.deprecationMessage {
+                        fragment.output("@deprecated(\"\(deprecationMessage)\")")
+                    }
+                    outputStubFunction("def \(field.pythonName)(self) -> \(returnAnnotation)", documentation: field.documentation)
                     if field.setterSymbol != nil {
                         fragment.output("@\(field.pythonName).setter")
                         fragment.output("def \(field.pythonName)(self, value: \(returnAnnotation)) -> None: ...")
@@ -752,6 +789,9 @@ final class PythonTranslator: Translator {
                 emittedMember = true
             }
             for method in pythonClass.methods.sorted(by: { $0.pythonName < $1.pythonName }) {
+                if let deprecationMessage = method.deprecationMessage {
+                    fragment.output("@deprecated(\"\(deprecationMessage)\")")
+                }
                 if method.isStatic {
                     fragment.output("@staticmethod")
                 }
@@ -765,7 +805,7 @@ final class PythonTranslator: Translator {
                 let signatureParams = pythonParams.joined(separator: ", ")
                 let allSignatureParams = method.isStatic ? signatureParams : (signatureParams.isEmpty ? "self" : "self, \(signatureParams)")
                 let returnAnnotation = pythonTypeAnnotation(method.pythonReturnType, shadowedBuiltinTypes: shadowedBuiltinTypes)
-                fragment.output("def \(method.pythonName)(\(allSignatureParams)) -> \(returnAnnotation): ...")
+                outputStubFunction("def \(method.pythonName)(\(allSignatureParams)) -> \(returnAnnotation)", documentation: method.documentation)
                 emittedMember = true
             }
             if pythonClass.equalsSymbol != nil {
@@ -785,8 +825,14 @@ final class PythonTranslator: Translator {
                 fragment.blankLine()
                 fragment.output("class \(enumCase.className)(\(pythonClass.className)):")
                 fragment.indent {
+                    let caseDocstring = PythonDocstring.lines(enumCase.documentation)
+                    for line in caseDocstring {
+                        fragment.output(line)
+                    }
                     if enumCase.values.isEmpty {
-                        fragment.output("pass")
+                        if caseDocstring.isEmpty {
+                            fragment.output("pass")
+                        }
                     } else {
                         for value in enumCase.values {
                             fragment.output("\(value.pythonName): \(pythonTypeAnnotation(value.pythonType, shadowedBuiltinTypes: shadowedBuiltinTypes))")
