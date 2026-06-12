@@ -4,8 +4,12 @@ from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
 from typing_extensions import deprecated
 
-class Deprecations:
-    deprecated_variable: ClassVar[int]
+class _DeprecationsMeta(type):
+    @property
+    @deprecated("replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)")
+    def deprecated_variable(cls) -> int: ...
+
+class Deprecations(metaclass=_DeprecationsMeta):
     @deprecated("don't use this")
     @staticmethod
     def deprecated_method() -> str:

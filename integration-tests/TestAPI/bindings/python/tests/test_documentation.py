@@ -137,6 +137,17 @@ class StubDocumentationTests(unittest.TestCase):
         self.assertIn("from typing_extensions import deprecated", stub)
         self.assertIn('@deprecated("don\'t use this")', stub)
 
+    def test_deprecated_static_attribute_marked_via_metaclass(self) -> None:
+        # Plain attributes cannot carry @deprecated; deprecated static
+        # properties are modeled as deprecated metaclass properties, which
+        # pyright and mypy both honor for class-level attribute access.
+        stub = self.read_stub("deprecations.pyi")
+
+        self.assertIn("class _DeprecationsMeta(type):", stub)
+        self.assertIn("def deprecated_variable(cls) -> int", stub)
+        self.assertIn("class Deprecations(metaclass=_DeprecationsMeta):", stub)
+        self.assertNotIn("deprecated_variable: ClassVar", stub)
+
     def test_undeprecated_stub_has_no_typing_extensions_import(self) -> None:
         stub = self.read_stub("strings.pyi")
 

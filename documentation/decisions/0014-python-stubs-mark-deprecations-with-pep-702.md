@@ -37,8 +37,14 @@ method-shaped fields, property getters) with PEP 702
 stubs that need it. Runtime deprecation behavior is unchanged: generated
 `.py` wrappers keep `warnings.warn` on call/access.
 
-Deprecated members that render as plain stub attributes (`ClassVar`
-descriptors for static properties) cannot carry a decorator; they keep
+Deprecated static properties cannot carry a decorator as plain `ClassVar`
+attributes, so their stubs model them as deprecated properties on a
+synthesized metaclass (`class _XMeta(type)` with `@property @deprecated`
+getters, mirroring the metaclass the runtime wrappers already use for
+settable statics). pyright and mypy both report class-level attribute access
+through metaclass properties as deprecated, and the attribute's revealed
+type is unchanged. Simple enums are exempt (their stub already rides
+`enum.EnumMeta`); a deprecated static on a simple enum keeps `ClassVar` and
 runtime warnings only.
 
 ## Tradeoffs

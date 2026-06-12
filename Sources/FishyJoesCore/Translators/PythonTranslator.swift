@@ -674,9 +674,19 @@ final class PythonTranslator: Translator {
         fragment.blankLine()
         fragment.output("from collections.abc import Awaitable, Callable")
         fragment.output("from typing import Any, ClassVar, NoReturn")
-        // PEP 702 deprecation markers only decorate function-shaped members;
-        // ClassVar attributes cannot carry them.
-        let needsDeprecatedImport = pythonClass.methods.contains { $0.deprecationMessage != nil }
+        // PEP 702 deprecation markers only decorate function-shaped members.
+        // Deprecated static properties therefore render as deprecated
+        // properties on a synthesized metaclass, which pyright and mypy honor
+        // for class-level attribute access. Simple enums keep ClassVar
+        // attributes because their stub already inherits enum.EnumMeta.
+        let stubMetaclassFields = (pythonClass.setupKind == "enum" && !isAssociatedEnum)
+            ? []
+            : pythonClass.fields
+                .filter { $0.isStatic && !$0.asMethod && $0.deprecationMessage != nil }
+                .sorted { $0.pythonName < $1.pythonName }
+        let stubMetaclassFieldNames = Set(stubMetaclassFields.map(\.pythonName))
+        let needsDeprecatedImport = !stubMetaclassFields.isEmpty
+            || pythonClass.methods.contains { $0.deprecationMessage != nil }
             || pythonClass.fields.contains { $0.deprecationMessage != nil && ($0.asMethod || !$0.isStatic) }
         if needsDeprecatedImport {
             fragment.output("from typing_extensions import deprecated")
@@ -716,7 +726,31 @@ final class PythonTranslator: Translator {
         default:
             baseClass = ""
         }
-        fragment.output("class \(pythonClass.className)\(baseClass):")
+        var classHeaderBases = baseClass
+        if !stubMetaclassFields.isEmpty {
+            let metaclassName = "_\(pythonClass.className)Meta"
+            fragment.output("class \(metaclassName)(type):")
+            fragment.indent {
+                for field in stubMetaclassFields {
+                    let returnAnnotation = pythonTypeAnnotation(field.pythonReturnType, shadowedBuiltinTypes: shadowedBuiltinTypes)
+                    fragment.output("@property")
+                    fragment.output("@deprecated(\"\(field.deprecationMessage!)\")")
+                    outputStubFunction("def \(field.pythonName)(cls) -> \(returnAnnotation)", documentation: field.documentation)
+                    if field.setterSymbol != nil {
+                        fragment.output("@\(field.pythonName).setter")
+                        fragment.output("def \(field.pythonName)(cls, value: \(returnAnnotation)) -> None: ...")
+                    }
+                }
+            }
+            fragment.blankLine()
+            if baseClass.isEmpty {
+                classHeaderBases = "(metaclass=\(metaclassName))"
+            } else {
+                let inner = String(baseClass.dropFirst().dropLast())
+                classHeaderBases = "(\(inner), metaclass=\(metaclassName))"
+            }
+        }
+        fragment.output("class \(pythonClass.className)\(classHeaderBases):")
         fragment.indent {
             let classDocstring = PythonDocstring.lines(pythonClass.documentation)
             for line in classDocstring {
@@ -773,6 +807,10 @@ final class PythonTranslator: Translator {
                         outputStubFunction("def \(field.pythonName)(self) -> \(returnAnnotation)", documentation: field.documentation)
                     }
                 } else if field.isStatic {
+                    if stubMetaclassFieldNames.contains(field.pythonName) {
+                        // Rendered as a deprecated metaclass property above.
+                        continue
+                    }
                     fragment.output("\(field.pythonName): ClassVar[\(returnAnnotation)]")
                     outputDocstring(field.documentation, into: fragment)
                 } else {
