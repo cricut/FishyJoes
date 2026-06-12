@@ -249,6 +249,59 @@ class PackagingTests(unittest.TestCase):
             self.assertEqual(install.returncode, 0, install.stdout)
             self.assertTrue((Path(target) / "testapi" / "__init__.py").is_file())
 
+    def test_wheels_ship_every_stub_and_py_typed(self) -> None:
+        # PEP 561: typed packages are only typed if the distributed wheel
+        # actually contains the .pyi files and the py.typed marker. Neither
+        # pyproject declares them explicitly, so this guards against build-
+        # backend defaults silently dropping them.
+        shutil.rmtree(DIST_DIR, ignore_errors=True)
+
+        generated = subprocess.run(
+            [sys.executable, str(GENERATED_PACKAGE / "_build_wheel.py"), "--outdir", str(DIST_DIR)],
+            cwd=GENERATED_PACKAGE,
+            env=wheel_build_env(),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(generated.returncode, 0, generated.stdout)
+
+        runtime = subprocess.run(
+            [
+                sys.executable,
+                str(PYTHON_RUNTIME / "_build_wheel.py"),
+                "--outdir",
+                str(DIST_DIR),
+                "--native-library",
+                str(built_runtime_library()),
+            ],
+            cwd=PYTHON_RUNTIME,
+            env=wheel_build_env(),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            check=False,
+        )
+        self.assertEqual(runtime.returncode, 0, runtime.stdout)
+
+        generated_wheel = sorted(DIST_DIR.glob("testapi-0.0.1-py3-none-*.whl"))[0]
+        expected_stubs = sorted(
+            path.name for path in (GENERATED_PACKAGE / "src" / "testapi").glob("*.pyi")
+        )
+        self.assertTrue(expected_stubs, "no generated stubs found in the source tree")
+        with zipfile.ZipFile(generated_wheel) as archive:
+            names = set(archive.namelist())
+        self.assertIn("testapi/py.typed", names)
+        for stub in expected_stubs:
+            self.assertIn(f"testapi/{stub}", names, f"wheel is missing stub {stub}")
+
+        runtime_wheel = sorted(DIST_DIR.glob("fishyjoes_runtime-*-py3-none-*.whl"))[0]
+        with zipfile.ZipFile(runtime_wheel) as archive:
+            runtime_names = set(archive.namelist())
+        self.assertIn("fishyjoes_runtime/py.typed", runtime_names)
+        self.assertIn("fishyjoes_runtime/__init__.pyi", runtime_names)
+
     def test_generated_wheel_installs_with_shared_runtime_wheel(self) -> None:
         shutil.rmtree(DIST_DIR, ignore_errors=True)
 
