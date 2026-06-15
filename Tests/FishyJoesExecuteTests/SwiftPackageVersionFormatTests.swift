@@ -114,7 +114,7 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         XCTAssertEqual(upToNextMajor.versionInPubspecFormat(flexibleVersions: false), "2.19.4")
         XCTAssertEqual(upToNextMajor.versionInPubspecFormat(flexibleVersions: true), "^2.19.4")
         XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: false), "1.2.3")
-        XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: true), "~1.2.3")
+        XCTAssertEqual(upToNextMinor.versionInPubspecFormat(flexibleVersions: true), ">=1.2.3 <1.3.0")
         XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: false), "1.11.11")
         XCTAssertEqual(exact.versionInPubspecFormat(flexibleVersions: true), "1.11.11")
     }
@@ -162,7 +162,7 @@ class SwiftPackageVersionFormatTests: XCTestCase {
         XCTAssertEqual(upToNextMajor.tagPatternAndVersionConstraint()?.tagPattern, "{{version}}-dart-publish")
         XCTAssertEqual(upToNextMajor.tagPatternAndVersionConstraint()?.versionConstraint, "^2.19.4")
         XCTAssertEqual(upToNextMajorZero.tagPatternAndVersionConstraint()?.versionConstraint, ">=0.5.0 <1.0.0")
-        XCTAssertEqual(upToNextMinor.tagPatternAndVersionConstraint()?.versionConstraint, "~1.2.3")
+        XCTAssertEqual(upToNextMinor.tagPatternAndVersionConstraint()?.versionConstraint, ">=1.2.3 <1.3.0")
         XCTAssertEqual(exact.tagPatternAndVersionConstraint()?.versionConstraint, "1.11.11")
         XCTAssertEqual(range.tagPatternAndVersionConstraint()?.versionConstraint, ">=1.0.0 <2.0.0")
         XCTAssertNil(branch.tagPatternAndVersionConstraint())
