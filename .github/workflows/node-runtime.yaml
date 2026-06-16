@@ -152,10 +152,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - uses: compnerd/gha-setup-swift@main
+      - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
-          branch: swift-6.3-release
-          tag: 6.3-RELEASE
+          swift-version: swift-6.3-release
+          swift-build: 6.3-RELEASE
 
       - name: Pre-resolve required SwiftPM packages
         continue-on-error: true
