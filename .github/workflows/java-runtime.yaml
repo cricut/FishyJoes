@@ -137,8 +137,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@main
         with:
-          branch: swift-6.2-release
-          tag: 6.2-RELEASE
+          branch: swift-6.3-release
+          tag: 6.3-RELEASE
 
       - name: Set up java
         uses: actions/setup-java@v5
