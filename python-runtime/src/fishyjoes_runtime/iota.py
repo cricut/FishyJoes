@@ -9,6 +9,7 @@ import types
 import warnings
 import weakref
 from dataclasses import dataclass
+from typing import ClassVar
 
 from cffi import FFI
 
@@ -521,7 +522,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     class _RangeDescriptor(TypeDescriptor):
-        python_type = SwiftRange
+        python_type: ClassVar[type[SwiftRange] | type[SwiftClosedRange]] = SwiftRange
 
         def __new__(cls, swift_name: str, bound: TypeDescriptor):
             key = (cls, swift_name, bound)
@@ -1845,12 +1846,13 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def diagnostics(package_name: str):
+        library_paths: dict[str, object] = dict(_LIBRARY_PATHS)
         return package_diagnostics(
             package_name,
             config,
             supported=SUPPORTED,
             dependency_reports=_DEPENDENCY_REPORTS,
-            library_paths=_LIBRARY_PATHS,
+            library_paths=library_paths,
         )
 
 

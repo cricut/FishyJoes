@@ -3,5 +3,7 @@ coverage
 hatchling
 mypy
 packaging
+pyright
+types-cffi
 auditwheel; sys_platform == "linux"
 delocate; sys_platform == "darwin"

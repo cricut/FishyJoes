@@ -1,0 +1,48 @@
+# Intentional dynamic runtime details that are not part of the public typing
+# surface exposed to IDEs/type checkers.
+
+# The runtime package's public API is re-exported through fishyjoes_runtime.
+# The implementation module defines descriptor classes inside create_runtime(),
+# so stubtest sees implementation-only names that are not import-level runtime
+# objects. Keep these out of the public package stubs.
+fishyjoes_runtime.__all__
+fishyjoes_runtime.RuntimeConfig.__match_args__
+fishyjoes_runtime.RuntimeConfig.__replace__
+fishyjoes_runtime.RuntimeDependency.__match_args__
+fishyjoes_runtime.RuntimeDependency.__replace__
+fishyjoes_runtime.iota..*
+
+# __all__ is computed from generated exports at runtime.
+testapi.__all__
+testapi._exports.__all__
+
+# Runtime-only placeholders for Foundation attributed string shapes. These are
+# intentionally opaque today; public generated APIs expose the owning Swift
+# members with concrete return annotations where supported.
+testapi._native.Runtime_AttributeContainer.foundation
+testapi._native.Runtime_AttributedString.string
+testapi._native.Runtime_AttributedString.substring
+testapi._native.Runtime_AttributedSubstring.base
+testapi._native.Runtime_AttributedSubstring.string
+testapi._native.Runtime_AttributedSubstring.substring
+testapi.attributed_strings.AttributedStrings.(accent|chinese|chinese_bmp|chinese_sip|emoji|emoji_multi|polyglot|script|simple)
+
+# Swift-origin metadata is runtime diagnostics data, not part of the typed
+# public API.
+testapi\..*\.__fishyjoes_origin__
+
+# Python cannot declare `AssociatedDataEnum.None` in a stub because `None` is a
+# keyword, even though the runtime exposes it via setattr for Swift case parity.
+testapi.associated_data_enum.AssociatedDataEnum.None
+
+# Static-property descriptors use runtime metaclasses; stubs model the useful
+# user-facing attribute types instead of the descriptor implementation class.
+testapi.collections__collection_holder.Collections_CollectionHolder
+testapi.deprecations.Deprecations
+testapi.deprecations.Deprecations.deprecated_variable
+testapi.methods.Methods
+testapi.primitives__primitive_holder.Primitives_PrimitiveHolder
+
+# CPython reports object.__eq__ as positional-only. The stub keeps the normal
+# `other: object` shape expected by IDEs and type checkers.
+testapi.reference_only_types__marker.ReferenceOnlyTypes_Marker.__eq__

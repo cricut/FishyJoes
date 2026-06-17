@@ -11,11 +11,47 @@ GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
 PACKAGE_DIR = GENERATED_SRC / "testapi"
 RUNTIME_SRC = Path(__file__).resolve().parents[5] / "python-runtime" / "src"
 TYPECHECK_FIXTURE = Path(__file__).with_name("typecheck_generated_usage.py")
+STUBTEST_ALLOWLIST = Path(__file__).with_name("stubtest_allowlist.txt")
 if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
     sys.path.insert(0, str(GENERATED_SRC))
 
 
 class TypingMetadataTests(unittest.TestCase):
+    def checker_env(self) -> dict[str, str]:
+        env = os.environ.copy()
+        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
+            env.pop("MYPYPATH", None)
+        else:
+            env["MYPYPATH"] = os.pathsep.join(
+                [str(GENERATED_SRC), str(RUNTIME_SRC), env.get("MYPYPATH", "")]
+            )
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        return env
+
+    def run_checker(self, name: str, command: list[str], env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
+        result = subprocess.run(
+            command,
+            cwd=Path(__file__).resolve().parents[1],
+            env=env or self.checker_env(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(
+            0,
+            result.returncode,
+            "\n".join(
+                [
+                    f"{name} failed for generated Python bindings.",
+                    "Install test dependencies in bindings/python/.venv if the checker is missing.",
+                    result.stdout,
+                    result.stderr,
+                ]
+            ),
+        )
+        return result
+
     def test_generated_package_includes_typing_metadata(self) -> None:
         self.assertTrue((PACKAGE_DIR / "py.typed").is_file())
         self.assertTrue((PACKAGE_DIR / "__init__.pyi").is_file())
@@ -86,42 +122,97 @@ class TypingMetadataTests(unittest.TestCase):
             )
 
     def test_generated_package_type_checks_with_mypy(self) -> None:
-        env = os.environ.copy()
-        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
-            env.pop("MYPYPATH", None)
-        else:
-            env["MYPYPATH"] = os.pathsep.join(
-                [str(GENERATED_SRC), str(RUNTIME_SRC), env.get("MYPYPATH", "")]
-            )
-        env["PYTHONDONTWRITEBYTECODE"] = "1"
         with tempfile.TemporaryDirectory(prefix="fishyjoes-mypy-") as cache_dir:
-            result = subprocess.run(
+            self.run_checker(
+                "mypy",
                 [
                     sys.executable,
                     "-m",
                     "mypy",
                     "--strict",
+                    "--python-version",
+                    "3.11",
                     "--show-error-codes",
                     "--no-error-summary",
                     "--cache-dir",
                     cache_dir,
                     str(TYPECHECK_FIXTURE),
                 ],
-                cwd=Path(__file__).resolve().parents[1],
-                env=env,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
-                check=False,
             )
 
+    def test_generated_package_type_checks_with_pyright(self) -> None:
+        self.run_checker(
+            "pyright",
+            [
+                sys.executable,
+                "-m",
+                "pyright",
+                "--pythonversion",
+                "3.11",
+                "--pythonpath",
+                sys.executable,
+                str(TYPECHECK_FIXTURE),
+            ],
+        )
+
+    def test_public_packages_match_runtime_with_stubtest(self) -> None:
+        self.run_checker(
+            "mypy.stubtest",
+            [
+                sys.executable,
+                "-m",
+                "mypy.stubtest",
+                "fishyjoes_runtime",
+                "testapi",
+                "--concise",
+                "--allowlist",
+                str(STUBTEST_ALLOWLIST),
+            ],
+        )
+
+    def test_generated_package_reports_complete_pyright_types(self) -> None:
+        command = [
+            sys.executable,
+            "-m",
+            "pyright",
+            "--pythonversion",
+            "3.11",
+            "--pythonpath",
+            sys.executable,
+            "--verifytypes",
+            "testapi",
+            "--ignoreexternal",
+        ]
+        result = subprocess.run(
+            command,
+            cwd=Path(__file__).resolve().parents[1],
+            env=self.checker_env(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=False,
+        )
+        if result.returncode != 0 and 'Package directory: ""' in result.stdout:
+            self.skipTest(
+                "pyright --verifytypes cannot resolve py.typed packages through the current pyright wrapper"
+            )
         self.assertEqual(
             0,
             result.returncode,
             "\n".join(
                 [
-                    "mypy failed for generated Python bindings.",
-                    "Install test dependencies in bindings/python/.venv if mypy is missing.",
+                    "pyright --verifytypes failed for generated Python bindings.",
+                    result.stdout,
+                    result.stderr,
+                ]
+            ),
+        )
+        self.assertIn(
+            "Type completeness score: 100%",
+            result.stdout,
+            "\n".join(
+                [
+                    "pyright --verifytypes did not report full type completeness.",
                     result.stdout,
                     result.stderr,
                 ]

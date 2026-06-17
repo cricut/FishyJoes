@@ -18,10 +18,10 @@ def uses_generated_sync_api() -> None:
     associated = AssociatedDataEnum.thing(value=1)
     no_value = AssociatedDataEnum.no_value()
     marker: ReferenceOnlyTypes_Marker = ReferenceOnlyTypes.marker()
-    const_value: Any = Functions.const42
+    exercised = Functions.exercise0(lambda: 42)
     diagnostics_report = diagnostics()
 
-    _: tuple[Any, ...] = (color, associated, no_value, marker, const_value, diagnostics_report)
+    _: tuple[Any, ...] = (color, associated, no_value, marker, exercised, diagnostics_report)
 
 
 async def uses_generated_async_api() -> None:

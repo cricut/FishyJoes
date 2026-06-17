@@ -83,7 +83,7 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
-          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
@@ -165,7 +165,7 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
-          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 
@@ -261,7 +261,7 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # Wheel already clean-installed above (--no-index, runtime deps only); install
-          # the dev tools the tooling tests (mypy type-check, native-repair) require.
+          # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
 

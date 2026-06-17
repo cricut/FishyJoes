@@ -13,6 +13,7 @@ _fj___iota_get_EmojiFun_EmojiExplorer_hello = _native.bind("__iota_get_EmojiFun_
 _fj___iota_get_EmojiFun_EmojiExplorer_known = _native.bind("__iota_get_EmojiFun_EmojiExplorer_known")
 
 class EmojiExplorer(_native.SwiftReference):
+    """A playground object for working with emoji."""
     __fishyjoes_origin__ = {
         "__type__": "EmojiFun.EmojiExplorer",
         "create": "EmojiFun.EmojiExplorer.create",
@@ -26,16 +27,32 @@ class EmojiExplorer(_native.SwiftReference):
     hello = _native.StaticProperty(lambda: _native.call(_fj___iota_get_EmojiFun_EmojiExplorer_hello, args=[], return_conversion=_native.STRING))
     @property
     def known(self):
+        """A collection of emoji strings known to the object.
+
+        This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.
+        """
         return _native.call(_fj___iota_get_EmojiFun_EmojiExplorer_known, args=[self._iota_ref], return_conversion=_native.Set("SetConverter<Swift.String>", _native.STRING))
 
     @staticmethod
     def create(count):
+        """Creates an object that works with emoji strings.
+        - Parameter count: The number of emoji strings to include in the object's known collection.
+        """
         return _native.call(_fj___iota_EmojiFun_EmojiExplorer_create, args=[count], arg_conversions=[None], return_conversion=_native.ValueType("EmojiExplorer"))
     def enumerate_known(self, body):
+        """Enumerates the emoji strings known to the object.
+        - Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.
+        """
         return _native.call(_fj___iota_EmojiFun_EmojiExplorer_enumerateKnown, args=[self._iota_ref, body], arg_conversions=[None, _native.Function("Function1Converter<Swift.String, Swift.Bool>", [_native.STRING], _native.BOOL)], return_conversion=_native.VOID)
     def random(self):
+        """Reports a random emoji string built using the object's collection of known emoji strings.
+        - Returns: A string containing one or more random emoji. In the unusual case that the object knows zero emoji strings, the `hello` string is returned.
+        """
         return _native.call(_fj___iota_EmojiFun_EmojiExplorer_random, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     def random_unique(self):
+        """Reports a random emoji string from the object's collection of known emoji strings, ensuring it is only reported once.
+        - Returns: A random emoji string, or `nil` if all values known to the object have been reported.
+        """
         return _native.call(_fj___iota_EmojiFun_EmojiExplorer_randomUnique, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Optional(_native.STRING))
 
 _native.setup_reference_type(_fj_EmojiFun_EmojiExplorer_setup, EmojiExplorer)

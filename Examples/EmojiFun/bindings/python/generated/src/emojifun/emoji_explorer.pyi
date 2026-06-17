@@ -4,11 +4,31 @@ from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
 
 class EmojiExplorer:
+    """A playground object for working with emoji."""
     hello: ClassVar[str]
+    """Emits a hello string.
+    - Returns: A string containing an emoji hello message.
+    """
     @property
-    def known(self) -> set[str]: ...
+    def known(self) -> set[str]:
+        """A collection of emoji strings known to the object.
+
+        This value could contain millions of strings and be very large, incuring a performance cost to communicate to foreign callers, so `enumerateKnown(_:)` is also provided.
+        """
     @staticmethod
-    def create(count: int) -> EmojiExplorer: ...
-    def enumerate_known(self, body: Callable[[str], bool]) -> None: ...
-    def random(self) -> str: ...
-    def random_unique(self) -> str | None: ...
+    def create(count: int) -> EmojiExplorer:
+        """Creates an object that works with emoji strings.
+        - Parameter count: The number of emoji strings to include in the object's known collection.
+        """
+    def enumerate_known(self, body: Callable[[str], bool]) -> None:
+        """Enumerates the emoji strings known to the object.
+        - Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.
+        """
+    def random(self) -> str:
+        """Reports a random emoji string built using the object's collection of known emoji strings.
+        - Returns: A string containing one or more random emoji. In the unusual case that the object knows zero emoji strings, the `hello` string is returned.
+        """
+    def random_unique(self) -> str | None:
+        """Reports a random emoji string from the object's collection of known emoji strings, ensuring it is only reported once.
+        - Returns: A random emoji string, or `nil` if all values known to the object have been reported.
+        """

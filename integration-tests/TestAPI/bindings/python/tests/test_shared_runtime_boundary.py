@@ -368,7 +368,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
         self.assertTrue(requirements.is_file(), "Python binding test dependencies must be explicit")
         contents = requirements.read_text(encoding="utf-8")
-        for requirement in ["cffi", "hatchling", "mypy", "packaging"]:
+        for requirement in ["cffi", "hatchling", "mypy", "packaging", "pyright", "types-cffi"]:
             self.assertIn(requirement, contents)
 
 
