@@ -11,6 +11,15 @@ export const init = async () => {
     napi.exports,
     __MODULE_DEPENDENCY__Extensions.imports,
     __MODULE_NAME__Extensions.imports,
+    {
+      env: {
+        memory: new WebAssembly.Memory({
+          initial: 585,
+          maximum: 16384,
+          shared: true,
+        })
+      }
+    },
   ];
   for (const imports of importsToMerge) {
     for (const [namespace, functions] of Object.entries(imports)) {
