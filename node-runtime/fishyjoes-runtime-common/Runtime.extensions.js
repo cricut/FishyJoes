@@ -168,7 +168,6 @@ function applyExtensions(library, { wasmNapi } = {}) {
                 }
                 const view = new Uint8Array(wasmNapi.memory.buffer, outBufferPtr, length);
                 view.set(new Uint8Array(buffer, offset, length));
-                wasmNapi.wasi.refreshMemory();
             },
             toWasi(byteLength, dataPtr) {
                 const buffer = wasmNapi.memory.buffer.slice(dataPtr, dataPtr + byteLength);

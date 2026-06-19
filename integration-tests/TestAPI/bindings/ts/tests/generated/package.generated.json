@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test-wasm",
-    "test-wasm": "node --inspect-brk --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.wasm.cjs",
+    "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.wasm.cjs",
     "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
     "test-native-windows-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
     "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-macos.cjs",

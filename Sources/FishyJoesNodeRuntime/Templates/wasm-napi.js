@@ -169,46 +169,15 @@ const kNoException = Symbol('kNoException');
 const hasOwnProperty = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 export class NAPI {
-  constructor(WASI, WasmFs) {
-    const wasmFs = new WasmFs();
-
-    // Output stdout and stderr to console
-    const originalWriteSync = wasmFs.fs.writeSync;
-    var logBuffer = ""
-    var errorBuffer = ""
-    wasmFs.fs.writeSync = (fd, buffer, ...args) => {
-      const text = new TextDecoder("utf-8").decode(buffer);
-      switch (fd) {
-      case 1:
-        var lines = (logBuffer + text).split('\n')
-        logBuffer = lines.pop()
-        lines.forEach(e => console.log(e))
-        break;
-      case 2:
-        var lines = (errorBuffer + text).split('\n')
-        errorBuffer = lines.pop()
-        lines.forEach(e => console.error(e))
-        break;
-      }
-      return originalWriteSync(fd, buffer, ...args);
-    };
-
-    this.wasi = new WASI({
-      args: [], env: {},
-      bindings: {
-        ...WASI.defaultBindings,
-        fs: wasmFs.fs,
-      }
-    });
-
-    // Patch wasmer-js methods to ensure that memory is bound to a valid data view before they run
-    for (const [fnName, fnDef] of Object.entries(this.wasi.wasiImport)) {
-      const capturedThis = this;
-      this.wasi.wasiImport[fnName] = function() {
-        capturedThis.wasi.refreshMemory();
-        return fnDef.apply(this, arguments);
-      };
-    }
+  constructor({ WASI, OpenFile, File, ConsoleStdout }) {
+    // browser_wasi_shim models stdin/stdout/stderr as preopened fds 0/1/2.
+    // ConsoleStdout.lineBuffered batches writes and emits one full line at a time.
+    const fds = [
+      new OpenFile(new File([])),
+      ConsoleStdout.lineBuffered((line) => console.log(line)),
+      ConsoleStdout.lineBuffered((line) => console.error(line)),
+    ];
+    this.wasi = new WASI([], [], fds);
 
     this.indirectFunctionTable = undefined;
     this.memory = undefined;
@@ -216,7 +185,7 @@ export class NAPI {
     this.malloc = undefined;
     this.free = undefined;
     this.errorMessageTable = undefined;
-    this.view = undefined;
+    this._view = undefined;
     this.instanceData = { data: 0 };
 
     this.scopes = [];
@@ -252,7 +221,6 @@ export class NAPI {
       }
       this.lastErrorCode = NAPI_OK;
       try {
-        this.wasi.refreshMemory();
         const r = f(...args);
         if (r !== NAPI_OK) {
           this.lastErrorCode = r;
@@ -491,8 +459,6 @@ export class NAPI {
       }),
 
       // napi_fatal_error: (locationPtr, locationLen, messagePtr, messageLen) => {
-      //   this.wasi.refreshMemory();
-
       //   const location = this.readString(locationPtr, locationLen);
       //   const message = this.readString(messagePtr, messageLen);
 
@@ -1796,29 +1762,40 @@ export class NAPI {
     return this.handles[idx];
   }
 
+  // DataView over the wasm linear memory. Lazily recreated when memory grows:
+  //   - non-shared ArrayBuffer: memory.grow() detaches old buffer; identity check catches it
+  //   - SharedArrayBuffer (wasi-threads): memory.grow() extends in place; byteLength check catches it
+  get view() {
+    const buffer = this.memory.buffer;
+    if (!this._view || this._view.buffer !== buffer || this._view.byteLength < buffer.byteLength) {
+      this._view = new DataView(buffer);
+    }
+    return this._view;
+  }
+
   readU32(ptr) {
     ptr >>>= 0;
-    return this.wasi.view.getUint32(ptr, true);
+    return this.view.getUint32(ptr, true);
   }
 
   readU64(ptr) {
     ptr >>>= 0;
-    return this.wasi.view.getBigUint64(ptr, true);
+    return this.view.getBigUint64(ptr, true);
   }
 
   writeU8(ptr, u8) {
     ptr >>>= 0;
-    this.wasi.view.setUint8(ptr, u8);
+    this.view.setUint8(ptr, u8);
   }
 
   writeU32(ptr, u32) {
     ptr >>>= 0;
-    this.wasi.view.setUint32(ptr, u32, true);
+    this.view.setUint32(ptr, u32, true);
   }
 
   writeI32(ptr, i32) {
     ptr >>>= 0;
-    this.wasi.view.setInt32(ptr, i32, true);
+    this.view.setInt32(ptr, i32, true);
   }
 
   writeI64(ptr, i64) {
@@ -1831,17 +1808,17 @@ export class NAPI {
     if (i64 < -RANGEERROR) {
       i64 = -RANGEERROR
     }
-    this.wasi.view.setBigInt64(ptr, i64, true);
+    this.view.setBigInt64(ptr, i64, true);
   }
 
   writeU64(ptr, u64) {
     ptr >>>= 0;
-    this.wasi.view.setBigUint64(ptr, u64, true);
+    this.view.setBigUint64(ptr, u64, true);
   }
 
   writeF64(ptr, f64) {
     ptr >>>= 0;
-    this.wasi.view.setFloat64(ptr, f64, true);
+    this.view.setFloat64(ptr, f64, true);
   }
 
   readCStringFrom(ptr) {
@@ -1900,7 +1877,6 @@ export class NAPI {
         buffer.set(utf8, stringPtr)
         buffer[stringPtr + utf8.length] = 0
       }
-      this.wasi.refreshMemory();
       this.writeU32(tablePtr + 4 * i, stringPtr);
     }
     return tablePtr;
@@ -1912,8 +1888,8 @@ export class NAPI {
     this.free = instance.exports.free;
     this.indirectFunctionTable = instance.exports.__indirect_function_table;
 
-    this.wasi.start(instance);
-    instance.exports._initialize?.();
+    // Reactor model: initialize() runs _initialize (global ctors) but no main.
+    this.wasi.initialize(instance);
 
     this.errorMessageTable = this.allocateErrorMessages();
     this.extendedErrorInfoPtr = this.malloc(16);

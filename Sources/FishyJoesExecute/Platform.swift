@@ -160,6 +160,10 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             // custom build paths to avoid different versions of spm destroying each other's caches
             scratchPath = "\(scratchPath)/wasm-build"
             args.append(contentsOf: ["-Xswiftc", "-Xclang-linker", "-Xswiftc", "-mexec-model=reactor"])
+            // The default "swiftbuild" backend partial-links C/C++ targets with `clang++ -r`,
+            // which lld rejects when targeting wasi-threads (implicit --shared-memory conflicts with -r).
+            // Fall back to the native SPM build system until that conflict is resolved upstream.
+            args.append(contentsOf: ["--build-system", "native"])
 
             env = ["WASM_ONLY": "1"]
         case .node, .kotlinSystem, .dart:
