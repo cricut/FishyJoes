@@ -8,6 +8,7 @@ import TestAPI_CommonInterface
 
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
 public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {
+    registerMainJSThread(env: env)
     #if os(WASI)
     try JavaScriptEventLoop.installGlobalExecutor(env: env)
     #endif

@@ -42,6 +42,7 @@ struct QueueState: Sendable {
 
 extension JavaScriptEventLoop {
     func insertJobQueue(job newJob: UnownedJob) {
+        assert(JSMainThread.isOnMainThread)
         withUnsafeMutablePointer(to: &queueState.headJob) { headJobPtr in
             var position: UnsafeMutablePointer<UnownedJob?> = headJobPtr
             while let cur = position.pointee {
@@ -56,7 +57,6 @@ extension JavaScriptEventLoop {
             position.pointee = newJob
         }
 
-        // TODO: use CAS when supporting multi-threaded environment
         if !queueState.isSpinning {
             self.queueState.isSpinning = true
             JavaScriptEventLoop.shared.queueMicrotask {
@@ -66,6 +66,7 @@ extension JavaScriptEventLoop {
     }
 
     func runAllJobs() {
+        assert(JSMainThread.isOnMainThread)
         assert(queueState.isSpinning)
 
         while let job = self.claimNextFromQueue() {
@@ -80,6 +81,7 @@ extension JavaScriptEventLoop {
     }
 
     func claimNextFromQueue() -> UnownedJob? {
+        assert(JSMainThread.isOnMainThread)
         if let job = self.queueState.headJob {
             self.queueState.headJob = job.nextInQueue().pointee
             return job
