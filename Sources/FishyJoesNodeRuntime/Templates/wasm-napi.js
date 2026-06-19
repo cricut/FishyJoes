@@ -1428,20 +1428,21 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
-       if (funcIdx === null && callJavascriptCallback === null) {
+       // wasm imports pass 0 for absent values; tolerate null too for direct JS callers.
+       if (!funcIdx && !callJavascriptCallback) {
          return NAPI_INVALID_ARG;
        }
        const threadsafeFunction = {
-         "func": this.load(funcIdx),
+         "func": funcIdx ? this.load(funcIdx) : null,
          "asyncResource": this.load(asyncResourceIdx),
          "asyncResourceName": this.load(asyncResourceNameIdx),
          "maxQueueSize": maxQueueSize >>> 0,
          "queueSize": 0,
          "threadCount": initialThreadCount >>> 0,
          finalizeData,
-         "finalizeCallback": this.indirectFunctionTable.get(finalizeCallback),
+         "finalizeCallback": finalizeCallback ? this.indirectFunctionTable.get(finalizeCallback) : null,
          callJavascriptCallbackContext,
-         "callJavascriptCallback": this.indirectFunctionTable.get(callJavascriptCallback),
+         "callJavascriptCallback": callJavascriptCallback ? this.indirectFunctionTable.get(callJavascriptCallback) : null,
          "env": envPtr,
          isCancelled: false
        };
@@ -1459,43 +1460,34 @@ export class NAPI {
            return NAPI_CLOSING;
        }
 
-       // If the maxQueueSize is 0 then there is no limit so just call the function
+       // wasi-threads workers forward this call to main via postMessage, so
+       // the body always runs on the JS main thread; we cannot truly block
+       // (would deadlock), so BLOCKING with a full queue proceeds anyway.
        if (threadsafeFunction.maxQueueSize !== 0) {
            if (threadsafeFunction.queueSize < threadsafeFunction.maxQueueSize) {
                threadsafeFunction.queueSize += 1;
-           } else {
-               if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
-                   // TODO: If/when this is ever multithreaded, block until this can execute
-               } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
-                   return NAPI_QUEUE_FULL;
-               } else {
-                   return NAPI_INVALID_ARG;
-               }
+           } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
+               return NAPI_QUEUE_FULL;
+           } else if (mode !== NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
+               return NAPI_INVALID_ARG;
            }
        }
 
-       if (threadsafeFunction.callJavascriptCallback !== null) {
-           // TODO: If/when this is ever multithraded, ensure this is called on the main thread
+       if (threadsafeFunction.callJavascriptCallback) {
            const env = threadsafeFunction.env
-           const funcIdx = this.store(threadsafeFunction.func);
+           const funcIdx = threadsafeFunction.func ? this.store(threadsafeFunction.func) : 0;
            const context = threadsafeFunction.callJavascriptCallbackContext;
            const callback = threadsafeFunction.callJavascriptCallback
            callback(env, funcIdx, context, data);
-       } else if (threadsafeFunction.func !== null) {
-             const args = [];
-             args.push(threadsafeFunction.env);
-             // createFunction() uses the same index for both the function and the context
-             const callbackInfo = threadsafeFunction.func;
-             args.push(callbackInfo);
-             const func = this.load(threadsafeFunction.func);
-             result = Reflect.apply(func, undefined, args);
+       } else if (threadsafeFunction.func) {
+             // Per Node-API: call_js_cb null => JS function invoked with no args.
+             Reflect.apply(threadsafeFunction.func, undefined, []);
        } else {
            return NAPI_INVALID_ARG;
        }
 
        if (threadsafeFunction.maxQueueSize !== 0) {
            threadsafeFunction.queueSize -= 1;
-           // TODO: If/when this is ever multithraded, wake the next blocked execution if there are any
        }
 
         return NAPI_OK;
@@ -1514,12 +1506,13 @@ export class NAPI {
        }
 
        if (threadsafeFunction.threadCount === 0) {
-         if (typeof threadsafeFunction.threadFinalizeCallback === 'function') {
+         if (typeof threadsafeFunction.finalizeCallback === 'function') {
            const args = [];
            args.push(threadsafeFunction.env);
            args.push(threadsafeFunction.finalizeData);
-           args.push(threadsafeFunctionIdx);
-           Reflect.apply(threadsafeFunction.threadFinalizeCallback, undefined, args);
+           // napi_finalize hint: for TSFs Node passes the context.
+           args.push(threadsafeFunction.callJavascriptCallbackContext);
+           Reflect.apply(threadsafeFunction.finalizeCallback, undefined, args);
          }
          delete this.references[threadsafeFunctionIdx];
        }
@@ -1706,6 +1699,7 @@ export class NAPI {
       }),
       napi_is_promise: this.wrap((envPtr, valueIdx, resultPtr) => {
         this.writeU8(resultPtr, isPromise(this.load(valueIdx)));
+        return NAPI_OK;
       }),
       napi_run_script: this.wrap((envPtr, scriptIdx, resultPtr) => {
         const script = this.load(scriptIdx);
@@ -1718,15 +1712,19 @@ export class NAPI {
         this.finalizationRegistry
           .register(instanceObject, [finalizeCb, envPtr, data, finalizeHint]);
         this.instanceData = instanceObject
+        return NAPI_OK;
       }),
       napi_get_instance_data: this.wrap((envPtr, dataPtr) => {
         this.writeU32(dataPtr, this.instanceData.data);
+        return NAPI_OK;
       }),
       napi_get_version: this.wrap((envPtr, resultPtr) => {
         this.writeU32(resultPtr, 8);
+        return NAPI_OK;
       }),
       napi_adjust_external_memory: this.wrap((envPtr, changeInBytes, resultPtr) => {
         this.writeI64(resultPtr, 1n);
+        return NAPI_OK;
       }),
     };
   }
