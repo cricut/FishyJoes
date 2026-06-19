@@ -177,7 +177,7 @@ export class NAPI {
       ConsoleStdout.lineBuffered((line) => console.log(line)),
       ConsoleStdout.lineBuffered((line) => console.error(line)),
     ];
-    this.wasi = new WASI([], [], fds);
+    this.wasi = new WASI([], [], fds, { debug: false });
 
     this.indirectFunctionTable = undefined;
     this.memory = undefined;
