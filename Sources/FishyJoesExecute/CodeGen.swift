@@ -14,6 +14,9 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
 
+    @Flag(name: .long, inversion: .prefixedNo, help: "When testing --wasm, additionally run tests in a real browser (Chromium via Playwright)")
+    var wasmBrowser = false
+
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
     var kotlin = false
 
@@ -66,6 +69,7 @@ public class CodeGen: ParsableCommand {
         case quiet
         case nodejs
         case wasm
+        case wasmBrowser
         case kotlin
         case kotlinFast
         case cSharp
@@ -153,7 +157,7 @@ extension CodeGen {
             fatalError()
         }
 
-        if wasm {
+        if wasm || wasmBrowser {
             platforms.append(.wasm)
         }
         if nodejs {

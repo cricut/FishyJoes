@@ -7,6 +7,7 @@
   "scripts": {
     "test": "npm run test-wasm",
     "test-wasm": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.wasm.cjs",
+    "test-wasm-browser": "vitest run --config generated/vitest.config.wasm-browser.ts",
     "test-native-windows": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
     "test-native-windows-lldb": "lldb -- node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-windows.cjs",
     "test-native-macos": "node --experimental-vm-modules node_modules/jest/bin/jest.js --run-in-band -c generated/jest.config.native-macos.cjs",
@@ -18,9 +19,13 @@
   "devDependencies": {
     "@babel/preset-env": "^7.18.2",
     "@types/jest": "^28.1.1",
+    "@vitest/browser": "^2.1.9",
+    "buffer": "^5.7.1",
     "jest": "^28.1.1",
+    "playwright": "^1.50.0",
     "ts-jest": "^28.0.4",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.0",
+    "vitest": "^2.1.9"
   },
   "type": "module",
   "optionalDependencies": {

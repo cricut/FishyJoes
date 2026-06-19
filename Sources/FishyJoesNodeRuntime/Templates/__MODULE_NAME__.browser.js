@@ -63,7 +63,9 @@ const init = async () => {
 
   // Compile first (so the module can be shared with worker threads), then
   // instantiate.
-  const wasmModule = await WebAssembly.compileStreaming(fetch("__MODULE_NAME__.wasm"));
+  const wasmModule = await WebAssembly.compileStreaming(
+    fetch(new URL('./__MODULE_NAME__.wasm', import.meta.url)),
+  );
   wasmModuleRef = wasmModule;
   const instance = await WebAssembly.instantiate(wasmModule, importObject);
   const library = napi.init(instance);

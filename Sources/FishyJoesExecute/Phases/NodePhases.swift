@@ -363,6 +363,11 @@ class NodePhases: BasePhases, Phases {
 
             // Use npm to execute the test suite
             try npm("run", "clear-cache").run()
+
+            if platform == .wasm, options.wasmBrowser {
+                // Idempotent: re-runs are cheap when the browser is already installed.
+                try npx("playwright", "install", "chromium").run()
+            }
         }
     }
 
@@ -375,6 +380,10 @@ class NodePhases: BasePhases, Phases {
                 ]
             } ?? [:]
             try npm("run", "test-\(platform.nodeExecutionEnvironment)", addEnv: addEnv).run()
+
+            if platform == .wasm, options.wasmBrowser {
+                try npm("run", "test-wasm-browser", addEnv: addEnv).run()
+            }
         }
     }
 
@@ -403,6 +412,16 @@ class NodePhases: BasePhases, Phases {
         return cmd("npm", arguments: arguments, addEnv: addEnv)
         #elseif os(Windows)
         return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments, addEnv: addEnv)
+        #else
+        fatalError("unknown host OS")
+        #endif
+    }
+
+    private func npx(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
+        #if os(macOS) || os(Linux)
+        return cmd("npx", arguments: arguments, addEnv: addEnv)
+        #elseif os(Windows)
+        return cmd("cmd.exe", arguments: ["/c", "npx"] + arguments, addEnv: addEnv)
         #else
         fatalError("unknown host OS")
         #endif
