@@ -2975,6 +2975,60 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "Threading",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Threading",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Threading",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Threading"
+        }
+      },
+      "kotlinName" : "Threading",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Threading",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Threading",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Tuples",
             "namespace" : [
 
@@ -15812,6 +15866,99 @@
 
             ]
           },
+          "Threading" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(runConcurrentJobs) -->",
+                  "Spawns `jobCount` jobs concurrently, each running `chunksPerJob`",
+                  "blocking sleeps off the calling thread. After each chunk, invokes",
+                  "`progress(jobIndex, totalChunks)` where `totalChunks` is the",
+                  "cumulative number of chunks completed across all jobs."
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "runConcurrentJobs",
+                "parameters" : [
+                  {
+                    "name" : "jobCount",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "chunksPerJob",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "progress",
+                    "type" : {
+                      "named" : {
+                        "_0" : "(_0: number, _1: number) => Promise<void>"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "void"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(proveParallelism) -->",
+                  "Returns true iff the compute thread and the calling thread can",
+                  "rendezvous via shared atomics — a one-sided proof of parallelism.",
+                  "Under serial execution the worker spins forever waiting for the",
+                  "main-thread release flag;"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "proveParallelism",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "name" : "Threading",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Tuples" : {
             "classes" : [
 
@@ -16443,6 +16590,19 @@
                       "_0" : "qux"
                     }
                   }
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(Threading) -->"
+            ],
+            "name" : "Threading",
+            "value" : {
+              "union" : {
+                "_0" : [
+
                 ]
               }
             }

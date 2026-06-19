@@ -1537,6 +1537,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_TestProtocolStruct_setup');
+    final TestAPI_Threading_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Threading_setup');
     final TestAPI_Tuples_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -4331,6 +4341,32 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolStruct_xyzzy");
+    TestAPI.Threading.f__iota_TestAPI_Threading_proveParallelism = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Threading_proveParallelism");
+    TestAPI.Threading.f__iota_TestAPI_Threading_runConcurrentJobs = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr jobCount,
+            ffi.IntPtr chunksPerJob,
+            UnownedRef progress,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int jobCount,
+            int chunksPerJob,
+            UnownedRef progress,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Threading_runConcurrentJobs");
     TestAPI.Tuples.f__iota_TestAPI_Tuples_checkTuples = dylib.lookupFunction<
         ffi.Bool Function(
             Env env,
@@ -7147,6 +7183,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () {
+        // print("setting up (Swift.Int, Swift.Int) throws -> Future<Void> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_Function2Converter_setup<Future<void>, int, int>(
+                Loader.shared.env,
+                "Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () {
         // print("setting up (Swift.Int) throws -> Future<Swift.Int> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -7260,6 +7307,16 @@ final ensureLoaded = (() {
         // print("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_AsyncFunction2Converter<Swift.Int, Swift.Int, FishyJoesCommonRuntime.VoidConverter>", () {
+        // print("setting up (Int, Int) async throws -> Void (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_AsyncFunction2Converter_setup(
                 Loader.shared.env,
                 exn
             );
@@ -7596,6 +7653,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<Result<int, TestAPI.TheMethodError>>(
                 Loader.shared.env,
                 "FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_FutureConverter<Swift.Bool>", () {
+        // print("setting up Future<Swift.Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_FutureConverter_setup<bool>(
+                Loader.shared.env,
+                "FutureConverter<Swift.Bool>",
                 exn
             );
         });
@@ -9389,6 +9457,16 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_get_corge),
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_set_corge),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Threading", () {
+        // print("setting up TestAPI.Threading (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Threading_setup(
+                Loader.shared.env,
                 exn
             );
         });

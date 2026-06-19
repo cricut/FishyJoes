@@ -1909,4 +1909,105 @@ export class NAPI {
       }
     }
   }
+
+  // Handle a forwarded napi call from a wasi-threads worker. The worker has
+  // no NAPI env of its own; the three thread-safe-function calls listed in
+  // the Node-API spec (napi_call/acquire/release_threadsafe_function) are
+  // routed here and re-entered through this main instance's tables.
+  dispatchWorkerMessage(msg) {
+    switch (msg.type) {
+      case 'napi_call_threadsafe_function':
+        this.exports.napi.napi_call_threadsafe_function(msg.handle, msg.data, msg.mode);
+        break;
+      case 'napi_acquire_threadsafe_function':
+        this.exports.napi.napi_acquire_threadsafe_function(msg.handle);
+        break;
+      case 'napi_release_threadsafe_function':
+        this.exports.napi.napi_release_threadsafe_function(msg.handle, msg.mode);
+        break;
+      default:
+        console.error(`dispatchWorkerMessage: unknown type ${msg.type}`);
+    }
+  }
+}
+
+// Build the import object a wasi-threads worker uses to instantiate the wasm
+// module WITHOUT creating its own NAPI env. The three thread-safe-function
+// calls explicitly permitted from any thread by the Node-API spec are
+// forwarded to main via port.postMessage; every other napi_* import resolves
+// to a throwing stub so contract violations surface immediately.
+//
+// `port` is the host-agnostic abstraction over a worker's outgoing message
+// channel: Node workers pass `parentPort`, browser workers pass `self`. Both
+// expose `postMessage`.
+//
+// Returns { imports, wasi } — caller must assign wasi.inst = instance after
+// instantiation so WASI syscalls (fd_write, etc.) can locate memory.
+export function makeWorkerImports({ port, memory, WASI, OpenFile, File, ConsoleStdout }) {
+  const fds = [
+    new OpenFile(new File([])),
+    ConsoleStdout.lineBuffered((line) => console.log(line)),
+    ConsoleStdout.lineBuffered((line) => console.error(line)),
+  ];
+  const wasi = new WASI([], [], fds, { debug: false });
+
+  // Harvest the napi_* function names from a throwaway main-mode NAPI so the
+  // throwing-stub list stays in sync if more functions are added to the main
+  // table — no second list to maintain.
+  const mainNapiNames = Object.keys(
+    new NAPI({ WASI, OpenFile, File, ConsoleStdout }).makeNAPIExports()
+  );
+
+  const napiImports = {};
+  for (const name of mainNapiNames) {
+    napiImports[name] = () => {
+      throw new Error(`NAPI ${name} called from worker thread`);
+    };
+  }
+
+  // Allow-listed: forward to main. Per Node-API docs:
+  //   napi_call_threadsafe_function    — "may be called from any thread"
+  //   napi_acquire_threadsafe_function — "may be called from any thread"
+  //   napi_release_threadsafe_function — "may be called from any thread"
+  napiImports.napi_call_threadsafe_function = (threadsafeFunctionIdx, data, mode) => {
+    port.postMessage({
+      type: 'napi_call_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+      data: data >>> 0,
+      mode: mode | 0,
+    });
+    return NAPI_OK;
+  };
+  napiImports.napi_acquire_threadsafe_function = (threadsafeFunctionIdx) => {
+    port.postMessage({
+      type: 'napi_acquire_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+    });
+    return NAPI_OK;
+  };
+  napiImports.napi_release_threadsafe_function = (threadsafeFunctionIdx, mode) => {
+    port.postMessage({
+      type: 'napi_release_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+      mode: mode | 0,
+    });
+    return NAPI_OK;
+  };
+  // env-scoped and harmless on a worker — return OK with no extended info.
+  napiImports.napi_get_last_error_info = () => NAPI_OK;
+
+  let tempRet0 = 0;
+  return {
+    imports: {
+      wasi_snapshot_preview1: wasi.wasiImport,
+      env: {
+        memory,
+        setTempRet0: (value) => { tempRet0 = value; },
+        getTempRet0: () => tempRet0,
+        mprotect: () => 0,
+      },
+      napi: napiImports,
+    },
+    wasi,
+  };
 }

@@ -10658,6 +10658,111 @@ extension TestAPI.TestProtocolStruct: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
+// MARK: - NodeInterface/TestAPI.Threading+node.swift
+
+extension TestAPI.Threading: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.Threading")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "Threading",
+            properties: [
+                (
+                    name: "runConcurrentJobs",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "runConcurrentJobs", expectedArgumentCount: 3, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(at: 0, converter: Swift.Int.self))
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 1, converter: Swift.Int.self))
+                            let arg2 = UncheckedSendableBox(try env.argument(at: 2, converter: AsyncFunction2Converter<Swift.Int, Swift.Int, FishyJoesCommonRuntime.VoidConverter>.self))
+                            Task {
+                                do {
+                                    let taskResult: Void = try await TestAPI.Threading.runConcurrentJobs(
+                                        jobCount: arg0.value,
+                                        chunksPerJob: arg1.value,
+                                        progress: arg2.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try FishyJoesCommonRuntime.VoidConverter.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "proveParallelism",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "proveParallelism", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Bool = try await TestAPI.Threading.proveParallelism(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Bool.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "Threading_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Threading",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - NodeInterface/TestAPI.Tuples+node.swift
 
 extension TestAPI.Tuples: FishyJoesNodeRuntime.NodeConverter {

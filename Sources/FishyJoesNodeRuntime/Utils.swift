@@ -263,21 +263,33 @@ public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallM
     if let env = JSMainThread.envIfAlreadyOnMain {
         return try operation(env)
     }
-    #if os(WASI)
-    fatalError("syncOnMainThread from non-main thread is not yet supported on WASI")
-    #else
-    let semaphore = DispatchSemaphore(value: 0)
+    let semaphore = BlockingSemaphore()
     var result: Result<R, any Error>?
     try onMainThread(blocking: callMode) { env in
-        do {
-            result = .success(try operation(env))
-            semaphore.signal()
-        } catch {
-            result = .failure(error)
-            semaphore.signal()
-        }
+        result = Result { try operation(env) }
+        semaphore.signal()
     }
     semaphore.wait()
     return try result!.get()
-    #endif
+}
+
+// NSCondition is available on all platforms.
+fileprivate final class BlockingSemaphore: @unchecked Sendable {
+    private let condition = NSCondition()
+    private var signaled: Bool = false
+
+    func wait() {
+        condition.lock()
+        while !signaled {
+            condition.wait()
+        }
+        condition.unlock()
+    }
+
+    func signal() {
+        condition.lock()
+        signaled = true
+        condition.signal()
+        condition.unlock()
+    }
 }

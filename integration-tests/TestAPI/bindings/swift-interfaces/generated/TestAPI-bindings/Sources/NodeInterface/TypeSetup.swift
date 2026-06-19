@@ -73,6 +73,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.TestProtocolClass.nodeSetup(env: env, module: module)
     try TestAPI.TestProtocolEnum.nodeSetup(env: env, module: module)
     try TestAPI.TestProtocolStruct.nodeSetup(env: env, module: module)
+    try TestAPI.Threading.nodeSetup(env: env, module: module)
     try TestAPI.Tuples.nodeSetup(env: env, module: module)
     try TestAPI.URLs.nodeSetup(env: env, module: module)
     // Call once in TypeSetup to work around a Windows delayload llvm bug described here: https://github.com/llvm/llvm-project/issues/51941. This affects functions with doubles in the first or second argument, which get put into xmm0 and xmm1, and the delayload somehow clobbers the stack where they are stored so when the napi function is done and the stack is popped back into xmm0 and xmm1 the value is incorrect. This needs to be done for both napi_create_double and napi_create_date.

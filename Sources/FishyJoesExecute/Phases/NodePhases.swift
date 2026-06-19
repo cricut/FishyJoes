@@ -169,6 +169,7 @@ class NodePhases: BasePhases, Phases {
                 try cmd("cp", "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)", "\(outputDir)/\(nodeModule.name).wasm").run()
             }
             try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
+            try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-runtime.js", outputDir).run()
 
             // Create the required Javascript files for loading the module's Wasm bundle
             try template(
@@ -180,6 +181,12 @@ class NodePhases: BasePhases, Phases {
             try template(
                 inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.browser.js",
                 outPath: "\(outputDir)/\(nodeModule.name).browser.js",
+                moduleName: nodeModule.name,
+                dependencies: nodeDependencies.map(\.name)
+            )
+            try template(
+                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.worker.js",
+                outPath: "\(outputDir)/\(nodeModule.name).worker.js",
                 moduleName: nodeModule.name,
                 dependencies: nodeDependencies.map(\.name)
             )

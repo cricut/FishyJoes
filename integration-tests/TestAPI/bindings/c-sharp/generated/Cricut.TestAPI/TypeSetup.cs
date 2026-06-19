@@ -1058,6 +1058,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Threading_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Tuples_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -1277,6 +1283,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", () => {
+                // Console.WriteLine("setting up (Swift.Int, Swift.Int) throws -> Future<Void>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function2Converter_setup<System.Threading.Tasks.Task, nint, nint>(
+                    Loader.env,
+                    "Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>",
+                    out exn
+                ));
+            });
             Once("setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>", () => {
                 // Console.WriteLine("setting up (Swift.Int) throws -> Future<Swift.Int>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function1Converter_setup<System.Threading.Tasks.Task<nint>, nint>(
@@ -1359,6 +1373,13 @@ namespace Cricut.TestAPI {
             Once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
                 // Console.WriteLine("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_AsyncFunction2Converter<Swift.Int, Swift.Int, FishyJoesCommonRuntime.VoidConverter>", () => {
+                // Console.WriteLine("setting up (Int, Int) async throws -> Void...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction2Converter_setup(
                     Loader.env,
                     out exn
                 ));
@@ -1602,6 +1623,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>(
                     Loader.env,
                     "FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>",
+                    out exn
+                ));
+            });
+            Once("setup_FutureConverter<Swift.Bool>", () => {
+                // Console.WriteLine("setting up Future<Swift.Bool>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_FutureConverter_setup<bool>(
+                    Loader.env,
+                    "FutureConverter<Swift.Bool>",
                     out exn
                 ));
             });
@@ -3787,6 +3816,13 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Threading", () => {
+                // Console.WriteLine("setting up TestAPI.Threading...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Threading_setup(
+                    Loader.env,
                     out exn
                 ));
             });

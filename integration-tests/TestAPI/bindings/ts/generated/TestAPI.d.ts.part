@@ -3571,6 +3571,35 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.export(Threading) -->
+     */
+    export type Threading = never;
+    export namespace Threading {
+        /**
+         * <!-- FishyJoes.export(proveParallelism) -->
+         * Returns true iff the compute thread and the calling thread can
+         * rendezvous via shared atomics — a one-sided proof of parallelism.
+         * Under serial execution the worker spins forever waiting for the
+         * main-thread release flag;
+         */
+        function proveParallelism(
+        ): Promise<boolean>;
+
+        /**
+         * <!-- FishyJoes.export(runConcurrentJobs) -->
+         * Spawns `jobCount` jobs concurrently, each running `chunksPerJob`
+         * blocking sleeps off the calling thread. After each chunk, invokes
+         * `progress(jobIndex, totalChunks)` where `totalChunks` is the
+         * cumulative number of chunks completed across all jobs.
+         */
+        function runConcurrentJobs(
+            jobCount: number,
+            chunksPerJob: number,
+            progress: (_0: number, _1: number) => Promise<void>
+        ): Promise<void>;
+    }
+
+    /**
      * <!-- FishyJoes.export(Tuples) -->
      */
     export type Tuples = never;
