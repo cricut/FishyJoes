@@ -2817,6 +2817,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try env.RegisterNatives(
             TestAPI.Threading.javaClass,
             JNINativeMethod(
+                name: bag.add("__jni_proveMainThreadCanPark"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Threading_proveMainThreadCanPark, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
                 name: bag.add("__jni_proveParallelism"),
                 signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Threading_proveParallelism, to: UnsafeMutableRawPointer.self)

@@ -29,6 +29,37 @@ func blockingSleep(seconds: TimeInterval) {
     Thread.sleep(forTimeInterval: seconds)
 }
 
+/// Condition-variable + flag bundle for parking a thread until another
+/// thread signals. Wait loop is spurious-wakeup safe.
+final class SignalBox: @unchecked Sendable {
+    private let condition = NSCondition()
+    private var ready = false
+
+    func signalReady() {
+        condition.lock()
+        ready = true
+        condition.signal()
+        condition.unlock()
+    }
+
+    /// Acquires the lock, runs `beforeWait` once (still holding the lock),
+    /// then parks until `signalReady` is called. Returns true iff
+    /// `condition.wait()` was actually invoked — i.e., we genuinely
+    /// suspended rather than fast-pathing because `ready` was already set.
+    @discardableResult
+    func waitUntilReady(beforeWait: () -> Void = {}) -> Bool {
+        var parked = false
+        condition.lock()
+        beforeWait()
+        while !ready {
+            condition.wait()
+            parked = true
+        }
+        condition.unlock()
+        return parked
+    }
+}
+
 #if os(WASI)
 
     /// Fixed-size pool of persistent threads that pull jobs from a shared

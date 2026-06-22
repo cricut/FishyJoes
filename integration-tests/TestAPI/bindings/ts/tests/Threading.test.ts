@@ -37,3 +37,8 @@ test('compute runs in parallel with the calling thread (handshake)', async () =>
     const ok = await TestAPI.Threading.proveParallelism();
     expect(ok).toBe(true);
 }, 10_000);
+
+test('main thread genuinely suspends on a condvar wait', async () => {
+    const ok = await TestAPI.Threading.proveMainThreadCanPark();
+    expect(ok).toBe(true);
+}, 10_000);

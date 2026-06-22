@@ -353,7 +353,16 @@ extension CodeGen {
                             fragment.output(#"name: "\#(config.module)_WasmMainShim","#)
                             fragment.output(#"dependencies: [.target(name: "\#(config.module)_NodeInterface")],"#)
                             fragment.output(#"path: "Sources/WasmMainShim","#)
-                            fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
+                            fragment.output(#"swiftSettings: strictConcurrencyFlags,"#)
+                            // Force-export wasi-libc's per-thread busywait opt-in so the JS host can flip
+                            // it on before any wasm runs. Browser JS main thread cannot `atomic.wait32`;
+                            // without this, any futex-using lock from the wasm main thread traps.
+                            fragment.outputBlock(#"linkerSettings: ["#, closeWith: #"]"#) {
+                                fragment.outputBlock(#".unsafeFlags(["#, closeWith: #"])"#) {
+                                    fragment.output(#""-Xlinker", "-u", "-Xlinker", "__wasilibc_enable_futex_busywait_on_current_thread","#)
+                                    fragment.output(#""-Xlinker", "--export=__wasilibc_enable_futex_busywait_on_current_thread","#)
+                                }
+                            }
                         }
                     }
                     fragment.outputBlock(#" : ["#) {

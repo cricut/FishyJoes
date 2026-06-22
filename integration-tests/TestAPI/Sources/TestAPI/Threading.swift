@@ -54,4 +54,43 @@ public enum Threading {
         _ = mainReleased.fetchAndIncrement()
         return try await worker.value
     }
+
+    /// <!-- FishyJoes.export(proveMainThreadCanPark) -->
+    /// Returns true iff waiting on the wasm main thread truly suspends it
+    /// — i.e., a condvar wait on this thread actually drives `atomic.wait`
+    /// to its parking path. The test sets a flag inside the condvar's lock
+    /// after acquiring it; a worker pthread (via `spawnBlocking`) spins on
+    /// the flag and then signals. Because `condition.wait()` atomically
+    /// releases the lock when parking, the worker can only acquire the
+    /// lock — and therefore only signal — once the main thread has truly
+    /// suspended. A `false` return means the wait fast-pathed and we never
+    /// parked; in the browser without `__wasilibc_enable_futex_busywait`,
+    /// the wait would instead trap on `atomic.wait32`.
+    public static func proveMainThreadCanPark() async throws -> Bool {
+        let box = SignalBox()
+        let workerStarted = AtomicIntBox()
+        let mainEnteredWait = AtomicIntBox()
+
+        let worker = Task {
+            try await spawnBlocking {
+                _ = workerStarted.fetchAndIncrement()
+                while mainEnteredWait.get() == 0 {
+                    blockingSleep(seconds: 0.001)
+                }
+                box.signalReady()
+            }
+        }
+
+        // Make sure the worker is actually running on its own thread before
+        // we park — otherwise no one would be left to wake us.
+        while workerStarted.get() == 0 {
+            try await Task.sleep(nanoseconds: 1_000_000)
+        }
+
+        let parked = box.waitUntilReady {
+            _ = mainEnteredWait.fetchAndIncrement()
+        }
+        try await worker.value
+        return parked
+    }
 }

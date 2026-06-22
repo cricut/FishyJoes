@@ -190,6 +190,12 @@ class NodePhases: BasePhases, Phases {
                 moduleName: nodeModule.name,
                 dependencies: nodeDependencies.map(\.name)
             )
+            try template(
+                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.spawner.js",
+                outPath: "\(outputDir)/\(nodeModule.name).spawner.js",
+                moduleName: nodeModule.name,
+                dependencies: nodeDependencies.map(\.name)
+            )
 
             // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
             for module in nodeModules {

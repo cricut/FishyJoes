@@ -4341,6 +4341,16 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_TestProtocolStruct_xyzzy");
+    TestAPI.Threading.f__iota_TestAPI_Threading_proveMainThreadCanPark = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_Threading_proveMainThreadCanPark");
     TestAPI.Threading.f__iota_TestAPI_Threading_proveParallelism = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

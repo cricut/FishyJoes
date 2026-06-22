@@ -10743,6 +10743,36 @@ extension TestAPI.Threading: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                (
+                    name: "proveMainThreadCanPark",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "proveMainThreadCanPark", expectedArgumentCount: 0, hasNamedOptions: false) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            Task {
+                                do {
+                                    let taskResult: Bool = try await TestAPI.Threading.proveMainThreadCanPark(
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.Bool.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

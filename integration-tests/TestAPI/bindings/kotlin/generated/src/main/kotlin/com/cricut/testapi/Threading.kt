@@ -45,6 +45,26 @@ sealed class Threading {
         private external fun __jni_proveParallelism(
         ): kotlinx.coroutines.Deferred<Boolean>
 
+        /**
+         * <!-- FishyJoes.export(proveMainThreadCanPark) -->
+         * Returns true iff waiting on the wasm main thread truly suspends it
+         * — i.e., a condvar wait on this thread actually drives `atomic.wait`
+         * to its parking path. The test sets a flag inside the condvar's lock
+         * after acquiring it; a worker pthread (via `spawnBlocking`) spins on
+         * the flag and then signals. Because `condition.wait()` atomically
+         * releases the lock when parking, the worker can only acquire the
+         * lock — and therefore only signal — once the main thread has truly
+         * suspended. A `false` return means the wait fast-pathed and we never
+         * parked; in the browser without `__wasilibc_enable_futex_busywait`,
+         * the wait would instead trap on `atomic.wait32`.
+         */
+        suspend fun proveMainThreadCanPark(
+        ): Boolean = __jni_proveMainThreadCanPark().await()
+        @JvmStatic
+        @JvmName("__jni_proveMainThreadCanPark")
+        private external fun __jni_proveMainThreadCanPark(
+        ): kotlinx.coroutines.Deferred<Boolean>
+
         init { loadNativeLibs() }
     }
 }

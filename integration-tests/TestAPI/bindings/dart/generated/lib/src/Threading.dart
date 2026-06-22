@@ -48,6 +48,26 @@ class Threading {
         consumeCreatedRef<Future<bool>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Threading_proveParallelism(Loader.shared.env, _exn)))
     ;
 
+    /// <!-- FishyJoes.export(proveMainThreadCanPark) -->
+    /// Returns true iff waiting on the wasm main thread truly suspends it
+    /// — i.e., a condvar wait on this thread actually drives `atomic.wait`
+    /// to its parking path. The test sets a flag inside the condvar's lock
+    /// after acquiring it; a worker pthread (via `spawnBlocking`) spins on
+    /// the flag and then signals. Because `condition.wait()` atomically
+    /// releases the lock when parking, the worker can only acquire the
+    /// lock — and therefore only signal — once the main thread has truly
+    /// suspended. A `false` return means the wait fast-pathed and we never
+    /// parked; in the browser without `__wasilibc_enable_futex_busywait`,
+    /// the wait would instead trap on `atomic.wait32`.
+    static Future<bool> proveMainThreadCanPark(
+    ) =>
+        consumeCreatedRef<Future<bool>>(check((OutCreatedRef _exn) => f__iota_TestAPI_Threading_proveMainThreadCanPark(Loader.shared.env, _exn)))
+    ;
+
+    static late CreatedRef Function(
+        Env env,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_Threading_proveMainThreadCanPark;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
