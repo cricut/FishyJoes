@@ -276,7 +276,7 @@ struct NodeTranslator: Translator {
         )
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {
-            typeSetupFragment.output("registerMainJSThread(env: env)")
+            typeSetupFragment.output("prepareMainJSThread(env: env)")
             typeSetupFragment.output("#if os(WASI)")
             typeSetupFragment.output("try JavaScriptEventLoop.installGlobalExecutor(env: env)")
             typeSetupFragment.output("#endif")

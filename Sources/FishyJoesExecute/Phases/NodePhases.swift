@@ -414,20 +414,18 @@ class NodePhases: BasePhases, Phases {
     }
 
     private func npm(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
-        #if os(macOS) || os(Linux)
-        return cmd("npm", arguments: arguments, addEnv: addEnv)
-        #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments, addEnv: addEnv)
-        #else
-        fatalError("unknown host OS")
-        #endif
+        return command("npm", arguments, addEnv: addEnv)
     }
 
     private func npx(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
+       return command("npx", arguments, addEnv: addEnv)
+    }
+
+    private func command(_ name: String, _ arguments: [String], addEnv: [String: String] = [:]) -> Command {
         #if os(macOS) || os(Linux)
-        return cmd("npx", arguments: arguments, addEnv: addEnv)
+        return cmd(name, arguments: arguments, addEnv: addEnv)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npx"] + arguments, addEnv: addEnv)
+        return cmd("cmd.exe", arguments: ["/c", name] + arguments, addEnv: addEnv)
         #else
         fatalError("unknown host OS")
         #endif

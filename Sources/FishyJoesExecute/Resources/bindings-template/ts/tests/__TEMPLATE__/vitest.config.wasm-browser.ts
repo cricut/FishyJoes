@@ -14,7 +14,7 @@ export default defineConfig({
     },
   },
   // Don't prebundle the wasm package — we need Vite to honor its `browser` field
-  // (TestAPI.browser.js) and serve TestAPI.wasm / TestAPI.worker.js as static assets.
+  // (__MODULE_NAME__.browser.js) and serve __MODULE_NAME__.wasm / __MODULE_NAME__.worker.js as static assets.
   optimizeDeps: {
     exclude: ['@cricut/__LOWERCASE_MODULE_NAME__-wasm'],
   },

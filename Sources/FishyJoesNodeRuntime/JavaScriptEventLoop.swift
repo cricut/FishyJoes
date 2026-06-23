@@ -201,9 +201,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         if JSMainThread.isOnMainThread {
             enqueueOnMain(job, withDelay: nanoseconds)
         } else {
-            let jobBits = unsafeBitCast(job, to: UInt.self)
             try? onMainThread { _ in
-                let job = unsafeBitCast(jobBits, to: UnownedJob.self)
                 JavaScriptEventLoop.shared.enqueueOnMain(job, withDelay: nanoseconds)
             }
         }
@@ -220,9 +218,7 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
         if JSMainThread.isOnMainThread {
             insertJobQueue(job: job)
         } else {
-            let jobBits = unsafeBitCast(job, to: UInt.self)
             try? onMainThread { _ in
-                let job = unsafeBitCast(jobBits, to: UnownedJob.self)
                 JavaScriptEventLoop.shared.insertJobQueue(job: job)
             }
         }
@@ -249,11 +245,10 @@ extension JavaScriptEventLoop {
         if JSMainThread.isOnMainThread {
             enqueueOnMain(job, withDelay: seconds, nanoseconds, toleranceSec, toleranceNSec, clock)
         } else {
-            let jobBits = unsafeBitCast(job, to: UInt.self)
             try? onMainThread { _ in
-                let job = unsafeBitCast(jobBits, to: UnownedJob.self)
                 JavaScriptEventLoop.shared.enqueueOnMain(
-                    job, withDelay: seconds, nanoseconds, toleranceSec, toleranceNSec, clock)
+                    job, withDelay: seconds, nanoseconds, toleranceSec, toleranceNSec, clock
+                )
             }
         }
     }
@@ -282,7 +277,10 @@ extension JavaScriptEventLoop: ExecutorFactory {
         private init() {}
 
         func checkIsolated() {
-            // Jobs always execute on the main JS thread; cross-thread enqueues bounce.
+            precondition(
+                JSMainThread.isOnMainThread,
+                "Expected to be running on the JS main thread"
+            )
         }
 
         func enqueue(_ job: consuming ExecutorJob) {

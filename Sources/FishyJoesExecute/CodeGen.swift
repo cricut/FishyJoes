@@ -14,7 +14,7 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Web-assembly based node package")
     var wasm = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "When testing --wasm, additionally run tests in a real browser (Chromium via Playwright)")
+    @Flag(name: .long, inversion: .prefixedNo, help: "When testing --wasm, additionally run tests in browser environment")
     var wasmBrowser = false
 
     @Flag(name: .long, inversion: .prefixedNo, help: "Generate a Kotlin package")
