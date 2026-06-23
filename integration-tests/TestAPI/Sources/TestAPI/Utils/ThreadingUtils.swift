@@ -105,8 +105,7 @@ final class SignalBox: @unchecked Sendable {
             var thread = unsafe pthread_t(bitPattern: 0)
             _ = unsafe pthread_create(
                 &thread,
-                nil,
-                { data in
+                nil, { data in
                     guard let data = unsafe data else { return nil }
                     let executor = unsafe Unmanaged<ThreadPoolTaskExecutor>
                         .fromOpaque(data).takeUnretainedValue()
