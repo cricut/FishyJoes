@@ -221,7 +221,7 @@ enum JSMainThread {
 /// Must run on the main JS thread before `installGlobalExecutor`. No
 /// executor APIs (`await`, `Task`, actor calls) — the global executor is
 /// not yet installed.
-public func prepareMainJSThread(env: NAPI.Env) {
+public func prepareJSMainThread(env: NAPI.Env) {
     JSMainThread.env = env
     #if os(WASI)
     fj_mark_main_js_thread()
