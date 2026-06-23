@@ -1,8 +1,8 @@
 import Foundation
 
 #if canImport(WASILibc)
-    import WASILibc
     import wasi_pthread
+    import WASILibc
 #endif
 
 final class AtomicIntBox: @unchecked Sendable {

@@ -274,9 +274,9 @@ public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallM
 }
 
 // NSCondition is available on all platforms.
-fileprivate final class BlockingSemaphore: @unchecked Sendable {
+private final class BlockingSemaphore: @unchecked Sendable {
     private let condition = NSCondition()
-    private var signaled: Bool = false
+    private var signaled = false
 
     func wait() {
         condition.lock()
