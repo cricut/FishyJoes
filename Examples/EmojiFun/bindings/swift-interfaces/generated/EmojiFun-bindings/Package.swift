@@ -82,7 +82,13 @@ var package = Package(
                 name: "EmojiFun_WasmMainShim",
                 dependencies: [.target(name: "EmojiFun_NodeInterface")],
                 path: "Sources/WasmMainShim",
-                swiftSettings: strictConcurrencyFlags
+                swiftSettings: strictConcurrencyFlags,
+                linkerSettings: [
+                    .unsafeFlags([
+                        "-Xlinker", "-u", "-Xlinker", "__wasilibc_enable_futex_busywait_on_current_thread",
+                        "-Xlinker", "--export=__wasilibc_enable_futex_busywait_on_current_thread",
+                    ])
+                ]
             ),
         ] : [
             .target(
