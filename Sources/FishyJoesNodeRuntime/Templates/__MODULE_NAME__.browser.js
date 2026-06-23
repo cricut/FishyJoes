@@ -5,18 +5,15 @@
  *
  * Threads are spawned via browser `Worker`s constructed from this module's
  * sibling __MODULE_NAME__.worker.js. Requires a cross-origin-isolated host
- * page (COOP/COEP) for SharedArrayBuffer support.
+ * page (COOP/COEP) for SharedArrayBuffer support. Worker construction is
+ * delegated to __MODULE_NAME__.spawner.js — see that file for the rationale.
  *
- * Worker construction is delegated to a dedicated __MODULE_NAME__.spawner.js
- * Worker. With `enableBusyFutex` on, the main thread can park in pthread
- * locks via a busy-spin (atomic.wait32 is forbidden on the JS main thread);
- * while it spins it cannot service `new Worker(...)`, so every
- * wasi:thread-spawn is posted to the spawner. NAPI calls from each pthread
- * Worker reach main directly over a per-worker MessageChannel — the spawner
- * never proxies them.
+ * Browser-specific: the JS main thread cannot `atomic.wait32`, so wasi-libc
+ * is flipped into busy-spin mode here via
+ * `__wasilibc_enable_futex_busywait_on_current_thread` (gated by
+ * `enableBusyFutex`).
  */
 import { NAPI } from "./wasm-napi.js";
-import { buildImportObject } from "./wasm-runtime.js";
 import { WASI, OpenFile, File, ConsoleStdout } from "@bjorn3/browser_wasi_shim";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
@@ -36,8 +33,8 @@ const init = async ({ enableBusyFutex = true } = {}) => {
   // SharedArrayBuffer holding the next pthread id (Int32 at offset 0).
   const tidBuffer = new SharedArrayBuffer(4);
 
-  // Bring the spawner up early; main may enter busy-spin during the first
-  // NAPI call and after that we can't create Workers from here.
+  // Bring the spawner up early; spawn requests must not be routed through
+  // main. See __MODULE_NAME__.spawner.js for the rationale.
   const spawner = new Worker(
     new URL('./__MODULE_NAME__.spawner.js', import.meta.url),
     { type: 'module' },
@@ -52,14 +49,18 @@ const init = async ({ enableBusyFutex = true } = {}) => {
   // Init handshake: wait for spawner ack before threadSpawn could be invoked.
   await new Promise((resolve, reject) => {
     const timeout = setTimeout(() => reject(new Error('spawner did not ack init in 5s')), 5000);
-    const onAck = (e) => {
-      if (e.data && e.data.type === 'ack') {
-        clearTimeout(timeout);
-        spawner.removeEventListener('message', onAck);
-        resolve();
+    const onInitAck = (e) => {
+      const msg = e.data;
+      if (!msg) return;
+      switch (msg.type) {
+        case 'init_ack':
+          clearTimeout(timeout);
+          spawner.removeEventListener('message', onInitAck);
+          resolve();
+          break;
       }
     };
-    spawner.addEventListener('message', onAck);
+    spawner.addEventListener('message', onInitAck);
     spawner.postMessage({ type: 'init', wasmModule, memory, tidBuffer });
   });
 
@@ -69,10 +70,13 @@ const init = async ({ enableBusyFutex = true } = {}) => {
   spawner.addEventListener('message', (e) => {
     const msg = e.data;
     if (!msg) return;
-    if (msg.type === 'new_worker_port') {
-      msg.port.onmessage = (ev) => napi.dispatchWorkerMessage(ev.data);
-    } else if (msg.type === 'spawner_error') {
-      console.error('spawner error:', msg.error);
+    switch (msg.type) {
+      case 'spawn_worker_port':
+        msg.port.onmessage = (ev) => napi.dispatchWorkerMessage(ev.data);
+        break;
+      case 'spawner_error':
+        console.error('spawner error:', msg.error);
+        break;
     }
   });
 
@@ -88,8 +92,8 @@ const init = async ({ enableBusyFutex = true } = {}) => {
     threadSpawn,
     extensions: [__MODULE_DEPENDENCY__Extensions, __MODULE_NAME__Extensions],
   });
-
   const instance = await WebAssembly.instantiate(wasmModule, importObject);
+
   // Browser JS main thread cannot `memory.atomic.wait32`. Flip wasi-libc into
   // busy-spin mode on this thread BEFORE napi.init (which calls wasi.initialize
   // → runs Swift global ctors that may futex-wait). Per-thread flag, so workers
@@ -114,3 +118,24 @@ export {
   __MODULE_NAME__,
   __MODULE_DEPENDENCY__,
 };
+
+function buildImportObject({ napi, memory, threadSpawn, extensions }) {
+  const importObject = {};
+  const importsToMerge = [
+    napi.exports,
+    ...extensions.map((e) => e.imports),
+    {
+      env: { memory },
+      wasi: { "thread-spawn": threadSpawn },
+    },
+  ];
+  for (const imports of importsToMerge) {
+    for (const [namespace, functions] of Object.entries(imports)) {
+      importObject[namespace] = {
+        ...importObject[namespace],
+        ...functions,
+      };
+    }
+  }
+  return importObject;
+}

@@ -169,7 +169,6 @@ class NodePhases: BasePhases, Phases {
                 try cmd("cp", "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)", "\(outputDir)/\(nodeModule.name).wasm").run()
             }
             try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
-            try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-runtime.js", outputDir).run()
 
             // Create the required Javascript files for loading the module's Wasm bundle
             try template(
