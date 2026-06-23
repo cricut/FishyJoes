@@ -10,7 +10,7 @@
   "main" : "EmojiFun.js",
 
   "dependencies" : {
-    "@cricut/fishyjoes-runtime-native-windows": "file:../../../../../../../node-runtime/fishyjoes-runtime-native-windows"
+    "@cricut/fishyjoes-runtime-native-windows": "7.0.0"
   },
 
   "scripts" : {

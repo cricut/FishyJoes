@@ -3,6 +3,6 @@
   "version" : "0.0.1",
   "name" : "@cricut/flutter-emojifun",
   "dependencies" : {
-    "@cricut/flutter-fishyjoes-runtime": "file:../../../../../../dart-runtime/flutter-package"
+    "@cricut/flutter-fishyjoes-runtime": "7.0.0"
   }
 }

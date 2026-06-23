@@ -12,21 +12,25 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  DOTNET_VERSION: '8.0.x'
-  FISHYJOES: '1'
-  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
-  JAVA_VERSION: '20'
-  NODE_VERSION: '18.x'
+  GITHUB_USER: cricut-builduser
+  GITHUB_TOKEN: ${{ secrets.CRICUT_GPR_TOKEN }}
+  FISHYJOES: 1
 
 jobs:
   regenerate-check:
     name: "macOS: regenerate check"
-    runs-on: macos-26
+    runs-on: sojo-macos
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           submodules: recursive
+          token: ${{ secrets.CRICUT_GPR_TOKEN }}
+
+      - name: Setup git credentials
+        uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://cricut-builduser:${{ secrets.CRICUT_GPR_TOKEN }}@github.com/
 
       - name: Install generation tools
         shell: zsh {0}
@@ -52,7 +56,7 @@ jobs:
 
       - name: Upload patch if needed
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: regenerated.patch
           path: regenerated.patch
