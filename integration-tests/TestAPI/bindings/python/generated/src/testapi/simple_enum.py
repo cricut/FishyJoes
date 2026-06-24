@@ -17,10 +17,10 @@ _fj___iota_set_TestAPI_SimpleEnum_favoriteColor = _native.bind("__iota_set_TestA
 class _SimpleEnumMeta(enum.EnumMeta):
     @property
     def favorite_color(cls):
-        return _native.call(_fj___iota_get_TestAPI_SimpleEnum_favoriteColor, args=[], return_conversion=_native.ValueType("SimpleEnum"))
+        return _native.call(_fj___iota_get_TestAPI_SimpleEnum_favoriteColor, args=[], return_conversion=_native.ValueType("TestAPI.SimpleEnum"))
     @favorite_color.setter
     def favorite_color(cls, value):
-        _native.call(_fj___iota_set_TestAPI_SimpleEnum_favoriteColor, args=[value], arg_conversions=[_native.ValueType("SimpleEnum")])
+        _native.call(_fj___iota_set_TestAPI_SimpleEnum_favoriteColor, args=[value], arg_conversions=[_native.ValueType("TestAPI.SimpleEnum")])
 
 class SimpleEnum(enum.Enum, metaclass=_SimpleEnumMeta):
     """This is an enum with no associated values"""
@@ -39,13 +39,13 @@ class SimpleEnum(enum.Enum, metaclass=_SimpleEnumMeta):
 
     @property
     def hex(self):
-        return _native.call(_fj___iota_get_TestAPI_SimpleEnum_hex, args=[self], arg_conversions=[_native.ValueType("SimpleEnum")], return_conversion=None)
+        return _native.call(_fj___iota_get_TestAPI_SimpleEnum_hex, args=[self], arg_conversions=[_native.ValueType("TestAPI.SimpleEnum")], return_conversion=None)
 
     def hex_method(self):
-        return _native.call(_fj___iota_TestAPI_SimpleEnum_hexMethod, args=[self], arg_conversions=[_native.ValueType("SimpleEnum")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_SimpleEnum_hexMethod, args=[self], arg_conversions=[_native.ValueType("TestAPI.SimpleEnum")], return_conversion=_native.STRING)
     @staticmethod
     def pick_a_color(raw_value):
-        return _native.call(_fj___iota_TestAPI_SimpleEnum_pickAColor, args=[raw_value], arg_conversions=[None], return_conversion=_native.Optional(_native.ValueType("SimpleEnum")))
+        return _native.call(_fj___iota_TestAPI_SimpleEnum_pickAColor, args=[raw_value], arg_conversions=[None], return_conversion=_native.Optional(_native.ValueType("TestAPI.SimpleEnum")))
     @staticmethod
     def reset_favorite_color():
         return _native.call(_fj___iota_TestAPI_SimpleEnum_resetFavoriteColor, args=[], arg_conversions=[], return_conversion=_native.VOID)

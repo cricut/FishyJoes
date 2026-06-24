@@ -25,14 +25,14 @@ class Structs_MutableStruct:
     i: object
 
     def async_get_i(self):
-        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_asyncGetI, args=[self], arg_conversions=[_native.ValueType("Structs_MutableStruct")], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
+        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_asyncGetI, args=[self], arg_conversions=[_native.ValueType("TestAPI.Structs.MutableStruct")], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("Structs_MutableStruct"))
+        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.Structs.MutableStruct"))
     def increment(self):
-        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_increment, args=[self], arg_conversions=[_native.ValueType("Structs_MutableStruct")], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_increment, args=[self], arg_conversions=[_native.ValueType("TestAPI.Structs.MutableStruct")], return_conversion=_native.VOID)
     def increment_async(self):
-        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_incrementAsync, args=[self], arg_conversions=[_native.ValueType("Structs_MutableStruct")], return_conversion=_native.Future("FutureConverter<FishyJoesCommonRuntime.VoidConverter>", _native.VOID))
+        return _native.call(_fj___iota_TestAPI_Structs_MutableStruct_incrementAsync, args=[self], arg_conversions=[_native.ValueType("TestAPI.Structs.MutableStruct")], return_conversion=_native.Future("FutureConverter<FishyJoesCommonRuntime.VoidConverter>", _native.VOID))
 
 _native.setup_value_type(_fj_TestAPI_Structs_MutableStruct_setup, Structs_MutableStruct, [_native.Field("i", _native.INT, mutable=True)])
 

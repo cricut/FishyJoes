@@ -17,7 +17,7 @@ class Structs_PuttingTypesIntoQuestionablePlaces(_native.SwiftReference):
 
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("Structs_PuttingTypesIntoQuestionablePlaces"))
+        return _native.call(_fj___iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.Structs.PuttingTypesIntoQuestionablePlaces"))
     def test_call(self):
         return _native.check(lambda exn: _fj___iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(_native.env, self._iota_ref, exn))
 

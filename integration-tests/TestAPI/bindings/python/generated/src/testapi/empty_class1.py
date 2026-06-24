@@ -34,7 +34,7 @@ class EmptyClass1(_native.SwiftReference):
 
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_EmptyClass_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("EmptyClass1"))
+        return _native.call(_fj___iota_TestAPI_EmptyClass_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.EmptyClass"))
     def gorpers(self):
         return _native.call(_fj___iota_TestAPI_EmptyClass_Gorpers, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     def shme(self):

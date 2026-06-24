@@ -65,11 +65,11 @@ class TestProtocolClass(_native.SwiftReference):
         return _native.call(_fj___iota_TestAPI_TestProtocolClass_garply, args=[self._iota_ref, str], arg_conversions=[None, _native.STRING], return_conversion=_native.STRING)
     @staticmethod
     def init(corge, flarp=None):
-        return _native.call(_fj___iota_TestAPI_TestProtocolClass_init, args=[corge, flarp], arg_conversions=[_native.STRING, _native.Optional(_native.STRING)], return_conversion=_native.ValueType("TestProtocolClass"))
+        return _native.call(_fj___iota_TestAPI_TestProtocolClass_init, args=[corge, flarp], arg_conversions=[_native.STRING, _native.Optional(_native.STRING)], return_conversion=_native.ValueType("TestAPI.TestProtocolClass"))
     def plugh(self, fred):
         return _native.call(_fj___iota_TestAPI_TestProtocolClass_plugh, args=[self._iota_ref, fred], arg_conversions=[None, _native.Tuple("Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", [_native.BOOL, _native.DOUBLE, _native.Array("ArrayConverter<Swift.String>", _native.STRING)])], return_conversion=_native.Tuple("Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", [_native.BOOL, _native.INT, _native.STRING]))
     def spqr(self, pippo):
-        return _native.call(_fj___iota_TestAPI_TestProtocolClass_spqr, args=[self._iota_ref, pippo], arg_conversions=[None, _native.ValueType("AssociatedDataEnum")], return_conversion=None)
+        return _native.call(_fj___iota_TestAPI_TestProtocolClass_spqr, args=[self._iota_ref, pippo], arg_conversions=[None, _native.ValueType("TestAPI.AssociatedDataEnum")], return_conversion=None)
     def wombat(self, zxc):
         return _native.call(_fj___iota_TestAPI_TestProtocolClass_wombat, args=[self._iota_ref, zxc], arg_conversions=[None, _native.Optional(_native.INT)], return_conversion=_native.Optional(_native.DOUBLE))
     def xyzzy(self, thud, grault):

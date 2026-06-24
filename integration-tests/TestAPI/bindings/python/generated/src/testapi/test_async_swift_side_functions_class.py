@@ -92,11 +92,11 @@ class TestAsyncSwiftSideFunctionsClass(_native.SwiftReference):
         return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6, args=[self._iota_ref, fn], arg_conversions=[None, _native.AsyncFunction("AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>", "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>", [_native.STRING, _native.INT, _native.DOUBLE, _native.STRING, _native.AsyncFunction("AsyncFunction0Converter<Swift.Int>", "Function0Converter<FutureConverter<Swift.Int>>", [], _native.INT), _native.INT], _native.INT)], return_conversion=_native.Future("FutureConverter<Swift.String>", _native.STRING))
     @staticmethod
     def init():
-        return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAsyncSwiftSideFunctionsClass"))
+        return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.TestAsyncSwiftSideFunctionsClass"))
     def thunk_twice_maker(self, thunk):
         return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker, args=[self._iota_ref, thunk], arg_conversions=[None, _native.AsyncFunction("AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", "Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", [], _native.VOID)], return_conversion=_native.AsyncFunction("AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>", "Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>", [], _native.VOID))
     def witness(self):
-        return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.ProtocolType("TestAsyncFunctions"))
+        return _native.call(_fj___iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.ProtocolType("TestAPI.TestAsyncFunctions"))
 
 _native.setup_reference_type(_fj_TestAPI_TestAsyncSwiftSideFunctionsClass_setup, TestAsyncSwiftSideFunctionsClass)
 

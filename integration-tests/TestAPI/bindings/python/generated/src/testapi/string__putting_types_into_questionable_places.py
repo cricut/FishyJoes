@@ -19,7 +19,7 @@ class String_PuttingTypesIntoQuestionablePlaces:
     x: object
 
     def test_call(self):
-        return _native.call(_fj___iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall, args=[self], arg_conversions=[_native.ValueType("String_PuttingTypesIntoQuestionablePlaces")], return_conversion=None)
+        return _native.call(_fj___iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall, args=[self], arg_conversions=[_native.ValueType("Swift.String.PuttingTypesIntoQuestionablePlaces")], return_conversion=None)
 
 _native.setup_value_type(_fj_Swift_String_PuttingTypesIntoQuestionablePlaces_setup, String_PuttingTypesIntoQuestionablePlaces, [_native.Field("x", _native.STRING, mutable=False)])
 

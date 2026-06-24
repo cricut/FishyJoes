@@ -32,20 +32,20 @@ class TestProtocolStruct:
 
     @property
     def frobby(self):
-        return _native.call(_fj___iota_get_TestAPI_TestProtocolStruct_frobby, args=[self], arg_conversions=[_native.ValueType("TestProtocolStruct")], return_conversion=_native.Array("ArrayConverter<Swift.Int>", _native.INT))
+        return _native.call(_fj___iota_get_TestAPI_TestProtocolStruct_frobby, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct")], return_conversion=_native.Array("ArrayConverter<Swift.Int>", _native.INT))
 
     def bar(self):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_bar, args=[self], arg_conversions=[_native.ValueType("TestProtocolStruct")], return_conversion=None)
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_bar, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct")], return_conversion=None)
     def baz(self, qux):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_baz, args=[self, qux], arg_conversions=[_native.ValueType("TestProtocolStruct"), None], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_baz, args=[self, qux], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct"), None], return_conversion=_native.VOID)
     def foo(self):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_foo, args=[self], arg_conversions=[_native.ValueType("TestProtocolStruct")], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_foo, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct")], return_conversion=_native.VOID)
     def garply(self, str):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_garply, args=[self, str], arg_conversions=[_native.ValueType("TestProtocolStruct"), _native.STRING], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_garply, args=[self, str], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct"), _native.STRING], return_conversion=_native.STRING)
     def plugh(self, fred):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_plugh, args=[self, fred], arg_conversions=[_native.ValueType("TestProtocolStruct"), _native.Tuple("Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", [_native.BOOL, _native.DOUBLE, _native.Array("ArrayConverter<Swift.String>", _native.STRING)])], return_conversion=_native.Tuple("Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", [_native.BOOL, _native.INT, _native.STRING]))
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_plugh, args=[self, fred], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct"), _native.Tuple("Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", [_native.BOOL, _native.DOUBLE, _native.Array("ArrayConverter<Swift.String>", _native.STRING)])], return_conversion=_native.Tuple("Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", [_native.BOOL, _native.INT, _native.STRING]))
     def xyzzy(self, thud, grault):
-        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_xyzzy, args=[self, thud, grault], arg_conversions=[_native.ValueType("TestProtocolStruct"), None, _native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_TestProtocolStruct_xyzzy, args=[self, thud, grault], arg_conversions=[_native.ValueType("TestAPI.TestProtocolStruct"), None, _native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)], return_conversion=_native.STRING)
 
 _native.setup_value_type(_fj_TestAPI_TestProtocolStruct_setup, TestProtocolStruct, [_native.Field("corge", _native.STRING, mutable=True)])
 

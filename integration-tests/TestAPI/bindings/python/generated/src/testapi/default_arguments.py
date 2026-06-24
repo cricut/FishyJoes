@@ -23,7 +23,7 @@ class DefaultArguments:
 
     @staticmethod
     def describe_enum_default(value, color=SimpleEnum.blue):
-        return _native.call(_fj___iota_TestAPI_DefaultArguments_describeEnumDefault, args=[value, color], arg_conversions=[None, _native.ValueType("SimpleEnum")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_DefaultArguments_describeEnumDefault, args=[value, color], arg_conversions=[None, _native.ValueType("TestAPI.SimpleEnum")], return_conversion=_native.STRING)
     @staticmethod
     def echo_default_int_limits(min_value=-sys.maxsize - 1, max_value=sys.maxsize):
         return _native.call(_fj___iota_TestAPI_DefaultArguments_echoDefaultIntLimits, args=[min_value, max_value], arg_conversions=[None, None], return_conversion=_native.STRING)

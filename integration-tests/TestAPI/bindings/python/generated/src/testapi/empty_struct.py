@@ -23,18 +23,18 @@ class EmptyStruct(_native.IotaObject):
 
     @property
     def tatiana(self):
-        return _native.call(_fj___iota_get_TestAPI_EmptyStruct_tatiana, args=[self], arg_conversions=[_native.ValueType("EmptyStruct")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_get_TestAPI_EmptyStruct_tatiana, args=[self], arg_conversions=[_native.ValueType("TestAPI.EmptyStruct")], return_conversion=_native.STRING)
     @property
     def tutu(self):
-        return _native.call(_fj___iota_get_TestAPI_EmptyStruct_tutu, args=[self], arg_conversions=[_native.ValueType("EmptyStruct")], return_conversion=None)
+        return _native.call(_fj___iota_get_TestAPI_EmptyStruct_tutu, args=[self], arg_conversions=[_native.ValueType("TestAPI.EmptyStruct")], return_conversion=None)
 
     def aap(self):
-        return _native.call(_fj___iota_TestAPI_EmptyStruct_aap, args=[self], arg_conversions=[_native.ValueType("EmptyStruct")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_EmptyStruct_aap, args=[self], arg_conversions=[_native.ValueType("TestAPI.EmptyStruct")], return_conversion=_native.STRING)
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_EmptyStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("EmptyStruct"))
+        return _native.call(_fj___iota_TestAPI_EmptyStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.EmptyStruct"))
     def zxccxz(self):
-        return _native.call(_fj___iota_TestAPI_EmptyStruct_zxccxz, args=[self], arg_conversions=[_native.ValueType("EmptyStruct")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_EmptyStruct_zxccxz, args=[self], arg_conversions=[_native.ValueType("TestAPI.EmptyStruct")], return_conversion=_native.STRING)
 
 _native.setup_empty_value_type(_fj_TestAPI_EmptyStruct_setup, EmptyStruct)
 

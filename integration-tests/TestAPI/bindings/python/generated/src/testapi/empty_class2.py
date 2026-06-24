@@ -34,7 +34,7 @@ class EmptyClass2(_native.SwiftReference):
         return _native.call(_fj___iota_TestAPI_EmptyClass2_gorp, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     @staticmethod
     def make():
-        return _native.call(_fj___iota_TestAPI_EmptyClass2_make, args=[], arg_conversions=[], return_conversion=_native.ValueType("EmptyClass2"))
+        return _native.call(_fj___iota_TestAPI_EmptyClass2_make, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.EmptyClass2"))
     def shmee(self):
         return _native.call(_fj___iota_TestAPI_EmptyClass2_shmee, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.STRING)
     def __eq__(self, other):

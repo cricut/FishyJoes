@@ -24,11 +24,11 @@ class AProtocolImplementation:
     baz: object
 
     def bar(self, x, y):
-        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_bar, args=[self, x, y], arg_conversions=[_native.ValueType("AProtocolImplementation"), None, None], return_conversion=_native.ProtocolType("AProtocol"))
+        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_bar, args=[self, x, y], arg_conversions=[_native.ValueType("TestAPI.AProtocolImplementation"), None, None], return_conversion=_native.ProtocolType("TestAPI.AProtocol"))
     def has_a_default_implementation(self, x, y):
-        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_hasADefaultImplementation, args=[self, x, y], arg_conversions=[_native.ValueType("AProtocolImplementation"), None, None], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_hasADefaultImplementation, args=[self, x, y], arg_conversions=[_native.ValueType("TestAPI.AProtocolImplementation"), None, None], return_conversion=_native.STRING)
     def has_a_default_implementation2(self, a, b, c):
-        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2, args=[self, a, b, c], arg_conversions=[_native.ValueType("AProtocolImplementation"), _native.STRING, None, _native.STRING], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2, args=[self, a, b, c], arg_conversions=[_native.ValueType("TestAPI.AProtocolImplementation"), _native.STRING, None, _native.STRING], return_conversion=_native.STRING)
 
 _native.setup_value_type(_fj_TestAPI_AProtocolImplementation_setup, AProtocolImplementation, [_native.Field("foo", _native.STRING, mutable=True), _native.Field("baz", _native.BOOL, mutable=True)])
 

@@ -23,10 +23,10 @@ class Structs_MemberwiseStruct:
     mutable: object
 
     def async_get_mutable(self):
-        return _native.call(_fj___iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable, args=[self], arg_conversions=[_native.ValueType("Structs_MemberwiseStruct")], return_conversion=_native.Future("FutureConverter<Swift.String>", _native.STRING))
+        return _native.call(_fj___iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable, args=[self], arg_conversions=[_native.ValueType("TestAPI.Structs.MemberwiseStruct")], return_conversion=_native.Future("FutureConverter<Swift.String>", _native.STRING))
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_Structs_MemberwiseStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("Structs_MemberwiseStruct"))
+        return _native.call(_fj___iota_TestAPI_Structs_MemberwiseStruct_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.Structs.MemberwiseStruct"))
 
 _native.setup_value_type(_fj_TestAPI_Structs_MemberwiseStruct_setup, Structs_MemberwiseStruct, [_native.Field("immutable", _native.STRING, mutable=True), _native.Field("mutable", _native.STRING, mutable=True)])
 

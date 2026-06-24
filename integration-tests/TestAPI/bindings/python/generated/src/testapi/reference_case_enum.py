@@ -30,17 +30,17 @@ class ReferenceCaseEnum(enum.Enum):
     east = "east"
     west = "west"
 
-    default_direction = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ReferenceCaseEnum_defaultDirection, args=[], return_conversion=_native.ValueType("ReferenceCaseEnum")))
+    default_direction = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_ReferenceCaseEnum_defaultDirection, args=[], return_conversion=_native.ValueType("TestAPI.ReferenceCaseEnum")))
     @property
     def opposite(self):
-        return _native.call(_fj___iota_get_TestAPI_ReferenceCaseEnum_opposite, args=[self], arg_conversions=[_native.ValueType("ReferenceCaseEnum")], return_conversion=_native.ValueType("ReferenceCaseEnum"))
+        return _native.call(_fj___iota_get_TestAPI_ReferenceCaseEnum_opposite, args=[self], arg_conversions=[_native.ValueType("TestAPI.ReferenceCaseEnum")], return_conversion=_native.ValueType("TestAPI.ReferenceCaseEnum"))
 
     @staticmethod
     def rotate180(direction):
         """A method that both consumes (parameter) and produces (return) the
         reference-annotated enum — only callable from Python if the cases bridge.
         """
-        return _native.call(_fj___iota_TestAPI_ReferenceCaseEnum_rotate180, args=[direction], arg_conversions=[_native.ValueType("ReferenceCaseEnum")], return_conversion=_native.ValueType("ReferenceCaseEnum"))
+        return _native.call(_fj___iota_TestAPI_ReferenceCaseEnum_rotate180, args=[direction], arg_conversions=[_native.ValueType("TestAPI.ReferenceCaseEnum")], return_conversion=_native.ValueType("TestAPI.ReferenceCaseEnum"))
 
 _native.setup_simple_enum_type(_fj_TestAPI_ReferenceCaseEnum_setup, ReferenceCaseEnum, ["north", "south", "east", "west"])
 

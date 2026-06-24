@@ -202,7 +202,7 @@ class Primitives:
 
     bit_count_int = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_bitCountInt(_native.env, exn)))
     bit_count_uint = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_bitCountUInt(_native.env, exn)))
-    default_primitive_holder = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_defaultPrimitiveHolder, args=[], return_conversion=_native.ValueType("Primitives_PrimitiveHolder")))
+    default_primitive_holder = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_defaultPrimitiveHolder, args=[], return_conversion=_native.ValueType("TestAPI.Primitives.PrimitiveHolder")))
     false_bool = _native.StaticProperty(lambda: _native.check(lambda exn: _fj___iota_get_TestAPI_Primitives_falseBool(_native.env, exn)))
     many_bool = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyBool, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Bool>", _native.BOOL)))
     many_double = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Primitives_manyDouble, args=[], return_conversion=_native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)))

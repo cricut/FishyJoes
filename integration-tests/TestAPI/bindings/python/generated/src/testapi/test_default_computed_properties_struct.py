@@ -21,7 +21,7 @@ class TestDefaultComputedPropertiesStruct:
 
     @property
     def plutonic(self):
-        return _native.call(_fj___iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, args=[self], arg_conversions=[_native.ValueType("TestDefaultComputedPropertiesStruct")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestDefaultComputedPropertiesStruct")], return_conversion=_native.STRING)
 
 _native.setup_value_type(_fj_TestAPI_TestDefaultComputedPropertiesStruct_setup, TestDefaultComputedPropertiesStruct, [_native.Field("spam", _native.BOOL, mutable=True), _native.Field("noot", _native.INT, mutable=True)])
 

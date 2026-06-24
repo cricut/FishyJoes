@@ -16,9 +16,9 @@ class Results:
         "process_result": "TestAPI.Results.processResult",
     }
 
-    a_failure = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Results_aFailure, args=[], return_conversion=_native.Result("ResultConverter<Swift.Int, TestAPI.Results.Error>", _native.INT, _native.ValueType("Results_Error"))))
-    a_success = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Results_aSuccess, args=[], return_conversion=_native.Result("ResultConverter<Swift.Int, TestAPI.Results.Error>", _native.INT, _native.ValueType("Results_Error"))))
+    a_failure = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Results_aFailure, args=[], return_conversion=_native.Result("ResultConverter<Swift.Int, TestAPI.Results.Error>", _native.INT, _native.ValueType("TestAPI.Results.Error"))))
+    a_success = _native.StaticProperty(lambda: _native.call(_fj___iota_get_TestAPI_Results_aSuccess, args=[], return_conversion=_native.Result("ResultConverter<Swift.Int, TestAPI.Results.Error>", _native.INT, _native.ValueType("TestAPI.Results.Error"))))
 
     @staticmethod
     def process_result(result):
-        return _native.call(_fj___iota_TestAPI_Results_processResult, args=[result], arg_conversions=[_native.Result("ResultConverter<Swift.String, TestAPI.Results.Error>", _native.STRING, _native.ValueType("Results_Error"))], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_Results_processResult, args=[result], arg_conversions=[_native.Result("ResultConverter<Swift.String, TestAPI.Results.Error>", _native.STRING, _native.ValueType("TestAPI.Results.Error"))], return_conversion=_native.STRING)

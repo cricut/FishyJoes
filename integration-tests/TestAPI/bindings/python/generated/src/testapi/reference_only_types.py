@@ -14,4 +14,4 @@ class ReferenceOnlyTypes:
 
     @staticmethod
     def marker():
-        return _native.call(_fj___iota_TestAPI_ReferenceOnlyTypes_marker, args=[], arg_conversions=[], return_conversion=_native.ValueType("ReferenceOnlyTypes_Marker"))
+        return _native.call(_fj___iota_TestAPI_ReferenceOnlyTypes_marker, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.ReferenceOnlyTypes.Marker"))

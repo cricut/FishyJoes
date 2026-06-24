@@ -1286,15 +1286,15 @@ final class PythonTranslator: Translator {
         }
         if let translatedStruct = type as? TranslatedStruct,
            canGenerateValueType(translatedStruct, context: context, visitedStructs: visitedStructs) {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonClassName(translatedStruct.nodeName))\")", pythonType: pythonType)
+            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedStruct), pythonType: pythonType)
         }
         if let translatedReference = type as? TranslatedReference {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonClassName(translatedReference.nodeName))\")", pythonType: pythonType)
+            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedReference), pythonType: pythonType)
         }
         if let translatedProtocol = type as? TranslatedProtocol,
            visitedProtocols.contains(translatedProtocol.nodeName) ||
            canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
-            return NativeType(cType: "foreignObject", conversion: "_native.ProtocolType(\"\(pythonClassName(translatedProtocol.nodeName))\")", pythonType: pythonType)
+            return NativeType(cType: "foreignObject", conversion: pythonProtocolTypeDescriptor(for: translatedProtocol), pythonType: pythonType)
         }
         if let externalType = type as? ExternalTranslatedType, externalType.definingModule == Module.runtime {
             return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonRuntimeClassName(externalType))\")", pythonType: pythonType)
@@ -1305,7 +1305,7 @@ final class PythonTranslator: Translator {
         }
         if let translatedEnum = type as? TranslatedEnum,
            translatedEnum.isInhabited {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonClassName(translatedEnum.nodeName))\")", pythonType: pythonType)
+            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedEnum), pythonType: pythonType)
         }
         return nil
     }
@@ -1538,15 +1538,15 @@ final class PythonTranslator: Translator {
         }
         if let translatedStruct = type as? TranslatedStruct,
            canGenerateValueType(translatedStruct, context: context, visitedStructs: visitedStructs) {
-            return "_native.ValueType(\"\(pythonClassName(translatedStruct.nodeName))\")"
+            return pythonValueTypeDescriptor(for: translatedStruct)
         }
         if let translatedReference = type as? TranslatedReference {
-            return "_native.ValueType(\"\(pythonClassName(translatedReference.nodeName))\")"
+            return pythonValueTypeDescriptor(for: translatedReference)
         }
         if let translatedProtocol = type as? TranslatedProtocol {
             if visitedProtocols.contains(translatedProtocol.nodeName) ||
                 canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
-                return "_native.ProtocolType(\"\(pythonClassName(translatedProtocol.nodeName))\")"
+                return pythonProtocolTypeDescriptor(for: translatedProtocol)
             }
         }
         if let externalType = type as? ExternalTranslatedType, externalType.definingModule == Module.runtime {
@@ -1558,7 +1558,7 @@ final class PythonTranslator: Translator {
         }
         if let translatedEnum = type as? TranslatedEnum,
            translatedEnum.isInhabited {
-            return "_native.ValueType(\"\(pythonClassName(translatedEnum.nodeName))\")"
+            return pythonValueTypeDescriptor(for: translatedEnum)
         }
         return nil
     }
@@ -1798,10 +1798,22 @@ final class PythonTranslator: Translator {
     private func selfConversion(for pythonClass: PythonClass) -> String? {
         switch pythonClass.setupKind {
         case "emptyValue", "value", "enum":
-            return "_native.ValueType(\"\(pythonClass.className)\")"
+            return "_native.ValueType(\(pythonStringLiteral(pythonClass.originName)))"
         default:
             return nil
         }
+    }
+
+    private func pythonValueTypeDescriptor(for type: TranslatedType) -> String {
+        "_native.ValueType(\(pythonStringLiteral(pythonGeneratedTypeKey(for: type))))"
+    }
+
+    private func pythonProtocolTypeDescriptor(for type: TranslatedProtocol) -> String {
+        "_native.ProtocolType(\(pythonStringLiteral(pythonGeneratedTypeKey(for: type))))"
+    }
+
+    private func pythonGeneratedTypeKey(for type: TranslatedType) -> String {
+        type.sourceType.name
     }
 
     private func pythonDefaultValue(_ swiftValue: String, type: TranslatedType, context: FishyJoesContext) -> PythonDefaultValue? {

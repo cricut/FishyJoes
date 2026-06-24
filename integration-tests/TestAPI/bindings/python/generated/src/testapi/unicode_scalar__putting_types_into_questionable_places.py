@@ -18,7 +18,7 @@ class UnicodeScalar_PuttingTypesIntoQuestionablePlaces(enum.Enum):
     thing = "thing"
 
     def test_call(self):
-        return _native.call(_fj___iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, args=[self], arg_conversions=[_native.ValueType("UnicodeScalar_PuttingTypesIntoQuestionablePlaces")], return_conversion=None)
+        return _native.call(_fj___iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall, args=[self], arg_conversions=[_native.ValueType("Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces")], return_conversion=None)
 
 _native.setup_simple_enum_type(_fj_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup, UnicodeScalar_PuttingTypesIntoQuestionablePlaces, ["thing"])
 

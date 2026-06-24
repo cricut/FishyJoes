@@ -28,17 +28,17 @@ class TestProtocolEnum(enum.Enum):
     qux = "qux"
 
     def bar(self):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_bar, args=[self], arg_conversions=[_native.ValueType("TestProtocolEnum")], return_conversion=None)
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_bar, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum")], return_conversion=None)
     def baz(self, qux):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_baz, args=[self, qux], arg_conversions=[_native.ValueType("TestProtocolEnum"), None], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_baz, args=[self, qux], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum"), None], return_conversion=_native.VOID)
     def foo(self):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_foo, args=[self], arg_conversions=[_native.ValueType("TestProtocolEnum")], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_foo, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum")], return_conversion=_native.VOID)
     def garply(self, str):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_garply, args=[self, str], arg_conversions=[_native.ValueType("TestProtocolEnum"), _native.STRING], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_garply, args=[self, str], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum"), _native.STRING], return_conversion=_native.STRING)
     def plugh(self, fred):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_plugh, args=[self, fred], arg_conversions=[_native.ValueType("TestProtocolEnum"), _native.Tuple("Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", [_native.BOOL, _native.DOUBLE, _native.Array("ArrayConverter<Swift.String>", _native.STRING)])], return_conversion=_native.Tuple("Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", [_native.BOOL, _native.INT, _native.STRING]))
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_plugh, args=[self, fred], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum"), _native.Tuple("Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>", [_native.BOOL, _native.DOUBLE, _native.Array("ArrayConverter<Swift.String>", _native.STRING)])], return_conversion=_native.Tuple("Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>", [_native.BOOL, _native.INT, _native.STRING]))
     def xyzzy(self, thud, grault):
-        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_xyzzy, args=[self, thud, grault], arg_conversions=[_native.ValueType("TestProtocolEnum"), None, _native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_TestProtocolEnum_xyzzy, args=[self, thud, grault], arg_conversions=[_native.ValueType("TestAPI.TestProtocolEnum"), None, _native.Array("ArrayConverter<Swift.Double>", _native.DOUBLE)], return_conversion=_native.STRING)
 
 _native.setup_simple_enum_type(_fj_TestAPI_TestProtocolEnum_setup, TestProtocolEnum, ["qux"])
 

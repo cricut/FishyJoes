@@ -31,6 +31,13 @@ class GeneratorRobustnessTests(unittest.TestCase):
         # The unexported type itself is not part of the public package surface.
         self.assertFalse(hasattr(self.testapi, "UnexportedReferencedType"))
 
+    def test_generated_type_descriptors_use_swift_origin_keys(self) -> None:
+        reference_case_enum = GENERATED_SRC / "testapi" / "reference_case_enum.py"
+        source = reference_case_enum.read_text()
+
+        self.assertIn('_native.ValueType("TestAPI.ReferenceCaseEnum")', source)
+        self.assertNotIn('_native.ValueType("ReferenceCaseEnum")', source)
+
 
 if __name__ == "__main__":
     unittest.main()

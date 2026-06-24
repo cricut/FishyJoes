@@ -39,7 +39,7 @@ class TestDefaultComputedPropertiesReference(_native.SwiftReference):
 
     @staticmethod
     def init(spam, noot):
-        return _native.call(_fj___iota_TestAPI_TestDefaultComputedPropertiesClass_init, args=[spam, noot], arg_conversions=[None, None], return_conversion=_native.ValueType("TestDefaultComputedPropertiesReference"))
+        return _native.call(_fj___iota_TestAPI_TestDefaultComputedPropertiesClass_init, args=[spam, noot], arg_conversions=[None, None], return_conversion=_native.ValueType("TestAPI.TestDefaultComputedPropertiesClass"))
 
 _native.setup_reference_type(_fj_TestAPI_TestDefaultComputedPropertiesClass_setup, TestDefaultComputedPropertiesReference)
 

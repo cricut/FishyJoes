@@ -39,7 +39,7 @@ class Actors_TemperatureLogger(_native.SwiftReference):
 
     @staticmethod
     def create(label, measurement):
-        return _native.call(_fj___iota_TestAPI_Actors_TemperatureLogger_create, args=[label, measurement], arg_conversions=[_native.STRING, None], return_conversion=_native.ValueType("Actors_TemperatureLogger"))
+        return _native.call(_fj___iota_TestAPI_Actors_TemperatureLogger_create, args=[label, measurement], arg_conversions=[_native.STRING, None], return_conversion=_native.ValueType("TestAPI.Actors.TemperatureLogger"))
     def extension_isolated_get_label(self):
         return _native.call(_fj___iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<Swift.String>", _native.STRING))
     def extension_nonisolated_get_label(self):

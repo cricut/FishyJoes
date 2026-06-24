@@ -22,11 +22,11 @@ class TestOptionalsProtocol(_native.SwiftReference):
         return _native.call(_fj___iota_get_TestAPI_TestOptionalsProtocol_flarp, args=[self._iota_ref], return_conversion=_native.Optional(_native.STRING))
 
     def spqr(self, pippo):
-        return _native.call(_fj___iota_TestAPI_TestOptionalsProtocol_spqr, args=[self._iota_ref, pippo], arg_conversions=[None, _native.ValueType("AssociatedDataEnum")], return_conversion=None)
+        return _native.call(_fj___iota_TestAPI_TestOptionalsProtocol_spqr, args=[self._iota_ref, pippo], arg_conversions=[None, _native.ValueType("TestAPI.AssociatedDataEnum")], return_conversion=None)
     def wombat(self, zxc):
         return _native.call(_fj___iota_TestAPI_TestOptionalsProtocol_wombat, args=[self._iota_ref, zxc], arg_conversions=[None, _native.Optional(_native.INT)], return_conversion=_native.Optional(_native.DOUBLE))
 
-_native.setup_protocol_type(_fj_TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup, TestOptionalsProtocol, fields=[_native.ProtocolField("flarp", _native.Optional(_native.STRING))], methods=[_native.ProtocolMethod("wombat", [_native.Optional(_native.INT)], _native.Optional(_native.DOUBLE)), _native.ProtocolMethod("spqr", [_native.ValueType("AssociatedDataEnum")], _native.INT)])
+_native.setup_protocol_type(_fj_TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup, TestOptionalsProtocol, fields=[_native.ProtocolField("flarp", _native.Optional(_native.STRING))], methods=[_native.ProtocolMethod("wombat", [_native.Optional(_native.INT)], _native.Optional(_native.DOUBLE)), _native.ProtocolMethod("spqr", [_native.ValueType("TestAPI.AssociatedDataEnum")], _native.INT)])
 
 def _fishyjoes_setup_external(target_native):
-    target_native.setup_protocol_type(_fj_TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup, TestOptionalsProtocol, fields=[target_native.ProtocolField("flarp", target_native.Optional(target_native.STRING))], methods=[target_native.ProtocolMethod("wombat", [target_native.Optional(target_native.INT)], target_native.Optional(target_native.DOUBLE)), target_native.ProtocolMethod("spqr", [target_native.ValueType("AssociatedDataEnum")], target_native.INT)])
+    target_native.setup_protocol_type(_fj_TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup, TestOptionalsProtocol, fields=[target_native.ProtocolField("flarp", target_native.Optional(target_native.STRING))], methods=[target_native.ProtocolMethod("wombat", [target_native.Optional(target_native.INT)], target_native.Optional(target_native.DOUBLE)), target_native.ProtocolMethod("spqr", [target_native.ValueType("TestAPI.AssociatedDataEnum")], target_native.INT)])

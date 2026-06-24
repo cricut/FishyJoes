@@ -21,10 +21,10 @@ class TestNonExportedProtocolEnum(enum.Enum):
 
     @property
     def fuga(self):
-        return _native.call(_fj___iota_get_TestAPI_TestNonExportedProtocolEnum_fuga, args=[self], arg_conversions=[_native.ValueType("TestNonExportedProtocolEnum")], return_conversion=None)
+        return _native.call(_fj___iota_get_TestAPI_TestNonExportedProtocolEnum_fuga, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestNonExportedProtocolEnum")], return_conversion=None)
 
     def hoge(self):
-        return _native.call(_fj___iota_TestAPI_TestNonExportedProtocolEnum_hoge, args=[self], arg_conversions=[_native.ValueType("TestNonExportedProtocolEnum")], return_conversion=None)
+        return _native.call(_fj___iota_TestAPI_TestNonExportedProtocolEnum_hoge, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestNonExportedProtocolEnum")], return_conversion=None)
 
 _native.setup_simple_enum_type(_fj_TestAPI_TestNonExportedProtocolEnum_setup, TestNonExportedProtocolEnum, ["hogehoge"])
 

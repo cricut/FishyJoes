@@ -23,13 +23,13 @@ class TestDefaultComputedPropertiesEnum(enum.Enum):
 
     @property
     def noot(self):
-        return _native.call(_fj___iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot, args=[self], arg_conversions=[_native.ValueType("TestDefaultComputedPropertiesEnum")], return_conversion=None)
+        return _native.call(_fj___iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestDefaultComputedPropertiesEnum")], return_conversion=None)
     @property
     def plutonic(self):
-        return _native.call(_fj___iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic, args=[self], arg_conversions=[_native.ValueType("TestDefaultComputedPropertiesEnum")], return_conversion=_native.STRING)
+        return _native.call(_fj___iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestDefaultComputedPropertiesEnum")], return_conversion=_native.STRING)
     @property
     def spam(self):
-        return _native.call(_fj___iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam, args=[self], arg_conversions=[_native.ValueType("TestDefaultComputedPropertiesEnum")], return_conversion=None)
+        return _native.call(_fj___iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam, args=[self], arg_conversions=[_native.ValueType("TestAPI.TestDefaultComputedPropertiesEnum")], return_conversion=None)
 
 _native.setup_simple_enum_type(_fj_TestAPI_TestDefaultComputedPropertiesEnum_setup, TestDefaultComputedPropertiesEnum, ["qux"])
 

@@ -16,7 +16,7 @@ class ProtocolWitnesses:
 
     @staticmethod
     def describe_a_protocol(value, x, y):
-        return _native.call(_fj___iota_TestAPI_ProtocolWitnesses_describeAProtocol, args=[value, x, y], arg_conversions=[_native.ProtocolType("AProtocol"), None, None], return_conversion=_native.STRING)
+        return _native.call(_fj___iota_TestAPI_ProtocolWitnesses_describeAProtocol, args=[value, x, y], arg_conversions=[_native.ProtocolType("TestAPI.AProtocol"), None, None], return_conversion=_native.STRING)
     @staticmethod
     def return_a_protocol(value):
-        return _native.call(_fj___iota_TestAPI_ProtocolWitnesses_returnAProtocol, args=[value], arg_conversions=[_native.ProtocolType("AProtocol")], return_conversion=_native.ProtocolType("AProtocol"))
+        return _native.call(_fj___iota_TestAPI_ProtocolWitnesses_returnAProtocol, args=[value], arg_conversions=[_native.ProtocolType("TestAPI.AProtocol")], return_conversion=_native.ProtocolType("TestAPI.AProtocol"))

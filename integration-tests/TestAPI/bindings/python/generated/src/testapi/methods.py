@@ -128,12 +128,12 @@ class Methods(_native.SwiftReference, metaclass=_MethodsMeta):
         return _native.call(_fj___iota_TestAPI_Methods_asyncYield, args=[self._iota_ref], arg_conversions=[None], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
     @staticmethod
     def create():
-        return _native.call(_fj___iota_TestAPI_Methods_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("Methods"))
+        return _native.call(_fj___iota_TestAPI_Methods_create, args=[], arg_conversions=[], return_conversion=_native.ValueType("TestAPI.Methods"))
     def double_plus_good(self, a, b):
         return _native.check(lambda exn: _fj___iota_TestAPI_Methods_doublePlusGood(_native.env, self._iota_ref, a, b, exn))
     @staticmethod
     def method_with_newlines_in_types(thing):
-        return _native.call(_fj___iota_TestAPI_Methods_methodWithNewlinesInTypes, args=[thing], arg_conversions=[_native.AsyncFunction("AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", [_native.INT, _native.DATA, _native.BOOL], _native.Result("ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>", _native.INT, _native.ValueType("TheMethodError")))], return_conversion=_native.VOID)
+        return _native.call(_fj___iota_TestAPI_Methods_methodWithNewlinesInTypes, args=[thing], arg_conversions=[_native.AsyncFunction("AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", [_native.INT, _native.DATA, _native.BOOL], _native.Result("ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>", _native.INT, _native.ValueType("TestAPI.Methods.TheMethodError")))], return_conversion=_native.VOID)
     @staticmethod
     def static_async42():
         return _native.call(_fj___iota_TestAPI_Methods_staticAsync42, args=[], arg_conversions=[], return_conversion=_native.Future("FutureConverter<Swift.Int>", _native.INT))
