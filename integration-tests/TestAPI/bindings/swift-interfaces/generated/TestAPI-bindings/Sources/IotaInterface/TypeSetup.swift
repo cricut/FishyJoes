@@ -207,7 +207,6 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.ReferenceOnlyTypes.self, as: "TestAPI.ReferenceOnlyTypes")
     Env.registerType(TestAPI.Results.self, as: "TestAPI.Results")
     Env.registerType(TestAPI.SimpleEnum.self, as: "TestAPI.SimpleEnum")
-    Env.registerType(TestAPI.SkippedMemberHost.self, as: "TestAPI.SkippedMemberHost")
     Env.registerType(TestAPI.Strings.self, as: "TestAPI.Strings")
     Env.registerType(TestAPI.Structs.self, as: "TestAPI.Structs")
     Env.registerType(TestAPI.TestAsyncForeignSideFunctionsStruct.self, as: "TestAPI.TestAsyncForeignSideFunctionsStruct")

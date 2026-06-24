@@ -1841,60 +1841,6 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "SkippedMemberHost",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "SkippedMemberHost",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "SkippedMemberHost",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/SkippedMemberHost"
-        }
-      },
-      "kotlinName" : "SkippedMemberHost",
-      "kotlinPackage" : "com.cricut.testapi",
-      "nodeName" : "TestAPI.SkippedMemberHost",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "SkippedMemberHost",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
             "name" : "Strings",
             "namespace" : [
 
@@ -15357,51 +15303,6 @@
 
             ]
           },
-          "SkippedMemberHost" : {
-            "classes" : [
-
-            ],
-            "fields" : [
-
-            ],
-            "interfaces" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "A sibling member referencing only exported types — must still generate.",
-                  "<!-- FishyJoes.export(echoInt) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "echoInt",
-                "parameters" : [
-                  {
-                    "name" : "value",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "number"
-                  }
-                }
-              }
-            ],
-            "name" : "SkippedMemberHost",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
           "Strings" : {
             "classes" : [
 
@@ -17367,19 +17268,6 @@
                       "_0" : "blue"
                     }
                   }
-                ]
-              }
-            }
-          },
-          {
-            "documentation" : [
-              "<!-- FishyJoes.export(SkippedMemberHost) -->"
-            ],
-            "name" : "SkippedMemberHost",
-            "value" : {
-              "union" : {
-                "_0" : [
-
                 ]
               }
             }

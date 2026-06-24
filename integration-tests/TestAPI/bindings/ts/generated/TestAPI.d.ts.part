@@ -2588,20 +2588,6 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(SkippedMemberHost) -->
-     */
-    export type SkippedMemberHost = never;
-    export namespace SkippedMemberHost {
-        /**
-         * A sibling member referencing only exported types — must still generate.
-         * <!-- FishyJoes.export(echoInt) -->
-         */
-        function echoInt(
-            value: number
-        ): number;
-    }
-
-    /**
      * <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
      */
     export class String_PuttingTypesIntoQuestionablePlaces {

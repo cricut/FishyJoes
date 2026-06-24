@@ -1280,16 +1280,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_SimpleEnum_setup');
-    final TestAPI_SkippedMemberHost_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            OutCreatedRef exn
-        )
-    >('TestAPI_SkippedMemberHost_setup');
     final TestAPI_Strings_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3576,18 +3566,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_SimpleEnum_resetFavoriteColor");
-    TestAPI.SkippedMemberHost.f__iota_TestAPI_SkippedMemberHost_echoInt = dylib.lookupFunction<
-        ffi.IntPtr Function(
-            Env env,
-            ffi.IntPtr value,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int value,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_SkippedMemberHost_echoInt");
     TestAPI.Strings.f__iota_TestAPI_Strings_echo = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -9543,16 +9521,6 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractGreen),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.newBlue),
                 ffi.Pointer.fromFunction(TestAPI.SimpleEnum.extractBlue),
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_TestAPI.SkippedMemberHost", () {
-        // print("setting up TestAPI.SkippedMemberHost (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_SkippedMemberHost_setup(
-                Loader.shared.env,
                 exn
             );
         });

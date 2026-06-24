@@ -405,7 +405,6 @@ intptr_t __iota_TestAPI_Primitives_boolOverflow(EnvRef envRef, bool b0, bool b1,
 intptr_t __iota_TestAPI_Primitives_echoInt(EnvRef envRef, intptr_t value, foreignOutExn _exn);
 intptr_t __iota_TestAPI_PythonNamingCollisions_keywordArgs(EnvRef envRef, intptr_t class, intptr_t list, foreignOutExn _exn);
 intptr_t __iota_TestAPI_ReferenceEmptyEnum_aStaticMethod(EnvRef envRef, foreignOutExn _exn);
-intptr_t __iota_TestAPI_SkippedMemberHost_echoInt(EnvRef envRef, intptr_t value, foreignOutExn _exn);
 intptr_t __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 intptr_t __iota_TestAPI_TestOptionalsProtocol_spqr(EnvRef envRef, foreignObject _iotaThis, foreignObject pippo, foreignOutExn _exn);
 intptr_t __iota_TestAPI_TestProtocolClass_spqr(EnvRef envRef, foreignObject _iotaThis, foreignObject pippo, foreignOutExn _exn);
