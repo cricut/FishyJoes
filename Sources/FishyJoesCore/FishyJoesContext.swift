@@ -397,6 +397,93 @@ public class FishyJoesContext {
         }
     }
 
+    /// Whether `type` can be translated. Used to skip an exported member whose
+    /// signature references a type that is not exported (e.g. because its
+    /// annotation failed to attach), rather than aborting the whole run in
+    /// `resolve`. A failed `tryResolve` throws before caching the unresolved type,
+    /// so this does not pollute the type cache with a bad entry.
+    func canResolve(type: BetterType, generics: [String: BetterType] = [:]) -> Bool {
+        do {
+            _ = try tryResolve(type: type, generics: generics)
+            return true
+        } catch {
+            return false
+        }
+    }
+
+    /// BetterTypes that will be in `typeCache` once the type-building pass finishes:
+    /// every locally-exported type (translation caches these) keyed both with and
+    /// without its module. Used for a build-safe resolvability check while models
+    /// are still being built and `canResolve` cannot yet see sibling/self types.
+    lazy var locallyExportedTypeKeys: Set<BetterType> = {
+        var keys: Set<BetterType> = []
+        for type in templateContext.types where type.exportAnnotation != nil {
+            let key = BetterType(named: type, context: self)
+            keys.insert(key)
+            keys.insert(key.withoutModuleOrSelf)
+        }
+        return keys
+    }()
+
+    private func namedComponents(of type: BetterType) -> [BetterType.Name] {
+        switch type {
+        case let .named(name):
+            return [name]
+        case let .generic(_, args):
+            // The base is always a built-in container (Optional/Array/…) handled
+            // structurally by `tryResolve`; only the arguments carry user types.
+            return args.flatMap { namedComponents(of: $0) }
+        case let .tuple(elements):
+            return elements.flatMap { namedComponents(of: $0.type) }
+        case let .function(args, ret, _, _):
+            return args.flatMap { namedComponents(of: $0) } + namedComponents(of: ret)
+        case .void, .selfType:
+            return []
+        }
+    }
+
+    /// Build-safe resolvability: true if `type` resolves now, or every named
+    /// component will resolve once building finishes (sibling/self types that are
+    /// exported but not yet cached). False only when a component is a type that is
+    /// genuinely not exported — translating such a member would `fatalError` in
+    /// `resolve`, so callers skip it instead.
+    func willResolve(_ type: BetterType, generics: [String: BetterType] = [:]) -> Bool {
+        if canResolve(type: type, generics: generics) { return true }
+        return namedComponents(of: type).allSatisfy { component in
+            generics[component.name] != nil
+                || canResolve(type: .named(component), generics: generics)
+                || locallyExportedTypeKeys.contains(.named(component))
+                || locallyExportedTypeKeys.contains(BetterType.named(component).withoutModuleOrSelf)
+        }
+    }
+
+    /// Whether an exported member's whole signature can be translated. Warns and
+    /// returns false for the first signature type that is not exported.
+    func isEmittable(_ method: Method) -> Bool {
+        for signatureType in method.parameters.map(\.type) + [method.returnType]
+        where !willResolve(signatureType, generics: method.exportAnnotation.genericOverrides) {
+            warn(
+                "skipping exported member `\(method)`: cannot translate type `\(signatureType.name)` "
+                + "— it is not exported. Annotate that type with FishyJoes.export/exportReference, or remove the member."
+            )
+            return false
+        }
+        return true
+    }
+
+    /// Whether an exported field's type can be translated. Non-exported fields are
+    /// kept (they are filtered out elsewhere); an exported field whose type is not
+    /// exported is dropped with a diagnostic rather than crashing in `resolve`.
+    func isEmittable(_ field: Field) -> Bool {
+        guard let annotation = field.exportAnnotation else { return true }
+        if willResolve(field.type, generics: annotation.genericOverrides) { return true }
+        warn(
+            "skipping exported member `\(field.name)`: cannot translate type `\(field.type.name)` "
+            + "— it is not exported. Annotate that type with FishyJoes.export/exportReference, or remove the member."
+        )
+        return false
+    }
+
     func tryResolve(type: BetterType, generics: [String: BetterType] = [:]) throws -> TranslatedType {
         var typeNameAsModuleQualified: BetterType?
 

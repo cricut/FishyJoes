@@ -203,7 +203,12 @@ extension Method {
         }
 
         let methods = Method.methodsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, methods: normalMethods + defaultMethods)
-        return methods// .sorted(by: { $0.name < $1.name })
+        // Drop any exported member whose signature references a type that is not
+        // exported (so cannot be translated). Such a member otherwise aborts the
+        // whole run with a `fatalError` in `resolve`; skip it with a diagnostic so
+        // the rest of the module still generates. The check is build-safe, so this
+        // does not wrongly drop members that reference not-yet-built sibling types.
+        return methods.filter { context.isEmittable($0) }
     }
 }
 

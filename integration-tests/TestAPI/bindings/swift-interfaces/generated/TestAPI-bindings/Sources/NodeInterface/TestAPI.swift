@@ -6996,6 +6996,60 @@ extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
+// MARK: - NodeInterface/TestAPI.SkippedMemberHost+node.swift
+
+extension TestAPI.SkippedMemberHost: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        fatalError("invalid enum for TestAPI.SkippedMemberHost")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        // Uninhabited type
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "SkippedMemberHost",
+            properties: [
+                (
+                    name: "echoInt",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoInt", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try Swift.Int.toNode(
+                                TestAPI.SkippedMemberHost.echoInt(
+                                    try env.argument(at: 0, converter: Swift.Int.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "SkippedMemberHost_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "SkippedMemberHost",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - NodeInterface/TestAPI.Strings+node.swift
 
 extension TestAPI.Strings: FishyJoesNodeRuntime.NodeConverter {

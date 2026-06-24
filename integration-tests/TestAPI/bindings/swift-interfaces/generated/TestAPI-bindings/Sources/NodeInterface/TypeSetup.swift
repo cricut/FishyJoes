@@ -58,6 +58,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.ReferenceOnlyTypes.nodeSetup(env: env, module: module)
     try TestAPI.Results.nodeSetup(env: env, module: module)
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)
+    try TestAPI.SkippedMemberHost.nodeSetup(env: env, module: module)
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)
     try TestAPI.TestAsyncForeignSideFunctionsStruct.nodeSetup(env: env, module: module)

@@ -50,6 +50,7 @@ export './ReferenceEmptyEnum.dart';
 export './ReferenceOnlyTypes.dart';
 export './Results.dart';
 export './SimpleEnum.dart';
+export './SkippedMemberHost.dart';
 export './Strings.dart';
 export './Structs.dart';
 export './TestAsyncForeignSideFunctionsStruct.dart';

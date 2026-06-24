@@ -286,4 +286,11 @@ extension BetterType {
         name.module = nil
         return .named(name)
     }
+
+    /// `withoutModule` for named types that have a module, otherwise `self`. Safe to
+    /// call on any BetterType (non-named or already module-less types return `self`).
+    var withoutModuleOrSelf: BetterType {
+        if case let .named(name) = self, name.module != nil { return withoutModule }
+        return self
+    }
 }

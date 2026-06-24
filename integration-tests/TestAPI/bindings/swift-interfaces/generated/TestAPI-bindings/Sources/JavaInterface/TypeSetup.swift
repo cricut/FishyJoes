@@ -2274,6 +2274,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_SimpleEnum_favoriteColor, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.SkippedMemberHost...")
+        try TestAPI.SkippedMemberHost.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.SkippedMemberHost.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_echoInt"),
+                signature: bag.add("(J)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_SkippedMemberHost_echoInt, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Strings...")
         try TestAPI.Strings.javaSetup(env: env)
         try env.RegisterNatives(

@@ -786,6 +786,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_SkippedMemberHost_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Strings_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -3550,6 +3556,13 @@ namespace Cricut.TestAPI {
                             }
                         }
                     ),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.SkippedMemberHost", () => {
+                // Console.WriteLine("setting up TestAPI.SkippedMemberHost...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_SkippedMemberHost_setup(
+                    Loader.env,
                     out exn
                 ));
             });

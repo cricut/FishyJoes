@@ -124,6 +124,7 @@ extension Field {
 
         let isDefinedInProtocol = type.kind == .protocol
         let fields = Field.fieldsPreferring(isDefinedInProtocol ? .defaultImplementation : .normal, fields: normalFields + defaultFields)
-        return fields.sorted(by: { $0.name < $1.name })
+        // Drop any exported field whose type is not exported (see Method.methods).
+        return fields.filter { context.isEmittable($0) }.sorted(by: { $0.name < $1.name })
     }
 }
