@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Proposed / Implemented
 
 ## Context
 
@@ -23,17 +23,9 @@ text that is meaningful to the generator but noise to a Python user.
 - Parse Swift source comments ad hoc in the Python translator.
   This duplicates metadata FishyJoes already carries and can drift from the
   other targets' documentation source.
-- Emit docstrings only into `.py` wrappers.
-  Runtime `help()` works, but many IDEs take hover text from `.pyi` stubs
-  when stubs exist, so hover would stay empty.
-- Emit documentation only into `.pyi` stubs.
-  IDE hover works, but runtime `help()`/`inspect.getdoc()` stay empty.
-- Emit into both from one shared renderer.
+- Emit docstrings into both `.py` and `.pyi` from one shared renderer.
   Slightly more emission code, but `.py` and `.pyi` documentation cannot
   diverge, and both runtime and editor surfaces work.
-- Fabricate parameter/return documentation tables from signatures.
-  Rejected: the metadata does not carry structured parameter docs; invented
-  structure would be noise that can silently go stale.
 
 ## Decision
 
