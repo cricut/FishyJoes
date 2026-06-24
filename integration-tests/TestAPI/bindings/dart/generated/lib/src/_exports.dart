@@ -72,5 +72,6 @@ export './ExternalWitness_TestPropertiesProtocol.dart';
 export './TestProtocolClass.dart';
 export './TestProtocolEnum.dart';
 export './TestProtocolStruct.dart';
+export './Threading.dart';
 export './Tuples.dart';
 export './URLs.dart';

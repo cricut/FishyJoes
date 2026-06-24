@@ -197,29 +197,43 @@ public func nodeIterate(_ iterator: NAPI.Value, env: NAPI.Env, _ body: (NAPI.Val
     }
 }
 
-private enum JSMainThread {
+enum JSMainThread {
     #if !os(WASI)
     static var thread: Thread?
     #endif
     static var env: NAPI.Env?
     static var dispatchFunction: NAPI.ThreadsafeFunction?
 
-    static var envIfAlreadyOnMain: NAPI.Env? {
-        #if !os(WASI)
-        guard thread == Thread.current else { return nil }
+    static var isOnMainThread: Bool {
+        #if os(WASI)
+        return fj_on_main_js_thread()
+        #else
+        return thread != nil && thread == Thread.current
         #endif
+    }
+
+    static var envIfAlreadyOnMain: NAPI.Env? {
+        guard isOnMainThread else { return nil }
         return env
     }
+}
+
+/// Must run on the main JS thread before `installGlobalExecutor`. No
+/// executor APIs (`await`, `Task`, actor calls) — the global executor is
+/// not yet installed.
+public func prepareJSMainThread(env: NAPI.Env) {
+    JSMainThread.env = env
+    #if os(WASI)
+    fj_mark_main_js_thread()
+    #else
+    JSMainThread.thread = Thread.current
+    #endif
 }
 
 public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
     guard JSMainThread.dispatchFunction == nil else {
         return
     }
-    #if !os(WASI)
-    JSMainThread.thread = Thread.current
-    #endif
-    JSMainThread.env = env
     JSMainThread.dispatchFunction = try env.createThreadsafeFunction(
         asyncResourceName: String.toNode("_mainThreadFunction", env: env),
         callJavascriptCallback: { env, _, _, data in
@@ -246,25 +260,36 @@ public func onMainThread(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .
 /// - Parameter operation: The function to execute on the main thread.
 /// - Parameter env: The main thread NAPI.Env.
 public func syncOnMainThread<R>(blocking callMode: NAPI.ThreadsafeFunction.CallMode = .nonblocking, _ operation: @escaping (_ env: NAPI.Env) throws -> R) throws -> R {
-    #if os(WASI)
-    return try operation(JSMainThread.env!)
-    #else
     if let env = JSMainThread.envIfAlreadyOnMain {
         return try operation(env)
-    } else {
-        let semaphore = DispatchSemaphore(value: 0)
-        var result: Result<R, any Error>?
-        try onMainThread(blocking: callMode) { env in
-            do {
-                result = .success(try operation(env))
-                semaphore.signal()
-            } catch {
-                result = .failure(error)
-                semaphore.signal()
-            }
-        }
-        semaphore.wait()
-        return try result!.get()
     }
-    #endif
+    let semaphore = BlockingSemaphore()
+    var result: Result<R, any Error>?
+    try onMainThread(blocking: callMode) { env in
+        result = Result { try operation(env) }
+        semaphore.signal()
+    }
+    semaphore.wait()
+    return try result!.get()
+}
+
+// NSCondition is available on all platforms.
+private final class BlockingSemaphore: @unchecked Sendable {
+    private let condition = NSCondition()
+    private var signaled = false
+
+    func wait() {
+        condition.lock()
+        while !signaled {
+            condition.wait()
+        }
+        condition.unlock()
+    }
+
+    func signal() {
+        condition.lock()
+        signaled = true
+        condition.signal()
+        condition.unlock()
+    }
 }

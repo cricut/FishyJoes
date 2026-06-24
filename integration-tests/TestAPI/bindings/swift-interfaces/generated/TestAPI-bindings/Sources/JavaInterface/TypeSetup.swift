@@ -67,6 +67,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
         // print("setting up Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>...")
         try Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.javaSetup(env: env)
+        // print("setting up Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>...")
+        try Function2Converter<Swift.Int, Swift.Int, FutureConverter<FishyJoesCommonRuntime.VoidConverter>>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, FutureConverter<Swift.Int>>...")
         try Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
@@ -89,6 +91,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
         // print("setting up AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
         try AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
+        // print("setting up AsyncFunction2Converter<Swift.Int, Swift.Int, FishyJoesCommonRuntime.VoidConverter>...")
+        try AsyncFunction2Converter<Swift.Int, Swift.Int, FishyJoesCommonRuntime.VoidConverter>.javaSetup(env: env)
         // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
         try Function1Converter<Swift.Int, Swift.Int>.javaSetup(env: env)
         // print("setting up AsyncFunction1Converter<Swift.Int, Swift.Int>...")
@@ -151,6 +155,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try FutureConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
         // print("setting up FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
         try FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
+        // print("setting up FutureConverter<Swift.Bool>...")
+        try FutureConverter<Swift.Bool>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.Double>...")
         try FutureConverter<Swift.Double>.javaSetup(env: env)
         // print("setting up FutureConverter<Swift.Int>...")
@@ -2804,6 +2810,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_xyzzy"),
                 signature: bag.add("(JLjava/util/List;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.Threading...")
+        try TestAPI.Threading.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.Threading.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_proveMainThreadCanPark"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Threading_proveMainThreadCanPark, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_proveParallelism"),
+                signature: bag.add("()Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Threading_proveParallelism, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_runConcurrentJobs"),
+                signature: bag.add("(JJLkotlin/jvm/functions/Function3;)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_Threading_runConcurrentJobs, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Tuples...")

@@ -72,8 +72,8 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
     /// A function that invokes a given closure after a specified number of milliseconds.
     public var setTimeout: @Sendable (Double, @escaping () -> Void) -> Void
 
-    /// A mutable state to manage internal job queue
-    /// Note that this should be guarded atomically when supporting multi-threaded environment.
+    /// Touched only on the main JS thread; cross-thread enqueues bounce
+    /// through `onMainThread` before reaching it.
     var queueState = QueueState()
 
     private init(
@@ -198,6 +198,16 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
     }
 
     private func enqueue(_ job: UnownedJob, withDelay nanoseconds: UInt64) {
+        if JSMainThread.isOnMainThread {
+            enqueueOnMain(job, withDelay: nanoseconds)
+        } else {
+            try? onMainThread { _ in
+                JavaScriptEventLoop.shared.enqueueOnMain(job, withDelay: nanoseconds)
+            }
+        }
+    }
+
+    private func enqueueOnMain(_ job: UnownedJob, withDelay nanoseconds: UInt64) {
         let milliseconds = nanoseconds / 1_000_000
         setTimeout(Double(milliseconds)) {
             job.runSynchronously(on: self.asUnownedSerialExecutor())
@@ -205,7 +215,13 @@ public final class JavaScriptEventLoop: SerialExecutor, @unchecked Sendable {
     }
 
     public func enqueue(_ job: UnownedJob) {
-        insertJobQueue(job: job)
+        if JSMainThread.isOnMainThread {
+            insertJobQueue(job: job)
+        } else {
+            try? onMainThread { _ in
+                JavaScriptEventLoop.shared.insertJobQueue(job: job)
+            }
+        }
     }
 
     public func asUnownedSerialExecutor() -> UnownedSerialExecutor {
@@ -226,11 +242,27 @@ extension JavaScriptEventLoop {
         _ toleranceSec: Int64, _ toleranceNSec: Int64,
         _ clock: Int32
     ) {
+        if JSMainThread.isOnMainThread {
+            enqueueOnMain(job, withDelay: seconds, nanoseconds, toleranceSec, toleranceNSec, clock)
+        } else {
+            try? onMainThread { _ in
+                JavaScriptEventLoop.shared.enqueueOnMain(
+                    job, withDelay: seconds, nanoseconds, toleranceSec, toleranceNSec, clock
+                )
+            }
+        }
+    }
+
+    fileprivate func enqueueOnMain(
+        _ job: UnownedJob, withDelay seconds: Int64, _ nanoseconds: Int64,
+        _ toleranceSec: Int64, _ toleranceNSec: Int64,
+        _ clock: Int32
+    ) {
         var nowSec: Int64 = 0
         var nowNSec: Int64 = 0
         swift_get_time(&nowSec, &nowNSec, clock)
         let delayNanosec = (seconds - nowSec) * 1_000_000_000 + (nanoseconds - nowNSec)
-        enqueue(job, withDelay: delayNanosec <= 0 ? 0 : UInt64(delayNanosec))
+        enqueueOnMain(job, withDelay: delayNanosec <= 0 ? 0 : UInt64(delayNanosec))
     }
 }
 
@@ -245,7 +277,10 @@ extension JavaScriptEventLoop: ExecutorFactory {
         private init() {}
 
         func checkIsolated() {
-            // No-op: JavaScript is single-threaded, so isolation is always satisfied
+            precondition(
+                JSMainThread.isOnMainThread,
+                "Expected to be running on the JS main thread"
+            )
         }
 
         func enqueue(_ job: consuming ExecutorJob) {

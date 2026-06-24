@@ -183,6 +183,18 @@ class NodePhases: BasePhases, Phases {
                 moduleName: nodeModule.name,
                 dependencies: nodeDependencies.map(\.name)
             )
+            try template(
+                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.worker.js",
+                outPath: "\(outputDir)/\(nodeModule.name).worker.js",
+                moduleName: nodeModule.name,
+                dependencies: nodeDependencies.map(\.name)
+            )
+            try template(
+                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.spawner.js",
+                outPath: "\(outputDir)/\(nodeModule.name).spawner.js",
+                moduleName: nodeModule.name,
+                dependencies: nodeDependencies.map(\.name)
+            )
 
             // Install Javascript extensions for dependencies so they are loaded when the Wasm bundle is loaded, if provided
             for module in nodeModules {
@@ -356,6 +368,11 @@ class NodePhases: BasePhases, Phases {
 
             // Use npm to execute the test suite
             try npm("run", "clear-cache").run()
+
+            if platform == .wasm, options.wasmBrowser {
+                // Idempotent: re-runs are cheap when the browser is already installed.
+                try npx("playwright", "install", "chromium").run()
+            }
         }
     }
 
@@ -368,6 +385,10 @@ class NodePhases: BasePhases, Phases {
                 ]
             } ?? [:]
             try npm("run", "test-\(platform.nodeExecutionEnvironment)", addEnv: addEnv).run()
+
+            if platform == .wasm, options.wasmBrowser {
+                try npm("run", "test-wasm-browser", addEnv: addEnv).run()
+            }
         }
     }
 
@@ -392,10 +413,18 @@ class NodePhases: BasePhases, Phases {
     }
 
     private func npm(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
+        return command("npm", arguments, addEnv: addEnv)
+    }
+
+    private func npx(_ arguments: String..., addEnv: [String: String] = [:]) -> Command {
+       return command("npx", arguments, addEnv: addEnv)
+    }
+
+    private func command(_ name: String, _ arguments: [String], addEnv: [String: String] = [:]) -> Command {
         #if os(macOS) || os(Linux)
-        return cmd("npm", arguments: arguments, addEnv: addEnv)
+        return cmd(name, arguments: arguments, addEnv: addEnv)
         #elseif os(Windows)
-        return cmd("cmd.exe", arguments: ["/c", "npm"] + arguments, addEnv: addEnv)
+        return cmd("cmd.exe", arguments: ["/c", name] + arguments, addEnv: addEnv)
         #else
         fatalError("unknown host OS")
         #endif

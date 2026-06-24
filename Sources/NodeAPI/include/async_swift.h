@@ -29,7 +29,18 @@
 //
 
 #include <stdalign.h>
+#include <stdbool.h>
 #include <stdint.h>
+
+extern _Thread_local bool fj_is_main_js_thread;
+
+static inline bool fj_on_main_js_thread(void) {
+    return fj_is_main_js_thread;
+}
+
+static inline void fj_mark_main_js_thread(void) {
+    fj_is_main_js_thread = true;
+}
 
 #define SWIFT_CC(CC) SWIFT_CC_##CC
 #define SWIFT_CC_swift __attribute__((swiftcall))

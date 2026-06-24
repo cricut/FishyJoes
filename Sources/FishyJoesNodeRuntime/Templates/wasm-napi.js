@@ -169,46 +169,15 @@ const kNoException = Symbol('kNoException');
 const hasOwnProperty = Function.prototype.call.bind(Object.prototype.hasOwnProperty);
 
 export class NAPI {
-  constructor(WASI, WasmFs) {
-    const wasmFs = new WasmFs();
-
-    // Output stdout and stderr to console
-    const originalWriteSync = wasmFs.fs.writeSync;
-    var logBuffer = ""
-    var errorBuffer = ""
-    wasmFs.fs.writeSync = (fd, buffer, ...args) => {
-      const text = new TextDecoder("utf-8").decode(buffer);
-      switch (fd) {
-      case 1:
-        var lines = (logBuffer + text).split('\n')
-        logBuffer = lines.pop()
-        lines.forEach(e => console.log(e))
-        break;
-      case 2:
-        var lines = (errorBuffer + text).split('\n')
-        errorBuffer = lines.pop()
-        lines.forEach(e => console.error(e))
-        break;
-      }
-      return originalWriteSync(fd, buffer, ...args);
-    };
-
-    this.wasi = new WASI({
-      args: [], env: {},
-      bindings: {
-        ...WASI.defaultBindings,
-        fs: wasmFs.fs,
-      }
-    });
-
-    // Patch wasmer-js methods to ensure that memory is bound to a valid data view before they run
-    for (const [fnName, fnDef] of Object.entries(this.wasi.wasiImport)) {
-      const capturedThis = this;
-      this.wasi.wasiImport[fnName] = function() {
-        capturedThis.wasi.refreshMemory();
-        return fnDef.apply(this, arguments);
-      };
-    }
+  constructor({ WASI, OpenFile, File, ConsoleStdout }) {
+    // browser_wasi_shim models stdin/stdout/stderr as preopened fds 0/1/2.
+    // ConsoleStdout.lineBuffered batches writes and emits one full line at a time.
+    const fds = [
+      new OpenFile(new File([])),
+      ConsoleStdout.lineBuffered((line) => console.log(line)),
+      ConsoleStdout.lineBuffered((line) => console.error(line)),
+    ];
+    this.wasi = new WASI([], [], fds, { debug: false });
 
     this.indirectFunctionTable = undefined;
     this.memory = undefined;
@@ -216,7 +185,7 @@ export class NAPI {
     this.malloc = undefined;
     this.free = undefined;
     this.errorMessageTable = undefined;
-    this.view = undefined;
+    this._view = undefined;
     this.instanceData = { data: 0 };
 
     this.scopes = [];
@@ -252,7 +221,6 @@ export class NAPI {
       }
       this.lastErrorCode = NAPI_OK;
       try {
-        this.wasi.refreshMemory();
         const r = f(...args);
         if (r !== NAPI_OK) {
           this.lastErrorCode = r;
@@ -491,8 +459,6 @@ export class NAPI {
       }),
 
       // napi_fatal_error: (locationPtr, locationLen, messagePtr, messageLen) => {
-      //   this.wasi.refreshMemory();
-
       //   const location = this.readString(locationPtr, locationLen);
       //   const message = this.readString(messagePtr, messageLen);
 
@@ -1462,20 +1428,21 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_create_threadsafe_function: this.wrap((envPtr, funcIdx, asyncResourceIdx, asyncResourceNameIdx, maxQueueSize, initialThreadCount, finalizeData, finalizeCallback, callJavascriptCallbackContext, callJavascriptCallback, resultPtr) => {
-       if (funcIdx === null && callJavascriptCallback === null) {
+       // wasm imports pass 0 for absent values; tolerate null too for direct JS callers.
+       if (!funcIdx && !callJavascriptCallback) {
          return NAPI_INVALID_ARG;
        }
        const threadsafeFunction = {
-         "func": this.load(funcIdx),
+         "func": funcIdx ? this.load(funcIdx) : null,
          "asyncResource": this.load(asyncResourceIdx),
          "asyncResourceName": this.load(asyncResourceNameIdx),
          "maxQueueSize": maxQueueSize >>> 0,
          "queueSize": 0,
          "threadCount": initialThreadCount >>> 0,
          finalizeData,
-         "finalizeCallback": this.indirectFunctionTable.get(finalizeCallback),
+         "finalizeCallback": finalizeCallback ? this.indirectFunctionTable.get(finalizeCallback) : null,
          callJavascriptCallbackContext,
-         "callJavascriptCallback": this.indirectFunctionTable.get(callJavascriptCallback),
+         "callJavascriptCallback": callJavascriptCallback ? this.indirectFunctionTable.get(callJavascriptCallback) : null,
          "env": envPtr,
          isCancelled: false
        };
@@ -1493,43 +1460,34 @@ export class NAPI {
            return NAPI_CLOSING;
        }
 
-       // If the maxQueueSize is 0 then there is no limit so just call the function
+       // wasi-threads workers forward this call to main via postMessage, so
+       // the body always runs on the JS main thread; we cannot truly block
+       // (would deadlock), so BLOCKING with a full queue proceeds anyway.
        if (threadsafeFunction.maxQueueSize !== 0) {
            if (threadsafeFunction.queueSize < threadsafeFunction.maxQueueSize) {
                threadsafeFunction.queueSize += 1;
-           } else {
-               if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
-                   // TODO: If/when this is ever multithreaded, block until this can execute
-               } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
-                   return NAPI_QUEUE_FULL;
-               } else {
-                   return NAPI_INVALID_ARG;
-               }
+           } else if (mode === NAPI_THREADSAFE_FUNCTION_CALL_MODE_NONBLOCKING) {
+               return NAPI_QUEUE_FULL;
+           } else if (mode !== NAPI_THREADSAFE_FUNCTION_CALL_MODE_BLOCKING) {
+               return NAPI_INVALID_ARG;
            }
        }
 
-       if (threadsafeFunction.callJavascriptCallback !== null) {
-           // TODO: If/when this is ever multithraded, ensure this is called on the main thread
+       if (threadsafeFunction.callJavascriptCallback) {
            const env = threadsafeFunction.env
-           const funcIdx = this.store(threadsafeFunction.func);
+           const funcIdx = threadsafeFunction.func ? this.store(threadsafeFunction.func) : 0;
            const context = threadsafeFunction.callJavascriptCallbackContext;
            const callback = threadsafeFunction.callJavascriptCallback
            callback(env, funcIdx, context, data);
-       } else if (threadsafeFunction.func !== null) {
-             const args = [];
-             args.push(threadsafeFunction.env);
-             // createFunction() uses the same index for both the function and the context
-             const callbackInfo = threadsafeFunction.func;
-             args.push(callbackInfo);
-             const func = this.load(threadsafeFunction.func);
-             result = Reflect.apply(func, undefined, args);
+       } else if (threadsafeFunction.func) {
+             // Per Node-API: call_js_cb null => JS function invoked with no args.
+             Reflect.apply(threadsafeFunction.func, undefined, []);
        } else {
            return NAPI_INVALID_ARG;
        }
 
        if (threadsafeFunction.maxQueueSize !== 0) {
            threadsafeFunction.queueSize -= 1;
-           // TODO: If/when this is ever multithraded, wake the next blocked execution if there are any
        }
 
         return NAPI_OK;
@@ -1548,12 +1506,13 @@ export class NAPI {
        }
 
        if (threadsafeFunction.threadCount === 0) {
-         if (typeof threadsafeFunction.threadFinalizeCallback === 'function') {
+         if (typeof threadsafeFunction.finalizeCallback === 'function') {
            const args = [];
            args.push(threadsafeFunction.env);
            args.push(threadsafeFunction.finalizeData);
-           args.push(threadsafeFunctionIdx);
-           Reflect.apply(threadsafeFunction.threadFinalizeCallback, undefined, args);
+           // napi_finalize hint: for TSFs Node passes the context.
+           args.push(threadsafeFunction.callJavascriptCallbackContext);
+           Reflect.apply(threadsafeFunction.finalizeCallback, undefined, args);
          }
          delete this.references[threadsafeFunctionIdx];
        }
@@ -1740,6 +1699,7 @@ export class NAPI {
       }),
       napi_is_promise: this.wrap((envPtr, valueIdx, resultPtr) => {
         this.writeU8(resultPtr, isPromise(this.load(valueIdx)));
+        return NAPI_OK;
       }),
       napi_run_script: this.wrap((envPtr, scriptIdx, resultPtr) => {
         const script = this.load(scriptIdx);
@@ -1752,15 +1712,19 @@ export class NAPI {
         this.finalizationRegistry
           .register(instanceObject, [finalizeCb, envPtr, data, finalizeHint]);
         this.instanceData = instanceObject
+        return NAPI_OK;
       }),
       napi_get_instance_data: this.wrap((envPtr, dataPtr) => {
         this.writeU32(dataPtr, this.instanceData.data);
+        return NAPI_OK;
       }),
       napi_get_version: this.wrap((envPtr, resultPtr) => {
         this.writeU32(resultPtr, 8);
+        return NAPI_OK;
       }),
       napi_adjust_external_memory: this.wrap((envPtr, changeInBytes, resultPtr) => {
         this.writeI64(resultPtr, 1n);
+        return NAPI_OK;
       }),
     };
   }
@@ -1796,29 +1760,40 @@ export class NAPI {
     return this.handles[idx];
   }
 
+  // DataView over the wasm linear memory. Lazily recreated when memory grows:
+  //   - non-shared ArrayBuffer: memory.grow() detaches old buffer; identity check catches it
+  //   - SharedArrayBuffer (wasi-threads): memory.grow() extends in place; byteLength check catches it
+  get view() {
+    const buffer = this.memory.buffer;
+    if (!this._view || this._view.buffer !== buffer || this._view.byteLength < buffer.byteLength) {
+      this._view = new DataView(buffer);
+    }
+    return this._view;
+  }
+
   readU32(ptr) {
     ptr >>>= 0;
-    return this.wasi.view.getUint32(ptr, true);
+    return this.view.getUint32(ptr, true);
   }
 
   readU64(ptr) {
     ptr >>>= 0;
-    return this.wasi.view.getBigUint64(ptr, true);
+    return this.view.getBigUint64(ptr, true);
   }
 
   writeU8(ptr, u8) {
     ptr >>>= 0;
-    this.wasi.view.setUint8(ptr, u8);
+    this.view.setUint8(ptr, u8);
   }
 
   writeU32(ptr, u32) {
     ptr >>>= 0;
-    this.wasi.view.setUint32(ptr, u32, true);
+    this.view.setUint32(ptr, u32, true);
   }
 
   writeI32(ptr, i32) {
     ptr >>>= 0;
-    this.wasi.view.setInt32(ptr, i32, true);
+    this.view.setInt32(ptr, i32, true);
   }
 
   writeI64(ptr, i64) {
@@ -1831,17 +1806,17 @@ export class NAPI {
     if (i64 < -RANGEERROR) {
       i64 = -RANGEERROR
     }
-    this.wasi.view.setBigInt64(ptr, i64, true);
+    this.view.setBigInt64(ptr, i64, true);
   }
 
   writeU64(ptr, u64) {
     ptr >>>= 0;
-    this.wasi.view.setBigUint64(ptr, u64, true);
+    this.view.setBigUint64(ptr, u64, true);
   }
 
   writeF64(ptr, f64) {
     ptr >>>= 0;
-    this.wasi.view.setFloat64(ptr, f64, true);
+    this.view.setFloat64(ptr, f64, true);
   }
 
   readCStringFrom(ptr) {
@@ -1900,7 +1875,6 @@ export class NAPI {
         buffer.set(utf8, stringPtr)
         buffer[stringPtr + utf8.length] = 0
       }
-      this.wasi.refreshMemory();
       this.writeU32(tablePtr + 4 * i, stringPtr);
     }
     return tablePtr;
@@ -1912,8 +1886,8 @@ export class NAPI {
     this.free = instance.exports.free;
     this.indirectFunctionTable = instance.exports.__indirect_function_table;
 
-    this.wasi.start(instance);
-    instance.exports._initialize?.();
+    // Reactor model: initialize() runs _initialize (global ctors) but no main.
+    this.wasi.initialize(instance);
 
     this.errorMessageTable = this.allocateErrorMessages();
     this.extendedErrorInfoPtr = this.malloc(16);
@@ -1933,4 +1907,105 @@ export class NAPI {
       }
     }
   }
+
+  // Handle a forwarded napi call from a wasi-threads worker. The worker has
+  // no NAPI env of its own; the three thread-safe-function calls listed in
+  // the Node-API spec (napi_call/acquire/release_threadsafe_function) are
+  // routed here and re-entered through this main instance's tables.
+  dispatchWorkerMessage(msg) {
+    switch (msg.type) {
+      case 'napi_call_threadsafe_function':
+        this.exports.napi.napi_call_threadsafe_function(msg.handle, msg.data, msg.mode);
+        break;
+      case 'napi_acquire_threadsafe_function':
+        this.exports.napi.napi_acquire_threadsafe_function(msg.handle);
+        break;
+      case 'napi_release_threadsafe_function':
+        this.exports.napi.napi_release_threadsafe_function(msg.handle, msg.mode);
+        break;
+      default:
+        console.error(`dispatchWorkerMessage: unknown type ${msg.type}`);
+    }
+  }
+}
+
+// Build the import object a wasi-threads worker uses to instantiate the wasm
+// module WITHOUT creating its own NAPI env. The three thread-safe-function
+// calls explicitly permitted from any thread by the Node-API spec are
+// forwarded to main via port.postMessage; every other napi_* import resolves
+// to a throwing stub so contract violations surface immediately.
+//
+// `port` is the host-agnostic abstraction over a worker's outgoing message
+// channel: Node workers pass `parentPort`, browser workers pass `self`. Both
+// expose `postMessage`.
+//
+// Returns { imports, wasi } — caller must assign wasi.inst = instance after
+// instantiation so WASI syscalls (fd_write, etc.) can locate memory.
+export function makeWorkerImports({ port, memory, WASI, OpenFile, File, ConsoleStdout }) {
+  const fds = [
+    new OpenFile(new File([])),
+    ConsoleStdout.lineBuffered((line) => console.log(line)),
+    ConsoleStdout.lineBuffered((line) => console.error(line)),
+  ];
+  const wasi = new WASI([], [], fds, { debug: false });
+
+  // Harvest the napi_* function names from a throwaway main-mode NAPI so the
+  // throwing-stub list stays in sync if more functions are added to the main
+  // table — no second list to maintain.
+  const mainNapiNames = Object.keys(
+    new NAPI({ WASI, OpenFile, File, ConsoleStdout }).makeNAPIExports()
+  );
+
+  const napiImports = {};
+  for (const name of mainNapiNames) {
+    napiImports[name] = () => {
+      throw new Error(`NAPI ${name} called from worker thread`);
+    };
+  }
+
+  // Allow-listed: forward to main. Per Node-API docs:
+  //   napi_call_threadsafe_function    — "may be called from any thread"
+  //   napi_acquire_threadsafe_function — "may be called from any thread"
+  //   napi_release_threadsafe_function — "may be called from any thread"
+  napiImports.napi_call_threadsafe_function = (threadsafeFunctionIdx, data, mode) => {
+    port.postMessage({
+      type: 'napi_call_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+      data: data >>> 0,
+      mode: mode | 0,
+    });
+    return NAPI_OK;
+  };
+  napiImports.napi_acquire_threadsafe_function = (threadsafeFunctionIdx) => {
+    port.postMessage({
+      type: 'napi_acquire_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+    });
+    return NAPI_OK;
+  };
+  napiImports.napi_release_threadsafe_function = (threadsafeFunctionIdx, mode) => {
+    port.postMessage({
+      type: 'napi_release_threadsafe_function',
+      handle: threadsafeFunctionIdx >>> 0,
+      mode: mode | 0,
+    });
+    return NAPI_OK;
+  };
+  // env-scoped and harmless on a worker — return OK with no extended info.
+  napiImports.napi_get_last_error_info = () => NAPI_OK;
+
+  let tempRet0 = 0;
+  return {
+    imports: {
+      wasi_snapshot_preview1: wasi.wasiImport,
+      env: {
+        memory,
+        setTempRet0: (value) => { tempRet0 = value; },
+        getTempRet0: () => tempRet0,
+        mprotect: () => 0,
+      },
+      napi: napiImports,
+    },
+    wasi,
+  };
 }
