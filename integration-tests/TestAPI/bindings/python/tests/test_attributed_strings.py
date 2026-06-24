@@ -32,6 +32,27 @@ class AttributedStringTests(unittest.TestCase):
         self.assertEqual(attributed_strings.echo(attributed_strings.emoji_multi), attributed_strings.emoji_multi)
         self.assertNotEqual(attributed_strings.accent, attributed_strings.simple)
 
+    def test_construct_attributed_string_from_python_string(self) -> None:
+        # The shared-runtime AttributedString had no Python constructor, so a str
+        # could not be turned into an AttributedString and the entire shaping tier
+        # (Font.shape_attributed_string, TextSegmentation, …) was unreachable. The
+        # runtime class must expose a constructor wired to the native create symbol.
+        attributed_string_type = self.testapi._native.Runtime_AttributedString
+        attributed_strings = self.testapi.AttributedStrings
+
+        constructed = attributed_string_type("Hello")
+        self.assertEqual(constructed.string, "Hello")
+        self.assertEqual(attributed_string_type("你好").string, "你好")
+        self.assertEqual(attributed_string_type("🤯🐶🍓").string, "🤯🐶🍓")
+
+        # The constructed value round-trips through a Swift API that takes an
+        # AttributedString parameter (proves it marshals in, not just out).
+        self.assertEqual(attributed_strings.echo(constructed), constructed)
+        # No attributes by default, so it must NOT equal a Swift-built value that
+        # carries a languageIdentifier attribute, even with identical text.
+        self.assertEqual(attributed_strings.simple.string, "Hello")
+        self.assertNotEqual(constructed, attributed_strings.simple)
+
     def test_substrings_and_attribute_containers(self) -> None:
         attributed_strings = self.testapi.AttributedStrings
 

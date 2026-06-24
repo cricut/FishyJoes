@@ -20,6 +20,10 @@ testapi._exports.__all__
 # intentionally opaque today; public generated APIs expose the owning Swift
 # members with concrete return annotations where supported.
 testapi._native.Runtime_AttributeContainer.foundation
+# Runtime-provided constructor: builds an AttributedString from a Python str (+
+# optional AttributeContainer). The owning runtime class is opaque in stubs like
+# its other members above, so the constructor is reconciled here too.
+testapi._native.Runtime_AttributedString.__init__
 testapi._native.Runtime_AttributedString.string
 testapi._native.Runtime_AttributedString.substring
 testapi._native.Runtime_AttributedSubstring.base

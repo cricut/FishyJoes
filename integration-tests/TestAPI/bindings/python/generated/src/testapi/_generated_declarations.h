@@ -155,6 +155,7 @@ foreignObject __iota_TestAPI_Ranges_echoUInt32Range(EnvRef envRef, foreignObject
 foreignObject __iota_TestAPI_Ranges_echoUInt64Range(EnvRef envRef, foreignObject range, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Ranges_echoUInt8Range(EnvRef envRef, foreignObject range, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Ranges_echoUIntRange(EnvRef envRef, foreignObject range, foreignOutExn _exn);
+foreignObject __iota_TestAPI_ReferenceCaseEnum_rotate180(EnvRef envRef, foreignObject direction, foreignOutExn _exn);
 foreignObject __iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_TestAPI_ReferenceOnlyTypes_marker(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Results_processResult(EnvRef envRef, foreignObject result, foreignOutExn _exn);
@@ -326,6 +327,8 @@ foreignObject __iota_get_TestAPI_Ranges_uInt32Range(EnvRef envRef, foreignOutExn
 foreignObject __iota_get_TestAPI_Ranges_uInt64Range(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Ranges_uInt8Range(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Ranges_uIntRange(EnvRef envRef, foreignOutExn _exn);
+foreignObject __iota_get_TestAPI_ReferenceCaseEnum_defaultDirection(EnvRef envRef, foreignOutExn _exn);
+foreignObject __iota_get_TestAPI_ReferenceCaseEnum_opposite(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Results_aFailure(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Results_aSuccess(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_SimpleEnum_favoriteColor(EnvRef envRef, foreignOutExn _exn);
@@ -486,6 +489,10 @@ typedef foreignObject (*Primitives_PrimitiveHolder_ui32qGetterFn)(foreignObject 
 typedef foreignObject (*Primitives_PrimitiveHolder_ui64qGetterFn)(foreignObject obj, foreignOutExn _exn);
 typedef foreignObject (*Primitives_PrimitiveHolder_ui8qGetterFn)(foreignObject obj, foreignOutExn _exn);
 typedef foreignObject (*Primitives_PrimitiveHolder_uiqGetterFn)(foreignObject obj, foreignOutExn _exn);
+typedef foreignObject (*ReferenceCaseEnum_eastConstructorFn)(foreignOutExn _exn);
+typedef foreignObject (*ReferenceCaseEnum_northConstructorFn)(foreignOutExn _exn);
+typedef foreignObject (*ReferenceCaseEnum_southConstructorFn)(foreignOutExn _exn);
+typedef foreignObject (*ReferenceCaseEnum_westConstructorFn)(foreignOutExn _exn);
 typedef foreignObject (*ReferenceOnlyTypes_MarkerConstructorFn)(void *ptr, foreignOutExn _exn);
 typedef foreignObject (*Results_ErrorConstructorFn)(foreignObject message, foreignOutExn _exn);
 typedef foreignObject (*Results_Error_messageGetterFn)(foreignObject obj, foreignOutExn _exn);
@@ -588,6 +595,7 @@ typedef foreignObject (*TestProtocolStruct_corgeGetterFn)(foreignObject obj, for
 typedef foreignObject (*TheMethodErrorConstructorFn)(void *ptr, foreignOutExn _exn);
 typedef foreignObject (*UnicodeScalar_PuttingTypesIntoQuestionablePlaces_thingConstructorFn)(foreignOutExn _exn);
 typedef int (*AssociatedDataEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
+typedef int (*ReferenceCaseEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*SimpleEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*TestDefaultComputedPropertiesEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*TestNonExportedProtocolEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
@@ -652,6 +660,10 @@ typedef void (*Primitives_PrimitiveHolder_ui8SetterFn)(foreignObject obj, uint8_
 typedef void (*Primitives_PrimitiveHolder_ui8qSetterFn)(foreignObject obj, foreignObject newValue, foreignOutExn _exn);
 typedef void (*Primitives_PrimitiveHolder_uiSetterFn)(foreignObject obj, uintptr_t newValue, foreignOutExn _exn);
 typedef void (*Primitives_PrimitiveHolder_uiqSetterFn)(foreignObject obj, foreignObject newValue, foreignOutExn _exn);
+typedef void (*ReferenceCaseEnum_eastExtractorFn)(foreignObject obj, foreignOutExn _exn);
+typedef void (*ReferenceCaseEnum_northExtractorFn)(foreignObject obj, foreignOutExn _exn);
+typedef void (*ReferenceCaseEnum_southExtractorFn)(foreignObject obj, foreignOutExn _exn);
+typedef void (*ReferenceCaseEnum_westExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*SimpleEnum_blueExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*SimpleEnum_greenExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*SimpleEnum_redExtractorFn)(foreignObject obj, foreignOutExn _exn);
@@ -732,6 +744,7 @@ void TestAPI_EmptyStruct_setup(EnvRef envRef, EmptyStructConstructorFn construct
 void TestAPI_Methods_TheMethodError_setup(EnvRef envRef, TheMethodErrorConstructorFn constructorMethod, foreignOutExn _exn);
 void TestAPI_Methods_setup(EnvRef envRef, MethodsConstructorFn constructorMethod, foreignOutExn _exn);
 void TestAPI_Primitives_PrimitiveHolder_setup(EnvRef envRef, Primitives_PrimitiveHolderConstructorFn constructorMethod, Primitives_PrimitiveHolder_bGetterFn bGetter, Primitives_PrimitiveHolder_bSetterFn bSetter, Primitives_PrimitiveHolder_bqGetterFn bqGetter, Primitives_PrimitiveHolder_bqSetterFn bqSetter, Primitives_PrimitiveHolder_ui8GetterFn ui8Getter, Primitives_PrimitiveHolder_ui8SetterFn ui8Setter, Primitives_PrimitiveHolder_ui8qGetterFn ui8qGetter, Primitives_PrimitiveHolder_ui8qSetterFn ui8qSetter, Primitives_PrimitiveHolder_ui16GetterFn ui16Getter, Primitives_PrimitiveHolder_ui16SetterFn ui16Setter, Primitives_PrimitiveHolder_ui16qGetterFn ui16qGetter, Primitives_PrimitiveHolder_ui16qSetterFn ui16qSetter, Primitives_PrimitiveHolder_ui32GetterFn ui32Getter, Primitives_PrimitiveHolder_ui32SetterFn ui32Setter, Primitives_PrimitiveHolder_ui32qGetterFn ui32qGetter, Primitives_PrimitiveHolder_ui32qSetterFn ui32qSetter, Primitives_PrimitiveHolder_ui64GetterFn ui64Getter, Primitives_PrimitiveHolder_ui64SetterFn ui64Setter, Primitives_PrimitiveHolder_ui64qGetterFn ui64qGetter, Primitives_PrimitiveHolder_ui64qSetterFn ui64qSetter, Primitives_PrimitiveHolder_uiGetterFn uiGetter, Primitives_PrimitiveHolder_uiSetterFn uiSetter, Primitives_PrimitiveHolder_uiqGetterFn uiqGetter, Primitives_PrimitiveHolder_uiqSetterFn uiqSetter, Primitives_PrimitiveHolder_i8GetterFn i8Getter, Primitives_PrimitiveHolder_i8SetterFn i8Setter, Primitives_PrimitiveHolder_i8qGetterFn i8qGetter, Primitives_PrimitiveHolder_i8qSetterFn i8qSetter, Primitives_PrimitiveHolder_i16GetterFn i16Getter, Primitives_PrimitiveHolder_i16SetterFn i16Setter, Primitives_PrimitiveHolder_i16qGetterFn i16qGetter, Primitives_PrimitiveHolder_i16qSetterFn i16qSetter, Primitives_PrimitiveHolder_i32GetterFn i32Getter, Primitives_PrimitiveHolder_i32SetterFn i32Setter, Primitives_PrimitiveHolder_i32qGetterFn i32qGetter, Primitives_PrimitiveHolder_i32qSetterFn i32qSetter, Primitives_PrimitiveHolder_i64GetterFn i64Getter, Primitives_PrimitiveHolder_i64SetterFn i64Setter, Primitives_PrimitiveHolder_i64qGetterFn i64qGetter, Primitives_PrimitiveHolder_i64qSetterFn i64qSetter, Primitives_PrimitiveHolder_iGetterFn iGetter, Primitives_PrimitiveHolder_iSetterFn iSetter, Primitives_PrimitiveHolder_iqGetterFn iqGetter, Primitives_PrimitiveHolder_iqSetterFn iqSetter, Primitives_PrimitiveHolder_fGetterFn fGetter, Primitives_PrimitiveHolder_fSetterFn fSetter, Primitives_PrimitiveHolder_fqGetterFn fqGetter, Primitives_PrimitiveHolder_fqSetterFn fqSetter, Primitives_PrimitiveHolder_dGetterFn dGetter, Primitives_PrimitiveHolder_dSetterFn dSetter, Primitives_PrimitiveHolder_dqGetterFn dqGetter, Primitives_PrimitiveHolder_dqSetterFn dqSetter, foreignOutExn _exn);
+void TestAPI_ReferenceCaseEnum_setup(EnvRef envRef, ReferenceCaseEnumDiscriminatorFn discriminator, ReferenceCaseEnum_northConstructorFn north_constructor, ReferenceCaseEnum_northExtractorFn north_extractor, ReferenceCaseEnum_southConstructorFn south_constructor, ReferenceCaseEnum_southExtractorFn south_extractor, ReferenceCaseEnum_eastConstructorFn east_constructor, ReferenceCaseEnum_eastExtractorFn east_extractor, ReferenceCaseEnum_westConstructorFn west_constructor, ReferenceCaseEnum_westExtractorFn west_extractor);
 void TestAPI_ReferenceOnlyTypes_Marker_setup(EnvRef envRef, ReferenceOnlyTypes_MarkerConstructorFn constructorMethod, foreignOutExn _exn);
 void TestAPI_Results_Error_setup(EnvRef envRef, Results_ErrorConstructorFn constructorMethod, Results_Error_messageGetterFn messageGetter, foreignOutExn _exn);
 void TestAPI_SimpleEnum_setup(EnvRef envRef, SimpleEnumDiscriminatorFn discriminator, SimpleEnum_redConstructorFn red_constructor, SimpleEnum_redExtractorFn red_extractor, SimpleEnum_greenConstructorFn green_constructor, SimpleEnum_greenExtractorFn green_extractor, SimpleEnum_blueConstructorFn blue_constructor, SimpleEnum_blueExtractorFn blue_extractor);

@@ -45,6 +45,7 @@ export './Primitives.dart';
 export './ProtocolWitnesses.dart';
 export './PythonNamingCollisions.dart';
 export './Ranges.dart';
+export './ReferenceCaseEnum.dart';
 export './ReferenceEmptyEnum.dart';
 export './ReferenceOnlyTypes.dart';
 export './Results.dart';

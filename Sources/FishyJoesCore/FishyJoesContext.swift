@@ -363,7 +363,12 @@ public class FishyJoesContext {
             return nil
         }
 
-        if annotation.kind == .asReference {
+        // `exportReference` forces the opaque-reference path — except for enums.
+        // An enum's cases are its only construction surface, so routing it through
+        // TranslatedReference (which never reads `type.cases`) would silently drop
+        // every case and emit an unconstructable, members-less opaque shell. Enums
+        // are always translated with their cases regardless of the annotation kind.
+        if annotation.kind == .asReference && type.kind != .enum {
             return TranslatedReference(context: self, type: type)
         }
         switch type.kind {

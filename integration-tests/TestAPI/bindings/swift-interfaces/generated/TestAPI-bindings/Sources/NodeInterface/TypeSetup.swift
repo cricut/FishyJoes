@@ -53,6 +53,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.ProtocolWitnesses.nodeSetup(env: env, module: module)
     try TestAPI.PythonNamingCollisions.nodeSetup(env: env, module: module)
     try TestAPI.Ranges.nodeSetup(env: env, module: module)
+    try TestAPI.ReferenceCaseEnum.nodeSetup(env: env, module: module)
     try TestAPI.ReferenceEmptyEnum.nodeSetup(env: env, module: module)
     try TestAPI.ReferenceOnlyTypes.nodeSetup(env: env, module: module)
     try TestAPI.Results.nodeSetup(env: env, module: module)

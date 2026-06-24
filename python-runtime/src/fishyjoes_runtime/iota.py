@@ -48,6 +48,12 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     _callbacks: list[object] = []
     _external_type_setups: set[str] = set()
     _value_types: dict[str, type] = {}
+    # All types registered under each key. Two FishyJoes packages can export types
+    # with the same leaf name (e.g. crigeo.Size and cricanvas.Size); when both are
+    # imported they collide on the short key. `_value_types` keeps the first as the
+    # primary lookup, while `_value_type_candidates` records every candidate so
+    # marshalling can disambiguate by the handle's / value's actual type.
+    _value_type_candidates: dict[str, list[type]] = {}
     _external_value_types: set[str] = set()
     _protocol_requirements: dict[str, tuple[tuple[str, ...], tuple[str, ...]]] = {}
     _descriptor_cache: dict[tuple, object] = {}
@@ -200,13 +206,19 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         for key in _fishyjoes_type_keys(value_type):
             existing = _value_types.get(key)
             if existing is not None and existing is not value_type:
+                # Two different types sharing their fully-qualified origin is a real
+                # generator bug; the short-name (leaf) clash across packages is not,
+                # so only the primary key raises. Either way, record the candidate.
                 if key == primary_key:
                     raise RuntimeError(
                         f"FishyJoes generated type key collision for {key}: "
                         f"{existing.__module__}.{existing.__name__} and {value_type.__module__}.{value_type.__name__}"
                     )
-                continue
-            _value_types[key] = value_type
+            else:
+                _value_types[key] = value_type
+            candidates = _value_type_candidates.setdefault(key, [])
+            if value_type not in candidates:
+                candidates.append(value_type)
             if external:
                 _external_value_types.add(key)
 
@@ -219,6 +231,38 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
                 f"FishyJoes generated type {type_name} is not registered; ensure dependency packages are imported "
                 "and regenerated with this FishyJoes version."
             ) from error
+
+
+    def _value_type_candidates_for(type_name: str) -> list[type]:
+        candidates = _value_type_candidates.get(type_name)
+        if candidates:
+            return candidates
+        # Fall back to the primary registry (raises a clear error if unregistered).
+        return [_value_type_for(type_name)]
+
+
+    def _resolve_value_type_for_handle(type_name: str, ref) -> type:
+        """Pick the registered type matching a returned handle's actual contents.
+
+        With a single candidate (the common case) this is just that type. When a
+        leaf name collides across packages, the boxed handle disambiguates: a
+        reference handle (`_SwiftReferenceValue`) selects the reference-kind
+        candidate, an empty-value handle (`_IotaValue`) selects by recorded type
+        name, and a boxed value selects the candidate it is an instance of.
+        """
+        candidates = _value_type_candidates_for(type_name)
+        if len(candidates) == 1 or ref == ffi.NULL:
+            return candidates[0]
+        boxed = ffi.from_handle(ref)
+        if isinstance(boxed, _SwiftReferenceValue):
+            references = [c for c in candidates if isinstance(c, type) and issubclass(c, SwiftReference)]
+            named = [c for c in references if c.__name__ == boxed.type_name or _fishyjoes_type_origin(c) == boxed.type_name]
+            return (named or references or candidates)[0]
+        if isinstance(boxed, _IotaValue):
+            named = [c for c in candidates if c.__name__ == boxed.type_name or _fishyjoes_type_origin(c) == boxed.type_name]
+            return (named or candidates)[0]
+        matched = [c for c in candidates if isinstance(boxed, c)]
+        return (matched or candidates)[0]
 
 
     def _utf16_null_terminated(value: str):
@@ -977,19 +1021,17 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             self.type_name = type_name
 
         def to_iota(self, value):
-            if not isinstance(value, _value_type_for(self.type_name)):
+            if not any(isinstance(value, candidate) for candidate in _value_type_candidates_for(self.type_name)):
                 raise TypeError(f"Expected {self.type_name}, got {type(value).__name__}")
             if self.type_name in _external_value_types and hasattr(value, "_fishyjoes_external_iota_pointer"):
                 return _new_swift_reference_ref(
                     self.type_name,
                     ffi.cast("void *", value._fishyjoes_external_iota_pointer()),
                 )
-            if hasattr(value, "_iota_ref"):
-                return _new_handle(value)
             return _new_handle(value)
 
         def peek_iota(self, ref):
-            value_type = _value_type_for(self.type_name)
+            value_type = _resolve_value_type_for_handle(self.type_name, ref)
             if self.type_name in _external_value_types and hasattr(value_type, "_fishyjoes_from_external_iota_pointer"):
                 value = ffi.from_handle(ref)
                 if isinstance(value, _SwiftReferenceValue):
@@ -1002,7 +1044,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
             return value
 
         def consume_iota(self, ref):
-            value_type = _value_type_for(self.type_name)
+            value_type = _resolve_value_type_for_handle(self.type_name, ref)
             if self.type_name in _external_value_types and hasattr(value_type, "_fishyjoes_from_external_iota_pointer"):
                 try:
                     value = ffi.from_handle(ref)
@@ -2261,6 +2303,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         ))
 
 
+    _attributed_string_create = _runtime_symbol("__iota_Foundation_AttributedString_create")
     _attributed_string_get_string = _runtime_symbol("__iota_get_Foundation_AttributedString_string")
     _attributed_string_get_substring = _runtime_symbol("__iota_get_Foundation_AttributedString_substring")
     _attributed_string_equals = _runtime_symbol("__iota_Foundation_AttributedString_equals")
@@ -2281,6 +2324,22 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     class AttributedString(SwiftReference):
+        def __init__(self, string, attributes=None):
+            # Turn a Python str (with optional AttributeContainer) into an
+            # AttributedString. Without this the shaping tier (Font.shape_*,
+            # TextSegmentation, …) was unreachable: the only AttributedStrings a
+            # consumer could obtain were Swift return values. Build the native
+            # value, then take ownership of its reference (transferring the
+            # finalizer so the temporary wrapper does not double-release).
+            built = call(
+                _attributed_string_create,
+                args=[string, attributes],
+                arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
+                return_conversion=ValueType("AttributedString"),
+            )
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
+
         @property
         def string(self):
             return call(

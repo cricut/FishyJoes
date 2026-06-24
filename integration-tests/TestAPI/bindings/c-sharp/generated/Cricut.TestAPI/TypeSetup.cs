@@ -690,6 +690,49 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_north(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_north(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_south(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_south(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_east(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_east(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_west(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_west(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ReferenceCaseEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_ReferenceCaseEnum_new_north north_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_north north_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_south south_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_south south_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_east east_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_east east_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_west west_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_west west_extractor,
+            out CreatedRef _exn
+        );
+
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_ReferenceEmptyEnum_setup(
             IntPtr envRef,
@@ -3310,6 +3353,105 @@ namespace Cricut.TestAPI {
                 // Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.ReferenceCaseEnum", () => {
+                // Console.WriteLine("setting up TestAPI.ReferenceCaseEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceCaseEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum>();
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.North) { return (nint)0; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.South) { return (nint)1; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.East) { return (nint)2; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.West) { return (nint)3; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.ReferenceCaseEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_north>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.North(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_north>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.North>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_south>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.South(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_south>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.South>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_east>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.East(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_east>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.East>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_west>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.West(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_west>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.West>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });

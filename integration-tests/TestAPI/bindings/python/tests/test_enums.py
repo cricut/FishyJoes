@@ -51,6 +51,19 @@ class EnumTests(unittest.TestCase):
         self.assertIsInstance(associated.none(), getattr(associated, "None"))
         self.assertEqual(associated.none().int_value, 42)
 
+    def test_reference_annotated_enum_surfaces_cases(self) -> None:
+        # An inhabited enum annotated `exportReference` must still bridge its cases
+        # (an enum's cases are its only construction surface). Before the dispatch
+        # fix this class was an opaque SwiftReference shell with no case members,
+        # so attribute access / comparison failed and the consumer was uncallable.
+        reference_case_enum = self.testapi.ReferenceCaseEnum
+
+        self.assertEqual(reference_case_enum.north.opposite, reference_case_enum.south)
+        self.assertEqual(reference_case_enum.rotate180(reference_case_enum.east), reference_case_enum.west)
+        self.assertEqual(reference_case_enum.rotate180(reference_case_enum.north), reference_case_enum.south)
+        self.assertEqual(reference_case_enum.default_direction, reference_case_enum.north)
+        self.assertNotEqual(reference_case_enum.north, reference_case_enum.south)
+
     def test_settable_static_property_round_trip(self) -> None:
         simple_enum = self.testapi.SimpleEnum
         try:

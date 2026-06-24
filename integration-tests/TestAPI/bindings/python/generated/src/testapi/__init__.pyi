@@ -27,6 +27,7 @@ from .primitives__primitive_holder import Primitives_PrimitiveHolder as Primitiv
 from .protocol_witnesses import ProtocolWitnesses as ProtocolWitnesses
 from .python_naming_collisions import PythonNamingCollisions as PythonNamingCollisions
 from .ranges import Ranges as Ranges
+from .reference_case_enum import ReferenceCaseEnum as ReferenceCaseEnum
 from .reference_empty_enum import ReferenceEmptyEnum as ReferenceEmptyEnum
 from .reference_only_types import ReferenceOnlyTypes as ReferenceOnlyTypes
 from .reference_only_types__marker import ReferenceOnlyTypes_Marker as ReferenceOnlyTypes_Marker

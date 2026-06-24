@@ -125,3 +125,38 @@ public enum AssociatedDataEnum: Hashable {
         }
     }
 }
+
+/// An inhabited enum that the product annotated `exportReference` rather than
+/// `export`. An enum's cases are its only construction surface, so the generator
+/// must still surface the cases (mirroring the `export` enum path) instead of
+/// emitting an unconstructable, members-less opaque reference shell. Mirrors the
+/// real CriRaster `Image.Kind` / `Image.Color.Channel` shape.
+/// <!-- FishyJoes.exportReference(ReferenceCaseEnum) -->
+public enum ReferenceCaseEnum: Int, Hashable {
+    case north
+    case south
+    case east
+    case west
+
+    /// <!-- FishyJoes.export(opposite) -->
+    public var opposite: ReferenceCaseEnum {
+        switch self {
+        case .north: return .south
+        case .south: return .north
+        case .east: return .west
+        case .west: return .east
+        }
+    }
+
+    /// A method that both consumes (parameter) and produces (return) the
+    /// reference-annotated enum — only callable from Python if the cases bridge.
+    /// <!-- FishyJoes.export(rotate180) -->
+    public static func rotate180(_ direction: ReferenceCaseEnum) -> ReferenceCaseEnum {
+        direction.opposite
+    }
+
+    /// Mirrors `Image.kind`: a value-returning accessor whose result must be
+    /// comparable to a known case from Python.
+    /// <!-- FishyJoes.export(defaultDirection) -->
+    public static var defaultDirection: ReferenceCaseEnum { .north }
+}

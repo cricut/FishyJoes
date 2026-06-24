@@ -1463,6 +1463,60 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "ReferenceCaseEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceCaseEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceCaseEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceCaseEnum"
+        }
+      },
+      "kotlinName" : "ReferenceCaseEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceCaseEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceCaseEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "ReferenceEmptyEnum",
             "namespace" : [
 
@@ -14797,6 +14851,91 @@
 
             ]
           },
+          "ReferenceCaseEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "Mirrors `Image.kind`: a value-returning accessor whose result must be",
+                  "comparable to a known case from Python.",
+                  "<!-- FishyJoes.export(defaultDirection) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "defaultDirection",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "A method that both consumes (parameter) and produces (return) the",
+                  "reference-annotated enum — only callable from Python if the cases bridge.",
+                  "<!-- FishyJoes.export(rotate180) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "rotate180",
+                "parameters" : [
+                  {
+                    "name" : "direction",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.ReferenceCaseEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(opposite) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getOpposite",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.ReferenceCaseEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              }
+            ],
+            "name" : "ReferenceCaseEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "ReferenceEmptyEnum" : {
             "classes" : [
 
@@ -17021,6 +17160,43 @@
               "union" : {
                 "_0" : [
 
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "An inhabited enum that the product annotated `exportReference` rather than",
+              "`export`. An enum's cases are its only construction surface, so the generator",
+              "must still surface the cases (mirroring the `export` enum path) instead of",
+              "emitting an unconstructable, members-less opaque reference shell. Mirrors the",
+              "real CriRaster `Image.Kind` / `Image.Color.Channel` shape.",
+              "<!-- FishyJoes.exportReference(ReferenceCaseEnum) -->"
+            ],
+            "name" : "ReferenceCaseEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "north"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "south"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "east"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "west"
+                    }
+                  }
                 ]
               }
             }

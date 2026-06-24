@@ -331,6 +331,12 @@ void Foundation_AttributedString_Runs_Run_setup(
     FishyJoes_ReferenceConstructorFn constructor,
     foreignOutExn exn
 );
+foreignObject __iota_Foundation_AttributedString_create(
+    EnvRef envRef,
+    foreignObject string,
+    foreignObject attributes,
+    foreignOutExn exn
+);
 foreignObject __iota_get_Foundation_AttributedString_string(
     EnvRef envRef,
     foreignObject self,

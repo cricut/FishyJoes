@@ -129,8 +129,8 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests (mypy
-          # type-check, native-repair introspection), so install the dev tools they need
+          # proving the minimal install works. The suite includes tooling tests
+          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
@@ -259,8 +259,8 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests (mypy
-          # type-check, native-repair introspection), so install the dev tools they need
+          # proving the minimal install works. The suite includes tooling tests
+          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
@@ -399,8 +399,8 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import testapi as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests (mypy
-          # type-check, native-repair introspection), so install the dev tools they need
+          # proving the minimal install works. The suite includes tooling tests
+          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests

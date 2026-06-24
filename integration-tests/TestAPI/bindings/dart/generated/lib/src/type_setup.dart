@@ -304,6 +304,34 @@ typedef _TestAPI_EmptyStructConstructor = CreatedRef Function(
 typedef _TestAPI_EmptyStruct2Constructor = CreatedRef Function(
     OutCreatedRef exn
 );
+typedef TestAPI_ReferenceCaseEnum_new_north = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_north = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_south = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_south = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_east = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_east = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_west = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_west = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -1170,6 +1198,34 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Ranges_setup');
+    final TestAPI_ReferenceCaseEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_north>> north_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_north>> north_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_south>> south_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_south>> south_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_east>> east_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_east>> east_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_west>> west_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_west>> west_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_north>> north_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_north>> north_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_south>> south_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_south>> south_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_east>> east_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_east>> east_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_west>> west_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_west>> west_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ReferenceCaseEnum_setup');
     final TestAPI_ReferenceEmptyEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3408,6 +3464,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
+    TestAPI.ReferenceCaseEnum.f__iota_TestAPI_ReferenceCaseEnum_rotate180 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef direction,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef direction,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceCaseEnum_rotate180");
     TestAPI.ReferenceEmptyEnum.f__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -6330,6 +6398,28 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.ReferenceCaseEnum.f__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection");
+    TestAPI.ReferenceCaseEnum.f__iota_get_TestAPI_ReferenceCaseEnum_opposite = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceCaseEnum_opposite");
     TestAPI.ReferenceEmptyEnum.f__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -9365,6 +9455,25 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Ranges_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.ReferenceCaseEnum", () {
+        // print("setting up TestAPI.ReferenceCaseEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ReferenceCaseEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newNorth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractNorth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newSouth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractSouth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newEast),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractEast),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newWest),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractWest),
                 exn
             );
         });

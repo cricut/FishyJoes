@@ -6503,6 +6503,81 @@ extension TestAPI.Ranges: FishyJoesNodeRuntime.NodeConverter {
     }
 }
 
+// MARK: - NodeInterface/TestAPI.ReferenceCaseEnum+node.swift
+
+extension TestAPI.ReferenceCaseEnum: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        switch try String.fromNode(value, env: env) {
+        case "north": return Self.north
+        case "south": return Self.south
+        case "east": return Self.east
+        case "west": return Self.west
+        case let unknown: fatalError("invalid enum string '\(unknown)' for TestAPI.ReferenceCaseEnum")
+        }
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        switch value {
+        case .north:
+            return try String.toNode("north", env: env)
+        case .south:
+            return try String.toNode("south", env: env)
+        case .east:
+            return try String.toNode("east", env: env)
+        case .west:
+            return try String.toNode("west", env: env)
+        }
+    }
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let object = try env.createObject()
+        let props = try NodeClass.descriptorsFor(properties: [
+            (
+                name: "rotate180",
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "rotate180", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                        let result = try TestAPI.ReferenceCaseEnum.toNode(
+                            TestAPI.ReferenceCaseEnum.rotate180(
+                                try env.argument(at: 0, converter: TestAPI.ReferenceCaseEnum.self)
+                            ),
+                            env: env.env
+                        )
+                        return result
+                    }
+                },
+                isStatic: true
+            ),
+            (
+                name: "defaultDirection",
+                .accessor(
+                    getter: { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "defaultDirection", expectedArgumentCount: 0) { env in
+                            return try TestAPI.ReferenceCaseEnum.toNode(TestAPI.ReferenceCaseEnum.defaultDirection, env: env.env)
+                        }
+                    },
+                    setter: nil
+                ),
+                isStatic: true
+            ),
+            (
+                name: "getOpposite",
+                .method { env, info in
+                    FishyJoesNodeRuntime.callbackBody(env, info, name: "opposite", expectedArgumentCount: 1) { env in
+                        return try TestAPI.ReferenceCaseEnum.toNode(env.argument(at: 0, converter: TestAPI.ReferenceCaseEnum.self).opposite, env: env.env)
+                    }
+                },
+                isStatic: true
+            ),
+        ], env: env)
+        try env.defineProperties(object, properties: props)
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ReferenceCaseEnum",
+            nodeClass: object
+        )
+    }
+}
+
 // MARK: - NodeInterface/TestAPI.ReferenceEmptyEnum+node.swift
 
 extension TestAPI.ReferenceEmptyEnum: FishyJoesNodeRuntime.NodeConverter {

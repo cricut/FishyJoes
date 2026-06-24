@@ -2169,6 +2169,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.ReferenceCaseEnum...")
+        try TestAPI.ReferenceCaseEnum.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ReferenceCaseEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultDirection"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ReferenceCaseEnum_defaultDirection, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_opposite"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ReferenceCaseEnum_opposite, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_rotate180"),
+                signature: bag.add("(Lcom/cricut/testapi/ReferenceCaseEnum;)Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ReferenceCaseEnum_rotate180, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.ReferenceEmptyEnum...")
         try TestAPI.ReferenceEmptyEnum.javaSetup(env: env)
         try env.RegisterNatives(
