@@ -38,9 +38,17 @@ enum PythonDocstring {
             .replacingOccurrences(of: "\"\"\"", with: "\\\"\\\"\\\"")
     }
 
-    /// A single-line docstring ending in a quote would produce `""""`;
-    /// escape the final quote so the delimiter stays unambiguous.
+    /// A single-line docstring ending in an unescaped quote would produce
+    /// `""""`, making the closing delimiter ambiguous. Escape only a *literal*
+    /// trailing quote: a quote that `escape(_:)` already turned into `\"` (for
+    /// example from a trailing `"""`) is preceded by an odd number of
+    /// backslashes and must be left intact, otherwise dropping it would orphan
+    /// a backslash and produce an unterminated string literal.
     private static func closingSafe(_ line: String) -> String {
-        line.hasSuffix("\"") ? String(line.dropLast()) + "\\\"" : line
+        guard line.hasSuffix("\"") else { return line }
+        let withoutFinalQuote = line.dropLast()
+        let trailingBackslashes = withoutFinalQuote.reversed().prefix { $0 == "\\" }.count
+        guard trailingBackslashes.isMultiple(of: 2) else { return line }
+        return String(withoutFinalQuote) + "\\\""
     }
 }

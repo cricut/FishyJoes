@@ -59,6 +59,15 @@ final class PythonDocstringTests: XCTestCase {
         XCTAssertEqual(lines, ["\"\"\"Returns the literal \"Hello\\\"\"\"\""])
     }
 
+    func testSingleLineEndingInTripleQuoteStaysTerminated() {
+        // `escape(_:)` turns a trailing `"""` into `\"\"\"`; `closingSafe` must
+        // not cut into that `\"` escape sequence, which would leave a dangling
+        // backslash and an unterminated string literal in the generated module.
+        let lines = PythonDocstring.lines(["Wrap text in \"\"\""])
+
+        XCTAssertEqual(lines, ["\"\"\"Wrap text in \\\"\\\"\\\"\"\"\""])
+    }
+
     func testSurroundingBlankLinesAreTrimmed() {
         let lines = PythonDocstring.lines([
             "",
