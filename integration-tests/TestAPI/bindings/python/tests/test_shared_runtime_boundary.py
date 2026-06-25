@@ -29,6 +29,20 @@ def native_library_name(name: str) -> str:
     raise RuntimeError(f"Unsupported test platform: {sys.platform}")
 
 
+def _pythonpath_env(*paths: object) -> dict[str, str]:
+    """A copy of the current environment with PYTHONPATH set to ``paths``.
+
+    Copying the environment (instead of replacing it with only PYTHONPATH) keeps
+    SystemRoot/PATH so the child Python can start on Windows, and ``os.pathsep``
+    joins the entries with the platform separator (``;`` on Windows, ``:``
+    elsewhere) so the subprocess resolves every path.
+    """
+    return {
+        **os.environ,
+        "PYTHONPATH": os.pathsep.join(str(path) for path in paths),
+    }
+
+
 def built_runtime_library() -> Path:
     bindings_build = REPO_ROOT / "integration-tests" / "TestAPI" / ".build" / "bindings"
     library = native_library_name("FishyJoesIotaRuntime")
@@ -149,7 +163,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_src}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_src, RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -175,7 +189,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -201,7 +215,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi; assert testapi.SUPPORTED"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -225,7 +239,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -250,7 +264,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -275,7 +289,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
@@ -300,7 +314,7 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
             result = subprocess.run(
                 [sys.executable, "-c", "import testapi"],
-                env={"PYTHONPATH": f"{temp_generated / 'src'}:{RUNTIME_SRC}"},
+                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
