@@ -70,15 +70,33 @@ def runtime_native_dir_candidates() -> list[Path]:
 
 def library_path(name: str, native_dir_candidates: Sequence[Path], build_hint: str) -> Path:
     resolved_library_name = library_name(name)
+    # The candidate roots cover distinct layouts (the installed package's own
+    # `native/` and the local-development build output); in normal operation
+    # exactly one is populated. If the same library exists as *distinct files*
+    # in more than one root, the load is ambiguous (e.g. a stale installed copy
+    # alongside a fresh local build), so fail loudly rather than silently taking
+    # whichever comes first and risking a stale or mismatched library.
+    found: list[Path] = []
     for native_dir in native_dir_candidates:
         path = native_dir / resolved_library_name
         if path.exists():
-            return path
-    expected_paths = ", ".join(str(native_dir / resolved_library_name) for native_dir in native_dir_candidates)
-    raise RuntimeError(
-        f"Missing native library {resolved_library_name}; checked {expected_paths}. "
-        f"{build_hint}"
-    )
+            resolved = path.resolve()
+            if resolved not in found:
+                found.append(resolved)
+    if not found:
+        expected_paths = ", ".join(str(native_dir / resolved_library_name) for native_dir in native_dir_candidates)
+        raise RuntimeError(
+            f"Missing native library {resolved_library_name}; checked {expected_paths}. "
+            f"{build_hint}"
+        )
+    if len(found) > 1:
+        roots = ", ".join(str(path) for path in found)
+        raise RuntimeError(
+            f"Ambiguous native library {resolved_library_name}: distinct copies found in multiple roots "
+            f"({roots}); refusing to guess which to load. Remove the stale copy or rebuild cleanly. "
+            f"{build_hint}"
+        )
+    return found[0]
 
 
 def resolve_library_paths(
