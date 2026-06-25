@@ -51,6 +51,10 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     iota_lib = load_library(ffi, _NATIVE_LIBRARIES[f"{config.module_name}-iota"])
 
     _handle_lock = threading.RLock()
+    # Guards the shared `_descriptor_cache` interning and each descriptor's native
+    # `ensure_setup`. Reentrant (RLock, not Lock) because `ensure_setup` recurses into
+    # child descriptors' `ensure_setup` while still holding the lock.
+    _descriptor_lock = threading.RLock()
     _handles: dict[int, object] = {}
     _handle_refcounts: dict[int, int] = {}
     _callbacks: list[object] = []
@@ -361,6 +365,18 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         return value
 
 
+    def _interned_descriptor(cls, key):
+        # Atomic check-then-act on the shared `_descriptor_cache`. `super().__new__(cls)`
+        # in the descriptor classes resolves to `object.__new__(cls)`, so calling it
+        # here is equivalent while letting the lock guard the read+insert as one step.
+        with _descriptor_lock:
+            instance = _descriptor_cache.get(key)
+            if instance is None:
+                instance = object.__new__(cls)
+                _descriptor_cache[key] = instance
+            return instance
+
+
     class TypeDescriptor:
         swift_name: str | None = None
         c_type: str = "foreignObject"
@@ -434,10 +450,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class Optional(TypeDescriptor):
         def __new__(cls, wrapped: TypeDescriptor):
-            key = (cls, wrapped)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, wrapped))
 
         def __init__(self, wrapped: TypeDescriptor):
             if hasattr(self, "wrapped"):
@@ -466,10 +479,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class Array(TypeDescriptor):
         def __new__(cls, swift_name: str, element: TypeDescriptor):
-            key = (cls, swift_name, element)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, element))
 
         def __init__(self, swift_name: str, element: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -482,19 +492,22 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            self.element.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            check(lambda exn: runtime_lib.FishyJoesCommonRuntime_collection_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _collection_length,
-                _collection_values,
-                _collection_constructor,
-                self._context,
-                exn,
-            ))
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                self.element.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                check(lambda exn: runtime_lib.FishyJoesCommonRuntime_collection_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _collection_length,
+                    _collection_values,
+                    _collection_constructor,
+                    self._context,
+                    exn,
+                ))
+                self._is_setup = True
 
         def to_python(self, value):
             return [self.element.to_python(item) for item in value]
@@ -519,10 +532,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class Dictionary(TypeDescriptor):
         def __new__(cls, swift_name: str, key: TypeDescriptor, value: TypeDescriptor):
-            cache_key = (cls, swift_name, key, value)
-            if cache_key not in _descriptor_cache:
-                _descriptor_cache[cache_key] = super().__new__(cls)
-            return _descriptor_cache[cache_key]
+            return _interned_descriptor(cls, (cls, swift_name, key, value))
 
         def __init__(self, swift_name: str, key: TypeDescriptor, value: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -536,20 +546,23 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            self.key.ensure_setup()
-            self.value.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            check(lambda exn: runtime_lib.FishyJoesCommonRuntime_collection_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _collection_length,
-                _collection_values,
-                _collection_constructor,
-                self._context,
-                exn,
-            ))
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                self.key.ensure_setup()
+                self.value.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                check(lambda exn: runtime_lib.FishyJoesCommonRuntime_collection_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _collection_length,
+                    _collection_values,
+                    _collection_constructor,
+                    self._context,
+                    exn,
+                ))
+                self._is_setup = True
 
         def to_python(self, value):
             return {
@@ -577,10 +590,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         python_type: ClassVar[type[SwiftRange] | type[SwiftClosedRange]] = SwiftRange
 
         def __new__(cls, swift_name: str, bound: TypeDescriptor):
-            key = (cls, swift_name, bound)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, bound))
 
         def __init__(self, swift_name: str, bound: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -593,18 +603,21 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            self.bound.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            runtime_lib.FishyJoesCommonRuntime_RangeConverter_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _range_lower_bound,
-                _range_upper_bound,
-                _range_constructor,
-                self._context,
-            )
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                self.bound.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                runtime_lib.FishyJoesCommonRuntime_RangeConverter_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _range_lower_bound,
+                    _range_upper_bound,
+                    _range_constructor,
+                    self._context,
+                )
+                self._is_setup = True
 
         def to_python(self, value):
             if not isinstance(value, self.python_type):
@@ -625,10 +638,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class Tuple(TypeDescriptor):
         def __new__(cls, swift_name: str, elements: list[TypeDescriptor]):
-            key = (cls, swift_name, tuple(elements))
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, tuple(elements)))
 
         def __init__(self, swift_name: str, elements: list[TypeDescriptor]):
             if "_is_setup" in self.__dict__:
@@ -641,19 +651,22 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            for element in self.elements:
-                element.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            get_methods = [_tuple_get0, _tuple_get1, _tuple_get2, _tuple_get3, _tuple_get4, _tuple_get5]
-            runtime_lib.FishyJoesCommonRuntime_TupleConverter_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                *(get_methods[index] if index < len(self.elements) else ffi.NULL for index in range(6)),
-                _tuple_constructor,
-                self._context,
-            )
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                for element in self.elements:
+                    element.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                get_methods = [_tuple_get0, _tuple_get1, _tuple_get2, _tuple_get3, _tuple_get4, _tuple_get5]
+                runtime_lib.FishyJoesCommonRuntime_TupleConverter_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    *(get_methods[index] if index < len(self.elements) else ffi.NULL for index in range(6)),
+                    _tuple_constructor,
+                    self._context,
+                )
+                self._is_setup = True
 
         def to_python(self, value):
             if not isinstance(value, tuple) or len(value) != len(self.elements):
@@ -666,10 +679,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class Result(TypeDescriptor):
         def __new__(cls, swift_name: str, success: TypeDescriptor, failure: TypeDescriptor):
-            key = (cls, swift_name, success, failure)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, success, failure))
 
         def __init__(self, swift_name: str, success: TypeDescriptor, failure: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -683,18 +693,21 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            self.success.ensure_setup()
-            self.failure.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            runtime_lib.FishyJoesCommonRuntime_ResultConverter_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _result_get_contents,
-                _result_constructor,
-                self._context,
-            )
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                self.success.ensure_setup()
+                self.failure.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                runtime_lib.FishyJoesCommonRuntime_ResultConverter_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _result_get_contents,
+                    _result_constructor,
+                    self._context,
+                )
+                self._is_setup = True
 
         def to_python(self, value):
             if isinstance(value, ResultSuccess):
@@ -708,10 +721,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         c_type = "foreignObject"
 
         def __new__(cls, swift_name: str, output: TypeDescriptor):
-            key = (cls, swift_name, output)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, output))
 
         def __init__(self, swift_name: str, output: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -724,20 +734,23 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            self.output.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            check(lambda exn: runtime_lib.FishyJoesCommonRuntime_FutureConverter_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _future_constructor,
-                _future_sink,
-                _future_resolve,
-                _future_reject,
-                self._context,
-                exn,
-            ))
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                self.output.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                check(lambda exn: runtime_lib.FishyJoesCommonRuntime_FutureConverter_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _future_constructor,
+                    _future_sink,
+                    _future_resolve,
+                    _future_reject,
+                    self._context,
+                    exn,
+                ))
+                self._is_setup = True
 
         def to_iota(self, value):
             self.ensure_setup()
@@ -793,10 +806,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         c_type = "foreignObject"
 
         def __new__(cls, swift_name: str, setup_name: str, parameters: list[TypeDescriptor], return_type: TypeDescriptor):
-            key = (cls, swift_name, setup_name, tuple(parameters), return_type)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, setup_name, tuple(parameters), return_type))
 
         def __init__(self, swift_name: str, setup_name: str, parameters: list[TypeDescriptor], return_type: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -842,10 +852,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         c_type = "foreignObject"
 
         def __new__(cls, swift_name: str, parameters: list[TypeDescriptor], return_type: TypeDescriptor):
-            key = (cls, swift_name, tuple(parameters), return_type)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, swift_name, tuple(parameters), return_type))
 
         def __init__(self, swift_name: str, parameters: list[TypeDescriptor], return_type: TypeDescriptor):
             if "_is_setup" in self.__dict__:
@@ -859,20 +866,23 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         def ensure_setup(self):
             if self._is_setup:
                 return
-            for parameter in self.parameters:
-                parameter.ensure_setup()
-            self.return_type.ensure_setup()
-            self._context = ffi.new_handle(self)
-            _callbacks.append(self._context)
-            check(lambda exn: runtime_lib.FishyJoesCommonRuntime_FunctionConverter_setup(
-                env,
-                _utf16_null_terminated(self.swift_name),
-                _function_constructor,
-                _function_invoke,
-                self._context,
-                exn,
-            ))
-            self._is_setup = True
+            with _descriptor_lock:
+                if self._is_setup:
+                    return
+                for parameter in self.parameters:
+                    parameter.ensure_setup()
+                self.return_type.ensure_setup()
+                self._context = ffi.new_handle(self)
+                _callbacks.append(self._context)
+                check(lambda exn: runtime_lib.FishyJoesCommonRuntime_FunctionConverter_setup(
+                    env,
+                    _utf16_null_terminated(self.swift_name),
+                    _function_constructor,
+                    _function_invoke,
+                    self._context,
+                    exn,
+                ))
+                self._is_setup = True
 
         def to_iota(self, value):
             if not callable(value):
@@ -1018,10 +1028,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
     class ValueType(TypeDescriptor):
         def __new__(cls, type_name: str):
-            key = (cls, type_name)
-            if key not in _descriptor_cache:
-                _descriptor_cache[key] = super().__new__(cls)
-            return _descriptor_cache[key]
+            return _interned_descriptor(cls, (cls, type_name))
 
         def __init__(self, type_name: str):
             if hasattr(self, "type_name"):
