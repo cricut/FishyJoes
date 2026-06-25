@@ -10,4 +10,12 @@ struct TranslatedData: TranslatedType {
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "byte[]")
     let dartType: DartClass.DartType = .named(package: nil, name: "typed_data.Uint8List")
     let definingModule = Module.runtime
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        PythonRepresentation(
+            annotation: PythonType(annotation: "bytes"),
+            cType: "foreignObject",
+            conversion: "_native.DATA"
+        )
+    }
 }

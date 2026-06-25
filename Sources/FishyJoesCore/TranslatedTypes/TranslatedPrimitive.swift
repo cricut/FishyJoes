@@ -48,4 +48,26 @@ struct TranslatedPrimitive: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        // R5: a primitive's conversion stays `nil` (the C scalar passes through
+        // directly). B1: an unlisted primitive has no annotation and so returns
+        // `nil` (fail loud) rather than degrading to `Any`.
+        let annotation: String
+        switch sourceType.name {
+        case "Swift.Bool":
+            annotation = "bool"
+        case "Swift.Int", "Swift.Int8", "Swift.Int16", "Swift.Int32", "Swift.Int64":
+            annotation = "int"
+        case "Swift.Float", "Swift.Double":
+            annotation = "float"
+        default:
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: PythonType(annotation: annotation),
+            cType: cName,
+            conversion: nil
+        )
+    }
 }

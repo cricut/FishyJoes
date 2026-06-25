@@ -12,4 +12,12 @@ struct TranslatedVoid: TranslatedType {
     var cSharpType: CSharpClass.CSType = .unit
     var dartType: DartClass.DartType = .void
     let definingModule = Module.runtime
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        PythonRepresentation(
+            annotation: PythonType(annotation: "None"),
+            cType: "void",
+            conversion: "_native.VOID"
+        )
+    }
 }

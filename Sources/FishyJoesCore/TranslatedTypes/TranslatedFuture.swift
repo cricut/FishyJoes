@@ -48,4 +48,16 @@ struct TranslatedFuture: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let outputRepresentation = output.pythonRepresentation(in: context.recursingIntoChild()),
+              let outputConversion = outputRepresentation.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: .awaitable(outputRepresentation.annotation),
+            cType: "foreignObject",
+            conversion: "_native.Future(\"\(converterType.name)\", \(outputConversion))"
+        )
+    }
 }

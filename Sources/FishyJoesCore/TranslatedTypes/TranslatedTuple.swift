@@ -81,4 +81,20 @@ struct TranslatedTuple: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        let representations = elements.compactMap { $0.type.pythonRepresentation(in: context.recursingIntoChild()) }
+        guard representations.count == elements.count else {
+            return nil
+        }
+        let elementConversions = representations.compactMap(\.conversionDescriptor)
+        guard elementConversions.count == elements.count else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: .container("tuple", representations.map(\.annotation)),
+            cType: "foreignObject",
+            conversion: "_native.Tuple(\"\(converterType.name)\", [\(elementConversions.joined(separator: ", "))])"
+        )
+    }
 }

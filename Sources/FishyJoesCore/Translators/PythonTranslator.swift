@@ -3,65 +3,10 @@ import Foundation
 final class PythonTranslator: Translator {
     required init() {}
 
-    struct NativeType {
-        let cType: String
-        let conversion: String?
-        let pythonType: PythonType
-    }
-
-    struct PythonType: Hashable {
-        let annotation: String
-        let imports: Set<PythonImport>
-
-        static let any = PythonType(annotation: "Any")
-
-        init(annotation: String, imports: Set<PythonImport> = []) {
-            self.annotation = annotation
-            self.imports = imports
-        }
-
-        func optional() -> PythonType {
-            PythonType(annotation: "\(annotation) | None", imports: imports)
-        }
-
-        static func container(_ name: String, _ elements: [PythonType]) -> PythonType {
-            PythonType(
-                annotation: "\(name)[\(elements.map(\.annotation).joined(separator: ", "))]",
-                imports: Set(elements.flatMap(\.imports))
-            )
-        }
-
-        static func callable(parameters: [PythonType], returnType: PythonType) -> PythonType {
-            PythonType(
-                annotation: "Callable[[\(parameters.map(\.annotation).joined(separator: ", "))], \(returnType.annotation)]",
-                imports: Set(parameters.flatMap(\.imports)).union(returnType.imports)
-            )
-        }
-
-        static func awaitable(_ output: PythonType) -> PythonType {
-            PythonType(annotation: "Awaitable[\(output.annotation)]", imports: output.imports)
-        }
-    }
-
-    struct PythonImport: Hashable {
-        let moduleName: String
-        let className: String
-        let isRelative: Bool
-
-        init(moduleName: String, className: String, isRelative: Bool = true) {
-            self.moduleName = moduleName
-            self.className = className
-            self.isRelative = isRelative
-        }
-
-        static func module(_ moduleName: String) -> PythonImport {
-            PythonImport(moduleName: moduleName, className: "", isRelative: false)
-        }
-
-        static func absolute(moduleName: String, className: String) -> PythonImport {
-            PythonImport(moduleName: moduleName, className: className, isRelative: false)
-        }
-    }
+    // `PythonType`, `PythonImport`, and the bundled `PythonRepresentation` (which
+    // replaces the old nested `NativeType`) now live in the shared model
+    // (TranslatedTypes/PythonRepresentation.swift) so `TranslatedType` conformers
+    // can return them from `pythonRepresentation(in:)`.
 
     struct NativeStoredField {
         var pythonName: String
@@ -1087,6 +1032,7 @@ final class PythonTranslator: Translator {
             hashSymbol = nil
             isValueHashable = false
             storedFields = []
+            let enumSourceName = translatedEnum.sourceType.name
             enumCases = translatedEnum.cases.compactMap { enumCase in
                 let values = enumCase.associatedValues.compactMap { value -> NativeEnumCaseValue? in
                     let resolved = context.resolve(type: value.type)
@@ -1096,6 +1042,9 @@ final class PythonTranslator: Translator {
                         visitedStructs: [],
                         visitedProtocols: []
                     ) else {
+                        // B2: an associated value with no Python representation
+                        // drops its case (and, via the count guard, the whole enum).
+                        context.warn("dropping enum \(enumSourceName): case `\(enumCase.name)` has an associated value with no Python type")
                         return nil
                     }
                     return NativeEnumCaseValue(
@@ -1103,7 +1052,7 @@ final class PythonTranslator: Translator {
                         cName: value.bindingName.mangled,
                         cType: nativeType.cType,
                         conversion: nativeType.conversion,
-                        pythonType: nativeType.pythonType
+                        pythonType: nativeType.annotation
                     )
                 }
                 guard values.count == enumCase.associatedValues.count else {
@@ -1125,7 +1074,9 @@ final class PythonTranslator: Translator {
             fields = translatedStruct.computedVariables
             methods = translatedStruct.methods
             typeDocumentation = translatedStruct.documentation
-            let translatedFields = translatedStruct.storedVariables.compactMap { nativeStoredField($0, context: context) }
+            let translatedFields = translatedStruct.storedVariables.compactMap {
+                nativeStoredField($0, ownerName: translatedStruct.sourceType.name, context: context)
+            }
             guard translatedFields.count == translatedStruct.storedVariables.count else {
                 return nil
             }
@@ -1147,7 +1098,8 @@ final class PythonTranslator: Translator {
             storedFields = []
             enumCases = []
         case let translatedProtocol as TranslatedProtocol:
-            guard canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: []) else {
+            guard PythonTranslationContext(context: context).canGenerateProtocolType(translatedProtocol) else {
+                context.warn("dropping protocol \(translatedProtocol.sourceType.name): a member has no Python type")
                 return nil
             }
             className = pythonClassName(translatedProtocol.nodeName)
@@ -1198,10 +1150,16 @@ final class PythonTranslator: Translator {
         )
     }
 
-    private func nativeStoredField(_ field: Field, context: FishyJoesContext) -> NativeStoredField? {
+    private func nativeStoredField(_ field: Field, ownerName: String, context: FishyJoesContext) -> NativeStoredField? {
         let resolvedType = context.resolve(type: field.type)
+        // R5: the value-type field descriptor is the call-site conversion when
+        // present, otherwise derived from the C scalar type (exactly the old
+        // `nativeType.conversion ?? pythonConversion(...)`).
         guard let nativeType = pythonCType(for: resolvedType, context: context),
-              let conversion = nativeType.conversion ?? pythonConversion(for: resolvedType, context: context) else {
+              let conversion = nativeType.conversionDescriptor else {
+            // B2: a stored field with no Python representation drops its owning
+            // value type whole (the caller's count guard); name it here.
+            context.warn("dropping value type \(ownerName): stored field `\(field.name)` has no Python type")
             return nil
         }
         return NativeStoredField(
@@ -1209,7 +1167,7 @@ final class PythonTranslator: Translator {
             cName: field.name.mangled,
             cType: nativeType.cType,
             conversion: conversion,
-            pythonType: nativeType.pythonType,
+            pythonType: nativeType.annotation,
             isMutable: field.isMutable,
             documentation: field.documentation
         )
@@ -1222,13 +1180,16 @@ final class PythonTranslator: Translator {
         guard let exportAnnotation = field.exportAnnotation else {
             return nil
         }
+        let sourceName = type.sourceType.name
+        let memberName = "\(sourceName).\(exportAnnotation.name)"
         let resolvedFieldType = context.resolve(type: field.type)
         let fieldType = field.isAsync ? TranslatedFuture(output: resolvedFieldType) : resolvedFieldType
         guard let returnType = pythonCType(for: fieldType, context: context) else {
+            // B2: a field with no Python representation is dropped; surface it.
+            context.warn("dropping property \(memberName): no Python type for its value")
             return nil
         }
 
-        let sourceName = type.sourceType.name
         let cName = exportAnnotation.name.mangled
         let symbol = field.isDefaultImplementation
             ? "__iota__default_\(sourceName)_\(exportAnnotation.name)".mangled
@@ -1246,9 +1207,9 @@ final class PythonTranslator: Translator {
             asMethod: exportAnnotation.kind == .asMethod,
             returnType: returnType.cType,
             returnConversion: returnType.conversion,
-            pythonReturnType: returnType.pythonType,
+            pythonReturnType: returnType.annotation,
             deprecationMessage: field.deprecation?.quotedMessage,
-            originName: "\(sourceName).\(exportAnnotation.name)",
+            originName: memberName,
             documentation: field.documentation
         )
     }
@@ -1257,14 +1218,26 @@ final class PythonTranslator: Translator {
         guard method.isStatic || supportsInstanceMembers(for: type) else {
             return nil
         }
+        let sourceName = type.sourceType.name
+        let memberName = "\(sourceName).\(method.exportAnnotation.name)"
         let resolvedReturnType = context.resolve(type: method.returnType, generics: method.exportAnnotation.genericOverrides)
         let effectiveReturnType = method.isAsync ? TranslatedFuture(output: resolvedReturnType) : resolvedReturnType
-        let returnType: NativeType
+        let returnType: PythonRepresentation
         if let supportedReturnType = pythonCType(for: effectiveReturnType, context: context) {
             returnType = supportedReturnType
         } else if method.exportAnnotation.noReturn {
-            returnType = NativeType(cType: "foreignObject", conversion: nil, pythonType: PythonType(annotation: "NoReturn"))
+            // R4: the synthetic `NoReturn` return type (a `@noReturn` method has
+            // no translated return type) is constructed here in the translator,
+            // not by any conformer.
+            returnType = PythonRepresentation(
+                annotation: PythonType(annotation: "NoReturn"),
+                cType: "foreignObject",
+                conversion: nil
+            )
         } else {
+            // B2: a method whose return type has no Python representation is
+            // dropped; surface a diagnostic rather than silently disappearing.
+            context.warn("dropping method \(memberName): no Python type for its return value")
             return nil
         }
 
@@ -1272,6 +1245,8 @@ final class PythonTranslator: Translator {
         for parameter in method.parameters {
             let resolvedParameterType = context.resolve(type: parameter.type, generics: method.exportAnnotation.genericOverrides)
             guard let cType = pythonCType(for: resolvedParameterType, context: context) else {
+                // B2: a method with an unrepresentable parameter is dropped whole.
+                context.warn("dropping method \(memberName): no Python type for parameter `\(parameter.name)`")
                 return nil
             }
             let parameterName = swiftIdentifierName(parameter.name)
@@ -1288,13 +1263,12 @@ final class PythonTranslator: Translator {
                 cName: parameterName.mangled,
                 cType: cType.cType,
                 conversion: cType.conversion,
-                pythonType: cType.pythonType,
+                pythonType: cType.annotation,
                 defaultValue: defaultValue?.expression,
                 defaultValueImports: defaultValue?.imports ?? []
             ))
         }
 
-        let sourceName = type.sourceType.name
         let symbol = "__iota_\(sourceName)_\(method.exportAnnotation.name)".mangled
         return NativeMethod(
             pythonName: method.exportAnnotation.name,
@@ -1304,387 +1278,76 @@ final class PythonTranslator: Translator {
             parameters: parameters,
             returnType: returnType.cType,
             returnConversion: returnType.conversion,
-            pythonReturnType: returnType.pythonType,
+            pythonReturnType: returnType.annotation,
             deprecationMessage: method.deprecation?.quotedMessage,
-            originName: "\(sourceName).\(method.exportAnnotation.name)",
+            originName: memberName,
             documentation: method.documentation
         )
     }
 
-    private func pythonCType(for type: TranslatedType, context: FishyJoesContext, visitedStructs: Set<String> = [], visitedProtocols: Set<String> = []) -> NativeType? {
-        let pythonType = pythonType(for: type, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) ?? .any
-        if type is TranslatedVoid {
-            return NativeType(cType: "void", conversion: "_native.VOID", pythonType: pythonType)
-        }
-        if let primitive = type as? TranslatedPrimitive {
-            return NativeType(cType: primitive.cName, conversion: nil, pythonType: pythonType)
-        }
-        if let unsignedPrimitive = type as? TranslatedUnsignedPrimitive {
-            return NativeType(cType: unsignedPrimitive.cName, conversion: nil, pythonType: pythonType)
-        }
-        if type is TranslatedString {
-            return NativeType(cType: "foreignObject", conversion: "_native.STRING", pythonType: pythonType)
-        }
-        if type is TranslatedData {
-            return NativeType(cType: "foreignObject", conversion: "_native.DATA", pythonType: pythonType)
-        }
-        if type is TranslatedURL {
-            return NativeType(cType: "foreignObject", conversion: "_native.URL", pythonType: pythonType)
-        }
-        if let conversion = pythonConversion(for: type, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return NativeType(cType: "foreignObject", conversion: conversion, pythonType: pythonType)
-        }
-        if let translatedStruct = type as? TranslatedStruct,
-           canGenerateValueType(translatedStruct, context: context, visitedStructs: visitedStructs) {
-            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedStruct), pythonType: pythonType)
-        }
-        if let translatedReference = type as? TranslatedReference {
-            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedReference), pythonType: pythonType)
-        }
-        if let translatedProtocol = type as? TranslatedProtocol,
-           visitedProtocols.contains(translatedProtocol.nodeName) ||
-           canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
-            return NativeType(cType: "foreignObject", conversion: pythonProtocolTypeDescriptor(for: translatedProtocol), pythonType: pythonType)
-        }
-        if let externalType = type as? ExternalTranslatedType, externalType.definingModule == Module.runtime {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonRuntimeClassName(externalType))\")", pythonType: pythonType)
-        }
-        if let externalType = type as? ExternalTranslatedType,
-           externalType.isInhabited {
-            return NativeType(cType: "foreignObject", conversion: "_native.ValueType(\"\(pythonExternalTypeKey(externalType))\")", pythonType: pythonType)
-        }
-        if let translatedEnum = type as? TranslatedEnum,
-           translatedEnum.isInhabited {
-            return NativeType(cType: "foreignObject", conversion: pythonValueTypeDescriptor(for: translatedEnum), pythonType: pythonType)
-        }
-        return nil
+    private func pythonRepresentation(
+        for type: TranslatedType,
+        context: FishyJoesContext,
+        visitedStructs: Set<String> = [],
+        visitedProtocols: Set<String> = []
+    ) -> PythonRepresentation? {
+        type.pythonRepresentation(in: PythonTranslationContext(
+            context: context,
+            visitedStructs: visitedStructs,
+            visitedProtocols: visitedProtocols
+        ))
     }
 
-    private func pythonType(for type: TranslatedType, context: FishyJoesContext, visitedStructs: Set<String> = [], visitedProtocols: Set<String> = []) -> PythonType? {
-        if type is TranslatedVoid {
-            return PythonType(annotation: "None")
-        }
-        if let primitive = type as? TranslatedPrimitive {
-            switch primitive.sourceType.name {
-            case "Swift.Bool":
-                return PythonType(annotation: "bool")
-            case "Swift.Int", "Swift.Int8", "Swift.Int16", "Swift.Int32", "Swift.Int64":
-                return PythonType(annotation: "int")
-            case "Swift.Float", "Swift.Double":
-                return PythonType(annotation: "float")
-            default:
-                return nil
-            }
-        }
-        if let unsignedPrimitive = type as? TranslatedUnsignedPrimitive {
-            switch unsignedPrimitive.sourceType.name {
-            case "Swift.UInt", "Swift.UInt8", "Swift.UInt16", "Swift.UInt32", "Swift.UInt64":
-                return PythonType(annotation: "int")
-            default:
-                return nil
-            }
-        }
-        if type is TranslatedString || type is TranslatedURL {
-            return PythonType(annotation: "str")
-        }
-        if type is TranslatedData {
-            return PythonType(annotation: "bytes")
-        }
-        if let optional = type as? TranslatedOptional,
-           let wrapped = pythonType(for: optional.wrapped, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return wrapped.optional()
-        }
-        if let array = type as? TranslatedArray,
-           let element = pythonType(for: array.elementType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return .container("list", [element])
-        }
-        if let set = type as? TranslatedSet,
-           let element = pythonType(for: set.elementType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return .container("set", [element])
-        }
-        if let dictionary = type as? TranslatedDictionary,
-           let key = pythonType(for: dictionary.keyType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols),
-           let value = pythonType(for: dictionary.valueType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return .container("dict", [key, value])
-        }
-        if let tuple = type as? TranslatedTuple {
-            let elements = tuple.elements.compactMap { pythonType(for: $0.type, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) }
-            guard elements.count == tuple.elements.count else {
-                return nil
-            }
-            return .container("tuple", elements)
-        }
-        if let range = type as? TranslatedRange,
-           let bound = pythonType(for: range.bound, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return pythonRangeType(isClosedRange: range.isClosedRange, bound: bound)
-        }
-        if let result = type as? TranslatedResult,
-           let success = pythonType(for: result.success, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols),
-           let failure = pythonType(for: result.failure, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return pythonResultType(success: success, failure: failure)
-        }
-        if let future = type as? TranslatedFuture,
-           let output = pythonType(for: future.output, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return .awaitable(output)
-        }
-        if let function = type as? TranslatedFunction {
-            let parameters = function.parameters.compactMap { pythonType(for: $0, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) }
-            guard parameters.count == function.parameters.count,
-                  let returnType = pythonType(for: function.returnType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) else {
-                return nil
-            }
-            return .callable(
-                parameters: parameters,
-                returnType: function.isAsync ? .awaitable(returnType) : returnType
-            )
-        }
-        if let translatedStruct = type as? TranslatedStruct,
-           canGenerateValueType(translatedStruct, context: context, visitedStructs: visitedStructs) {
-            return pythonClassType(pythonClassName(translatedStruct.nodeName))
-        }
-        if let translatedReference = type as? TranslatedReference {
-            return pythonClassType(pythonClassName(translatedReference.nodeName))
-        }
-        if let translatedProtocol = type as? TranslatedProtocol,
-           visitedProtocols.contains(translatedProtocol.nodeName) ||
-           canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
-            return pythonClassType(pythonClassName(translatedProtocol.nodeName))
-        }
-        if let translatedEnum = type as? TranslatedEnum,
-           translatedEnum.isInhabited {
-            return pythonClassType(pythonClassName(translatedEnum.nodeName))
-        }
-        if let externalType = type as? ExternalTranslatedType,
-           externalType.isInhabited {
-            return pythonExternalClassType(externalType, context: context)
-        }
-        return nil
-    }
-
-    private func pythonClassType(_ className: String) -> PythonType {
-        PythonType(
-            annotation: className,
-            imports: [
-                PythonImport(moduleName: pythonModuleName(className), className: className)
-            ]
+    /// Thin delegator preserved for the translator's internal call sites: the
+    /// bundled C ABI representation (cType + conversion) plus annotation. `nil`
+    /// means "no C ABI representation" (the old `pythonCType == nil`).
+    private func pythonCType(
+        for type: TranslatedType,
+        context: FishyJoesContext,
+        visitedStructs: Set<String> = [],
+        visitedProtocols: Set<String> = []
+    ) -> PythonRepresentation? {
+        pythonRepresentation(
+            for: type,
+            context: context,
+            visitedStructs: visitedStructs,
+            visitedProtocols: visitedProtocols
         )
     }
 
-    /// Maps a Swift `Range`/`ClosedRange` to the runtime helper type parameterised over
-    /// the converted bound, e.g. `Range<Int>` -> `SwiftRange[int]`. The helper is
-    /// re-exported from `_native`; the bound carries its own imports.
-    private func pythonRangeType(isClosedRange: Bool, bound: PythonType) -> PythonType {
-        let className = isClosedRange ? "SwiftClosedRange" : "SwiftRange"
-        var imports = bound.imports
-        imports.insert(PythonImport(moduleName: "_native", className: className))
-        return PythonType(annotation: "\(className)[\(bound.annotation)]", imports: imports)
+    /// Thin delegator: the Python annotation for `type`, or `nil` when the type
+    /// has no C ABI representation (and therefore no annotation).
+    private func pythonType(
+        for type: TranslatedType,
+        context: FishyJoesContext,
+        visitedStructs: Set<String> = [],
+        visitedProtocols: Set<String> = []
+    ) -> PythonType? {
+        pythonRepresentation(
+            for: type,
+            context: context,
+            visitedStructs: visitedStructs,
+            visitedProtocols: visitedProtocols
+        )?.annotation
     }
 
-    /// Maps a Swift `Result<Success, Failure>` to the union the runtime actually
-    /// produces (`to_python` returns a `ResultSuccess` or a `ResultFailure`), each
-    /// parameterised over its converted payload. Both helpers are re-exported from
-    /// `_native`.
-    private func pythonResultType(success: PythonType, failure: PythonType) -> PythonType {
-        var imports = success.imports.union(failure.imports)
-        imports.insert(PythonImport(moduleName: "_native", className: "ResultSuccess"))
-        imports.insert(PythonImport(moduleName: "_native", className: "ResultFailure"))
-        return PythonType(
-            annotation: "ResultSuccess[\(success.annotation)] | ResultFailure[\(failure.annotation)]",
-            imports: imports
-        )
-    }
-
-    private func pythonExternalClassType(_ type: ExternalTranslatedType, context: FishyJoesContext) -> PythonType {
-        if type.definingModule == Module.runtime {
-            let className = pythonExternalClassName(type)
-            return PythonType(
-                annotation: className,
-                imports: [
-                    PythonImport(moduleName: "_native", className: className)
-                ]
-            )
-        }
-        let className = pythonExternalClassName(type)
-        let packageName = context.pythonImportPackageName(for: type.definingModule.name)
-        return PythonType(
-            annotation: className,
-            imports: [
-                .absolute(moduleName: "\(packageName).\(pythonModuleName(className))", className: className)
-            ]
-        )
-    }
-
-    private func pythonConversion(for type: TranslatedType, context: FishyJoesContext, visitedStructs: Set<String> = [], visitedProtocols: Set<String> = []) -> String? {
-        if type is TranslatedVoid {
-            return "_native.VOID"
-        }
-        if let primitive = type as? TranslatedPrimitive {
-            switch primitive.sourceType.name {
-            case "Swift.Bool":
-                return "_native.BOOL"
-            case "Swift.Int":
-                return "_native.INT"
-            case "Swift.Int8":
-                return "_native.INT8"
-            case "Swift.Int16":
-                return "_native.INT16"
-            case "Swift.Int32":
-                return "_native.INT32"
-            case "Swift.Int64":
-                return "_native.INT64"
-            case "Swift.Float":
-                return "_native.FLOAT"
-            case "Swift.Double":
-                return "_native.DOUBLE"
-            default:
-                return nil
-            }
-        }
-        if let unsignedPrimitive = type as? TranslatedUnsignedPrimitive {
-            switch unsignedPrimitive.sourceType.name {
-            case "Swift.UInt":
-                return "_native.UINT"
-            case "Swift.UInt8":
-                return "_native.UINT8"
-            case "Swift.UInt16":
-                return "_native.UINT16"
-            case "Swift.UInt32":
-                return "_native.UINT32"
-            case "Swift.UInt64":
-                return "_native.UINT64"
-            default:
-                return nil
-            }
-        }
-        if type is TranslatedString {
-            return "_native.STRING"
-        }
-        if type is TranslatedData {
-            return "_native.DATA"
-        }
-        if type is TranslatedURL {
-            return "_native.URL"
-        }
-        if let optional = type as? TranslatedOptional,
-           let wrapped = pythonConversion(for: optional.wrapped, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Optional(\(wrapped))"
-        }
-        if let array = type as? TranslatedArray,
-           let element = pythonConversion(for: array.elementType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Array(\"\(array.converterType.name)\", \(element))"
-        }
-        if let set = type as? TranslatedSet,
-           let element = pythonConversion(for: set.elementType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Set(\"\(set.converterType.name)\", \(element))"
-        }
-        if let dictionary = type as? TranslatedDictionary,
-           let key = pythonConversion(for: dictionary.keyType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols),
-           let value = pythonConversion(for: dictionary.valueType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Dictionary(\"\(dictionary.converterType.name)\", \(key), \(value))"
-        }
-        if let range = type as? TranslatedRange,
-           let bound = pythonConversion(for: range.bound, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            let constructor = range.isClosedRange ? "_native.ClosedRange" : "_native.Range"
-            return "\(constructor)(\"\(range.converterType.name)\", \(bound))"
-        }
-        if let tuple = type as? TranslatedTuple {
-            let elements = tuple.elements.compactMap { pythonConversion(for: $0.type, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) }
-            guard elements.count == tuple.elements.count else {
-                return nil
-            }
-            return "_native.Tuple(\"\(tuple.converterType.name)\", [\(elements.joined(separator: ", "))])"
-        }
-        if let result = type as? TranslatedResult,
-           let success = pythonConversion(for: result.success, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols),
-           let failure = pythonConversion(for: result.failure, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Result(\"\(result.converterType.name)\", \(success), \(failure))"
-        }
-        if let future = type as? TranslatedFuture,
-           let output = pythonConversion(for: future.output, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) {
-            return "_native.Future(\"\(future.converterType.name)\", \(output))"
-        }
-        if let function = type as? TranslatedFunction, function.isAsync {
-            let parameters = function.parameters.compactMap { pythonConversion(for: $0, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) }
-            guard parameters.count == function.parameters.count,
-                  let returnType = pythonConversion(for: function.returnType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) else {
-                return nil
-            }
-            return "_native.AsyncFunction(\"\(function.converterType.name)\", \"\(function.translatedFutureFunction.converterType.name)\", [\(parameters.joined(separator: ", "))], \(returnType))"
-        }
-        if let function = type as? TranslatedFunction {
-            let parameters = function.parameters.compactMap { pythonConversion(for: $0, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) }
-            guard parameters.count == function.parameters.count,
-                  let returnType = pythonConversion(for: function.returnType, context: context, visitedStructs: visitedStructs, visitedProtocols: visitedProtocols) else {
-                return nil
-            }
-            return "_native.Function(\"\(function.converterType.name)\", [\(parameters.joined(separator: ", "))], \(returnType))"
-        }
-        if let translatedStruct = type as? TranslatedStruct,
-           canGenerateValueType(translatedStruct, context: context, visitedStructs: visitedStructs) {
-            return pythonValueTypeDescriptor(for: translatedStruct)
-        }
-        if let translatedReference = type as? TranslatedReference {
-            return pythonValueTypeDescriptor(for: translatedReference)
-        }
-        if let translatedProtocol = type as? TranslatedProtocol {
-            if visitedProtocols.contains(translatedProtocol.nodeName) ||
-                canGenerateProtocolType(translatedProtocol, context: context, visitedProtocols: visitedProtocols) {
-                return pythonProtocolTypeDescriptor(for: translatedProtocol)
-            }
-        }
-        if let externalType = type as? ExternalTranslatedType, externalType.definingModule == Module.runtime {
-            return "_native.ValueType(\"\(pythonRuntimeClassName(externalType))\")"
-        }
-        if let externalType = type as? ExternalTranslatedType,
-           externalType.isInhabited {
-            return "_native.ValueType(\"\(pythonExternalTypeKey(externalType))\")"
-        }
-        if let translatedEnum = type as? TranslatedEnum,
-           translatedEnum.isInhabited {
-            return pythonValueTypeDescriptor(for: translatedEnum)
-        }
-        return nil
-    }
-
-    private func canGenerateValueType(_ structType: TranslatedStruct, context: FishyJoesContext, visitedStructs: Set<String>) -> Bool {
-        if visitedStructs.contains(structType.nodeName) {
-            return false
-        }
-        let nextVisitedStructs = visitedStructs.union([structType.nodeName])
-        for field in structType.storedVariables {
-            let resolvedType = context.resolve(type: field.type)
-            guard pythonCType(for: resolvedType, context: context, visitedStructs: nextVisitedStructs) != nil else {
-                return false
-            }
-        }
-        return true
-    }
-
-    private func canGenerateProtocolType(_ protocolType: TranslatedProtocol, context: FishyJoesContext, visitedProtocols: Set<String>) -> Bool {
-        if visitedProtocols.contains(protocolType.nodeName) {
-            return true
-        }
-        let nextVisitedProtocols = visitedProtocols.union([protocolType.nodeName])
-        for field in protocolType.fields {
-            let resolvedFieldType = context.resolve(type: field.type)
-            let fieldType = field.isAsync ? TranslatedFuture(output: resolvedFieldType) : resolvedFieldType
-            guard pythonCType(for: fieldType, context: context, visitedStructs: [], visitedProtocols: nextVisitedProtocols) != nil else {
-                return false
-            }
-        }
-        for method in protocolType.methods {
-            let resolvedReturnType = context.resolve(type: method.returnType, generics: method.exportAnnotation.genericOverrides)
-            let returnType = method.isAsync ? TranslatedFuture(output: resolvedReturnType) : resolvedReturnType
-            guard pythonCType(for: returnType, context: context, visitedStructs: [], visitedProtocols: nextVisitedProtocols) != nil else {
-                return false
-            }
-            for parameter in method.parameters {
-                guard pythonCType(for: context.resolve(type: parameter.type, generics: method.exportAnnotation.genericOverrides), context: context, visitedStructs: [], visitedProtocols: nextVisitedProtocols) != nil else {
-                    return false
-                }
-            }
-        }
-        return true
+    /// Thin delegator: the call-site conversion-descriptor expression for `type`,
+    /// in the default `_native` namespace. Mirrors the old standalone
+    /// `pythonConversion`, including its primitive behavior (a primitive's
+    /// descriptor is derived from its C scalar type rather than carried as a
+    /// call-site conversion).
+    private func pythonConversion(
+        for type: TranslatedType,
+        context: FishyJoesContext,
+        visitedStructs: Set<String> = [],
+        visitedProtocols: Set<String> = []
+    ) -> String? {
+        pythonRepresentation(
+            for: type,
+            context: context,
+            visitedStructs: visitedStructs,
+            visitedProtocols: visitedProtocols
+        )?.conversionDescriptor
     }
 
     private func disambiguateClassMemberNames(
@@ -1842,40 +1505,10 @@ final class PythonTranslator: Translator {
         if let conversion {
             return conversion.replacingOccurrences(of: "_native.", with: "\(nativeModuleName).")
         }
-        switch cType {
-        case "bool":
-            return "\(nativeModuleName).BOOL"
-        case "int":
-            return "\(nativeModuleName).INT"
-        case "intptr_t":
-            return "\(nativeModuleName).INT"
-        case "int8_t":
-            return "\(nativeModuleName).INT8"
-        case "int16_t":
-            return "\(nativeModuleName).INT16"
-        case "int32_t":
-            return "\(nativeModuleName).INT32"
-        case "int64_t":
-            return "\(nativeModuleName).INT64"
-        case "uintptr_t":
-            return "\(nativeModuleName).UINT"
-        case "uint8_t":
-            return "\(nativeModuleName).UINT8"
-        case "uint16_t":
-            return "\(nativeModuleName).UINT16"
-        case "uint32_t":
-            return "\(nativeModuleName).UINT32"
-        case "uint64_t":
-            return "\(nativeModuleName).UINT64"
-        case "float":
-            return "\(nativeModuleName).FLOAT"
-        case "double":
-            return "\(nativeModuleName).DOUBLE"
-        case "void":
-            return "\(nativeModuleName).VOID"
-        default:
-            return "None"
-        }
+        // The scalar `cType -> _native.X` mapping is single-sourced on
+        // `PythonRepresentation`; `None` is the literal used where a value-type
+        // field has no scalar descriptor.
+        return PythonRepresentation.scalarDescriptor(cType: cType, nativeModuleName: nativeModuleName) ?? "None"
     }
 
     private func selfConversion(for pythonClass: PythonClass) -> String? {
@@ -1887,17 +1520,6 @@ final class PythonTranslator: Translator {
         }
     }
 
-    private func pythonValueTypeDescriptor(for type: TranslatedType) -> String {
-        "_native.ValueType(\(pythonStringLiteral(pythonGeneratedTypeKey(for: type))))"
-    }
-
-    private func pythonProtocolTypeDescriptor(for type: TranslatedProtocol) -> String {
-        "_native.ProtocolType(\(pythonStringLiteral(pythonGeneratedTypeKey(for: type))))"
-    }
-
-    private func pythonGeneratedTypeKey(for type: TranslatedType) -> String {
-        type.sourceType.name
-    }
 
     private func pythonDefaultValue(_ swiftValue: String, type: TranslatedType, context: FishyJoesContext) -> PythonDefaultValue? {
         guard let expression = SwiftDefaultExpression.parse(swiftValue) else {
@@ -2052,67 +1674,23 @@ final class PythonTranslator: Translator {
     }
 
     private func pythonModuleName(_ name: String) -> String {
-        pythonSafeIdentifier(name)
+        PythonNaming.moduleName(name)
     }
 
     private func pythonClassName(_ name: String) -> String {
-        name.replacingOccurrences(of: ".", with: "_")
-    }
-
-    private func pythonRuntimeClassName(_ type: ExternalTranslatedType) -> String {
-        let runtimePrefix = "Runtime."
-        let runtimeName = type.nodeName.hasPrefix(runtimePrefix)
-            ? String(type.nodeName.dropFirst(runtimePrefix.count))
-            : type.nodeName
-        return pythonClassName(runtimeName)
-    }
-
-    private func pythonExternalClassName(_ type: ExternalTranslatedType) -> String {
-        let modulePrefix = "\(type.definingModule.name)."
-        let externalName = type.nodeName.hasPrefix(modulePrefix)
-            ? String(type.nodeName.dropFirst(modulePrefix.count))
-            : type.nodeName
-        return pythonClassName(externalName)
-    }
-
-    private func pythonExternalTypeKey(_ type: ExternalTranslatedType) -> String {
-        type.sourceType.name
+        PythonNaming.className(name)
     }
 
     private func pythonStringLiteral(_ value: String) -> String {
-        "\"\(value.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\""))\""
+        PythonNaming.stringLiteral(value)
     }
 
     private func pythonSafeIdentifier(_ name: String) -> String {
-        var identifier = pythonName(swiftIdentifierName(name)).trimmingCharacters(in: CharacterSet(charactersIn: "_"))
-        if identifier.isEmpty {
-            identifier = "value"
-        }
-        if identifier.first?.isNumber == true {
-            identifier = "value_\(identifier)"
-        }
-        if isReservedPythonName(identifier) {
-            identifier += "_"
-        }
-        return identifier
+        PythonNaming.safeIdentifier(name)
     }
 
     private func pythonSafeAssociatedValueIdentifier(_ name: String) -> String {
-        let normalized = swiftIdentifierName(name)
-        let pythonIdentifier = pythonName(normalized)
-        if pythonIdentifier.hasPrefix("_") || pythonIdentifier.first?.isNumber == true {
-            return "m_\(pythonIdentifier.trimmingCharacters(in: CharacterSet(charactersIn: "_")))"
-        }
-        return pythonSafeIdentifier(normalized)
-    }
-
-    private func pythonName(_ name: String) -> String {
-        let normalized = name
-            .replacingOccurrences(of: "NaN", with: "Nan")
-            .replacingOccurrences(of: "UInt", with: "Uint")
-            .replacingOccurrences(of: "URL", with: "Url")
-            .replacingOccurrences(of: "UTF", with: "Utf")
-        return snakify(normalized).lowercased()
+        PythonNaming.safeAssociatedValueIdentifier(name)
     }
 
     private func swiftIdentifierName(_ name: String) -> String {
@@ -2120,58 +1698,12 @@ final class PythonTranslator: Translator {
     }
 
     private func isReservedPythonName(_ name: String) -> Bool {
-        Self.pythonReservedNames.contains(name)
+        PythonNaming.isReserved(name)
     }
 
     private func canEmitPythonStubAttribute(_ name: String) -> Bool {
-        guard name.range(of: #"^[A-Za-z_][A-Za-z0-9_]*$"#, options: .regularExpression) != nil else {
-            return false
-        }
-        return !Self.pythonSyntaxNames.contains(name)
+        PythonNaming.canEmitStubAttribute(name)
     }
-
-    private static let pythonSyntaxNames: Set<String> = pythonReservedNames.union([
-        "False",
-        "None",
-        "True",
-    ])
-
-    private static let pythonReservedNames: Set<String> = [
-        "and",
-        "as",
-        "assert",
-        "async",
-        "await",
-        "break",
-        "case",
-        "class",
-        "continue",
-        "def",
-        "del",
-        "elif",
-        "else",
-        "except",
-        "finally",
-        "for",
-        "from",
-        "global",
-        "if",
-        "import",
-        "in",
-        "is",
-        "lambda",
-        "match",
-        "nonlocal",
-        "not",
-        "or",
-        "pass",
-        "raise",
-        "return",
-        "try",
-        "while",
-        "with",
-        "yield",
-    ]
 
     private func hasAssociatedValues(_ pythonClass: PythonClass) -> Bool {
         pythonClass.enumCases.contains { !$0.values.isEmpty }

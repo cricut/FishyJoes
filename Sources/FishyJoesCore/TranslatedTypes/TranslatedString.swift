@@ -10,4 +10,12 @@ struct TranslatedString: TranslatedType {
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "string")
     let dartType: DartClass.DartType = .named(package: nil, name: "String")
     let definingModule = Module.runtime
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        PythonRepresentation(
+            annotation: PythonType(annotation: "str"),
+            cType: "foreignObject",
+            conversion: "_native.STRING"
+        )
+    }
 }
