@@ -47,6 +47,17 @@ testapi.deprecations.Deprecations.deprecated_variable
 testapi.methods.Methods
 testapi.primitives__primitive_holder.Primitives_PrimitiveHolder
 
+# Range/Result value-type members are the same StaticProperty-descriptor case:
+# the stub models the precise user-facing attribute type (SwiftRange[int],
+# SwiftClosedRange[float], ResultSuccess[..]|ResultFailure[..]), but the
+# descriptor returns a frozen-dataclass instance whose generic parameter is
+# unreified at runtime (SwiftRange[Any]), which stubtest cannot match against
+# the parameterised stub. The precise stub is the contract and is independently
+# gated by test_range_and_result_types_are_precise and pyright --verifytypes.
+testapi.ranges.Ranges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64)_range
+testapi.closed_ranges.ClosedRanges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64|double|float|string)_range
+testapi.results.Results.(a_success|a_failure)
+
 # CPython reports object.__eq__ as positional-only. The stub keeps the normal
 # `other: object` shape expected by IDEs and type checkers.
 testapi.reference_only_types__marker.ReferenceOnlyTypes_Marker.__eq__

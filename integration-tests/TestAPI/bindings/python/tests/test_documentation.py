@@ -113,19 +113,24 @@ class RuntimeTypingStubTests(unittest.TestCase):
     def test_native_stub_types_swift_ranges(self) -> None:
         stub = self.read_stub("_native.pyi")
 
-        self.assertIn("class SwiftRange:", stub)
-        self.assertIn("class SwiftClosedRange:", stub)
-        self.assertIn("lower_bound: int", stub)
-        self.assertIn("upper_bound: int", stub)
+        # The runtime range types are generic over their bound so call sites
+        # surface precise parameters (e.g. SwiftRange[int]); the stub mirrors
+        # that, never degrading the bound to Any/object.
+        self.assertIn("class SwiftRange(Generic[_BoundT]):", stub)
+        self.assertIn("class SwiftClosedRange(Generic[_BoundT]):", stub)
+        self.assertIn("lower_bound: _BoundT", stub)
+        self.assertIn("upper_bound: _BoundT", stub)
         self.assertIn("@dataclass(frozen=True)", stub)
 
     def test_native_stub_types_result_types(self) -> None:
         stub = self.read_stub("_native.pyi")
 
-        self.assertIn("class ResultSuccess:", stub)
-        self.assertIn("value: object", stub)
-        self.assertIn("class ResultFailure:", stub)
-        self.assertIn("error: object", stub)
+        # Result helpers are generic over their success/failure payloads so the
+        # union surfaced at call sites stays precise.
+        self.assertIn("class ResultSuccess(Generic[_SuccessT]):", stub)
+        self.assertIn("value: _SuccessT", stub)
+        self.assertIn("class ResultFailure(Generic[_FailureT]):", stub)
+        self.assertIn("error: _FailureT", stub)
         self.assertIn("def get_or_none(self)", stub)
         self.assertIn("def exception_or_none(self)", stub)
 

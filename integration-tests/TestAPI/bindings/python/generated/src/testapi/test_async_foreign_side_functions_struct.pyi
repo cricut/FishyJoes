@@ -2,7 +2,6 @@
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
-from typing import Any, ClassVar, NoReturn
 from .test_async_functions import TestAsyncFunctions as TestAsyncFunctions
 
 @dataclass
