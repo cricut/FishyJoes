@@ -64,13 +64,24 @@ enum PythonNaming {
         name.unescapedSwiftIdentifier
     }
 
-    static let syntaxNames: Set<String> = reservedNames.union([
+    /// Names that cannot appear as a bare class-level stub attribute: Python
+    /// keywords plus the `True`/`False`/`None` constants.
+    static let syntaxNames: Set<String> = keywords.union([
         "False",
         "None",
         "True",
     ])
 
-    static let reservedNames: Set<String> = [
+    /// Identifiers `safeIdentifier` must never produce: Python keywords plus the
+    /// synthesized method receivers `self` and `cls`. A Swift parameter or
+    /// associated value named `self`/`cls` would otherwise collide with the
+    /// receiver in the generated `def`, e.g. `def case(cls, cls)`.
+    static let reservedNames: Set<String> = keywords.union([
+        "cls",
+        "self",
+    ])
+
+    private static let keywords: Set<String> = [
         "and",
         "as",
         "assert",
