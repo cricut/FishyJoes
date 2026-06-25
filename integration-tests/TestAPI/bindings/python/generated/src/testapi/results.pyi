@@ -2,9 +2,12 @@
 
 from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
+from ._native import ResultFailure as ResultFailure
+from ._native import ResultSuccess as ResultSuccess
+from .results__error import Results_Error as Results_Error
 
 class Results:
-    a_failure: ClassVar[Any]
-    a_success: ClassVar[Any]
+    a_failure: ClassVar[ResultSuccess[int] | ResultFailure[Results_Error]]
+    a_success: ClassVar[ResultSuccess[int] | ResultFailure[Results_Error]]
     @staticmethod
-    def process_result(result: Any) -> str: ...
+    def process_result(result: ResultSuccess[str] | ResultFailure[Results_Error]) -> str: ...

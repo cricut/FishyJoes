@@ -7,6 +7,7 @@ from ._native import Runtime_AttributedString as Runtime_AttributedString
 from ._native import Runtime_AttributedString_Index as Runtime_AttributedString_Index
 from ._native import Runtime_AttributedString_Runs_Run as Runtime_AttributedString_Runs_Run
 from ._native import Runtime_AttributedSubstring as Runtime_AttributedSubstring
+from ._native import SwiftRange as SwiftRange
 
 class AttributedStrings:
     accent: ClassVar[Runtime_AttributedString]
@@ -29,6 +30,6 @@ class AttributedStrings:
     @staticmethod
     def first_index(string: Runtime_AttributedString) -> Runtime_AttributedString_Index: ...
     @staticmethod
-    def full_range(string: Runtime_AttributedString) -> Any: ...
+    def full_range(string: Runtime_AttributedString) -> SwiftRange[Runtime_AttributedString_Index]: ...
     @staticmethod
     def last_index(string: Runtime_AttributedString) -> Runtime_AttributedString_Index: ...

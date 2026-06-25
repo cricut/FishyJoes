@@ -9,7 +9,7 @@ import types
 import warnings
 import weakref
 from dataclasses import dataclass
-from typing import ClassVar
+from typing import ClassVar, Generic, TypeVar
 
 from cffi import FFI
 
@@ -17,6 +17,14 @@ from .config import IOTA_ABI_VERSION, RuntimeConfig, validate_runtime_compatibil
 from .dependencies import load_dependencies
 from .diagnostics import package_diagnostics
 from .native import load_library, read_declarations, resolve_library_paths
+
+
+# Type parameters for the runtime value-type helpers (`SwiftRange`, `Result*`).
+# The helper instances carry whatever the bound/payload converter produced, so the
+# stored fields are parameterised rather than pinned to `int`/`object`.
+_BoundT = TypeVar("_BoundT")
+_SuccessT = TypeVar("_SuccessT")
+_FailureT = TypeVar("_FailureT")
 
 
 def create_runtime(config: RuntimeConfig) -> dict[str, object]:
@@ -63,26 +71,26 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     @dataclass(frozen=True)
-    class SwiftRange:
-        """A Swift `Range<Int>`; `upper_bound` is excluded."""
+    class SwiftRange(Generic[_BoundT]):
+        """A Swift `Range`; `upper_bound` is excluded."""
 
-        lower_bound: int
-        upper_bound: int
-
-
-    @dataclass(frozen=True)
-    class SwiftClosedRange:
-        """A Swift `ClosedRange<Int>`; `upper_bound` is included."""
-
-        lower_bound: int
-        upper_bound: int
+        lower_bound: _BoundT
+        upper_bound: _BoundT
 
 
     @dataclass(frozen=True)
-    class ResultSuccess:
+    class SwiftClosedRange(Generic[_BoundT]):
+        """A Swift `ClosedRange`; `upper_bound` is included."""
+
+        lower_bound: _BoundT
+        upper_bound: _BoundT
+
+
+    @dataclass(frozen=True)
+    class ResultSuccess(Generic[_SuccessT]):
         """The success case of a Swift `Result`, carrying the value."""
 
-        value: object
+        value: _SuccessT
 
         def get_or_none(self):
             return self.value
@@ -92,10 +100,10 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     @dataclass(frozen=True)
-    class ResultFailure:
+    class ResultFailure(Generic[_FailureT]):
         """The failure case of a Swift `Result`, carrying the error."""
 
-        error: object
+        error: _FailureT
 
         def get_or_none(self):
             return None

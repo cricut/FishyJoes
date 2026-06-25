@@ -121,6 +121,47 @@ class TypingMetadataTests(unittest.TestCase):
                 "echo_%s is not typed as int (degraded to Any?)" % width,
             )
 
+    def test_range_and_result_types_are_precise(self) -> None:
+        # Range/ClosedRange/Result are marshalled correctly by the runtime, but the
+        # typing path used to forget the switch (no pythonType(for:) case), degrading
+        # every public Range/Result member to `Any`. They must surface the precise,
+        # bound-parameterised runtime helper types instead.
+        ranges_stub = (PACKAGE_DIR / "ranges.pyi").read_text()
+        self.assertIn("int_range: ClassVar[SwiftRange[int]]", ranges_stub)
+        self.assertIn(
+            "def echo_int_range(range: SwiftRange[int]) -> SwiftRange[int]: ...",
+            ranges_stub,
+        )
+        self.assertNotIn("Any", ranges_stub, "a Range member degraded to Any")
+
+        closed_stub = (PACKAGE_DIR / "closed_ranges.pyi").read_text()
+        self.assertIn("int_range: ClassVar[SwiftClosedRange[int]]", closed_stub)
+        self.assertIn("double_range: ClassVar[SwiftClosedRange[float]]", closed_stub)
+        self.assertIn("string_range: ClassVar[SwiftClosedRange[str]]", closed_stub)
+        self.assertIn(
+            "def echo_string_range(range: SwiftClosedRange[str]) -> SwiftClosedRange[str]: ...",
+            closed_stub,
+        )
+        self.assertNotIn("Any", closed_stub, "a ClosedRange member degraded to Any")
+
+        results_stub = (PACKAGE_DIR / "results.pyi").read_text()
+        self.assertIn(
+            "a_success: ClassVar[ResultSuccess[int] | ResultFailure[Results_Error]]",
+            results_stub,
+        )
+        self.assertIn(
+            "def process_result(result: ResultSuccess[str] | ResultFailure[Results_Error]) -> str: ...",
+            results_stub,
+        )
+
+        # The bound need not be a primitive: a Range over an opaque runtime index
+        # type must parameterise the helper with that type, not collapse to Any.
+        attributed_stub = (PACKAGE_DIR / "attributed_strings.pyi").read_text()
+        self.assertIn(
+            "def full_range(string: Runtime_AttributedString) -> SwiftRange[Runtime_AttributedString_Index]: ...",
+            attributed_stub,
+        )
+
     def test_generated_package_type_checks_with_mypy(self) -> None:
         with tempfile.TemporaryDirectory(prefix="fishyjoes-mypy-") as cache_dir:
             self.run_checker(

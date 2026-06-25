@@ -2,6 +2,9 @@
 
 from collections.abc import Awaitable, Callable
 from typing import Any, ClassVar, NoReturn
+from ._native import ResultFailure as ResultFailure
+from ._native import ResultSuccess as ResultSuccess
+from .the_method_error import TheMethodError as TheMethodError
 
 class Methods:
     @property
@@ -34,7 +37,7 @@ class Methods:
     def create() -> Methods: ...
     def double_plus_good(self, a: int, b: float) -> int: ...
     @staticmethod
-    def method_with_newlines_in_types(thing: Any) -> None: ...
+    def method_with_newlines_in_types(thing: Callable[[int, bytes, bool], Awaitable[ResultSuccess[int] | ResultFailure[TheMethodError]]]) -> None: ...
     @staticmethod
     def static_async42() -> Awaitable[int]: ...
     @staticmethod
