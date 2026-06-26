@@ -180,7 +180,7 @@ def setup_attributed_string_family(
             # temporary wrapper does not double-release).
             if value is None:
                 # init() -> empty AttributedString (no text, no attributes).
-                built = AttributedString._create_empty()
+                built = AttributedString.create_empty()
             elif isinstance(value, AttributedSubstring):
                 # init(_ substring:) materialises a substring's text + attributes
                 # into a standalone AttributedString. attributes is not meaningful
@@ -189,19 +189,14 @@ def setup_attributed_string_family(
                     raise TypeError(
                         "attributes is only valid when constructing from a str"
                     )
-                built = AttributedString._create_from_substring(value)
+                built = AttributedString.create_from_substring(value)
             elif isinstance(value, str):
                 # init(_:attributes:): turn a Python str (with optional
                 # AttributeContainer) into an AttributedString. Without this the
                 # shaping tier (Font.shape_*, TextSegmentation, …) was unreachable:
                 # the only AttributedStrings a consumer could obtain were Swift
                 # return values.
-                built = call(
-                    _attributed_string_create,
-                    args=[value, attributes],
-                    arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
-                    return_conversion=ValueType("AttributedString"),
-                )
+                built = AttributedString.create(value, attributes)
             else:
                 raise TypeError(
                     "Expected None, str, or AttributedSubstring, got "
@@ -388,21 +383,34 @@ def setup_attributed_string_family(
                 return_conversion=VOID,
             )
 
-        @staticmethod
-        def _create_empty():
-            # Private helper for Swift's `init()`: Foundation's empty
-            # AttributedString (no text, no attributes). The cdecl returns a fresh
-            # owned reference. Reached Pythonically via `AttributedString()`.
+        @classmethod
+        def create_empty(cls):
+            # Public named export (Swift `createEmpty` / `init()`): Foundation's
+            # empty AttributedString (no text, no attributes). The cdecl returns a
+            # fresh owned reference. The Pythonic `AttributedString()` delegates here.
             return call(
                 _attributed_string_create_empty,
                 return_conversion=ValueType("AttributedString"),
             )
 
-        @staticmethod
-        def _create_from_substring(substring):
-            # Private helper for Swift's `init(_ substring:)`: materialises a
-            # substring's text and attributes into a standalone AttributedString.
-            # Reached Pythonically via `AttributedString(some_substring)`.
+        @classmethod
+        def create(cls, value, attributes=None):
+            # Public named export (Swift `create` / `init(_:attributes:)`): turn a
+            # Python str (with optional AttributeContainer) into an AttributedString.
+            # The Pythonic `AttributedString(str, attrs)` constructor delegates here.
+            return call(
+                _attributed_string_create,
+                args=[value, attributes],
+                arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
+                return_conversion=ValueType("AttributedString"),
+            )
+
+        @classmethod
+        def create_from_substring(cls, substring):
+            # Public named export (Swift `createFromSubstring` / `init(_ substring:)`):
+            # materialises a substring's text and attributes into a standalone
+            # AttributedString. The Pythonic `AttributedString(some_substring)`
+            # constructor and `__copy__`/`copy()` delegate here.
             return call(
                 _attributed_string_create_from_substring,
                 args=[substring],
@@ -415,7 +423,7 @@ def setup_attributed_string_family(
             # deep, independent copy, built from the whole-string substring (Swift's
             # `init(_ substring:)`). Expose it as copy.__copy__ so `copy.copy(value)`
             # and the explicit `copy()` method both work.
-            return AttributedString._create_from_substring(self.substring)
+            return AttributedString.create_from_substring(self.substring)
 
         def copy(self):
             return self.__copy__()
@@ -753,7 +761,7 @@ def setup_attributed_string_family(
             # init — `init()` — a substring over an empty base AttributedString.
             # Build the native value, then adopt its reference (detaching the
             # temporary wrapper's finalizer so it does not double-release).
-            built = AttributedSubstring._create_empty()
+            built = AttributedSubstring.create_empty()
             built._iota_finalizer.detach()
             self._adopt_iota_ref(built._iota_ref)
 
@@ -831,11 +839,11 @@ def setup_attributed_string_family(
                 return_conversion=ValueType("AttributedSubstring"),
             )
 
-        @staticmethod
-        def _create_empty():
-            # Private helper for Swift's `init()`: a substring over an empty base
-            # AttributedString. The cdecl returns a fresh owned reference. Reached
-            # Pythonically via `AttributedSubstring()`.
+        @classmethod
+        def create_empty(cls):
+            # Public named export (Swift `createEmpty` / `init()`): a substring over
+            # an empty base AttributedString. The cdecl returns a fresh owned
+            # reference. The Pythonic `AttributedSubstring()` delegates here.
             return call(
                 _attributed_substring_create_empty,
                 return_conversion=ValueType("AttributedSubstring"),
@@ -854,11 +862,10 @@ def setup_attributed_string_family(
     class AttributeContainer(SwiftReference):
         @property
         def foundation(self):
-            return call(
-                _foundation_attributes_create_from_container,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributeContainer_FoundationAttributes"),
-            )
+            # Pythonic accessor for Swift's `AttributeContainer.FoundationAttributes`
+            # init(_ container:): extract the Foundation attributes from this
+            # container. Delegates to the public `create_from_container` named export.
+            return AttributeContainer_FoundationAttributes.create_from_container(self)
 
         def merge(self, other, keep_current=False):
             # Merges another container's attributes into this one in place; with
@@ -873,15 +880,23 @@ def setup_attributed_string_family(
 
         def __init__(self):
             # Pythonic constructor for Swift's empty `init()`: an AttributeContainer
-            # with no values. Build the native value via createEmpty, then adopt its
-            # reference (detaching the temporary wrapper's finalizer so it does not
-            # double-release). Mirrors how the rest of the family empty-constructs.
-            built = call(
+            # with no values. Delegates to the public `create_empty` named export,
+            # then adopts its reference (detaching the temporary wrapper's finalizer
+            # so it does not double-release). Mirrors how the rest of the family
+            # empty-constructs.
+            built = AttributeContainer.create_empty()
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
+
+        @classmethod
+        def create_empty(cls):
+            # Public named export (Swift `createEmpty` / `init()`): an
+            # AttributeContainer with no attribute values. The cdecl returns a fresh
+            # owned reference. The Pythonic `AttributeContainer()` delegates here.
+            return call(
                 _attribute_container_create_empty,
                 return_conversion=ValueType("AttributeContainer"),
             )
-            built._iota_finalizer.detach()
-            self._adopt_iota_ref(built._iota_ref)
 
         def __eq__(self, other):
             return _runtime_reference_equals(AttributeContainer, _attribute_container_equals, self, other)
@@ -893,15 +908,35 @@ def setup_attributed_string_family(
     class AttributeContainer_FoundationAttributes(SwiftReference):
         def __init__(self):
             # Pythonic constructor for Swift's empty `init()`: a FoundationAttributes
-            # with no fields set. Build the native value via createEmpty, then adopt
-            # its reference (detaching the temporary wrapper's finalizer so it does
-            # not double-release). Mirrors how AttributedString() empty-constructs.
-            built = call(
+            # with no fields set. Delegates to the public `create_empty` named export,
+            # then adopts its reference (detaching the temporary wrapper's finalizer
+            # so it does not double-release). Mirrors how AttributedString()
+            # empty-constructs.
+            built = AttributeContainer_FoundationAttributes.create_empty()
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
+
+        @classmethod
+        def create_empty(cls):
+            # Public named export (Swift `createEmpty` / `init()`): a
+            # FoundationAttributes with no fields set. The cdecl returns a fresh owned
+            # reference. The Pythonic `FoundationAttributes()` delegates here.
+            return call(
                 _foundation_attributes_create_empty,
                 return_conversion=ValueType("AttributeContainer_FoundationAttributes"),
             )
-            built._iota_finalizer.detach()
-            self._adopt_iota_ref(built._iota_ref)
+
+        @classmethod
+        def create_from_container(cls, container):
+            # Public named export (Swift `createFromContainer` / `init(_ container:)`):
+            # extract the Foundation attributes from an AttributeContainer and make
+            # them available as statically typed properties. The Pythonic
+            # `AttributeContainer.foundation` property delegates here.
+            return call(
+                _foundation_attributes_create_from_container,
+                args=[container._iota_ref],
+                return_conversion=ValueType("AttributeContainer_FoundationAttributes"),
+            )
 
         @property
         def link(self):

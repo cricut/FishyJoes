@@ -446,6 +446,12 @@ final class PythonTranslator: Translator {
         fragment.output("class Runtime_AttributedString:")
         fragment.indent {
             fragment.output("def __init__(self, value: str | Runtime_AttributedSubstring | None = ..., attributes: Runtime_AttributeContainer | None = ...) -> None: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_empty(cls) -> Runtime_AttributedString: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create(cls, value: str, attributes: Runtime_AttributeContainer | None = ...) -> Runtime_AttributedString: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_from_substring(cls, substring: Runtime_AttributedSubstring) -> Runtime_AttributedString: ...")
             fragment.output("@property")
             fragment.output("def string(self) -> str: ...")
             fragment.output("@property")
@@ -486,6 +492,8 @@ final class PythonTranslator: Translator {
         fragment.output("class Runtime_AttributedSubstring:")
         fragment.indent {
             fragment.output("def __init__(self) -> None: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_empty(cls) -> Runtime_AttributedSubstring: ...")
             fragment.output("@property")
             fragment.output("def base(self) -> Runtime_AttributedString: ...")
             fragment.output("@property")
@@ -511,6 +519,10 @@ final class PythonTranslator: Translator {
         fragment.output("class Runtime_AttributeContainer_FoundationAttributes:")
         fragment.indent {
             fragment.output("def __init__(self) -> None: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_empty(cls) -> Runtime_AttributeContainer_FoundationAttributes: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_from_container(cls, container: Runtime_AttributeContainer) -> Runtime_AttributeContainer_FoundationAttributes: ...")
             fragment.output("@property")
             fragment.output("def link(self) -> str | None: ...")
             fragment.output("@link.setter")
@@ -527,6 +539,8 @@ final class PythonTranslator: Translator {
         fragment.output("class Runtime_AttributeContainer:")
         fragment.indent {
             fragment.output("def __init__(self) -> None: ...")
+            fragment.output("@classmethod")
+            fragment.output("def create_empty(cls) -> Runtime_AttributeContainer: ...")
             fragment.output("@property")
             fragment.output("def foundation(self) -> Runtime_AttributeContainer_FoundationAttributes: ...")
             fragment.output("def merge(self, other: Runtime_AttributeContainer, keep_current: bool = ...) -> None: ...")

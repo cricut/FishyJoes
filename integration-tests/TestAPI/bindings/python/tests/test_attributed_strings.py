@@ -497,5 +497,102 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
         self.assertEqual(empty.string, "")
 
 
+class AttributedStringNamedFactoryExportTests(unittest.TestCase):
+    """The Swift `FishyJoes.export(<name>)`-annotated factory members
+    (createEmpty / create / createFromSubstring / createFromContainer) must each
+    be exposed as a PUBLIC named Python member, not just folded into the Pythonic
+    constructor/property. These tests call each public factory directly and assert
+    it behaves identically to its Pythonic alias (`__init__` / property / copy),
+    all against the real dylibs."""
+
+    def setUp(self) -> None:
+        self.testapi = importlib.import_module("testapi")
+        self.attributed_strings = self.testapi.AttributedStrings
+        self.AttributedString = self.testapi._native.Runtime_AttributedString
+        self.AttributedSubstring = self.testapi._native.Runtime_AttributedSubstring
+        self.AttributeContainer = self.testapi._native.Runtime_AttributeContainer
+        self.FoundationAttributes = (
+            self.testapi._native.Runtime_AttributeContainer_FoundationAttributes
+        )
+
+    def _language(self, value):
+        runs = list(value.runs)
+        if not runs:
+            return None
+        return runs[0].attributes.foundation.language_identifier
+
+    def test_attributed_string_create_empty_named_export(self) -> None:
+        # createEmpty is a public classmethod returning a new AttributedString and
+        # behaves like the empty-construct alias AttributedString().
+        created = self.AttributedString.create_empty()
+        self.assertIsInstance(created, self.AttributedString)
+        self.assertEqual(created.string, "")
+        self.assertEqual(created, self.AttributedString())
+
+    def test_attributed_string_create_named_export(self) -> None:
+        # create(value, attributes=None) is a public classmethod and behaves like
+        # AttributedString(value, attributes).
+        created = self.AttributedString.create("Hello")
+        self.assertIsInstance(created, self.AttributedString)
+        self.assertEqual(created.string, "Hello")
+        self.assertEqual(created, self.AttributedString("Hello"))
+        # Round-trips through a Swift API that takes an AttributedString parameter.
+        self.assertEqual(self.attributed_strings.echo(created), created)
+
+        # The optional attributes argument flows through (pt over the text).
+        pt_container = list(self.attributed_strings.accent.runs)[0].attributes
+        with_attrs = self.AttributedString.create("Olá", pt_container)
+        self.assertEqual(with_attrs.string, "Olá")
+        self.assertEqual(self._language(with_attrs), "pt")
+
+    def test_attributed_string_create_from_substring_named_export(self) -> None:
+        # createFromSubstring(substring) is a public classmethod and behaves like
+        # AttributedString(substring) and the copy()/__copy__ path.
+        accent = self.attributed_strings.accent
+        materialised = self.AttributedString.create_from_substring(accent.substring)
+        self.assertIsInstance(materialised, self.AttributedString)
+        self.assertEqual(materialised.string, "Olá")
+        self.assertEqual(materialised, accent)
+        self.assertEqual(materialised, self.AttributedString(accent.substring))
+        self.assertEqual(self._language(materialised), "pt")
+
+    def test_attributed_substring_create_empty_named_export(self) -> None:
+        # createEmpty is a public classmethod returning a new AttributedSubstring
+        # and behaves like the empty-construct alias AttributedSubstring().
+        created = self.AttributedSubstring.create_empty()
+        self.assertIsInstance(created, self.AttributedSubstring)
+        self.assertEqual(created.string, "")
+        self.assertEqual(created, self.AttributedSubstring())
+
+    def test_attribute_container_create_empty_named_export(self) -> None:
+        # createEmpty is a public classmethod returning a new AttributeContainer and
+        # behaves like the empty-construct alias AttributeContainer().
+        created = self.AttributeContainer.create_empty()
+        self.assertIsInstance(created, self.AttributeContainer)
+        self.assertIsNone(created.foundation.language_identifier)
+        self.assertIsNone(created.foundation.link)
+        self.assertEqual(created, self.AttributeContainer())
+
+    def test_foundation_attributes_create_empty_named_export(self) -> None:
+        # createEmpty is a public classmethod returning a new FoundationAttributes
+        # and behaves like the empty-construct alias FoundationAttributes().
+        created = self.FoundationAttributes.create_empty()
+        self.assertIsInstance(created, self.FoundationAttributes)
+        self.assertIsNone(created.link)
+        self.assertIsNone(created.language_identifier)
+        self.assertEqual(created, self.FoundationAttributes())
+
+    def test_foundation_attributes_create_from_container_named_export(self) -> None:
+        # createFromContainer(container) is a public classmethod and behaves like
+        # the AttributeContainer.foundation property alias.
+        link_container = list(self.attributed_strings.emoji.runs)[0].attributes
+        from_factory = self.FoundationAttributes.create_from_container(link_container)
+        self.assertIsInstance(from_factory, self.FoundationAttributes)
+        self.assertEqual(from_factory.link, "https://home.unicode.org/emoji")
+        self.assertIsNone(from_factory.language_identifier)
+        # Identical to the Pythonic property alias.
+        self.assertEqual(from_factory, link_container.foundation)
+
+
 if __name__ == "__main__":
     unittest.main()
