@@ -9,6 +9,7 @@ from ._native import Runtime_AttributedSubstring as Runtime_AttributedSubstring
 from ._native import SwiftRange as SwiftRange
 
 class AttributedStrings:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     accent: ClassVar[Runtime_AttributedString]
     chinese: ClassVar[Runtime_AttributedString]
     chinese_bmp: ClassVar[Runtime_AttributedString]

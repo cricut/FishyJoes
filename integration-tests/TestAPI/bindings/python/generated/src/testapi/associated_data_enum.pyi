@@ -5,6 +5,7 @@ from typing import ClassVar
 from .simple_enum import SimpleEnum as SimpleEnum
 
 class AssociatedDataEnum:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     @classmethod
     def thing(cls, value: int) -> AssociatedDataEnum:
         """Documentation about thing"""

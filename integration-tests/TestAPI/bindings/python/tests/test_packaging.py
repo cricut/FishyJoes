@@ -230,7 +230,11 @@ class PackagingTests(unittest.TestCase):
             wheel = archive.read("testapi-0.0.1.dist-info/WHEEL").decode("utf-8")
             wheel_metadata = archive.read("testapi/__fishyjoes_wheel.json").decode("utf-8")
         self.assertIn("Requires-Python: >=3.11", metadata)
-        self.assertIn("Requires-Dist: fishyjoes-runtime>=0.0.1", metadata)
+        # The runtime dependency is a bounded compatible-release pin
+        # (~=<major.minor> of the binding's lockstep version), not an
+        # open-ended >= floor that can resolve an incompatible future major.
+        self.assertIn("Requires-Dist: fishyjoes-runtime~=0.0", metadata)
+        self.assertNotIn("fishyjoes-runtime>=", metadata)
         self.assertIn("Root-Is-Purelib: false", wheel)
         self.assertIn("Tag: py3-none-", wheel)
         self.assertIn('"python_requirement": ">=3.11"', wheel_metadata)

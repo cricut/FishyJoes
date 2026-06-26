@@ -5,6 +5,7 @@ from typing import ClassVar
 
 @dataclass
 class Collections_CollectionHolder:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     bool_array: list[bool]
     bool_set: set[bool]
     bool_dictionary: dict[bool, bool]

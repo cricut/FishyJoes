@@ -4,6 +4,7 @@ from typing import ClassVar
 from ._native import SwiftClosedRange as SwiftClosedRange
 
 class ClosedRanges:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     double_range: ClassVar[SwiftClosedRange[float]]
     float_range: ClassVar[SwiftClosedRange[float]]
     int16_range: ClassVar[SwiftClosedRange[int]]

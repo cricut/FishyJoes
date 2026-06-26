@@ -2,10 +2,12 @@
 
 from collections.abc import Awaitable
 from dataclasses import dataclass
+from typing import ClassVar
 
 @dataclass(unsafe_hash=True)
 class Structs_MemberwiseStruct:
     """A plain value type with one immutable and one mutable field."""
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     immutable: str
     mutable: str
     def __init__(self, immutable: str, mutable: str) -> None: ...

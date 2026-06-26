@@ -38,7 +38,7 @@ class EmojiExplorer(_native.SwiftReference):
         """Creates an object that works with emoji strings.
         - Parameter count: The number of emoji strings to include in the object's known collection.
         """
-        return _native.call(_fj___iota_EmojiFun_EmojiExplorer_create, args=[count], arg_conversions=[None], return_conversion=_native.ValueType("EmojiExplorer"))
+        return _native.call(_fj___iota_EmojiFun_EmojiExplorer_create, args=[count], arg_conversions=[None], return_conversion=_native.ValueType("EmojiFun.EmojiExplorer"))
     def enumerate_known(self, body):
         """Enumerates the emoji strings known to the object.
         - Parameter body: A closure to call with each string. On each call to the closure, a string is provided, and the closure should return `true` to continue enumeration or `false` to halt.

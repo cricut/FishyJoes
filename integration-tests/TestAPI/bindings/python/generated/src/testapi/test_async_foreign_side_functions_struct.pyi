@@ -2,10 +2,12 @@
 
 from collections.abc import Awaitable, Callable
 from dataclasses import dataclass
+from typing import ClassVar
 from .test_async_functions import TestAsyncFunctions as TestAsyncFunctions
 
 @dataclass
 class TestAsyncForeignSideFunctionsStruct:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     const42: Callable[[], Awaitable[int]]
     iabs: Callable[[int], Awaitable[int]]
     int_compose: Callable[[Callable[[int], Awaitable[int]], Callable[[int], Awaitable[int]]], Callable[[int], Awaitable[int]]]

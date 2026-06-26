@@ -3,6 +3,7 @@
 from typing import ClassVar
 
 class URLs:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     data_image: ClassVar[str]
     local_file: ClassVar[str]
     remote_file: ClassVar[str]

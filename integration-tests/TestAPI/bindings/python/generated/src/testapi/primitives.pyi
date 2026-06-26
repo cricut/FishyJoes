@@ -5,6 +5,7 @@ from typing import ClassVar
 from .primitives__primitive_holder import Primitives_PrimitiveHolder as Primitives_PrimitiveHolder
 
 class Primitives:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     bit_count_int: ClassVar[int]
     bit_count_uint: ClassVar[int]
     default_primitive_holder: ClassVar[Primitives_PrimitiveHolder]

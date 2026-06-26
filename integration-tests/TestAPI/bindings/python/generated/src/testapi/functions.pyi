@@ -4,6 +4,7 @@ from collections.abc import Callable
 from typing import ClassVar
 
 class Functions:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     abs: ClassVar[Callable[[int], int]]
     add3_things: ClassVar[Callable[[float, float, int], float]]
     const42: ClassVar[Callable[[], int]]

@@ -4,6 +4,7 @@ from typing import ClassVar
 import builtins
 
 class Bytes:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     bytes: ClassVar[list[int]]
     data: ClassVar[builtins.bytes]
     @staticmethod
