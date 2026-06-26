@@ -218,7 +218,7 @@ final class PythonTranslator: Translator {
             exportsStubFragment.output("from .\(pythonClass.moduleName) import \(pythonClass.className) as \(pythonClass.className)")
         }
         exportsStubFragment.blankLine()
-        exportsStubFragment.output("__all__: list[str]")
+        exportsStubFragment.output("__all__ = [\(exportedNames.joined(separator: ", "))]")
         fragments.append(exportsStubFragment)
 
         let initStubFragment = context.pythonFragment("__init__.pyi")
@@ -237,7 +237,13 @@ final class PythonTranslator: Translator {
         initStubFragment.blankLine()
         initStubFragment.output("SUPPORTED: bool")
         initStubFragment.output("def diagnostics() -> dict[str, Any]: ...")
-        initStubFragment.output("__all__: list[str]")
+        // Emit a concrete __all__ literal (rather than a bare `__all__: list[str]`)
+        // so type checkers resolve `from <package> import *` to exactly the public
+        // names and the public API is documented in the stub. It mirrors the template
+        // __init__.py's runtime value: the fixed runtime re-exports followed by the
+        // generated _exports.__all__.
+        let initExportedNames = ["\"SUPPORTED\"", "\"ResultFailure\"", "\"ResultSuccess\"", "\"SwiftClosedRange\"", "\"SwiftRange\"", "\"diagnostics\""] + exportedNames
+        initStubFragment.output("__all__ = [\(initExportedNames.joined(separator: ", "))]")
         fragments.append(initStubFragment)
 
         let nativeStubTypes = Set(
@@ -703,7 +709,7 @@ final class PythonTranslator: Translator {
                     fragment.blankLine()
                 }
             }
-            if pythonClass.fields.isEmpty, pythonClass.methods.isEmpty, pythonClass.storedFields.isEmpty, pythonClass.enumCases.isEmpty {
+            if pythonClass.fields.isEmpty, pythonClass.methods.isEmpty, pythonClass.storedFields.isEmpty, pythonClass.enumCases.isEmpty, pythonClass.equalsSymbol == nil, pythonClass.hashSymbol == nil {
                 fragment.output("pass")
             } else {
                 for field in pythonClass.fields.sorted(by: { $0.pythonName < $1.pythonName }) {
@@ -819,23 +825,28 @@ final class PythonTranslator: Translator {
                         }
                     }
                 }
-                if let equalsSymbol = pythonClass.equalsSymbol {
-                    let equalsFunction = pythonFunctionName(for: equalsSymbol)
-                    fragment.output("def __eq__(self, other):")
+            }
+            // Equatable/Hashable conformances must wire __eq__/__hash__ whether or not
+            // the type also has fields or methods. A member-less but Equatable reference
+            // type (e.g. a marker struct) still compares by value in Swift and in the
+            // other targets, so emitting these only inside the has-members branch above
+            // would silently downgrade it to identity equality.
+            if let equalsSymbol = pythonClass.equalsSymbol {
+                let equalsFunction = pythonFunctionName(for: equalsSymbol)
+                fragment.output("def __eq__(self, other):")
+                fragment.indent {
+                    fragment.output("if not isinstance(other, \(pythonClass.className)):")
                     fragment.indent {
-                        fragment.output("if not isinstance(other, \(pythonClass.className)):")
-                        fragment.indent {
-                            fragment.output("return False")
-                        }
-                        fragment.output("return bool(_native.check(lambda exn: \(equalsFunction)(_native.env, self._iota_ref, other._iota_ref, exn)))")
+                        fragment.output("return False")
                     }
+                    fragment.output("return bool(_native.check(lambda exn: \(equalsFunction)(_native.env, self._iota_ref, other._iota_ref, exn)))")
                 }
-                if let hashSymbol = pythonClass.hashSymbol {
-                    let hashFunction = pythonFunctionName(for: hashSymbol)
-                    fragment.output("def __hash__(self):")
-                    fragment.indent {
-                        fragment.output("return _native.check(lambda exn: \(hashFunction)(_native.env, self._iota_ref, exn))")
-                    }
+            }
+            if let hashSymbol = pythonClass.hashSymbol {
+                let hashFunction = pythonFunctionName(for: hashSymbol)
+                fragment.output("def __hash__(self):")
+                fragment.indent {
+                    fragment.output("return _native.check(lambda exn: \(hashFunction)(_native.env, self._iota_ref, exn))")
                 }
             }
         }

@@ -12,7 +12,12 @@ class ReferenceOnlyTypes_Marker(_native.SwiftReference):
     __fishyjoes_origin__ = {
         "__type__": "TestAPI.ReferenceOnlyTypes.Marker",
     }
-    pass
+    def __eq__(self, other):
+        if not isinstance(other, ReferenceOnlyTypes_Marker):
+            return False
+        return bool(_native.check(lambda exn: _fj___iota_TestAPI_ReferenceOnlyTypes_Marker_equals(_native.env, self._iota_ref, other._iota_ref, exn)))
+    def __hash__(self):
+        return _native.check(lambda exn: _fj___iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash(_native.env, self._iota_ref, exn))
 
 _native.setup_reference_type(_fj_TestAPI_ReferenceOnlyTypes_Marker_setup, ReferenceOnlyTypes_Marker)
 
