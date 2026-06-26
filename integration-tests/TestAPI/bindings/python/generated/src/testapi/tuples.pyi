@@ -3,6 +3,7 @@
 from typing import ClassVar
 
 class Tuples:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     tuple2: ClassVar[tuple[int, str]]
     tuple3: ClassVar[tuple[str, float, str]]
     tuple4: ClassVar[tuple[tuple[int, str], tuple[str, float, str], str, bool]]

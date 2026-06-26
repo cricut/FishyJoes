@@ -5,6 +5,7 @@ from typing import ClassVar
 
 @dataclass
 class Primitives_PrimitiveHolder:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     b: bool
     bq: bool | None
     ui8: int

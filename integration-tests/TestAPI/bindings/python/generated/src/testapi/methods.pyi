@@ -7,6 +7,7 @@ from ._native import ResultSuccess as ResultSuccess
 from .the_method_error import TheMethodError as TheMethodError
 
 class Methods:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     @property
     def garply(self) -> int: ...
     @property

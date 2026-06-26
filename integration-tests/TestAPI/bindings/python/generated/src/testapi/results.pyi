@@ -6,6 +6,7 @@ from ._native import ResultSuccess as ResultSuccess
 from .results__error import Results_Error as Results_Error
 
 class Results:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     a_failure: ClassVar[ResultSuccess[int] | ResultFailure[Results_Error]]
     a_success: ClassVar[ResultSuccess[int] | ResultFailure[Results_Error]]
     @staticmethod

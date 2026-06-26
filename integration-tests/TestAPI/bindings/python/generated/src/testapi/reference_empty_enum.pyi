@@ -3,6 +3,7 @@
 from typing import ClassVar, NoReturn
 
 class ReferenceEmptyEnum:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     a_static_property: ClassVar[int]
     @staticmethod
     def a_static_method() -> int: ...
