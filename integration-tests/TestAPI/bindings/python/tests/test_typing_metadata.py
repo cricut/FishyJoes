@@ -181,6 +181,31 @@ class TypingMetadataTests(unittest.TestCase):
                 ],
             )
 
+    def test_generated_package_source_type_checks_with_mypy(self) -> None:
+        # The fixture above checks the public API from a consumer's view. This
+        # checks the generated package's OWN source is --strict clean (every
+        # module, not just a usage sample), so an internal helper cannot
+        # silently lose its annotations -- e.g. an untyped _diagnostics
+        # function the fixture would never exercise.
+        with tempfile.TemporaryDirectory(prefix="fishyjoes-mypy-pkg-") as cache_dir:
+            self.run_checker(
+                "mypy",
+                [
+                    sys.executable,
+                    "-m",
+                    "mypy",
+                    "--strict",
+                    "--python-version",
+                    "3.11",
+                    "--show-error-codes",
+                    "--no-error-summary",
+                    "--cache-dir",
+                    cache_dir,
+                    "-p",
+                    "testapi",
+                ],
+            )
+
     def test_generated_package_type_checks_with_pyright(self) -> None:
         self.run_checker(
             "pyright",
