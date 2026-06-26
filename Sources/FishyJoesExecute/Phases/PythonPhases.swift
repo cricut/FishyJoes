@@ -19,8 +19,23 @@ class PythonPhases: IotaPhases, Phases {
             "__PYTHON_PACKAGE_VERSION__": options.version ?? "0.0.1",
             "__PYTHON_RUNTIME_DISTRIBUTION_NAME__": options.config.python.runtimeDistributionName,
             "__PYTHON_RUNTIME_DEPENDENCIES__": pythonRuntimeDependencyList(dependencies),
-            "__PYTHON_NATIVE_DEPENDENCIES__": pythonNativeDependencyList(dependencies)
+            "__PYTHON_NATIVE_DEPENDENCIES__": pythonNativeDependencyList(dependencies),
+            "__PYTHON_RUNTIME_REQUIREMENT__": pythonRuntimeRequirement()
         ]
+    }
+
+    /// PEP 440 compatible-release requirement for the `fishyjoes-runtime`
+    /// dependency: `~=<major>.<minor>` of the binding's own version. The
+    /// runtime wheel ships in lockstep with the generated bindings, so a
+    /// binding built at X.Y.Z accepts compatible runtimes (X.Y and later
+    /// within the same major) and rejects major drift. Replaces the previous
+    /// hardcoded `>=0.0.1` floor (which had no upper bound).
+    private func pythonRuntimeRequirement() -> String {
+        let version = options.version ?? "0.0.1"
+        let core = version.split(separator: "-", maxSplits: 1).first.map(String.init) ?? version
+        let components = core.split(separator: ".")
+        guard components.count >= 2 else { return "~=\(core)" }
+        return "~=\(components[0]).\(components[1])"
     }
 
     private struct PythonDependency {
