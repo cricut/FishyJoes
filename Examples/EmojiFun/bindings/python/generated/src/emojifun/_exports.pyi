@@ -2,4 +2,4 @@
 
 from .emoji_explorer import EmojiExplorer as EmojiExplorer
 
-__all__: list[str]
+__all__ = ["EmojiExplorer"]
