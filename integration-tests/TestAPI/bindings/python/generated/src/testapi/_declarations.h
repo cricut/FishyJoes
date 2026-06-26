@@ -746,9 +746,25 @@ foreignObject __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAtt
     foreignObject self,
     foreignOutExn exn
 );
+void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject newValue,
+    foreignOutExn exn
+);
 foreignObject __iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(
     EnvRef envRef,
     foreignObject self,
+    foreignOutExn exn
+);
+void __iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject newValue,
+    foreignOutExn exn
+);
+foreignObject __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty(
+    EnvRef envRef,
     foreignOutExn exn
 );
 bool __iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals(

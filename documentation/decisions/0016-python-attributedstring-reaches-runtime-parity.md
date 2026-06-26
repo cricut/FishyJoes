@@ -49,10 +49,18 @@ parity task; no Swift runtime change is required (and none was made).
 
 ## Decision
 
-Bring the Python `AttributedString` family to parity with Dart/Kotlin, mirroring
-their member surface rendered Pythonically (`__iter__`, `__getitem__`,
-properties, rich-comparison operators), consuming the already-exported Swift
-`@_cdecl` symbols. Python-only; no Swift runtime, EmojiFun, or other-target
+Bring the Python `AttributedString` family to full parity, with the **Swift
+exported `@_cdecl` symbols as the source of truth** for which capabilities to
+expose (the C#/Dart/Kotlin runtimes are peers that confirm the capabilities, not
+the spec — they can rename, invent, or omit). Every Swift-exported member is
+exposed the Pythonic way: Swift export-annotated **named methods** (`elementAt`,
+`substringForRange`, `elementAtPosition`) become **public snake_case methods plus
+a `__getitem__` operator** that delegates to them (every target exposes the named
+method *and* a language operator); Swift properties become `@property` (with
+setters where Swift exports them); Swift **initializers** become `__init__` (not
+named `create*` factories — those are C#/Dart's constructor idiom); `Comparable`
+/ `==` become rich-comparison dunders; collection iteration becomes `__iter__`
+with a private iterator. Python-only; no Swift runtime, EmojiFun, or other-target
 changes.
 
 - **Runtime classes** live in

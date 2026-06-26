@@ -128,14 +128,14 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
         # The run's range spans the whole string and round-trips to its substring.
         self.assertEqual(run.range.lower_bound, accent.start_index)
         self.assertEqual(run.range.upper_bound, accent.end_index)
-        self.assertEqual(accent.substring_for_range(run.range).string, "Olá")
+        self.assertEqual(accent[run.range].string, "Olá")
 
         # The [] operator (indexed by a runs index or an attributed-string
         # position) agrees with iteration.
         self.assertEqual(runs[runs.start_index], run)
         self.assertEqual(runs[accent.start_index], run)
 
-    def test_substring_for_range_and_getitem(self) -> None:
+    def test_getitem_slices_by_range(self) -> None:
         value = self.attributed_strings.polyglot  # "Hello Olá こんにちは"
         characters = value.characters
         indices = [characters.start_index]
@@ -145,8 +145,8 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
             indices.append(cursor)
 
         first_five = self.testapi.SwiftRange(indices[0], indices[5])
-        self.assertEqual(value.substring_for_range(first_five).string, "Hello")
-        # __getitem__ is the operator-get alias for substring_for_range.
+        # __getitem__ (obj[range]) is the sole public range accessor, bridging
+        # Swift's subscript(range:).
         self.assertEqual(value[first_five].string, "Hello")
 
         # full_range comes from a Swift API and must drive the same slice path.
@@ -189,7 +189,6 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
         self.assertEqual(run.attributes.foundation.language_identifier, "pt")
 
         full = self.testapi.SwiftRange(substring.start_index, substring.end_index)
-        self.assertEqual(substring.substring_for_range(full).string, "Olá")
         self.assertEqual(substring[full].string, "Olá")
 
     def test_indices_are_comparable(self) -> None:
@@ -220,11 +219,12 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
 
 
 class AttributedStringParitySurfaceTests(unittest.TestCase):
-    """Exercises the full Dart/Kotlin parity surface now mirrored Pythonically:
-    the value-edit mutators (replace/remove subrange, set/merge/replace
-    attributes), the factory classmethods (create_empty/create_from_substring),
-    the `+`/`[]=`/copy idioms, and the AttributeContainer / AttributedSubstring
-    factories. All observed against real dylibs via .string/.attributes."""
+    """Exercises the full parity surface now mirrored Pythonically: the
+    value-edit mutators (replace/remove subrange, set/merge/replace attributes),
+    the Pythonic constructors that bridge Swift's inits (AttributedString() /
+    AttributedString(substring), AttributedSubstring()), the `+`/`[]=`/copy
+    idioms, and the AttributeContainer factory. All observed against real dylibs
+    via .string/.attributes."""
 
     def setUp(self) -> None:
         self.testapi = importlib.import_module("testapi")
@@ -232,6 +232,9 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
         self.AttributedString = self.testapi._native.Runtime_AttributedString
         self.AttributedSubstring = self.testapi._native.Runtime_AttributedSubstring
         self.AttributeContainer = self.testapi._native.Runtime_AttributeContainer
+        self.FoundationAttributes = (
+            self.testapi._native.Runtime_AttributeContainer_FoundationAttributes
+        )
         self.SwiftRange = self.testapi.SwiftRange
 
     def _full_range(self, value):
@@ -244,17 +247,25 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
             return None
         return runs[0].attributes.foundation.language_identifier
 
-    def test_create_empty_and_create_from_substring(self) -> None:
-        empty = self.AttributedString.create_empty()
+    def test_construct_empty_and_from_substring(self) -> None:
+        # AttributedString() reaches Swift's init() -> empty value.
+        empty = self.AttributedString()
         self.assertEqual(empty.string, "")
 
-        # createFromSubstring materialises a substring's text + attributes into a
-        # standalone AttributedString. accent carries a 'pt' run over "Olá".
+        # AttributedString(substring) reaches Swift's init(_ substring:), which
+        # materialises a substring's text + attributes into a standalone
+        # AttributedString. accent carries a 'pt' run over "Olá".
         accent = self.attributed_strings.accent
-        materialised = self.AttributedString.create_from_substring(accent.substring)
+        materialised = self.AttributedString(accent.substring)
         self.assertEqual(materialised.string, "Olá")
         self.assertEqual(materialised, accent)
         self.assertEqual(self._language(materialised), "pt")
+
+        # Passing attributes alongside a substring is rejected (the substring
+        # already carries its attributes).
+        with self.assertRaises(TypeError):
+            en_container = list(self.attributed_strings.simple.runs)[0].attributes
+            self.AttributedString(accent.substring, en_container)
 
     def test_copy_is_an_independent_value(self) -> None:
         original = self.AttributedString("Hello")
@@ -414,7 +425,7 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
             self.AttributedString("plain").merge_attributes(en_container, keep_current=1)
 
     def test_attribute_container_merge_and_create_empty(self) -> None:
-        empty = self.AttributeContainer.create_empty()
+        empty = self.AttributeContainer()
         self.assertIsNone(empty.foundation.language_identifier)
         self.assertIsNone(empty.foundation.link)
 
@@ -422,14 +433,14 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
         en_container = list(self.attributed_strings.simple.runs)[0].attributes
 
         # merge mutates in place; default keep_current=False -> other wins.
-        merged = self.AttributeContainer.create_empty()
+        merged = self.AttributeContainer()
         merged.merge(pt_container)
         self.assertEqual(merged.foundation.language_identifier, "pt")
         merged.merge(en_container)
         self.assertEqual(merged.foundation.language_identifier, "en")
 
         # keep_current=True retains the current value on conflict.
-        kept = self.AttributeContainer.create_empty()
+        kept = self.AttributeContainer()
         kept.merge(pt_container)
         kept.merge(en_container, keep_current=True)
         self.assertEqual(kept.foundation.language_identifier, "pt")
@@ -446,8 +457,43 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
         self.assertEqual(round_tripped, link_container)
         self.assertEqual(round_tripped.foundation.link, "https://home.unicode.org/emoji")
 
-    def test_attributed_substring_create_empty(self) -> None:
-        empty = self.AttributedSubstring.create_empty()
+    def test_foundation_attributes_mutable_surface(self) -> None:
+        # Build attributes from scratch: an empty FoundationAttributes (Swift's
+        # init()) starts with no fields set, then the link / language_identifier
+        # setters (Swift's `var link: URL?` / `var languageIdentifier: String?`)
+        # populate them. Proves the mutable surface end to end against real dylibs.
+        attributes = self.FoundationAttributes()
+        self.assertIsNone(attributes.link)
+        self.assertIsNone(attributes.language_identifier)
+
+        attributes.link = "https://example.com/built"
+        attributes.language_identifier = "fr"
+        # Read back through the getters on the same value.
+        self.assertEqual(attributes.link, "https://example.com/built")
+        self.assertEqual(attributes.language_identifier, "fr")
+
+        # Round-trip through as_container() and apply to a real AttributedString:
+        # the built attributes must survive marshalling into a container and back.
+        built_container = attributes.as_container()
+        self.assertEqual(built_container.foundation.link, "https://example.com/built")
+        self.assertEqual(built_container.foundation.language_identifier, "fr")
+
+        target = self.AttributedString("hello")
+        target.set_attributes(built_container)
+        applied = list(target.runs)[0].attributes.foundation
+        self.assertEqual(applied.link, "https://example.com/built")
+        self.assertEqual(applied.language_identifier, "fr")
+
+        # Setting a field back to None clears it (the URL?/String? optionals).
+        attributes.link = None
+        self.assertIsNone(attributes.link)
+        self.assertEqual(attributes.language_identifier, "fr")
+        self.assertIsNone(attributes.as_container().foundation.link)
+
+    def test_attributed_substring_construct_empty(self) -> None:
+        # AttributedSubstring() reaches Swift's only exported init() -> a substring
+        # over an empty base AttributedString.
+        empty = self.AttributedSubstring()
         self.assertEqual(empty.string, "")
 
 

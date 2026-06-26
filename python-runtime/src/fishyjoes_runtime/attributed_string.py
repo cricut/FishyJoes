@@ -81,7 +81,7 @@ def setup_attributed_string_family(
     _attributed_string_get_characters = _runtime_symbol("__iota_get_Foundation_AttributedString_characters")
     _attributed_string_get_unicode_scalars = _runtime_symbol("__iota_get_Foundation_AttributedString_unicodeScalars")
     _attributed_string_get_substring = _runtime_symbol("__iota_get_Foundation_AttributedString_substring")
-    _attributed_string_substring_for_range = _runtime_symbol("__iota_Foundation_AttributedString_substringForRange")
+    _attributed_stringsubstring_for_range = _runtime_symbol("__iota_Foundation_AttributedString_substringForRange")
     _attributed_string_get_start_index = _runtime_symbol("__iota_get_Foundation_AttributedString_startIndex")
     _attributed_string_get_end_index = _runtime_symbol("__iota_get_Foundation_AttributedString_endIndex")
     _attributed_string_append = _runtime_symbol("__iota_Foundation_AttributedString_append")
@@ -108,18 +108,18 @@ def setup_attributed_string_family(
     _unicode_scalar_view_get_end_index = _runtime_symbol("__iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex")
     _unicode_scalar_view_index_before = _runtime_symbol("__iota_Foundation_AttributedString_UnicodeScalarView_indexBefore")
     _unicode_scalar_view_index_after = _runtime_symbol("__iota_Foundation_AttributedString_UnicodeScalarView_indexAfter")
-    _unicode_scalar_view_element_at = _runtime_symbol("__iota_Foundation_AttributedString_UnicodeScalarView_elementAt")
+    _unicode_scalar_viewelement_at = _runtime_symbol("__iota_Foundation_AttributedString_UnicodeScalarView_elementAt")
     _character_view_get_start_index = _runtime_symbol("__iota_get_Foundation_AttributedString_CharacterView_startIndex")
     _character_view_get_end_index = _runtime_symbol("__iota_get_Foundation_AttributedString_CharacterView_endIndex")
     _character_view_index_before = _runtime_symbol("__iota_Foundation_AttributedString_CharacterView_indexBefore")
     _character_view_index_after = _runtime_symbol("__iota_Foundation_AttributedString_CharacterView_indexAfter")
-    _character_view_element_at = _runtime_symbol("__iota_Foundation_AttributedString_CharacterView_elementAt")
+    _character_viewelement_at = _runtime_symbol("__iota_Foundation_AttributedString_CharacterView_elementAt")
     _runs_get_start_index = _runtime_symbol("__iota_get_Foundation_AttributedString_Runs_startIndex")
     _runs_get_end_index = _runtime_symbol("__iota_get_Foundation_AttributedString_Runs_endIndex")
     _runs_index_before = _runtime_symbol("__iota_Foundation_AttributedString_Runs_indexBefore")
     _runs_index_after = _runtime_symbol("__iota_Foundation_AttributedString_Runs_indexAfter")
-    _runs_element_at = _runtime_symbol("__iota_Foundation_AttributedString_Runs_elementAt")
-    _runs_element_at_position = _runtime_symbol("__iota_Foundation_AttributedString_Runs_elementAtPosition")
+    _runselement_at = _runtime_symbol("__iota_Foundation_AttributedString_Runs_elementAt")
+    _runselement_at_position = _runtime_symbol("__iota_Foundation_AttributedString_Runs_elementAtPosition")
     _runs_equals = _runtime_symbol("__iota_Foundation_AttributedString_Runs_equals")
     _runs_hash = _runtime_symbol("__iota_get_Foundation_AttributedString_Runs_hash")
     _runs_index_equals = _runtime_symbol("__iota_Foundation_AttributedString_Runs_Index_equals")
@@ -137,7 +137,7 @@ def setup_attributed_string_family(
     _attributed_substring_get_start_index = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_startIndex")
     _attributed_substring_get_end_index = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_endIndex")
     _attributed_substring_get_substring = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_substring")
-    _attributed_substring_substring_for_range = _runtime_symbol("__iota_Foundation_AttributedSubstring_substringForRange")
+    _attributed_substringsubstring_for_range = _runtime_symbol("__iota_Foundation_AttributedSubstring_substringForRange")
     _attributed_substring_create_empty = _runtime_symbol("__iota_Foundation_AttributedSubstring_createEmpty")
     _attributed_substring_equals = _runtime_symbol("__iota_Foundation_AttributedSubstring_equals")
     _attributed_substring_hash = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_hash")
@@ -146,7 +146,10 @@ def setup_attributed_string_family(
     _attribute_container_equals = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_equals")
     _attribute_container_hash = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_hash")
     _foundation_attributes_get_link = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")
+    _foundation_attributes_set_link = _runtime_symbol("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")
     _foundation_attributes_get_language_identifier = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier")
+    _foundation_attributes_set_language_identifier = _runtime_symbol("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier")
+    _foundation_attributes_create_empty = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty")
     _foundation_attributes_equals = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals")
     _foundation_attributes_hash = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash")
     _foundation_attributes_create_from_container = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer")
@@ -166,19 +169,44 @@ def setup_attributed_string_family(
 
 
     class AttributedString(SwiftReference):
-        def __init__(self, string, attributes=None):
-            # Turn a Python str (with optional AttributeContainer) into an
-            # AttributedString. Without this the shaping tier (Font.shape_*,
-            # TextSegmentation, …) was unreachable: the only AttributedStrings a
-            # consumer could obtain were Swift return values. Build the native
-            # value, then take ownership of its reference (transferring the
-            # finalizer so the temporary wrapper does not double-release).
-            built = call(
-                _attributed_string_create,
-                args=[string, attributes],
-                arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
-                return_conversion=ValueType("AttributedString"),
-            )
+        def __init__(self, value=None, attributes=None):
+            # Pythonic, type-dispatched constructor mirroring Swift's three inits:
+            #   AttributedString()                -> init() (empty)
+            #   AttributedString("hi", attrs)     -> init(_:attributes:)
+            #   AttributedString(some_substring)  -> init(_ substring:)
+            # so Python reaches the same constructors as Swift instead of through
+            # Dart/Kotlin-named factories. Build the native value, then take
+            # ownership of its reference (transferring the finalizer so the
+            # temporary wrapper does not double-release).
+            if value is None:
+                # init() -> empty AttributedString (no text, no attributes).
+                built = AttributedString._create_empty()
+            elif isinstance(value, AttributedSubstring):
+                # init(_ substring:) materialises a substring's text + attributes
+                # into a standalone AttributedString. attributes is not meaningful
+                # here (the substring already carries its attributes).
+                if attributes is not None:
+                    raise TypeError(
+                        "attributes is only valid when constructing from a str"
+                    )
+                built = AttributedString._create_from_substring(value)
+            elif isinstance(value, str):
+                # init(_:attributes:): turn a Python str (with optional
+                # AttributeContainer) into an AttributedString. Without this the
+                # shaping tier (Font.shape_*, TextSegmentation, …) was unreachable:
+                # the only AttributedStrings a consumer could obtain were Swift
+                # return values.
+                built = call(
+                    _attributed_string_create,
+                    args=[value, attributes],
+                    arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
+                    return_conversion=ValueType("AttributedString"),
+                )
+            else:
+                raise TypeError(
+                    "Expected None, str, or AttributedSubstring, got "
+                    f"{type(value).__name__}"
+                )
             built._iota_finalizer.detach()
             self._adopt_iota_ref(built._iota_ref)
 
@@ -223,8 +251,11 @@ def setup_attributed_string_family(
             )
 
         def substring_for_range(self, range):
+            # Private: bridges Swift's `subscript(range:)`. The sole public
+            # accessor is `__getitem__` (`obj[range]`), mirroring the
+            # `element_at`/`__getitem__` decision for the views.
             return call(
-                _attributed_string_substring_for_range,
+                _attributed_stringsubstring_for_range,
                 args=[self._iota_ref, range],
                 arg_conversions=[None, _attributed_string_index_range()],
                 return_conversion=ValueType("AttributedSubstring"),
@@ -357,19 +388,21 @@ def setup_attributed_string_family(
                 return_conversion=VOID,
             )
 
-        @classmethod
-        def create_empty(cls):
-            # Foundation's empty AttributedString (no text, no attributes). Mirrors
-            # Dart/Kotlin `createEmpty`; the cdecl returns a fresh owned reference.
+        @staticmethod
+        def _create_empty():
+            # Private helper for Swift's `init()`: Foundation's empty
+            # AttributedString (no text, no attributes). The cdecl returns a fresh
+            # owned reference. Reached Pythonically via `AttributedString()`.
             return call(
                 _attributed_string_create_empty,
                 return_conversion=ValueType("AttributedString"),
             )
 
-        @classmethod
-        def create_from_substring(cls, substring):
-            # Materialises a substring's text and attributes into a standalone
-            # AttributedString. Mirrors Dart/Kotlin `createFromSubstring`.
+        @staticmethod
+        def _create_from_substring(substring):
+            # Private helper for Swift's `init(_ substring:)`: materialises a
+            # substring's text and attributes into a standalone AttributedString.
+            # Reached Pythonically via `AttributedString(some_substring)`.
             return call(
                 _attributed_string_create_from_substring,
                 args=[substring],
@@ -379,10 +412,10 @@ def setup_attributed_string_family(
 
         def __copy__(self):
             # Foundation AttributedString is a value type; the Pythonic clone is a
-            # deep, independent copy. Dart/Kotlin spell this `clone()`, defined as
-            # `createFromSubstring(substring)`; expose it as copy.__copy__ so
-            # `copy.copy(value)` and the explicit `copy()` method both work.
-            return AttributedString.create_from_substring(self.substring)
+            # deep, independent copy, built from the whole-string substring (Swift's
+            # `init(_ substring:)`). Expose it as copy.__copy__ so `copy.copy(value)`
+            # and the explicit `copy()` method both work.
+            return AttributedString._create_from_substring(self.substring)
 
         def copy(self):
             return self.__copy__()
@@ -493,18 +526,18 @@ def setup_attributed_string_family(
                 return_conversion=ValueType("AttributedString_Index"),
             )
 
-        def _element_at(self, index):
+        def element_at(self, index):
             # elementAt returns UInt32.CType, a raw uint32_t scalar (not a boxed
             # foreignObject), so it must NOT flow through a foreignObject return
             # conversion; validate the raw value the way UINT32 would.
             return _uint32_value(call(
-                _unicode_scalar_view_element_at,
+                _unicode_scalar_viewelement_at,
                 args=[self._iota_ref, index],
                 arg_conversions=[None, ValueType("AttributedString_Index")],
             ))
 
         def __getitem__(self, index):
-            return self._element_at(index)
+            return self.element_at(index)
 
         def __iter__(self):
             return _AttributedStringViewIterator(self)
@@ -543,16 +576,16 @@ def setup_attributed_string_family(
                 return_conversion=ValueType("AttributedString_Index"),
             )
 
-        def _element_at(self, index):
+        def element_at(self, index):
             return call(
-                _character_view_element_at,
+                _character_viewelement_at,
                 args=[self._iota_ref, index],
                 arg_conversions=[None, ValueType("AttributedString_Index")],
                 return_conversion=STRING,
             )
 
         def __getitem__(self, index):
-            return self._element_at(index)
+            return self.element_at(index)
 
         def __iter__(self):
             return _AttributedStringViewIterator(self)
@@ -591,17 +624,17 @@ def setup_attributed_string_family(
                 return_conversion=ValueType("AttributedString_Runs_Index"),
             )
 
-        def _element_at(self, index):
+        def element_at(self, index):
             return call(
-                _runs_element_at,
+                _runselement_at,
                 args=[self._iota_ref, index],
                 arg_conversions=[None, ValueType("AttributedString_Runs_Index")],
                 return_conversion=ValueType("AttributedString_Runs_Run"),
             )
 
-        def _element_at_position(self, index):
+        def element_at_position(self, index):
             return call(
-                _runs_element_at_position,
+                _runselement_at_position,
                 args=[self._iota_ref, index],
                 arg_conversions=[None, ValueType("AttributedString_Index")],
                 return_conversion=ValueType("AttributedString_Runs_Run"),
@@ -609,8 +642,8 @@ def setup_attributed_string_family(
 
         def __getitem__(self, index):
             if isinstance(index, AttributedString_Index):
-                return self._element_at_position(index)
-            return self._element_at(index)
+                return self.element_at_position(index)
+            return self.element_at(index)
 
         def __iter__(self):
             return _AttributedStringViewIterator(self)
@@ -698,7 +731,7 @@ def setup_attributed_string_family(
         def __next__(self):
             if self._index == self._end_index:
                 raise StopIteration
-            element = self._view._element_at(self._index)
+            element = self._view.element_at(self._index)
             self._index = self._view.index_after(self._index)
             return element
 
@@ -715,6 +748,15 @@ def setup_attributed_string_family(
 
 
     class AttributedSubstring(SwiftReference):
+        def __init__(self):
+            # Pythonic constructor for Swift's only exported AttributedSubstring
+            # init — `init()` — a substring over an empty base AttributedString.
+            # Build the native value, then adopt its reference (detaching the
+            # temporary wrapper's finalizer so it does not double-release).
+            built = AttributedSubstring._create_empty()
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
+
         @property
         def base(self):
             return call(
@@ -780,17 +822,20 @@ def setup_attributed_string_family(
             )
 
         def substring_for_range(self, range):
+            # Private: bridges Swift's `subscript(range:)`. The sole public
+            # accessor is `__getitem__` (`obj[range]`).
             return call(
-                _attributed_substring_substring_for_range,
+                _attributed_substringsubstring_for_range,
                 args=[self._iota_ref, range],
                 arg_conversions=[None, _attributed_string_index_range()],
                 return_conversion=ValueType("AttributedSubstring"),
             )
 
-        @classmethod
-        def create_empty(cls):
-            # A substring over an empty base AttributedString. Mirrors Dart's
-            # `createEmpty`; the cdecl returns a fresh owned reference.
+        @staticmethod
+        def _create_empty():
+            # Private helper for Swift's `init()`: a substring over an empty base
+            # AttributedString. The cdecl returns a fresh owned reference. Reached
+            # Pythonically via `AttributedSubstring()`.
             return call(
                 _attributed_substring_create_empty,
                 return_conversion=ValueType("AttributedSubstring"),
@@ -826,14 +871,17 @@ def setup_attributed_string_family(
                 return_conversion=VOID,
             )
 
-        @classmethod
-        def create_empty(cls):
-            # An attribute container with no values. Mirrors Dart/Kotlin
-            # `createEmpty`; the cdecl returns a fresh owned reference.
-            return call(
+        def __init__(self):
+            # Pythonic constructor for Swift's empty `init()`: an AttributeContainer
+            # with no values. Build the native value via createEmpty, then adopt its
+            # reference (detaching the temporary wrapper's finalizer so it does not
+            # double-release). Mirrors how the rest of the family empty-constructs.
+            built = call(
                 _attribute_container_create_empty,
                 return_conversion=ValueType("AttributeContainer"),
             )
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
 
         def __eq__(self, other):
             return _runtime_reference_equals(AttributeContainer, _attribute_container_equals, self, other)
@@ -843,6 +891,18 @@ def setup_attributed_string_family(
 
 
     class AttributeContainer_FoundationAttributes(SwiftReference):
+        def __init__(self):
+            # Pythonic constructor for Swift's empty `init()`: a FoundationAttributes
+            # with no fields set. Build the native value via createEmpty, then adopt
+            # its reference (detaching the temporary wrapper's finalizer so it does
+            # not double-release). Mirrors how AttributedString() empty-constructs.
+            built = call(
+                _foundation_attributes_create_empty,
+                return_conversion=ValueType("AttributeContainer_FoundationAttributes"),
+            )
+            built._iota_finalizer.detach()
+            self._adopt_iota_ref(built._iota_ref)
+
         @property
         def link(self):
             return call(
@@ -851,12 +911,35 @@ def setup_attributed_string_family(
                 return_conversion=Optional(URL),
             )
 
+        @link.setter
+        def link(self, value):
+            # Bridges Swift's `var link: URL?` setter. The optional URL marshals the
+            # way the getter reads it: None -> NULL, a str -> a URL handle (Optional
+            # wraps URL exactly as the family handles the other optionals).
+            call(
+                _foundation_attributes_set_link,
+                args=[self._iota_ref, value],
+                arg_conversions=[None, Optional(URL)],
+                return_conversion=VOID,
+            )
+
         @property
         def language_identifier(self):
             return call(
                 _foundation_attributes_get_language_identifier,
                 args=[self._iota_ref],
                 return_conversion=Optional(STRING),
+            )
+
+        @language_identifier.setter
+        def language_identifier(self, value):
+            # Bridges Swift's `var languageIdentifier: String?` setter; None -> NULL,
+            # a str -> a String handle, via the same Optional(STRING) the getter uses.
+            call(
+                _foundation_attributes_set_language_identifier,
+                args=[self._iota_ref, value],
+                arg_conversions=[None, Optional(STRING)],
+                return_conversion=VOID,
             )
 
         def as_container(self):
