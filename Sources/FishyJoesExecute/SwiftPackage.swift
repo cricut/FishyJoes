@@ -264,7 +264,7 @@ extension SwiftPackage.Dependency {
             }
         case .sourceControl(_, _, .upToNextMinor(let baseVersion)):
             if flexibleVersions {
-                return "~\(baseVersion)"
+                return ">=\(baseVersion) <\(baseVersion.nextMinor)"
             } else {
                 return baseVersion.versionString
             }
