@@ -2,50 +2,32 @@
 
 ## Status
 
-Accepted (implemented)
+Proposed / Implemented
 
 ## Context
 
-Every other language target makes its per-type representation a `TranslatedType`
+Every language target makes its per-type representation a `TranslatedType`
 protocol requirement: a conformer must supply `kotlinName`, `jniType`,
 `cSharpType`, `dartType`, and the C#/Dart setup parameters, so a newly added
 `TranslatedType` cannot compile until its representation for those targets
 exists.
 
-Python had no such requirement. Instead, `PythonTranslator` reconstructed all
-Python support from three parallel `as?`-cast chains over the same ~16 type
-kinds — `pythonType` (the `.pyi`/annotation), `pythonConversion` (the runtime
-descriptor expression), and `pythonCType` (the C ABI type plus the other two
-bundled). The three switches had to be kept in lockstep with each other and
-with the set of translated types. Because support was a switch with `nil` and
-`?? .any` fallbacks rather than a compile-required member, adding a new
-`TranslatedType` (as happened with `TranslatedRange`) silently fell off the
-Python switches: the member or whole type vanished from generated output, or its
-annotation degraded to `Any`, with no compile error and no generation-time
-diagnostic.
-
-This violates the project bar that missing Python support for a translated type
-must fail at compile, generator-test, or checker time — never silently degrade
-to `Any`, disappear from output, or return `None`.
+Python has to implement something similar, tailored to the new language.
 
 ## Options Considered
 
-- Leave the three switches and add a generator test that diffs the supported
-  type set. Catches drift late (test time) and still duplicates per-type
-  decisions across three switches.
 - Three separate non-defaulted requirements (`pythonAnnotation`, `pythonCType`,
-  `pythonConversion`). Compile-forces support, maps 1:1 onto today's switches,
-  but keeps the three-way duplication this change exists to remove.
+  `pythonConversion`). Compile-forces support, maps 1:1 onto Python's switches,
+  but may drift do to three-way duplication.
 - One bundled `TranslatedType` requirement that a conformer cannot compile
   without, and that collapses the three switches into a single per-type
   recursion. Chosen.
 
 Unlike `cSharpType`/`dartType` — which are stored, non-optional, init-time
 properties with no recursion guard — Python representation is computed at
-generation time, is genuinely optional (a type may have no Python
-representation), and recurses under struct/protocol recursion guards. The new
-requirement is therefore a richer shape than the other targets', not a literal
-mirror of them.
+generation time, is optional (a type may have no Python representation), and
+recurses under struct/protocol recursion guards. The new requirement is 
+therefore a richer shape than the other targets', not a literal mirror of them.
 
 ## Decision
 
