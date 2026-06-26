@@ -208,6 +208,10 @@ class TypingMetadataTests(unittest.TestCase):
                 "--concise",
                 "--allowlist",
                 str(STUBTEST_ALLOWLIST),
+                # Some allowlist entries are Python-version-specific (e.g. the
+                # 3.13+ dataclass __replace__ on RuntimeConfig/RuntimeDependency);
+                # tolerate them being unused on 3.11/3.12 rather than failing.
+                "--ignore-unused-allowlist",
             ],
         )
 

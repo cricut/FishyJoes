@@ -8,6 +8,13 @@
 fishyjoes_runtime.__all__
 fishyjoes_runtime.RuntimeConfig.__match_args__
 fishyjoes_runtime.RuntimeDependency.__match_args__
+# RuntimeConfig/RuntimeDependency are frozen dataclasses; their synthesized
+# __replace__ exists only on Python 3.13+ while the stub models them as plain
+# classes. Listed so the stub stays reconciled on 3.13+; tolerated as an unused
+# entry on 3.11/3.12 via stubtest's --ignore-unused-allowlist (see
+# test_typing_metadata.py).
+fishyjoes_runtime.RuntimeConfig.__replace__
+fishyjoes_runtime.RuntimeDependency.__replace__
 fishyjoes_runtime.iota..*
 # Same pattern: the Foundation AttributedString family classes are defined inside
 # setup_attributed_string_family(), so stubtest sees implementation-only locals
