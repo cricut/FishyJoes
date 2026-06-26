@@ -12,6 +12,7 @@
 
   "dependencies" : {
     "@bjorn3/browser_wasi_shim": "^0.4.2",
+    "@webassemblyjs/wasm-parser": "^1.14.1",
     "buffer": "^5.7.1"
   },
 

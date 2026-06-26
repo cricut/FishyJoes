@@ -27,6 +27,7 @@
 
 // const vm = require('vm');
 import { Buffer } from 'buffer';
+import { decode as decodeWasm } from '@webassemblyjs/wasm-parser';
 
 // mostly borrowed from https://github.com/browserify/node-util
 // borrowing removed deps on Node polyfills util/process
@@ -2008,4 +2009,18 @@ export function makeWorkerImports({ port, memory, WASI, OpenFile, File, ConsoleS
     },
     wasi,
   };
+}
+
+export function readMemoryImportLimits(bytes) {
+  const ast = decodeWasm(bytes, {
+    ignoreCodeSection: true,
+    ignoreDataSection: true,
+    ignoreCustomNameSection: true,
+  });
+  const memImport = ast.body[0].fields.find(
+    (f) => f.type === 'ModuleImport' && f.descr?.type === 'Memory',
+  );
+  if (!memImport) throw new Error('wasm has no imported memory');
+  const { min, max, shared } = memImport.descr.limits;
+  return { initial: min, maximum: max, shared: shared === true };
 }
