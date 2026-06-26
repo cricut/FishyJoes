@@ -5,6 +5,7 @@ from typing import ClassVar
 
 class EmojiExplorer:
     """A playground object for working with emoji."""
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     hello: ClassVar[str]
     """Emits a hello string.
     - Returns: A string containing an emoji hello message.
