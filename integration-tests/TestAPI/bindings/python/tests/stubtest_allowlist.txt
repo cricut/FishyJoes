@@ -7,9 +7,7 @@
 # objects. Keep these out of the public package stubs.
 fishyjoes_runtime.__all__
 fishyjoes_runtime.RuntimeConfig.__match_args__
-fishyjoes_runtime.RuntimeConfig.__replace__
 fishyjoes_runtime.RuntimeDependency.__match_args__
-fishyjoes_runtime.RuntimeDependency.__replace__
 fishyjoes_runtime.iota..*
 
 # __all__ is computed from generated exports at runtime.

@@ -163,6 +163,9 @@ def patched_native_file_bytes(source_path: Path) -> bytes:
     install_name_tool = shutil.which("install_name_tool")
     if install_name_tool is None:
         raise RuntimeError("install_name_tool is required to package macOS Python binding wheels")
+    codesign = shutil.which("codesign")
+    if codesign is None:
+        raise RuntimeError("codesign is required to package macOS Python binding wheels")
     with tempfile.TemporaryDirectory() as temp:
         patched = Path(temp) / source_path.name
         shutil.copy2(source_path, patched)
@@ -177,6 +180,12 @@ def patched_native_file_bytes(source_path: Path) -> bytes:
                 stderr=subprocess.DEVNULL,
                 check=False,
             )
+        subprocess.run(
+            [codesign, "--force", "--sign", "-", str(patched)],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=True,
+        )
         return patched.read_bytes()
 
 
