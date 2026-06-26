@@ -358,6 +358,291 @@ int32_t __iota_get_Foundation_AttributedString_hash(
     foreignObject self,
     foreignOutExn exn
 );
+foreignObject __iota_get_Foundation_AttributedString_runs(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_characters(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_unicodeScalars(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_substringForRange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_startIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_endIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_append(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject attributedString,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_appendSubstring(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject substring,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_insert(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject attributedString,
+    foreignObject index,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_insertSubstring(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject substring,
+    foreignObject index,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_replaceSubrange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignObject attributedString,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_replaceSubrangeWithSubstring(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignObject substring,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_removeSubrange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_setAttributes(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject attributes,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_setAttributesForRange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignObject attributes,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_mergeAttributes(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject attributes,
+    bool keepCurrent,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_mergeAttributesForRange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignObject attributes,
+    bool keepCurrent,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_replaceAttributes(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject attributes,
+    foreignObject others,
+    foreignOutExn exn
+);
+void __iota_Foundation_AttributedString_replaceAttributesForRange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignObject attributes,
+    foreignObject others,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_createEmpty(
+    EnvRef envRef,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_createFromSubstring(
+    EnvRef envRef,
+    foreignObject substring,
+    foreignOutExn exn
+);
+bool __iota_Foundation_AttributedString_Index_equals(
+    EnvRef envRef,
+    foreignObject lhs,
+    foreignObject rhs,
+    foreignOutExn exn
+);
+int32_t __iota_get_Foundation_AttributedString_Index_hash(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+intptr_t __iota_Foundation_AttributedString_Index_compare(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject other,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+uint32_t __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_CharacterView_startIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_CharacterView_endIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_CharacterView_indexBefore(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_CharacterView_indexAfter(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_CharacterView_elementAt(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_Runs_startIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_Runs_endIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_Runs_indexBefore(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_Runs_indexAfter(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_Runs_elementAt(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedString_Runs_elementAtPosition(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject index,
+    foreignOutExn exn
+);
+bool __iota_Foundation_AttributedString_Runs_equals(
+    EnvRef envRef,
+    foreignObject lhs,
+    foreignObject rhs,
+    foreignOutExn exn
+);
+int32_t __iota_get_Foundation_AttributedString_Runs_hash(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+bool __iota_Foundation_AttributedString_Runs_Index_equals(
+    EnvRef envRef,
+    foreignObject lhs,
+    foreignObject rhs,
+    foreignOutExn exn
+);
+int32_t __iota_get_Foundation_AttributedString_Runs_Index_hash(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+intptr_t __iota_Foundation_AttributedString_Runs_Index_compare(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject other,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_Runs_Run_range(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedString_Runs_Run_attributes(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+bool __iota_Foundation_AttributedString_Runs_Run_equals(
+    EnvRef envRef,
+    foreignObject lhs,
+    foreignObject rhs,
+    foreignOutExn exn
+);
+int32_t __iota_get_Foundation_AttributedString_Runs_Run_hash(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
 void Foundation_AttributedSubstring_setup(
     EnvRef envRef,
     FishyJoes_ReferenceConstructorFn constructor,
@@ -389,6 +674,41 @@ int32_t __iota_get_Foundation_AttributedSubstring_hash(
     foreignObject self,
     foreignOutExn exn
 );
+foreignObject __iota_get_Foundation_AttributedSubstring_runs(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedSubstring_characters(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedSubstring_unicodeScalars(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedSubstring_startIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_get_Foundation_AttributedSubstring_endIndex(
+    EnvRef envRef,
+    foreignObject self,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedSubstring_substringForRange(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject range,
+    foreignOutExn exn
+);
+foreignObject __iota_Foundation_AttributedSubstring_createEmpty(
+    EnvRef envRef,
+    foreignOutExn exn
+);
 void FishyJoesCommonRuntime_AttributeContainer_setup(
     EnvRef envRef,
     FishyJoes_ReferenceConstructorFn constructor,
@@ -403,6 +723,17 @@ bool __iota_FishyJoesCommonRuntime_AttributeContainer_equals(
 int32_t __iota_get_FishyJoesCommonRuntime_AttributeContainer_hash(
     EnvRef envRef,
     foreignObject self,
+    foreignOutExn exn
+);
+void __iota_FishyJoesCommonRuntime_AttributeContainer_merge(
+    EnvRef envRef,
+    foreignObject self,
+    foreignObject other,
+    bool keepCurrent,
+    foreignOutExn exn
+);
+foreignObject __iota_FishyJoesCommonRuntime_AttributeContainer_createEmpty(
+    EnvRef envRef,
     foreignOutExn exn
 );
 void FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup(

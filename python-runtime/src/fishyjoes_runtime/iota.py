@@ -13,6 +13,7 @@ from typing import ClassVar, Generic, TypeVar
 
 from cffi import FFI
 
+from .attributed_string import setup_attributed_string_family
 from .config import IOTA_ABI_VERSION, RuntimeConfig, validate_runtime_compatibility
 from .dependencies import load_dependencies
 from .diagnostics import package_diagnostics
@@ -2295,205 +2296,6 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         check(lambda exn: setup_function(env, constructor, exn))
 
 
-    def _runtime_symbol(name: str):
-        return getattr(runtime_lib, name)
-
-
-    def _runtime_reference_equals(expected_type, equals_function, lhs, rhs):
-        if not isinstance(rhs, expected_type):
-            return False
-        return bool(check(lambda exn: equals_function(
-            env,
-            lhs._iota_ref,
-            rhs._iota_ref,
-            exn,
-        )))
-
-
-    def _runtime_reference_hash(hash_function, value):
-        return check(lambda exn: hash_function(
-            env,
-            value._iota_ref,
-            exn,
-        ))
-
-
-    _attributed_string_create = _runtime_symbol("__iota_Foundation_AttributedString_create")
-    _attributed_string_get_string = _runtime_symbol("__iota_get_Foundation_AttributedString_string")
-    _attributed_string_get_substring = _runtime_symbol("__iota_get_Foundation_AttributedString_substring")
-    _attributed_string_equals = _runtime_symbol("__iota_Foundation_AttributedString_equals")
-    _attributed_string_hash = _runtime_symbol("__iota_get_Foundation_AttributedString_hash")
-    _attributed_substring_get_base = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_base")
-    _attributed_substring_get_string = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_string")
-    _attributed_substring_get_substring = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_substring")
-    _attributed_substring_equals = _runtime_symbol("__iota_Foundation_AttributedSubstring_equals")
-    _attributed_substring_hash = _runtime_symbol("__iota_get_Foundation_AttributedSubstring_hash")
-    _attribute_container_equals = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_equals")
-    _attribute_container_hash = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_hash")
-    _foundation_attributes_get_link = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")
-    _foundation_attributes_get_language_identifier = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier")
-    _foundation_attributes_equals = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals")
-    _foundation_attributes_hash = _runtime_symbol("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash")
-    _foundation_attributes_create_from_container = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createFromContainer")
-    _foundation_attributes_as_container = _runtime_symbol("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer")
-
-
-    class AttributedString(SwiftReference):
-        def __init__(self, string, attributes=None):
-            # Turn a Python str (with optional AttributeContainer) into an
-            # AttributedString. Without this the shaping tier (Font.shape_*,
-            # TextSegmentation, …) was unreachable: the only AttributedStrings a
-            # consumer could obtain were Swift return values. Build the native
-            # value, then take ownership of its reference (transferring the
-            # finalizer so the temporary wrapper does not double-release).
-            built = call(
-                _attributed_string_create,
-                args=[string, attributes],
-                arg_conversions=[STRING, Optional(ValueType("AttributeContainer"))],
-                return_conversion=ValueType("AttributedString"),
-            )
-            built._iota_finalizer.detach()
-            self._adopt_iota_ref(built._iota_ref)
-
-        @property
-        def string(self):
-            return call(
-                _attributed_string_get_string,
-                args=[self._iota_ref],
-                return_conversion=STRING,
-            )
-
-        @property
-        def substring(self):
-            return call(
-                _attributed_string_get_substring,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributedSubstring"),
-            )
-
-        def __eq__(self, other):
-            return _runtime_reference_equals(AttributedString, _attributed_string_equals, self, other)
-
-        def __hash__(self):
-            return _runtime_reference_hash(_attributed_string_hash, self)
-
-
-    _opaque_runtime_reference_names = [
-        "AttributedString_Index",
-        "AttributedString_UnicodeScalarView",
-        "AttributedString_CharacterView",
-        "AttributedString_Runs",
-        "AttributedString_Runs_Index",
-        "AttributedString_Runs_Run",
-    ]
-    _opaque_runtime_references = {
-        name: type(name, (SwiftReference,), {}) for name in _opaque_runtime_reference_names
-    }
-
-
-    class AttributedSubstring(SwiftReference):
-        @property
-        def base(self):
-            return call(
-                _attributed_substring_get_base,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributedString"),
-            )
-
-        @property
-        def string(self):
-            return call(
-                _attributed_substring_get_string,
-                args=[self._iota_ref],
-                return_conversion=STRING,
-            )
-
-        @property
-        def substring(self):
-            return call(
-                _attributed_substring_get_substring,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributedSubstring"),
-            )
-
-        def __eq__(self, other):
-            return _runtime_reference_equals(AttributedSubstring, _attributed_substring_equals, self, other)
-
-        def __hash__(self):
-            return _runtime_reference_hash(_attributed_substring_hash, self)
-
-
-    class AttributeContainer(SwiftReference):
-        @property
-        def foundation(self):
-            return call(
-                _foundation_attributes_create_from_container,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributeContainer_FoundationAttributes"),
-            )
-
-        def __eq__(self, other):
-            return _runtime_reference_equals(AttributeContainer, _attribute_container_equals, self, other)
-
-        def __hash__(self):
-            return _runtime_reference_hash(_attribute_container_hash, self)
-
-
-    class AttributeContainer_FoundationAttributes(SwiftReference):
-        @property
-        def link(self):
-            return call(
-                _foundation_attributes_get_link,
-                args=[self._iota_ref],
-                return_conversion=Optional(URL),
-            )
-
-        @property
-        def language_identifier(self):
-            return call(
-                _foundation_attributes_get_language_identifier,
-                args=[self._iota_ref],
-                return_conversion=Optional(STRING),
-            )
-
-        def as_container(self):
-            return call(
-                _foundation_attributes_as_container,
-                args=[self._iota_ref],
-                return_conversion=ValueType("AttributeContainer"),
-            )
-
-        def __eq__(self, other):
-            return _runtime_reference_equals(
-                AttributeContainer_FoundationAttributes,
-                _foundation_attributes_equals,
-                self,
-                other,
-            )
-
-        def __hash__(self):
-            return _runtime_reference_hash(_foundation_attributes_hash, self)
-
-
-    setup_reference_type(runtime_lib.Foundation_AttributedString_setup, AttributedString)
-    for type_name in _opaque_runtime_reference_names:
-        setup_reference_type(getattr(runtime_lib, f"Foundation_{type_name}_setup"), _opaque_runtime_references[type_name])
-    setup_reference_type(runtime_lib.Foundation_AttributedSubstring_setup, AttributedSubstring)
-    setup_reference_type(runtime_lib.FishyJoesCommonRuntime_AttributeContainer_setup, AttributeContainer)
-    setup_reference_type(
-        runtime_lib.FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_setup,
-        AttributeContainer_FoundationAttributes,
-    )
-
-    _runtime_type_exports = {
-        "Runtime_AttributedString": AttributedString,
-        "Runtime_AttributedSubstring": AttributedSubstring,
-        "Runtime_AttributeContainer": AttributeContainer,
-        "Runtime_AttributeContainer_FoundationAttributes": AttributeContainer_FoundationAttributes,
-        **{f"Runtime_{name}": python_type for name, python_type in _opaque_runtime_references.items()},
-    }
-
-
     def call(function, args=None, arg_conversions=None, return_conversion=None):
         args = args or []
         arg_conversions = arg_conversions or []
@@ -2520,6 +2322,29 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
         if return_conversion is not None:
             return return_conversion.consume_iota(result)
         return result
+
+
+    # The Foundation AttributedString family (AttributedString, AttributedSubstring,
+    # AttributeContainer[.FoundationAttributes], the Runs/CharacterView/
+    # UnicodeScalarView views, and the Index types) lives in its own module so the
+    # marshalling core here stays focused. It consumes the already-exported Swift
+    # @_cdecl symbols and mirrors the Dart/Kotlin runtimes. Wired here, after the
+    # marshalling primitives it depends on (call, ValueType, Range, …) exist.
+    _runtime_type_exports = setup_attributed_string_family(
+        runtime_lib=runtime_lib,
+        env=env,
+        check=check,
+        call=call,
+        setup_reference_type=setup_reference_type,
+        SwiftReference=SwiftReference,
+        STRING=STRING,
+        VOID=VOID,
+        URL=URL,
+        Optional=Optional,
+        ValueType=ValueType,
+        Range=Range,
+        uint32_value=_uint32_value,
+    )
 
 
     _export_names = [

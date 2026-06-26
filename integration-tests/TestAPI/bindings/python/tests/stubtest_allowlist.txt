@@ -11,25 +11,16 @@ fishyjoes_runtime.RuntimeConfig.__replace__
 fishyjoes_runtime.RuntimeDependency.__match_args__
 fishyjoes_runtime.RuntimeDependency.__replace__
 fishyjoes_runtime.iota..*
+# Same pattern: the Foundation AttributedString family classes are defined inside
+# setup_attributed_string_family(), so stubtest sees implementation-only locals
+# that are not import-level runtime objects. The public surface is re-exported as
+# the typed testapi._native.Runtime_* classes (verified against the runtime
+# elsewhere in this file).
+fishyjoes_runtime.attributed_string..*
 
 # __all__ is computed from generated exports at runtime.
 testapi.__all__
 testapi._exports.__all__
-
-# Runtime-only placeholders for Foundation attributed string shapes. These are
-# intentionally opaque today; public generated APIs expose the owning Swift
-# members with concrete return annotations where supported.
-testapi._native.Runtime_AttributeContainer.foundation
-# Runtime-provided constructor: builds an AttributedString from a Python str (+
-# optional AttributeContainer). The owning runtime class is opaque in stubs like
-# its other members above, so the constructor is reconciled here too.
-testapi._native.Runtime_AttributedString.__init__
-testapi._native.Runtime_AttributedString.string
-testapi._native.Runtime_AttributedString.substring
-testapi._native.Runtime_AttributedSubstring.base
-testapi._native.Runtime_AttributedSubstring.string
-testapi._native.Runtime_AttributedSubstring.substring
-testapi.attributed_strings.AttributedStrings.(accent|chinese|chinese_bmp|chinese_sip|emoji|emoji_multi|polyglot|script|simple)
 
 # Swift-origin metadata is runtime diagnostics data, not part of the typed
 # public API.
