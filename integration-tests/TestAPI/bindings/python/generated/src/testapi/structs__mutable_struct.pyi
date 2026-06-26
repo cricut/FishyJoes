@@ -2,9 +2,11 @@
 
 from collections.abc import Awaitable
 from dataclasses import dataclass
+from typing import ClassVar
 
 @dataclass(unsafe_hash=True)
 class Structs_MutableStruct:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     i: int
     def __init__(self, i: int) -> None: ...
     def async_get_i(self) -> Awaitable[int]: ...

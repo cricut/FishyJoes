@@ -5,6 +5,7 @@ from typing import ClassVar
 from .collections__collection_holder import Collections_CollectionHolder as Collections_CollectionHolder
 
 class Collections:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     array_of_big_tuples: ClassVar[list[tuple[int, int, int, int]]]
     array_of_int: ClassVar[list[int]]
     default_collection_holder: ClassVar[Collections_CollectionHolder]

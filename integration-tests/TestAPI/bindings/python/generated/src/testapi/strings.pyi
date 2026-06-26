@@ -4,6 +4,7 @@ from typing import ClassVar
 
 class Strings:
     """Sample strings and string operations for Unicode round-trips."""
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     accent: ClassVar[str]
     chinese: ClassVar[str]
     chinese_bmp: ClassVar[str]

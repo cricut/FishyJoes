@@ -4,6 +4,7 @@ from typing import ClassVar
 from ._native import SwiftRange as SwiftRange
 
 class Ranges:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     int16_range: ClassVar[SwiftRange[int]]
     int32_range: ClassVar[SwiftRange[int]]
     int64_range: ClassVar[SwiftRange[int]]

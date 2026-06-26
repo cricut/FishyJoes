@@ -4,6 +4,7 @@ from collections.abc import Awaitable, Callable
 from typing import ClassVar
 
 class AsyncFunctions:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     abs: ClassVar[Callable[[int], Awaitable[int]]]
     add3_things: ClassVar[Callable[[float, float, int], Awaitable[float]]]
     const42: ClassVar[Callable[[], Awaitable[int]]]

@@ -1,59 +1,44 @@
-# Intentional dynamic runtime details that are not part of the public typing
-# surface exposed to IDEs/type checkers.
+# Only the irreducible residue lives here. Everything the generator and runtime
+# CAN model accurately is now modeled by honest stubs -- frozen-dataclass stubs
+# for RuntimeConfig/RuntimeDependency, a declared __all__, and a declared
+# __fishyjoes_origin__ on every generated class -- so those entries are gone.
+# Each remaining entry is a genuine limit of stubtest or of Python itself, and
+# is cross-gated by mypy --strict, pyright --verifytypes, and the precise-typing
+# tests.
 
-# The runtime package's public API is re-exported through fishyjoes_runtime.
-# The implementation module defines descriptor classes inside create_runtime(),
-# so stubtest sees implementation-only names that are not import-level runtime
-# objects. Keep these out of the public package stubs.
-fishyjoes_runtime.__all__
-fishyjoes_runtime.RuntimeConfig.__match_args__
-fishyjoes_runtime.RuntimeDependency.__match_args__
-# RuntimeConfig/RuntimeDependency are frozen dataclasses; their synthesized
-# __replace__ exists only on Python 3.13+ while the stub models them as plain
-# classes. Listed so the stub stays reconciled on 3.13+; tolerated as an unused
-# entry on 3.11/3.12 via stubtest's --ignore-unused-allowlist (see
-# test_typing_metadata.py).
-fishyjoes_runtime.RuntimeConfig.__replace__
-fishyjoes_runtime.RuntimeDependency.__replace__
+# fishyjoes_runtime.iota / .attributed_string are INTERNAL implementation: their
+# classes are constructed inside create_runtime() / setup_attributed_string_family()
+# closures (bound to one FFI context), so there is no static definition to stub.
+# The typed public surface for those classes is the generated bindings'
+# _native.pyi Runtime_* stubs (validated below). Not part of the typed public API.
 fishyjoes_runtime.iota..*
-# Same pattern: the Foundation AttributedString family classes are defined inside
-# setup_attributed_string_family(), so stubtest sees implementation-only locals
-# that are not import-level runtime objects. The public surface is re-exported as
-# the typed testapi._native.Runtime_* classes (verified against the runtime
-# elsewhere in this file).
 fishyjoes_runtime.attributed_string..*
 
-# __all__ is computed from generated exports at runtime.
+# __all__ is computed from generated exports at import time; stubtest compares
+# the exported names, which a stub list cannot mirror deterministically here.
 testapi.__all__
 testapi._exports.__all__
 
-# Swift-origin metadata is runtime diagnostics data, not part of the typed
-# public API.
-testapi\..*\.__fishyjoes_origin__
-
-# Python cannot declare `AssociatedDataEnum.None` in a stub because `None` is a
-# keyword, even though the runtime exposes it via setattr for Swift case parity.
+# Python cannot declare `None: T` in a stub (`None` is a keyword); the runtime
+# sets the Swift `.None` enum case via setattr for case parity.
 testapi.associated_data_enum.AssociatedDataEnum.None
 
-# Static-property descriptors use runtime metaclasses; stubs model the useful
-# user-facing attribute types instead of the descriptor implementation class.
+# Class-level static properties are metaclass descriptors: stubtest sees the
+# descriptor object, while the stub models the user-facing __get__ return type
+# (which pyright resolves and the precise-typing tests assert). The Range/Result
+# value types compound this -- they are frozen-dataclass instances whose generic
+# parameter is erased at runtime (SwiftRange[Any]), which stubtest cannot match
+# against the precise parameterised stub (SwiftRange[int]). Both are stubtest
+# limitations, not stub errors; the precise stub is the contract.
 testapi.collections__collection_holder.Collections_CollectionHolder
 testapi.deprecations.Deprecations
 testapi.deprecations.Deprecations.deprecated_variable
 testapi.methods.Methods
 testapi.primitives__primitive_holder.Primitives_PrimitiveHolder
-
-# Range/Result value-type members are the same StaticProperty-descriptor case:
-# the stub models the precise user-facing attribute type (SwiftRange[int],
-# SwiftClosedRange[float], ResultSuccess[..]|ResultFailure[..]), but the
-# descriptor returns a frozen-dataclass instance whose generic parameter is
-# unreified at runtime (SwiftRange[Any]), which stubtest cannot match against
-# the parameterised stub. The precise stub is the contract and is independently
-# gated by test_range_and_result_types_are_precise and pyright --verifytypes.
 testapi.ranges.Ranges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64)_range
 testapi.closed_ranges.ClosedRanges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64|double|float|string)_range
 testapi.results.Results.(a_success|a_failure)
 
-# CPython reports object.__eq__ as positional-only. The stub keeps the normal
-# `other: object` shape expected by IDEs and type checkers.
+# CPython reports object.__eq__ as positional-only; the stub keeps the IDE-
+# friendly `other: object` shape.
 testapi.reference_only_types__marker.ReferenceOnlyTypes_Marker.__eq__

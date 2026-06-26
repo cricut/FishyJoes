@@ -5,6 +5,7 @@ import enum
 
 class SimpleEnum(enum.Enum):
     """This is an enum with no associated values"""
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     red = ...
     """red is a nice color"""
     green = ...

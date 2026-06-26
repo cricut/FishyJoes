@@ -914,11 +914,11 @@ final class PythonTranslator: Translator {
         if pythonClass.setupKind == "value" || isAssociatedEnum {
             fragment.output("from dataclasses import dataclass")
         }
-        let usesClassVar = pythonClass.fields.contains { $0.isStatic && !$0.asMethod && !stubMetaclassFieldNames.contains($0.pythonName) }
-            || (isAssociatedEnum && pythonClass.enumCases.contains { canEmitPythonStubAttribute(upperCaseFirst($0.cName)) })
         var typingNames: [String] = []
         if stubUses("Any") { typingNames.append("Any") }
-        if usesClassVar { typingNames.append("ClassVar") }
+        // Every class stub declares `__fishyjoes_origin__: ClassVar[dict[str, str]]`,
+        // so ClassVar is always imported.
+        typingNames.append("ClassVar")
         if stubUses("NoReturn") { typingNames.append("NoReturn") }
         if !typingNames.isEmpty {
             fragment.output("from typing import \(typingNames.joined(separator: ", "))")
@@ -998,6 +998,13 @@ final class PythonTranslator: Translator {
                 fragment.output(line)
             }
             var emittedMember = !classDocstring.isEmpty
+            // The runtime emits a __fishyjoes_origin__ dict on every generated
+            // class (Python member name -> its Swift origin name; the runtime
+            // reads __type__ for FFI type identification, and diagnostics/naming
+            // tests read the rest). Declare it so the stub matches the runtime,
+            // rather than suppressing a real attribute in the stubtest allowlist.
+            fragment.output("__fishyjoes_origin__: ClassVar[dict[str, str]]")
+            emittedMember = true
             if pythonClass.setupKind == "enum" && !isAssociatedEnum {
                 for enumCase in pythonClass.enumCases {
                     fragment.output("\(enumCase.pythonName) = ...")

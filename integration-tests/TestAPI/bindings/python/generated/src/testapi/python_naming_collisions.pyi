@@ -4,6 +4,7 @@ from typing import ClassVar
 import builtins
 
 class PythonNamingCollisions:
+    __fishyjoes_origin__: ClassVar[dict[str, str]]
     class_: ClassVar[int]
     dunder: ClassVar[int]
     is_nan: ClassVar[bool]
