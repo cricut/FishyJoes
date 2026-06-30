@@ -13,7 +13,7 @@
  * `__wasilibc_enable_futex_busywait_on_current_thread` (gated by
  * `enableBusyFutex`).
  */
-import { NAPI } from "./wasm-napi.js";
+import { NAPI, readMemoryImportLimits } from "./wasm-napi.js";
 import { WASI, OpenFile, File, ConsoleStdout } from "@bjorn3/browser_wasi_shim";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
@@ -24,9 +24,14 @@ let __MODULE_DEPENDENCY__;
 const init = async ({ enableBusyFutex = true } = {}) => {
   let napi = new NAPI({ WASI, OpenFile, File, ConsoleStdout });
 
+  const wasmBinary = new Uint8Array(
+    await (await fetch(new URL('./__MODULE_NAME__.wasm', import.meta.url))).arrayBuffer(),
+  );
+
+  const memoryLimits = readMemoryImportLimits(wasmBinary);
   const memory = new WebAssembly.Memory({
-    initial: 585,
-    maximum: 16384,
+    initial: memoryLimits.initial,
+    maximum: memoryLimits.maximum ?? 16384,
     shared: true,
   });
 
@@ -40,11 +45,7 @@ const init = async ({ enableBusyFutex = true } = {}) => {
     { type: 'module' },
   );
 
-  // Compile the wasm module so we can share it with the spawner before
-  // dispatching any spawn requests.
-  const wasmModule = await WebAssembly.compileStreaming(
-    fetch(new URL('./__MODULE_NAME__.wasm', import.meta.url)),
-  );
+  const wasmModule = await WebAssembly.compile(wasmBinary);
 
   // Init handshake: wait for spawner ack before threadSpawn could be invoked.
   await new Promise((resolve, reject) => {

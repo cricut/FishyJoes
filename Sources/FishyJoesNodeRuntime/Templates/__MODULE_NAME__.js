@@ -1,4 +1,4 @@
-import { NAPI } from "./wasm-napi.js";
+import { NAPI, readMemoryImportLimits } from "./wasm-napi.js";
 import { WASI, OpenFile, File, ConsoleStdout } from "@bjorn3/browser_wasi_shim";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
@@ -6,9 +6,19 @@ import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extens
 export const init = async () => {
   let napi = new NAPI({ WASI, OpenFile, File, ConsoleStdout });
 
+  let wasmBinary;
+  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
+    const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
+    wasmBinary = new Uint8Array(await response.arrayBuffer());
+  } else {
+    const fs = await import(/* webpackIgnore: true */ 'fs');
+    wasmBinary = fs.readFileSync(new URL('./__MODULE_NAME__.wasm', import.meta.url));
+  }
+
+  const memoryLimits = readMemoryImportLimits(wasmBinary);
   const memory = new WebAssembly.Memory({
-    initial: 585,
-    maximum: 16384,
+    initial: memoryLimits.initial,
+    maximum: memoryLimits.maximum ?? 16384,
     shared: true,
   });
 
@@ -21,17 +31,7 @@ export const init = async () => {
   // main. See __MODULE_NAME__.spawner.js for the rationale.
   const spawner = new Worker(new URL('./__MODULE_NAME__.spawner.js', import.meta.url));
 
-  // Compile the wasm module so we can share it with the spawner before
-  // dispatching any spawn requests.
-  let wasmModule;
-  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
-    const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
-    wasmModule = await WebAssembly.compileStreaming(response);
-  } else {
-    const fs = await import(/* webpackIgnore: true */ 'fs');
-    const binary = fs.readFileSync(new URL('./__MODULE_NAME__.wasm', import.meta.url));
-    wasmModule = await WebAssembly.compile(binary);
-  }
+  const wasmModule = await WebAssembly.compile(wasmBinary);
 
   // Init handshake: wait for spawner ack before threadSpawn could be invoked.
   await new Promise((resolve, reject) => {
