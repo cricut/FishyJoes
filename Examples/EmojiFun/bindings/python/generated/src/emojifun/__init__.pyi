@@ -11,4 +11,4 @@ from ._native import SwiftRange as SwiftRange
 
 SUPPORTED: bool
 def diagnostics() -> dict[str, Any]: ...
-__all__: list[str]
+__all__ = ["SUPPORTED", "ResultFailure", "ResultSuccess", "SwiftClosedRange", "SwiftRange", "diagnostics", "EmojiExplorer"]

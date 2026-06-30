@@ -20,6 +20,7 @@ set(fishyjoes_dart_bundled_libraries
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libFoundationEssentials.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libFoundationInternationalization.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libFoundationXML.so
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libswift_Builtin_float.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswift_Concurrency.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswift_RegexParser.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswift_StringProcessing.so
@@ -28,5 +29,8 @@ set(fishyjoes_dart_bundled_libraries
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftGlibc.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftSwiftOnoneSupport.so
   ${CMAKE_CURRENT_SOURCE_DIR}/native/libswiftSynchronization.so
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libxml2.so.2
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicuuc.so.70
+  ${CMAKE_CURRENT_SOURCE_DIR}/native/libicudata.so.70
   PARENT_SCOPE
 )

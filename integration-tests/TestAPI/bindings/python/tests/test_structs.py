@@ -39,6 +39,20 @@ class StructTests(unittest.TestCase):
         self.assertEqual(marker, marker)
         self.assertIsInstance(hash(marker), int)
 
+    def test_reference_only_marker_compares_by_value(self) -> None:
+        # ReferenceOnlyTypes.Marker is a Swift `Hashable` reference type with no
+        # members. Two factory calls return distinct handles to equal Swift values,
+        # so they must compare equal by value (matching Swift and the C#/Dart/Kotlin
+        # targets) — not by Python object identity. A member-less Equatable reference
+        # type whose __eq__/__hash__ wiring is skipped would fail here.
+        first = self.testapi.ReferenceOnlyTypes.marker()
+        second = self.testapi.ReferenceOnlyTypes.marker()
+
+        self.assertIsNot(first, second)
+        self.assertEqual(first, second)
+        self.assertEqual(hash(first), hash(second))
+        self.assertNotEqual(first, object())
+
     def test_hashable_value_structs_are_hashable_in_python(self) -> None:
         first = self.testapi.Structs_MemberwiseStruct("Eternal", "Fickle")
         second = self.testapi.Structs_MemberwiseStruct("Eternal", "Fickle")

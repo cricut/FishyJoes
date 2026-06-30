@@ -74,6 +74,21 @@ class TypingMetadataTests(unittest.TestCase):
         self.assertIn("class SimpleEnum", enum_stub)
         self.assertIn("green", enum_stub)
 
+    def test_stub_all_lists_are_concrete(self) -> None:
+        # The stubs must declare a concrete __all__ list (not a bare `__all__: list[str]`)
+        # so type checkers resolve `from <package> import *` to exactly the public names
+        # and the public API is documented. The list mirrors the runtime's computed __all__.
+        exports_stub = (PACKAGE_DIR / "_exports.pyi").read_text()
+        self.assertNotIn("__all__: list[str]", exports_stub)
+        self.assertRegex(exports_stub, r'__all__ = \[".+"\]')
+        self.assertIn('"Strings"', exports_stub.split("__all__", 1)[1])
+
+        init_stub = (PACKAGE_DIR / "__init__.pyi").read_text()
+        self.assertNotIn("__all__: list[str]", init_stub)
+        init_all = init_stub.split("__all__", 1)[1]
+        for name in ('"SUPPORTED"', '"ResultSuccess"', '"SwiftRange"', '"diagnostics"', '"Strings"'):
+            self.assertIn(name, init_all)
+
     def test_built_wheel_includes_typing_metadata(self) -> None:
         if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
             self.skipTest("wheel metadata is verified in installed-wheel CI runs")
