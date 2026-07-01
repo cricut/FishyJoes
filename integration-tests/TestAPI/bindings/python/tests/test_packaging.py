@@ -295,6 +295,9 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('"platform_tag":', wheel_metadata)
         assert_honest_macos_wheel_tag(self, wheels[0], wheel, wheel_metadata)
         self.assertTrue(list(DIST_DIR.glob("native-repair-report-*.txt")))
+        build_script = (GENERATED_PACKAGE / "_build_wheel.py").read_text(encoding="utf-8")
+        self.assertIn("swift_runtime_library_paths=", build_script)
+        self.assertIn('command += ["--exclude", library]', build_script)
 
         with tempfile.TemporaryDirectory() as target:
             install = subprocess.run(

@@ -161,6 +161,12 @@ class PythonPhases: IotaPhases, Phases {
         return result
     }
 
+    static func removeExistingPythonDistDirectory(at path: String = "bindings/python/dist") throws {
+        if FileManager.default.fileExists(atPath: path) {
+            try FileManager.default.removeItem(atPath: path)
+        }
+    }
+
     private func pythonTestEnvironment(adding environment: [String: String] = [:]) throws -> [String: String] {
         #if os(Linux)
         let targetInfo = try cmd("swift", "-print-target-info").runString()
@@ -633,6 +639,7 @@ class PythonPhases: IotaPhases, Phases {
 
     func packPhase() throws {
         try validatePublishablePythonDependencies()
+        try Self.removeExistingPythonDistDirectory()
         try withDirectory("bindings/python") {
             try installPythonDevDependencies()
             try installPythonRuntimePackage()

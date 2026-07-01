@@ -272,14 +272,43 @@ def build_wheel(outdir: Path, version_override: str | None = None) -> Path:
     return wheel_path
 
 
-def run_command(command: list[str]) -> subprocess.CompletedProcess[str]:
+def run_command(command: list[str], env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         command,
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
+        env=env,
         check=False,
     )
+
+
+def swift_runtime_library_paths() -> list[str]:
+    if platform.system() != "Linux":
+        return []
+    swift = shutil.which("swift")
+    if swift is None:
+        return []
+    result = run_command([swift, "-print-target-info"])
+    if result.returncode != 0:
+        return []
+    try:
+        target_info = json.loads(result.stdout)
+        paths = target_info["paths"]["runtimeLibraryPaths"]
+    except (KeyError, TypeError, json.JSONDecodeError):
+        return []
+    return [path for path in paths if path]
+
+
+def environment_with_library_paths(library_paths: list[str]) -> dict[str, str]:
+    environment = os.environ.copy()
+    existing_paths = [environment["LD_LIBRARY_PATH"]] if environment.get("LD_LIBRARY_PATH") else []
+    paths = existing_paths + library_paths
+    if paths:
+        environment["LD_LIBRARY_PATH"] = ":".join(paths)
+        auditwheel_paths = [environment["AUDITWHEEL_LD_LIBRARY_PATH"]] if environment.get("AUDITWHEEL_LD_LIBRARY_PATH") else []
+        environment["AUDITWHEEL_LD_LIBRARY_PATH"] = ":".join(auditwheel_paths + library_paths)
+    return environment
 
 
 def tool_path(name: str) -> str | None:
@@ -340,10 +369,17 @@ def repair_wheel(wheel_path: Path) -> Path:
         auditwheel = tool_path("auditwheel")
         if auditwheel is None:
             raise RuntimeError("auditwheel is required to validate Linux Python binding wheels")
-        show = run_command([auditwheel, "show", str(wheel_path)])
+        swift_library_paths = swift_runtime_library_paths()
+        report_lines.append(f"swift_runtime_library_paths={json.dumps(swift_library_paths)}")
+        auditwheel_environment = environment_with_library_paths(swift_library_paths)
+        show = run_command([auditwheel, "show", str(wheel_path)], env=auditwheel_environment)
         report_lines.append(show.stdout.rstrip())
         with tempfile.TemporaryDirectory() as temp:
-            repair = run_command([auditwheel, "repair", "-w", temp, str(wheel_path)])
+            command = [auditwheel, "repair", "-w", temp]
+            for library in sorted(dependency_native_library_filenames()):
+                command += ["--exclude", library]
+            command.append(str(wheel_path))
+            repair = run_command(command, env=auditwheel_environment)
             report_lines.append(repair.stdout.rstrip())
             if repair.returncode == 0:
                 repaired = replace_with_repaired_wheel(wheel_path, Path(temp))
