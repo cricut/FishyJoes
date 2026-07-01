@@ -17,7 +17,6 @@ struct InstallSystemDependencies: ParsableCommand {
         case swiftly
         case swiftWasm = "swift-wasm"
         case swiftAndroid = "swift-android"
-        case generationBuildDependencies = "generation-build-dependencies"
         case yq
         case mint
         case wasmOpt = "wasm-opt"
@@ -41,12 +40,11 @@ struct InstallSystemDependencies: ParsableCommand {
             case .swiftly: return [.swiftly]
             case .swiftWasm: return [.swiftWasm]
             case .swiftAndroid: return [.swiftAndroid]
-            case .generationBuildDependencies: return [.generationBuildDependencies]
             case .yq: return [.yq]
             case .mint: return [.mint]
             case .wasmOpt: return [.wasmOpt]
             case .androidNDK: return [.androidNDK]
-            case .forGeneration: return [.generationBuildDependencies, .yq, .mint]
+            case .forGeneration: return [.yq, .mint]
             case .forWasm: return [.swiftly, .swiftWasm, .wasmOpt]
             case .forAndroid: return [.swiftly, .swiftAndroid, .androidNDK]
             case .all: return Set(CoreComponent.allCases)
@@ -56,9 +54,7 @@ struct InstallSystemDependencies: ParsableCommand {
 
     enum CoreComponent: String, Comparable, CaseIterable {
         // Ordered by install order (if it matters)
-        case androidNDK, swiftly, swiftWasm, swiftAndroid
-        case generationBuildDependencies = "generation-build-dependencies"
-        case yq, mint, wasmOpt
+        case androidNDK, swiftly, swiftWasm, swiftAndroid, yq, mint, wasmOpt
 
         static func < (lhs: Self, rhs: Self) -> Bool {
             // Not the most efficient, but fine for this use case
@@ -74,14 +70,13 @@ struct InstallSystemDependencies: ParsableCommand {
              - swiftly
              - swift-wasm
              - swift-android
-             - generation-build-dependencies
              - yq
              - mint
              - wasm-opt
              - android-ndk
 
             Component bundles:
-             - for-generation: [generation-build-dependencies, yq, mint]
+             - for-generation: [yq, mint]
              - for-wasm: [swiftly, swift-wasm, wasm-opt]
              - for-android: [swiftly, swift-android, android-ndk]
              - all
@@ -168,12 +163,6 @@ struct InstallSystemDependencies: ParsableCommand {
             )
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
-        case .generationBuildDependencies:
-            #if os(Linux)
-            return linuxGenerationBuildDependencyPackages().isEmpty
-            #else
-            return true
-            #endif
         case .yq:
             return checkIfMikeFarahYQInstalled()
         case .mint:
@@ -309,13 +298,6 @@ struct InstallSystemDependencies: ParsableCommand {
                 Log.warn("Install ndk and make sure ANDROID_SDK_ROOT and/or ANDROID_NDK_HOME is set.")
             }
 
-        case .generationBuildDependencies:
-            #if os(Linux)
-            try installLinuxGenerationBuildDependencies()
-            #else
-            Log.info("No generation build dependencies required on this platform")
-            #endif
-
         case .yq:
             #if os(macOS)
             try cmd("brew", "install", "yq").run()
@@ -337,9 +319,10 @@ struct InstallSystemDependencies: ParsableCommand {
             defer { try? cmd("rm", "-rf", tempDir).run() }
             try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
             try cmd("swift", "build", "--package-path=\(tempDir)/mint", "--configuration", "release", "--product", "mint").run()
-            try cmd("install", "-m", "0755", "\(tempDir)/mint/.build/release/mint", "/usr/local/bin/mint").run()
-            guard cmd("mint", "--version").runBool() else {
-                Log.error("Installed mint but it is not available on PATH")
+            let mintPath = "\(tempDir)/mint/.build/release/mint"
+            let installedMintPath = try installUserExecutable(mintPath, named: "mint")
+            guard cmd(installedMintPath, "--version").runBool() else {
+                Log.error("Installed mint to \(installedMintPath), but it did not run successfully")
                 throw InstallSystemDependencies.Error()
             }
 
@@ -363,35 +346,8 @@ struct InstallSystemDependencies: ParsableCommand {
         }
     }
 
-    func linuxGenerationBuildDependencyPackages() -> [String] {
-        var packages = [String]()
-        if !cmd("test", "-f", "/usr/include/sqlite3.h").runBool() {
-            packages.append("libsqlite3-dev")
-        }
-        if (try? cmd("ldconfig", "-p").runString().contains("libncurses.so")) != true {
-            packages.append("libncurses-dev")
-        }
-        return packages
-    }
-
-    func installLinuxGenerationBuildDependencies() throws {
-        let packages = linuxGenerationBuildDependencyPackages()
-        guard !packages.isEmpty else {
-            return
-        }
-        guard cmd("apt-get", "--version").runBool() else {
-            Log.error("Mint generation dependencies require \(packages.joined(separator: ", ")), but apt-get is unavailable")
-            throw InstallSystemDependencies.Error()
-        }
-        try cmd("apt-get", "update").run()
-        try cmd("apt-get", arguments: ["install", "-y"] + packages).run()
-    }
-
     func checkIfMikeFarahYQInstalled() -> Bool {
-        guard let version = try? cmd("yq", "--version").runString() else {
-            return false
-        }
-        return version.contains("github.com/mikefarah/yq") && version.contains(" version v4.")
+        checkIfMikeFarahYQInstalled(at: "yq")
     }
 
     func installMikeFarahYQOnLinux() throws {
@@ -433,10 +389,62 @@ struct InstallSystemDependencies: ParsableCommand {
             throw InstallSystemDependencies.Error()
         }
 
-        try cmd("install", "-m", "0755", binaryPath, "/usr/local/bin/yq").run()
-        guard checkIfMikeFarahYQInstalled() else {
-            Log.error("Installed yq did not report a Mike Farah yq v4 version")
+        let installedYQPath = try installUserExecutable(binaryPath, named: "yq")
+        guard checkIfMikeFarahYQInstalled(at: installedYQPath) else {
+            Log.error("Installed yq to \(installedYQPath), but it did not report a Mike Farah yq v4 version")
             throw InstallSystemDependencies.Error()
+        }
+    }
+
+    func installUserExecutable(_ sourcePath: String, named executableName: String) throws -> String {
+        let installDirectory = userExecutableDirectory()
+        try FileManager.default.createDirectory(
+            at: URL(fileURLWithPath: installDirectory),
+            withIntermediateDirectories: true
+        )
+        let destinationPath = "\(installDirectory)/\(executableName)"
+        try cmd("install", "-m", "0755", sourcePath, destinationPath).run()
+        try exposeUserExecutableDirectory(installDirectory)
+        return destinationPath
+    }
+
+    func userExecutableDirectory() -> String {
+        Self.userExecutableDirectory(environment: ProcessInfo.processInfo.environment)
+    }
+
+    static func userExecutableDirectory(environment: [String: String]) -> String {
+        if let configuredPath = environment["FISHYJOES_INSTALL_BIN_DIR"],
+           !configuredPath.isEmpty {
+            return (configuredPath as NSString).expandingTildeInPath
+        }
+        return ("~/.local/bin" as NSString).expandingTildeInPath
+    }
+
+    func checkIfMikeFarahYQInstalled(at executablePath: String) -> Bool {
+        guard let version = try? cmd(executablePath, "--version").runString() else {
+            return false
+        }
+        return version.contains("github.com/mikefarah/yq") && version.contains(" version v4.")
+    }
+
+    func exposeUserExecutableDirectory(_ directory: String) throws {
+        if let githubPath = ProcessInfo.processInfo.environment["GITHUB_PATH"] {
+            let data = Data("\(directory)\n".utf8)
+            let url = URL(fileURLWithPath: githubPath)
+            if let handle = FileHandle(forWritingAtPath: githubPath) {
+                defer { try? handle.close() }
+                try handle.seekToEnd()
+                try handle.write(contentsOf: data)
+            } else {
+                try data.write(to: url)
+            }
+        }
+
+        let pathEntries = ProcessInfo.processInfo.environment["PATH"]?
+            .split(separator: ":")
+            .map(String.init) ?? []
+        if !pathEntries.contains(directory) {
+            Log.warn("\(directory) is not in PATH; add it before running installed tools in this shell")
         }
     }
 

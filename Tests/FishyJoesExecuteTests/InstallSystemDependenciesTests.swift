@@ -2,17 +2,26 @@
 import XCTest
 
 final class InstallSystemDependenciesTests: XCTestCase {
-    func testForGenerationInstallsLinuxBuildDependenciesIndependentlyFromMint() {
+    func testForGenerationInstallsGenerationToolsOnly() {
         XCTAssertEqual(
             InstallSystemDependencies.Component.forGeneration.coreComponents,
-            [.generationBuildDependencies, .yq, .mint]
+            [.yq, .mint]
         )
     }
 
-    func testGenerationBuildDependenciesCanBeRequestedDirectly() {
+    func testDefaultUserExecutableDirectoryUsesLocalBin() {
         XCTAssertEqual(
-            InstallSystemDependencies.Component.generationBuildDependencies.coreComponents,
-            [.generationBuildDependencies]
+            InstallSystemDependencies.userExecutableDirectory(environment: [:]),
+            ("~/.local/bin" as NSString).expandingTildeInPath
+        )
+    }
+
+    func testUserExecutableDirectoryCanBeConfigured() {
+        XCTAssertEqual(
+            InstallSystemDependencies.userExecutableDirectory(
+                environment: ["FISHYJOES_INSTALL_BIN_DIR": "~/tools/fishyjoes"]
+            ),
+            ("~/tools/fishyjoes" as NSString).expandingTildeInPath
         )
     }
 

@@ -173,6 +173,8 @@ jobs:
         shell: zsh {0}
         run: |
           set -euxo pipefail
+          apt-get update
+          apt-get install -y libncurses-dev libsqlite3-dev
           swift run fishy-joes install-system-dependencies for-generation
 
       - name: Pre-build hook
