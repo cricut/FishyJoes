@@ -28,6 +28,18 @@ def load_runtime_wheel_builder():
     return module
 
 
+def load_generated_wheel_builder():
+    spec = importlib.util.spec_from_file_location(
+        "testapi_build_wheel",
+        GENERATED_PACKAGE / "_build_wheel.py",
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def native_library_name(name: str) -> str:
     if sys.platform == "darwin":
         return f"lib{name}.dylib"
@@ -146,6 +158,43 @@ class PackagingTests(unittest.TestCase):
 
         self.assertEqual(dependencies, [swift_core])
 
+    def test_generated_linux_native_libraries_get_shared_runtime_rpath(self) -> None:
+        builder = load_generated_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / "libTestAPI-iota.so"
+            native.write_bytes(b"linux-native")
+            commands: list[list[str]] = []
+
+            original_system = builder.platform.system
+            original_which = builder.shutil.which
+            original_run = builder.subprocess.run
+            builder.platform.system = lambda: "Linux"
+            builder.shutil.which = (
+                lambda name: "/usr/bin/patchelf" if name == "patchelf" else original_which(name)
+            )
+
+            def fake_run(command, **kwargs):
+                commands.append(command)
+                return subprocess.CompletedProcess(command, 0)
+
+            builder.subprocess.run = fake_run
+            try:
+                patched = builder.patched_native_file_bytes(native)
+            finally:
+                builder.platform.system = original_system
+                builder.shutil.which = original_which
+                builder.subprocess.run = original_run
+
+        self.assertEqual(patched, b"linux-native")
+        self.assertEqual(len(commands), 1)
+        self.assertEqual(
+            commands[0][:3],
+            ["/usr/bin/patchelf", "--set-rpath", "$ORIGIN/../../fishyjoes_runtime/native"],
+        )
+        self.assertEqual(Path(commands[0][3]).name, "libTestAPI-iota.so")
+
     def test_generated_python_workflow_declares_release_compatibility_matrix(self) -> None:
         workflow = TEST_API_ROOT / ".github" / "workflows" / "GENERATED-python.yaml"
         self.assertTrue(workflow.is_file(), f"missing generated Python workflow at {workflow}")
@@ -194,8 +243,9 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("runs-on: windows-2025", contents)
         self.assertIn("cd integration-tests/TestAPI", contents)
         self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)
-        self.assertIn("install-system-dependencies for-generation", contents)
-        self.assertIn("swift run -- fishy-joes --python generate build test pack", contents)
+        self.assertIn("mint --version || brew install mint", contents)
+        self.assertNotIn("install-system-dependencies for-generation", contents)
+        self.assertIn("swift run -- fishy-joes --python build test pack", contents)
         self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack', contents)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
         self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)

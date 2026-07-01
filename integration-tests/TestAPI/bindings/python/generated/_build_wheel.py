@@ -148,6 +148,12 @@ def shared_runtime_library_reference() -> str | None:
     return None
 
 
+def shared_runtime_linux_rpath() -> str | None:
+    if platform.system() == "Linux":
+        return "$ORIGIN/../../fishyjoes_runtime/native"
+    return None
+
+
 def wheel_has_shared_runtime_reference(wheel_path: Path) -> bool:
     shared_runtime = shared_runtime_library_reference()
     if shared_runtime is None:
@@ -157,36 +163,51 @@ def wheel_has_shared_runtime_reference(wheel_path: Path) -> bool:
 
 
 def patched_native_file_bytes(source_path: Path) -> bytes:
+    system = platform.system()
     shared_runtime = shared_runtime_library_reference()
-    if shared_runtime is None or platform.system() != "Darwin" or source_path.suffix != ".dylib":
-        return source_path.read_bytes()
-    install_name_tool = shutil.which("install_name_tool")
-    if install_name_tool is None:
-        raise RuntimeError("install_name_tool is required to package macOS Python binding wheels")
-    codesign = shutil.which("codesign")
-    if codesign is None:
-        raise RuntimeError("codesign is required to package macOS Python binding wheels")
-    with tempfile.TemporaryDirectory() as temp:
-        patched = Path(temp) / source_path.name
-        shutil.copy2(source_path, patched)
-        patched.chmod(patched.stat().st_mode | 0o200)
-        for current_name in [
-            "@loader_path/libFishyJoesIotaRuntime.dylib",
-            "@rpath/libFishyJoesIotaRuntime.dylib",
-        ]:
+    linux_rpath = shared_runtime_linux_rpath()
+    if system == "Darwin" and source_path.suffix == ".dylib":
+        install_name_tool = shutil.which("install_name_tool")
+        if install_name_tool is None:
+            raise RuntimeError("install_name_tool is required to package macOS Python binding wheels")
+        codesign = shutil.which("codesign")
+        if codesign is None:
+            raise RuntimeError("codesign is required to package macOS Python binding wheels")
+        with tempfile.TemporaryDirectory() as temp:
+            patched = Path(temp) / source_path.name
+            shutil.copy2(source_path, patched)
+            patched.chmod(patched.stat().st_mode | 0o200)
+            for current_name in [
+                "@loader_path/libFishyJoesIotaRuntime.dylib",
+                "@rpath/libFishyJoesIotaRuntime.dylib",
+            ]:
+                subprocess.run(
+                    [install_name_tool, "-change", current_name, shared_runtime, str(patched)],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=False,
+                )
             subprocess.run(
-                [install_name_tool, "-change", current_name, shared_runtime, str(patched)],
+                [codesign, "--force", "--sign", "-", str(patched)],
                 stdout=subprocess.DEVNULL,
                 stderr=subprocess.DEVNULL,
-                check=False,
+                check=True,
             )
-        subprocess.run(
-            [codesign, "--force", "--sign", "-", str(patched)],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=True,
-        )
-        return patched.read_bytes()
+            return patched.read_bytes()
+    if system == "Linux" and source_path.suffix == ".so":
+        patchelf = shutil.which("patchelf")
+        if patchelf is None:
+            raise RuntimeError("patchelf is required to package Linux Python binding wheels")
+        with tempfile.TemporaryDirectory() as temp:
+            patched = Path(temp) / source_path.name
+            shutil.copy2(source_path, patched)
+            patched.chmod(patched.stat().st_mode | 0o200)
+            subprocess.run(
+                [patchelf, "--set-rpath", linux_rpath, str(patched)],
+                check=True,
+            )
+            return patched.read_bytes()
+    return source_path.read_bytes()
 
 
 def build_wheel(outdir: Path, version_override: str | None = None) -> Path:
