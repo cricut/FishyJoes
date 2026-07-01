@@ -150,7 +150,7 @@ def shared_runtime_library_reference() -> str | None:
 
 def shared_runtime_linux_rpath() -> str | None:
     if platform.system() == "Linux":
-        return "$ORIGIN/../../fishyjoes_runtime/native"
+        return "$ORIGIN/../../fishyjoes_runtime/native:$ORIGIN/../../fishyjoes_runtime.libs"
     return None
 
 
