@@ -118,6 +118,64 @@ class PythonPhases: IotaPhases, Phases {
         ProcessInfo.processInfo.environment["FISHYJOES_PYTHON"] ?? "python3"
     }
 
+    private func installedPythonRuntimeNativeLibraryPath() throws -> String {
+        try cmd(
+            pythonVirtualEnvironmentPython(),
+            "-c",
+            """
+            import pathlib
+            import fishyjoes_runtime
+            print(pathlib.Path(fishyjoes_runtime.__file__).resolve().parent / "native")
+            """
+        ).runString().trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    static func swiftRuntimeLibraryPaths(fromTargetInfo targetInfo: String) throws -> [String] {
+        let object = try JSONSerialization.jsonObject(with: Data(targetInfo.utf8))
+        guard let root = object as? [String: Any],
+              let paths = root["paths"] as? [String: Any],
+              let runtimeLibraryPaths = paths["runtimeLibraryPaths"] as? [String]
+        else {
+            throw NSError(
+                domain: "FishyJoes.Python",
+                code: 1,
+                userInfo: [
+                    NSLocalizedDescriptionKey: "Could not parse Swift runtime library paths from swift -print-target-info"
+                ]
+            )
+        }
+        return runtimeLibraryPaths.filter { !$0.isEmpty }
+    }
+
+    static func environmentByAddingDynamicLibraryPaths(
+        _ libraryPaths: [String],
+        to environment: [String: String],
+        variable: String
+    ) -> [String: String] {
+        let newPaths = libraryPaths.filter { !$0.isEmpty }
+        guard !newPaths.isEmpty else { return environment }
+
+        var result = environment
+        let existingPaths = environment[variable].map { [$0] } ?? []
+        result[variable] = (existingPaths + newPaths).joined(separator: ":")
+        return result
+    }
+
+    private func pythonTestEnvironment(adding environment: [String: String] = [:]) throws -> [String: String] {
+        #if os(Linux)
+        let targetInfo = try cmd("swift", "-print-target-info").runString()
+        let libraryPaths = [try installedPythonRuntimeNativeLibraryPath()]
+            + (try Self.swiftRuntimeLibraryPaths(fromTargetInfo: targetInfo))
+        return try Self.environmentByAddingDynamicLibraryPaths(
+            libraryPaths,
+            to: environment,
+            variable: "LD_LIBRARY_PATH"
+        )
+        #else
+        return environment
+        #endif
+    }
+
     private func ensurePythonVirtualEnvironment() throws {
         let venvPython = pythonVirtualEnvironmentPython()
         if !FileManager.default.fileExists(atPath: venvPython) {
@@ -525,7 +583,9 @@ class PythonPhases: IotaPhases, Phases {
                 try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
                 let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
                 try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
-                let coverageEnv = ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
+                let coverageEnv = try pythonTestEnvironment(
+                    adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
+                )
                 try cmd(
                     pythonVirtualEnvironmentPython(),
                     "-m", "coverage", "erase",
@@ -552,7 +612,11 @@ class PythonPhases: IotaPhases, Phases {
                     addEnv: coverageEnv
                 ).run()
             } else {
-                try cmd(pythonVirtualEnvironmentPython(), arguments: testArguments).run()
+                try cmd(
+                    pythonVirtualEnvironmentPython(),
+                    arguments: testArguments,
+                    addEnv: try pythonTestEnvironment()
+                ).run()
             }
         }
     }
