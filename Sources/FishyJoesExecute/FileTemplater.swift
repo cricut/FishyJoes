@@ -144,7 +144,8 @@ public struct FileTemplater {
             "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(manglePythonSymbol(module))_registerTypes",
             "__PYTHON_NATIVE_DEPENDENCIES__": "[]",
             "__PYTHON_PACKAGE_VERSION__": "0.0.1",
-            "__PYTHON_RUNTIME_DEPENDENCIES__": "[]"
+            "__PYTHON_RUNTIME_DEPENDENCIES__": "[]",
+            "__PYTHON_RUNTIME_REQUIREMENT__": ">=0.0.1"
         ]
     }
 

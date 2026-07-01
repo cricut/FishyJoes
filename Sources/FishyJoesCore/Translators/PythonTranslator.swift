@@ -1758,7 +1758,6 @@ final class PythonTranslator: Translator {
         }
     }
 
-
     private func pythonDefaultValue(_ swiftValue: String, type: TranslatedType, context: FishyJoesContext) -> PythonDefaultValue? {
         guard let expression = SwiftDefaultExpression.parse(swiftValue) else {
             return nil
