@@ -168,6 +168,12 @@ jobs:
             }
             body += `[Download full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
 
+            const maxCommentLength = 65536;
+            if (body.length > maxCommentLength) {
+              const footer = `\n\n---\n\nCoverage comment truncated because GitHub comments are limited to ${maxCommentLength} characters. [Download full report]( ${process.env.COVERAGE_DOWNLOAD_URL} )\n`;
+              body = body.slice(0, maxCommentLength - footer.length) + footer;
+            }
+
             const { data: comments } = await github.rest.issues.listComments({
               issue_number: context.issue.number,
               owner:        context.repo.owner,
