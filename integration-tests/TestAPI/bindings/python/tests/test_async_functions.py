@@ -1,6 +1,7 @@
 import asyncio
 import importlib
 import os
+import platform
 import subprocess
 import sys
 import unittest
@@ -8,6 +9,7 @@ from pathlib import Path
 
 
 GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
+SUBPROCESS_TIMEOUT_SECONDS = 30 if platform.system() == "Windows" else 10
 if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
     sys.path.insert(0, str(GENERATED_SRC))
 
@@ -193,6 +195,7 @@ asyncio.run(main())
             stderr=subprocess.PIPE,
             text=True,
             check=False,
+            timeout=SUBPROCESS_TIMEOUT_SECONDS,
         )
 
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
@@ -229,6 +232,7 @@ asyncio.run(main())
             stderr=subprocess.PIPE,
             text=True,
             check=False,
+            timeout=SUBPROCESS_TIMEOUT_SECONDS,
         )
 
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)

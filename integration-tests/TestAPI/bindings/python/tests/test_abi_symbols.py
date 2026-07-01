@@ -1,4 +1,5 @@
 import importlib
+import shutil
 import platform
 import re
 import subprocess
@@ -19,6 +20,8 @@ if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
 def exported_symbols(library: Path) -> set[str]:
     if platform.system() == "Darwin":
         command = ["nm", "-gU", str(library)]
+    elif platform.system() == "Windows":
+        return exported_windows_symbols(library)
     else:
         command = ["nm", "-D", "--defined-only", str(library)]
     output = subprocess.check_output(command, text=True)
@@ -27,6 +30,47 @@ def exported_symbols(library: Path) -> set[str]:
         line.split()[-1].removeprefix("_") if strip_prefix else line.split()[-1]
         for line in output.splitlines()
         if line.split()
+    }
+
+
+def exported_windows_symbols(library: Path) -> set[str]:
+    dumpbin = shutil.which("dumpbin")
+    if dumpbin is not None:
+        return exported_windows_symbols_from_dumpbin(dumpbin, library)
+
+    llvm_readobj = shutil.which("llvm-readobj")
+    if llvm_readobj is not None:
+        return exported_windows_symbols_from_llvm_readobj(llvm_readobj, library)
+
+    raise unittest.SkipTest("No Windows PE export reader found; expected dumpbin or llvm-readobj")
+
+
+def exported_windows_symbols_from_dumpbin(dumpbin: str, library: Path) -> set[str]:
+    output = subprocess.check_output([dumpbin, "/EXPORTS", str(library)], text=True, errors="replace")
+    symbols: set[str] = set()
+    in_exports = False
+    for line in output.splitlines():
+        if "ordinal" in line and "hint" in line and "RVA" in line and "name" in line:
+            in_exports = True
+            continue
+        if not in_exports:
+            continue
+        fields = line.split()
+        if len(fields) >= 4 and fields[0].isdigit():
+            symbols.add(fields[3])
+    return symbols
+
+
+def exported_windows_symbols_from_llvm_readobj(llvm_readobj: str, library: Path) -> set[str]:
+    output = subprocess.check_output(
+        [llvm_readobj, "--coff-exports", str(library)],
+        text=True,
+        errors="replace",
+    )
+    return {
+        line.split(":", 1)[1].strip()
+        for line in output.splitlines()
+        if line.strip().startswith("Name:")
     }
 
 

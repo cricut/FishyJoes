@@ -2299,6 +2299,8 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     def call(function, args=None, arg_conversions=None, return_conversion=None):
         args = args or []
         arg_conversions = arg_conversions or []
+        if _is_shutdown and isinstance(return_conversion, Future):
+            raise RuntimeError("FishyJoes runtime has been shut down")
         converted_args = []
         owned_args = []
         conversions = list(arg_conversions) + [None] * (len(args) - len(arg_conversions))
