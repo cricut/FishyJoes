@@ -142,18 +142,19 @@ public struct Env {
     }
 
     private static var nextUniqueID: TypeID = 0
-    private static func newUniqueID() -> Int {
-        withLock {
-            defer { nextUniqueID += 1 }
-            return nextUniqueID
-        }
+    private static func newUniqueIDLocked() -> Int {
+        defer { nextUniqueID += 1 }
+        return nextUniqueID
     }
 
     public static func registerType<T>(_ type: T.Type, as name: String) {
-        let typeID = newUniqueID()
         withLock {
             let objectID = ObjectIdentifier(type)
-            guard _typeIDsByObject[objectID] == nil else { return }
+            if let existingTypeID = _typeIDsByObject[objectID] {
+                _typeIDsByName[name] = existingTypeID
+                return
+            }
+            let typeID = newUniqueIDLocked()
             _typeIDsByObject[objectID] = typeID
             _objectIDsByID[typeID] = objectID
             _typeIDsByName[name] = typeID

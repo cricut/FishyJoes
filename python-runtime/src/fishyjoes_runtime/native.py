@@ -129,9 +129,15 @@ def configure_windows_dll_search_paths(native_dir_candidates: Sequence[Path]) ->
             _DLL_DIRECTORY_HANDLES.append(handle)
 
 
+def library_load_flags(ffi) -> int:
+    if platform.system() == "Linux":
+        return ffi.RTLD_NOW | ffi.RTLD_GLOBAL
+    return 0
+
+
 def load_library(ffi, library: NativeLibrary):
     try:
-        return ffi.dlopen(str(library.path))
+        return ffi.dlopen(str(library.path), library_load_flags(ffi))
     except OSError as error:
         platform_tag = sysconfig.get_platform().replace("-", "_").replace(".", "_")
         raise RuntimeError(

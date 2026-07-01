@@ -166,9 +166,13 @@ class PythonPhases: IotaPhases, Phases {
         let targetInfo = try cmd("swift", "-print-target-info").runString()
         let libraryPaths = [try installedPythonRuntimeNativeLibraryPath()]
             + (try Self.swiftRuntimeLibraryPaths(fromTargetInfo: targetInfo))
-        return try Self.environmentByAddingDynamicLibraryPaths(
+        var testEnvironment = environment
+        if testEnvironment["LD_LIBRARY_PATH"] == nil {
+            testEnvironment["LD_LIBRARY_PATH"] = ProcessInfo.processInfo.environment["LD_LIBRARY_PATH"]
+        }
+        return Self.environmentByAddingDynamicLibraryPaths(
             libraryPaths,
-            to: environment,
+            to: testEnvironment,
             variable: "LD_LIBRARY_PATH"
         )
         #else
@@ -304,17 +308,23 @@ class PythonPhases: IotaPhases, Phases {
         return runtimePackagePath
     }
 
-    private func installPythonRuntimePackage() throws {
+    private func installPythonRuntimePackage(repair: Bool = true) throws {
         let runtimePackagePath = try pythonRuntimePackagePath()
         let runtimeWheelDirectory = ".venv/fishyjoes-runtime-wheel"
         let runtimeLibraryPath = try builtRuntimeNativeLibraryPath()
         try cmd("rm", "-rf", runtimeWheelDirectory).run()
         try cmd("mkdir", "-p", runtimeWheelDirectory).run()
-        let runtimeWheelPath = try cmd(
-            pythonVirtualEnvironmentPython(),
+        var buildArgs = [
             "\(runtimePackagePath)/_build_wheel.py",
             "--outdir", runtimeWheelDirectory,
-            "--native-library", runtimeLibraryPath,
+            "--native-library", runtimeLibraryPath
+        ]
+        if !repair {
+            buildArgs.append("--no-repair")
+        }
+        let runtimeWheelPath = try cmd(
+            pythonVirtualEnvironmentPython(),
+            arguments: buildArgs,
             addEnv: [
                 "PIP_DISABLE_PIP_VERSION_CHECK": "1",
                 "PIP_NO_CACHE_DIR": "1",
@@ -576,7 +586,7 @@ class PythonPhases: IotaPhases, Phases {
     func testPhase() throws {
         try withDirectory("bindings/python") {
             try installPythonDevDependencies()
-            try installPythonRuntimePackage()
+            try installPythonRuntimePackage(repair: false)
             try installGeneratedPythonPackage()
             let testArguments = ["-m", "unittest", "discover", "-s", "tests", "-v"]
             if let codeCoveragePath = options.codeCoveragePath {

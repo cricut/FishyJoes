@@ -22,8 +22,9 @@ def exported_symbols(library: Path) -> set[str]:
     else:
         command = ["nm", "-D", "--defined-only", str(library)]
     output = subprocess.check_output(command, text=True)
+    strip_prefix = platform.system() == "Darwin"
     return {
-        line.split()[-1].removeprefix("_")
+        line.split()[-1].removeprefix("_") if strip_prefix else line.split()[-1]
         for line in output.splitlines()
         if line.split()
     }

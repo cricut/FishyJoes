@@ -290,6 +290,13 @@ let package = Package(
                 resources: [.copy("Resources")],
                 swiftSettings: strictConcurrencyFlags
             ),
+            T.testTarget(
+                name: "FishyJoesIotaRuntimeTests",
+                dependencies: [
+                    .target(name: "FishyJoesIotaRuntime"),
+                ],
+                swiftSettings: strictConcurrencyFlags
+            ),
             T.executableTarget(
                 name: "FishyJoesExecuteMain",
                 dependencies: ["FishyJoesExecute"],

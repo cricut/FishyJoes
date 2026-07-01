@@ -19,6 +19,18 @@ class NativeLibraryResolutionTests(unittest.TestCase):
     def _lib_filename(self) -> str:
         return native.library_name("Demo")
 
+    def test_linux_native_libraries_load_with_global_symbol_visibility(self) -> None:
+        class FakeFFI:
+            RTLD_NOW = 2
+            RTLD_GLOBAL = 256
+
+        original_system = native.platform.system
+        native.platform.system = lambda: "Linux"
+        try:
+            self.assertEqual(native.library_load_flags(FakeFFI), FakeFFI.RTLD_NOW | FakeFFI.RTLD_GLOBAL)
+        finally:
+            native.platform.system = original_system
+
     def test_single_populated_root_resolves(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / "native"

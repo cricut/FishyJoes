@@ -194,7 +194,7 @@ class PackagingTests(unittest.TestCase):
             [
                 "/usr/bin/patchelf",
                 "--set-rpath",
-                "$ORIGIN/../../fishyjoes_runtime/native:$ORIGIN/../../fishyjoes_runtime.libs",
+                "$ORIGIN:$ORIGIN/../../fishyjoes_runtime/native:$ORIGIN/../../fishyjoes_runtime.libs",
             ],
         )
         self.assertEqual(Path(commands[0][3]).name, "libTestAPI-iota.so")
