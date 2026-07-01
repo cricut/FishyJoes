@@ -2,6 +2,20 @@
 import XCTest
 
 final class InstallSystemDependenciesTests: XCTestCase {
+    func testForGenerationInstallsLinuxBuildDependenciesIndependentlyFromMint() {
+        XCTAssertEqual(
+            InstallSystemDependencies.Component.forGeneration.coreComponents,
+            [.generationBuildDependencies, .yq, .mint]
+        )
+    }
+
+    func testGenerationBuildDependenciesCanBeRequestedDirectly() {
+        XCTAssertEqual(
+            InstallSystemDependencies.Component.generationBuildDependencies.coreComponents,
+            [.generationBuildDependencies]
+        )
+    }
+
     func testMikeFarahYQChecksumParserAcceptsGNUFormat() {
         let checksum = String(repeating: "a", count: 64)
         let checksums = """

@@ -17,6 +17,7 @@ struct InstallSystemDependencies: ParsableCommand {
         case swiftly
         case swiftWasm = "swift-wasm"
         case swiftAndroid = "swift-android"
+        case generationBuildDependencies = "generation-build-dependencies"
         case yq
         case mint
         case wasmOpt = "wasm-opt"
@@ -40,11 +41,12 @@ struct InstallSystemDependencies: ParsableCommand {
             case .swiftly: return [.swiftly]
             case .swiftWasm: return [.swiftWasm]
             case .swiftAndroid: return [.swiftAndroid]
+            case .generationBuildDependencies: return [.generationBuildDependencies]
             case .yq: return [.yq]
             case .mint: return [.mint]
             case .wasmOpt: return [.wasmOpt]
             case .androidNDK: return [.androidNDK]
-            case .forGeneration: return [.yq, .mint]
+            case .forGeneration: return [.generationBuildDependencies, .yq, .mint]
             case .forWasm: return [.swiftly, .swiftWasm, .wasmOpt]
             case .forAndroid: return [.swiftly, .swiftAndroid, .androidNDK]
             case .all: return Set(CoreComponent.allCases)
@@ -54,7 +56,9 @@ struct InstallSystemDependencies: ParsableCommand {
 
     enum CoreComponent: String, Comparable, CaseIterable {
         // Ordered by install order (if it matters)
-        case androidNDK, swiftly, swiftWasm, swiftAndroid, yq, mint, wasmOpt
+        case androidNDK, swiftly, swiftWasm, swiftAndroid
+        case generationBuildDependencies = "generation-build-dependencies"
+        case yq, mint, wasmOpt
 
         static func < (lhs: Self, rhs: Self) -> Bool {
             // Not the most efficient, but fine for this use case
@@ -70,13 +74,14 @@ struct InstallSystemDependencies: ParsableCommand {
              - swiftly
              - swift-wasm
              - swift-android
+             - generation-build-dependencies
              - yq
              - mint
              - wasm-opt
              - android-ndk
 
             Component bundles:
-             - for-generation: [yq, mint]
+             - for-generation: [generation-build-dependencies, yq, mint]
              - for-wasm: [swiftly, swift-wasm, wasm-opt]
              - for-android: [swiftly, swift-android, android-ndk]
              - all
@@ -163,6 +168,12 @@ struct InstallSystemDependencies: ParsableCommand {
             )
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
+        case .generationBuildDependencies:
+            #if os(Linux)
+            return linuxGenerationBuildDependencyPackages().isEmpty
+            #else
+            return true
+            #endif
         case .yq:
             return checkIfMikeFarahYQInstalled()
         case .mint:
@@ -298,6 +309,13 @@ struct InstallSystemDependencies: ParsableCommand {
                 Log.warn("Install ndk and make sure ANDROID_SDK_ROOT and/or ANDROID_NDK_HOME is set.")
             }
 
+        case .generationBuildDependencies:
+            #if os(Linux)
+            try installLinuxGenerationBuildDependencies()
+            #else
+            Log.info("No generation build dependencies required on this platform")
+            #endif
+
         case .yq:
             #if os(macOS)
             try cmd("brew", "install", "yq").run()
@@ -317,7 +335,6 @@ struct InstallSystemDependencies: ParsableCommand {
             #elseif os(Linux)
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
-            try installMintBuildDependenciesOnLinux()
             try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
             try cmd("swift", "build", "--package-path=\(tempDir)/mint", "--configuration", "release", "--product", "mint").run()
             try cmd("install", "-m", "0755", "\(tempDir)/mint/.build/release/mint", "/usr/local/bin/mint").run()
@@ -346,7 +363,7 @@ struct InstallSystemDependencies: ParsableCommand {
         }
     }
 
-    func installMintBuildDependenciesOnLinux() throws {
+    func linuxGenerationBuildDependencyPackages() -> [String] {
         var packages = [String]()
         if !cmd("test", "-f", "/usr/include/sqlite3.h").runBool() {
             packages.append("libsqlite3-dev")
@@ -354,6 +371,11 @@ struct InstallSystemDependencies: ParsableCommand {
         if (try? cmd("ldconfig", "-p").runString().contains("libncurses.so")) != true {
             packages.append("libncurses-dev")
         }
+        return packages
+    }
+
+    func installLinuxGenerationBuildDependencies() throws {
+        let packages = linuxGenerationBuildDependencyPackages()
         guard !packages.isEmpty else {
             return
         }
