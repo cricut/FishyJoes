@@ -65,6 +65,14 @@ def normalized_architecture(value: str) -> str:
 
 
 def version_satisfies(version: str, requirement: str, label: str) -> bool:
+    """Check a version against a PEP 440 specifier set at import time.
+
+    Deliberately reuses packaging's package-time specifier syntax: generated
+    packages record their runtime/dependency compatibility as ordinary
+    requirement strings (for example ``>=1.2,<2.0``), and the runtime evaluates
+    them when the binding is imported so incompatibility fails before any FFI
+    call, with the same semantics pip would apply at install time.
+    """
     try:
         parsed_version = Version(version)
     except InvalidVersion as error:
