@@ -519,9 +519,11 @@ extension String: IotaConverter {
 
     public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
         if utf8Constructor.isInitialized(env) {
-            let bytes = Array(value.utf8CString)
+            let bytes = Array(value.utf8)
             return try bytes.withUnsafeBufferPointer { buffer in
-                try env.check { exn in utf8Constructor[env](buffer.baseAddress!, bytes.count - 1, exn) }
+                try buffer.withMemoryRebound(to: CChar.self) { cBuffer in
+                    try env.check { exn in utf8Constructor[env](cBuffer.baseAddress!, bytes.count, exn) }
+                }
             }
         }
 
