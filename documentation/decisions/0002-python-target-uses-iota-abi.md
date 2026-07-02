@@ -19,19 +19,15 @@ separate Swift ABI surface for every exported method.
 
 ## Options Considered
 
-- Reuse Iota.
+- Reuse Iota: Python drives the existing Iota C ABI from the host side.
   This keeps Python aligned with C# and Dart, preserves the shared Swift runtime
   model, and focuses Python work on host-language runtime and generator quality.
-- Copy Kotlin's JNI architecture.
-  This would provide a known language target to imitate, but it would make
-  Python a second non-Iota implementation and duplicate the FFI surface that
-  Iota exists to centralize.
-- Create Python-specific Swift `@_cdecl` exports.
-  This could optimize individual Python cases, but it would fork the ABI and
-  make every exported Swift feature an additional N-language maintenance burden.
-- Build a brand-new shared ABI.
-  This may be attractive long term, but it is larger than adding Python and
-  would risk destabilizing existing C# and Dart users.
+- Drive Python's host-runtime API from Swift, the way Kotlin uses JNI and Node
+  uses NAPI: a compiled CPython extension whose Swift side calls the CPython C
+  API. This is a known FishyJoes shape, but it makes Python another
+  host-runtime implementation to maintain, ties the native artifact to CPython
+  ABI/version/implementation choices, and duplicates the FFI surface that Iota
+  exists to centralize.
 
 ## Decision
 
