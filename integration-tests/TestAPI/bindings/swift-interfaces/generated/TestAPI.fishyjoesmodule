@@ -15038,7 +15038,7 @@
             "methods" : [
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(marker) -->"
+                  "<!-- FishyJoes.export(marker, cSharp: MakeMarker) -->"
                 ],
                 "hasDefaultImplementation" : false,
                 "isAsync" : false,
