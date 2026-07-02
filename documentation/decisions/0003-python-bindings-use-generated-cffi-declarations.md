@@ -22,8 +22,11 @@ generated Swift symbols.
   This avoids a third-party dependency, but callback signatures and structured
   declarations are harder to manage safely at the scale of generated bindings.
 - Use a compiled C extension for the whole binding layer.
-  This can be faster and can hide some pointer details, but it creates a larger
-  native code surface and makes packaging/debugging more expensive.
+  This can be faster and can hide some pointer details, but its most significant
+  drawback is that it ties the binary artifact to a particular CPython ABI and
+  version (and to CPython itself, versus alternative implementations) unless it
+  is carefully limited to the stable ABI. It also creates a larger native code
+  surface and makes packaging/debugging more expensive.
 - Use a generic dynamic invocation helper.
   This reduces generated wrapper code, but it moves symbol mistakes to runtime,
   loses per-function type clarity, and makes code review less effective.
