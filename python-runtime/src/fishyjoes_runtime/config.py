@@ -12,7 +12,11 @@ from packaging.version import InvalidVersion, Version
 
 
 FISHYJOES_RUNTIME_VERSION = "0.0.1"
-IOTA_ABI_VERSION = "1"
+# Internal Iota declaration-schema number, reported by diagnostics() for
+# debugging. It is not a package compatibility axis: the Iota ABI is a function
+# of the FishyJoes runtime version, and the runtime version requirement is the
+# compatibility gate.
+_IOTA_ABI_VERSION = "1"
 WHEEL_METADATA_NAME = "__fishyjoes_wheel.json"
 
 
@@ -23,7 +27,6 @@ class RuntimeDependency:
     import_name: str
     distribution_name: str
     version_requirement: str
-    iota_abi_version: str = IOTA_ABI_VERSION
 
 
 @dataclass(frozen=True)
@@ -44,7 +47,6 @@ class RuntimeConfig:
     runtime_distribution_name: str = "fishyjoes-runtime"
     dependencies: Sequence[RuntimeDependency] = ()
     declaration_files: Sequence[str] = ("_declarations.h", "_generated_declarations.h")
-    iota_abi_version: str = IOTA_ABI_VERSION
     runtime_requirement: str = ">=0.0.1"
     python_requirement: str = ">=3.11"
     supported_platforms: Sequence[str] = ("Darwin", "Linux", "Windows")
@@ -134,11 +136,6 @@ def validate_runtime_compatibility(config: RuntimeConfig) -> None:
         raise RuntimeError(
             f"{config.runtime_distribution_name} {FISHYJOES_RUNTIME_VERSION} does not satisfy required "
             f"{config.runtime_requirement}"
-        )
-    if config.iota_abi_version != IOTA_ABI_VERSION:
-        raise RuntimeError(
-            f"Iota ABI version mismatch: package requires {config.iota_abi_version}, "
-            f"fishyjoes-runtime provides {IOTA_ABI_VERSION}"
         )
     if not version_satisfies(current_python_version(), config.python_requirement, "Python"):
         raise RuntimeError(

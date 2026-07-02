@@ -14,7 +14,7 @@ from typing import ClassVar, Generic, TypeVar
 from cffi import FFI
 
 from .attributed_string import setup_attributed_string_family
-from .config import IOTA_ABI_VERSION, RuntimeConfig, validate_runtime_compatibility
+from .config import RuntimeConfig, validate_runtime_compatibility
 from .dependencies import load_dependencies
 from .diagnostics import package_diagnostics
 from .native import load_library, read_declarations, resolve_library_paths

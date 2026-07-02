@@ -4,9 +4,8 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-__all__ = ["IOTA_ABI_VERSION", "RuntimeConfig", "RuntimeDependency", "__version__", "create_runtime"]
+__all__ = ["RuntimeConfig", "RuntimeDependency", "__version__", "create_runtime"]
 
-IOTA_ABI_VERSION: str
 __version__: str
 
 @dataclass(frozen=True)
@@ -16,7 +15,6 @@ class RuntimeDependency:
     import_name: str
     distribution_name: str
     version_requirement: str
-    iota_abi_version: str = ...
 
 @dataclass(frozen=True)
 class RuntimeConfig:
@@ -30,7 +28,6 @@ class RuntimeConfig:
     runtime_distribution_name: str = ...
     dependencies: Sequence[RuntimeDependency] = ...
     declaration_files: Sequence[str] = ...
-    iota_abi_version: str = ...
     runtime_requirement: str = ...
     python_requirement: str = ...
     supported_platforms: Sequence[str] = ...

@@ -34,9 +34,13 @@ Each generated Python package declares:
 
 - Its own package version, normally derived from the Swift package version.
 - The FishyJoes runtime package version range it supports.
-- The Iota ABI version it was generated for.
 - Exact or compatible dependency binding package requirements for required
   FishyJoes modules.
+
+The FishyJoes runtime version is the compatibility axis. The Iota ABI is a
+function of the runtime version, so packages do not declare or gate on a
+separate ABI version; the runtime keeps an internal Iota declaration-schema
+number that diagnostics reports for debugging only.
 
 Native libraries are loaded explicitly from package resources, not from ambient
 process-global search paths.
@@ -61,8 +65,8 @@ The loader must:
 - Load dependency binding packages before the current module.
 - Run dependency type setup before current module type setup.
 - Avoid loading the same native library identity more than once per process.
-- Detect architecture, platform, Python version, Iota ABI version, and runtime
-  version mismatches with clear errors.
+- Detect architecture, platform, Python version, and runtime version
+  mismatches with clear errors.
 - Keep transitive dependency handling deterministic.
 
 Packaging tools must repair native-library references for each platform:
@@ -96,5 +100,5 @@ Import tests must install wheels into a clean environment and verify dependency
 module loading, transitive setup order, and duplicate-load prevention.
 
 The generated package should expose diagnostic helpers that report package
-version, runtime version, Iota ABI version, platform tag, and loaded native
-library paths.
+version, runtime version, platform tag, loaded native library paths, and the
+runtime's internal Iota declaration-schema number.

@@ -224,31 +224,6 @@ class SharedRuntimeBoundaryTests(unittest.TestCase):
 
         self.assertEqual(result.returncode, 0, result.stdout)
 
-    def test_iota_abi_version_mismatch_fails_loudly(self) -> None:
-        with tempfile.TemporaryDirectory() as temp:
-            temp_generated = Path(temp) / "generated"
-            shutil.copytree(GENERATED, temp_generated)
-            native = temp_generated / "src" / "testapi" / "_native.py"
-            native.write_text(
-                native.read_text(encoding="utf-8").replace(
-                    'package_version="0.0.1",',
-                    'package_version="0.0.1",\n        iota_abi_version="999",',
-                ),
-                encoding="utf-8",
-            )
-
-            result = subprocess.run(
-                [sys.executable, "-c", "import testapi"],
-                env=_pythonpath_env(temp_generated / "src", RUNTIME_SRC),
-                text=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                check=False,
-            )
-
-        self.assertNotEqual(result.returncode, 0, result.stdout)
-        self.assertIn("Iota ABI version mismatch", result.stdout)
-
     def test_python_version_mismatch_fails_loudly(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             temp_generated = Path(temp) / "generated"

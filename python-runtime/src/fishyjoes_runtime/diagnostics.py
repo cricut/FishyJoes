@@ -4,7 +4,7 @@ import platform
 import sys
 import sysconfig
 
-from .config import FISHYJOES_RUNTIME_VERSION, RuntimeConfig
+from .config import FISHYJOES_RUNTIME_VERSION, _IOTA_ABI_VERSION, RuntimeConfig
 
 
 def package_diagnostics(
@@ -19,7 +19,7 @@ def package_diagnostics(
         "package": package_name,
         "package_version": config.package_version,
         "supported": supported,
-        "iota_abi_version": config.iota_abi_version,
+        "iota_abi_version": _IOTA_ABI_VERSION,
         "python": sys.version,
         "platform": platform.platform(),
         "platform_tag": sysconfig.get_platform().replace("-", "_").replace(".", "_"),
