@@ -6,6 +6,8 @@ import unittest
 import zipfile
 from pathlib import Path
 
+import typing_gate_support
+
 
 GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
 PACKAGE_DIR = GENERATED_SRC / "testapi"
@@ -18,39 +20,16 @@ if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
 
 class TypingMetadataTests(unittest.TestCase):
     def checker_env(self) -> dict[str, str]:
-        env = os.environ.copy()
-        if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
-            env.pop("MYPYPATH", None)
-        else:
-            env["MYPYPATH"] = os.pathsep.join(
-                [str(GENERATED_SRC), str(RUNTIME_SRC), env.get("MYPYPATH", "")]
-            )
-        env["PYTHONDONTWRITEBYTECODE"] = "1"
-        return env
+        return typing_gate_support.checker_env([GENERATED_SRC, RUNTIME_SRC])
 
     def run_checker(self, name: str, command: list[str], env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
-        result = subprocess.run(
+        return typing_gate_support.run_checker(
+            self,
+            name,
             command,
-            cwd=Path(__file__).resolve().parents[1],
             env=env or self.checker_env(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=False,
+            cwd=Path(__file__).resolve().parents[1],
         )
-        self.assertEqual(
-            0,
-            result.returncode,
-            "\n".join(
-                [
-                    f"{name} failed for generated Python bindings.",
-                    "Install test dependencies in bindings/python/.venv if the checker is missing.",
-                    result.stdout,
-                    result.stderr,
-                ]
-            ),
-        )
-        return result
 
     def test_generated_package_includes_typing_metadata(self) -> None:
         self.assertTrue((PACKAGE_DIR / "py.typed").is_file())
@@ -237,33 +216,36 @@ class TypingMetadataTests(unittest.TestCase):
         )
 
     def test_public_packages_match_runtime_with_stubtest(self) -> None:
+        # The fishyjoes_runtime package is stubtested separately with its own
+        # allowlist (test_runtime_typing.py); this gate covers only the binding.
         self.run_checker(
             "mypy.stubtest",
             [
                 sys.executable,
                 "-m",
                 "mypy.stubtest",
-                "fishyjoes_runtime",
                 "testapi",
                 "--concise",
                 "--allowlist",
                 str(STUBTEST_ALLOWLIST),
-                # Some allowlist entries are Python-version-specific (e.g. the
-                # 3.13+ dataclass __replace__ on RuntimeConfig/RuntimeDependency);
-                # tolerate them being unused on 3.11/3.12 rather than failing.
-                "--ignore-unused-allowlist",
             ],
         )
 
     def test_generated_package_reports_complete_pyright_types(self) -> None:
+        # --verifytypes ignores --pythonpath and configuration files: it
+        # discovers the Python environment through the `python` found on PATH.
+        # Put this interpreter's bin directory first so it inspects the
+        # environment the package is actually installed in.
+        env = self.checker_env()
+        env["PATH"] = os.pathsep.join(
+            [str(Path(sys.executable).parent)] + list(filter(None, [env.get("PATH", "")]))
+        )
         command = [
             sys.executable,
             "-m",
             "pyright",
             "--pythonversion",
             "3.11",
-            "--pythonpath",
-            sys.executable,
             "--verifytypes",
             "testapi",
             "--ignoreexternal",
@@ -271,16 +253,24 @@ class TypingMetadataTests(unittest.TestCase):
         result = subprocess.run(
             command,
             cwd=Path(__file__).resolve().parents[1],
-            env=self.checker_env(),
+            env=env,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
             check=False,
         )
-        if result.returncode != 0 and 'Package directory: ""' in result.stdout:
-            self.skipTest(
-                "pyright --verifytypes cannot resolve py.typed packages through the current pyright wrapper"
-            )
+        self.assertNotIn(
+            'Package directory: ""',
+            result.stdout,
+            "\n".join(
+                [
+                    "pyright --verifytypes could not locate the installed testapi package;",
+                    "the gate would be vacuous. PATH-based environment discovery is broken.",
+                    result.stdout,
+                    result.stderr,
+                ]
+            ),
+        )
         self.assertEqual(
             0,
             result.returncode,

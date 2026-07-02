@@ -1,18 +1,12 @@
 # Only the irreducible residue lives here. Everything the generator and runtime
-# CAN model accurately is now modeled by honest stubs -- frozen-dataclass stubs
-# for RuntimeConfig/RuntimeDependency, a declared __all__, and a declared
-# __fishyjoes_origin__ on every generated class -- so those entries are gone.
-# Each remaining entry is a genuine limit of stubtest or of Python itself, and
-# is cross-gated by mypy --strict, pyright --verifytypes, and the precise-typing
-# tests.
-
-# fishyjoes_runtime.iota / .attributed_string are INTERNAL implementation: their
-# classes are constructed inside create_runtime() / setup_attributed_string_family()
-# closures (bound to one FFI context), so there is no static definition to stub.
-# The typed public surface for those classes is the generated bindings'
-# _native.pyi Runtime_* stubs (validated below). Not part of the typed public API.
-fishyjoes_runtime.iota..*
-fishyjoes_runtime.attributed_string..*
+# CAN model accurately is modeled by honest stubs -- frozen-dataclass stubs for
+# RuntimeConfig/RuntimeDependency, a declared __all__, and a declared
+# __fishyjoes_origin__ on every generated class. Each remaining entry is a
+# genuine limit of stubtest or of Python itself, and this run is strict: an
+# unused entry fails the gate and must be re-justified or removed.
+#
+# The fishyjoes_runtime package is stubtested separately with its own allowlist
+# (python-runtime/stubtest_allowlist.txt, run by test_runtime_typing.py).
 
 # Python cannot declare `None: T` in a stub (`None` is a keyword); the runtime
 # sets the Swift `.None` enum case via setattr for case parity.
@@ -20,16 +14,22 @@ testapi.associated_data_enum.AssociatedDataEnum.None
 
 # Class-level static properties are metaclass descriptors: stubtest sees the
 # descriptor object, while the stub models the user-facing __get__ return type
-# (which pyright resolves and the precise-typing tests assert). The Range/Result
-# value types compound this -- they are frozen-dataclass instances whose generic
-# parameter is erased at runtime (SwiftRange[Any]), which stubtest cannot match
-# against the precise parameterised stub (SwiftRange[int]). Both are stubtest
-# limitations, not stub errors; the precise stub is the contract.
+# (which pyright resolves and the precise-typing tests assert against the stub
+# text). A descriptor is how Python spells a class-level computed property, so
+# these cannot go away.
 testapi.collections__collection_holder.Collections_CollectionHolder
 testapi.deprecations.Deprecations
 testapi.deprecations.Deprecations.deprecated_variable
 testapi.methods.Methods
 testapi.primitives__primitive_holder.Primitives_PrimitiveHolder
-testapi.ranges.Ranges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64)_range
-testapi.closed_ranges.ClosedRanges.(int|int8|int16|int32|int64|u_int|u_int8|u_int16|u_int32|u_int64|double|float|string)_range
-testapi.results.Results.(a_success|a_failure)
+
+# REMOVED (previously listed here): Ranges.*_range, ClosedRanges.*_range, and
+# Results.(a_success|a_failure). Those entries were suppressions, not checks:
+# the descriptor-returned values are instances of closure-local runtime classes
+# (type(...).__qualname__ == "create_runtime.<locals>.SwiftRange"), which
+# stubtest cannot resolve to a static definition, so it skips the comparison
+# silently -- verified by corrupting the stub annotation and observing no
+# stubtest error, identically on mypy 1.20/2.0/2.1. Nothing verified stub <->
+# runtime agreement for those members while the entries existed, and nothing
+# stops verifying when they are removed; the stub text itself is asserted by
+# the precise-typing tests.
