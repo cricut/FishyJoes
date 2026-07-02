@@ -3,7 +3,7 @@
 from typing import ClassVar
 from .a_protocol import AProtocol as AProtocol
 
-class ProtocolWitnesses:
+class ProtocolFixtures:
     __fishyjoes_origin__: ClassVar[dict[str, str]]
     @staticmethod
     def describe_a_protocol(value: AProtocol, x: int, y: int) -> str: ...

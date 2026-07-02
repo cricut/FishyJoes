@@ -199,7 +199,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.Functions.self, as: "TestAPI.Functions")
     Env.registerType(TestAPI.Methods.self, as: "TestAPI.Methods")
     Env.registerType(TestAPI.Primitives.self, as: "TestAPI.Primitives")
-    Env.registerType(TestAPI.ProtocolWitnesses.self, as: "TestAPI.ProtocolWitnesses")
+    Env.registerType(TestAPI.ProtocolFixtures.self, as: "TestAPI.ProtocolFixtures")
     Env.registerType(TestAPI.PythonNamingCollisions.self, as: "TestAPI.PythonNamingCollisions")
     Env.registerType(TestAPI.Ranges.self, as: "TestAPI.Ranges")
     Env.registerType(TestAPI.ReferenceCaseEnum.self, as: "TestAPI.ReferenceCaseEnum")

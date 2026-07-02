@@ -5970,12 +5970,12 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
-// MARK: - NodeInterface/TestAPI.ProtocolWitnesses+node.swift
+// MARK: - NodeInterface/TestAPI.ProtocolFixtures+node.swift
 
-extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
+extension TestAPI.ProtocolFixtures: FishyJoesNodeRuntime.NodeConverter {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
-        fatalError("invalid enum for TestAPI.ProtocolWitnesses")
+        fatalError("invalid enum for TestAPI.ProtocolFixtures")
     }
 
     public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
@@ -5987,14 +5987,14 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
         let superclass = try NodeClass(
             env: env,
             module: "TestAPI",
-            name: "ProtocolWitnesses",
+            name: "ProtocolFixtures",
             properties: [
                 (
                     name: "describeAProtocol",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "describeAProtocol", expectedArgumentCount: 3, hasNamedOptions: false) { env in
                             let result = try Swift.String.toNode(
-                                TestAPI.ProtocolWitnesses.describeAProtocol(
+                                TestAPI.ProtocolFixtures.describeAProtocol(
                                     try env.argument(at: 0, converter: TestAPI_CommonInterface._AProtocolConverter.self),
                                     x: try env.argument(at: 1, converter: Swift.Int.self),
                                     y: try env.argument(at: 2, converter: Swift.Int.self)
@@ -6011,7 +6011,7 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "returnAProtocol", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try TestAPI_CommonInterface._AProtocolConverter.toNode(
-                                TestAPI.ProtocolWitnesses.returnAProtocol(
+                                TestAPI.ProtocolFixtures.returnAProtocol(
                                     try env.argument(at: 0, converter: TestAPI_CommonInterface._AProtocolConverter.self)
                                 ),
                                 env: env.env
@@ -6025,7 +6025,7 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(
                     env, info,
-                    name: "ProtocolWitnesses_constructor",
+                    name: "ProtocolFixtures_constructor",
                     expectedArgumentCount: 0
                 ) { env in
                     return try env.this()
@@ -6035,7 +6035,7 @@ extension TestAPI.ProtocolWitnesses: FishyJoesNodeRuntime.NodeConverter {
         try FishyJoesNodeRuntime.mergeDefinitionInto(
             env: env,
             module: module,
-            path: "ProtocolWitnesses",
+            path: "ProtocolFixtures",
             nodeClass: superclass.constructor.value(env: env)
         )
     }

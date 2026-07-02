@@ -1301,7 +1301,7 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "ProtocolWitnesses",
+            "name" : "ProtocolFixtures",
             "namespace" : [
 
             ]
@@ -1310,13 +1310,13 @@
       },
       "cSharpType" : {
         "named" : {
-          "name" : "ProtocolWitnesses",
+          "name" : "ProtocolFixtures",
           "package" : "Cricut.TestAPI"
         }
       },
       "dartType" : {
         "named" : {
-          "name" : "ProtocolWitnesses",
+          "name" : "ProtocolFixtures",
           "package" : "TestAPI"
         }
       },
@@ -1332,17 +1332,17 @@
       "isInhabited" : false,
       "jniType" : {
         "object" : {
-          "_0" : "com/cricut/testapi/ProtocolWitnesses"
+          "_0" : "com/cricut/testapi/ProtocolFixtures"
         }
       },
-      "kotlinName" : "ProtocolWitnesses",
+      "kotlinName" : "ProtocolFixtures",
       "kotlinPackage" : "com.cricut.testapi",
-      "nodeName" : "TestAPI.ProtocolWitnesses",
+      "nodeName" : "TestAPI.ProtocolFixtures",
       "sourceType" : {
         "named" : {
           "_0" : {
             "module" : "TestAPI",
-            "name" : "ProtocolWitnesses",
+            "name" : "ProtocolFixtures",
             "namespace" : [
 
             ]
@@ -14202,7 +14202,7 @@
 
             ]
           },
-          "ProtocolWitnesses" : {
+          "ProtocolFixtures" : {
             "classes" : [
 
             ],
@@ -14278,7 +14278,7 @@
                 }
               }
             ],
-            "name" : "ProtocolWitnesses",
+            "name" : "ProtocolFixtures",
             "namespaces" : {
 
             },
@@ -17127,9 +17127,9 @@
           },
           {
             "documentation" : [
-              "<!-- FishyJoes.export(ProtocolWitnesses) -->"
+              "<!-- FishyJoes.export(ProtocolFixtures) -->"
             ],
-            "name" : "ProtocolWitnesses",
+            "name" : "ProtocolFixtures",
             "value" : {
               "union" : {
                 "_0" : [

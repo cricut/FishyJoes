@@ -1999,19 +1999,19 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_valueMapper, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up TestAPI.ProtocolWitnesses...")
-        try TestAPI.ProtocolWitnesses.javaSetup(env: env)
+        // print("setting up TestAPI.ProtocolFixtures...")
+        try TestAPI.ProtocolFixtures.javaSetup(env: env)
         try env.RegisterNatives(
-            TestAPI.ProtocolWitnesses.javaClass,
+            TestAPI.ProtocolFixtures.javaClass,
             JNINativeMethod(
                 name: bag.add("__jni_describeAProtocol"),
                 signature: bag.add("(Lcom/cricut/testapi/AProtocol;JJ)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ProtocolWitnesses_describeAProtocol, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_ProtocolFixtures_describeAProtocol, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
                 name: bag.add("__jni_returnAProtocol"),
                 signature: bag.add("(Lcom/cricut/testapi/AProtocol;)Lcom/cricut/testapi/AProtocol;"),
-                fnPtr: unsafeBitCast(java_TestAPI_ProtocolWitnesses_returnAProtocol, to: UnsafeMutableRawPointer.self)
+                fnPtr: unsafeBitCast(java_TestAPI_ProtocolFixtures_returnAProtocol, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.PythonNamingCollisions...")

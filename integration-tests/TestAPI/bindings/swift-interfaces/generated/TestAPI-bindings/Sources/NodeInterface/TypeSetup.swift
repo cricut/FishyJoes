@@ -50,7 +50,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Functions.nodeSetup(env: env, module: module)
     try TestAPI.Methods.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.nodeSetup(env: env, module: module)
-    try TestAPI.ProtocolWitnesses.nodeSetup(env: env, module: module)
+    try TestAPI.ProtocolFixtures.nodeSetup(env: env, module: module)
     try TestAPI.PythonNamingCollisions.nodeSetup(env: env, module: module)
     try TestAPI.Ranges.nodeSetup(env: env, module: module)
     try TestAPI.ReferenceCaseEnum.nodeSetup(env: env, module: module)

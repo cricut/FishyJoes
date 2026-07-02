@@ -1168,7 +1168,7 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_setup');
-    final TestAPI_ProtocolWitnesses_setup = dylib.lookupFunction<
+    final TestAPI_ProtocolFixtures_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
             OutCreatedRef exn
@@ -1177,7 +1177,7 @@ final ensureLoaded = (() {
             Env env,
             OutCreatedRef exn
         )
-    >('TestAPI_ProtocolWitnesses_setup');
+    >('TestAPI_ProtocolFixtures_setup');
     final TestAPI_PythonNamingCollisions_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3292,7 +3292,7 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Primitives_valueMapper");
-    TestAPI.ProtocolWitnesses.f__iota_TestAPI_ProtocolWitnesses_describeAProtocol = dylib.lookupFunction<
+    TestAPI.ProtocolFixtures.f__iota_TestAPI_ProtocolFixtures_describeAProtocol = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef value,
@@ -3307,8 +3307,8 @@ final ensureLoaded = (() {
             int y,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_ProtocolWitnesses_describeAProtocol");
-    TestAPI.ProtocolWitnesses.f__iota_TestAPI_ProtocolWitnesses_returnAProtocol = dylib.lookupFunction<
+    >("__iota_TestAPI_ProtocolFixtures_describeAProtocol");
+    TestAPI.ProtocolFixtures.f__iota_TestAPI_ProtocolFixtures_returnAProtocol = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
             UnownedRef value,
@@ -3319,7 +3319,7 @@ final ensureLoaded = (() {
             UnownedRef value,
             OutCreatedRef _exn
         )
-    >("__iota_TestAPI_ProtocolWitnesses_returnAProtocol");
+    >("__iota_TestAPI_ProtocolFixtures_returnAProtocol");
     TestAPI.PythonNamingCollisions.f__iota_TestAPI_PythonNamingCollisions_from = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -9430,10 +9430,10 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_TestAPI.ProtocolWitnesses", () {
-        // print("setting up TestAPI.ProtocolWitnesses (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+    Loader.shared.once("setup_TestAPI.ProtocolFixtures", () {
+        // print("setting up TestAPI.ProtocolFixtures (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            TestAPI_ProtocolWitnesses_setup(
+            TestAPI_ProtocolFixtures_setup(
                 Loader.shared.env,
                 exn
             );
