@@ -53,6 +53,12 @@ the source of truth for reference handling.
 
 ## Tradeoffs
 
+cffi ABI mode forces the Swift/Python boundary to be described in a third
+language, C, that the project is not otherwise using at this boundary. C
+declaration syntax buys reviewability and cffi compatibility at the cost of
+one more syntax (and its pitfalls) between the two languages that actually
+matter here.
+
 Generating a complete ABI header adds generator work before many user-visible
 Python wrappers can run.
 
