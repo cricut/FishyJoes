@@ -93,13 +93,6 @@ public struct SomeSwiftType {
     /// <!-- FishyJoes.export(abcMethod, cSharp: ABCMethod) -->
     public func abcMethod() { /* ... */ }
 }
-
-// Invalid: this annotation is inside the method body, so it is not attached to
-// the declaration and FishyJoes will warn that it is ignored.
-public func misplacedExportExample() -> Int {
-    /// <!-- FishyJoes.export(misplacedExportExample) -->
-    return 1
-}
 ```
 
 ## License
