@@ -95,7 +95,12 @@ public class CodeGen: ParsableCommand {
         // Assemble a build configuration from passed arguments
         let localPathsNeeded = packageInfo.dependencyMap.entries.values.map { localPath(for: $0) }
 
-        let preferResolvedLocalDependencies = ProcessInfo.processInfo.environment["FISHYJOES"] == "1"
+        // FISHYJOES=1 is the signal downstream Package.swift manifests use to decide
+        // whether FishyJoes should be a dependency; do not overload it here. Preferring
+        // resolved local dependency paths in generated bindings packages is its own
+        // behavior with its own switch, set by generated CI and local build flows.
+        let preferResolvedLocalDependencies =
+            ProcessInfo.processInfo.environment["FISHYJOES_PREFER_RESOLVED_LOCAL_DEPS"] == "1"
         var injectedDependencies: [String: PackageDotSwiftDependency.Dependency] = [
             "FishyJoes": packageDependency(fishyJoesDependency, preferResolvedLocalPath: preferResolvedLocalDependencies)
         ]
