@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import importlib
 
+from collections.abc import Sequence
+
 from .config import RuntimeDependency, version_satisfies
 
 
@@ -25,7 +27,7 @@ def load_dependency(dependency: RuntimeDependency) -> dict[str, object]:
     return report
 
 
-def load_dependencies(dependencies) -> dict[str, dict[str, object]]:
+def load_dependencies(dependencies: Sequence[RuntimeDependency]) -> dict[str, dict[str, object]]:
     return {
         dependency.import_name: load_dependency(dependency)
         for dependency in dependencies
