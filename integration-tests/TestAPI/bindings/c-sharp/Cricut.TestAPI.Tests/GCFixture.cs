@@ -14,6 +14,11 @@ namespace Cricut.TestAPI.Tests {
             Console.WriteLine("TEARDOWN");
             Cricut.FishyJoesRuntime.Utilities.PrintOutstandingHandles();
             #if DEBUG
+            // The Swift handles for `true` and `false` are created lazily: they exist only
+            // once the runtime's Loader initialization has called Swift_Bool_setup, which a
+            // filtered test run may never trigger. So a clean run ends with either 0
+            // outstanding handles (Bool setup never ran) or exactly 2 (the Bool singletons).
+            // Any other count is a leak.
             var outstandingHandleCount = Cricut.FishyJoesRuntime.Utilities.OutstandingHandleCount();
             if (outstandingHandleCount != 0 && outstandingHandleCount != 2) {
                 throw new Exception(
