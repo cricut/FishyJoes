@@ -162,6 +162,10 @@ class DartPhases: IotaPhases, Phases {
     func testPhase() throws {
         // Use dart to execute the test suite
         try withDirectory("bindings/dart/generated") {
+            // Native/FFI Dart tests create temp, build, and runtime files as they run.
+            // Redirect temp output into a package-local .dart_tool directory and run the
+            // suite serially (--concurrency=1) so parallel isolates don't compound
+            // temp-file and native-resource pressure on CI runners.
             let tempDirectory = "\(FileManager.default.currentDirectoryPath)/.dart_tool/fishyjoes-test-tmp"
             try cmd("mkdir", "-p", tempDirectory).run()
             var env = [
