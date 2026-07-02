@@ -270,7 +270,9 @@ class FishyJoesConfigTests: XCTestCase {
         let exampleTestPath = root
             .appendingPathComponent("bindings/python/tests/test_example.py")
         let contents = try String(contentsOf: exampleTestPath)
-        XCTAssertTrue(contents.contains("import acme_fancy_library as bindings"))
+        XCTAssertTrue(contents.contains("import acme_fancy_library"))
+        XCTAssertFalse(contents.contains("as bindings"), "example should model the real package name, not an alias")
+        XCTAssertTrue(contents.contains("acme_fancy_library.SUPPORTED"))
         XCTAssertTrue(contents.contains("class ExampleTests(unittest.TestCase):"))
 
         let pyprojectPath = root
