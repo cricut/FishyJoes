@@ -1,4 +1,4 @@
-# 0009. Python cffi Declarations Define The ABI Contract
+# 0009. Python cffi Declarations Reflect The Iota ABI Contract
 
 ## Status
 
@@ -10,9 +10,11 @@ Python cffi calls need exact C declarations. A wrong integer width, nullability
 assumption, ownership convention, callback typedef, or calling convention can
 produce crashes rather than ordinary Python exceptions.
 
-The generated `_declarations.h` must therefore be more than a convenience file.
-It is the Python target's ABI contract with generated Swift Iota shims and the
-shared Iota runtime.
+The source of truth for the ABI is the Swift/Iota symbol model that FishyJoes
+metadata generates — the same model that emits the Swift Iota shims. The
+generated `_declarations.h` is that model's cffi-facing reflection: the
+reviewed artifact through which Python consumes the contract. It must therefore
+be more than a convenience file, but it does not itself define the ABI.
 
 ## Options Considered
 
@@ -48,8 +50,9 @@ The declaration model must define:
   explicit cdecl spelling in cffi declarations, the generator must emit it.
 
 The generated header should include ownership comments even where C cannot
-enforce ownership. Generated Python code and tests must use those annotations as
-the source of truth for reference handling.
+enforce ownership. Those annotations reflect the ownership rules of the
+Swift/Iota symbol model; generated Python code and tests follow them so that
+reference handling matches what the model declares.
 
 ## Tradeoffs
 
