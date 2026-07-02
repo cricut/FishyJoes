@@ -11,6 +11,13 @@ from pathlib import Path
 
 @dataclass(frozen=True)
 class NativeLibrary:
+    """A native library resolved by the process-wide registry.
+
+    ``reused`` is True when the registry returned the path of a library it had
+    already loaded under this name (a registry cache hit), rather than
+    performing a fresh load.
+    """
+
     name: str
     path: Path
     reused: bool = False
