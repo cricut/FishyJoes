@@ -2,8 +2,10 @@ import Foundation
 import swsh
 
 class DartPhases: IotaPhases, Phases {
-    func generationPhaseTemplateReplacements() throws -> [String: String] {
-        let dartDependencies = [
+    private typealias DartDependencyNames = (swift: String, path: String, dart: String, npm: String, npmSubPath: String)
+
+    private var dartDependencies: [DartDependencyNames] {
+        [
             (
                 swift: "FishyJoes",
                 path: "dart-runtime",
@@ -20,6 +22,9 @@ class DartPhases: IotaPhases, Phases {
                 npmSubPath: "bindings/dart/generated/flutter-package"
             )
         }
+    }
+
+    func generationPhaseTemplateReplacements() throws -> [String: String] {
 
         let pureDartDependencyLines = dartDependencies.flatMap { depNames -> [String] in
             let lines = ["\(depNames.dart):"]
@@ -68,7 +73,33 @@ class DartPhases: IotaPhases, Phases {
             ]
         }
 
-        let pureDartDependencyOverrideLines = dartDependencies.flatMap { depNames -> [String] in
+        let npmFlutterDependencyLines = dartDependencies.map { dependency in
+            let version = options.packageInfo?.dependencyMap[dependency.swift]?
+                .versionInNpmFormat(
+                    relativeTo: "bindings/dart/generated/flutter-package/",
+                    addIfLocalPath: dependency.npmSubPath,
+                    flexibleVersions: options.config.flexibleVersions
+                )
+                ?? "0.0.1-unknown"
+            return #""@cricut/\#(dependency.npm)": "\#(version)""#
+        }
+
+        return [
+            "__PUBSPEC_DART_DEPENDENCIES__": join(lines: pureDartDependencyLines, indent: 2),
+            "__PUBSPEC_FLUTTER_DEPENDENCIES__": join(lines: flutterDependencyLines, indent: 2),
+            "__NPM_FLUTTER_DEPENDENCIES__": npmFlutterDependencyLines.joined(separator: ",\n    ")
+        ]
+    }
+
+    // MARK: Local-development dependency overrides
+    //
+    // Overrides exist only when this build points at edited or local-path
+    // dependencies. They are a local-development concern, so they are written
+    // to pub's dedicated pubspec_overrides.yaml (gitignored, never published)
+    // rather than into the generated packages' publishable pubspecs.
+
+    private var pureDartDependencyOverrideLines: [String] {
+        dartDependencies.flatMap { depNames -> [String] in
             guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
                 return []
             }
@@ -91,8 +122,10 @@ class DartPhases: IotaPhases, Phases {
                 "  path: \(dependencyPath)/\(depNames.path)",
             ]
         }
+    }
 
-        let flutterDependencyOverrideLines = dartDependencies.flatMap { depNames -> [String] in
+    private var flutterDependencyOverrideLines: [String] {
+        dartDependencies.flatMap { depNames -> [String] in
             guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {
                 return []
             }
@@ -114,30 +147,27 @@ class DartPhases: IotaPhases, Phases {
                 "  path: ../\(depNames.npm)",
             ]
         }
-
-        let npmFlutterDependencyLines = dartDependencies.map { dependency in
-            let version = options.packageInfo?.dependencyMap[dependency.swift]?
-                .versionInNpmFormat(
-                    relativeTo: "bindings/dart/generated/flutter-package/",
-                    addIfLocalPath: dependency.npmSubPath,
-                    flexibleVersions: options.config.flexibleVersions
-                )
-                ?? "0.0.1-unknown"
-            return #""@cricut/\#(dependency.npm)": "\#(version)""#
-        }
-
-        return [
-            "__PUBSPEC_DART_DEPENDENCIES__": join(lines: pureDartDependencyLines, indent: 2),
-            "__PUBSPEC_FLUTTER_DEPENDENCIES__": join(lines: flutterDependencyLines, indent: 2),
-            "__PUBSPEC_DART_DEPENDENCY_OVERRIDES__": dependencyOverrides(pureDartDependencyOverrideLines),
-            "__PUBSPEC_FLUTTER_DEPENDENCY_OVERRIDES__": dependencyOverrides(flutterDependencyOverrideLines),
-            "__NPM_FLUTTER_DEPENDENCIES__": npmFlutterDependencyLines.joined(separator: ",\n    ")
-        ]
     }
 
-    private func dependencyOverrides(_ lines: [String]) -> String {
-        guard !lines.isEmpty else { return "" }
-        return "\n\ndependency_overrides:\(join(lines: lines, indent: 2))"
+    private func writeDevDependencyOverrides() throws {
+        try writeOverridesFile(lines: pureDartDependencyOverrideLines, directory: "bindings/dart/generated")
+        try writeOverridesFile(lines: flutterDependencyOverrideLines, directory: "bindings/dart/generated/flutter-package")
+    }
+
+    private func writeOverridesFile(lines: [String], directory: String) throws {
+        guard FileManager.default.fileExists(atPath: directory) else { return }
+        let path = "\(directory)/pubspec_overrides.yaml"
+        guard !lines.isEmpty else {
+            try? FileManager.default.removeItem(atPath: path)
+            return
+        }
+        let contents = "# Written by fishy-joes for local development; gitignored, never published.\ndependency_overrides:\(join(lines: lines, indent: 2))\n"
+        try contents.write(toFile: path, atomically: true, encoding: .utf8)
+    }
+
+    override func preBuildPhase() throws {
+        try super.preBuildPhase()
+        try writeDevDependencyOverrides()
     }
 
     func installPhase() throws {
@@ -153,6 +183,7 @@ class DartPhases: IotaPhases, Phases {
 
     override func preTestPhase() throws {
         try super.preTestPhase()
+        try writeDevDependencyOverrides()
         try withDirectory("bindings/dart/generated") {
             // Fetch binary artifacts
             try cmd("dart", "run", "fishyjoes_dart:setup").run()
@@ -246,6 +277,10 @@ class DartPhases: IotaPhases, Phases {
                     try? cmd("cp", "-r", "generated/\(path)", "generated/flutter-package/\(path)").run()
                 }
             }
+
+            // Local-development overrides for the freshly assembled flutter package
+            // (pub's dedicated dev-only file; gitignored, never published).
+            try writeOverridesFile(lines: flutterDependencyOverrideLines, directory: "generated/flutter-package")
 
             // If no version is provided, use a dummy version to package
             try cmd("jq", "-e", ".version = env.VERSION", addEnv: ["VERSION": options.version ?? "0.0.1"])
