@@ -102,6 +102,14 @@ def read_wheel_metadata(package_dir: Path) -> dict[str, object] | None:
 
 
 def validate_platform_compatibility(config: RuntimeConfig) -> None:
+    """Validate the package's *declared* platform/architecture claims.
+
+    This function deliberately checks only metadata the package claims about
+    itself (supported platforms/architectures and, for installed wheels, the
+    platform the wheel was built for). It does not try to pre-validate whether
+    native libraries will load: the actual ``dlopen`` in ``load_library`` is
+    the authoritative test and wraps the real failure with diagnostic context.
+    """
     current_platform = platform.system()
     if current_platform not in config.supported_platforms:
         supported = ", ".join(config.supported_platforms)
