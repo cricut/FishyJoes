@@ -154,11 +154,18 @@ def load_library(ffi, library: NativeLibrary):
 
 
 def read_declarations(package_dir: Path, declaration_files: Sequence[str]) -> str:
+    """Concatenate the package's cffi declaration files.
+
+    Every listed file is required: the config names exactly the declaration
+    files the package was generated with, so a missing file means a broken or
+    partially installed package, not an optional feature. Requiring them all
+    keeps the contract explicit instead of encoding required-versus-optional
+    in filename comparisons.
+    """
     declarations: list[str] = []
     for declaration_file in declaration_files:
         path = package_dir / declaration_file
-        if path.exists():
-            declarations.append(path.read_text(encoding="utf-8"))
-        elif declaration_file == "_declarations.h":
+        if not path.exists():
             raise RuntimeError(f"Missing required Iota declarations file: {path}")
+        declarations.append(path.read_text(encoding="utf-8"))
     return "\n".join(declarations)
