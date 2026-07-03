@@ -210,7 +210,7 @@ public enum ReferenceOnlyTypes {
         public init() {}
     }
 
-    /// <!-- FishyJoes.export(marker) -->
+    /// <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
     public static func marker() -> Marker {
         Marker()
     }

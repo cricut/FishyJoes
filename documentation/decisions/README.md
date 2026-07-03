@@ -46,7 +46,7 @@ project rule, so that record intentionally does not consider alternatives.
 - [0005. Python Reference Lifetime Uses Finalizers](0005-python-reference-lifetime-uses-finalizers.md)
 - [0006. Python Tests Exercise Real Generated Bindings](0006-python-tests-exercise-real-generated-bindings.md)
 - [0007. Python Bindings Ship As Platform Wheels](0007-python-bindings-ship-as-platform-wheels.md)
-- [0009. Python cffi Declarations Define The ABI Contract](0009-python-cffi-declarations-define-the-abi-contract.md)
+- [0009. Python cffi Declarations Reflect The Iota ABI Contract](0009-python-cffi-declarations-define-the-abi-contract.md)
 - [0010. Python Async Uses Explicit asyncio Loop Ownership](0010-python-async-uses-explicit-asyncio-loop-ownership.md)
 - [0011. Python Packages Version And Load Native Dependencies Explicitly](0011-python-packages-version-and-load-native-dependencies-explicitly.md)
 - [0012. Python UX Includes Typing And Diagnostics](0012-python-ux-includes-typing-and-diagnostics.md)

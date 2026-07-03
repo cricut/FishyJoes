@@ -12,7 +12,11 @@ from packaging.version import InvalidVersion, Version
 
 
 FISHYJOES_RUNTIME_VERSION = "0.0.1"
-IOTA_ABI_VERSION = "1"
+# Internal Iota declaration-schema number, reported by diagnostics() for
+# debugging. It is not a package compatibility axis: the Iota ABI is a function
+# of the FishyJoes runtime version, and the runtime version requirement is the
+# compatibility gate.
+_IOTA_ABI_VERSION = "1"
 WHEEL_METADATA_NAME = "__fishyjoes_wheel.json"
 
 
@@ -23,7 +27,6 @@ class RuntimeDependency:
     import_name: str
     distribution_name: str
     version_requirement: str
-    iota_abi_version: str = IOTA_ABI_VERSION
 
 
 @dataclass(frozen=True)
@@ -43,8 +46,10 @@ class RuntimeConfig:
     native_dir_candidates: Sequence[Path]
     runtime_distribution_name: str = "fishyjoes-runtime"
     dependencies: Sequence[RuntimeDependency] = ()
-    declaration_files: Sequence[str] = ("_declarations.h", "_generated_declarations.h")
-    iota_abi_version: str = IOTA_ABI_VERSION
+    # Module-specific declaration files contributed by the generated package.
+    # The shared runtime declarations (_declarations.h) live in and are loaded
+    # from the fishyjoes-runtime package itself.
+    declaration_files: Sequence[str] = ("_generated_declarations.h",)
     runtime_requirement: str = ">=0.0.1"
     python_requirement: str = ">=3.11"
     supported_platforms: Sequence[str] = ("Darwin", "Linux", "Windows")
@@ -63,6 +68,14 @@ def normalized_architecture(value: str) -> str:
 
 
 def version_satisfies(version: str, requirement: str, label: str) -> bool:
+    """Check a version against a PEP 440 specifier set at import time.
+
+    Deliberately reuses packaging's package-time specifier syntax: generated
+    packages record their runtime/dependency compatibility as ordinary
+    requirement strings (for example ``>=1.2,<2.0``), and the runtime evaluates
+    them when the binding is imported so incompatibility fails before any FFI
+    call, with the same semantics pip would apply at install time.
+    """
     try:
         parsed_version = Version(version)
     except InvalidVersion as error:
@@ -92,6 +105,14 @@ def read_wheel_metadata(package_dir: Path) -> dict[str, object] | None:
 
 
 def validate_platform_compatibility(config: RuntimeConfig) -> None:
+    """Validate the package's *declared* platform/architecture claims.
+
+    This function deliberately checks only metadata the package claims about
+    itself (supported platforms/architectures and, for installed wheels, the
+    platform the wheel was built for). It does not try to pre-validate whether
+    native libraries will load: the actual ``dlopen`` in ``load_library`` is
+    the authoritative test and wraps the real failure with diagnostic context.
+    """
     current_platform = platform.system()
     if current_platform not in config.supported_platforms:
         supported = ", ".join(config.supported_platforms)
@@ -134,11 +155,6 @@ def validate_runtime_compatibility(config: RuntimeConfig) -> None:
         raise RuntimeError(
             f"{config.runtime_distribution_name} {FISHYJOES_RUNTIME_VERSION} does not satisfy required "
             f"{config.runtime_requirement}"
-        )
-    if config.iota_abi_version != IOTA_ABI_VERSION:
-        raise RuntimeError(
-            f"Iota ABI version mismatch: package requires {config.iota_abi_version}, "
-            f"fishyjoes-runtime provides {IOTA_ABI_VERSION}"
         )
     if not version_satisfies(current_python_version(), config.python_requirement, "Python"):
         raise RuntimeError(

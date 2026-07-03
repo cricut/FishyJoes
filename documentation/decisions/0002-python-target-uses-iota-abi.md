@@ -6,29 +6,28 @@ Accepted
 
 ## Context
 
-FishyJoes already has the Iota ABI for non-JNI language targets. C# and Dart use
-the shared Iota runtime model: an `Env`, callback maps, per-type setup
-functions, and generated Swift `@_cdecl` shims.
+FishyJoes targets bridge Swift and the host language in one of two shapes. In
+the host-runtime shape, Swift drives the host runtime's native API: Kotlin uses
+JNI and TypeScript/Node uses NAPI. In the Iota shape, the host language drives a
+C ABI FFI against the shared Iota runtime model: C# and Dart bind an `Env`,
+callback maps, per-type setup functions, and generated Swift `@_cdecl` shims.
 
+Python could take either shape: CPython has a native extension API that Swift
+could drive, and Python FFI libraries can drive a C ABI from the host side.
 Python needs a high-quality native user experience, but it should not create a
-separate Swift ABI surface for every exported method or copy Kotlin's JNI
-implementation shape.
+separate Swift ABI surface for every exported method.
 
 ## Options Considered
 
-- Reuse Iota.
+- Reuse Iota: Python drives the existing Iota C ABI from the host side.
   This keeps Python aligned with C# and Dart, preserves the shared Swift runtime
   model, and focuses Python work on host-language runtime and generator quality.
-- Copy Kotlin's JNI architecture.
-  This would provide a known language target to imitate, but it would make
-  Python a second non-Iota implementation and duplicate the FFI surface that
-  Iota exists to centralize.
-- Create Python-specific Swift `@_cdecl` exports.
-  This could optimize individual Python cases, but it would fork the ABI and
-  make every exported Swift feature an additional N-language maintenance burden.
-- Build a brand-new shared ABI.
-  This may be attractive long term, but it is larger than adding Python and
-  would risk destabilizing existing C# and Dart users.
+- Drive Python's host-runtime API from Swift, the way Kotlin uses JNI and Node
+  uses NAPI: a compiled CPython extension whose Swift side calls the CPython C
+  API. This is a known FishyJoes shape, but it makes Python another
+  host-runtime implementation to maintain, ties the native artifact to CPython
+  ABI/version/implementation choices, and duplicates the FFI surface that Iota
+  exists to centralize.
 
 ## Decision
 
@@ -39,8 +38,9 @@ Python-specific work belongs in the Python runtime, generated Python wrappers,
 generated cffi declarations, build phases, and small shared Iota runtime
 additions that are useful across Iota hosts.
 
-Do not introduce Python-specific exported Swift method variants. Do not port JNI
-loading, JNI external declarations, or Kotlin runtime scaffolding.
+Do not introduce Python-specific exported Swift method variants. Do not port
+host-runtime scaffolding (JNI/NAPI loading or external declarations) from the
+Kotlin or Node targets.
 
 ## Tradeoffs
 

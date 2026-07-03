@@ -7,6 +7,8 @@ ABI pointer conventions:
 - ownership: foreignObject return values are created unless explicitly documented; foreignObject parameters are borrowed unless explicitly documented; foreignOutExn is nonnull and receives an optional created error object.
 */
 
+void FishyJoes_EmojiFun_registerTypes(void);
+
 foreignObject __iota_EmojiFun_EmojiExplorer_create(EnvRef envRef, intptr_t count, foreignOutExn _exn);
 foreignObject __iota_EmojiFun_EmojiExplorer_random(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 foreignObject __iota_EmojiFun_EmojiExplorer_randomUnique(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);

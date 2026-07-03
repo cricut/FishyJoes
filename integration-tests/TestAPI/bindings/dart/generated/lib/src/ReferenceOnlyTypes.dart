@@ -23,7 +23,7 @@ class ReferenceOnlyTypes {
         throw UnsupportedError('This class is supposed to be uninhabited');
     });
 
-    /// <!-- FishyJoes.export(marker) -->
+    /// <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
     static TestAPI.ReferenceOnlyTypes_Marker marker(
     ) =>
         consumeCreatedRef<TestAPI.ReferenceOnlyTypes_Marker>(check((OutCreatedRef _exn) => f__iota_TestAPI_ReferenceOnlyTypes_marker(Loader.shared.env, _exn)))

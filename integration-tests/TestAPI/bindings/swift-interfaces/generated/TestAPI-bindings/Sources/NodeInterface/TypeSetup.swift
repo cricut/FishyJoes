@@ -15,7 +15,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     let module = try env.createObject()
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
-    try installNodeCleanup(env: env, module: module)
+    try registerNodeShutdownHook(env: env)
 
     try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.String.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
@@ -50,7 +50,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Functions.nodeSetup(env: env, module: module)
     try TestAPI.Methods.nodeSetup(env: env, module: module)
     try TestAPI.Primitives.nodeSetup(env: env, module: module)
-    try TestAPI.ProtocolWitnesses.nodeSetup(env: env, module: module)
+    try TestAPI.ProtocolFixtures.nodeSetup(env: env, module: module)
     try TestAPI.PythonNamingCollisions.nodeSetup(env: env, module: module)
     try TestAPI.Ranges.nodeSetup(env: env, module: module)
     try TestAPI.ReferenceCaseEnum.nodeSetup(env: env, module: module)

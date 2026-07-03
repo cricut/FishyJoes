@@ -73,6 +73,7 @@ public struct FileTemplater {
         var credentialToken: String = ""
         var ciEnv: [String: String] = [
             "FISHYJOES": "1",
+            "FISHYJOES_PREFER_RESOLVED_LOCAL_DEPS": "1",
             "JAVA_VERSION": "20",
             "NODE_VERSION": "18.x",
             "DOTNET_VERSION": "8.0.x",

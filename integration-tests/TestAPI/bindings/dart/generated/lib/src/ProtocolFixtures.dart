@@ -15,9 +15,9 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
-/// <!-- FishyJoes.export(ProtocolWitnesses) -->
-class ProtocolWitnesses {
-    ProtocolWitnesses._();
+/// <!-- FishyJoes.export(ProtocolFixtures) -->
+class ProtocolFixtures {
+    ProtocolFixtures._();
 
     static int enumDiscriminator(UnownedRef obj, OutCreatedRef exn) => check((exn) {
         throw UnsupportedError('This class is supposed to be uninhabited');
@@ -30,7 +30,7 @@ class ProtocolWitnesses {
         int y,
     ) =>
         GCRef.using(value, (_valueHandle) =>
-            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_ProtocolWitnesses_describeAProtocol(Loader.shared.env, _valueHandle.ptr, x, y, _exn)))
+            consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_ProtocolFixtures_describeAProtocol(Loader.shared.env, _valueHandle.ptr, x, y, _exn)))
         )
     ;
 
@@ -39,7 +39,7 @@ class ProtocolWitnesses {
         TestAPI.AProtocol value,
     ) =>
         GCRef.using(value, (_valueHandle) =>
-            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_ProtocolWitnesses_returnAProtocol(Loader.shared.env, _valueHandle.ptr, _exn)))
+            consumeCreatedRef<TestAPI.AProtocol>(check((OutCreatedRef _exn) => f__iota_TestAPI_ProtocolFixtures_returnAProtocol(Loader.shared.env, _valueHandle.ptr, _exn)))
         )
     ;
 
@@ -49,10 +49,10 @@ class ProtocolWitnesses {
         int x,
         int y,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_ProtocolWitnesses_describeAProtocol;
+    ) f__iota_TestAPI_ProtocolFixtures_describeAProtocol;
     static late CreatedRef Function(
         Env env,
         UnownedRef value,
         OutCreatedRef _exn
-    ) f__iota_TestAPI_ProtocolWitnesses_returnAProtocol;
+    ) f__iota_TestAPI_ProtocolFixtures_returnAProtocol;
 }

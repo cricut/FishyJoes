@@ -14,10 +14,10 @@ from typing import ClassVar, Generic, TypeVar
 from cffi import FFI
 
 from .attributed_string import setup_attributed_string_family
-from .config import IOTA_ABI_VERSION, RuntimeConfig, validate_runtime_compatibility
+from .config import RuntimeConfig, validate_runtime_compatibility
 from .dependencies import load_dependencies
 from .diagnostics import package_diagnostics
-from .native import load_library, read_declarations, resolve_library_paths
+from .native import load_library, read_declarations, resolve_library_paths, runtime_declarations
 
 
 # Type parameters for the runtime value-type helpers (`SwiftRange`, `Result*`).
@@ -42,7 +42,7 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     validate_runtime_compatibility(config)
     _DEPENDENCY_REPORTS = load_dependencies(config.dependencies)
 
-    ffi.cdef(read_declarations(_PACKAGE_DIR, config.declaration_files))
+    ffi.cdef(runtime_declarations() + "\n" + read_declarations(_PACKAGE_DIR, config.declaration_files))
 
     _NATIVE_LIBRARIES = resolve_library_paths(config.module_name, _NATIVE_DIR_CANDIDATES, config.build_hint)
     _LIBRARY_PATHS = {name: library.path for name, library in _NATIVE_LIBRARIES.items()}

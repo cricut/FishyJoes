@@ -42,7 +42,7 @@ export './EmptyStruct2.dart';
 export './Functions.dart';
 export './Methods.dart';
 export './Primitives.dart';
-export './ProtocolWitnesses.dart';
+export './ProtocolFixtures.dart';
 export './PythonNamingCollisions.dart';
 export './Ranges.dart';
 export './ReferenceCaseEnum.dart';

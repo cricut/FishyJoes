@@ -7,6 +7,8 @@ ABI pointer conventions:
 - ownership: foreignObject return values are created unless explicitly documented; foreignObject parameters are borrowed unless explicitly documented; foreignOutExn is nonnull and receives an optional created error object.
 */
 
+void FishyJoes_TestAPI_registerTypes(void);
+
 bool __iota_TestAPI_EmptyClass2_equals(EnvRef envRef, foreignObject lhs, foreignObject rhs, foreignOutExn _exn);
 bool __iota_TestAPI_EmptyClass_equals(EnvRef envRef, foreignObject lhs, foreignObject rhs, foreignOutExn _exn);
 bool __iota_TestAPI_Primitives_echoBool(EnvRef envRef, bool value, foreignOutExn _exn);
@@ -142,8 +144,8 @@ foreignObject __iota_TestAPI_Primitives_maybeEchoUInt32(EnvRef envRef, foreignOb
 foreignObject __iota_TestAPI_Primitives_maybeEchoUInt64(EnvRef envRef, foreignObject value, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Primitives_maybeEchoUInt8(EnvRef envRef, foreignObject value, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Primitives_valueMapper(EnvRef envRef, foreignObject value, foreignObject mapper, foreignOutExn _exn);
-foreignObject __iota_TestAPI_ProtocolWitnesses_describeAProtocol(EnvRef envRef, foreignObject value, intptr_t x, intptr_t y, foreignOutExn _exn);
-foreignObject __iota_TestAPI_ProtocolWitnesses_returnAProtocol(EnvRef envRef, foreignObject value, foreignOutExn _exn);
+foreignObject __iota_TestAPI_ProtocolFixtures_describeAProtocol(EnvRef envRef, foreignObject value, intptr_t x, intptr_t y, foreignOutExn _exn);
+foreignObject __iota_TestAPI_ProtocolFixtures_returnAProtocol(EnvRef envRef, foreignObject value, foreignOutExn _exn);
 foreignObject __iota_TestAPI_PythonNamingCollisions_from(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Ranges_echoInt16Range(EnvRef envRef, foreignObject range, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Ranges_echoInt32Range(EnvRef envRef, foreignObject range, foreignOutExn _exn);

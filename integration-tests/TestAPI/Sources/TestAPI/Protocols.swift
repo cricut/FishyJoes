@@ -51,8 +51,8 @@ public struct AProtocolImplementation: AProtocol {
     }
 }
 
-/// <!-- FishyJoes.export(ProtocolWitnesses) -->
-public enum ProtocolWitnesses {
+/// <!-- FishyJoes.export(ProtocolFixtures) -->
+public enum ProtocolFixtures {
     /// <!-- FishyJoes.export(describeAProtocol) -->
     public static func describeAProtocol(_ value: AProtocol, x: Int, y: Int) throws -> String {
         let returned = try value.bar(x: x, y: y)

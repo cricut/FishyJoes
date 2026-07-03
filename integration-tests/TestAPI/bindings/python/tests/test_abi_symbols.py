@@ -12,7 +12,9 @@ from pathlib import Path
 GENERATED = Path(__file__).resolve().parents[1] / "generated"
 GENERATED_SRC = GENERATED / "src"
 GENERATED_PACKAGE = GENERATED_SRC / "testapi"
-RUNTIME_SOURCE = Path(__file__).resolve().parents[5] / "python-runtime" / "src" / "fishyjoes_runtime" / "iota.py"
+RUNTIME_PACKAGE = Path(__file__).resolve().parents[5] / "python-runtime" / "src" / "fishyjoes_runtime"
+RUNTIME_SOURCE = RUNTIME_PACKAGE / "iota.py"
+RUNTIME_DECLARATIONS = RUNTIME_PACKAGE / "_declarations.h"
 if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
     sys.path.insert(0, str(GENERATED_SRC))
 
@@ -76,8 +78,8 @@ def exported_windows_symbols_from_llvm_readobj(llvm_readobj: str, library: Path)
 
 class AbiSymbolTests(unittest.TestCase):
     def test_declarations_document_pointer_ownership_nullability_and_calling_convention(self) -> None:
-        for header in ["_declarations.h", "_generated_declarations.h"]:
-            declarations = (GENERATED_PACKAGE / header).read_text(encoding="utf-8")
+        for header in [RUNTIME_DECLARATIONS, GENERATED_PACKAGE / "_generated_declarations.h"]:
+            declarations = header.read_text(encoding="utf-8")
 
             self.assertIn("calling-convention: cdecl", declarations)
             self.assertIn("nullability:", declarations)
@@ -88,7 +90,7 @@ class AbiSymbolTests(unittest.TestCase):
             self.assertIn("foreignOutExn is nonnull and receives an optional created error object", declarations)
 
     def test_utf8_string_callbacks_use_pointer_width_lengths(self) -> None:
-        declarations = (GENERATED_PACKAGE / "_declarations.h").read_text(encoding="utf-8")
+        declarations = RUNTIME_DECLARATIONS.read_text(encoding="utf-8")
         runtime_source = RUNTIME_SOURCE.read_text(encoding="utf-8")
 
         self.assertIn("typedef intptr_t (*FishyJoes_StringUtf8LengthFn)", declarations)
@@ -106,7 +108,7 @@ class AbiSymbolTests(unittest.TestCase):
         native = importlib.import_module("testapi._native")
 
         declarations = (
-            (GENERATED_PACKAGE / "_declarations.h").read_text(encoding="utf-8")
+            RUNTIME_DECLARATIONS.read_text(encoding="utf-8")
             + "\n"
             + (GENERATED_PACKAGE / "_generated_declarations.h").read_text(encoding="utf-8")
         )

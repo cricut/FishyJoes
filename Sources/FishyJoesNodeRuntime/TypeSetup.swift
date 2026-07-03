@@ -8,7 +8,7 @@ public func registerModuleRuntime(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "default", module)
 
     try RuntimeModule.nodeSetup(env: env, module: module)
-    try installNodeCleanup(env: env, module: module)
+    try registerNodeShutdownHook(env: env)
 
     // Sorted alphabetically by type
     try AttributeContainer.nodeSetup(env: env, module: module)

@@ -40,11 +40,11 @@ class ProtocolTests(unittest.TestCase):
         value = PythonAProtocol()
 
         self.assertEqual(
-            testapi.ProtocolWitnesses.describe_a_protocol(value, x=4, y=9),
+            testapi.ProtocolFixtures.describe_a_protocol(value, x=4, y=9),
             "python foo|true|python bar 13|false|python bar 32 notBazzed",
         )
 
-        returned = testapi.ProtocolWitnesses.return_a_protocol(value)
+        returned = testapi.ProtocolFixtures.return_a_protocol(value)
         self.assertEqual(returned.foo, "python foo")
         self.assertTrue(returned.baz)
         self.assertEqual(returned.bar(x=7, y=8).foo, "python bar 15")

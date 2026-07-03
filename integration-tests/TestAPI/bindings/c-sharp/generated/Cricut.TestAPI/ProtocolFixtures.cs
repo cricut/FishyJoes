@@ -6,10 +6,10 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
-    /// <!-- FishyJoes.export(ProtocolWitnesses) -->
+    /// <!-- FishyJoes.export(ProtocolFixtures) -->
     /// </summary>
-    public record ProtocolWitnesses {
-        private ProtocolWitnesses() {}
+    public record ProtocolFixtures {
+        private ProtocolFixtures() {}
 
         /// <summary>
         /// <!-- FishyJoes.export(describeAProtocol) -->
@@ -20,11 +20,11 @@ namespace Cricut.TestAPI {
             nint y
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_ProtocolWitnesses_describeAProtocol(Loader.env, _valueHandle.ptr, x, y, out _exn)).Consume<string>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_ProtocolFixtures_describeAProtocol(Loader.env, _valueHandle.ptr, x, y, out _exn)).Consume<string>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_ProtocolWitnesses_describeAProtocol(
+        private static extern CreatedRef __iota_TestAPI_ProtocolFixtures_describeAProtocol(
             IntPtr envRef,
             UnownedRef value,
             nint x,
@@ -39,16 +39,16 @@ namespace Cricut.TestAPI {
             Cricut.TestAPI.AProtocol value
         ) {
             using var _valueHandle = new GCRef(value);
-            return Check((out CreatedRef _exn) => __iota_TestAPI_ProtocolWitnesses_returnAProtocol(Loader.env, _valueHandle.ptr, out _exn)).Consume<Cricut.TestAPI.AProtocol>();
+            return Check((out CreatedRef _exn) => __iota_TestAPI_ProtocolFixtures_returnAProtocol(Loader.env, _valueHandle.ptr, out _exn)).Consume<Cricut.TestAPI.AProtocol>();
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_ProtocolWitnesses_returnAProtocol(
+        private static extern CreatedRef __iota_TestAPI_ProtocolFixtures_returnAProtocol(
             IntPtr envRef,
             UnownedRef value,
             out CreatedRef exn
         );
 
-        static ProtocolWitnesses() { _TypeSetup._ensureLoaded(); }
+        static ProtocolFixtures() { _TypeSetup._ensureLoaded(); }
     }
 }

@@ -12,3 +12,6 @@ pubspec.lock
 # generated code/libs
 native
 
+
+# Local-development dependency overrides written by fishy-joes; never published.
+pubspec_overrides.yaml

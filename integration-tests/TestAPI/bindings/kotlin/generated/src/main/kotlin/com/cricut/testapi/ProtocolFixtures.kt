@@ -5,10 +5,10 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
- * <!-- FishyJoes.export(ProtocolWitnesses) -->
+ * <!-- FishyJoes.export(ProtocolFixtures) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
-sealed class ProtocolWitnesses {
+sealed class ProtocolFixtures {
 
     companion object {
         /**

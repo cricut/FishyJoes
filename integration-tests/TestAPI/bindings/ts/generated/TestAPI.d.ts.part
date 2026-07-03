@@ -2233,10 +2233,10 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(ProtocolWitnesses) -->
+     * <!-- FishyJoes.export(ProtocolFixtures) -->
      */
-    export type ProtocolWitnesses = never;
-    export namespace ProtocolWitnesses {
+    export type ProtocolFixtures = never;
+    export namespace ProtocolFixtures {
         /**
          * <!-- FishyJoes.export(describeAProtocol) -->
          */
@@ -2506,7 +2506,7 @@ export declare namespace TestAPI {
         }
 
         /**
-         * <!-- FishyJoes.export(marker) -->
+         * <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
          */
         function marker(
         ): TestAPI.ReferenceOnlyTypes.Marker;

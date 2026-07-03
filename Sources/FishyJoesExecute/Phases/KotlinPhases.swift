@@ -56,8 +56,12 @@ class KotlinPhases: BasePhases, Phases {
     }
 
     func installPhase() throws {
-        let translatedLibraries = ([options.config.module] + options.config.requiredModules)
-            .flatMap { [$0, "\($0)-java"] }
+        // Only this module's native libraries belong in the package resources:
+        // they end up in the published Maven artifact. Dependency modules ship
+        // their own native libraries in their own packages (locally via Gradle
+        // included builds, published via their Maven artifacts), so installing
+        // requiredModules here would bundle dependency dylibs downstream.
+        let translatedLibraries = [options.config.module, "\(options.config.module)-java"]
         let nativeLibraries = options.config.extraDynamicLibraries + translatedLibraries
         try nativeLibraries.forEach { try installLibrary($0) }
     }
