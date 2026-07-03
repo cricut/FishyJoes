@@ -242,16 +242,12 @@ public func shutdownOnMainThreadEntryPoint() {
     #endif
 }
 
-private let cShutdownOnMainThreadEntryPoint: napi_callback = { env, info in
-    callbackBody(env, info, name: "__fishyjoesCleanup", expectedArgumentCount: 0) { env in
-        shutdownOnMainThreadEntryPoint()
-        return try env.env.getUndefined()
-    }
-}
-
-public func installNodeCleanup(env: NAPI.Env, module: NAPI.Value) throws {
-    let cleanup = try env.createFunction("__fishyjoesCleanup", cShutdownOnMainThreadEntryPoint, nil)
-    try env.setNamedProperty(module, "__fishyjoesCleanup", cleanup)
+/// Register runtime shutdown with the Node.js instance itself. The runtime's
+/// lifecycle belongs to the process: Node runs env cleanup hooks when the
+/// instance exits, so no user-callable JavaScript shutdown hook is exposed.
+/// Generated module setup calls this once during registration.
+public func registerNodeShutdownHook(env: NAPI.Env) throws {
+    try env.addEnvCleanupHook({ _ in shutdownOnMainThreadEntryPoint() }, nil)
 }
 
 /// Perform an operation on the main thread.
