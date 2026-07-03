@@ -595,6 +595,11 @@ class PythonPhases: IotaPhases, Phases {
             try installPythonRuntimePackage(repair: false)
             try installGeneratedPythonPackage()
             let testArguments = ["-m", "unittest", "discover", "-s", "tests", "-v"]
+            // The generator emits the per-package typing gates into
+            // generated/tests, a separate discovery root from the hand-written
+            // tests; run both wherever the suite runs.
+            let generatedTestArguments = ["-m", "unittest", "discover", "-s", "generated/tests", "-v"]
+            let hasGeneratedTests = FileManager.default.fileExists(atPath: "generated/tests")
             if let codeCoveragePath = options.codeCoveragePath {
                 try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
                 let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
@@ -613,6 +618,15 @@ class PythonPhases: IotaPhases, Phases {
                     arguments: ["-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
                     addEnv: coverageEnv
                 ).run()
+                if hasGeneratedTests {
+                    // --append: a second plain `coverage run` would clobber the
+                    // hand-written suite's data file.
+                    try cmd(
+                        pythonVirtualEnvironmentPython(),
+                        arguments: ["-m", "coverage", "run", "--append", "--rcfile", coverageConfigPath] + generatedTestArguments,
+                        addEnv: coverageEnv
+                    ).run()
+                }
                 try cmd(
                     pythonVirtualEnvironmentPython(),
                     "-m", "coverage", "xml",
@@ -633,6 +647,13 @@ class PythonPhases: IotaPhases, Phases {
                     arguments: testArguments,
                     addEnv: try pythonTestEnvironment()
                 ).run()
+                if hasGeneratedTests {
+                    try cmd(
+                        pythonVirtualEnvironmentPython(),
+                        arguments: generatedTestArguments,
+                        addEnv: try pythonTestEnvironment()
+                    ).run()
+                }
             }
         }
     }

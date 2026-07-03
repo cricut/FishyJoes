@@ -162,6 +162,13 @@ public class FishyJoesContext {
         return SourceFragment(destinationPath: fileName)
     }
 
+    /// A package-level generated test file (the per-package typing gates),
+    /// emitted next to the `src/` tree so the test phases can discover it
+    /// separately from the hand-written `tests/` directory.
+    func pythonTestFragment(_ name: String) -> SourceFragment {
+        SourceFragment(destinationPath: "python/generated/tests/\(name)")
+    }
+
     public func translateAll() -> [SourceFragment] {
         var collectedFragments: [SourceFragment] = []
         var moduleDefinedTypes: [ExternalTranslatedType] = []

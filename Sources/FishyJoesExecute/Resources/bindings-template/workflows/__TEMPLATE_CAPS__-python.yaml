@@ -126,6 +126,7 @@ jobs:
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -246,6 +247,7 @@ jobs:
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair
         shell: bash
@@ -382,6 +384,7 @@ jobs:
           # before running the full suite against the installed wheel.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair
         shell: bash

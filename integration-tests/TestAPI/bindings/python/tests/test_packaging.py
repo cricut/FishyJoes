@@ -222,11 +222,17 @@ class PackagingTests(unittest.TestCase):
         self.assertEqual(contents.count('runtime_version_args=(--version-override "$version")'), 3)
         self.assertEqual(contents.count('"${runtime_version_args[@]}"'), 3)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
-        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)
+        # Three installed-wheel invocations per job: the import smoke test, the
+        # hand-written suite, and the generated typing-gate suite.
+        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 9)
         self.assertIn("pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl", contents)
         self.assertIn("import testapi as package; assert package.SUPPORTED", contents)
         self.assertEqual(
             contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
+            3,
+        )
+        self.assertEqual(
+            contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests'),
             3,
         )
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
@@ -252,9 +258,15 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("swift run -- fishy-joes --python build test pack", contents)
         self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build test pack', contents)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
-        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 6)
+        # Three installed-wheel invocations per job: the import smoke test, the
+        # hand-written suite, and the generated typing-gate suite.
+        self.assertEqual(contents.count("FISHYJOES_TEST_INSTALLED_WHEEL=1"), 9)
         self.assertEqual(
             contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests'),
+            3,
+        )
+        self.assertEqual(
+            contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests'),
             3,
         )
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)

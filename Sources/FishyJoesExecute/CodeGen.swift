@@ -261,6 +261,7 @@ extension CodeGen {
                 "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
                 "bindings/python/generated/src/\(pythonImportPackageName)",
+                "bindings/python/generated/tests",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
             try cmd("rm", "-rf", "bindings/ts/generated").run()
@@ -269,6 +270,7 @@ extension CodeGen {
             try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
             try cmd("rm", "-rf", "bindings/dart/generated").run()
             try cmd("rm", "-rf", "bindings/python/generated/src").run()
+            try cmd("rm", "-rf", "bindings/python/generated/tests").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             for target in generatedSwiftTargets {
                 try cmd("echo")
