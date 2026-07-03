@@ -344,6 +344,8 @@ final class PythonTranslator: Translator {
         declarationsFragment.output("- ownership: foreignObject return values are created unless explicitly documented; foreignObject parameters are borrowed unless explicitly documented; foreignOutExn is nonnull and receives an optional created error object.")
         declarationsFragment.output("*/")
         declarationsFragment.blankLine()
+        declarationsFragment.output("void FishyJoes_\(context.module.name.mangled)_registerTypes(void);")
+        declarationsFragment.blankLine()
         for declaration in declarations.sorted() {
             declarationsFragment.output(declaration)
         }

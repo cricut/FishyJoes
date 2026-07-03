@@ -7,6 +7,8 @@ ABI pointer conventions:
 - ownership: foreignObject return values are created unless explicitly documented; foreignObject parameters are borrowed unless explicitly documented; foreignOutExn is nonnull and receives an optional created error object.
 */
 
+void FishyJoes_TestAPI_registerTypes(void);
+
 bool __iota_TestAPI_EmptyClass2_equals(EnvRef envRef, foreignObject lhs, foreignObject rhs, foreignOutExn _exn);
 bool __iota_TestAPI_EmptyClass_equals(EnvRef envRef, foreignObject lhs, foreignObject rhs, foreignOutExn _exn);
 bool __iota_TestAPI_Primitives_echoBool(EnvRef envRef, bool value, foreignOutExn _exn);

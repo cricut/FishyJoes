@@ -46,7 +46,10 @@ class RuntimeConfig:
     native_dir_candidates: Sequence[Path]
     runtime_distribution_name: str = "fishyjoes-runtime"
     dependencies: Sequence[RuntimeDependency] = ()
-    declaration_files: Sequence[str] = ("_declarations.h", "_generated_declarations.h")
+    # Module-specific declaration files contributed by the generated package.
+    # The shared runtime declarations (_declarations.h) live in and are loaded
+    # from the fishyjoes-runtime package itself.
+    declaration_files: Sequence[str] = ("_generated_declarations.h",)
     runtime_requirement: str = ">=0.0.1"
     python_requirement: str = ">=3.11"
     supported_platforms: Sequence[str] = ("Darwin", "Linux", "Windows")

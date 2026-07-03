@@ -31,8 +31,11 @@ be more than a convenience file, but it does not itself define the ABI.
 
 ## Decision
 
-FishyJoes generates `_declarations.h` as the cffi ABI contract for each Python
-binding package.
+The shared FishyJoesIotaRuntime declarations live in `_declarations.h`, owned
+by and shipped with the `fishyjoes-runtime` package next to `iota.py`. Each
+generated Python binding package contributes only its module-specific
+declarations in a generated `_generated_declarations.h`; the runtime loads its
+own shared declarations first and the package's module declarations after.
 
 The declaration model must define:
 

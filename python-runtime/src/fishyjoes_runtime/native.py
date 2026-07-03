@@ -153,6 +153,14 @@ def load_library(ffi, library: NativeLibrary):
         ) from error
 
 
+def runtime_declarations() -> str:
+    """The shared FishyJoesIotaRuntime cffi declarations, owned by this package."""
+    path = _RUNTIME_PACKAGE_DIR / "_declarations.h"
+    if not path.exists():
+        raise RuntimeError(f"Missing required Iota declarations file: {path}")
+    return path.read_text(encoding="utf-8")
+
+
 def read_declarations(package_dir: Path, declaration_files: Sequence[str]) -> str:
     """Concatenate the package's cffi declaration files.
 
