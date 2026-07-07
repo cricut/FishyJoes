@@ -245,11 +245,15 @@ class PythonPhases: IotaPhases, Phases {
     private func installPythonDevDependencies() throws {
         try installPythonBootstrapDependencies()
 
-        if FileManager.default.fileExists(atPath: "requirements-dev.txt") {
+        // requirements-dev.txt (package scaffolding, installed once) plus the
+        // generated typing gate's own checker requirements (regenerated, so the
+        // gate's toolchain stays current even though the scaffolding file is not).
+        let requirementsFiles = ["requirements-dev.txt", "generated/tests/requirements-dev.txt"]
+        for requirementsFile in requirementsFiles where FileManager.default.fileExists(atPath: requirementsFile) {
             try cmd(
                 pythonVirtualEnvironmentPython(),
                 "-m", "pip", "install",
-                "-r", "requirements-dev.txt",
+                "-r", requirementsFile,
                 addEnv: [
                     "PIP_DISABLE_PIP_VERSION_CHECK": "1",
                     "PIP_NO_CACHE_DIR": "1",

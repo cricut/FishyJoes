@@ -86,6 +86,7 @@ jobs:
           # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair
@@ -163,6 +164,7 @@ jobs:
           # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair
@@ -260,6 +262,7 @@ jobs:
           # the dev tools the tooling tests (type checkers, stubtest, native-repair) require.
           "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
+          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
       - name: Verify native wheel repair

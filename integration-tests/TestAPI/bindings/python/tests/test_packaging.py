@@ -235,6 +235,11 @@ class PackagingTests(unittest.TestCase):
             contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests'),
             3,
         )
+        # The generated typing gate installs its own pinned checker toolchain.
+        self.assertEqual(
+            contents.count('"$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt'),
+            3,
+        )
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
         self.assertIn("native-repair-report-darwin.txt", contents)
         self.assertIn("native-repair-report-linux.txt", contents)
@@ -267,6 +272,11 @@ class PackagingTests(unittest.TestCase):
         )
         self.assertEqual(
             contents.count('FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests'),
+            3,
+        )
+        # The generated typing gate installs its own pinned checker toolchain.
+        self.assertEqual(
+            contents.count('"$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt'),
             3,
         )
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)

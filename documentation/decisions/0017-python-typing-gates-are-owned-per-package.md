@@ -54,6 +54,16 @@ Typing gates are owned by the package they check:
   and the installed-wheel verification steps (this repository's workflow and
   the generated downstream workflow) must run them too — a gate that runs only
   against the source tree never checks the artifact that ships.
+- The gate owns its checker toolchain. The generator emits
+  `bindings/python/generated/tests/requirements-dev.txt` (pinned mypy/pyright/
+  types-cffi) next to the gate, and the test phase installs it in addition to
+  the package's `requirements-dev.txt`. The package's own `requirements-dev.txt`
+  is scaffolding installed once at setup and skipped by regeneration, so it
+  cannot be relied on to carry the checkers to a downstream library that was
+  generated before the gates existed; emitting the gate's requirements keeps
+  the toolchain travelling with the gate and current on every regen. The
+  installed-wheel verification steps install this file before running the
+  generated tests for the same reason.
 - Allowlists run strict (no `--ignore-unused-allowlist`): an unused entry is a
   signal the gate or the toolchain changed, and must be re-justified or
   removed, not silently tolerated. Strictness makes the checker version part
