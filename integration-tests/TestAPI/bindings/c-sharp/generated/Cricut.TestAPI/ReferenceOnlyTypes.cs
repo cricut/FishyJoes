@@ -12,9 +12,9 @@ namespace Cricut.TestAPI {
         private ReferenceOnlyTypes() {}
 
         /// <summary>
-        /// <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
+        /// <!-- FishyJoes.export(marker) -->
         /// </summary>
-        public static Cricut.TestAPI.ReferenceOnlyTypes.Marker MakeMarker(
+        public static Cricut.TestAPI.ReferenceOnlyTypes.Marker Marker_(
         ) {
             return Check((out CreatedRef _exn) => __iota_TestAPI_ReferenceOnlyTypes_marker(Loader.env, out _exn)).Consume<Cricut.TestAPI.ReferenceOnlyTypes.Marker>();
         }

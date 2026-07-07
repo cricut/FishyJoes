@@ -115,7 +115,7 @@ final class CSharpTranslator: Translator {
                 documentation: method.documentation,
                 isStatic: method.isStatic,
                 isOverride: method.exportAnnotation.isOverride,
-                name: upperCaseFirst(exportAnnotation.cSharpName),
+                name: upperCaseFirst(exportAnnotation.name),
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
                 returnType: method.isAsync ? .task(returnType) : returnType,

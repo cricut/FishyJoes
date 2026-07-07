@@ -104,17 +104,10 @@ class CSharpClass: NestedClass {
     }
 
     func memberIdentifier(_ name: String) -> String {
-        let identifier = CSharpClass.deforbidify(name)
+        var identifier = CSharpClass.deforbidify(name)
         let nestedTypeNames = Set(innerClasses.map(\.unqualifiedName))
         if nestedTypeNames.contains(identifier) {
-            // Renaming automatically (e.g. appending "_") would make the generated
-            // interface unstable: adding a nested type could silently rename an
-            // unrelated member. Make the conflict the library author's decision.
-            fatalError(
-                "C# member '\(identifier)' of '\(name)' conflicts with nested type "
-                    + "'\(identifier)' in \(self.name). Export the member or the type under a "
-                    + "different C# name, e.g. /// <!-- FishyJoes.export(\(name), cSharp: SomeOtherName) -->"
-            )
+            identifier += "_"
         }
         return identifier
     }

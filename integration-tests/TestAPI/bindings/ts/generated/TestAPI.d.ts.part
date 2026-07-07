@@ -2506,7 +2506,7 @@ export declare namespace TestAPI {
         }
 
         /**
-         * <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
+         * <!-- FishyJoes.export(marker) -->
          */
         function marker(
         ): TestAPI.ReferenceOnlyTypes.Marker;

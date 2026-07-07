@@ -12,7 +12,7 @@ sealed class ReferenceOnlyTypes {
 
     companion object {
         /**
-         * <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
+         * <!-- FishyJoes.export(marker) -->
          */
         fun marker(
         ): com.cricut.testapi.ReferenceOnlyTypes.Marker = __jni_marker()
