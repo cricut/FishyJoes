@@ -4,11 +4,13 @@ import swsh
 class PythonPhases: IotaPhases, Phases {
     func generationPhaseTemplateReplacements() throws -> [String: String] {
         let dependencies = options.config.requiredModules.map { module in
-            PythonDependency(
+            let distributionName = options.config.python.dependencyDistributionName(forModule: module)
+            return PythonDependency(
                 module: module,
-                distributionName: options.config.python.dependencyDistributionName(forModule: module),
+                distributionName: distributionName,
                 importName: options.config.python.dependencyImportPackageName(forModule: module),
-                versionRequirement: pythonVersionRequirement(for: module)
+                versionRequirement: pythonVersionRequirement(for: module),
+                pipRequirement: pythonPipRequirement(for: module, distributionName: distributionName)
             )
         }
         return [
@@ -42,7 +44,15 @@ class PythonPhases: IotaPhases, Phases {
         let module: String
         let distributionName: String
         let importName: String
+        /// PEP 440 version specifier for the import-time runtime compatibility
+        /// check (e.g. `>=2.22.4,<3.0.0`). Always a valid `SpecifierSet`.
         let versionRequirement: String
+        /// The pyproject `[project.dependencies]` entry. Normally
+        /// `<distname><specifier>`; for a local-path dependency in a
+        /// development build it is a PEP 508 direct reference,
+        /// `<distname> @ file:///…`, so the metadata names the local source
+        /// instead of a fabricated version range.
+        let pipRequirement: String
     }
 
     private func mangle(_ value: String) -> String {
@@ -63,12 +73,32 @@ class PythonPhases: IotaPhases, Phases {
         return version
     }
 
+    /// The pyproject `[project.dependencies]` entry for a required module.
+    ///
+    /// For a dependency that resolves to a concrete version, this is the usual
+    /// `<distname><specifier>`. For a local-path SwiftPM dependency with no
+    /// configured requirement, there is no honest version to advertise, so emit
+    /// pip's PEP 508 direct reference to the dependency's generated Python
+    /// package: `<distname> @ file:///…`. This only appears in development
+    /// builds — `pack` requires a concrete requirement for filesystem, branch,
+    /// and revision dependencies (see validatePublishablePythonDependencies),
+    /// and direct references cannot be published to a package index.
+    private func pythonPipRequirement(for module: String, distributionName: String) -> String {
+        if options.config.python.dependencyVersionRequirement(forModule: module) == nil,
+           let dependency = options.packageInfo?.dependencyMap[module],
+           case .fileSystem = dependency {
+            let packagePath = "\(options.absoluteLocalPath(for: dependency))/bindings/python/generated"
+            return "\(distributionName) @ file://\(packagePath)"
+        }
+        return "\(distributionName)\(pythonVersionRequirement(for: module))"
+    }
+
     private func pythonDependencyLines(_ dependencies: [PythonDependency]) -> String {
         guard !dependencies.isEmpty else {
             return ""
         }
         return dependencies
-            .map { #"  "\#($0.distributionName)\#($0.versionRequirement)","# }
+            .map { #"  "\#($0.pipRequirement)","# }
             .joined(separator: "\n")
     }
 
