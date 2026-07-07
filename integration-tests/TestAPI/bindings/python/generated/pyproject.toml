@@ -14,6 +14,13 @@ dependencies = [
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.metadata]
+# Development builds against a local-path dependency express it as a PEP 508
+# direct reference (name @ file:///…); allow the build backend to accept it.
+# Published wheels never contain direct references (pack rejects filesystem,
+# branch, and revision dependencies without a concrete version requirement).
+allow-direct-references = true
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/testapi"]
 artifacts = ["native/*"]

@@ -238,6 +238,44 @@ class FishyJoesConfigTests: XCTestCase {
         }
     }
 
+    func testPythonPhaseUsesDirectReferenceForLocalPathDependencyInDevelopment() throws {
+        let config = try readConfig(
+            """
+            module: FancyLibrary
+            requiredModules:
+              - SharedSwift
+            python:
+              dependencies:
+                SharedSwift:
+                  distributionName: shared-swift-bindings
+                  importPackageName: shared_swift_bindings
+            """
+        )
+        let options = CodeGen()
+        options.config = config
+        options.version = "0.5.0"
+        options.packageInfo = SwiftPackage(
+            dependencies: [
+                .fileSystem(identity: "sharedswift", path: "/tmp/checkouts/SharedSwift"),
+            ],
+            targets: []
+        )
+
+        let replacements = try PythonPhases(platform: .python, options: options)
+            .generationPhaseTemplateReplacements()
+
+        // Development build: the pyproject dependency is a PEP 508 direct
+        // reference to the local package, not a fabricated version range.
+        XCTAssertTrue(
+            replacements["__PYTHON_DEPENDENCIES__"]?
+                .contains(#""shared-swift-bindings @ file:///tmp/checkouts/SharedSwift/bindings/python/generated","#) == true,
+            replacements["__PYTHON_DEPENDENCIES__"] ?? "nil"
+        )
+        XCTAssertFalse(replacements["__PYTHON_DEPENDENCIES__"]?.contains(">=0.0.1") == true)
+        // The import-time runtime check keeps a valid version specifier.
+        XCTAssertTrue(replacements["__PYTHON_RUNTIME_DEPENDENCIES__"]?.contains(#"version_requirement=">=0.0.1""#) == true)
+    }
+
     func testPackageInitInstallsPythonExampleTestWithConfiguredImportName() throws {
         let config = try readConfig(
             """
