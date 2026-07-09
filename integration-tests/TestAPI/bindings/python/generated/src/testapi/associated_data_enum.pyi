@@ -4,6 +4,10 @@ from dataclasses import dataclass
 from typing import ClassVar
 from .simple_enum import SimpleEnum as SimpleEnum
 
+# Class-body attributes shadow these imported types inside the class
+# scope; annotations reference them through module-level aliases.
+_SimpleEnum = SimpleEnum
+
 class AssociatedDataEnum:
     __fishyjoes_origin__: ClassVar[dict[str, str]]
     @classmethod
@@ -24,7 +28,7 @@ class AssociatedDataEnum:
     @classmethod
     def none(cls) -> AssociatedDataEnum: ...
     @classmethod
-    def simple_enum(cls, value: SimpleEnum) -> AssociatedDataEnum: ...
+    def simple_enum(cls, value: _SimpleEnum) -> AssociatedDataEnum: ...
     SimpleEnum: ClassVar[type[AssociatedDataEnum_SimpleEnum]]
     @property
     def int_value(self) -> int: ...
@@ -58,4 +62,4 @@ class AssociatedDataEnum_None(AssociatedDataEnum):
 
 @dataclass(frozen=True)
 class AssociatedDataEnum_SimpleEnum(AssociatedDataEnum):
-    value: SimpleEnum
+    value: _SimpleEnum

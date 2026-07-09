@@ -57,7 +57,9 @@ sealed class PythonNamingCollisions {
         private external fun __jni_get_list(): Long
 
         /**
-         * <!-- FishyJoes.export(Url) -->
+         * `URL` and `Url` both snake-case to `url`; sibling collisions are a
+         * generation error, resolved with an explicit verbatim `python:` name.
+         * <!-- FishyJoes.export(Url, python: title_url) -->
          */
         val Url: kotlin.String
           get() = __jni_get_Url()

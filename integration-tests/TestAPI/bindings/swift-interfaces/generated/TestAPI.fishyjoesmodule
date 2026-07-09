@@ -1787,6 +1787,114 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "Shade",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Shade",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Shade",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Shade"
+        }
+      },
+      "kotlinName" : "Shade",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Shade",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Shade",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ShadowBox",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ShadowBox",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ShadowBox",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ShadowBox"
+        }
+      },
+      "kotlinName" : "ShadowBox",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ShadowBox",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ShadowBox",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "SimpleEnum",
             "namespace" : [
 
@@ -4965,6 +5073,55 @@
             "constructor" : {
               "visible" : {
                 "names" : [
+                  "darkness"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "A type whose name matches a case of ``ShadowBox``. Inside ShadowBox's",
+              "generated Python class body, the case-type attribute (`Shade: ClassVar[...]`)",
+              "shadows this type's import, so annotations meaning this type must resolve",
+              "through a module-level alias in the generated stub.",
+              "<!-- FishyJoes.export(Shade) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "darkness",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Shade"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
                   "const42",
                   "iabs",
                   "intCompose",
@@ -7811,6 +7968,32 @@
               }
             ],
             "name" : "AssociatedDataEnum_Common"
+          },
+          {
+            "documentation" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(allShades) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "allShades",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Shade[]"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "ShadowBox",
+            "methods" : [
+
+            ],
+            "name" : "ShadowBox_Common"
           },
           {
             "documentation" : [
@@ -14363,7 +14546,9 @@
               },
               {
                 "documentation" : [
-                  "<!-- FishyJoes.export(Url) -->"
+                  "`URL` and `Url` both snake-case to `url`; sibling collisions are a",
+                  "generation error, resolved with an explicit verbatim `python:` name.",
+                  "<!-- FishyJoes.export(Url, python: title_url) -->"
                 ],
                 "hasDefaultImplementation" : false,
                 "isStatic" : true,
@@ -15170,6 +15355,127 @@
               }
             ],
             "name" : "Results",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "ShadowBox" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "_0"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "Shade"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "ShadowBox_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "_0",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Shade"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Shade"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "ShadowBox_Common"
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Empty"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(darkest) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "darkest",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "shades",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Shade[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "Shade"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "name" : "ShadowBox",
             "namespaces" : {
 
             },
@@ -17236,6 +17542,28 @@
               "union" : {
                 "_0" : [
 
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(ShadowBox) -->"
+            ],
+            "name" : "ShadowBox",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "named" : {
+                      "_0" : "ShadowBox.Shade"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "ShadowBox.Empty"
+                    }
+                  }
                 ]
               }
             }

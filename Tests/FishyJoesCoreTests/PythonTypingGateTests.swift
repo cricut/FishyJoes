@@ -50,6 +50,7 @@ final class PythonTypingGateTests: XCTestCase {
     ) -> PythonTranslator.NativeField {
         PythonTranslator.NativeField(
             pythonName: pythonName,
+            isExplicitPythonName: false,
             cName: pythonName,
             symbol: "__iota_get_Fixture_\(pythonName)",
             setterSymbol: settable ? "__iota_set_Fixture_\(pythonName)" : nil,

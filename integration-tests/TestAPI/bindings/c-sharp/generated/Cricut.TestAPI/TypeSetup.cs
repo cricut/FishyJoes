@@ -751,6 +751,48 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        delegate CreatedRef _TestAPI_ShadeConstructor(
+            double darkness,
+            out CreatedRef exn
+        );
+        delegate double _TestAPI_Shade_darknessGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Shade_darknessSetter(UnownedRef obj, double newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Shade_setup(
+            IntPtr envRef,
+            _TestAPI_ShadeConstructor constructor,
+            _TestAPI_Shade_darknessGetter get_darkness,
+            _TestAPI_Shade_darknessSetter set_darkness,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_ShadowBox_new_shade(
+            ConsumedRef _0,
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ShadowBox_extract_shade(
+            UnownedRef obj,
+            ref CreatedRef _0,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ShadowBox_new_empty(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ShadowBox_extract_empty(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ShadowBox_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_ShadowBox_new_shade shade_constructor,
+            Cricut_TestAPI_ShadowBox_extract_shade shade_extractor,
+            Cricut_TestAPI_ShadowBox_new_empty empty_constructor,
+            Cricut_TestAPI_ShadowBox_extract_empty empty_extractor,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef Cricut_TestAPI_SimpleEnum_new_red(
             out CreatedRef _exn
         );
@@ -1906,6 +1948,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ArrayConverter<TestAPI.Shade>", () => {
+                // Console.WriteLine("setting up Array<Shade>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.TestAPI.Shade>(
+                    Loader.env,
+                    "ArrayConverter<TestAPI.Shade>",
+                    out exn
+                ));
+            });
             Once("setup_ArrayConverter<Swift.String>", () => {
                 // Console.WriteLine("setting up Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<string>(
@@ -2087,6 +2137,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<Swift.Int8>", () => {
                 // Console.WriteLine("setting up Optional<Int8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_OptionalConverter<TestAPI.Shade>", () => {
+                // Console.WriteLine("setting up Optional<Shade>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
@@ -3473,6 +3530,83 @@ namespace Cricut.TestAPI {
                 // Console.WriteLine("setting up TestAPI.Results...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Results_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Shade", () => {
+                // Console.WriteLine("setting up TestAPI.Shade...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Shade_setup(
+                    Loader.env,
+                    bag<_TestAPI_ShadeConstructor>((double darkness, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Shade(
+                            darkness
+                        ));
+                    })),
+                    bag<_TestAPI_Shade_darknessGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Shade>().Darkness
+                    )),
+                    bag<_TestAPI_Shade_darknessSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Shade>().Darkness = newValue;
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.ShadowBox", () => {
+                // Console.WriteLine("setting up TestAPI.ShadowBox...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ShadowBox_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox>();
+                        if (enumeration is Cricut.TestAPI.ShadowBox.Shade) { return (nint)0; }
+                        if (enumeration is Cricut.TestAPI.ShadowBox.Empty) { return (nint)1; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.ShadowBox: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_ShadowBox_new_shade>(
+                        (
+                            ConsumedRef __0,
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ShadowBox.Shade(
+                                __0.Consume<Cricut.TestAPI.Shade>()
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_extract_shade>(
+                        (
+                            UnownedRef obj,
+                            ref CreatedRef __0,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox.Shade>();
+                                __0 = new CreatedRef(enumeration._0);
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_new_empty>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ShadowBox.Empty(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_extract_empty>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox.Empty>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });

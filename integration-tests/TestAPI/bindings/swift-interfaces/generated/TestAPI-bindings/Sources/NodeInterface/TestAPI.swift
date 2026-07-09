@@ -6892,6 +6892,195 @@ extension TestAPI.Results.Error: FishyJoesNodeRuntime.NodeMutator {
     }
 }
 
+// MARK: - NodeInterface/TestAPI.Shade+node.swift
+
+extension TestAPI.Shade: FishyJoesNodeRuntime.NodeMutator {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        Self(
+            darkness: try { () -> Swift.Double in
+                let fieldValue = try env.getNamedProperty(value, "darkness")
+                return try Swift.Double.fromNode(fieldValue, env: env)
+            }()
+        )
+    }
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        let constructor = try NodeClass.constructor(for: "Shade", module: "TestAPI", env: env)
+        let args: [NAPI.Value] = [
+            try Swift.Double.toNode(value.darkness, env: env),
+        ]
+        return try env.newInstance(constructor, args)
+    }
+    public static func mutateNode(_ value: Self, this: NAPI.Value, env: NAPI.Env) throws {
+        try env.setNamedProperty(this, "darkness", Swift.Double.toNode(value.darkness, env: env))
+    }
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let nodeClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "Shade",
+            properties: [
+                (name: "darkness", .stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                callbackBody(env, info, name: "Shade_constructor", expectedArgumentCount: 1) { env in
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "darkness", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "Shade",
+            nodeClass: nodeClass.constructor.value(env: env)
+        )
+    }
+}
+
+// MARK: - NodeInterface/TestAPI.ShadowBox+node.swift
+
+extension TestAPI.ShadowBox: FishyJoesNodeRuntime.NodeConverter {
+    public typealias SwiftType = Self
+    public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
+        if try env.instanceof(value, NodeClass.constructor(for: "ShadowBox.Shade", module: "TestAPI", env: env)) {
+            let __0 = try env.getNamedProperty(value, "_0")
+            return Self.shade(
+                try TestAPI.Shade.fromNode(__0, env: env)
+            )
+        }
+
+        if try env.instanceof(value, NodeClass.constructor(for: "ShadowBox.Empty", module: "TestAPI", env: env)) {
+            return empty
+        }
+
+        fatalError("invalid enum for TestAPI.ShadowBox")
+    }
+
+    public static func toNode(_ value: Self, env: NAPI.Env) throws -> NAPI.Value {
+        switch value {
+        case let .shade(_0):
+            return try env.newInstance(
+                NodeClass.constructor(for: "ShadowBox.Shade", module: "TestAPI", env: env),
+                [
+                    TestAPI.Shade.toNode(_0, env: env),
+                ]
+            )
+        case .empty:
+            return try env.newInstance(
+                NodeClass.constructor(for: "ShadowBox.Empty", module: "TestAPI", env: env),
+                [
+                ]
+            )
+        }
+    }
+
+    @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")
+    public static func nodeSetup(env: NAPI.Env, module: NAPI.Value) throws {
+        let superclass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ShadowBox",
+            properties: [
+                (
+                    name: "darkest",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "darkest", expectedArgumentCount: 1, hasNamedOptions: false) { env in
+                            let result = try OptionalConverter<TestAPI.Shade>.toNode(
+                                TestAPI.ShadowBox.darkest(
+                                    of: try env.argument(at: 0, converter: ArrayConverter<TestAPI.Shade>.self)
+                                ),
+                                env: env.env
+                            )
+                            return result
+                        }
+                    },
+                    isStatic: true
+                ),
+                (
+                    name: "allShades",
+                    .accessor(
+                        getter: { env, info in
+                            FishyJoesNodeRuntime.callbackBody(env, info, name: "allShades", expectedArgumentCount: 0) { env in
+                                return try ArrayConverter<TestAPI.Shade>.toNode(env.this(converter: TestAPI.ShadowBox.self).allShades, env: env.env)
+                            }
+                        },
+                        setter: nil
+                    ),
+                    isStatic: false
+                ),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ShadowBox_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    return try env.this()
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ShadowBox",
+            nodeClass: superclass.constructor.value(env: env)
+        )
+        let shadeClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ShadowBox.Shade",
+            superclass: superclass,
+            properties: [
+                (name: "_0", .stored(mutable: true), isStatic: false),
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ShadowBox.Shade_constructor",
+                    expectedArgumentCount: 1
+                ) { env in
+                    let this = try env.this()
+                    try env.env.setNamedProperty(this, "_0", env.argument(at: 0))
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ShadowBox.Shade",
+            nodeClass: shadeClass.constructor.value(env: env)
+        )
+        let emptyClass = try NodeClass(
+            env: env,
+            module: "TestAPI",
+            name: "ShadowBox.Empty",
+            superclass: superclass,
+            properties: [
+            ],
+            constructor: { env, info in
+                FishyJoesNodeRuntime.callbackBody(
+                    env, info,
+                    name: "ShadowBox.Empty_constructor",
+                    expectedArgumentCount: 0
+                ) { env in
+                    let this = try env.this()
+                    return this
+                }
+            }
+        )
+        try FishyJoesNodeRuntime.mergeDefinitionInto(
+            env: env,
+            module: module,
+            path: "ShadowBox.Empty",
+            nodeClass: emptyClass.constructor.value(env: env)
+        )
+    }
+}
+
 // MARK: - NodeInterface/TestAPI.SimpleEnum+node.swift
 
 extension TestAPI.SimpleEnum: FishyJoesNodeRuntime.NodeConverter {

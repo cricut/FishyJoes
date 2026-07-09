@@ -10,8 +10,11 @@ class PythonNamingCollisions:
     is_nan: ClassVar[bool]
     leading_underscore: ClassVar[int]
     list: ClassVar[int]
+    title_url: ClassVar[str]
+    """`URL` and `Url` both snake-case to `url`; sibling collisions are a
+    generation error, resolved with an explicit verbatim `python:` name.
+    """
     url: ClassVar[str]
-    url_2: ClassVar[str]
     @staticmethod
     def from_() -> str: ...
     @staticmethod

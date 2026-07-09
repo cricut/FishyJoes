@@ -161,6 +161,7 @@ foreignObject __iota_TestAPI_ReferenceCaseEnum_rotate180(EnvRef envRef, foreignO
 foreignObject __iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_TestAPI_ReferenceOnlyTypes_marker(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Results_processResult(EnvRef envRef, foreignObject result, foreignOutExn _exn);
+foreignObject __iota_TestAPI_ShadowBox_darkest(EnvRef envRef, foreignObject shades, foreignOutExn _exn);
 foreignObject __iota_TestAPI_SimpleEnum_hexMethod(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 foreignObject __iota_TestAPI_SimpleEnum_pickAColor(EnvRef envRef, intptr_t rawValue, foreignOutExn _exn);
 foreignObject __iota_TestAPI_Strings_echo(EnvRef envRef, foreignObject string, foreignOutExn _exn);
@@ -333,6 +334,7 @@ foreignObject __iota_get_TestAPI_ReferenceCaseEnum_defaultDirection(EnvRef envRe
 foreignObject __iota_get_TestAPI_ReferenceCaseEnum_opposite(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Results_aFailure(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Results_aSuccess(EnvRef envRef, foreignOutExn _exn);
+foreignObject __iota_get_TestAPI_ShadowBox_allShades(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_SimpleEnum_favoriteColor(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Strings_accent(EnvRef envRef, foreignOutExn _exn);
 foreignObject __iota_get_TestAPI_Strings_chinese(EnvRef envRef, foreignOutExn _exn);
@@ -445,6 +447,7 @@ typedef bool (*Primitives_PrimitiveHolder_bGetterFn)(foreignObject obj, foreignO
 typedef bool (*TestDefaultComputedPropertiesStruct_spamGetterFn)(foreignObject obj, foreignOutExn _exn);
 typedef bool (*TestMethodsProtocol_barMethodFn)(foreignObject obj, foreignOutExn _exn);
 typedef double (*Primitives_PrimitiveHolder_dGetterFn)(foreignObject obj, foreignOutExn _exn);
+typedef double (*Shade_darknessGetterFn)(foreignObject obj, foreignOutExn _exn);
 typedef float (*Primitives_PrimitiveHolder_fGetterFn)(foreignObject obj, foreignOutExn _exn);
 typedef foreignObject (*AProtocolConstructorFn)(void *ptr, foreignOutExn _exn);
 typedef foreignObject (*AProtocolImplementationConstructorFn)(foreignObject foo, bool baz, foreignOutExn _exn);
@@ -498,6 +501,9 @@ typedef foreignObject (*ReferenceCaseEnum_westConstructorFn)(foreignOutExn _exn)
 typedef foreignObject (*ReferenceOnlyTypes_MarkerConstructorFn)(void *ptr, foreignOutExn _exn);
 typedef foreignObject (*Results_ErrorConstructorFn)(foreignObject message, foreignOutExn _exn);
 typedef foreignObject (*Results_Error_messageGetterFn)(foreignObject obj, foreignOutExn _exn);
+typedef foreignObject (*ShadeConstructorFn)(double darkness, foreignOutExn _exn);
+typedef foreignObject (*ShadowBox_emptyConstructorFn)(foreignOutExn _exn);
+typedef foreignObject (*ShadowBox_shadeConstructorFn)(foreignObject _0, foreignOutExn _exn);
 typedef foreignObject (*SimpleEnum_blueConstructorFn)(foreignOutExn _exn);
 typedef foreignObject (*SimpleEnum_greenConstructorFn)(foreignOutExn _exn);
 typedef foreignObject (*SimpleEnum_redConstructorFn)(foreignOutExn _exn);
@@ -598,6 +604,7 @@ typedef foreignObject (*TheMethodErrorConstructorFn)(void *ptr, foreignOutExn _e
 typedef foreignObject (*UnicodeScalar_PuttingTypesIntoQuestionablePlaces_thingConstructorFn)(foreignOutExn _exn);
 typedef int (*AssociatedDataEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*ReferenceCaseEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
+typedef int (*ShadowBoxDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*SimpleEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*TestDefaultComputedPropertiesEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
 typedef int (*TestNonExportedProtocolEnumDiscriminatorFn)(foreignObject obj, foreignOutExn _exn);
@@ -666,6 +673,9 @@ typedef void (*ReferenceCaseEnum_eastExtractorFn)(foreignObject obj, foreignOutE
 typedef void (*ReferenceCaseEnum_northExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*ReferenceCaseEnum_southExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*ReferenceCaseEnum_westExtractorFn)(foreignObject obj, foreignOutExn _exn);
+typedef void (*Shade_darknessSetterFn)(foreignObject obj, double newValue, foreignOutExn _exn);
+typedef void (*ShadowBox_emptyExtractorFn)(foreignObject obj, foreignOutExn _exn);
+typedef void (*ShadowBox_shadeExtractorFn)(foreignObject obj, foreignObject *_0, foreignOutExn _exn);
 typedef void (*SimpleEnum_blueExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*SimpleEnum_greenExtractorFn)(foreignObject obj, foreignOutExn _exn);
 typedef void (*SimpleEnum_redExtractorFn)(foreignObject obj, foreignOutExn _exn);
@@ -749,6 +759,8 @@ void TestAPI_Primitives_PrimitiveHolder_setup(EnvRef envRef, Primitives_Primitiv
 void TestAPI_ReferenceCaseEnum_setup(EnvRef envRef, ReferenceCaseEnumDiscriminatorFn discriminator, ReferenceCaseEnum_northConstructorFn north_constructor, ReferenceCaseEnum_northExtractorFn north_extractor, ReferenceCaseEnum_southConstructorFn south_constructor, ReferenceCaseEnum_southExtractorFn south_extractor, ReferenceCaseEnum_eastConstructorFn east_constructor, ReferenceCaseEnum_eastExtractorFn east_extractor, ReferenceCaseEnum_westConstructorFn west_constructor, ReferenceCaseEnum_westExtractorFn west_extractor);
 void TestAPI_ReferenceOnlyTypes_Marker_setup(EnvRef envRef, ReferenceOnlyTypes_MarkerConstructorFn constructorMethod, foreignOutExn _exn);
 void TestAPI_Results_Error_setup(EnvRef envRef, Results_ErrorConstructorFn constructorMethod, Results_Error_messageGetterFn messageGetter, foreignOutExn _exn);
+void TestAPI_Shade_setup(EnvRef envRef, ShadeConstructorFn constructorMethod, Shade_darknessGetterFn darknessGetter, Shade_darknessSetterFn darknessSetter, foreignOutExn _exn);
+void TestAPI_ShadowBox_setup(EnvRef envRef, ShadowBoxDiscriminatorFn discriminator, ShadowBox_shadeConstructorFn shade_constructor, ShadowBox_shadeExtractorFn shade_extractor, ShadowBox_emptyConstructorFn empty_constructor, ShadowBox_emptyExtractorFn empty_extractor);
 void TestAPI_SimpleEnum_setup(EnvRef envRef, SimpleEnumDiscriminatorFn discriminator, SimpleEnum_redConstructorFn red_constructor, SimpleEnum_redExtractorFn red_extractor, SimpleEnum_greenConstructorFn green_constructor, SimpleEnum_greenExtractorFn green_extractor, SimpleEnum_blueConstructorFn blue_constructor, SimpleEnum_blueExtractorFn blue_extractor);
 void TestAPI_Structs_MemberwiseStruct_setup(EnvRef envRef, Structs_MemberwiseStructConstructorFn constructorMethod, Structs_MemberwiseStruct_immutableGetterFn immutableGetter, Structs_MemberwiseStruct_immutableSetterFn immutableSetter, Structs_MemberwiseStruct_mutableGetterFn mutableGetter, Structs_MemberwiseStruct_mutableSetterFn mutableSetter, foreignOutExn _exn);
 void TestAPI_Structs_MutableStruct_setup(EnvRef envRef, Structs_MutableStructConstructorFn constructorMethod, Structs_MutableStruct_iGetterFn iGetter, Structs_MutableStruct_iSetterFn iSetter, foreignOutExn _exn);

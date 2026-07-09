@@ -83,7 +83,9 @@ namespace Cricut.TestAPI {
         private static extern nint __iota_get_TestAPI_PythonNamingCollisions_list(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
-        /// <!-- FishyJoes.export(Url) -->
+        /// <para>`URL` and `Url` both snake-case to `url`; sibling collisions are a</para>
+        /// <para>generation error, resolved with an explicit verbatim `python:` name.</para>
+        /// <!-- FishyJoes.export(Url, python: title_url) -->
         /// </summary>
         public static string Url {
             get {

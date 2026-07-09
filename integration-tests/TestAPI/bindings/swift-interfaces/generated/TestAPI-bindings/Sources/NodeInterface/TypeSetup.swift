@@ -57,6 +57,8 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.ReferenceEmptyEnum.nodeSetup(env: env, module: module)
     try TestAPI.ReferenceOnlyTypes.nodeSetup(env: env, module: module)
     try TestAPI.Results.nodeSetup(env: env, module: module)
+    try TestAPI.Shade.nodeSetup(env: env, module: module)
+    try TestAPI.ShadowBox.nodeSetup(env: env, module: module)
     try TestAPI.SimpleEnum.nodeSetup(env: env, module: module)
     try TestAPI.Strings.nodeSetup(env: env, module: module)
     try TestAPI.Structs.nodeSetup(env: env, module: module)

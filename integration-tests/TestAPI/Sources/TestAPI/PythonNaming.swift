@@ -15,7 +15,9 @@ public enum PythonNamingCollisions {
     /// <!-- FishyJoes.export(URL) -->
     public static let upperURL = "upper"
 
-    /// <!-- FishyJoes.export(Url) -->
+    /// `URL` and `Url` both snake-case to `url`; sibling collisions are a
+    /// generation error, resolved with an explicit verbatim `python:` name.
+    /// <!-- FishyJoes.export(Url, python: title_url) -->
     public static let titleUrl = "title"
 
     /// <!-- FishyJoes.export(isNaN) -->

@@ -207,6 +207,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Swift.Int64>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.Int8>...")
         try ArrayConverter<Swift.Int8>.javaSetup(env: env)
+        // print("setting up ArrayConverter<TestAPI.Shade>...")
+        try ArrayConverter<TestAPI.Shade>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.String>...")
         try ArrayConverter<Swift.String>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.UInt>...")
@@ -257,6 +259,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<Swift.Int64>.javaSetup(env: env)
         // print("setting up OptionalConverter<Swift.Int8>...")
         try OptionalConverter<Swift.Int8>.javaSetup(env: env)
+        // print("setting up OptionalConverter<TestAPI.Shade>...")
+        try OptionalConverter<TestAPI.Shade>.javaSetup(env: env)
         // print("setting up OptionalConverter<TestAPI.SimpleEnum>...")
         try OptionalConverter<TestAPI.SimpleEnum>.javaSetup(env: env)
         // print("setting up OptionalConverter<Swift.String>...")
@@ -2237,6 +2241,23 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_processResult"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/TypedResult;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Results_processResult, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.Shade...")
+        try TestAPI.Shade.javaSetup(env: env)
+        // print("setting up TestAPI.ShadowBox...")
+        try TestAPI.ShadowBox.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ShadowBox.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_darkest"),
+                signature: bag.add("(Ljava/util/List;)Lcom/cricut/testapi/Shade;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ShadowBox_darkest, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_allShades"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ShadowBox_allShades, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.SimpleEnum...")

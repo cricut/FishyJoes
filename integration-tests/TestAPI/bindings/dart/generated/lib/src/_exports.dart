@@ -49,6 +49,8 @@ export './ReferenceCaseEnum.dart';
 export './ReferenceEmptyEnum.dart';
 export './ReferenceOnlyTypes.dart';
 export './Results.dart';
+export './Shade.dart';
+export './ShadowBox.dart';
 export './SimpleEnum.dart';
 export './Strings.dart';
 export './Structs.dart';

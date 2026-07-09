@@ -332,6 +332,28 @@ typedef TestAPI_ReferenceCaseEnum_extract_west = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef _TestAPI_ShadeConstructor = CreatedRef Function(
+    ffi.Double darkness,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Shade_darknessGetter = ffi.Double Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Shade_darknessSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
+typedef TestAPI_ShadowBox_new_shade = CreatedRef Function(
+    ConsumedRef m_0,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_extract_shade = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _0,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_new_empty = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_extract_empty = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
 );
@@ -1256,6 +1278,42 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Results_setup');
+    final TestAPI_Shade_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_ShadeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessGetter>> get_darkness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessSetter>> set_darkness,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_ShadeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessGetter>> get_darkness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessSetter>> set_darkness,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Shade_setup');
+    final TestAPI_ShadowBox_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_shade>> shade_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_shade>> shade_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_empty>> empty_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_empty>> empty_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_shade>> shade_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_shade>> shade_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_empty>> empty_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_empty>> empty_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ShadowBox_setup');
     final TestAPI_SimpleEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -3532,6 +3590,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Results_processResult");
+    TestAPI.ShadowBox.f__iota_TestAPI_ShadowBox_darkest = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef shades,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef shades,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ShadowBox_darkest");
     TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_hexMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6462,6 +6532,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Results_aSuccess");
+    TestAPI.ShadowBox.f__iota_get_TestAPI_ShadowBox_allShades = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ShadowBox_allShades");
     TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8262,6 +8344,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_ArrayConverter<TestAPI.Shade>", () {
+        // print("setting up Array<Shade> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<TestAPI.Shade>(
+                Loader.shared.env,
+                "ArrayConverter<TestAPI.Shade>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_ArrayConverter<Swift.String>", () {
         // print("setting up Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -8515,6 +8608,16 @@ final ensureLoaded = (() {
 
     Loader.shared.once("setup_OptionalConverter<Swift.Int8>", () {
         // print("setting up Optional<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_OptionalConverter<TestAPI.Shade>", () {
+        // print("setting up Optional<Shade> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -9504,6 +9607,34 @@ final ensureLoaded = (() {
         utils.check<void>((exn) {
             TestAPI_Results_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Shade", () {
+        // print("setting up TestAPI.Shade (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Shade_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_get_darkness, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_set_darkness),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.ShadowBox", () {
+        // print("setting up TestAPI.ShadowBox (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ShadowBox_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.newShade),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.extractShade),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.newEmpty),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.extractEmpty),
                 exn
             );
         });

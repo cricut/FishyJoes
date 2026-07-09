@@ -2265,7 +2265,9 @@ export declare namespace TestAPI {
         const URL: string;
 
         /**
-         * <!-- FishyJoes.export(Url) -->
+         * `URL` and `Url` both snake-case to `url`; sibling collisions are a
+         * generation error, resolved with an explicit verbatim `python:` name.
+         * <!-- FishyJoes.export(Url, python: title_url) -->
          */
         const Url: string;
 
@@ -2542,6 +2544,51 @@ export declare namespace TestAPI {
         function processResult(
             result: Runtime.Result<string, Results.Error>
         ): string;
+    }
+
+    /**
+     * A type whose name matches a case of ``ShadowBox``. Inside ShadowBox's
+     * generated Python class body, the case-type attribute (`Shade: ClassVar[...]`)
+     * shadows this type's import, so annotations meaning this type must resolve
+     * through a module-level alias in the generated stub.
+     * <!-- FishyJoes.export(Shade) -->
+     */
+    export class Shade {
+        constructor(darkness: number)
+
+        darkness: number;
+    }
+
+    /**
+     * <!-- FishyJoes.export(ShadowBox) -->
+     */
+    export type ShadowBox = ShadowBox.Shade | ShadowBox.Empty;
+    export namespace ShadowBox {
+        interface Empty extends ShadowBox_Common {}
+        export class Empty {
+            constructor()
+        }
+
+        interface Shade extends ShadowBox_Common {}
+        export class Shade {
+            constructor(_0: Shade)
+
+            readonly _0: Shade;
+        }
+
+        /**
+         * <!-- FishyJoes.export(darkest) -->
+         */
+        function darkest(
+            /* of */ shades: Shade[]
+        ): Optional<Shade>;
+    }
+
+    interface ShadowBox_Common {
+        /**
+         * <!-- FishyJoes.export(allShades) -->
+         */
+        readonly allShades: Shade[];
     }
 
     /**

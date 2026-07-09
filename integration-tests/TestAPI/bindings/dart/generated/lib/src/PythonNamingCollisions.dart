@@ -53,7 +53,9 @@ class PythonNamingCollisions {
             f__iota_get_TestAPI_PythonNamingCollisions_list(Loader.shared.env, exn)
         )
     ;
-    /// <!-- FishyJoes.export(Url) -->
+    /// `URL` and `Url` both snake-case to `url`; sibling collisions are a
+    /// generation error, resolved with an explicit verbatim `python:` name.
+    /// <!-- FishyJoes.export(Url, python: title_url) -->
     static String get Url =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_PythonNamingCollisions_Url(Loader.shared.env, exn))
