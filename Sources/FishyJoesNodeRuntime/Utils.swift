@@ -242,12 +242,29 @@ public func shutdownOnMainThreadEntryPoint() {
     #endif
 }
 
+/// Envs whose shutdown hook is already registered. Every FishyJoes module in
+/// an addon — the runtime module plus one generated module per library —
+/// registers during its own setup, but Node aborts on a duplicate (hook, arg)
+/// pair in `napi_add_env_cleanup_hook`, so only the first registration per
+/// env may reach Node. Registration and cleanup both run on the env's main
+/// thread.
+private var shutdownHookEnvs: Set<UnsafeMutableRawPointer> = []
+
 /// Register runtime shutdown with the Node.js instance itself. The runtime's
 /// lifecycle belongs to the process: Node runs env cleanup hooks when the
 /// instance exits, so no user-callable JavaScript shutdown hook is exposed.
-/// Generated module setup calls this once during registration.
+/// Module setup calls this during registration; idempotent per env.
 public func registerNodeShutdownHook(env: NAPI.Env) throws {
-    try env.addEnvCleanupHook({ _ in shutdownOnMainThreadEntryPoint() }, nil)
+    guard let key = UnsafeMutableRawPointer(env.ptr) else {
+        return
+    }
+    guard shutdownHookEnvs.insert(key).inserted else { return }
+    try env.addEnvCleanupHook({ key in
+        if let key {
+            shutdownHookEnvs.remove(key)
+        }
+        shutdownOnMainThreadEntryPoint()
+    }, key)
 }
 
 /// Perform an operation on the main thread.

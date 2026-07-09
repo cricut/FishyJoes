@@ -25,7 +25,6 @@ class DartPhases: IotaPhases, Phases {
     }
 
     func generationPhaseTemplateReplacements() throws -> [String: String] {
-
         let pureDartDependencyLines = dartDependencies.flatMap { depNames -> [String] in
             let lines = ["\(depNames.dart):"]
             guard let dependency = options.packageInfo.dependencyMap[depNames.swift] else {

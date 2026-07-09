@@ -33,11 +33,14 @@ final class TargetIdentifierTests: XCTestCase {
             )
         ]
 
-        XCTAssertEqual(containingType.memberIdentifier("Marker"), "Marker_")
+        // A member name that exactly matches a nested type is a generation
+        // error (resolved with an explicit cSharp: export name), so only
+        // non-colliding names can be asserted here; they must pass through
+        // unchanged rather than being suffixed.
         XCTAssertEqual(containingType.memberIdentifier("Other"), "Other")
     }
 
-    func testCSharpAsMethodFieldNamesAvoidOnlyEmittedNameCollisions() {
+    func testCSharpAsMethodFieldNamesDoNotCollideWithNestedTypeNames() {
         let module = Module(name: "TestAPI", dependencies: [])
         let containingType = CSharpProductClass(
             module: module,
@@ -60,7 +63,8 @@ final class TargetIdentifierTests: XCTestCase {
             )
         ]
 
-        XCTAssertEqual(containingType.memberIdentifier("CanonicalDecomposition"), "CanonicalDecomposition_")
+        // Get/Set-prefixed as-method names must not be treated as colliding
+        // with the bare nested-type name.
         XCTAssertEqual(containingType.memberIdentifier("GetCanonicalDecomposition"), "GetCanonicalDecomposition")
         XCTAssertEqual(containingType.memberIdentifier("SetCanonicalDecomposition"), "SetCanonicalDecomposition")
     }
