@@ -17,6 +17,12 @@ concurrency:
 env:
   NODE_VERSION: '18.x'
   DOTNET_VERSION: '8.0.x'
+  PYTHON_VERSION: '3.11'
+  # Python is provisioned by a pinned uv (relocatable python-build-standalone
+  # CPython, user-local, no sudo) instead of the setup-python action, which
+  # hardcodes /Users/runner/hostedtoolcache on macOS and mutates self-hosted
+  # machines globally.
+  UV_VERSION: '0.11.28'
 
 jobs:
   iota-version:
@@ -74,9 +80,13 @@ jobs:
           ./scripts/compile-iota-runtime.sh
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default "$PYTHON_VERSION"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Build Python runtime wheel
         shell: bash
@@ -145,9 +155,13 @@ jobs:
           FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default "$PYTHON_VERSION"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Build Python runtime wheel
         shell: bash
@@ -223,9 +237,14 @@ jobs:
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:UV_NO_MODIFY_PATH = '1'
+          irm "https://astral.sh/uv/$env:UV_VERSION/install.ps1" | iex
+          & "$env:USERPROFILE\.local\bin\uv.exe" python install --default --preview-features python-install-default "$env:PYTHON_VERSION"
+          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.local\bin"
+          & "$env:USERPROFILE\.local\bin\python.exe" --version
 
       - name: Build Python runtime wheel
         shell: bash

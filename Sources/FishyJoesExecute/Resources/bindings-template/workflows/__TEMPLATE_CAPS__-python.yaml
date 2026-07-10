@@ -24,6 +24,11 @@ env:
   MACOSX_DEPLOYMENT_TARGET: "13.0"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
+  # Python is provisioned by a pinned uv (relocatable python-build-standalone
+  # CPython, user-local, no sudo) instead of the setup-python action, which
+  # hardcodes /Users/runner/hostedtoolcache on macOS and mutates self-hosted
+  # machines globally.
+  UV_VERSION: '0.11.28'
 
 jobs:
   build-test-python-mac:
@@ -38,9 +43,13 @@ jobs:
       - __CI_GIT_STEPS__
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Install generation tools
         shell: zsh {0}
@@ -62,7 +71,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             version_args=(--version "$version")
           fi
-          swift run -- fishy-joes --python --fat "${version_args[@]}" generate build test pack
+          swift run -- fishy-joes --python --fat ${version_args[@]+"${version_args[@]}"} generate build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -104,7 +113,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash
@@ -167,9 +176,13 @@ jobs:
       - __CI_GIT_STEPS__
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Pre-build hook
         shell: bash
@@ -184,7 +197,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             version_args=(--version "$version")
           fi
-          swift run -- fishy-joes --python "${version_args[@]}" build test pack
+          swift run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -226,7 +239,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash
@@ -290,9 +303,14 @@ jobs:
       - __CI_GIT_STEPS__
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:UV_NO_MODIFY_PATH = '1'
+          irm "https://astral.sh/uv/$env:UV_VERSION/install.ps1" | iex
+          & "$env:USERPROFILE\.local\bin\uv.exe" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.local\bin"
+          & "$env:USERPROFILE\.local\bin\python.exe" --version
 
       - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
@@ -322,7 +340,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             version_args=(--version "$version")
           fi
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" build test pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack
 
       - name: Build FishyJoes Python runtime wheel
         shell: bash
@@ -364,7 +382,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" "${runtime_version_args[@]}"
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash

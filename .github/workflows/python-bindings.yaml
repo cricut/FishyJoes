@@ -21,6 +21,11 @@ env:
   MACOSX_DEPLOYMENT_TARGET: "13.0"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
+  # Python is provisioned by a pinned uv (relocatable python-build-standalone
+  # CPython, user-local, no sudo) instead of the setup-python action, which
+  # hardcodes /Users/runner/hostedtoolcache on macOS and mutates self-hosted
+  # machines globally.
+  UV_VERSION: '0.11.28'
 
 jobs:
   python-bindings-macos:
@@ -36,9 +41,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Install generation tools
         shell: zsh {0}
@@ -121,9 +130,13 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
+          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          "$HOME/.local/bin/python" --version
 
       - name: Build, test, and pack Python wheel
         shell: zsh {0}
@@ -200,9 +213,14 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:UV_NO_MODIFY_PATH = '1'
+          irm "https://astral.sh/uv/$env:UV_VERSION/install.ps1" | iex
+          & "$env:USERPROFILE\.local\bin\uv.exe" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.local\bin"
+          & "$env:USERPROFILE\.local\bin\python.exe" --version
 
       - uses: compnerd/gha-setup-swift@main
         with:
