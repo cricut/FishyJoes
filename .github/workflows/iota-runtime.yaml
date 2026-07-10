@@ -19,9 +19,48 @@ env:
   DOTNET_VERSION: '8.0.x'
 
 jobs:
+  iota-version:
+    name: "Determine version"
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Determine version
+        id: version
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euxo pipefail
+
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              VERSION="$RELEASE_TAG"
+          else
+              VERSION=${GITHUB_REF#refs/*/}
+          fi
+
+          if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+            fi
+
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+
+          echo "Detected Version is '$VERSION'"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
     runs-on: macos-26
+    needs:
+      - iota-version
 
     steps:
       - name: Checkout
@@ -34,6 +73,34 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Python runtime wheel
+        shell: bash
+        env:
+          VERSION_OVERRIDE: ${{ github.event_name == 'release' && needs.iota-version.outputs.version || '' }}
+          # Matches the .macOS(.v13) floor in Package.swift so the wheel's
+          # platform tag reflects what the bundled dylib actually requires.
+          MACOSX_DEPLOYMENT_TARGET: "13.0"
+        run: |
+          set -euxo pipefail
+
+          python -m pip install -r python-runtime/requirements-build.txt
+          python python-runtime/_build_wheel.py \
+            --outdir python-runtime/dist \
+            --native-library .build/apple/release/libFishyJoesIotaRuntime.dylib \
+            --version-override "$VERSION_OVERRIDE"
+
+      - name: Upload Python runtime wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: mac_python_wheel
+          path: python-runtime/dist/*
+          if-no-files-found: error
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
@@ -44,6 +111,8 @@ jobs:
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-22.04
+    needs:
+      - iota-version
     env:
       LIB_DIR: .build/linux-iota-libs
     steps:
@@ -75,6 +144,33 @@ jobs:
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
           FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Python runtime wheel
+        shell: bash
+        env:
+          VERSION_OVERRIDE: ${{ github.event_name == 'release' && needs.iota-version.outputs.version || '' }}
+        run: |
+          set -euxo pipefail
+
+          python -m pip install -r python-runtime/requirements-build.txt
+          # auditwheel resolves the Swift runtime dependencies it grafts into
+          # the wheel from the collected library directory.
+          LD_LIBRARY_PATH="$PWD/$LIB_DIR" python python-runtime/_build_wheel.py \
+            --outdir python-runtime/dist \
+            --native-library "$LIB_DIR/libFishyJoesIotaRuntime.so" \
+            --version-override "$VERSION_OVERRIDE"
+
+      - name: Upload Python runtime wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: ubuntu_python_wheel
+          path: python-runtime/dist/*
+          if-no-files-found: error
+
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
@@ -85,6 +181,8 @@ jobs:
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
     runs-on: windows-2025
+    needs:
+      - iota-version
     env:
       LIB_DIR: .build/windows-iota-libs
     steps:
@@ -124,6 +222,33 @@ jobs:
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Python runtime wheel
+        shell: bash
+        env:
+          VERSION_OVERRIDE: ${{ github.event_name == 'release' && needs.iota-version.outputs.version || '' }}
+        run: |
+          set -euxo pipefail
+
+          python -m pip install -r python-runtime/requirements-build.txt
+          # The PE import walk finds the Swift runtime DLLs adjacent to the
+          # collected native library.
+          python python-runtime/_build_wheel.py \
+            --outdir python-runtime/dist \
+            --native-library "$LIB_DIR/FishyJoesIotaRuntime.dll" \
+            --version-override "$VERSION_OVERRIDE"
+
+      - name: Upload Python runtime wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: windows_python_wheel
+          path: python-runtime/dist/*
+          if-no-files-found: error
+
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
@@ -132,15 +257,19 @@ jobs:
           if-no-files-found: error
 
   iota-publish:
-    name: "Publish C# Package and Dart Binaries"
+    name: "Publish C# Package, Dart Binaries, and Python Wheels"
     runs-on: ubuntu-22.04
     needs:
+      - iota-version
       - build-iota-mac
       - build-iota-ubuntu
       - build-iota-windows
     permissions:
       contents: write
       packages: write
+    env:
+      VERSION: ${{ needs.iota-version.outputs.version }}
+      PUBLISH_TAG: ${{ needs.iota-version.outputs.version }}-dart-publish
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -187,34 +316,6 @@ jobs:
           cp -dv windows_generated/* dart-runtime/windows/native/
 
           ls -R dart-runtime
-
-      - name: Determine version
-        shell: zsh {0}
-        env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: |
-          set -euxo pipefail
-
-          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
-
-          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
-              VERSION="$RELEASE_TAG"
-          else
-              VERSION=${GITHUB_REF#refs/*/}
-          fi
-
-          if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
-            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
-              echo "Unsupported release tag '$VERSION'" >&2
-              exit 1
-            fi
-
-              VERSION="0.0.1-$(git rev-parse --short HEAD)"
-          fi
-
-          echo "Detected Version is '$VERSION'"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
 
       - name: Pack
         shell: zsh {0}
@@ -338,3 +439,16 @@ jobs:
 
           # publish flutter NPM package
           npm publish cricut-flutter-fishyjoes-runtime-*.tgz
+
+          # publish python runtime wheels as release assets
+
+          for wheel in {mac,ubuntu,windows}_python_wheel/*.whl; do
+            name="$(basename "$wheel")"
+            curl -f \
+              -X POST \
+              -H 'Content-Type: application/octet-stream' \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'Accept: application/vnd.github.v3+json' \
+              "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$name" \
+              --data-binary @"$wheel"
+          done

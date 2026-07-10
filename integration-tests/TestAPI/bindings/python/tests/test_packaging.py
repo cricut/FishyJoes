@@ -103,6 +103,35 @@ class PackagingTests(unittest.TestCase):
             b'from __future__ import annotations\r\nFISHYJOES_RUNTIME_VERSION = "1.2.3"\r\n',
         )
 
+    def test_runtime_wheel_normalizes_semver_release_tags_to_pep440(self) -> None:
+        builder = load_runtime_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / builder.native_library_filename()
+            native.write_bytes(b"runtime")
+
+            wheel = builder.build_wheel(temp_path / "dist", native, version_override="9.0.1-alpha0")
+
+            self.assertIn("-9.0.1a0-", wheel.name)
+            with zipfile.ZipFile(wheel) as archive:
+                config = archive.read("fishyjoes_runtime/config.py").decode("utf-8")
+                metadata = archive.read("fishyjoes_runtime-9.0.1a0.dist-info/METADATA").decode("utf-8")
+
+        self.assertIn('FISHYJOES_RUNTIME_VERSION = "9.0.1a0"', config)
+        self.assertIn("Version: 9.0.1a0", metadata)
+
+    def test_runtime_wheel_rejects_non_pep440_versions(self) -> None:
+        builder = load_runtime_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / builder.native_library_filename()
+            native.write_bytes(b"runtime")
+
+            with self.assertRaisesRegex(RuntimeError, "PEP 440"):
+                builder.build_wheel(temp_path / "dist", native, version_override="0.0.1-gabcdef0")
+
     def test_runtime_windows_wheel_bundles_imported_adjacent_dlls(self) -> None:
         builder = load_runtime_wheel_builder()
 
@@ -283,6 +312,25 @@ class PackagingTests(unittest.TestCase):
         self.assertEqual(contents.count('"$venv_python" python-runtime/_build_wheel.py'), 3)
         self.assertEqual(contents.count('"$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt'), 3)
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
+
+    def test_iota_runtime_release_workflow_publishes_python_runtime_wheels(self) -> None:
+        workflow = REPO_ROOT / ".github" / "workflows" / "iota-runtime.yaml"
+        self.assertTrue(workflow.is_file(), f"missing Iota runtime workflow at {workflow}")
+
+        contents = workflow.read_text()
+        # The release version derives in one job; build and publish jobs read it.
+        self.assertIn("  iota-version:", contents)
+        self.assertEqual(contents.count("needs.iota-version.outputs.version"), 5)
+        # One runtime wheel per platform, built and repaired next to the native
+        # library it bundles, with the runtime-owned build toolchain.
+        self.assertEqual(contents.count("python-runtime/_build_wheel.py"), 3)
+        self.assertEqual(contents.count("pip install -r python-runtime/requirements-build.txt"), 3)
+        for artifact_name in ["mac_python_wheel", "ubuntu_python_wheel", "windows_python_wheel"]:
+            self.assertIn(artifact_name, contents)
+        # Publishing attaches the wheels to the GitHub release as assets, the
+        # same way the Dart binaries tarball is attached.
+        self.assertEqual(contents.count("https://uploads.github.com"), 2)
+        self.assertIn("_python_wheel/*.whl", contents)
 
     def test_pack_builds_installable_platform_wheel(self) -> None:
         shutil.rmtree(DIST_DIR, ignore_errors=True)

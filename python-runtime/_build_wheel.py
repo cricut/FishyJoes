@@ -31,6 +31,8 @@ import zipfile
 from collections.abc import Sequence
 from pathlib import Path
 
+from packaging.version import InvalidVersion, Version
+
 
 ROOT = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
@@ -76,6 +78,16 @@ def runtime_config_with_version(data: bytes, version: str) -> bytes:
     if count != 1:
         raise RuntimeError("Could not stamp FishyJoes runtime version in config.py")
     return updated.encode("utf-8")
+
+
+def normalized_version(value: str) -> str:
+    try:
+        return str(Version(value))
+    except InvalidVersion as error:
+        raise RuntimeError(
+            f"FishyJoes runtime version {value!r} is not a valid PEP 440 version. "
+            "Release tags must be PEP 440-convertible, for example 9.0.1-alpha0 (-> 9.0.1a0)."
+        ) from error
 
 
 def normalized_platform(value: str) -> str:
@@ -185,7 +197,7 @@ def build_wheel(
     project = PYPROJECT["project"]
     metadata_name = distribution_name or project["name"]
     distribution = normalized_distribution_name(metadata_name)
-    version = version_override or project["version"]
+    version = normalized_version(version_override or project["version"])
     package_name, source_dir = package_root()
     tag = f"py3-none-{wheel_platform_tag()}"
     dist_info = f"{distribution}-{version}.dist-info"
