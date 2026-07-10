@@ -176,7 +176,31 @@ def native_library_files(native_library: Path) -> list[Path]:
     return files
 
 
-def wheel_platform_tag() -> str:
+def lipo_architectures(path: Path) -> set[str]:
+    if shutil.which("lipo") is None:
+        return set()
+    result = subprocess.run(
+        ["lipo", "-archs", str(path)],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    )
+    if result.returncode != 0:
+        return set()
+    return set(result.stdout.split())
+
+
+def wheel_architectures(native_files: Sequence[Path]) -> list[str]:
+    if platform.system() == "Darwin":
+        arch_sets = [lipo_architectures(path) for path in native_files]
+        if arch_sets and all({"arm64", "x86_64"}.issubset(arch_set) for arch_set in arch_sets):
+            return ["arm64", "x86_64"]
+    machine = platform.machine() or sysconfig.get_platform().split("-")[-1]
+    return [normalized_platform(machine)]
+
+
+def wheel_platform_tag(native_files: Sequence[Path] = ()) -> str:
     tag = sysconfig.get_platform()
     if platform.system() == "Darwin":
         deployment_target = os.environ.get("MACOSX_DEPLOYMENT_TARGET")
@@ -185,7 +209,16 @@ def wheel_platform_tag() -> str:
             if len(parts) >= 3 and parts[0] == "macosx":
                 parts[1] = deployment_target
                 tag = "-".join(parts)
-    return normalized_platform(tag)
+    tag = normalized_platform(tag)
+    # The platform tag must describe the bundled native library, not the
+    # interpreter that happens to build the wheel: a fat (arm64 + x86_64)
+    # library is a universal2 wheel even under a single-arch Python.
+    if platform.system() == "Darwin" and set(wheel_architectures(native_files)) == {"arm64", "x86_64"}:
+        parts = tag.split("_")
+        if parts[-1] in {"arm64", "x86_64", "universal2"}:
+            parts[-1] = "universal2"
+            return "_".join(parts)
+    return tag
 
 
 def build_wheel(
@@ -199,11 +232,12 @@ def build_wheel(
     distribution = normalized_distribution_name(metadata_name)
     version = normalized_version(version_override or project["version"])
     package_name, source_dir = package_root()
-    tag = f"py3-none-{wheel_platform_tag()}"
-    dist_info = f"{distribution}-{version}.dist-info"
-    wheel_path = outdir / f"{distribution}-{version}-{tag}.whl"
     if not native_library.exists():
         raise RuntimeError(f"Missing FishyJoesIotaRuntime native library: {native_library}")
+    library_files = native_library_files(native_library)
+    tag = f"py3-none-{wheel_platform_tag(library_files)}"
+    dist_info = f"{distribution}-{version}.dist-info"
+    wheel_path = outdir / f"{distribution}-{version}-{tag}.whl"
 
     outdir.mkdir(parents=True, exist_ok=True)
     records: list[tuple[str, str, str]] = []
@@ -218,7 +252,7 @@ def build_wheel(
             if archive_path == Path(package_name) / "config.py":
                 data = runtime_config_with_version(data, version)
             write_bytes(archive, archive_path.as_posix(), data)
-        for library_file in native_library_files(native_library):
+        for library_file in library_files:
             archive_path = Path(package_name) / "native" / library_file.name
             write_bytes(archive, archive_path.as_posix(), library_file.read_bytes())
 

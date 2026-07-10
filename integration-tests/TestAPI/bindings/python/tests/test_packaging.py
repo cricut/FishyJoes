@@ -121,6 +121,29 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('FISHYJOES_RUNTIME_VERSION = "9.0.1a0"', config)
         self.assertIn("Version: 9.0.1a0", metadata)
 
+    def test_runtime_wheel_tags_universal2_from_fat_native_library(self) -> None:
+        builder = load_runtime_wheel_builder()
+
+        with tempfile.TemporaryDirectory() as temp:
+            temp_path = Path(temp)
+            native = temp_path / builder.native_library_filename()
+            native.write_bytes(b"runtime")
+
+            original_system = builder.platform.system
+            original_lipo = builder.lipo_architectures
+            builder.platform.system = lambda: "Darwin"
+            builder.lipo_architectures = lambda path: {"arm64", "x86_64"}
+            try:
+                wheel = builder.build_wheel(temp_path / "dist", native, version_override="1.2.3")
+            finally:
+                builder.platform.system = original_system
+                builder.lipo_architectures = original_lipo
+
+        self.assertTrue(
+            wheel.name.endswith("universal2.whl"),
+            f"fat native library should produce a universal2 wheel tag, got {wheel.name}",
+        )
+
     def test_runtime_wheel_rejects_non_pep440_versions(self) -> None:
         builder = load_runtime_wheel_builder()
 
@@ -239,17 +262,32 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("runs-on: ubuntu-22.04", contents)
         self.assertIn("runs-on: windows-2025", contents)
         self.assertEqual(contents.count('version_args=(--version "$version")'), 3)
+        # Python comes from a pinned uv-managed relocatable CPython, not
+        # actions/setup-python (which hardcodes /Users/runner/hostedtoolcache
+        # on macOS and breaks self-hosted runners).
+        self.assertNotIn("actions/setup-python", contents)
+        self.assertIn("UV_VERSION: '0.11.28'", contents)
+        self.assertEqual(contents.count("astral.sh/uv/"), 3)
+        self.assertEqual(
+            contents.count("python install --default --preview-features python-install-default"),
+            3,
+        )
         self.assertIn("mint --version || brew install mint", contents)
-        self.assertIn('swift run -- fishy-joes --python --fat "${version_args[@]}" generate build test pack', contents)
-        self.assertIn('swift run -- fishy-joes --python "${version_args[@]}" build test pack', contents)
-        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python "${version_args[@]}" build test pack', contents)
+        # Optional-flag arrays must use the guarded expansion: self-hosted
+        # macOS runners resolve `shell: bash` to /bin/bash 3.2, where a bare
+        # "${arr[@]}" of an empty array under `set -u` is a fatal unbound
+        # variable.
+        self.assertIn('swift run -- fishy-joes --python --fat ${version_args[@]+"${version_args[@]}"} generate build test pack', contents)
+        self.assertIn('swift run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack', contents)
+        self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack', contents)
+        self.assertEqual(contents.count('${version_args[@]+"${version_args[@]}"}'), 3)
         self.assertEqual(contents.count("Build FishyJoes Python runtime wheel"), 3)
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
         self.assertEqual(contents.count('--distribution-name "fishyjoes-runtime"'), 3)
         self.assertEqual(contents.count('"$venv_python" -m pip install -r bindings/python/requirements-dev.txt'), 6)
         self.assertEqual(contents.count('"$venv_python" "$runtime_dir/_build_wheel.py"'), 3)
         self.assertEqual(contents.count('runtime_version_args=(--version-override "$version")'), 3)
-        self.assertEqual(contents.count('"${runtime_version_args[@]}"'), 3)
+        self.assertEqual(contents.count('${runtime_version_args[@]+"${runtime_version_args[@]}"}'), 3)
         self.assertEqual(contents.count("Verify clean wheel install"), 3)
         # Three installed-wheel invocations per job: the import smoke test, the
         # hand-written suite, and the generated typing-gate suite.
@@ -285,6 +323,9 @@ class PackagingTests(unittest.TestCase):
         self.assertIn("runs-on: macos-26", contents)
         self.assertIn("runs-on: ubuntu-22.04", contents)
         self.assertIn("runs-on: windows-2025", contents)
+        self.assertNotIn("actions/setup-python", contents)
+        self.assertIn("UV_VERSION: '0.11.28'", contents)
+        self.assertEqual(contents.count("astral.sh/uv/"), 3)
         self.assertIn("cd integration-tests/TestAPI", contents)
         self.assertIn("swift run -- fishy-joes --python --fat generate build test pack", contents)
         self.assertIn("mint --version || brew install mint", contents)
@@ -323,6 +364,9 @@ class PackagingTests(unittest.TestCase):
         self.assertEqual(contents.count("needs.iota-version.outputs.version"), 5)
         # One runtime wheel per platform, built and repaired next to the native
         # library it bundles, with the runtime-owned build toolchain.
+        self.assertNotIn("actions/setup-python", contents)
+        self.assertIn("UV_VERSION: '0.11.28'", contents)
+        self.assertEqual(contents.count("astral.sh/uv/"), 3)
         self.assertEqual(contents.count("python-runtime/_build_wheel.py"), 3)
         self.assertEqual(contents.count("pip install -r python-runtime/requirements-build.txt"), 3)
         for artifact_name in ["mac_python_wheel", "ubuntu_python_wheel", "windows_python_wheel"]:
