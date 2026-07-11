@@ -116,7 +116,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
@@ -139,10 +139,13 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests
-          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
-          # before running the full suite against the installed wheel.
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          # proving the minimal install works. The hand-written suite may use dev
+          # tools (type checkers, stubtest, native-repair introspection); the
+          # requirements file is author-owned scaffolding, so install it only if
+          # the repo carries one.
+          if [[ -f bindings/python/requirements-dev.txt ]]; then
+            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          fi
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
           "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
@@ -246,7 +249,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
@@ -269,10 +272,13 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests
-          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
-          # before running the full suite against the installed wheel.
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          # proving the minimal install works. The hand-written suite may use dev
+          # tools (type checkers, stubtest, native-repair introspection); the
+          # requirements file is author-owned scaffolding, so install it only if
+          # the repo carries one.
+          if [[ -f bindings/python/requirements-dev.txt ]]; then
+            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          fi
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
           "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
@@ -341,7 +347,7 @@ jobs:
           swift package resolve
           swift package resolve
           swift package resolve
-          echo SWIFT_WINDOWS_BASH="scripts/swift-shim.ps1" >> $env:GITHUB_ENV
+          echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
       - name: Pre-build hook
         shell: bash
@@ -393,7 +399,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
           runtime_version_args=()
           if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
             version="${GITHUB_REF_NAME#v}"
@@ -416,10 +422,13 @@ jobs:
           "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import emojifun as package; assert package.SUPPORTED; print(package.diagnostics())"
           # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The suite includes tooling tests
-          # (type checkers, stubtest, native-repair introspection), so install the dev tools they need
-          # before running the full suite against the installed wheel.
-          "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          # proving the minimal install works. The hand-written suite may use dev
+          # tools (type checkers, stubtest, native-repair introspection); the
+          # requirements file is author-owned scaffolding, so install it only if
+          # the repo carries one.
+          if [[ -f bindings/python/requirements-dev.txt ]]; then
+            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
+          fi
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
           "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
           FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests

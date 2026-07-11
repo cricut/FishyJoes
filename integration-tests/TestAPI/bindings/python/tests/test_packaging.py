@@ -281,10 +281,22 @@ class PackagingTests(unittest.TestCase):
         self.assertIn('swift run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack', contents)
         self.assertIn('"$SWIFT_WINDOWS_BASH" run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack', contents)
         self.assertEqual(contents.count('${version_args[@]+"${version_args[@]}"}'), 3)
+        # The Windows swift shim ships in the FishyJoes checkout (populated by
+        # the pre-resolve step), same as every other language workflow; library
+        # repos have no scripts/ directory of their own.
+        self.assertIn(
+            'SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1"',
+            contents,
+        )
         self.assertEqual(contents.count("Build FishyJoes Python runtime wheel"), 3)
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
         self.assertEqual(contents.count('--distribution-name "fishyjoes-runtime"'), 3)
-        self.assertEqual(contents.count('"$venv_python" -m pip install -r bindings/python/requirements-dev.txt'), 6)
+        # The runtime wheel build installs the runtime-owned toolchain file that
+        # ships next to _build_wheel.py; the repo-level requirements-dev.txt is
+        # author-owned scaffolding, installed only if present.
+        self.assertEqual(contents.count('"$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"'), 3)
+        self.assertEqual(contents.count("if [[ -f bindings/python/requirements-dev.txt ]]; then"), 3)
+        self.assertEqual(contents.count('"$venv_python" -m pip install -r bindings/python/requirements-dev.txt'), 3)
         self.assertEqual(contents.count('"$venv_python" "$runtime_dir/_build_wheel.py"'), 3)
         self.assertEqual(contents.count('runtime_version_args=(--version-override "$version")'), 3)
         self.assertEqual(contents.count('${runtime_version_args[@]+"${runtime_version_args[@]}"}'), 3)
@@ -351,7 +363,10 @@ class PackagingTests(unittest.TestCase):
         )
         self.assertEqual(contents.count("--native-library \"$runtime_native_library\""), 3)
         self.assertEqual(contents.count('"$venv_python" python-runtime/_build_wheel.py'), 3)
-        self.assertEqual(contents.count('"$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt'), 3)
+        # The runtime wheel build uses the runtime-owned toolchain file, not
+        # TestAPI's author-owned requirements-dev.txt.
+        self.assertEqual(contents.count('"$venv_python" -m pip install -r python-runtime/requirements-build.txt'), 3)
+        self.assertNotIn("-r integration-tests/TestAPI/bindings/python/requirements-dev.txt", contents)
         self.assertEqual(contents.count("Verify native wheel repair"), 3)
 
     def test_iota_runtime_release_workflow_publishes_python_runtime_wheels(self) -> None:

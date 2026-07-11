@@ -126,5 +126,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
-    api("com.cricut.fishyjoes:runtime:local")
+    api("com.cricut.fishyjoes:runtime:7.0.0")
 }

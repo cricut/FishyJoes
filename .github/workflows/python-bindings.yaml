@@ -77,7 +77,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
@@ -159,7 +159,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
@@ -258,7 +258,7 @@ jobs:
             echo "Could not locate FishyJoesIotaRuntime native library"
             exit 1
           fi
-          "$venv_python" -m pip install -r integration-tests/TestAPI/bindings/python/requirements-dev.txt
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
           "$venv_python" python-runtime/_build_wheel.py --outdir integration-tests/TestAPI/bindings/python/dist --native-library "$runtime_native_library"
 
       - name: Verify clean wheel install
