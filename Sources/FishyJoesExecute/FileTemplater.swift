@@ -210,7 +210,14 @@ public struct FileTemplater {
         let manager = FileManager.default
         var isDirectory: ObjCBool = false
         guard manager.fileExists(atPath: absoluteSourcePath, isDirectory: &isDirectory) else {
-            fatalError("Internal error. I was sure that path existed... \(absoluteSourcePath)")
+            fatalError(
+                "Bindings-template source missing while installing '\(localSourcePath)' to '\(destPath)':"
+                    + " \(absoluteSourcePath) does not exist."
+                    + " The resource bundle layout usually causes this: a stale .build from a different toolchain,"
+                    + " or a FishyJoes version whose bundle predates the current layout."
+                    + " Delete .build (or `swift package clean`) and rebuild; if it persists, check that the"
+                    + " FishyJoes dependency version bundles the bindings-template resources."
+            )
         }
         if isDirectory.boolValue {
             try manager.createDirectory(atPath: destPath, withIntermediateDirectories: true)

@@ -134,8 +134,11 @@ public class CodeGen: ParsableCommand {
 
     lazy var fishyJoesDependency: SwiftPackage.Dependency = {
         guard let fishyJoesDependency = packageInfo.dependencyMap["FishyJoes"] else {
-            Log.error("Couldn't locate FishyJoes dependency in Package.swift")
-            fatalError()
+            fatalError(
+                "Couldn't locate a FishyJoes dependency in Package.swift."
+                    + " The bindings package must declare FishyJoes as a package dependency"
+                    + " (named exactly \"FishyJoes\") for fishy-joes to resolve the runtime and templates."
+            )
         }
         printAndFlush("Found FishyJoes at: \(localPath(for: fishyJoesDependency))")
         return fishyJoesDependency
@@ -186,8 +189,11 @@ extension CodeGen {
         do {
             packageInfo = try JSONDecoder().decode(SwiftPackage.self, from: packageJSON)
         } catch let error {
-            Log.error("Couldn't parse swift package: \(error)")
-            fatalError()
+            fatalError(
+                "Couldn't parse the output of `swift package dump-package`: \(error)\n"
+                    + "Check Package.swift for manifest errors (run `swift package dump-package` directly to see them),"
+                    + " and that the toolchain's SwiftPM version matches what this package requires."
+            )
         }
 
         if wasm {

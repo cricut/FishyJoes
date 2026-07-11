@@ -57,16 +57,26 @@ class CSharpPhases: IotaPhases, Phases {
             let solution = "generated/Cricut.\(options.config.module).sln"
             // dotnet caches "package doesn't exist" for an annoyingly long time. This still caches the large downloads.
             // This seems consistently flaky on clean checkouts, so try multiple times
+            let restoreAttempts = 3
             var restoreSucceeded = false
-            for _ in 0..<2 {
+            for attempt in 1...restoreAttempts {
                 if cmd("dotnet", "restore", "--no-cache", solution).runBool() {
                     restoreSucceeded = true
                     break
                 }
+                if attempt < restoreAttempts {
+                    Log.error("dotnet restore attempt \(attempt)/\(restoreAttempts) failed, retrying...")
+                    Thread.sleep(forTimeInterval: TimeInterval(attempt * 5))
+                }
             }
             guard restoreSucceeded else {
-                Log.error("dotnet restore failed after multiple attempts")
-                fatalError()
+                fatalError(
+                    "dotnet restore --no-cache \(solution) failed after \(restoreAttempts) attempts."
+                        + " The NuGet error is in the restore output above."
+                        + " Deterministic NU1608 version conflicts mean a dependency package constrains a different"
+                        + " FishyJoes runtime major; intermittent failures on clean checkouts are NuGet feed flakes —"
+                        + " check package-feed availability and NUGET_AUTH_TOKEN/GITHUB_TOKEN, then retry."
+                )
             }
 
             var args = ["build", solution]
