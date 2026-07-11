@@ -22,6 +22,7 @@ struct SwiftPMWorkspaceState: Decodable {
     struct Dependency: Decodable {
         struct PackageRef: Decodable {
             let identity: String
+            let name: String
         }
 
         struct State: Decodable {
@@ -49,10 +50,17 @@ struct SwiftPMWorkspaceState: Decodable {
     var editedDependencyPaths: [String: String] {
         Dictionary(
             uniqueKeysWithValues: object.dependencies.compactMap { dependency in
-                guard dependency.state.name == "edited", let path = dependency.state.path else {
+                guard dependency.state.name == "edited" else {
                     return nil
                 }
 
+                // `swift package edit <dep> --path <dir>` records the explicit
+                // path; a plain `swift package edit <dep>` records no path and
+                // places the editable checkout at `Packages/<name>`. Both edit
+                // forms delete `.build/checkouts/<name>`, so missing the
+                // default-location form here would fall back to a path that no
+                // longer exists.
+                let path = dependency.state.path ?? "Packages/\(dependency.packageRef.name)"
                 return (dependency.packageRef.identity.lowercased(), path)
             }
         )
