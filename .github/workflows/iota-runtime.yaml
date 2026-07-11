@@ -98,8 +98,16 @@ jobs:
         run: |
           set -euxo pipefail
 
-          python -m pip install -r python-runtime/requirements-build.txt
-          python python-runtime/_build_wheel.py \
+          # uv-managed interpreters are PEP 668 externally managed; build the
+          # wheel from a venv, as everywhere else in this repo.
+          python -m venv python-runtime/.wheel-build-venv
+          if [[ -x python-runtime/.wheel-build-venv/Scripts/python.exe ]]; then
+            venv_python=python-runtime/.wheel-build-venv/Scripts/python.exe
+          else
+            venv_python=python-runtime/.wheel-build-venv/bin/python
+          fi
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
+          "$venv_python" python-runtime/_build_wheel.py \
             --outdir python-runtime/dist \
             --native-library .build/apple/release/libFishyJoesIotaRuntime.dylib \
             --version-override "$VERSION_OVERRIDE"
@@ -170,10 +178,18 @@ jobs:
         run: |
           set -euxo pipefail
 
-          python -m pip install -r python-runtime/requirements-build.txt
+          # uv-managed interpreters are PEP 668 externally managed; build the
+          # wheel from a venv, as everywhere else in this repo.
+          python -m venv python-runtime/.wheel-build-venv
+          if [[ -x python-runtime/.wheel-build-venv/Scripts/python.exe ]]; then
+            venv_python=python-runtime/.wheel-build-venv/Scripts/python.exe
+          else
+            venv_python=python-runtime/.wheel-build-venv/bin/python
+          fi
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
           # auditwheel resolves the Swift runtime dependencies it grafts into
           # the wheel from the collected library directory.
-          LD_LIBRARY_PATH="$PWD/$LIB_DIR" python python-runtime/_build_wheel.py \
+          LD_LIBRARY_PATH="$PWD/$LIB_DIR" "$venv_python" python-runtime/_build_wheel.py \
             --outdir python-runtime/dist \
             --native-library "$LIB_DIR/libFishyJoesIotaRuntime.so" \
             --version-override "$VERSION_OVERRIDE"
@@ -253,10 +269,18 @@ jobs:
         run: |
           set -euxo pipefail
 
-          python -m pip install -r python-runtime/requirements-build.txt
+          # uv-managed interpreters are PEP 668 externally managed; build the
+          # wheel from a venv, as everywhere else in this repo.
+          python -m venv python-runtime/.wheel-build-venv
+          if [[ -x python-runtime/.wheel-build-venv/Scripts/python.exe ]]; then
+            venv_python=python-runtime/.wheel-build-venv/Scripts/python.exe
+          else
+            venv_python=python-runtime/.wheel-build-venv/bin/python
+          fi
+          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
           # The PE import walk finds the Swift runtime DLLs adjacent to the
           # collected native library.
-          python python-runtime/_build_wheel.py \
+          "$venv_python" python-runtime/_build_wheel.py \
             --outdir python-runtime/dist \
             --native-library "$LIB_DIR/FishyJoesIotaRuntime.dll" \
             --version-override "$VERSION_OVERRIDE"
