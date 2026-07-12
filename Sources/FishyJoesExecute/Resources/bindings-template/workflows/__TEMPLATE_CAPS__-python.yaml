@@ -34,6 +34,7 @@ jobs:
   build-test-python-mac:
     name: "macOS Python ${{ matrix.python-version }}: build, test, pack"
     runs-on: __CI_RUNNER_MACOS__
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -165,6 +166,7 @@ jobs:
   build-test-python-linux:
     name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
     runs-on: __CI_RUNNER_UBUNTU__
+    timeout-minutes: 90
     container:
       image: __LINUX_CONTAINER_SPEC__
       credentials:
@@ -294,6 +296,7 @@ jobs:
   build-test-python-windows:
     name: "Windows Python ${{ matrix.python-version }}: build, test, pack"
     runs-on: __CI_RUNNER_WINDOWS__
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
