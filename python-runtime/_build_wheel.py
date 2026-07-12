@@ -214,10 +214,11 @@ def wheel_platform_tag(native_files: Sequence[Path] = ()) -> str:
     # interpreter that happens to build the wheel: a fat (arm64 + x86_64)
     # library is a universal2 wheel even under a single-arch Python.
     if platform.system() == "Darwin" and set(wheel_architectures(native_files)) == {"arm64", "x86_64"}:
-        parts = tag.split("_")
-        if parts[-1] in {"arm64", "x86_64", "universal2"}:
-            parts[-1] = "universal2"
-            return "_".join(parts)
+        # Match the whole architecture suffix: x86_64 itself contains an
+        # underscore, so splitting on "_" and testing the last part misses it.
+        for arch in ("arm64", "x86_64", "universal2"):
+            if tag.endswith(f"_{arch}"):
+                return tag[: -len(arch)] + "universal2"
     return tag
 
 

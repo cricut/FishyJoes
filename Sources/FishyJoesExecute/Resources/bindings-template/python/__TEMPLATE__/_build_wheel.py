@@ -99,10 +99,11 @@ def wheel_platform_tag() -> str:
                 raw_tag = "-".join(parts)
     tag = normalized_platform(raw_tag)
     if platform.system() == "Darwin" and set(wheel_architectures()) == {"arm64", "x86_64"}:
-        parts = tag.split("_")
-        if parts[-1] in {"arm64", "x86_64", "universal2"}:
-            parts[-1] = "universal2"
-            return "_".join(parts)
+        # Match the whole architecture suffix: x86_64 itself contains an
+        # underscore, so splitting on "_" and testing the last part misses it.
+        for arch in ("arm64", "x86_64", "universal2"):
+            if tag.endswith(f"_{arch}"):
+                return tag[: -len(arch)] + "universal2"
     return tag
 
 
