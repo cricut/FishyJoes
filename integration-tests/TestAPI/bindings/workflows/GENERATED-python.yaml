@@ -29,6 +29,9 @@ env:
   MACOSX_DEPLOYMENT_TARGET: "13.0"
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_CACHE_DIR: "1"
+  # Print native-crash stacks (e.g. the shutdown segfault being chased in the
+  # Linux verify step) instead of a bare "Segmentation fault".
+  PYTHONFAULTHANDLER: "1"
   # Python is provisioned by a pinned uv (relocatable python-build-standalone
   # CPython, user-local, no sudo) instead of the setup-python action, which
   # hardcodes /Users/runner/hostedtoolcache on macOS and mutates self-hosted
