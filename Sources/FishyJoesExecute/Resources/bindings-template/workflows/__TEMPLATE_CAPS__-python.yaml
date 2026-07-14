@@ -169,12 +169,6 @@ jobs:
   build-test-python-linux:
     name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
     runs-on: __CI_RUNNER_UBUNTU__
-    timeout-minutes: 90
-    container:
-      image: __LINUX_CONTAINER_SPEC__
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       fail-fast: false
       matrix:

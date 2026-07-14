@@ -33,7 +33,6 @@ public struct FileTemplater {
         replacements["__LOWERCASE_MODULE_NAME__"] = config.module.lowercased()
         replacements["__LOWERCASE_FIRST_MODULE_NAME__"] = (config.module.first?.lowercased() ?? "") + config.module.dropFirst()
         replacements["__BINDINGS_REPO__"] = config.publishRepository
-        replacements["__LINUX_CONTAINER_SPEC__"] = ToolVersions.shared.linuxContainer.imageSpec
         replacements["__PYTHON_DISTRIBUTION_NAME__"] = config.python.distributionName(forModule: config.module)
         replacements["__PYTHON_IMPORT_PACKAGE__"] = config.python.importPackageName(forModule: config.module)
         replacements["__PYTHON_RUNTIME_DISTRIBUTION_NAME__"] = config.python.runtimeDistributionName

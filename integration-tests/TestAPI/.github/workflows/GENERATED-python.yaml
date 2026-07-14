@@ -178,12 +178,6 @@ jobs:
   build-test-python-linux:
     name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
     runs-on: ubuntu-22.04
-    timeout-minutes: 90
-    container:
-      image: ghcr.io/cricut/android-swift-runtime:4.0.2
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       fail-fast: false
       matrix:
