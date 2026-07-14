@@ -114,6 +114,14 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
 
+      - name: Test Python from python via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --python build test
+
       - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
         run: |
@@ -218,6 +226,14 @@ jobs:
 
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
+
+      - name: Test Python from python via fishy-joes
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI
+          FISHYJOES=1 swift run -- fishy-joes --python build test
 
       - name: Install Android build dependencies
         shell: zsh {0}
@@ -387,6 +403,14 @@ jobs:
           PATH="$PWD/bindings/dart/generated/windows/native:$PATH"
 
           "$SWIFT" run -- fishy-joes --dart build test
+
+      - name: Test Python from python via fishy-joes
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          cd integration-tests/TestAPI
+          "$SWIFT" run -- fishy-joes --python build test
 
       - name: Build FishyJoesJavaRuntime
         shell: bash
