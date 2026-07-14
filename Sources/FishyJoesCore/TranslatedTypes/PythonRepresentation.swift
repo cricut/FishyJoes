@@ -288,7 +288,7 @@ struct PythonTranslationContext {
             )
         }
         let className = pythonExternalClassName(type)
-        let packageName = context.pythonImportPackageName(for: type.definingModule.name)
+        let packageName = type.definingModule.pythonPackageName
         return PythonType(
             annotation: className,
             imports: [

@@ -142,19 +142,22 @@ public struct Env {
     }
 
     private static var nextUniqueID: TypeID = 0
-    private static func newUniqueIDLocked() -> Int {
-        defer { nextUniqueID += 1 }
-        return nextUniqueID
+    private static func newUniqueID() -> Int {
+        withLock {
+            defer { nextUniqueID += 1 }
+            return nextUniqueID
+        }
     }
 
     public static func registerType<T>(_ type: T.Type, as name: String) {
         withLock {
             let objectID = ObjectIdentifier(type)
             if let existingTypeID = _typeIDsByObject[objectID] {
+                assert(_typeIDsByName[name] == existingTypeID, "duplicate type names for same ID: \(name) and \(_typeIDsByName.compactMap { $0.key == name ? $0.value : nil })")
                 _typeIDsByName[name] = existingTypeID
                 return
             }
-            let typeID = newUniqueIDLocked()
+            let typeID = newUniqueID()
             _typeIDsByObject[objectID] = typeID
             _objectIDsByID[typeID] = objectID
             _typeIDsByName[name] = typeID

@@ -425,7 +425,7 @@ final class PythonTranslator: Translator {
     /// `tests/` directory, so the gate runs everywhere the package's tests run
     /// — including installed-wheel verification.
     private func typingGateFragments(context: FishyJoesContext, classes: [PythonClass]) -> [SourceFragment] {
-        let packageName = context.pythonImportPackageName
+        let packageName = context.module.pythonPackageName
         let entries = Self.stubtestAllowlistEntries(for: classes, importPackageName: packageName)
 
         let allowlistFragment = context.pythonTestFragment("stubtest_allowlist.txt")
@@ -1725,7 +1725,7 @@ final class PythonTranslator: Translator {
         return PythonClass(
             originName: type.sourceType.name,
             moduleName: moduleName,
-            fileName: "\(context.pythonImportPackageName)/\(moduleName).py",
+            fileName: "\(context.module.pythonPackageName)/\(moduleName).py",
             className: className,
             setupName: setupKind == nil ? nil : type.iotaSetupName,
             setupKind: setupKind,

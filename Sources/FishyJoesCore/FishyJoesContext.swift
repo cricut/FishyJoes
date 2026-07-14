@@ -3,8 +3,6 @@ import SourceryDataModel
 
 public class FishyJoesContext {
     let module: Module
-    let pythonImportPackageName: String
-    let pythonDependencyImportPackageNames: [String: String]
     let requiredModulePaths: [String: String]
     let templateContext: SourceryTemplateContext
     var typeCache: [BetterType: TranslatedTypeOrAlias] = [:]
@@ -51,14 +49,10 @@ public class FishyJoesContext {
     public init(
         context: SourceryTemplateContext,
         module: String,
-        pythonImportPackageName: String? = nil,
-        pythonDependencyImportPackageNames: [String: String] = [:],
         requiredModulePaths: [String: String],
         extraDynamicLibraries: [String]
     ) {
         self.templateContext = context
-        self.pythonImportPackageName = pythonImportPackageName ?? module.lowercased()
-        self.pythonDependencyImportPackageNames = pythonDependencyImportPackageNames
         self.module = Module(
             name: module,
             dependencies: requiredModulePaths.values.map { (($0 as NSString).lastPathComponent as NSString).deletingPathExtension },
@@ -69,14 +63,6 @@ public class FishyJoesContext {
             rootNamespaces: [.init(name: module, typealiases: [])],
             defaultNamespace: module
         )
-    }
-
-    func pythonImportPackageName(for module: String) -> String {
-        pythonDependencyImportPackageNames[module] ??
-            module
-                .replacingOccurrences(of: "-", with: "_")
-                .replacingOccurrences(of: ".", with: "_")
-                .lowercased()
     }
 
     func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
@@ -158,7 +144,7 @@ public class FishyJoesContext {
     }
 
     func pythonFragment(_ name: String) -> SourceFragment {
-        let fileName = "python/generated/src/\(pythonImportPackageName)/\(name)"
+        let fileName = "python/generated/src/\(module.pythonPackageName)/\(name)"
         return SourceFragment(destinationPath: fileName)
     }
 

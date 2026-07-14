@@ -501,12 +501,6 @@ extension CodeGen {
             let context = FishyJoesContext(
                 context: sourceryDump,
                 module: config.module,
-                pythonImportPackageName: pythonImportPackageName,
-                pythonDependencyImportPackageNames: Dictionary(
-                    uniqueKeysWithValues: config.requiredModules.map {
-                        ($0, config.python.dependencyImportPackageName(forModule: $0))
-                    }
-                ),
                 requiredModulePaths: fishyJoesModuleFiles,
                 extraDynamicLibraries: config.extraDynamicLibraries
             )
