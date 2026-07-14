@@ -183,7 +183,7 @@ final class IotaTranslator: Translator {
         }
 
         if shouldWrap {
-            selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.nonNamespacedName)_sans_\(field.name)(wrapped: \(selfExpression))"
+            selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.unqualifiedName)_sans_\(field.name)(wrapped: \(selfExpression))"
         }
 
         let iotaName = exportAnnotation.name

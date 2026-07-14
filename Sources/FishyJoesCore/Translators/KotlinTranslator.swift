@@ -119,7 +119,7 @@ final class KotlinTranslator: Translator {
                             callBlock = { body in
                                 if resolved is TranslatedProtocol,
                                    method.isDefaultImplementation {
-                                    fragment.outputBlock("let _swiftThis = \(betterType.nonNamespacedName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
+                                    fragment.outputBlock("let _swiftThis = \(betterType.unqualifiedName)_sans_\(method.callName)(wrapped:", closeWith: ")") {
                                         fragment.output("try \(_selfExpression)")
                                     }
                                 } else {
@@ -161,7 +161,7 @@ final class KotlinTranslator: Translator {
                         let body = {
                             if resolved is TranslatedProtocol,
                                method.isDefaultImplementation {
-                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(betterType.nonNamespacedName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
+                                fragment.outputBlock("\(method.isThrowing ? "try " : "")\(betterType.unqualifiedName)_sans_\(method.callName)(wrapped:", closeWith: ")", newLineTerminated: false) {
                                     fragment.output("try \(selfExpression)")
                                 }
                                 fragment.outputBlock("\(callName)(", newLineTerminated: false) {
@@ -224,7 +224,7 @@ final class KotlinTranslator: Translator {
         }
 
         if shouldWrap {
-            selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.nonNamespacedName)_sans_\(field.name)(wrapped: \(selfExpression))"
+            selfExpression = "try \(context.module.name)_CommonInterface.\(sourceResolved.sourceType.unqualifiedName)_sans_\(field.name)(wrapped: \(selfExpression))"
         }
 
         let cGetName = "java_get_\(sourceTypeName)_\(exportAnnotation.name)".replacingOccurrences(of: ".", with: "_")

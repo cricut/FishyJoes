@@ -31,7 +31,7 @@ struct TranslatedProtocol: TranslatedType {
 
         self.sourceType = BetterType(named: type, context: context)
         let module = "\(context.module)_CommonInterface"
-        self.converterType = .named(.init(name: "_\(sourceType.nonNamespacedName)Converter", module: module))
+        self.converterType = .named(.init(name: "_\(sourceType.unqualifiedName)Converter", module: module))
         self.nodeName = typeName
         self.kotlinPackage = context.module.kotlinPackage
         self.kotlinName = typeName
@@ -297,7 +297,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation"]
         )
 
-        fragment.outputBlock("public enum \(converterType.nonNamespacedName) {") {
+        fragment.outputBlock("public enum \(converterType.unqualifiedName) {") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
         }
 
@@ -319,7 +319,7 @@ struct TranslatedProtocol: TranslatedType {
             guard let name = (defaultField?.name ?? defaultMethod?.callName) else {
                 fatalErr("Need a name")
             }
-            fragment.outputBlock("public struct \(sourceType.nonNamespacedName)_sans_\(name): \(sourceType.name) {", closeWith: "}") {
+            fragment.outputBlock("public struct \(sourceType.unqualifiedName)_sans_\(name): \(sourceType.name) {", closeWith: "}") {
                 fragment.output("public let wrapped: \(sourceType.name)")
 
                 fragment.blankLine()
@@ -388,7 +388,7 @@ struct TranslatedProtocol: TranslatedType {
             ]
         )
 
-        fragment.outputBlock("struct _Node\(sourceType.nonNamespacedName): \(sourceType.name) {") {
+        fragment.outputBlock("struct _Node\(sourceType.unqualifiedName): \(sourceType.name) {") {
             fragment.output("let _nodeWitness: NodeReference")
             fragment.blankLine()
 
@@ -449,7 +449,7 @@ struct TranslatedProtocol: TranslatedType {
                         fragment.output("return try Box<\(sourceType.name)>.takeUnretainedOpaque(nonNilPointer).value")
                     }
                     fragment.outputBlock(" else {") {
-                        fragment.outputBlock("return _Node\(sourceType.nonNamespacedName)(") {
+                        fragment.outputBlock("return _Node\(sourceType.unqualifiedName)(") {
                             fragment.output("_nodeWitness: try NodeReference(env: env, value: value)")
                         }
                     }
@@ -537,7 +537,7 @@ struct TranslatedProtocol: TranslatedType {
                 fragment.outputBlock("try mergeDefinitionInto(") {
                     fragment.output("env: env,")
                     fragment.output("module: module,")
-                    fragment.output("path: \"\(sourceType.nonNamespacedName)\",")
+                    fragment.output("path: \"\(sourceType.unqualifiedName)\",")
                     fragment.output("nodeClass: coreObject")
                 }
                 fragment.blankLine()
@@ -597,7 +597,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
-        let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
+        let foreignProtocolType = "_Iota\(sourceType.unqualifiedName)"
 
         fragment.outputBlock("struct \(foreignProtocolType): \(sourceType.name) {") {
             fragment.output("let _iotaWitness: IotaReference")
@@ -726,7 +726,7 @@ struct TranslatedProtocol: TranslatedType {
                 }
                 fragment.outputBlock(" catch {") {
                     fragment.output("let iotaWitness = try IotaReference(value, env: env)")
-                    fragment.output("return _Iota\(sourceType.nonNamespacedName)(_iotaWitness: iotaWitness)")
+                    fragment.output("return _Iota\(sourceType.unqualifiedName)(_iotaWitness: iotaWitness)")
                 }
             }
             fragment.blankLine()
@@ -753,7 +753,7 @@ struct TranslatedProtocol: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
-        let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"
+        let foreignProtocolType = "_Java\(sourceType.unqualifiedName)"
 
         var methodIDs: [(idHandle: String, name: String, signature: String)] = []
         let defaultMethods = methods.filter { !$0.isAsync && $0.isDefaultImplementation }
@@ -1010,7 +1010,7 @@ struct TranslatedProtocol: TranslatedType {
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
                 conformances: [context.resolve(type: sourceType).cSharpType]
-                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.nonNamespacedName)]
+                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.unqualifiedName)]
             )
         )
     }

@@ -205,15 +205,6 @@ extension BetterType {
         }
     }
 
-    var nonNamespacedName: String {
-        switch self {
-        case let .named(name):
-            return name.name
-        default:
-            return name
-        }
-    }
-
     var escapingName: String {
         switch self {
         case .function:
