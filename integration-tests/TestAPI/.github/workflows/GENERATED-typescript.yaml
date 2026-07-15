@@ -46,7 +46,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -54,6 +55,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --nodejs --fat build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test from node
         shell: zsh {0}
@@ -123,7 +130,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -131,6 +139,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --nodejs --wasm build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test library from node
         shell: zsh {0}
@@ -208,7 +222,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: bash
@@ -216,6 +231,12 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --nodejs build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test from node
         shell: bash

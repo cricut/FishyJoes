@@ -55,6 +55,10 @@ jobs:
 
           swift run -- fishy-joes --c-sharp --fat generate build
 
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
+
       - name: Test library from dotnet
         shell: zsh {0}
         run: |
@@ -105,6 +109,10 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --c-sharp build
+
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
 
       - name: Patch libs to use relative paths to swift stdlib
         shell: zsh {0}
@@ -180,6 +188,10 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --c-sharp build
+
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
 
       - name: Test library from dotnet
         shell: bash

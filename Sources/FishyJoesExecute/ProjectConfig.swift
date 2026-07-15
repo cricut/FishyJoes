@@ -9,7 +9,11 @@ struct ProjectConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+
+    // TODO: generalize this to a more flexible hook system when n>=3
     let ciPreBuildHook: String?
+    let ciPostBuildHook: String?
+
     let flexibleVersions: Bool
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
@@ -57,6 +61,8 @@ struct ProjectConfig: Codable {
             Log.error("  - Some/Directory/")
             Log.error("CIPreBuildHook: |")
             Log.error("  echo 'doing CI work in bash'")
+            Log.error("CIPostBuildHook: |")
+            Log.error("  echo 'doing more CI work in bash'")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
@@ -96,6 +102,12 @@ struct ProjectConfig: Codable {
         let ciPreBuildHook = try configDictionary["CIPreBuildHook"].map { obj -> String in
             guard let hook = obj as? String else {
                 throw ValidationError("fishy-joes.yaml value for key `CIPreBuildHook` is not a (string) bash script")
+            }
+            return hook
+        }
+        let ciPostBuildHook = try configDictionary["CIPostBuildHook"].map { obj -> String in
+            guard let hook = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIPostBuildHook` is not a (string) bash script")
             }
             return hook
         }
@@ -139,6 +151,7 @@ struct ProjectConfig: Codable {
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
             ciPreBuildHook: ciPreBuildHook,
+            ciPostBuildHook: ciPostBuildHook,
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,

@@ -49,7 +49,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -57,6 +58,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --dart --fat generate build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test library from dart
         shell: zsh {0}
@@ -99,7 +106,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -107,6 +115,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --dart build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Patch libs to use relative paths to swift stdlib
         shell: zsh {0}
@@ -175,7 +189,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: bash
@@ -183,6 +198,12 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --dart build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test library from dart
         shell: bash

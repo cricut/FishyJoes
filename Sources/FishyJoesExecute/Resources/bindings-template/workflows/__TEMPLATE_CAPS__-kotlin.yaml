@@ -49,6 +49,10 @@ jobs:
 
           swift run -- fishy-joes --kotlin-fast --fat build
 
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
+
       - name: Test from gradle
         shell: zsh {0}
         run: |
@@ -110,6 +114,10 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --kotlin build --no-swiftly
+
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
 
       - name: Patch libraries to use relative dependencies
         shell: zsh {0}
@@ -181,6 +189,10 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast build
+
+      - name: Post-build hook
+        shell: bash
+        run: __POST_BUILD_HOOK_YAML__
 
       # NOTE: Performing this step earlier seems to cause the build to fail, likely due to the Swift install step & path issues
       - name: Set up java

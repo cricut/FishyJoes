@@ -58,8 +58,12 @@ public struct FileTemplater {
         replacements["__CI_RUNNER_WINDOWS__"] = (config.ciRunners ?? .defaults).windows
 
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
-        let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
-        replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: lines, indent: 10)
+        let preBuildHookLines = ciPreBuildHook.split(separator: "\n").map(String.init)
+        replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: preBuildHookLines, indent: 10)
+
+        let ciPostBuildHook = config.ciPostBuildHook ?? "# Post-build customization can be added here with the `CIPostBuildHook` key in fishy-joes.yaml"
+        let postBuildHookLines = ciPostBuildHook.split(separator: "\n").map(String.init)
+        replacements["__POST_BUILD_HOOK_YAML__"] = "|" + join(lines: postBuildHookLines, indent: 10)
 
         var credentialStepLines: [String] = []
         var credentialUser: String = ""
