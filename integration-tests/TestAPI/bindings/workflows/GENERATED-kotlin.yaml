@@ -48,7 +48,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -56,6 +57,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --kotlin-fast --fat build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Test from gradle
         shell: zsh {0}
@@ -114,7 +121,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -122,6 +130,12 @@ jobs:
           set -euxo pipefail
 
           swift run -- fishy-joes --kotlin build --no-swiftly
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Patch libraries to use relative dependencies
         shell: zsh {0}
@@ -189,7 +203,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: bash
@@ -197,6 +212,12 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       # NOTE: Performing this step earlier seems to cause the build to fail, likely due to the Swift install step & path issues
       - name: Set up java
