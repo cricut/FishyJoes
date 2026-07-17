@@ -18,10 +18,7 @@ struct Module: Hashable, CustomStringConvertible, Codable {
     var kotlinPackage: String { "com.cricut.\(name.lowercased())" }
     var cSharpNamespace: String { "Cricut.\(name)" }
     var pythonPackageName: String {
-        name
-            .replacingOccurrences(of: "-", with: "_")
-            .replacingOccurrences(of: ".", with: "_")
-            .lowercased()
+        PythonNamingConventions.moduleImportName(swift: name)
     }
     var dartNamespace: String { name }
     var description: String { name }

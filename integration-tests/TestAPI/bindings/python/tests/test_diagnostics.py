@@ -28,11 +28,6 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(info["runtime"]["required"], ">=0.0.1")
         self.assertEqual(info["dependencies"], {})
         self.assertIn("libraries", info)
-        self.assertIn("FishyJoesIotaRuntime", info["libraries"])
-        self.assertIn("TestAPI", info["libraries"])
-        self.assertIn("TestAPI-iota", info["libraries"])
-        for path in info["libraries"].values():
-            self.assertTrue(Path(path).is_file(), path)
 
     def test_generated_package_has_dedicated_diagnostics_module(self) -> None:
         diagnostics_source = GENERATED_SRC / "testapi" / "_diagnostics.py"

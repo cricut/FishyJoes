@@ -44,7 +44,6 @@ class RuntimeConfig:
     package_version: str
     register_types_symbol: str
     native_dir_candidates: Sequence[Path]
-    runtime_distribution_name: str = "fishyjoes-runtime"
     dependencies: Sequence[RuntimeDependency] = ()
     # Module-specific declaration files contributed by the generated package.
     # The shared runtime declarations (_declarations.h) live in and are loaded
@@ -148,17 +147,3 @@ def validate_platform_compatibility(config: RuntimeConfig) -> None:
             raise RuntimeError(
                 f"Python binding architecture mismatch: wheel supports {supported}, running on {current_arch}"
             )
-
-
-def validate_runtime_compatibility(config: RuntimeConfig) -> None:
-    if not version_satisfies(FISHYJOES_RUNTIME_VERSION, config.runtime_requirement, config.runtime_distribution_name):
-        raise RuntimeError(
-            f"{config.runtime_distribution_name} {FISHYJOES_RUNTIME_VERSION} does not satisfy required "
-            f"{config.runtime_requirement}"
-        )
-    if not version_satisfies(current_python_version(), config.python_requirement, "Python"):
-        raise RuntimeError(
-            f"Python version mismatch: package requires {config.python_requirement}, "
-            f"running on {current_python_version()}"
-        )
-    validate_platform_compatibility(config)

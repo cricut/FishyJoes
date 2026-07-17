@@ -10,4 +10,4 @@ from .iota import create_runtime
 
 __version__ = FISHYJOES_RUNTIME_VERSION
 
-__all__ = ["RuntimeConfig", "RuntimeDependency", "__version__", "create_runtime"]
+__all__ = ["RuntimeConfig", "RuntimeDependency", "__version__", "create_runtime", "diagnostics"]

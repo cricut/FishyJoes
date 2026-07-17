@@ -1,7 +1,0 @@
-# Toolchain for building and repairing the FishyJoes Python runtime wheel
-# (_build_wheel.py). Owned by python-runtime so release CI does not borrow a
-# binding package's dev pins.
-packaging
-auditwheel; sys_platform == "linux"
-patchelf; sys_platform == "linux"
-delocate; sys_platform == "darwin"

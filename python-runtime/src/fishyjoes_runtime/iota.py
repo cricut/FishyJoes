@@ -9,16 +9,16 @@ import types
 import warnings
 import weakref
 from dataclasses import dataclass
+from pathlib import Path
 from typing import ClassVar, Generic, TypeVar
 
 from cffi import FFI
 
 from .attributed_string import setup_attributed_string_family
-from .config import RuntimeConfig, validate_runtime_compatibility
+from .config import RuntimeConfig
 from .dependencies import load_dependencies
 from .diagnostics import package_diagnostics
-from .native import load_library, read_declarations, resolve_library_paths, runtime_declarations
-
+from .native import library_name, load_library, read_declarations, runtime_declarations
 
 # Type parameters for the runtime value-type helpers (`SwiftRange`, `Result*`).
 # The helper instances carry whatever the bound/payload converter produced, so the
@@ -36,20 +36,15 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
     and value types that the generated package's _native module re-exports.
     """
     ffi = FFI()
+    _RUNTIME_PACKAGE_DIR = Path(__file__).resolve().parent
     _PACKAGE_DIR = config.package_dir
-    _NATIVE_DIR_CANDIDATES = list(config.native_dir_candidates)
 
-    validate_runtime_compatibility(config)
     _DEPENDENCY_REPORTS = load_dependencies(config.dependencies)
 
     ffi.cdef(runtime_declarations() + "\n" + read_declarations(_PACKAGE_DIR, config.declaration_files))
 
-    _NATIVE_LIBRARIES = resolve_library_paths(config.module_name, _NATIVE_DIR_CANDIDATES, config.build_hint)
-    _LIBRARY_PATHS = {name: library.path for name, library in _NATIVE_LIBRARIES.items()}
-
-    runtime_lib = load_library(ffi, _NATIVE_LIBRARIES["FishyJoesIotaRuntime"])
-    module_lib = load_library(ffi, _NATIVE_LIBRARIES[config.module_name])
-    iota_lib = load_library(ffi, _NATIVE_LIBRARIES[f"{config.module_name}-iota"])
+    runtime_lib = load_library(ffi, _RUNTIME_PACKAGE_DIR / "native" / library_name("FishyJoesIotaRuntime"))
+    iota_lib = load_library(ffi, _PACKAGE_DIR / "native" / library_name(f"{config.module_name}-iota"))
 
     _handle_lock = threading.RLock()
     # Guards the shared `_descriptor_cache` interning and each descriptor's native
@@ -1904,13 +1899,12 @@ def create_runtime(config: RuntimeConfig) -> dict[str, object]:
 
 
     def diagnostics(package_name: str):
-        library_paths: dict[str, object] = dict(_LIBRARY_PATHS)
         return package_diagnostics(
             package_name,
             config,
             supported=SUPPORTED,
             dependency_reports=_DEPENDENCY_REPORTS,
-            library_paths=library_paths,
+            library_paths={},
         )
 
 

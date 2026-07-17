@@ -1,6 +1,7 @@
 import Foundation
 import RegexBuilder
 import swsh
+import FishyJoesCore
 import ToolchainConfig
 
 struct BuildConfiguration: Hashable {
@@ -354,7 +355,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             fatalError("unknown host OS")
             #endif
         case .python:
-            return "bindings/python/generated/native"
+            return "bindings/python/generated/src/\(PythonNamingConventions.moduleImportName(swift: config.module))/native"
         }
     }
 

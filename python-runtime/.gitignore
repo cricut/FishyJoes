@@ -3,3 +3,5 @@
 __pycache__/
 *.py[cod]
 src/fishyjoes_python/
+dist/
+uv.lock

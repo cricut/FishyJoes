@@ -281,10 +281,12 @@ extension SwiftPackage.Dependency {
         }
     }
 
-    func versionInPythonRequirementFormat(flexibleVersions: Bool = false) -> String? {
+    func versionInPythonRequirementFormat(relativeTo: String?, addIfLocalPath: String = "", flexibleVersions: Bool = false) -> String {
         switch self {
-        case .sourceControl(_, _, .branch), .sourceControl(_, _, .revision), .fileSystem:
-            return nil
+        case .sourceControl(_, _, .branch(let name)):
+            return "==\(name)"
+        case .sourceControl(_, _, .revision(let name)):
+            return "==\(name)"
         case .sourceControl(_, _, .upToNextMajor(let baseVersion)):
             if flexibleVersions {
                 return ">=\(baseVersion),<\(baseVersion.nextMajor)"
@@ -305,6 +307,9 @@ extension SwiftPackage.Dependency {
             }
         case .sourceControl(_, _, .exact(let version)):
             return "==\(version)"
+        case .fileSystem(_, let absolutePath):
+            let localPath = relativeTo.map { relativePath(of: absolutePath, relativeTo: $0) } ?? absolutePath
+            return "@ file://\(localPath)/\(addIfLocalPath)"
         }
     }
 

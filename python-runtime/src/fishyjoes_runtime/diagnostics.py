@@ -24,7 +24,7 @@ def package_diagnostics(
         "platform": platform.platform(),
         "platform_tag": sysconfig.get_platform().replace("-", "_").replace(".", "_"),
         "runtime": {
-            "package": config.runtime_distribution_name,
+            "package": "fishyjoes-runtime",
             "version": FISHYJOES_RUNTIME_VERSION,
             "required": config.runtime_requirement,
         },

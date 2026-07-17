@@ -82,12 +82,7 @@ MyGreatLibrary/bindings/
 │       └── example_test.dart
 ├── python/
 │   ├── generated/
-│   │   ├── _build_wheel.py
 │   │   ├── pyproject.toml
-│   │   ├── native/    // Not committed
-│   │   │   ├── libFishyJoesIotaRuntime.dylib
-│   │   │   ├── libMyGreatLibrary.dylib
-│   │   │   └── libMyGreatLibrary-iota.dylib
 │   │   ├── dist/    // Not committed
 │   │   │   └── mygreatlibrary-0.0.1-py3-none-{platform}.whl
 │   │   └── src/
@@ -100,7 +95,11 @@ MyGreatLibrary/bindings/
 │   │           ├── _exports.py
 │   │           ├── _exports.pyi
 │   │           ├── py.typed
-│   │           └── Path.py
+│   │           ├── Path.py
+│   │           └── native/    // Not committed
+│   │               ├── libFishyJoesIotaRuntime.dylib
+│   │               ├── libMyGreatLibrary.dylib
+│   │               └── libMyGreatLibrary-iota.dylib
 │   └── tests/
 │       └── test_example.py
 └── workflows/

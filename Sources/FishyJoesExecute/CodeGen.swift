@@ -261,7 +261,7 @@ extension CodeGen {
 
             // Create / clean directories used by Sourcery to generate Swift and foreign language code files for the translated foreign languages
             let generatedSwiftTargets = ["WasmMainShim", "IotaInterface", "NodeInterface", "JavaInterface", "CommonInterface"]
-            let pythonImportPackageName = config.python.importPackageName(forModule: config.module)
+            let pythonImportPackageName = PythonNamingConventions.moduleImportName(swift: config.module)
             let sourceLocations = generatedSwiftTargets.map {
                 "\(swiftBindingsRoot)/Sources/\($0)"
             } + [
@@ -272,7 +272,6 @@ extension CodeGen {
                 "bindings/c-sharp/generated/Cricut.\(config.module)",
                 "bindings/dart/generated/lib/src",
                 "bindings/python/generated/src/\(pythonImportPackageName)",
-                "bindings/python/generated/tests",
             ]
             try cmd("rm", "-rf", "bindings/swift-interfaces/generated").run()
             try cmd("rm", "-rf", "bindings/ts/generated").run()
@@ -280,8 +279,7 @@ extension CodeGen {
             try cmd("rm", "-rf", "bindings/kotlin/generated").run()
             try cmd("rm", "-rf", "bindings/c-sharp/generated").run()
             try cmd("rm", "-rf", "bindings/dart/generated").run()
-            try cmd("rm", "-rf", "bindings/python/generated/src").run()
-            try cmd("rm", "-rf", "bindings/python/generated/tests").run()
+            try cmd("rm", "-rf", "bindings/python/generated").run()
             try cmd("mkdir", arguments: ["-p"] + sourceLocations).run()
             for target in generatedSwiftTargets {
                 try cmd("echo")
@@ -549,21 +547,29 @@ extension CodeGen {
         let allBuildPhases = platforms.map(phases(for:))
 
         if buildStep.contains(.build) {
+            markPhase("preBuildPhase")
             try allBuildPhases.forEach { try $0.preBuildPhase() }
+            markPhase("buildSwiftPhase")
             try allBuildPhases.forEach { try $0.buildSwiftPhase() }
+            markPhase("preInstallPhase")
             try allBuildPhases.forEach { try $0.preInstallPhase() }
+            markPhase("installPhase")
             try allBuildPhases.forEach { try $0.installPhase() }
+            markPhase("compileHostLanguagePhase")
             try allBuildPhases.forEach { try $0.compileHostLanguagePhase() }
         }
 
         // MARK: - Test Step
         if buildStep.contains(.test) {
+            markPhase("preTestPhase")
             try allBuildPhases.forEach { try $0.preTestPhase() }
+            markPhase("testPhase")
             try allBuildPhases.forEach { try $0.testPhase() }
         }
 
         // MARK: - Pack Step
         if buildStep.contains(.pack) {
+            markPhase("packPhase")
             try allBuildPhases.forEach { try $0.packPhase() }
         }
     }
@@ -592,5 +598,9 @@ extension CodeGen {
         case .python:
             return PythonPhases(platform: platform, options: self)
         }
+    }
+
+    func markPhase(_ name: String) {
+        Log.info("Phase \(name)")
     }
 }

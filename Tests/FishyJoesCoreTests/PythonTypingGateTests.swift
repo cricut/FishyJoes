@@ -140,7 +140,6 @@ final class PythonTypingGateTests: XCTestCase {
 
         let allowlist = fragments.first { $0.destinationPath == "python/generated/tests/stubtest_allowlist.txt" }
         let gateTest = fragments.first { $0.destinationPath == "python/generated/tests/test_generated_typing_gates.py" }
-        let requirements = fragments.first { $0.destinationPath == "python/generated/tests/requirements-dev.txt" }
         let allowlistContents = try XCTUnwrap(allowlist).contents
         let gateTestContents = try XCTUnwrap(gateTest).contents
         let requirementsContents = try XCTUnwrap(requirements).contents

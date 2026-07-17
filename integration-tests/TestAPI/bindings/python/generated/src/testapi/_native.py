@@ -13,14 +13,15 @@ _RUNTIME_EXPORTS = create_runtime(
         package_dir=_PACKAGE_DIR,
         module_name="TestAPI",
         package_version="0.0.1",
-        runtime_distribution_name="fishyjoes-runtime",
         register_types_symbol="FishyJoes_TestAPI_registerTypes",
         python_requirement=">=3.11",
         native_dir_candidates=[
             _PACKAGE_DIR / "native",
             _PACKAGE_DIR.parents[1] / "native",
         ],
-        dependencies=[],
+        dependencies=[
+            
+        ],
     )
 )
 

@@ -13,7 +13,6 @@ _RUNTIME_EXPORTS = create_runtime(
         package_dir=_PACKAGE_DIR,
         module_name="__MODULE_NAME__",
         package_version="__PYTHON_PACKAGE_VERSION__",
-        runtime_distribution_name="__PYTHON_RUNTIME_DISTRIBUTION_NAME__",
         register_types_symbol="__PYTHON_MODULE_REGISTER_TYPES__",
         python_requirement=">=3.11",
         native_dir_candidates=[

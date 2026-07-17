@@ -126,7 +126,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash
@@ -254,7 +254,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash
@@ -405,7 +405,7 @@ jobs:
             version="${GITHUB_REF_NAME#v}"
             runtime_version_args=(--version-override "$version")
           fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "fishyjoes-runtime" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
+          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
       - name: Verify clean wheel install
         shell: bash

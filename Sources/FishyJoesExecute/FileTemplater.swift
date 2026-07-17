@@ -1,6 +1,7 @@
 import Foundation
 import swsh
 import ToolchainConfig
+import FishyJoesCore
 
 public struct FileTemplater {
     let config: ProjectConfig
@@ -33,9 +34,6 @@ public struct FileTemplater {
         replacements["__LOWERCASE_MODULE_NAME__"] = config.module.lowercased()
         replacements["__LOWERCASE_FIRST_MODULE_NAME__"] = (config.module.first?.lowercased() ?? "") + config.module.dropFirst()
         replacements["__BINDINGS_REPO__"] = config.publishRepository
-        replacements["__PYTHON_DISTRIBUTION_NAME__"] = config.python.distributionName(forModule: config.module)
-        replacements["__PYTHON_IMPORT_PACKAGE__"] = config.python.importPackageName(forModule: config.module)
-        replacements["__PYTHON_RUNTIME_DISTRIBUTION_NAME__"] = config.python.runtimeDistributionName
 
         // A template file is hand-crafted, and then it turns into a generated file, which should not be modified
         replacements["__TEMPLATE__"] = "generated"
@@ -53,9 +51,6 @@ public struct FileTemplater {
                 }
                 replacements[key] = value
             }
-        }
-        for (key, value) in Self.pythonTemplateDefaults(module: config.module) where replacements[key] == nil {
-            replacements[key] = value
         }
 
         // MARK: CI replacements
@@ -136,23 +131,6 @@ public struct FileTemplater {
             fatalError("bindings-template resources not found in \(candidates.map(\.path))")
         }
         try install(".", in: templateRoot, to: "bindings")
-    }
-
-    private static func pythonTemplateDefaults(module: String) -> [String: String] {
-        [
-            "__PYTHON_DEPENDENCIES__": "",
-            "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(manglePythonSymbol(module))_registerTypes",
-            "__PYTHON_NATIVE_DEPENDENCIES__": "[]",
-            "__PYTHON_PACKAGE_VERSION__": "0.0.1",
-            "__PYTHON_RUNTIME_DEPENDENCIES__": "[]",
-            "__PYTHON_RUNTIME_REQUIREMENT__": ">=0.0.1"
-        ]
-    }
-
-    private static func manglePythonSymbol(_ value: String) -> String {
-        value
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "-", with: "_")
     }
 
     enum InstallBehavior {

@@ -1,96 +1,55 @@
 import Foundation
 import swsh
+import FishyJoesCore
 
 class PythonPhases: IotaPhases, Phases {
     func generationPhaseTemplateReplacements() throws -> [String: String] {
-        let dependencies = options.config.requiredModules.map { module in
-            let distributionName = options.config.python.dependencyDistributionName(forModule: module)
+        let dependencies = [
+            PythonDependency(
+                module: "FishyJoes",
+                distributionName: "fishyjoes-runtime",
+                importName: "fishyjoes_runtime",
+                versionRequirement: pythonVersionRequirement(for: "FishyJoes")
+            )
+        ] + options.config.requiredModules.map { module in
+            let distributionName = PythonNamingConventions.moduleDistributionName(swift: module)
+            let importName = PythonNamingConventions.moduleImportName(swift: module)
             return PythonDependency(
                 module: module,
                 distributionName: distributionName,
-                importName: options.config.python.dependencyImportPackageName(forModule: module),
+                importName: importName,
                 versionRequirement: pythonVersionRequirement(for: module),
-                pipRequirement: pythonPipRequirement(for: module, distributionName: distributionName)
             )
         }
         return [
-            "__PYTHON_DISTRIBUTION_NAME__": options.config.python.distributionName(forModule: options.config.module),
-            "__PYTHON_IMPORT_PACKAGE__": options.config.python.importPackageName(forModule: options.config.module),
+            "__PYTHON_DISTRIBUTION_NAME__": PythonNamingConventions.moduleDistributionName(swift: options.config.module),
+            "__PYTHON_IMPORT_PACKAGE__": PythonNamingConventions.moduleImportName(swift: options.config.module),
             "__PYTHON_DEPENDENCIES__": pythonDependencyLines(dependencies),
-            "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(mangle(options.config.module))_registerTypes",
+            "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(options.config.module)_registerTypes",
             "__PYTHON_PACKAGE_VERSION__": options.version ?? "0.0.1",
-            "__PYTHON_RUNTIME_DISTRIBUTION_NAME__": options.config.python.runtimeDistributionName,
             "__PYTHON_RUNTIME_DEPENDENCIES__": pythonRuntimeDependencyList(dependencies),
-            "__PYTHON_NATIVE_DEPENDENCIES__": pythonNativeDependencyList(dependencies),
-            "__PYTHON_RUNTIME_REQUIREMENT__": pythonRuntimeRequirement()
         ]
-    }
-
-    /// PEP 440 compatible-release requirement for the `fishyjoes-runtime`
-    /// dependency: `~=<major>.<minor>` of the binding's own version. The
-    /// runtime wheel ships in lockstep with the generated bindings, so a
-    /// binding built at X.Y.Z accepts compatible runtimes (X.Y and later
-    /// within the same major) and rejects major drift. Replaces the previous
-    /// hardcoded `>=0.0.1` floor (which had no upper bound).
-    private func pythonRuntimeRequirement() -> String {
-        let version = options.version ?? "0.0.1"
-        let core = version.split(separator: "-", maxSplits: 1).first.map(String.init) ?? version
-        let components = core.split(separator: ".")
-        guard components.count >= 2 else { return "~=\(core)" }
-        return "~=\(components[0]).\(components[1])"
     }
 
     private struct PythonDependency {
         let module: String
         let distributionName: String
         let importName: String
-        /// PEP 440 version specifier for the import-time runtime compatibility
-        /// check (e.g. `>=2.22.4,<3.0.0`). Always a valid `SpecifierSet`.
+        /// PEP 440 version specifier, or PEP 508 direct reference
+        /// (e.g. `>=2.22.4,<3.0.0` or `@ file:///...`)
         let versionRequirement: String
-        /// The pyproject `[project.dependencies]` entry. Normally
-        /// `<distname><specifier>`; for a local-path dependency in a
-        /// development build it is a PEP 508 direct reference,
-        /// `<distname> @ file:///…`, so the metadata names the local source
-        /// instead of a fabricated version range.
-        let pipRequirement: String
-    }
-
-    private func mangle(_ value: String) -> String {
-        value
-            .replacingOccurrences(of: ".", with: "_")
-            .replacingOccurrences(of: "-", with: "_")
     }
 
     private func pythonVersionRequirement(for module: String) -> String {
-        if let configuredRequirement = options.config.python.dependencyVersionRequirement(forModule: module) {
-            return configuredRequirement
+        guard let dependency = options.packageInfo?.dependencyMap[module] else {
+            fatalError("couldn't find dependency \(module)")
         }
-        guard let dependency = options.packageInfo?.dependencyMap[module],
-              let version = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions)
-        else {
-            return ">=0.0.1"
-        }
-        return version
-    }
-
-    /// The pyproject `[project.dependencies]` entry for a required module.
-    ///
-    /// For a dependency that resolves to a concrete version, this is the usual
-    /// `<distname><specifier>`. For a local-path SwiftPM dependency with no
-    /// configured requirement, there is no honest version to advertise, so emit
-    /// pip's PEP 508 direct reference to the dependency's generated Python
-    /// package: `<distname> @ file:///…`. This only appears in development
-    /// builds — `pack` requires a concrete requirement for filesystem, branch,
-    /// and revision dependencies (see validatePublishablePythonDependencies),
-    /// and direct references cannot be published to a package index.
-    private func pythonPipRequirement(for module: String, distributionName: String) -> String {
-        if options.config.python.dependencyVersionRequirement(forModule: module) == nil,
-           let dependency = options.packageInfo?.dependencyMap[module],
-           case .fileSystem = dependency {
-            let packagePath = "\(options.absoluteLocalPath(for: dependency))/bindings/python/generated"
-            return "\(distributionName) @ file://\(packagePath)"
-        }
-        return "\(distributionName)\(pythonVersionRequirement(for: module))"
+        let pythonSubdirectory = module == "FishyJoes" ? "python-runtime" : "bindings/python"
+        return dependency.versionInPythonRequirementFormat(
+            relativeTo: nil,
+            addIfLocalPath: pythonSubdirectory,
+            flexibleVersions: options.config.flexibleVersions
+        )
     }
 
     private func pythonDependencyLines(_ dependencies: [PythonDependency]) -> String {
@@ -98,7 +57,7 @@ class PythonPhases: IotaPhases, Phases {
             return ""
         }
         return dependencies
-            .map { #"  "\#($0.pipRequirement)","# }
+            .map { #"  "\#($0.distributionName) \#($0.versionRequirement)","# }
             .joined(separator: "\n")
     }
 
@@ -106,14 +65,17 @@ class PythonPhases: IotaPhases, Phases {
         guard !dependencies.isEmpty else {
             return "[]"
         }
-        let entries = dependencies.map { dependency in
-            """
-            RuntimeDependency(
-                import_name="\(dependency.importName)",
-                distribution_name="\(dependency.distributionName)",
-                version_requirement="\(dependency.versionRequirement)",
-            )
-            """
+        let entries = dependencies.compactMap { dependency -> String? in
+            // TODO: remove this filter
+            guard dependency.importName != "fishyjoes_runtime" else { return nil }
+            return
+                """
+                RuntimeDependency(
+                    import_name="\(dependency.importName)",
+                    distribution_name="\(dependency.distributionName)",
+                    version_requirement="\(dependency.versionRequirement)",
+                )
+                """
         }
         return "[\n            \(entries.joined(separator: ",\n            "))\n        ]"
     }
@@ -134,7 +96,11 @@ class PythonPhases: IotaPhases, Phases {
         try options.config.extraDynamicLibraries.forEach { try installLibrary($0) }
     }
 
-    func compileHostLanguagePhase() throws {}
+    func compileHostLanguagePhase() throws {
+        try withDirectory("bindings/python/generated") {
+            try cmd("uv", "run", "mypy", ".").run()
+        }
+    }
 
     private func pythonVirtualEnvironmentPython() -> String {
         #if os(Windows)
@@ -150,7 +116,7 @@ class PythonPhases: IotaPhases, Phases {
 
     private func installedPythonRuntimeNativeLibraryPath() throws -> String {
         try cmd(
-            pythonVirtualEnvironmentPython(),
+            "uv", "run", "python",
             "-c",
             """
             import pathlib
@@ -254,42 +220,10 @@ class PythonPhases: IotaPhases, Phases {
 
     private func installPythonBootstrapDependencies() throws {
         try ensurePythonVirtualEnvironment()
-
-        var dependencies = ["cffi", "hatchling", "packaging"]
-        #if os(macOS)
-        dependencies.append("delocate")
-        #elseif os(Linux)
-        dependencies.append("auditwheel")
-        #endif
-
-        try cmd(
-            pythonVirtualEnvironmentPython(),
-            arguments: ["-m", "pip", "install"] + dependencies,
-            addEnv: [
-                "PIP_DISABLE_PIP_VERSION_CHECK": "1",
-                "PIP_NO_CACHE_DIR": "1",
-            ]
-        ).run()
     }
 
     private func installPythonDevDependencies() throws {
-        try installPythonBootstrapDependencies()
-
-        // requirements-dev.txt (package scaffolding, installed once) plus the
-        // generated typing gate's own checker requirements (regenerated, so the
-        // gate's toolchain stays current even though the scaffolding file is not).
-        let requirementsFiles = ["requirements-dev.txt", "generated/tests/requirements-dev.txt"]
-        for requirementsFile in requirementsFiles where FileManager.default.fileExists(atPath: requirementsFile) {
-            try cmd(
-                pythonVirtualEnvironmentPython(),
-                "-m", "pip", "install",
-                "-r", requirementsFile,
-                addEnv: [
-                    "PIP_DISABLE_PIP_VERSION_CHECK": "1",
-                    "PIP_NO_CACHE_DIR": "1",
-                ]
-            ).run()
-        }
+        try cmd("uv", "sync", "--dev").run()
     }
 
     private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
@@ -348,42 +282,6 @@ class PythonPhases: IotaPhases, Phases {
         return runtimePackagePath
     }
 
-    private func installPythonRuntimePackage(repair: Bool = true) throws {
-        let runtimePackagePath = try pythonRuntimePackagePath()
-        let runtimeWheelDirectory = ".venv/fishyjoes-runtime-wheel"
-        let runtimeLibraryPath = try builtRuntimeNativeLibraryPath()
-        try cmd("rm", "-rf", runtimeWheelDirectory).run()
-        try cmd("mkdir", "-p", runtimeWheelDirectory).run()
-        var buildArgs = [
-            "\(runtimePackagePath)/_build_wheel.py",
-            "--outdir", runtimeWheelDirectory,
-            "--native-library", runtimeLibraryPath
-        ]
-        if !repair {
-            buildArgs.append("--no-repair")
-        }
-        let runtimeWheelPath = try cmd(
-            pythonVirtualEnvironmentPython(),
-            arguments: buildArgs,
-            addEnv: [
-                "PIP_DISABLE_PIP_VERSION_CHECK": "1",
-                "PIP_NO_CACHE_DIR": "1",
-            ]
-        ).runString().trimmingCharacters(in: .whitespacesAndNewlines)
-        try cmd(
-            pythonVirtualEnvironmentPython(),
-            "-m", "pip", "install",
-            "--no-build-isolation",
-            "--no-deps",
-            "--force-reinstall",
-            runtimeWheelPath,
-            addEnv: [
-                "PIP_DISABLE_PIP_VERSION_CHECK": "1",
-                "PIP_NO_CACHE_DIR": "1",
-            ]
-        ).run()
-    }
-
     private func builtRuntimeNativeLibraryPath() throws -> String {
         try builtNativeLibraryPath("FishyJoesIotaRuntime")
     }
@@ -406,46 +304,8 @@ class PythonPhases: IotaPhases, Phases {
         .path
     }
 
-    private func installGeneratedPythonPackage() throws {
-        for module in options.config.requiredModules {
-            guard let dependency = options.packageInfo?.dependencyMap[module] else {
-                throw NSError(
-                    domain: "FishyJoes.Python",
-                    code: 1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Could not locate required module \(module) in Package.swift"
-                    ]
-                )
-            }
-
-            let dependencyGeneratedPath = "\(options.absoluteLocalPath(for: dependency))/bindings/python/generated"
-            try installGeneratedPythonPackage(
-                at: dependencyGeneratedPath,
-                module: module,
-                wheelDirectory: ".venv/fishyjoes-generated-wheels/\(module)",
-                versionOverride: pythonLocalPackageVersion(for: module, dependency: dependency),
-                prepareIsolatedCopy: true
-            )
-        }
-
-        try installGeneratedPythonPackage(
-            at: "generated",
-            module: options.config.module,
-            wheelDirectory: ".venv/fishyjoes-generated-wheels/\(options.config.module)",
-            versionOverride: nil,
-            prepareIsolatedCopy: false
-        )
-    }
-
     private func pythonLocalPackageVersion(for module: String, dependency: SwiftPackage.Dependency) -> String? {
-        let version: String
-        if let configuredRequirement = options.config.python.dependencyVersionRequirement(forModule: module) {
-            version = configuredRequirement
-        } else if let dependencyRequirement = dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) {
-            version = dependencyRequirement
-        } else {
-            return nil
-        }
+        let version = dependency.versionInPythonRequirementFormat(relativeTo: nil, flexibleVersions: options.config.flexibleVersions)
 
         if version.hasPrefix("==") {
             return String(version.dropFirst(2))
@@ -464,10 +324,7 @@ class PythonPhases: IotaPhases, Phases {
 
     private func validatePublishablePythonDependencies() throws {
         for module in options.config.requiredModules {
-            guard options.config.python.dependencyVersionRequirement(forModule: module) == nil else {
-                continue
-            }
-            guard let dependency = options.packageInfo?.dependencyMap[module] else {
+            guard options.packageInfo?.dependencyMap[module] != nil else {
                 throw NSError(
                     domain: "FishyJoes.Python",
                     code: 1,
@@ -476,78 +333,7 @@ class PythonPhases: IotaPhases, Phases {
                     ]
                 )
             }
-            if dependency.versionInPythonRequirementFormat(flexibleVersions: options.config.flexibleVersions) == nil {
-                throw NSError(
-                    domain: "FishyJoes.Python",
-                    code: 1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: """
-                        Cannot pack Python bindings with non-publishable SwiftPM dependency \(module).
-                        Branch, revision, and local-path SwiftPM dependencies do not describe a Python package that pip can resolve from an index.
-                        Add python.dependencies.\(module).versionRequirement in bindings/fishy-joes.yaml, for example: ">=1.2.3,<2.0.0".
-                        """
-                    ]
-                )
-            }
         }
-    }
-
-    private func installGeneratedPythonPackage(
-        at generatedPath: String,
-        module: String,
-        wheelDirectory: String,
-        versionOverride: String?,
-        prepareIsolatedCopy: Bool
-    ) throws {
-        guard FileManager.default.fileExists(atPath: "\(generatedPath)/pyproject.toml") else {
-            throw NSError(
-                domain: "FishyJoes.Python",
-                code: 1,
-                userInfo: [
-                    NSLocalizedDescriptionKey: "Could not locate generated Python package at \(generatedPath); run `fishy-joes --python generate build` for that module first"
-                ]
-            )
-        }
-        if FileManager.default.fileExists(atPath: wheelDirectory) {
-            try FileManager.default.removeItem(atPath: wheelDirectory)
-        }
-        let buildPath = try preparedGeneratedPackagePath(
-            generatedPath,
-            module: module,
-            wheelDirectory: wheelDirectory,
-            versionOverride: versionOverride,
-            prepareIsolatedCopy: prepareIsolatedCopy
-        )
-        let buildArgs = [
-            "\(buildPath)/_build_wheel.py",
-            "--outdir", wheelDirectory,
-            "--no-repair"
-        ]
-        try cmd(pythonVirtualEnvironmentPython(), arguments: buildArgs).run()
-        let wheels = try FileManager.default.contentsOfDirectory(atPath: wheelDirectory)
-            .filter { $0.hasSuffix(".whl") }
-            .sorted()
-        guard wheels.count == 1, let wheel = wheels.first else {
-            throw NSError(
-                domain: "FishyJoes.Python",
-                code: 1,
-                userInfo: [
-                    NSLocalizedDescriptionKey: "Expected generated Python wheel builder to produce exactly one wheel in \(wheelDirectory); found \(wheels)"
-                ]
-            )
-        }
-        try cmd(
-            pythonVirtualEnvironmentPython(),
-            "-m", "pip", "install",
-            "--no-build-isolation",
-            "--no-deps",
-            "--force-reinstall",
-            "\(wheelDirectory)/\(wheel)",
-            addEnv: [
-                "PIP_DISABLE_PIP_VERSION_CHECK": "1",
-                "PIP_NO_CACHE_DIR": "1",
-            ]
-        ).run()
     }
 
     private func preparedGeneratedPackagePath(
@@ -624,93 +410,57 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     func testPhase() throws {
-        try withDirectory("bindings/python") {
+        try withDirectory("bindings/python/generated") {
             try installPythonDevDependencies()
-            try installPythonRuntimePackage(repair: false)
-            try installGeneratedPythonPackage()
-            let testArguments = ["-m", "unittest", "discover", "-s", "tests", "-v"]
-            // The generator emits the per-package typing gates into
-            // generated/tests, a separate discovery root from the hand-written
-            // tests; run both wherever the suite runs.
-            let generatedTestArguments = ["-m", "unittest", "discover", "-s", "generated/tests", "-v"]
-            let hasGeneratedTests = FileManager.default.fileExists(atPath: "generated/tests")
+            var testArguments = ["../tests", "-v"]
+            // testArguments.append("-x")
             if let codeCoveragePath = options.codeCoveragePath {
-                try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
-                let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
-                try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
-                let coverageEnv = try pythonTestEnvironment(
-                    adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
-                )
-                try cmd(
-                    pythonVirtualEnvironmentPython(),
-                    "-m", "coverage", "erase",
-                    "--rcfile", coverageConfigPath,
-                    addEnv: coverageEnv
-                ).run()
-                try cmd(
-                    pythonVirtualEnvironmentPython(),
-                    arguments: ["-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
-                    addEnv: coverageEnv
-                ).run()
-                if hasGeneratedTests {
-                    // --append: a second plain `coverage run` would clobber the
-                    // hand-written suite's data file.
-                    try cmd(
-                        pythonVirtualEnvironmentPython(),
-                        arguments: ["-m", "coverage", "run", "--append", "--rcfile", coverageConfigPath] + generatedTestArguments,
-                        addEnv: coverageEnv
-                    ).run()
-                }
-                try cmd(
-                    pythonVirtualEnvironmentPython(),
-                    "-m", "coverage", "xml",
-                    "--rcfile", coverageConfigPath,
-                    "-o", "\(codeCoveragePath)/integration-tests-python.xml",
-                    addEnv: coverageEnv
-                ).run()
-                try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
-                try cmd(
-                    pythonVirtualEnvironmentPython(),
-                    "-m", "coverage", "report",
-                    "--rcfile", coverageConfigPath,
-                    addEnv: coverageEnv
-                ).run()
+                // try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
+                // let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
+                // try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
+                // let coverageEnv = try pythonTestEnvironment(
+                //     adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
+                // )
+                // try cmd(
+                //     "uv", "run", "python",
+                //     "-m", "coverage", "erase",
+                //     "--rcfile", coverageConfigPath,
+                //     addEnv: coverageEnv
+                // ).run()
+                // try cmd(
+                //     "uv",
+                //     arguments: ["run", "python", "-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
+                //     addEnv: coverageEnv
+                // ).run()
+                // try cmd(
+                //     "uv", "run", "python",
+                //     "-m", "coverage", "xml",
+                //     "--rcfile", coverageConfigPath,
+                //     "-o", "\(codeCoveragePath)/integration-tests-python.xml",
+                //     addEnv: coverageEnv
+                // ).run()
+                // try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
+                // try cmd(
+                //     "uv", "run", "python",
+                //     "-m", "coverage", "report",
+                //     "--rcfile", coverageConfigPath,
+                //     addEnv: coverageEnv
+                // ).run()
+                fatalError("TODO: fix")
             } else {
                 try cmd(
-                    pythonVirtualEnvironmentPython(),
-                    arguments: testArguments,
+                    "uv",
+                    arguments: ["run", "pytest"] + testArguments,
                     addEnv: try pythonTestEnvironment()
                 ).run()
-                if hasGeneratedTests {
-                    try cmd(
-                        pythonVirtualEnvironmentPython(),
-                        arguments: generatedTestArguments,
-                        addEnv: try pythonTestEnvironment()
-                    ).run()
-                }
             }
         }
     }
 
     func packPhase() throws {
         try validatePublishablePythonDependencies()
-        try Self.removeExistingPythonDistDirectory()
-        try withDirectory("bindings/python") {
-            try installPythonDevDependencies()
-            try installPythonRuntimePackage()
-        }
         try withDirectory("bindings/python/generated") {
-            var args = [
-                "_build_wheel.py",
-                "--outdir", "../dist"
-            ]
-            if let version = options.version {
-                args += ["--version-override", version]
-            }
-            try cmd(
-                "../\(pythonVirtualEnvironmentPython())",
-                arguments: args
-            ).run()
+            try cmd("uv", "build", "--wheel").run()
         }
     }
 }

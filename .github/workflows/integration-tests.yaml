@@ -171,6 +171,13 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      - name: Setup Python
+        shell: bash
+        run: |
+          set -euxo pipefail
+          uv python install --default --preview-features python-install-default '${{ matrix.python-version }}'
+          uv run python --version
+
       - name: Configure build environment
         run: |
           set -euxo pipefail
