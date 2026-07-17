@@ -1,15 +1,13 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class ExtensionTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_extension_declared_exported_types(self) -> None:
-        string_extension_type = self.testapi.String_PuttingTypesIntoQuestionablePlaces
-        structs_extension_type = self.testapi.Structs_PuttingTypesIntoQuestionablePlaces
-        scalar_extension_type = self.testapi.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
+        string_extension_type = testapi.String_PuttingTypesIntoQuestionablePlaces
+        structs_extension_type = testapi.Structs_PuttingTypesIntoQuestionablePlaces
+        scalar_extension_type = testapi.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
 
         self.assertEqual(string_extension_type("hello").test_call(), 42)
         self.assertEqual(structs_extension_type.create().test_call(), 43)

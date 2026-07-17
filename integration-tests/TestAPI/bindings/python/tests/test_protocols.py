@@ -1,15 +1,11 @@
-import importlib
 import math
 import unittest
 
+import testapi
+
 
 class ProtocolTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_python_protocol_witness_passed_to_swift(self) -> None:
-        testapi = self.testapi
-
         class PythonAProtocol(testapi.AProtocol):
             @property
             def foo(self) -> str:
@@ -42,7 +38,6 @@ class ProtocolTests(unittest.TestCase):
         self.assertEqual(returned.bar(x=7, y=8).foo, "python bar 15")
 
     def test_a_protocol_swift_implementation_and_returned_existential(self) -> None:
-        testapi = self.testapi
         value = testapi.AProtocolImplementation(foo="Garply", baz=False)
 
         self.assertEqual(value.foo, "Garply")
@@ -59,8 +54,6 @@ class ProtocolTests(unittest.TestCase):
         )
 
     def test_protocol_enum_struct_and_class_members(self) -> None:
-        testapi = self.testapi
-
         enum_value = testapi.TestProtocolEnum.qux
         self.assertTrue(enum_value.bar())
         enum_value.baz(True)

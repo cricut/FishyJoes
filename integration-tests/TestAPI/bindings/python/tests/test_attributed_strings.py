@@ -1,13 +1,12 @@
 import importlib
 import unittest
 
+import testapi
+
 
 class AttributedStringTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_static_values_and_echo(self) -> None:
-        attributed_strings = self.testapi.AttributedStrings
+        attributed_strings = testapi.AttributedStrings
 
         self.assertEqual(attributed_strings.simple.string, "Hello")
         self.assertEqual(attributed_strings.accent.string, "Olá")
@@ -29,8 +28,8 @@ class AttributedStringTests(unittest.TestCase):
         # could not be turned into an AttributedString and the entire shaping tier
         # (Font.shape_attributed_string, TextSegmentation, …) was unreachable. The
         # runtime class must expose a constructor wired to the native create symbol.
-        attributed_string_type = self.testapi._native.Runtime_AttributedString
-        attributed_strings = self.testapi.AttributedStrings
+        attributed_string_type = testapi._native.Runtime_AttributedString
+        attributed_strings = testapi.AttributedStrings
 
         constructed = attributed_string_type("Hello")
         self.assertEqual(constructed.string, "Hello")
@@ -46,7 +45,7 @@ class AttributedStringTests(unittest.TestCase):
         self.assertNotEqual(constructed, attributed_strings.simple)
 
     def test_substrings_and_attribute_containers(self) -> None:
-        attributed_strings = self.testapi.AttributedStrings
+        attributed_strings = testapi.AttributedStrings
 
         substrings = attributed_strings.attributed_characters(attributed_strings.accent)
         self.assertEqual([substring.string for substring in substrings], ["O", "l", "á"])
@@ -72,9 +71,9 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
     runs, append/insert round-trips, and Comparable indices. All real dylibs."""
 
     def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-        self.attributed_strings = self.testapi.AttributedStrings
-        self.AttributedString = self.testapi._native.Runtime_AttributedString
+        testapi = importlib.import_module("testapi")
+        self.attributed_strings = testapi.AttributedStrings
+        self.AttributedString = testapi._native.Runtime_AttributedString
 
     def test_character_view_is_iterable_and_navigable(self) -> None:
         value = self.AttributedString("Olá")
@@ -136,7 +135,7 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
             cursor = characters.index_after(cursor)
             indices.append(cursor)
 
-        first_five = self.testapi.SwiftRange(indices[0], indices[5])
+        first_five = testapi.SwiftRange(indices[0], indices[5])
         # __getitem__ (obj[range]) is the sole public range accessor, bridging
         # Swift's subscript(range:).
         self.assertEqual(value[first_five].string, "Hello")
@@ -180,7 +179,7 @@ class AttributedStringRichSurfaceTests(unittest.TestCase):
         run = list(substring.runs)[0]
         self.assertEqual(run.attributes.foundation.language_identifier, "pt")
 
-        full = self.testapi.SwiftRange(substring.start_index, substring.end_index)
+        full = testapi.SwiftRange(substring.start_index, substring.end_index)
         self.assertEqual(substring[full].string, "Olá")
 
     def test_indices_are_comparable(self) -> None:
@@ -219,15 +218,15 @@ class AttributedStringParitySurfaceTests(unittest.TestCase):
     via .string/.attributes."""
 
     def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-        self.attributed_strings = self.testapi.AttributedStrings
-        self.AttributedString = self.testapi._native.Runtime_AttributedString
-        self.AttributedSubstring = self.testapi._native.Runtime_AttributedSubstring
-        self.AttributeContainer = self.testapi._native.Runtime_AttributeContainer
+        testapi = importlib.import_module("testapi")
+        self.attributed_strings = testapi.AttributedStrings
+        self.AttributedString = testapi._native.Runtime_AttributedString
+        self.AttributedSubstring = testapi._native.Runtime_AttributedSubstring
+        self.AttributeContainer = testapi._native.Runtime_AttributeContainer
         self.FoundationAttributes = (
-            self.testapi._native.Runtime_AttributeContainer_FoundationAttributes
+            testapi._native.Runtime_AttributeContainer_FoundationAttributes
         )
-        self.SwiftRange = self.testapi.SwiftRange
+        self.SwiftRange = testapi.SwiftRange
 
     def _full_range(self, value):
         return self.SwiftRange(value.start_index, value.end_index)
@@ -498,13 +497,13 @@ class AttributedStringNamedFactoryExportTests(unittest.TestCase):
     all against the real dylibs."""
 
     def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-        self.attributed_strings = self.testapi.AttributedStrings
-        self.AttributedString = self.testapi._native.Runtime_AttributedString
-        self.AttributedSubstring = self.testapi._native.Runtime_AttributedSubstring
-        self.AttributeContainer = self.testapi._native.Runtime_AttributeContainer
+        testapi = importlib.import_module("testapi")
+        self.attributed_strings = testapi.AttributedStrings
+        self.AttributedString = testapi._native.Runtime_AttributedString
+        self.AttributedSubstring = testapi._native.Runtime_AttributedSubstring
+        self.AttributeContainer = testapi._native.Runtime_AttributeContainer
         self.FoundationAttributes = (
-            self.testapi._native.Runtime_AttributeContainer_FoundationAttributes
+            testapi._native.Runtime_AttributeContainer_FoundationAttributes
         )
 
     def _language(self, value):

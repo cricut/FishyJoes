@@ -1,13 +1,11 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class StringTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_string_values(self) -> None:
-        strings = self.testapi.Strings
+        strings = testapi.Strings
 
         self.assertEqual(strings.simple, "Hello")
         self.assertEqual(strings.accent, "Olá")
@@ -19,7 +17,7 @@ class StringTests(unittest.TestCase):
         self.assertEqual(strings.emoji_multi, "👨‍👩‍👧‍👦👍🏿🇺🇸")
 
     def test_string_echo(self) -> None:
-        strings = self.testapi.Strings
+        strings = testapi.Strings
 
         self.assertEqual(strings.echo(strings.simple), strings.simple)
         self.assertEqual(strings.echo(strings.accent), strings.accent)
@@ -30,7 +28,7 @@ class StringTests(unittest.TestCase):
         self.assertEqual(strings.echo(strings.emoji_multi), strings.emoji_multi)
 
     def test_string_split_array_round_trip(self) -> None:
-        strings = self.testapi.Strings
+        strings = testapi.Strings
 
         self.assertEqual(strings.split("one,two,three", ","), ["one", "two", "three"])
         self.assertEqual(strings.split("Olá|こんにちは|你好", "|"), ["Olá", "こんにちは", "你好"])
@@ -38,7 +36,7 @@ class StringTests(unittest.TestCase):
     def test_invalid_utf8_raises(self) -> None:
         # A lone surrogate has no valid UTF-8 encoding; the boundary rejects it with a
         # clear ValueError rather than silently replacing or passing it through (ADR 0004).
-        strings = self.testapi.Strings
+        strings = testapi.Strings
 
         with self.assertRaises(ValueError):
             strings.echo("\ud800")

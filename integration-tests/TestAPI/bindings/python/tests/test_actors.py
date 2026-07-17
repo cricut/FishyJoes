@@ -1,13 +1,11 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class ActorTests(unittest.IsolatedAsyncioTestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     async def test_temperature_logger_actor(self) -> None:
-        logger = self.testapi.Actors_TemperatureLogger.create(label="log", measurement=3)
+        logger = testapi.Actors_TemperatureLogger.create(label="log", measurement=3)
 
         await logger.update(7)
         await logger.update(1)

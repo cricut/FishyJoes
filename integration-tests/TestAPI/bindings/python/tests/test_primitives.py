@@ -1,14 +1,12 @@
-import importlib
 import sys
 import unittest
 
+import testapi
+
 
 class PrimitiveTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_primitive_values(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertFalse(primitives.false_bool)
         self.assertTrue(primitives.true_bool)
@@ -20,17 +18,17 @@ class PrimitiveTests(unittest.TestCase):
         self.assertEqual(primitives.zero_double, 0.0)
 
     def test_int32_array_values(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertEqual(primitives.many_int32, [0, -(2**31), 2**31 - 1])
 
     def test_optional_int32_array_values(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertEqual(primitives.many_maybe_int32, [None, 0, -(2**31), 2**31 - 1])
 
     def test_additional_primitive_array_descriptors(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertEqual(primitives.many_bool, [False, True])
         self.assertEqual(primitives.many_maybe_bool, [None, False, True])
@@ -42,7 +40,7 @@ class PrimitiveTests(unittest.TestCase):
         self.assertEqual(primitives.many_maybe_double, [None, 0.0, primitives.min_double, primitives.max_double])
 
     def test_primitive_echo_functions(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertFalse(primitives.echo_bool(False))
         self.assertTrue(primitives.echo_bool(True))
@@ -52,14 +50,14 @@ class PrimitiveTests(unittest.TestCase):
         self.assertEqual(primitives.echo_double(1.5), 1.5)
 
     def test_optional_int32_echo_function(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertIsNone(primitives.maybe_echo_int32(None))
         self.assertEqual(primitives.maybe_echo_int32(-(2**31)), -(2**31))
         self.assertEqual(primitives.maybe_echo_int32(2**31 - 1), 2**31 - 1)
 
     def test_additional_optional_primitive_echo_functions(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertIsNone(primitives.maybe_echo_bool(None))
         self.assertTrue(primitives.maybe_echo_bool(True))
@@ -74,7 +72,7 @@ class PrimitiveTests(unittest.TestCase):
     def test_all_integer_width_constants(self) -> None:
         # Int8/Int16/Int64/UInt/UInt16/UInt32/UInt64 were previously unsupported in
         # Python (silently dropped); they are now at parity with the other targets.
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         self.assertEqual((primitives.min_int8, primitives.max_int8), (-(2**7), 2**7 - 1))
         self.assertEqual((primitives.min_int16, primitives.max_int16), (-(2**15), 2**15 - 1))
@@ -85,7 +83,7 @@ class PrimitiveTests(unittest.TestCase):
         self.assertEqual((primitives.min_uint64, primitives.max_uint64), (0, 2**64 - 1))
 
     def test_all_integer_width_echo_round_trip(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         cases = [
             (primitives.echo_int8, primitives.min_int8, primitives.max_int8),
@@ -105,7 +103,7 @@ class PrimitiveTests(unittest.TestCase):
         # directions, which requires the native per-width converter setup (valueMethod +
         # constructor). The scalar echo path is cffi-direct and does NOT exercise this,
         # so this is the regression test for the missing Swift_<Width>_setup wiring.
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         cases = [
             (primitives.maybe_echo_int8, primitives.min_int8, primitives.max_int8),
@@ -122,7 +120,7 @@ class PrimitiveTests(unittest.TestCase):
             self.assertEqual(echo(high), high)
 
     def test_integer_width_range_validation(self) -> None:
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         # Composite (optional) path runs the descriptor validators -> ValueError.
         with self.assertRaises(ValueError):
@@ -137,7 +135,7 @@ class PrimitiveTests(unittest.TestCase):
     def test_bare_scalar_echo_rejects_out_of_range(self) -> None:
         # The bare-scalar path marshals through cffi directly; out-of-range input must
         # still be rejected (cffi raises OverflowError) rather than silently truncating.
-        primitives = self.testapi.Primitives
+        primitives = testapi.Primitives
 
         with self.assertRaises((ValueError, OverflowError)):
             primitives.echo_int8(2**7)
@@ -149,7 +147,7 @@ class PrimitiveTests(unittest.TestCase):
     def test_holder_static_mutable_property_round_trip(self) -> None:
         # Covers the type-based metaclass path (_Primitives_PrimitiveHolderMeta) with a
         # composite ([UInt8?]) value flowing through the static setter to native.
-        holder = self.testapi.Primitives_PrimitiveHolder
+        holder = testapi.Primitives_PrimitiveHolder
         original = holder.static_mutable_property
         try:
             holder.static_mutable_property = [None, 1, 255]

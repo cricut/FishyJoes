@@ -14,20 +14,15 @@ interned instance and an idempotent, exception-free setup.
 """
 
 import concurrent.futures
-import importlib
 import threading
 import unittest
+
+import testapi
 
 _THREADS = 16
 
 
 class DescriptorConcurrencyTests(unittest.TestCase):
-    def setUp(self) -> None:
-        # Import the generated package so its _native runtime (with real dylibs)
-        # is loaded, then grab the runtime's descriptor constructors.
-        importlib.import_module("testapi")
-        self._native = importlib.import_module("testapi._native")
-
     def _race(self, make):
         """Run `make()` on _THREADS threads released together by a Barrier.
 
@@ -47,7 +42,7 @@ class DescriptorConcurrencyTests(unittest.TestCase):
             return [future.result() for future in futures]
 
     def test_optional_interning_is_consistent_under_concurrency(self) -> None:
-        native = self._native
+        native = testapi._native
         results = self._race(lambda: native.Optional(native.INT))
 
         first = results[0]
@@ -58,7 +53,7 @@ class DescriptorConcurrencyTests(unittest.TestCase):
         self.assertIs(native.Optional(native.INT), first)
 
     def test_array_interning_is_consistent_under_concurrency(self) -> None:
-        native = self._native
+        native = testapi._native
         results = self._race(lambda: native.Array("X", native.INT))
 
         first = results[0]
@@ -67,7 +62,7 @@ class DescriptorConcurrencyTests(unittest.TestCase):
         self.assertIs(native.Array("X", native.INT), first)
 
     def test_dictionary_interning_is_consistent_under_concurrency(self) -> None:
-        native = self._native
+        native = testapi._native
         results = self._race(lambda: native.Dictionary("D", native.STRING, native.INT))
 
         first = results[0]
@@ -80,7 +75,7 @@ class DescriptorConcurrencyTests(unittest.TestCase):
         # descriptor must produce a different cached instance, so the identity
         # assertions above are meaningful (not every construction collapsing to
         # one object).
-        native = self._native
+        native = testapi._native
         int_optional = native.Optional(native.INT)
         string_optional = native.Optional(native.STRING)
         self.assertIsNot(int_optional, string_optional)
@@ -95,7 +90,7 @@ class DescriptorConcurrencyTests(unittest.TestCase):
         # instance). We use a swift_name the Swift runtime actually registers
         # ("ArrayConverter<Swift.Int16>"); a made-up name would abort the process
         # in native FishyJoesIotaRuntime as an unregistered typeID.
-        native = self._native
+        native = testapi._native
         swift_name = "ArrayConverter<Swift.Int16>"
         descriptor = native.Array(swift_name, native.INT16)
 

@@ -1,27 +1,25 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class CollectionTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_int_array_values_and_echo(self) -> None:
-        collections = self.testapi.Collections
+        collections = testapi.Collections
 
         self.assertEqual(collections.array_of_int, [2, 7, 3, 5, 8])
         payload = [2, 4, 6, 30, 32]
         self.assertEqual(collections.echo_array_of_int(payload), payload)
 
     def test_int_set_values_and_echo(self) -> None:
-        collections = self.testapi.Collections
+        collections = testapi.Collections
 
         self.assertEqual(collections.set_of_int, {5, 9, 2, 4, 3})
         payload = {2, 4, 6, 30, 32}
         self.assertEqual(collections.echo_set_of_int(payload), payload)
 
     def test_int_dictionary_values_and_echo(self) -> None:
-        collections = self.testapi.Collections
+        collections = testapi.Collections
 
         expected = {1: 10, 2: 20, 3: 30, 4: 40, 5: 50}
         self.assertEqual(collections.dictionary_of_int_to_int, expected)
@@ -29,12 +27,12 @@ class CollectionTests(unittest.TestCase):
         self.assertEqual(collections.echo_dictionary_of_int_to_int(payload), payload)
 
     def test_optional_int_array_value(self) -> None:
-        collections = self.testapi.Collections
+        collections = testapi.Collections
 
         self.assertEqual(collections.maybe_array_of_int, [2, 7, 3, 5, 8])
 
     def test_nested_optional_collections_and_echo(self) -> None:
-        collections = self.testapi.Collections
+        collections = testapi.Collections
 
         self.assertEqual(collections.maybe_array_of_maybe_int, [None, 2, 7, 3, 5, 8])
         self.assertEqual(collections.echo_maybe_array_of_maybe_int([None, 3, 5]), [None, 3, 5])

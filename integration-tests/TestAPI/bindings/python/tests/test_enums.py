@@ -1,13 +1,11 @@
 import importlib
 import unittest
+import testapi
 
 
 class EnumTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_empty_enum_static_members(self) -> None:
-        empty_enum = self.testapi.EmptyEnum
+        empty_enum = testapi.EmptyEnum
 
         with self.assertRaises(RuntimeError):
             empty_enum.not_going_to_happen()
@@ -15,7 +13,7 @@ class EnumTests(unittest.TestCase):
         self.assertEqual(empty_enum.a_static_method(), 62645)
 
     def test_reference_empty_enum_static_members(self) -> None:
-        reference_empty_enum = self.testapi.ReferenceEmptyEnum
+        reference_empty_enum = testapi.ReferenceEmptyEnum
 
         with self.assertRaises(RuntimeError):
             reference_empty_enum.not_going_to_happen()
@@ -23,7 +21,7 @@ class EnumTests(unittest.TestCase):
         self.assertEqual(reference_empty_enum.a_static_method(), 6)
 
     def test_associated_data_enum(self) -> None:
-        associated = self.testapi.AssociatedDataEnum
+        associated = testapi.AssociatedDataEnum
 
         def shape1(x: int):
             return associated.thing(x)
@@ -39,16 +37,23 @@ class EnumTests(unittest.TestCase):
         self.assertEqual(shape2("hello", "world", 8).int_value, 11)
         self.assertEqual(shape1(2).plus(shape2("x", "y", 4)), shape1(9))
         self.assertEqual(shape2("y", "z", 2).plus(shape1(5)), shape2("y", "z", 7))
-        self.assertEqual(associated.simple_enum(self.testapi.SimpleEnum.blue).value, self.testapi.SimpleEnum.blue)
+        self.assertEqual(associated.simple_enum(testapi.SimpleEnum.blue).value, testapi.SimpleEnum.blue)
         self.assertIsInstance(associated.none(), getattr(associated, "None"))
         self.assertEqual(associated.none().int_value, 42)
+
+    # TODO: make this fail type checking
+    # def test_extend_associated_data_enum(self) -> None:
+    #     class NewEnumCase(testapi.AssociatedDataEnum):
+    #         pass
+    #     x = NewEnumCase()
+    #     x.plus(x)
 
     def test_reference_annotated_enum_surfaces_cases(self) -> None:
         # An inhabited enum annotated `exportReference` must still bridge its cases
         # (an enum's cases are its only construction surface). Before the dispatch
         # fix this class was an opaque SwiftReference shell with no case members,
         # so attribute access / comparison failed and the consumer was uncallable.
-        reference_case_enum = self.testapi.ReferenceCaseEnum
+        reference_case_enum = testapi.ReferenceCaseEnum
 
         self.assertEqual(reference_case_enum.north.opposite, reference_case_enum.south)
         self.assertEqual(reference_case_enum.rotate180(reference_case_enum.east), reference_case_enum.west)
@@ -57,7 +62,7 @@ class EnumTests(unittest.TestCase):
         self.assertNotEqual(reference_case_enum.north, reference_case_enum.south)
 
     def test_settable_static_property_round_trip(self) -> None:
-        simple_enum = self.testapi.SimpleEnum
+        simple_enum = testapi.SimpleEnum
         try:
             # Default is .blue; assignment must reach the native setter, not just
             # rebind the class attribute (the getter-only bug silently no-oped).

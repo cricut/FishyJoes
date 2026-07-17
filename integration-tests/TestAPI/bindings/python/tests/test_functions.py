@@ -1,13 +1,11 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class FunctionTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_sync_functions_round_trip(self) -> None:
-        functions = self.testapi.Functions
+        functions = testapi.Functions
 
         self.assertEqual(functions.const42(), 42)
         self.assertEqual(functions.abs(-8), 8)
@@ -16,7 +14,7 @@ class FunctionTests(unittest.TestCase):
         self.assertEqual(functions.exercise1(lambda value: value * 2), "-6")
 
     def test_nested_and_higher_arity_sync_functions(self) -> None:
-        functions = self.testapi.Functions
+        functions = testapi.Functions
 
         self.assertEqual(functions.make_list("a", "b", "c", "d"), ["a", "b", "c", "d"])
         self.assertEqual(functions.int_compose(lambda value: value + 1, lambda value: value * 3)(8), 25)
@@ -29,7 +27,7 @@ class FunctionTests(unittest.TestCase):
         self.assertEqual(functions.exercise6(lambda _a, _b, _c, _d, thunk, value: thunk() + value), "125")
 
     def test_sync_function_exceptions_propagate(self) -> None:
-        functions = self.testapi.Functions
+        functions = testapi.Functions
 
         with self.assertRaises(Exception):
             functions.will_throw()
@@ -41,7 +39,7 @@ class FunctionTests(unittest.TestCase):
             functions.exercise0(throw_from_python)
 
     def test_void_sync_functions_round_trip(self) -> None:
-        functions = self.testapi.Functions
+        functions = testapi.Functions
         calls: list[str] = []
 
         thunk = functions.thunk_twice_maker(lambda: calls.append("called"))

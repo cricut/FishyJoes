@@ -1,13 +1,11 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class MethodTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_reference_instance_members(self) -> None:
-        methods = self.testapi.Methods.create()
+        methods = testapi.Methods.create()
 
         self.assertEqual(methods.instance_get, 1234)
         self.assertEqual(methods.garply, 42901)
@@ -18,11 +16,11 @@ class MethodTests(unittest.TestCase):
         self.assertEqual(methods.double_plus_good(21, 20.6), 84)
 
     def test_reference_static_export_as_method_is_callable(self) -> None:
-        self.assertTrue(callable(self.testapi.Methods.static_get_method))
-        self.assertEqual(self.testapi.Methods.static_get_method(), 234)
+        self.assertTrue(callable(testapi.Methods.static_get_method))
+        self.assertEqual(testapi.Methods.static_get_method(), 234)
 
     def test_reference_instance_property_setters(self) -> None:
-        methods = self.testapi.Methods.create()
+        methods = testapi.Methods.create()
 
         methods.instance_modifiable = 9001
         self.assertEqual(methods.instance_modifiable, 9001)
@@ -34,7 +32,7 @@ class MethodTests(unittest.TestCase):
         # Covers the metaclass-on-a-SwiftReference-subclass path (_MethodsMeta): the
         # highest-risk settable-static shape. A getter-only regression, or a setter that
         # silently rebinds the class attribute instead of calling native, fails here.
-        methods = self.testapi.Methods
+        methods = testapi.Methods
         original_modifiable = methods.static_modifiable
         original_stored = methods.static_stored
         try:

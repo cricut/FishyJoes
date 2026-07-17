@@ -3,75 +3,73 @@ import inspect
 import unittest
 from pathlib import Path
 
+import testapi
 
 
 class DocumentationTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_class_docstring_from_swift_documentation(self) -> None:
-        doc = inspect.getdoc(self.testapi.Strings)
+        doc = inspect.getdoc(testapi.Strings)
 
         self.assertIsNotNone(doc)
         self.assertIn("Sample strings and string operations", doc)
 
     def test_reference_class_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.EmptyClass1)
+        doc = inspect.getdoc(testapi.EmptyClass1)
 
         self.assertIsNotNone(doc)
         self.assertIn("reference type with playful members", doc)
 
     def test_value_type_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.Structs_MemberwiseStruct)
+        doc = inspect.getdoc(testapi.Structs_MemberwiseStruct)
 
         self.assertIsNotNone(doc)
         self.assertIn("one immutable and one mutable field", doc)
 
     def test_enum_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.SimpleEnum)
+        doc = inspect.getdoc(testapi.SimpleEnum)
 
         self.assertIsNotNone(doc)
         self.assertIn("enum with no associated values", doc)
 
     def test_static_method_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.Strings.echo)
+        doc = inspect.getdoc(testapi.Strings.echo)
 
         self.assertIsNotNone(doc)
         self.assertIn("Returns the given string unchanged.", doc)
 
     def test_multiline_method_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.Strings.split)
+        doc = inspect.getdoc(testapi.Strings.split)
 
         self.assertIsNotNone(doc)
         self.assertIn("Splits the string on each occurrence", doc)
         self.assertIn("pieces in order without the separator", doc)
 
     def test_instance_method_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.EmptyClass1.shme)
+        doc = inspect.getdoc(testapi.EmptyClass1.shme)
 
         self.assertIsNotNone(doc)
         self.assertIn("short pirate greeting", doc)
 
     def test_property_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.EmptyClass1.blarg)
+        doc = inspect.getdoc(testapi.EmptyClass1.blarg)
 
         self.assertIsNotNone(doc)
         self.assertIn("cheerful nonsense string", doc)
 
     def test_deprecated_method_docstring(self) -> None:
-        doc = inspect.getdoc(self.testapi.Deprecations.deprecated_method)
+        doc = inspect.getdoc(testapi.Deprecations.deprecated_method)
 
         self.assertIsNotNone(doc)
         self.assertIn("deprecation coverage", doc)
 
     def test_export_annotations_do_not_leak_into_docstrings(self) -> None:
         for documented in (
-            self.testapi.Strings,
-            self.testapi.EmptyClass1,
-            self.testapi.Structs_MemberwiseStruct,
-            self.testapi.SimpleEnum,
-            self.testapi.Strings.echo,
-            self.testapi.Strings.split,
+            testapi.Strings,
+            testapi.EmptyClass1,
+            testapi.Structs_MemberwiseStruct,
+            testapi.SimpleEnum,
+            testapi.Strings.echo,
+            testapi.Strings.split,
         ):
             doc = inspect.getdoc(documented) or ""
 
@@ -81,7 +79,7 @@ class DocumentationTests(unittest.TestCase):
     def test_undocumented_symbols_have_no_docstring(self) -> None:
         # Gorpers carries only the export annotation in Swift, so no
         # docstring should be fabricated for it.
-        doc = inspect.getdoc(self.testapi.EmptyClass1.gorpers)
+        doc = inspect.getdoc(testapi.EmptyClass1.gorpers)
 
         self.assertIsNone(doc)
 
@@ -90,8 +88,8 @@ class RuntimeTypingStubTests(unittest.TestCase):
     """Runtime value types must be precisely typed, never Any (R32)."""
 
     def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-        self.package_dir = Path(self.testapi.__file__).resolve().parent
+        testapi = importlib.import_module("testapi")
+        self.package_dir = Path(testapi.__file__).resolve().parent
 
     def read_stub(self, name: str) -> str:
         return (self.package_dir / name).read_text(encoding="utf-8")
@@ -132,10 +130,10 @@ class RuntimeTypingStubTests(unittest.TestCase):
         # The dynamic classes created by create_runtime carry docstrings so
         # help() works on the re-exported value types.
         for value_type in (
-            self.testapi.SwiftRange,
-            self.testapi.SwiftClosedRange,
-            self.testapi.ResultSuccess,
-            self.testapi.ResultFailure,
+            testapi.SwiftRange,
+            testapi.SwiftClosedRange,
+            testapi.ResultSuccess,
+            testapi.ResultFailure,
         ):
             self.assertIsNotNone(inspect.getdoc(value_type))
 
@@ -163,8 +161,8 @@ class StubDocumentationTests(unittest.TestCase):
     """Generated .pyi stubs carry the same documentation for IDE hover."""
 
     def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-        self.package_dir = Path(self.testapi.__file__).resolve().parent
+        testapi = importlib.import_module("testapi")
+        self.package_dir = Path(testapi.__file__).resolve().parent
 
     def read_stub(self, name: str) -> str:
         return (self.package_dir / name).read_text(encoding="utf-8")

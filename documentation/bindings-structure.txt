@@ -101,6 +101,7 @@ MyGreatLibrary/bindings/
 │   │               ├── libMyGreatLibrary.dylib
 │   │               └── libMyGreatLibrary-iota.dylib
 │   └── tests/
+│       ├── pyproject.toml
 │       └── test_example.py
 └── workflows/
     ├── GENERATED-c-sharp.yaml

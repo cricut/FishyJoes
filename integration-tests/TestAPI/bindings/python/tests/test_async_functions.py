@@ -1,13 +1,12 @@
 import asyncio
-import importlib
 import unittest
 
-class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
+import testapi
 
+
+class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
     async def test_swift_async_functions_are_awaitable(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
 
         self.assertEqual(await functions.const42(), 42)
         self.assertEqual(await functions.abs(-3), 3)
@@ -17,7 +16,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await functions.sixth_thing("hi", 1, 1.0, "...", lambda: 84, 17), 17)
 
     async def test_nested_async_functions_round_trip(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
 
         composed = functions.int_compose(lambda value: value + 1, lambda value: value * 3)
 
@@ -25,7 +24,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await composed(2), 7)
 
     async def test_python_callbacks_passed_to_swift_async_methods(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
 
         def compose(f, g):
             async def composed(value):
@@ -42,8 +41,6 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await functions.exercise6(lambda _a, _b, _c, _d, _thunk, value: value), "42")
 
     async def test_async_protocol_witness_round_trips_python_callbacks(self) -> None:
-        testapi = self.testapi
-
         def compose(f, g):
             async def composed(value):
                 return await f(await g(value))
@@ -109,13 +106,13 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
             await witness.will_throw()
 
     async def test_swift_async_errors_propagate(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
 
         with self.assertRaises(Exception):
             await functions.will_throw()
 
     async def test_python_cancellation_ignores_late_swift_completion(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
         loop = asyncio.get_running_loop()
         loop_errors = []
 
@@ -140,7 +137,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual([], loop_errors)
 
     async def test_python_async_callback_errors_propagate(self) -> None:
-        functions = self.testapi.AsyncFunctions
+        functions = testapi.AsyncFunctions
 
         async def throw_from_python() -> int:
             raise ValueError("python async callback failed")
@@ -151,7 +148,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
     async def test_async_method_returning_uint(self) -> None:
         # asyncSleep is exercised in every other language binding but was missing here;
         # it also covers awaiting a Swift async method that returns the UInt width.
-        result = await self.testapi.Methods.create().async_sleep()
+        result = await testapi.Methods.create().async_sleep()
         self.assertIsInstance(result, int)
         self.assertGreaterEqual(result, 0)
 

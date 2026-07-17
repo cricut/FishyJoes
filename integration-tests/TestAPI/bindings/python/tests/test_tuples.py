@@ -1,28 +1,26 @@
-import importlib
 import unittest
+
+import testapi
 
 
 class TupleTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.testapi = importlib.import_module("testapi")
-
     def test_tuple2_value(self) -> None:
-        tuples = self.testapi.Tuples
+        tuples = testapi.Tuples
 
         self.assertEqual(tuples.tuple2, (1, "two"))
 
     def test_tuple3_value(self) -> None:
-        tuples = self.testapi.Tuples
+        tuples = testapi.Tuples
 
         self.assertEqual(tuples.tuple3, ("one", 2.1, "three"))
 
     def test_tuple4_value(self) -> None:
-        tuples = self.testapi.Tuples
+        tuples = testapi.Tuples
 
         self.assertEqual(tuples.tuple4, ((1, "two"), ("one", 2.1, "three"), "IV", True))
 
     def test_tuple5_and_tuple6_values_and_echo(self) -> None:
-        tuples = self.testapi.Tuples
+        tuples = testapi.Tuples
 
         tuple2 = (1, "two")
         tuple3 = ("one", 2.1, "three")
