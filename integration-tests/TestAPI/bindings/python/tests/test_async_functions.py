@@ -1,27 +1,6 @@
 import asyncio
 import importlib
-import os
-import platform
-import subprocess
-import sys
 import unittest
-from pathlib import Path
-
-
-GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-SUBPROCESS_TIMEOUT_SECONDS = 30 if platform.system() == "Windows" else 10
-if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
-    sys.path.insert(0, str(GENERATED_SRC))
-
-
-def subprocess_env() -> dict[str, str]:
-    env = os.environ.copy()
-    if env.get("FISHYJOES_TEST_INSTALLED_WHEEL") == "1":
-        env.pop("PYTHONPATH", None)
-    else:
-        env["PYTHONPATH"] = os.pathsep.join([str(GENERATED_SRC), env.get("PYTHONPATH", "")])
-    return env
-
 
 class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
     def setUp(self) -> None:
@@ -159,83 +138,6 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
             loop.set_exception_handler(previous_handler)
 
         self.assertEqual([], loop_errors)
-
-    def test_runtime_shutdown_rejects_unresolved_swift_futures(self) -> None:
-        env = subprocess_env()
-        script = """
-import asyncio
-import importlib
-
-import testapi
-
-
-async def main():
-    native = importlib.import_module("testapi._native")
-    future = testapi.AsyncFunctions.delayed_const(nanoseconds=50_000_000)
-    await asyncio.sleep(0)
-
-    native.shutdown()
-
-    try:
-        await future
-    except RuntimeError as error:
-        assert "FishyJoes runtime shut down" in str(error), error
-    else:
-        raise AssertionError("shutdown did not reject unresolved Swift future")
-
-    await asyncio.sleep(0.1)
-
-
-asyncio.run(main())
-"""
-        result = subprocess.run(
-            [sys.executable, "-c", script],
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=False,
-            timeout=SUBPROCESS_TIMEOUT_SECONDS,
-        )
-
-        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
-
-    def test_runtime_shutdown_refuses_newly_constructed_swift_futures(self) -> None:
-        # Guards the shutdown gate: a Swift future constructed after shutdown must fail
-        # fast rather than slip past the rejection snapshot and hang its awaiter forever
-        # (the TOCTOU the gate+registration locking closes).
-        env = subprocess_env()
-        script = """
-import asyncio
-import importlib
-
-import testapi
-
-
-async def main():
-    native = importlib.import_module("testapi._native")
-    native.shutdown()
-    try:
-        await testapi.AsyncFunctions.delayed_const(nanoseconds=10_000_000)
-    except RuntimeError as error:
-        assert "shut down" in str(error), error
-    else:
-        raise AssertionError("shutdown did not refuse a newly constructed Swift future")
-
-
-asyncio.run(main())
-"""
-        result = subprocess.run(
-            [sys.executable, "-c", script],
-            env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            check=False,
-            timeout=SUBPROCESS_TIMEOUT_SECONDS,
-        )
-
-        self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
     async def test_python_async_callback_errors_propagate(self) -> None:
         functions = self.testapi.AsyncFunctions

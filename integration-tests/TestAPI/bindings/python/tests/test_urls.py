@@ -1,14 +1,7 @@
 import importlib
-import os
-import sys
 import unittest
-from pathlib import Path
 from urllib.parse import urlparse
 
-
-GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
-    sys.path.insert(0, str(GENERATED_SRC))
 
 
 class URLTests(unittest.TestCase):

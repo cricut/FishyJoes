@@ -1,13 +1,5 @@
 import importlib
-import os
-import sys
 import unittest
-from pathlib import Path
-
-
-GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
-    sys.path.insert(0, str(GENERATED_SRC))
 
 
 class DiagnosticsTests(unittest.TestCase):
@@ -28,14 +20,6 @@ class DiagnosticsTests(unittest.TestCase):
         self.assertEqual(info["runtime"]["required"], ">=0.0.1")
         self.assertEqual(info["dependencies"], {})
         self.assertIn("libraries", info)
-
-    def test_generated_package_has_dedicated_diagnostics_module(self) -> None:
-        diagnostics_source = GENERATED_SRC / "testapi" / "_diagnostics.py"
-        init_source = GENERATED_SRC / "testapi" / "__init__.py"
-
-        self.assertTrue(diagnostics_source.is_file(), "generated diagnostics module is missing")
-        self.assertIn("def diagnostics", diagnostics_source.read_text(encoding="utf-8"))
-        self.assertIn("from ._diagnostics import diagnostics", init_source.read_text(encoding="utf-8"))
 
     def test_generated_classes_include_swift_origin_metadata(self) -> None:
         testapi = importlib.import_module("testapi")

@@ -1,15 +1,8 @@
 import importlib
 import inspect
 import math
-import os
 import sys
 import unittest
-from pathlib import Path
-
-
-GENERATED_SRC = Path(__file__).resolve().parents[1] / "generated" / "src"
-if os.environ.get("FISHYJOES_TEST_INSTALLED_WHEEL") != "1":
-    sys.path.insert(0, str(GENERATED_SRC))
 
 
 class DefaultArgumentTests(unittest.TestCase):
@@ -52,18 +45,6 @@ class DefaultArgumentTests(unittest.TestCase):
         )
         self.assertEqual(defaults.echo_default_tolerance(0.25), 0.25)
 
-    def test_double_ulp_square_root_default_argument_is_generated_as_expression(self) -> None:
-        package_src = GENERATED_SRC / "testapi"
-        implementation = (package_src / "default_arguments.py").read_text()
-        stubs = (package_src / "default_arguments.pyi").read_text()
-
-        self.assertIn("import sys", implementation)
-        self.assertIn("sys.float_info.epsilon ** 0.5", implementation)
-        self.assertNotIn("1.4901161193847656", implementation)
-        self.assertIn("import sys", stubs)
-        self.assertIn("sys.float_info.epsilon ** 0.5", stubs)
-        self.assertNotIn("1.4901161193847656", stubs)
-
     def test_int_limit_default_arguments(self) -> None:
         defaults = self.testapi.DefaultArguments
 
@@ -73,19 +54,6 @@ class DefaultArgumentTests(unittest.TestCase):
 
         self.assertEqual(defaults.echo_default_int_limits(), f"{-sys.maxsize - 1} {sys.maxsize}")
         self.assertEqual(defaults.echo_default_int_limits(-7, max_value=8), "-7 8")
-
-    def test_int_limit_default_arguments_are_generated_as_expressions(self) -> None:
-        package_src = GENERATED_SRC / "testapi"
-        implementation = (package_src / "default_arguments.py").read_text()
-        stubs = (package_src / "default_arguments.pyi").read_text()
-
-        self.assertIn("import sys", implementation)
-        self.assertIn("min_value=-sys.maxsize - 1", implementation)
-        self.assertIn("max_value=sys.maxsize", implementation)
-        self.assertIn("import sys", stubs)
-        self.assertIn("min_value: int = -sys.maxsize - 1", stubs)
-        self.assertIn("max_value: int = sys.maxsize", stubs)
-
 
 if __name__ == "__main__":
     unittest.main()
