@@ -18,4 +18,4 @@ package = false
 members = ["generated"]
 
 [tool.uv.sources]
-testapi = { workspace = true }
+__PYTHON_DISTRIBUTION_NAME__ = { workspace = true }

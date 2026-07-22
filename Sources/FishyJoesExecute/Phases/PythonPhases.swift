@@ -395,7 +395,7 @@ class PythonPhases: IotaPhases, Phases {
 
     func testPhase() throws {
         try withDirectory("bindings/python") {
-            try cmd("uv", "run", "pytest", "-v").run()
+            try cmd("uv", "run", "pytest", "-v", "./tests").run()
         }
         // try withDirectory("bindings/python/generated") {
         //     var testArguments = ["-v"]

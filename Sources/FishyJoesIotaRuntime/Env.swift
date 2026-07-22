@@ -19,7 +19,7 @@ public struct IotaException: Error {
 }
 
 @_cdecl("FishyJoesCommonRuntime_Env_setup")
-public func Env_setupGCPin(
+public func Env_setup(
     newRefFn: @escaping Env.NewRefFn,
     deleteRefFn: @escaping Env.DeleteRefFn,
     newErrorFn: @escaping Env.NewErrorFn,

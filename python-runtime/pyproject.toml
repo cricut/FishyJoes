@@ -23,5 +23,9 @@ dev = [
     "types-cffi>=2.0.0,<3",
 ]
 
+# Type checkers
 [tool.mypy]
 strict = true
+
+[tool.pyrefly]
+preset = "strict"
