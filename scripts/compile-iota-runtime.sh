@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -euxo pipefail
 
 if [[ ! -d c-sharp-runtime ]]; then
     echo "Not in root of FishyJoes"
@@ -17,6 +17,23 @@ if [[ "${SWIFT_PACKAGE_RESOLVE:-1}" == 0 ]]; then
 fi
 
 if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
+    platform=MACOS_UNIVERSAL
+    pyPlatformTag=macosx_13_0_universal2
+elif [[ "$(uname -s)" == "Darwin" ]]; then
+    platform=MACOS_CURRENT_ARCH
+    pyPlatformTag="macosx_13_0_$(uname -m)"
+elif [[ "$(uname -s)" == *_NT* ]]; then
+    platform=WINDOWS
+    pyPlatformTag=win_amd64
+elif [[ "$(uname -s)" == "Linux" ]]; then
+    platform=LINUX
+    pyPlatformTag=linux_x86_64
+else
+    echo "Couldn't determine platform"
+    exit 1
+fi
+
+if [[ $platform == MACOS_UNIVERSAL ]]; then
     swift build "${commonOptions[@]}" --product FishyJoesIotaRuntime --arch arm64
     swift build "${commonOptions[@]}" --product FishyJoesIotaRuntime --arch x86_64
     BIN_DIR=".build/apple/$CONFIGURATION"
@@ -25,7 +42,7 @@ if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
          -output "$BIN_DIR/libFishyJoesIotaRuntime.dylib" \
          .build/{arm64,x86_64}-apple-macosx/"$CONFIGURATION"/libFishyJoesIotaRuntime.dylib
     codesign -s - "$BIN_DIR/libFishyJoesIotaRuntime.dylib"
-elif [[ "$(uname -s)" == *_NT* ]]; then
+elif [[ $platform == WINDOWS ]]; then
     ./scripts/swift-shim.ps1 build "${commonOptions[@]}" --product FishyJoesIotaRuntime
     BIN_DIR="$(./scripts/swift-shim.ps1 build "${commonOptions[@]}" --show-bin-path)"
 else
@@ -52,9 +69,14 @@ function install-lib {
     fi
 }
 
-install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/windows/native" "python-runtime/src/fishyjoes_runtime/native" ||
-    install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" "python-runtime/src/fishyjoes_runtime/native" ||
+rm -rf python-runtime/src/fishyjoes_runtime/native
+if [[ $platform == MACOS_* ]]; then
+    install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" "python-runtime/src/fishyjoes_runtime/native"
+elif [[ $platform == WINDOWS ]]; then
+    install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/windows/native" "python-runtime/src/fishyjoes_runtime/native"
+else
     install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native" "python-runtime/src/fishyjoes_runtime/native"
+fi
 
 if dotnet --version >/dev/null 2>&1; then
     MSYS_NO_PATHCONV=1 dotnet pack \
@@ -75,10 +97,14 @@ if uv --version >/dev/null 2>&1; then
         # TODO: fix
         # uv run mypy --strict --show-error-codes --no-error-summary -p fishyjoes_runtime
 
+        # Having old results in here can cause packaging to fail
+        rm -rf dist
+
         # Pack, restoring any temporary changes made to pyproject.toml (TODO: find a more elegant way to do this)
         cp pyproject.toml pyproject.toml.bak
         result=0
         (
+            export PY_PLATFORM_TAG="$pyPlatformTag"
             uv version "$PYVERSION"
             uv build --wheel
         ) || result=$?

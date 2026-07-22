@@ -1,0 +1,21 @@
+# Workspace project to contain both the source project and the tests
+[project]
+name = "__PYTHON_DISTRIBUTION_NAME__-workspace"
+version = "0.0.1"
+dependencies = ["__PYTHON_DISTRIBUTION_NAME__"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1,<10",
+    "mypy>=2.3.0,<3",
+    "pyrefly>=1.1.1,<2",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["generated"]
+
+[tool.uv.sources]
+testapi = { workspace = true }

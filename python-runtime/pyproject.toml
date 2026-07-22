@@ -5,16 +5,15 @@ description = "Python-side FishyJoes binding layer for the shared Iota ABI"
 requires-python = ">=3.11"
 dependencies = [
     "cffi>=2.1.0,<3",
-    "pyrefly>=0.60.2",
+    "packaging>=26.2,<27",
 ]
 
 [build-system]
-requires = ["uv_build>=0.11.29,<0.12"]
-build-backend = "uv_build"
+requires = ["hatchling>=1.31.0,<2"]
+build-backend = "hatchling.build"
 
-[tool.uv.build-backend]
-# module-name = "cricut.fishyjoes_runtime"
-data = { data = "native" }
+[tool.hatch.build.targets.wheel.hooks.custom]
+path = "hatch_build_hook.py"
 
 [dependency-groups]
 dev = [

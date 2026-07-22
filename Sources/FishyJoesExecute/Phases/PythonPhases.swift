@@ -21,10 +21,16 @@ class PythonPhases: IotaPhases, Phases {
                 versionRequirement: pythonVersionRequirement(for: module),
             )
         }
+
+        let pythonDependencyLines = dependencies.map { dep in
+            #"\#n    "\#(dep.distributionName) \#(dep.versionRequirement)","#
+        }
+        let pythonDependencySources = [""] // dependencies.map { #"\#n\#($0.distributionName) = { index = "local" }"# }
         return [
             "__PYTHON_DISTRIBUTION_NAME__": PythonNamingConventions.moduleDistributionName(swift: options.config.module),
             "__PYTHON_IMPORT_PACKAGE__": PythonNamingConventions.moduleImportName(swift: options.config.module),
-            "__PYTHON_DEPENDENCIES__": pythonDependencyLines(dependencies),
+            "__PYTHON_DEPENDENCIES__": pythonDependencyLines.joined(separator: ""),
+            "__PYTHON_DEPENDENCY_SOURCES__": pythonDependencySources.joined(separator: ""),
             "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(options.config.module)_registerTypes",
             "__PYTHON_PACKAGE_VERSION__": options.version ?? "0.0.1",
             "__PYTHON_RUNTIME_DEPENDENCIES__": pythonRuntimeDependencyList(dependencies),
@@ -50,15 +56,6 @@ class PythonPhases: IotaPhases, Phases {
             addIfLocalPath: pythonSubdirectory,
             flexibleVersions: options.config.flexibleVersions
         )
-    }
-
-    private func pythonDependencyLines(_ dependencies: [PythonDependency]) -> String {
-        guard !dependencies.isEmpty else {
-            return ""
-        }
-        return dependencies
-            .map { #"  "\#($0.distributionName) \#($0.versionRequirement)","# }
-            .joined(separator: "\n")
     }
 
     private func pythonRuntimeDependencyList(_ dependencies: [PythonDependency]) -> String {
@@ -97,6 +94,9 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     func compileHostLanguagePhase() throws {
+        try withDirectory("bindings/python") {
+            try cmd("uv", "sync", "--dev").run()
+        }
         try withDirectory("bindings/python/generated") {
             try cmd("uv", "run", "mypy", ".").run()
         }
@@ -182,14 +182,6 @@ class PythonPhases: IotaPhases, Phases {
         #endif
     }
 
-    private func ensurePythonVirtualEnvironment() throws {
-        let venvPython = pythonVirtualEnvironmentPython()
-        if !FileManager.default.fileExists(atPath: venvPython) {
-            try cmd(hostPythonExecutable(), "-m", "venv", ".venv").run()
-        }
-        try ensureSupportedPythonVersion(venvPython)
-    }
-
     // The Python target requires Python 3.11+ (see python-runtime/pyproject.toml
     // requires-python). Fail fast with an actionable message instead of surfacing
     // confusing downstream errors (missing stdlib tomllib, delocate arch mismatches,
@@ -216,14 +208,6 @@ class PythonPhases: IotaPhases, Phases {
                 ]
             )
         }
-    }
-
-    private func installPythonBootstrapDependencies() throws {
-        try ensurePythonVirtualEnvironment()
-    }
-
-    private func installPythonDevDependencies() throws {
-        try cmd("uv", "sync", "--dev").run()
     }
 
     private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
@@ -410,57 +394,76 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     func testPhase() throws {
-        try withDirectory("bindings/python/generated") {
-            try installPythonDevDependencies()
-            var testArguments = ["../tests", "-v"]
-            // testArguments.append("-x")
-            if let codeCoveragePath = options.codeCoveragePath {
-                // try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
-                // let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
-                // try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
-                // let coverageEnv = try pythonTestEnvironment(
-                //     adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
-                // )
-                // try cmd(
-                //     "uv", "run", "python",
-                //     "-m", "coverage", "erase",
-                //     "--rcfile", coverageConfigPath,
-                //     addEnv: coverageEnv
-                // ).run()
-                // try cmd(
-                //     "uv",
-                //     arguments: ["run", "python", "-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
-                //     addEnv: coverageEnv
-                // ).run()
-                // try cmd(
-                //     "uv", "run", "python",
-                //     "-m", "coverage", "xml",
-                //     "--rcfile", coverageConfigPath,
-                //     "-o", "\(codeCoveragePath)/integration-tests-python.xml",
-                //     addEnv: coverageEnv
-                // ).run()
-                // try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
-                // try cmd(
-                //     "uv", "run", "python",
-                //     "-m", "coverage", "report",
-                //     "--rcfile", coverageConfigPath,
-                //     addEnv: coverageEnv
-                // ).run()
-                fatalError("TODO: fix")
-            } else {
-                try cmd(
-                    "uv",
-                    arguments: ["run", "pytest"] + testArguments,
-                    addEnv: try pythonTestEnvironment()
-                ).run()
-            }
+        try withDirectory("bindings/python") {
+            try cmd("uv", "run", "pytest", "-v").run()
         }
+        // try withDirectory("bindings/python/generated") {
+        //     var testArguments = ["-v"]
+        //     // testArguments.append("-x")
+        //     if let codeCoveragePath = options.codeCoveragePath {
+        //         // try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
+        //         // let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
+        //         // try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
+        //         // let coverageEnv = try pythonTestEnvironment(
+        //         //     adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
+        //         // )
+        //         // try cmd(
+        //         //     "uv", "run", "python",
+        //         //     "-m", "coverage", "erase",
+        //         //     "--rcfile", coverageConfigPath,
+        //         //     addEnv: coverageEnv
+        //         // ).run()
+        //         // try cmd(
+        //         //     "uv",
+        //         //     arguments: ["run", "python", "-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
+        //         //     addEnv: coverageEnv
+        //         // ).run()
+        //         // try cmd(
+        //         //     "uv", "run", "python",
+        //         //     "-m", "coverage", "xml",
+        //         //     "--rcfile", coverageConfigPath,
+        //         //     "-o", "\(codeCoveragePath)/integration-tests-python.xml",
+        //         //     addEnv: coverageEnv
+        //         // ).run()
+        //         // try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
+        //         // try cmd(
+        //         //     "uv", "run", "python",
+        //         //     "-m", "coverage", "report",
+        //         //     "--rcfile", coverageConfigPath,
+        //         //     addEnv: coverageEnv
+        //         // ).run()
+        //         fatalError("TODO: fix")
+        //     } else {
+        //         try cmd(
+        //             "uv",
+        //             arguments: ["run", "pytest"] + testArguments,
+        //             addEnv: try pythonTestEnvironment()
+        //         ).run()
+        //     }
+        // }
     }
 
     func packPhase() throws {
         try validatePublishablePythonDependencies()
         try withDirectory("bindings/python/generated") {
-            try cmd("uv", "build", "--wheel").run()
+            let pyPlatformTag: String
+            #if os(macOS)
+            if options.buildConfig.fat {
+                pyPlatformTag = "macosx_13_0_universal2"
+            } else {
+                let arch = try cmd("uname", "-m").runString()
+                pyPlatformTag = "macosx_13_0_\(arch)"
+            }
+            #elseif os(Windows)
+            pyPlatformTag = "win_amd64"
+            #elseif os(Linux)
+            pyPlatformTag = "linux_x86_64"
+            #endif
+
+            try cmd(
+                "uv", "build", "--wheel",
+                addEnv: ["PY_PLATFORM_TAG": pyPlatformTag]
+            ).run()
         }
     }
 }

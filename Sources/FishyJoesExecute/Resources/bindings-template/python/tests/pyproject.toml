@@ -1,5 +1,5 @@
 [project]
-name = "__MODULE_NAME__-tests"
+name = "__PYTHON_DISTRIBUTION_NAME__-tests"
 version = "0.1.0"
 description = "Python tests for __MODULE_NAME__"
 requires-python = ">=3.11"
