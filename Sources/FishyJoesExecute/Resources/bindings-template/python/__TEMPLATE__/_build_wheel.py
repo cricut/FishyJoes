@@ -150,9 +150,24 @@ def shared_runtime_library_reference() -> str | None:
 
 
 def shared_runtime_linux_rpath() -> str | None:
-    if platform.system() == "Linux":
-        return "$ORIGIN:$ORIGIN/../../fishyjoes_runtime/native:$ORIGIN/../../fishyjoes_runtime.libs"
-    return None
+    if platform.system() != "Linux":
+        return None
+    # A package's native library is linked against its dependencies' native libraries,
+    # and dependency_native_library_filenames() deliberately keeps those out of this
+    # wheel so each package ships only its own. They install into sibling packages, so
+    # the RUNPATH has to name them: without this a dependent wheel imports as
+    #   OSError: cannot load library '.../critext/native/libCriText-iota.so':
+    #            libCriGeo-iota.so: cannot open shared object file
+    # macOS gets the equivalent through shared_runtime_library_reference() and the
+    # @loader_path install names applied below.
+    entries = [
+        "$ORIGIN",
+        "$ORIGIN/../../fishyjoes_runtime/native",
+        "$ORIGIN/../../fishyjoes_runtime.libs",
+    ]
+    for dependency in NATIVE_DEPENDENCIES:
+        entries.append(f"$ORIGIN/../../{dependency['import_name']}/native")
+    return ":".join(entries)
 
 
 def wheel_has_shared_runtime_reference(wheel_path: Path) -> bool:
