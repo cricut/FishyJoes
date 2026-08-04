@@ -27,6 +27,7 @@ namespace Cricut.TestAPI {
         private static extern nint __iota_get_TestAPI_Deprecations_deprecatedVariable(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <para>An old greeting kept only for deprecation coverage.</para>
         /// <!-- FishyJoes.export(deprecatedMethod) -->
         /// </summary>
         [Obsolete("don't use this")]

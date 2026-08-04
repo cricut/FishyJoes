@@ -87,6 +87,7 @@ public enum AssociatedDataEnum: Hashable {
     indirect case bar(named: String, AssociatedDataEnum, toggled: Bool)
     /// Documentation about noValue
     case noValue
+    case none
     case simpleEnum(value: SimpleEnum)
 
     /// <!-- FishyJoes.export(staticThing) -->
@@ -99,7 +100,7 @@ public enum AssociatedDataEnum: Hashable {
             return value
         case .bar(named: _, let nested, _):
             return nested.intValue + 3
-        case .noValue:
+        case .noValue, .none:
             return 42
         case .simpleEnum:
             return 1
@@ -117,8 +118,45 @@ public enum AssociatedDataEnum: Hashable {
             return .bar(named: name, nested.plus(other), toggled: toggled)
         case .noValue:
             return .noValue
+        case .none:
+            return .none
         case .simpleEnum(let value):
             return .simpleEnum(value: value)
         }
     }
+}
+
+/// An inhabited enum that the product annotated `exportReference` rather than
+/// `export`. An enum's cases are its only construction surface, so the generator
+/// must still surface the cases (mirroring the `export` enum path) instead of
+/// emitting an unconstructable, members-less opaque reference shell. Mirrors the
+/// real CriRaster `Image.Kind` / `Image.Color.Channel` shape.
+/// <!-- FishyJoes.exportReference(ReferenceCaseEnum) -->
+public enum ReferenceCaseEnum: Int, Hashable {
+    case north
+    case south
+    case east
+    case west
+
+    /// <!-- FishyJoes.export(opposite) -->
+    public var opposite: ReferenceCaseEnum {
+        switch self {
+        case .north: return .south
+        case .south: return .north
+        case .east: return .west
+        case .west: return .east
+        }
+    }
+
+    /// A method that both consumes (parameter) and produces (return) the
+    /// reference-annotated enum — only callable from Python if the cases bridge.
+    /// <!-- FishyJoes.export(rotate180) -->
+    public static func rotate180(_ direction: ReferenceCaseEnum) -> ReferenceCaseEnum {
+        direction.opposite
+    }
+
+    /// Mirrors `Image.kind`: a value-returning accessor whose result must be
+    /// comparable to a known case from Python.
+    /// <!-- FishyJoes.export(defaultDirection) -->
+    public static var defaultDirection: ReferenceCaseEnum { .north }
 }

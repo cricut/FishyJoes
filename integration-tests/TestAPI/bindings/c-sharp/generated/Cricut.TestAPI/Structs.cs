@@ -199,6 +199,7 @@ namespace Cricut.TestAPI {
         }
 
         /// <summary>
+        /// <para>A plain value type with one immutable and one mutable field.</para>
         /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
         /// </summary>
         public record MemberwiseStruct {

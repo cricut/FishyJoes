@@ -10,4 +10,13 @@ struct TranslatedURL: TranslatedType {
     let dartType: DartClass.DartType = .named(package: nil, name: "Uri")
     let containedNamedTypes: [TranslatedType] = []
     let definingModule = Module.runtime
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        // The Python annotation for a URL is `str` (matching the old switch).
+        PythonRepresentation(
+            annotation: PythonType(annotation: "str"),
+            cType: "foreignObject",
+            conversion: "_native.URL"
+        )
+    }
 }

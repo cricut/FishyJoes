@@ -30,6 +30,7 @@ class Deprecations {
             f__iota_get_TestAPI_Deprecations_deprecatedVariable(Loader.shared.env, exn)
         )
     ;
+    /// An old greeting kept only for deprecation coverage.
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     @Deprecated("don't use this")
     static String deprecatedMethod(

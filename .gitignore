@@ -31,3 +31,10 @@ package-lock.json
 .swift-version
 CoverageHistory
 CoverageReport
+
+# Python virtual environments
+.venv/
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]

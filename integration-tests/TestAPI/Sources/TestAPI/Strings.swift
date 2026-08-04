@@ -5,8 +5,10 @@
 //  Created by Matt Stoker on 12/16/21.
 //
 
+/// Sample strings and string operations for Unicode round-trips.
 /// <!-- FishyJoes.export(Strings) -->
 public enum Strings {
+    /// A simple ASCII greeting.
     /// <!-- FishyJoes.export(simple) -->
     public static let simple = "Hello"
     /// <!-- FishyJoes.export(accent) -->
@@ -24,11 +26,14 @@ public enum Strings {
     /// <!-- FishyJoes.export(emojiMulti) -->
     public static let emojiMulti = "👨‍👩‍👧‍👦👍🏿🇺🇸"
 
+    /// Returns the given string unchanged.
     /// <!-- FishyJoes.export(echo) -->
     public static func echo(_ string: String) -> String {
         return string
     }
 
+    /// Splits the string on each occurrence of the separator.
+    /// Returns the pieces in order without the separator.
     /// <!-- FishyJoes.export(split) -->
     public static func split(_ string: String, by: String) -> [String] {
         string.components(separatedBy: by).map(String.init(_:))

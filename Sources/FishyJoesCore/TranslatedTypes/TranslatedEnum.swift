@@ -92,6 +92,17 @@ struct TranslatedEnum: TranslatedType {
         self.conformances = Set(type.implements.map(\.better))
     }
 
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard isInhabited else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
+            cType: "foreignObject",
+            conversion: context.pythonValueTypeDescriptor(for: self)
+        )
+    }
+
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         [
             nodeDefinitionFragment(in: context),

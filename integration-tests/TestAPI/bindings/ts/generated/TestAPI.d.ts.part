@@ -184,7 +184,7 @@ export declare namespace TestAPI {
     /**
      * <!-- FishyJoes.export(AssociatedDataEnum) -->
      */
-    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.SimpleEnum;
+    export type AssociatedDataEnum = AssociatedDataEnum.Thing | AssociatedDataEnum.Other | AssociatedDataEnum.Bar | AssociatedDataEnum.NoValue | AssociatedDataEnum.None | AssociatedDataEnum.SimpleEnum;
     export namespace AssociatedDataEnum {
         interface Bar extends AssociatedDataEnum_Common {}
         /**
@@ -205,6 +205,11 @@ export declare namespace TestAPI {
          * Documentation about noValue
          */
         export class NoValue {
+            constructor()
+        }
+
+        interface None extends AssociatedDataEnum_Common {}
+        export class None {
             constructor()
         }
 
@@ -273,6 +278,13 @@ export declare namespace TestAPI {
          * <!-- FishyJoes.export(const42) -->
          */
         const const42: () => Promise<number>;
+
+        /**
+         * <!-- FishyJoes.export(delayedConst) -->
+         */
+        function delayedConst(
+            nanoseconds: number
+        ): Promise<number>;
 
         /**
          * <!-- FishyJoes.export(exercise0) -->
@@ -815,6 +827,35 @@ export declare namespace TestAPI {
     export type DefaultArguments = never;
     export namespace DefaultArguments {
         /**
+         * <!-- FishyJoes.export(describeEnumDefault) -->
+         */
+        function describeEnumDefault(
+            value: number,
+            options?: {
+                "color"?: TestAPI.SimpleEnum /* defaults to `.blue` */,
+            }
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
+         */
+        function echoDefaultIntLimits(
+            options?: {
+                "minValue"?: number /* defaults to `.min` */,
+                "maxValue"?: number /* defaults to `.max` */,
+            }
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultTolerance) -->
+         */
+        function echoDefaultTolerance(
+            options?: {
+                "tolerance"?: number /* defaults to `Double.ulpOfOne.squareRoot()` */,
+            }
+        ): number;
+
+        /**
          * <!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->
          */
         function echoDefaults(
@@ -832,6 +873,7 @@ export declare namespace TestAPI {
     export type Deprecations = never;
     export namespace Deprecations {
         /**
+         * An old greeting kept only for deprecation coverage.
          * <!-- FishyJoes.export(deprecatedMethod) -->
          * @deprecated don't use this
          */
@@ -846,6 +888,7 @@ export declare namespace TestAPI {
     }
 
     /**
+     * A reference type with playful members for binding coverage.
      * <!-- FishyJoes.exportReference(EmptyClass1) -->
      */
     export class EmptyClass1 {
@@ -853,6 +896,7 @@ export declare namespace TestAPI {
         private _inhibitStructuralTyping: any
 
         /**
+         * A cheerful nonsense string.
          * <!-- FishyJoes.export(blarg) -->
          */
         readonly blarg: string;
@@ -869,6 +913,7 @@ export declare namespace TestAPI {
         ): TestAPI.EmptyClass1;
 
         /**
+         * Returns a short pirate greeting.
          * <!-- FishyJoes.export(shme) -->
          */
         shme(
@@ -2188,6 +2233,85 @@ export declare namespace TestAPI {
     }
 
     /**
+     * <!-- FishyJoes.export(ProtocolFixtures) -->
+     */
+    export type ProtocolFixtures = never;
+    export namespace ProtocolFixtures {
+        /**
+         * <!-- FishyJoes.export(describeAProtocol) -->
+         */
+        function describeAProtocol(
+            value: TestAPI.AProtocol,
+            x: number,
+            y: number
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(returnAProtocol) -->
+         */
+        function returnAProtocol(
+            value: TestAPI.AProtocol
+        ): TestAPI.AProtocol;
+    }
+
+    /**
+     * <!-- FishyJoes.export(PythonNamingCollisions) -->
+     */
+    export type PythonNamingCollisions = never;
+    export namespace PythonNamingCollisions {
+        /**
+         * <!-- FishyJoes.export(URL) -->
+         */
+        const URL: string;
+
+        /**
+         * `URL` and `Url` both snake-case to `url`; sibling collisions are a
+         * generation error, resolved with an explicit verbatim `python:` name.
+         * <!-- FishyJoes.export(Url, python: title_url) -->
+         */
+        const Url: string;
+
+        /**
+         * <!-- FishyJoes.export(__dunder__) -->
+         */
+        const __dunder__: number;
+
+        /**
+         * <!-- FishyJoes.export(_leadingUnderscore) -->
+         */
+        const _leadingUnderscore: number;
+
+        /**
+         * <!-- FishyJoes.export(class) -->
+         */
+        const class: number;
+
+        /**
+         * <!-- FishyJoes.export(from) -->
+         */
+        function from(
+        ): string;
+
+        /**
+         * <!-- FishyJoes.export(isNaN) -->
+         */
+        const isNaN: boolean;
+
+        /**
+         * <!-- FishyJoes.export(keywordArgs) -->
+         */
+        function keywordArgs(
+            `class`: number,
+            list: number
+        ): number;
+
+        /**
+         * <!-- FishyJoes.export(list) -->
+         */
+        const list: number;
+    }
+
+    /**
      * <!-- FishyJoes.export(Ranges) -->
      */
     export type Ranges = never;
@@ -2314,6 +2438,40 @@ export declare namespace TestAPI {
     }
 
     /**
+     * An inhabited enum that the product annotated `exportReference` rather than
+     * `export`. An enum's cases are its only construction surface, so the generator
+     * must still surface the cases (mirroring the `export` enum path) instead of
+     * emitting an unconstructable, members-less opaque reference shell. Mirrors the
+     * real CriRaster `Image.Kind` / `Image.Color.Channel` shape.
+     * <!-- FishyJoes.exportReference(ReferenceCaseEnum) -->
+     */
+    export type ReferenceCaseEnum = "north" | "south" | "east" | "west";
+    export namespace ReferenceCaseEnum {
+        /**
+         * Mirrors `Image.kind`: a value-returning accessor whose result must be
+         * comparable to a known case from Python.
+         * <!-- FishyJoes.export(defaultDirection) -->
+         */
+        const defaultDirection: TestAPI.ReferenceCaseEnum;
+
+        /**
+         * <!-- FishyJoes.export(opposite) -->
+         */
+        function getOpposite(
+            self: TestAPI.ReferenceCaseEnum
+        ): TestAPI.ReferenceCaseEnum;
+
+        /**
+         * A method that both consumes (parameter) and produces (return) the
+         * reference-annotated enum — only callable from Python if the cases bridge.
+         * <!-- FishyJoes.export(rotate180) -->
+         */
+        function rotate180(
+            direction: TestAPI.ReferenceCaseEnum
+        ): TestAPI.ReferenceCaseEnum;
+    }
+
+    /**
      * <!-- FishyJoes.export(ReferenceEmptyEnum) -->
      */
     export type ReferenceEmptyEnum = never;
@@ -2334,6 +2492,26 @@ export declare namespace TestAPI {
          */
         function notGoingToHappen(
         ): TestAPI.ReferenceEmptyEnum;
+    }
+
+    /**
+     * <!-- FishyJoes.export(ReferenceOnlyTypes) -->
+     */
+    export type ReferenceOnlyTypes = never;
+    export namespace ReferenceOnlyTypes {
+        /**
+         * <!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->
+         */
+        export class Marker {
+            private constructor()
+            private _inhibitStructuralTyping: any
+        }
+
+        /**
+         * <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
+         */
+        function marker(
+        ): TestAPI.ReferenceOnlyTypes.Marker;
     }
 
     /**
@@ -2366,6 +2544,51 @@ export declare namespace TestAPI {
         function processResult(
             result: Runtime.Result<string, Results.Error>
         ): string;
+    }
+
+    /**
+     * A type whose name matches a case of ``ShadowBox``. Inside ShadowBox's
+     * generated Python class body, the case-type attribute (`Shade: ClassVar[...]`)
+     * shadows this type's import, so annotations meaning this type must resolve
+     * through a module-level alias in the generated stub.
+     * <!-- FishyJoes.export(Shade) -->
+     */
+    export class Shade {
+        constructor(darkness: number)
+
+        darkness: number;
+    }
+
+    /**
+     * <!-- FishyJoes.export(ShadowBox) -->
+     */
+    export type ShadowBox = ShadowBox.Shade | ShadowBox.Empty;
+    export namespace ShadowBox {
+        interface Empty extends ShadowBox_Common {}
+        export class Empty {
+            constructor()
+        }
+
+        interface Shade extends ShadowBox_Common {}
+        export class Shade {
+            constructor(_0: Shade)
+
+            readonly _0: Shade;
+        }
+
+        /**
+         * <!-- FishyJoes.export(darkest) -->
+         */
+        function darkest(
+            /* of */ shades: Shade[]
+        ): Optional<Shade>;
+    }
+
+    interface ShadowBox_Common {
+        /**
+         * <!-- FishyJoes.export(allShades) -->
+         */
+        readonly allShades: Shade[];
     }
 
     /**
@@ -2427,6 +2650,7 @@ export declare namespace TestAPI {
     }
 
     /**
+     * Sample strings and string operations for Unicode round-trips.
      * <!-- FishyJoes.export(Strings) -->
      */
     export type Strings = never;
@@ -2452,6 +2676,7 @@ export declare namespace TestAPI {
         const chineseSIP: string;
 
         /**
+         * Returns the given string unchanged.
          * <!-- FishyJoes.export(echo) -->
          */
         function echo(
@@ -2474,11 +2699,14 @@ export declare namespace TestAPI {
         const script: string;
 
         /**
+         * A simple ASCII greeting.
          * <!-- FishyJoes.export(simple) -->
          */
         const simple: string;
 
         /**
+         * Splits the string on each occurrence of the separator.
+         * Returns the pieces in order without the separator.
          * <!-- FishyJoes.export(split) -->
          */
         function split(
@@ -2493,6 +2721,7 @@ export declare namespace TestAPI {
     export type Structs = never;
     export namespace Structs {
         /**
+         * A plain value type with one immutable and one mutable field.
          * <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
          */
         export class MemberwiseStruct {

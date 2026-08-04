@@ -68,9 +68,9 @@ jobs:
 
           FISHYJOES=1 swift run -- fishy-joes generate
 
-          if [ ! -z "$(cd integration-tests/TestAPI; git status --porcelain .)" ]; then
+          if [ -n "$(git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `FISHYJOES=1 swift run fishy-joes generate` from integration-tests/TestAPI and re-commit'
+            echo '::error::   run `FISHYJOES=1 swift run -- fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git diff
             git status
             exit 1
@@ -170,7 +170,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y zsh libcurl4-openssl-dev pkg-config python3-lldb-13
 
-          swift run fishy-joes install-system-dependencies for-wasm for-android
+          swift run fishy-joes install-system-dependencies for-wasm
 
           source ~/.local/share/swiftly/env.sh
           echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
@@ -209,6 +209,8 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
 
+          dotnet nuget locals all --clear
+
       - name: Test Dart from dart via fishy-joes
         shell: zsh {0}
         run: |
@@ -216,6 +218,13 @@ jobs:
 
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --dart build test
+
+      - name: Install Android build dependencies
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          swift run fishy-joes install-system-dependencies for-android
 
       - name: Build FishyJoesJavaRuntime
         shell: zsh {0}

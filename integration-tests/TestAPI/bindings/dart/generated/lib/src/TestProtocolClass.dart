@@ -171,10 +171,11 @@ class TestProtocolClass extends SwiftReference implements TestAPI.TestMethodsPro
     bool operator ==(
         Object other,
     ) =>
-        other is TestAPI.TestProtocolClass &&
-        GCRef.using(this, (thisHandle) =>
-            GCRef.using(other, (otherHandle) =>
-                check((exn) => f__iota_TestAPI_TestProtocolClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+        identical(other, this) ||
+        (other is TestAPI.TestProtocolClass &&
+            GCRef.using(this, (thisHandle) =>
+                GCRef.using(other, (otherHandle) =>
+                    check((exn) => f__iota_TestAPI_TestProtocolClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))
     ;
 
     static late bool Function(

@@ -50,7 +50,7 @@ extension TranslatedEnum {
                             }
                             fragment.output("out CreatedRef exn")
                         }
-                        fragment.outputBlock(" => Catching(out exn, () => ", closeWith: ")") {
+                        fragment.outputBlock(" => Catching(out exn, () =>", closeWith: ")") {
                             fragment.outputBlock("new CreatedRef(new \(cSharpType.name).\(upperCaseFirst(enumCase.name))(", closeWith: "))") {
                                 fragment.outputMap(enumCase.associatedValues, separator: ",") { value in
                                     let resolved = context.resolve(type: value.type)

@@ -1,0 +1,16 @@
+# stubtest allowlist for the fishyjoes_runtime package itself.
+#
+# Generated bindings gate only their own package; the runtime's typing is gated
+# once, here, by the FishyJoes repository test suite
+# (integration-tests/TestAPI/bindings/python/tests/test_runtime_typing.py).
+#
+# The iota and attributed_string classes are created inside create_runtime() /
+# setup_attributed_string_family() closures bound to one FFI context, so there is
+# no static definition for stubtest to compare: mypy sees the closure-locals while
+# the imported module does not expose them. The flip side holds too: any VALUE
+# whose runtime type is closure-local is invisible to stubtest wherever it
+# appears (get_mypy_type_of_runtime_value cannot resolve the class and skips
+# the comparison silently). The typed surface for these classes is each
+# generated binding's _native.pyi (Runtime_*), which IS stubtested per binding.
+fishyjoes_runtime.iota..*
+fishyjoes_runtime.attributed_string..*

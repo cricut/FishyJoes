@@ -263,6 +263,13 @@ namespace Cricut.TestAPI {
             out CreatedRef _exn
         );
 
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ReferenceOnlyTypes_Marker_setup(
+            IntPtr envRef,
+            SwiftReference.ConstructorDelegate constructorMethod,
+            out CreatedRef _exn
+        );
+
         delegate CreatedRef _TestAPI_Results_ErrorConstructor(
             ConsumedRef message,
             out CreatedRef exn
@@ -529,6 +536,13 @@ namespace Cricut.TestAPI {
             UnownedRef obj,
             out CreatedRef _exn
         );
+        delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_none(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_AssociatedDataEnum_extract_none(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
         delegate CreatedRef Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum(
             ConsumedRef value,
             out CreatedRef _exn
@@ -550,6 +564,8 @@ namespace Cricut.TestAPI {
             Cricut_TestAPI_AssociatedDataEnum_extract_bar bar_extractor,
             Cricut_TestAPI_AssociatedDataEnum_new_noValue noValue_constructor,
             Cricut_TestAPI_AssociatedDataEnum_extract_noValue noValue_extractor,
+            Cricut_TestAPI_AssociatedDataEnum_new_none none_constructor,
+            Cricut_TestAPI_AssociatedDataEnum_extract_none none_extractor,
             Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum simpleEnum_constructor,
             Cricut_TestAPI_AssociatedDataEnum_extract_simpleEnum simpleEnum_extractor,
             out CreatedRef _exn
@@ -657,8 +673,63 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ProtocolFixtures_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_PythonNamingCollisions_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Ranges_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_north(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_north(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_south(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_south(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_east(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_east(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ReferenceCaseEnum_new_west(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ReferenceCaseEnum_extract_west(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ReferenceCaseEnum_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_ReferenceCaseEnum_new_north north_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_north north_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_south south_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_south south_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_east east_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_east east_extractor,
+            Cricut_TestAPI_ReferenceCaseEnum_new_west west_constructor,
+            Cricut_TestAPI_ReferenceCaseEnum_extract_west west_extractor,
             out CreatedRef _exn
         );
 
@@ -669,8 +740,56 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ReferenceOnlyTypes_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Results_setup(
             IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_ShadeConstructor(
+            double darkness,
+            out CreatedRef exn
+        );
+        delegate double _TestAPI_Shade_darknessGetter(UnownedRef obj, out CreatedRef exn);
+        delegate void _TestAPI_Shade_darknessSetter(UnownedRef obj, double newValue, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Shade_setup(
+            IntPtr envRef,
+            _TestAPI_ShadeConstructor constructor,
+            _TestAPI_Shade_darknessGetter get_darkness,
+            _TestAPI_Shade_darknessSetter set_darkness,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef Cricut_TestAPI_ShadowBox_new_shade(
+            ConsumedRef _0,
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ShadowBox_extract_shade(
+            UnownedRef obj,
+            ref CreatedRef _0,
+            out CreatedRef _exn
+        );
+        delegate CreatedRef Cricut_TestAPI_ShadowBox_new_empty(
+            out CreatedRef _exn
+        );
+        unsafe delegate void Cricut_TestAPI_ShadowBox_extract_empty(
+            UnownedRef obj,
+            out CreatedRef _exn
+        );
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_ShadowBox_setup(
+            IntPtr envRef,
+            FishyJoesRuntime.EnumDiscriminator discriminator,
+            Cricut_TestAPI_ShadowBox_new_shade shade_constructor,
+            Cricut_TestAPI_ShadowBox_extract_shade shade_extractor,
+            Cricut_TestAPI_ShadowBox_new_empty empty_constructor,
+            Cricut_TestAPI_ShadowBox_extract_empty empty_extractor,
             out CreatedRef _exn
         );
 
@@ -1829,6 +1948,14 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ArrayConverter<TestAPI.Shade>", () => {
+                // Console.WriteLine("setting up Array<Shade>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.TestAPI.Shade>(
+                    Loader.env,
+                    "ArrayConverter<TestAPI.Shade>",
+                    out exn
+                ));
+            });
             Once("setup_ArrayConverter<Swift.String>", () => {
                 // Console.WriteLine("setting up Array<String>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<string>(
@@ -2010,6 +2137,13 @@ namespace Cricut.TestAPI {
             });
             Once("setup_OptionalConverter<Swift.Int8>", () => {
                 // Console.WriteLine("setting up Optional<Int8>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_OptionalConverter<TestAPI.Shade>", () => {
+                // Console.WriteLine("setting up Optional<Shade>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_OptionalConverter_setup(
                     Loader.env,
                     out exn
@@ -2354,7 +2488,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_new_thing>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces.Thing(
                             ))
                         )
@@ -2662,6 +2796,16 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.ReferenceOnlyTypes.Marker", () => {
+                // Console.WriteLine("setting up TestAPI.ReferenceOnlyTypes.Marker...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceOnlyTypes_Marker_setup(
+                    Loader.env,
+                    bag<SwiftReference.ConstructorDelegate>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.ReferenceOnlyTypes.Marker(ptr));
+                    })),
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Results.Error", () => {
                 // Console.WriteLine("setting up TestAPI.Results.Error...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Results_Error_setup(
@@ -2911,13 +3055,13 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__AProtocolConverter_Getfoo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().GetFoo())
                     )),
-                    bag<_TestAPI_CommonInterface__AProtocolConverter_bar>((UnownedRef obj, nint x, nint y, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__AProtocolConverter_bar>((UnownedRef obj, nint x, nint y, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().Bar(x, y))
                     )),
-                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation>((UnownedRef obj, nint x, double y, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation>((UnownedRef obj, nint x, double y, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation(x, y))
                     )),
-                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2>((UnownedRef obj, string a, bool b, string c, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__AProtocolConverter_hasADefaultImplementation2>((UnownedRef obj, string a, bool b, string c, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AProtocol>().HasADefaultImplementation2(a, b, c))
                     )),
                     out exn
@@ -2965,14 +3109,15 @@ namespace Cricut.TestAPI {
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Other) { return (nint)1; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.Bar) { return (nint)2; }
                         if (enumeration is Cricut.TestAPI.AssociatedDataEnum.NoValue) { return (nint)3; }
-                        if (enumeration is Cricut.TestAPI.AssociatedDataEnum.SimpleEnum) { return (nint)4; }
+                        if (enumeration is Cricut.TestAPI.AssociatedDataEnum.None) { return (nint)4; }
+                        if (enumeration is Cricut.TestAPI.AssociatedDataEnum.SimpleEnum) { return (nint)5; }
                         throw new Exception($"Found unexpected subclass of Cricut.TestAPI.AssociatedDataEnum: {enumeration}");
                     })),
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_thing>(
                         (
                             nint _value,
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Thing(
                                 _value
                             ))
@@ -2998,7 +3143,7 @@ namespace Cricut.TestAPI {
                             ConsumedRef _unnamed,
                             nint __1,
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Other(
                                 _unnamed.Consume<string>(),
                                 __1
@@ -3028,7 +3173,7 @@ namespace Cricut.TestAPI {
                             ConsumedRef __1,
                             [MarshalAs(UnmanagedType.I1)] bool _toggled,
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.Bar(
                                 _named.Consume<string>(),
                                 __1.Consume<Cricut.TestAPI.AssociatedDataEnum>(),
@@ -3058,7 +3203,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_noValue>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.NoValue(
                             ))
                         )
@@ -3076,11 +3221,32 @@ namespace Cricut.TestAPI {
                             }
                         }
                     ),
+                    bag<Cricut_TestAPI_AssociatedDataEnum_new_none>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.None(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_AssociatedDataEnum_extract_none>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.AssociatedDataEnum.None>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     bag<Cricut_TestAPI_AssociatedDataEnum_new_simpleEnum>(
                         (
                             ConsumedRef _value,
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.AssociatedDataEnum.SimpleEnum(
                                 _value.Consume<Cricut.TestAPI.SimpleEnum>()
                             ))
@@ -3226,10 +3392,123 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.ProtocolFixtures", () => {
+                // Console.WriteLine("setting up TestAPI.ProtocolFixtures...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ProtocolFixtures_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.PythonNamingCollisions", () => {
+                // Console.WriteLine("setting up TestAPI.PythonNamingCollisions...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_PythonNamingCollisions_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Ranges", () => {
                 // Console.WriteLine("setting up TestAPI.Ranges...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Ranges_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.ReferenceCaseEnum", () => {
+                // Console.WriteLine("setting up TestAPI.ReferenceCaseEnum...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceCaseEnum_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum>();
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.North) { return (nint)0; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.South) { return (nint)1; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.East) { return (nint)2; }
+                        if (enumeration is Cricut.TestAPI.ReferenceCaseEnum.West) { return (nint)3; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.ReferenceCaseEnum: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_north>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.North(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_north>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.North>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_south>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.South(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_south>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.South>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_east>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.East(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_east>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.East>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_new_west>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ReferenceCaseEnum.West(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ReferenceCaseEnum_extract_west>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ReferenceCaseEnum.West>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });
@@ -3240,10 +3519,94 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_TestAPI.ReferenceOnlyTypes", () => {
+                // Console.WriteLine("setting up TestAPI.ReferenceOnlyTypes...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ReferenceOnlyTypes_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
             Once("setup_TestAPI.Results", () => {
                 // Console.WriteLine("setting up TestAPI.Results...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Results_setup(
                     Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Shade", () => {
+                // Console.WriteLine("setting up TestAPI.Shade...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Shade_setup(
+                    Loader.env,
+                    bag<_TestAPI_ShadeConstructor>((double darkness, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Shade(
+                            darkness
+                        ));
+                    })),
+                    bag<_TestAPI_Shade_darknessGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Shade>().Darkness
+                    )),
+                    bag<_TestAPI_Shade_darknessSetter>((UnownedRef obj, double newValue, out CreatedRef exn) => Catching(out exn, () => {
+                        obj.Peek<Cricut.TestAPI.Shade>().Darkness = newValue;
+                    })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.ShadowBox", () => {
+                // Console.WriteLine("setting up TestAPI.ShadowBox...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_ShadowBox_setup(
+                    Loader.env,
+                    bag<FishyJoesRuntime.EnumDiscriminator>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => {
+                        var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox>();
+                        if (enumeration is Cricut.TestAPI.ShadowBox.Shade) { return (nint)0; }
+                        if (enumeration is Cricut.TestAPI.ShadowBox.Empty) { return (nint)1; }
+                        throw new Exception($"Found unexpected subclass of Cricut.TestAPI.ShadowBox: {enumeration}");
+                    })),
+                    bag<Cricut_TestAPI_ShadowBox_new_shade>(
+                        (
+                            ConsumedRef __0,
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ShadowBox.Shade(
+                                __0.Consume<Cricut.TestAPI.Shade>()
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_extract_shade>(
+                        (
+                            UnownedRef obj,
+                            ref CreatedRef __0,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox.Shade>();
+                                __0 = new CreatedRef(enumeration._0);
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_new_empty>(
+                        (
+                            out CreatedRef exn
+                        ) => Catching(out exn, () =>
+                            new CreatedRef(new Cricut.TestAPI.ShadowBox.Empty(
+                            ))
+                        )
+                    ),
+                    bag<Cricut_TestAPI_ShadowBox_extract_empty>(
+                        (
+                            UnownedRef obj,
+                            out CreatedRef exn
+                        ) => {
+                            try {
+                                var enumeration = obj.Peek<Cricut.TestAPI.ShadowBox.Empty>();
+                                exn = CreatedRef.Null;
+                            } catch (Exception e) {
+                                exn = new CreatedRef(e);
+                            }
+                        }
+                    ),
                     out exn
                 ));
             });
@@ -3261,7 +3624,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_SimpleEnum_new_red>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.SimpleEnum.Red(
                             ))
                         )
@@ -3282,7 +3645,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_SimpleEnum_new_green>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.SimpleEnum.Green(
                             ))
                         )
@@ -3303,7 +3666,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_SimpleEnum_new_blue>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.SimpleEnum.Blue(
                             ))
                         )
@@ -3444,34 +3807,34 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_GetwillThrow>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().GetWillThrow())
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0>((UnownedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise0>((UnownedRef obj, System.Func<System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise0(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1>((UnownedRef obj, System.Func<nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise1>((UnownedRef obj, System.Func<nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise1(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2>((UnownedRef obj, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise2>((UnownedRef obj, System.Func<System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>, System.Func<nint, System.Threading.Tasks.Task<nint>>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise2(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3>((UnownedRef obj, System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise3>((UnownedRef obj, System.Func<float, double, nint, System.Threading.Tasks.Task<double>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise3(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4>((UnownedRef obj, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise4>((UnownedRef obj, System.Func<string, string, string, string, System.Threading.Tasks.Task<System.Collections.Generic.IList<string>>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise4(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise5>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, System.Threading.Tasks.Task<System.Func<System.Threading.Tasks.Task<nint>>>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise5(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_exercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Exercise6(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker>((UnownedRef obj, System.Func<System.Threading.Tasks.Task> thunk, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_thunkTwiceMaker>((UnownedRef obj, System.Func<System.Threading.Tasks.Task> thunk, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().ThunkTwiceMaker(thunk))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_defaultExercise6>((UnownedRef obj, System.Func<string, nint, double, string, System.Func<System.Threading.Tasks.Task<nint>>, nint, System.Threading.Tasks.Task<nint>> fn, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().DefaultExercise6(fn))
                     )),
-                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestAsyncFunctionsConverter_witness>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestAsyncFunctions>().Witness())
                     )),
                     out exn
@@ -3525,7 +3888,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_TestDefaultComputedPropertiesEnum_new_qux>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.TestDefaultComputedPropertiesEnum.Qux(
                             ))
                         )
@@ -3640,22 +4003,22 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestMethodsProtocolConverterConstructor>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.ExternalWitness_TestMethodsProtocol(ptr));
                     })),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_foo>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Foo()
                     )),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_bar>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_bar>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Bar()
                     )),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_baz>((UnownedRef obj, bool qux, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_baz>((UnownedRef obj, bool qux, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Baz(qux)
                     )),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_garply>((UnownedRef obj, string _0, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_garply>((UnownedRef obj, string _0, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Garply(_0))
                     )),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy>((UnownedRef obj, nint thud, System.Collections.Generic.IList<double> grault, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_xyzzy>((UnownedRef obj, nint thud, System.Collections.Generic.IList<double> grault, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Xyzzy(thud, grault))
                     )),
-                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestMethodsProtocolConverter_plugh>((UnownedRef obj, System.Tuple<bool, double, System.Collections.Generic.IList<string>> fred, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestMethodsProtocol>().Plugh(fred))
                     )),
                     out exn
@@ -3673,7 +4036,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_TestNonExportedProtocolEnum_new_hogehoge>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.TestNonExportedProtocolEnum.Hogehoge(
                             ))
                         )
@@ -3704,10 +4067,10 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_Getflarp>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().GetFlarp())
                     )),
-                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat>((UnownedRef obj, nint? zxc, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_wombat>((UnownedRef obj, nint? zxc, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Wombat(zxc))
                     )),
-                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr>((UnownedRef obj, Cricut.TestAPI.AssociatedDataEnum pippo, out CreatedRef exn) => Catching(out exn, () => 
+                    bag<_TestAPI_CommonInterface__TestOptionalsProtocolConverter_spqr>((UnownedRef obj, Cricut.TestAPI.AssociatedDataEnum pippo, out CreatedRef exn) => Catching(out exn, () =>
                         obj.Peek<Cricut.TestAPI.TestOptionalsProtocol>().Spqr(pippo)
                     )),
                     out exn
@@ -3751,7 +4114,7 @@ namespace Cricut.TestAPI {
                     bag<Cricut_TestAPI_TestProtocolEnum_new_qux>(
                         (
                             out CreatedRef exn
-                        ) => Catching(out exn, () => 
+                        ) => Catching(out exn, () =>
                             new CreatedRef(new Cricut.TestAPI.TestProtocolEnum.Qux(
                             ))
                         )

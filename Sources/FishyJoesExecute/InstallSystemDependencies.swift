@@ -9,6 +9,8 @@ struct InstallSystemDependencies: ParsableCommand {
         abstract: "Script to install FishyJoes' system dependencies",
         aliases: ["install-toolchains"]
     )
+    static let mikeFarahYQVersion = "v4.53.2"
+
     struct Error: Swift.Error {}
 
     enum Component: String, CaseIterable, ExpressibleByArgument {
@@ -162,7 +164,7 @@ struct InstallSystemDependencies: ParsableCommand {
                 .output(overwritingFile: FileManager.nullDevicePath)
                 .runBool()
         case .yq:
-            return cmd("yq", "--version").runBool()
+            return checkIfMikeFarahYQInstalled()
         case .mint:
             return cmd("mint", "--version").runBool()
         case .wasmOpt:
@@ -301,7 +303,7 @@ struct InstallSystemDependencies: ParsableCommand {
             try cmd("brew", "install", "yq").run()
 
             #elseif os(Linux)
-            try cmd("apt-get", "install", "yq").run()
+            try installMikeFarahYQOnLinux()
 
             #else
             Log.error("Don't know how to install yq on this platform")
@@ -316,7 +318,13 @@ struct InstallSystemDependencies: ParsableCommand {
             let tempDir = try cmd("mktemp", "-d").runString()
             defer { try? cmd("rm", "-rf", tempDir).run() }
             try cmd("git", "clone", "--depth=1", "https://github.com/yonaskolb/Mint.git", "\(tempDir)/mint").run()
-            try cmd("swift", "run", "--package-path=\(tempDir)/mint", "mint", "install", "yonaskolb/mint").run()
+            try cmd("swift", "build", "--package-path=\(tempDir)/mint", "--configuration", "release", "--product", "mint").run()
+            let mintPath = "\(tempDir)/mint/.build/release/mint"
+            let installedMintPath = try installUserExecutable(mintPath, named: "mint")
+            guard cmd(installedMintPath, "--version").runBool() else {
+                Log.error("Installed mint to \(installedMintPath), but it did not run successfully")
+                throw InstallSystemDependencies.Error()
+            }
 
             #else
             Log.error("Installing mint not supported on this platform")
@@ -335,6 +343,164 @@ struct InstallSystemDependencies: ParsableCommand {
             Log.error("Don't know how to install wasm-opt on this platform")
             throw InstallSystemDependencies.Error()
             #endif
+        }
+    }
+
+    func checkIfMikeFarahYQInstalled() -> Bool {
+        checkIfMikeFarahYQInstalled(at: "yq")
+    }
+
+    func installMikeFarahYQOnLinux() throws {
+        let uname = try cmd("uname", "-m").runString().trimmed()
+        let arch: String
+        switch uname {
+        case "x86_64", "amd64":
+            arch = "amd64"
+        case "aarch64", "arm64":
+            arch = "arm64"
+        default:
+            Log.error("Don't know which Mike Farah yq Linux binary to install for architecture \(uname)")
+            throw InstallSystemDependencies.Error()
+        }
+
+        let assetName = "yq_linux_\(arch)"
+        let releaseURL = "https://github.com/mikefarah/yq/releases/download/\(Self.mikeFarahYQVersion)"
+        let tempDir = try cmd("mktemp", "-d").runString().trimmed()
+        defer { try? cmd("rm", "-rf", tempDir).run() }
+
+        let binaryPath = "\(tempDir)/\(assetName)"
+        let checksumsPath = "\(tempDir)/checksums"
+        try cmd("curl", "-fsSL", "-o", binaryPath, "\(releaseURL)/\(assetName)").run()
+        try cmd("curl", "-fsSL", "-o", checksumsPath, "\(releaseURL)/checksums-bsd").run()
+
+        let checksums = try String(contentsOfFile: checksumsPath, encoding: .utf8)
+        guard let expectedChecksum = Self.expectedChecksum(for: assetName, in: checksums) else {
+            Log.error("Could not locate checksum for \(assetName) in Mike Farah yq \(Self.mikeFarahYQVersion) checksums")
+            throw InstallSystemDependencies.Error()
+        }
+
+        let actualChecksum = try cmd("sha256sum", binaryPath).runString()
+            .split { $0 == " " || $0 == "\t" }
+            .first
+            .map(String.init)
+        guard actualChecksum == expectedChecksum else {
+            Log.error("Checksum mismatch for \(assetName)")
+            Log.error("Expected \(expectedChecksum), got \(actualChecksum ?? "<missing>")")
+            throw InstallSystemDependencies.Error()
+        }
+
+        let installedYQPath = try installUserExecutable(binaryPath, named: "yq")
+        guard checkIfMikeFarahYQInstalled(at: installedYQPath) else {
+            Log.error("Installed yq to \(installedYQPath), but it did not report a Mike Farah yq v4 version")
+            throw InstallSystemDependencies.Error()
+        }
+    }
+
+    func installUserExecutable(_ sourcePath: String, named executableName: String) throws -> String {
+        let installDirectory = userExecutableDirectory()
+        try FileManager.default.createDirectory(
+            at: URL(fileURLWithPath: installDirectory),
+            withIntermediateDirectories: true
+        )
+        let destinationPath = "\(installDirectory)/\(executableName)"
+        try cmd("install", "-m", "0755", sourcePath, destinationPath).run()
+        try exposeUserExecutableDirectory(installDirectory)
+        return destinationPath
+    }
+
+    func userExecutableDirectory() -> String {
+        Self.userExecutableDirectory(environment: ProcessInfo.processInfo.environment)
+    }
+
+    static func userExecutableDirectory(environment: [String: String]) -> String {
+        if let configuredPath = environment["FISHYJOES_INSTALL_BIN_DIR"],
+           !configuredPath.isEmpty {
+            return (configuredPath as NSString).expandingTildeInPath
+        }
+        return ("~/.local/bin" as NSString).expandingTildeInPath
+    }
+
+    func checkIfMikeFarahYQInstalled(at executablePath: String) -> Bool {
+        guard let version = try? cmd(executablePath, "--version").runString() else {
+            return false
+        }
+        return version.contains("github.com/mikefarah/yq") && version.contains(" version v4.")
+    }
+
+    func exposeUserExecutableDirectory(_ directory: String) throws {
+        if let githubPath = ProcessInfo.processInfo.environment["GITHUB_PATH"] {
+            let data = Data("\(directory)\n".utf8)
+            let url = URL(fileURLWithPath: githubPath)
+            if let handle = FileHandle(forWritingAtPath: githubPath) {
+                defer { try? handle.close() }
+                try handle.seekToEnd()
+                try handle.write(contentsOf: data)
+            } else {
+                try data.write(to: url)
+            }
+        }
+
+        let pathEntries = ProcessInfo.processInfo.environment["PATH"]?
+            .split(separator: ":")
+            .map(String.init) ?? []
+        if !pathEntries.contains(directory) {
+            Log.warn("\(directory) is not in PATH; add it before running installed tools in this shell")
+        }
+    }
+
+    static func expectedChecksum(for assetName: String, in checksums: String) -> String? {
+        for rawLine in checksums.split(whereSeparator: \.isNewline) {
+            let line = String(rawLine).trimmed()
+            if let checksum = checksumFromBSDLine(line, assetName: assetName) {
+                return checksum
+            }
+
+            let fields = line.split { $0 == " " || $0 == "\t" }.map(String.init)
+            guard fields.count >= 2, let fileName = fields.last else {
+                continue
+            }
+            guard checksumFileName(fileName, matches: assetName) else {
+                continue
+            }
+            if let checksum = fields.first(where: isSHA256Checksum) {
+                return checksum
+            }
+        }
+        return nil
+    }
+
+    private static func checksumFromBSDLine(_ line: String, assetName: String) -> String? {
+        guard line.hasPrefix("SHA256"),
+              let openParen = line.firstIndex(of: "("),
+              let closeParen = line.firstIndex(of: ")"),
+              openParen < closeParen
+        else {
+            return nil
+        }
+
+        let fileNameStart = line.index(after: openParen)
+        let fileName = String(line[fileNameStart..<closeParen])
+        guard checksumFileName(fileName, matches: assetName) else {
+            return nil
+        }
+
+        let suffixStart = line.index(after: closeParen)
+        let suffix = String(line[suffixStart...]).trimmed()
+        guard suffix.hasPrefix("=") else {
+            return nil
+        }
+        let checksum = String(suffix.dropFirst()).trimmed()
+        return isSHA256Checksum(String(checksum)) ? String(checksum) : nil
+    }
+
+    private static func checksumFileName(_ fileName: String, matches assetName: String) -> Bool {
+        let normalized = fileName.trimmingCharacters(in: CharacterSet(charactersIn: "*"))
+        return normalized == assetName || normalized.hasSuffix("/\(assetName)")
+    }
+
+    private static func isSHA256Checksum(_ value: String) -> Bool {
+        value.count == 64 && value.allSatisfy { character in
+            character.isNumber || ("a"..."f").contains(character) || ("A"..."F").contains(character)
         }
     }
 }

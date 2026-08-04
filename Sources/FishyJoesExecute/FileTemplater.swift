@@ -33,6 +33,10 @@ public struct FileTemplater {
         replacements["__LOWERCASE_MODULE_NAME__"] = config.module.lowercased()
         replacements["__LOWERCASE_FIRST_MODULE_NAME__"] = (config.module.first?.lowercased() ?? "") + config.module.dropFirst()
         replacements["__BINDINGS_REPO__"] = config.publishRepository
+        replacements["__LINUX_CONTAINER_SPEC__"] = ToolVersions.shared.linuxContainer.imageSpec
+        replacements["__PYTHON_DISTRIBUTION_NAME__"] = config.python.distributionName(forModule: config.module)
+        replacements["__PYTHON_IMPORT_PACKAGE__"] = config.python.importPackageName(forModule: config.module)
+        replacements["__PYTHON_RUNTIME_DISTRIBUTION_NAME__"] = config.python.runtimeDistributionName
 
         // A template file is hand-crafted, and then it turns into a generated file, which should not be modified
         replacements["__TEMPLATE__"] = "generated"
@@ -50,6 +54,9 @@ public struct FileTemplater {
                 }
                 replacements[key] = value
             }
+        }
+        for (key, value) in Self.pythonTemplateDefaults(module: config.module) where replacements[key] == nil {
+            replacements[key] = value
         }
 
         // MARK: CI replacements
@@ -70,6 +77,7 @@ public struct FileTemplater {
         var credentialToken: String = ""
         var ciEnv: [String: String] = [
             "FISHYJOES": "1",
+            "FISHYJOES_PREFER_RESOLVED_LOCAL_DEPS": "1",
             "JAVA_VERSION": "20",
             "NODE_VERSION": "18.x",
             "DOTNET_VERSION": "8.0.x",
@@ -120,8 +128,36 @@ public struct FileTemplater {
     }
 
     func installTemplate() throws {
-        let templateRoot = Bundle.module.resourceURL!.appendingPathComponent("bindings-template", isDirectory: true).path
+        // SwiftPM's classic build system places the copied `Resources`
+        // directory's children at the bundle resource root; the Swift Build
+        // system (default on newer toolchains) preserves the `Resources`
+        // path component. Accept whichever layout this toolchain produced.
+        let resourceURL = Bundle.module.resourceURL!
+        let candidates = [
+            resourceURL.appendingPathComponent("bindings-template", isDirectory: true),
+            resourceURL.appendingPathComponent("Resources/bindings-template", isDirectory: true),
+        ]
+        guard let templateRoot = candidates.first(where: { FileManager.default.fileExists(atPath: $0.path) })?.path else {
+            fatalError("bindings-template resources not found in \(candidates.map(\.path))")
+        }
         try install(".", in: templateRoot, to: "bindings")
+    }
+
+    private static func pythonTemplateDefaults(module: String) -> [String: String] {
+        [
+            "__PYTHON_DEPENDENCIES__": "",
+            "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(manglePythonSymbol(module))_registerTypes",
+            "__PYTHON_NATIVE_DEPENDENCIES__": "[]",
+            "__PYTHON_PACKAGE_VERSION__": "0.0.1",
+            "__PYTHON_RUNTIME_DEPENDENCIES__": "[]",
+            "__PYTHON_RUNTIME_REQUIREMENT__": ">=0.0.1"
+        ]
+    }
+
+    private static func manglePythonSymbol(_ value: String) -> String {
+        value
+            .replacingOccurrences(of: ".", with: "_")
+            .replacingOccurrences(of: "-", with: "_")
     }
 
     enum InstallBehavior {
@@ -178,7 +214,14 @@ public struct FileTemplater {
         let manager = FileManager.default
         var isDirectory: ObjCBool = false
         guard manager.fileExists(atPath: absoluteSourcePath, isDirectory: &isDirectory) else {
-            fatalError("Internal error. I was sure that path existed... \(absoluteSourcePath)")
+            fatalError(
+                "Bindings-template source missing while installing '\(localSourcePath)' to '\(destPath)':"
+                    + " \(absoluteSourcePath) does not exist."
+                    + " The resource bundle layout usually causes this: a stale .build from a different toolchain,"
+                    + " or a FishyJoes version whose bundle predates the current layout."
+                    + " Delete .build (or `swift package clean`) and rebuild; if it persists, check that the"
+                    + " FishyJoes dependency version bundles the bindings-template resources."
+            )
         }
         if isDirectory.boolValue {
             try manager.createDirectory(atPath: destPath, withIntermediateDirectories: true)

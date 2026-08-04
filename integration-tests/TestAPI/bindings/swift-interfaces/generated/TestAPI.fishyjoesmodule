@@ -1301,6 +1301,114 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "ProtocolFixtures",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ProtocolFixtures",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ProtocolFixtures",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ProtocolFixtures"
+        }
+      },
+      "kotlinName" : "ProtocolFixtures",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ProtocolFixtures",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ProtocolFixtures",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PythonNamingCollisions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "PythonNamingCollisions",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "PythonNamingCollisions",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/PythonNamingCollisions"
+        }
+      },
+      "kotlinName" : "PythonNamingCollisions",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.PythonNamingCollisions",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "PythonNamingCollisions",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Ranges",
             "namespace" : [
 
@@ -1343,6 +1451,60 @@
           "_0" : {
             "module" : "TestAPI",
             "name" : "Ranges",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceCaseEnum",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceCaseEnum",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceCaseEnum",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceCaseEnum"
+        }
+      },
+      "kotlinName" : "ReferenceCaseEnum",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceCaseEnum",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceCaseEnum",
             "namespace" : [
 
             ]
@@ -1399,6 +1561,114 @@
             "name" : "ReferenceEmptyEnum",
             "namespace" : [
 
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceOnlyTypes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceOnlyTypes"
+        }
+      },
+      "kotlinName" : "ReferenceOnlyTypes",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceOnlyTypes",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ReferenceOnlyTypes",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Marker",
+            "namespace" : [
+              "ReferenceOnlyTypes"
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes.Marker",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ReferenceOnlyTypes_Marker",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ReferenceOnlyTypes$Marker"
+        }
+      },
+      "kotlinName" : "ReferenceOnlyTypes.Marker",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ReferenceOnlyTypes.Marker",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Marker",
+            "namespace" : [
+              "ReferenceOnlyTypes"
             ]
           }
         }
@@ -1507,6 +1777,114 @@
             "name" : "Error",
             "namespace" : [
               "Results"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Shade",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Shade",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Shade",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Shade"
+        }
+      },
+      "kotlinName" : "Shade",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Shade",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Shade",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ShadowBox",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "ShadowBox",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "ShadowBox",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/ShadowBox"
+        }
+      },
+      "kotlinName" : "ShadowBox",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.ShadowBox",
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "ShadowBox",
+            "namespace" : [
+
             ]
           }
         }
@@ -3671,6 +4049,7 @@
               }
             },
             "documentation" : [
+              "A reference type with playful members for binding coverage.",
               "<!-- FishyJoes.exportReference(EmptyClass1) -->"
             ],
             "extends" : [
@@ -3679,6 +4058,7 @@
             "fields" : [
               {
                 "documentation" : [
+                  "A cheerful nonsense string.",
                   "<!-- FishyJoes.export(blarg) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -3729,6 +4109,7 @@
               },
               {
                 "documentation" : [
+                  "Returns a short pirate greeting.",
                   "<!-- FishyJoes.export(shme) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -4687,6 +5068,55 @@
               }
             ],
             "name" : "Methods"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "darkness"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "A type whose name matches a case of ``ShadowBox``. Inside ShadowBox's",
+              "generated Python class body, the case-type attribute (`Shade: ClassVar[...]`)",
+              "shadows this type's import, so annotations meaning this type must resolve",
+              "through a module-level alias in the generated stub.",
+              "<!-- FishyJoes.export(Shade) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "darkness",
+                "readOnly" : false,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Shade"
           },
           {
             "constructor" : {
@@ -7541,6 +7971,32 @@
           },
           {
             "documentation" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(allShades) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "allShades",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Shade[]"
+                  }
+                }
+              }
+            ],
+            "forNamespace" : "ShadowBox",
+            "methods" : [
+
+            ],
+            "name" : "ShadowBox_Common"
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(TestAsyncFunctions) -->"
             ],
             "fields" : [
@@ -8732,6 +9188,34 @@
                 "constructor" : {
                   "visible" : {
                     "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "AssociatedDataEnum_Common"
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "None"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
                       "value"
                     ],
                     "types" : [
@@ -8926,6 +9410,34 @@
 
             ],
             "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(delayedConst) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "delayedConst",
+                "parameters" : [
+                  {
+                    "name" : "nanoseconds",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                }
+              },
               {
                 "documentation" : [
                   "<!-- FishyJoes.export(exercise0) -->"
@@ -10780,6 +11292,98 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(describeEnumDefault) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "describeEnumDefault",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : ".blue",
+                    "name" : "color",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.SimpleEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDefaultTolerance) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "echoDefaultTolerance",
+                "parameters" : [
+                  {
+                    "defaultValue" : "Double.ulpOfOne.squareRoot()",
+                    "name" : "tolerance",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDefaultIntLimits) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "echoDefaultIntLimits",
+                "parameters" : [
+                  {
+                    "defaultValue" : ".min",
+                    "name" : "minValue",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : ".max",
+                    "name" : "maxValue",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
               }
             ],
             "name" : "DefaultArguments",
@@ -10817,6 +11421,7 @@
             "methods" : [
               {
                 "documentation" : [
+                  "An old greeting kept only for deprecation coverage.",
                   "<!-- FishyJoes.export(deprecatedMethod) -->",
                   "@deprecated don't use this"
                 ],
@@ -13780,6 +14385,258 @@
 
             ]
           },
+          "ProtocolFixtures" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(describeAProtocol) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "describeAProtocol",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AProtocol"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "y",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(returnAProtocol) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "returnAProtocol",
+                "parameters" : [
+                  {
+                    "name" : "value",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.AProtocol"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.AProtocol"
+                  }
+                }
+              }
+            ],
+            "name" : "ProtocolFixtures",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "PythonNamingCollisions" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(class) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "class",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(__dunder__) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "__dunder__",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(isNaN) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "isNaN",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "boolean"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(_leadingUnderscore) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "_leadingUnderscore",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(list) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "list",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "`URL` and `Url` both snake-case to `url`; sibling collisions are a",
+                  "generation error, resolved with an explicit verbatim `python:` name.",
+                  "<!-- FishyJoes.export(Url, python: title_url) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "Url",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(URL) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "URL",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(from) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "from",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "string"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(keywordArgs) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "keywordArgs",
+                "parameters" : [
+                  {
+                    "name" : "`class`",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  },
+                  {
+                    "name" : "list",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              }
+            ],
+            "name" : "PythonNamingCollisions",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Ranges" : {
             "classes" : [
 
@@ -14179,6 +15036,91 @@
 
             ]
           },
+          "ReferenceCaseEnum" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "Mirrors `Image.kind`: a value-returning accessor whose result must be",
+                  "comparable to a known case from Python.",
+                  "<!-- FishyJoes.export(defaultDirection) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "defaultDirection",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "A method that both consumes (parameter) and produces (return) the",
+                  "reference-annotated enum — only callable from Python if the cases bridge.",
+                  "<!-- FishyJoes.export(rotate180) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "rotate180",
+                "parameters" : [
+                  {
+                    "name" : "direction",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.ReferenceCaseEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(opposite) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "getOpposite",
+                "parameters" : [
+                  {
+                    "name" : "self",
+                    "type" : {
+                      "named" : {
+                        "_0" : "TestAPI.ReferenceCaseEnum"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceCaseEnum"
+                  }
+                }
+              }
+            ],
+            "name" : "ReferenceCaseEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "ReferenceEmptyEnum" : {
             "classes" : [
 
@@ -14239,6 +15181,65 @@
               }
             ],
             "name" : "ReferenceEmptyEnum",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "ReferenceOnlyTypes" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "hidden" : {
+
+                  }
+                },
+                "documentation" : [
+                  "<!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->"
+                ],
+                "extends" : [
+
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Marker"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(marker, cSharp: MakeMarker) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "marker",
+                "parameters" : [
+
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "TestAPI.ReferenceOnlyTypes.Marker"
+                  }
+                }
+              }
+            ],
+            "name" : "ReferenceOnlyTypes",
             "namespaces" : {
 
             },
@@ -14354,6 +15355,127 @@
               }
             ],
             "name" : "Results",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
+          "ShadowBox" : {
+            "classes" : [
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+                      "_0"
+                    ],
+                    "types" : [
+                      {
+                        "named" : {
+                          "_0" : "Shade"
+                        }
+                      }
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "ShadowBox_Common"
+                ],
+                "fields" : [
+                  {
+                    "documentation" : [
+
+                    ],
+                    "hasDefaultImplementation" : false,
+                    "isStatic" : false,
+                    "name" : "_0",
+                    "readOnly" : true,
+                    "type" : {
+                      "named" : {
+                        "_0" : "Shade"
+                      }
+                    }
+                  }
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Shade"
+              },
+              {
+                "constructor" : {
+                  "visible" : {
+                    "names" : [
+
+                    ],
+                    "types" : [
+
+                    ]
+                  }
+                },
+                "documentation" : [
+
+                ],
+                "extends" : [
+                  "ShadowBox_Common"
+                ],
+                "fields" : [
+
+                ],
+                "implements" : [
+
+                ],
+                "methods" : [
+
+                ],
+                "name" : "Empty"
+              }
+            ],
+            "fields" : [
+
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(darkest) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "darkest",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "shades",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Shade[]"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "optional" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "Shade"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "name" : "ShadowBox",
             "namespaces" : {
 
             },
@@ -14592,6 +15714,7 @@
               },
               {
                 "documentation" : [
+                  "A simple ASCII greeting.",
                   "<!-- FishyJoes.export(simple) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -14611,6 +15734,7 @@
             "methods" : [
               {
                 "documentation" : [
+                  "Returns the given string unchanged.",
                   "<!-- FishyJoes.export(echo) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -14635,6 +15759,8 @@
               },
               {
                 "documentation" : [
+                  "Splits the string on each occurrence of the separator.",
+                  "Returns the pieces in order without the separator.",
                   "<!-- FishyJoes.export(split) -->"
                 ],
                 "hasDefaultImplementation" : false,
@@ -14698,6 +15824,7 @@
                   }
                 },
                 "documentation" : [
+                  "A plain value type with one immutable and one mutable field.",
                   "<!-- FishyJoes.export(Structs.MemberwiseStruct) -->"
                 ],
                 "extends" : [
@@ -16162,6 +17289,11 @@
                   },
                   {
                     "named" : {
+                      "_0" : "AssociatedDataEnum.None"
+                    }
+                  },
+                  {
+                    "named" : {
                       "_0" : "AssociatedDataEnum.SimpleEnum"
                     }
                   }
@@ -16301,6 +17433,32 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(ProtocolFixtures) -->"
+            ],
+            "name" : "ProtocolFixtures",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(PythonNamingCollisions) -->"
+            ],
+            "name" : "PythonNamingCollisions",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(Ranges) -->"
             ],
             "name" : "Ranges",
@@ -16308,6 +17466,43 @@
               "union" : {
                 "_0" : [
 
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "An inhabited enum that the product annotated `exportReference` rather than",
+              "`export`. An enum's cases are its only construction surface, so the generator",
+              "must still surface the cases (mirroring the `export` enum path) instead of",
+              "emitting an unconstructable, members-less opaque reference shell. Mirrors the",
+              "real CriRaster `Image.Kind` / `Image.Color.Channel` shape.",
+              "<!-- FishyJoes.exportReference(ReferenceCaseEnum) -->"
+            ],
+            "name" : "ReferenceCaseEnum",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "exactString" : {
+                      "_0" : "north"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "south"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "east"
+                    }
+                  },
+                  {
+                    "exactString" : {
+                      "_0" : "west"
+                    }
+                  }
                 ]
               }
             }
@@ -16327,6 +17522,19 @@
           },
           {
             "documentation" : [
+              "<!-- FishyJoes.export(ReferenceOnlyTypes) -->"
+            ],
+            "name" : "ReferenceOnlyTypes",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
               "<!-- FishyJoes.export(Results) -->"
             ],
             "name" : "Results",
@@ -16334,6 +17542,28 @@
               "union" : {
                 "_0" : [
 
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(ShadowBox) -->"
+            ],
+            "name" : "ShadowBox",
+            "value" : {
+              "union" : {
+                "_0" : [
+                  {
+                    "named" : {
+                      "_0" : "ShadowBox.Shade"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "ShadowBox.Empty"
+                    }
+                  }
                 ]
               }
             }
@@ -16372,6 +17602,7 @@
           },
           {
             "documentation" : [
+              "Sample strings and string operations for Unicode round-trips.",
               "<!-- FishyJoes.export(Strings) -->"
             ],
             "name" : "Strings",

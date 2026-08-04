@@ -282,6 +282,13 @@ typedef TestAPI_AssociatedDataEnum_extract_noValue = ffi.Void Function(
     UnownedRef obj,
     OutCreatedRef _exn
 );
+typedef TestAPI_AssociatedDataEnum_new_none = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_AssociatedDataEnum_extract_none = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
 typedef TestAPI_AssociatedDataEnum_new_simpleEnum = CreatedRef Function(
     ConsumedRef value,
     OutCreatedRef _exn
@@ -296,6 +303,56 @@ typedef _TestAPI_EmptyStructConstructor = CreatedRef Function(
 );
 typedef _TestAPI_EmptyStruct2Constructor = CreatedRef Function(
     OutCreatedRef exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_north = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_north = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_south = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_south = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_east = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_east = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_new_west = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ReferenceCaseEnum_extract_west = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
+);
+typedef _TestAPI_ShadeConstructor = CreatedRef Function(
+    ffi.Double darkness,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Shade_darknessGetter = ffi.Double Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Shade_darknessSetter = ffi.Void Function(UnownedRef obj, ffi.Double newValue, OutCreatedRef exn);
+typedef TestAPI_ShadowBox_new_shade = CreatedRef Function(
+    ConsumedRef m_0,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_extract_shade = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _0,
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_new_empty = CreatedRef Function(
+    OutCreatedRef _exn
+);
+typedef TestAPI_ShadowBox_extract_empty = ffi.Void Function(
+    UnownedRef obj,
+    OutCreatedRef _exn
 );
 typedef TestAPI_SimpleEnum_new_red = CreatedRef Function(
     OutCreatedRef _exn
@@ -703,6 +760,18 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_PrimitiveHolder_setup');
+    final TestAPI_ReferenceOnlyTypes_Marker_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<CreatedRef Function(ffi.Pointer, OutCreatedRef)>> constructorMethod,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ReferenceOnlyTypes_Marker_setup');
     final TestAPI_Results_Error_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -937,6 +1006,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_bar>> bar_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_none>> none_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_none>> none_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_simpleEnum>> simpleEnum_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_simpleEnum>> simpleEnum_extractor,
             OutCreatedRef exn
@@ -952,6 +1023,8 @@ final ensureLoaded = (() {
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_bar>> bar_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_noValue>> noValue_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_noValue>> noValue_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_none>> none_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_none>> none_extractor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_new_simpleEnum>> simpleEnum_constructor,
             ffi.Pointer<ffi.NativeFunction<TestAPI_AssociatedDataEnum_extract_simpleEnum>> simpleEnum_extractor,
             OutCreatedRef exn
@@ -1117,6 +1190,26 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Primitives_setup');
+    final TestAPI_ProtocolFixtures_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ProtocolFixtures_setup');
+    final TestAPI_PythonNamingCollisions_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_PythonNamingCollisions_setup');
     final TestAPI_Ranges_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1127,6 +1220,34 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Ranges_setup');
+    final TestAPI_ReferenceCaseEnum_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_north>> north_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_north>> north_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_south>> south_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_south>> south_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_east>> east_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_east>> east_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_west>> west_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_west>> west_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_north>> north_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_north>> north_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_south>> south_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_south>> south_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_east>> east_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_east>> east_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_new_west>> west_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ReferenceCaseEnum_extract_west>> west_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ReferenceCaseEnum_setup');
     final TestAPI_ReferenceEmptyEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1137,6 +1258,16 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_ReferenceEmptyEnum_setup');
+    final TestAPI_ReferenceOnlyTypes_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ReferenceOnlyTypes_setup');
     final TestAPI_Results_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1147,6 +1278,42 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_Results_setup');
+    final TestAPI_Shade_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_ShadeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessGetter>> get_darkness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessSetter>> set_darkness,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_ShadeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessGetter>> get_darkness,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Shade_darknessSetter>> set_darkness,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Shade_setup');
+    final TestAPI_ShadowBox_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_shade>> shade_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_shade>> shade_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_empty>> empty_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_empty>> empty_extractor,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<EnumDiscriminatorTag>> discriminator,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_shade>> shade_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_shade>> shade_extractor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_new_empty>> empty_constructor,
+            ffi.Pointer<ffi.NativeFunction<TestAPI_ShadowBox_extract_empty>> empty_extractor,
+            OutCreatedRef exn
+        )
+    >('TestAPI_ShadowBox_setup');
     final TestAPI_SimpleEnum_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1771,6 +1938,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AssociatedDataEnum_plus");
+    TestAPI.AsyncFunctions.f__iota_TestAPI_AsyncFunctions_delayedConst = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr nanoseconds,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int nanoseconds,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_AsyncFunctions_delayedConst");
     TestAPI.AsyncFunctions.f__iota_TestAPI_AsyncFunctions_exercise0 = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -2217,6 +2396,46 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Collections_echoSetOfInt");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_describeEnumDefault = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr value,
+            UnownedRef color,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int value,
+            UnownedRef color,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_describeEnumDefault");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            ffi.IntPtr minValue,
+            ffi.IntPtr maxValue,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            int minValue,
+            int maxValue,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_echoDefaultIntLimits");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultTolerance = dylib.lookupFunction<
+        ffi.Double Function(
+            Env env,
+            ffi.Double tolerance,
+            OutCreatedRef _exn
+        ),
+        double Function(
+            Env env,
+            double tolerance,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_echoDefaultTolerance");
     TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaults = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3131,6 +3350,58 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Primitives_valueMapper");
+    TestAPI.ProtocolFixtures.f__iota_TestAPI_ProtocolFixtures_describeAProtocol = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            ffi.IntPtr x,
+            ffi.IntPtr y,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            int x,
+            int y,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ProtocolFixtures_describeAProtocol");
+    TestAPI.ProtocolFixtures.f__iota_TestAPI_ProtocolFixtures_returnAProtocol = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef value,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ProtocolFixtures_returnAProtocol");
+    TestAPI.PythonNamingCollisions.f__iota_TestAPI_PythonNamingCollisions_from = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_PythonNamingCollisions_from");
+    TestAPI.PythonNamingCollisions.f__iota_TestAPI_PythonNamingCollisions_keywordArgs = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            ffi.IntPtr m_class,
+            ffi.IntPtr list,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            int m_class,
+            int list,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_PythonNamingCollisions_keywordArgs");
     TestAPI.Ranges.f__iota_TestAPI_Ranges_echoInt16Range = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3251,6 +3522,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Ranges_echoUIntRange");
+    TestAPI.ReferenceCaseEnum.f__iota_TestAPI_ReferenceCaseEnum_rotate180 = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef direction,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef direction,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceCaseEnum_rotate180");
     TestAPI.ReferenceEmptyEnum.f__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -3271,6 +3554,30 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen");
+    TestAPI.ReferenceOnlyTypes_Marker.f__iota_TestAPI_ReferenceOnlyTypes_Marker_equals = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            UnownedRef lhs,
+            UnownedRef rhs,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceOnlyTypes_Marker_equals");
+    TestAPI.ReferenceOnlyTypes.f__iota_TestAPI_ReferenceOnlyTypes_marker = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ReferenceOnlyTypes_marker");
     TestAPI.Results.f__iota_TestAPI_Results_processResult = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -3283,6 +3590,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_Results_processResult");
+    TestAPI.ShadowBox.f__iota_TestAPI_ShadowBox_darkest = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef shades,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef shades,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_ShadowBox_darkest");
     TestAPI.SimpleEnum.f__iota_TestAPI_SimpleEnum_hexMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -5979,6 +6298,76 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Primitives_zeroUInt8");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions_URL = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions_URL");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions_Url = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions_Url");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions___dunder__ = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions___dunder__");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions_class = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions_class");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions_isNaN = dylib.lookupFunction<
+        ffi.Bool Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        bool Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions_isNaN");
+    TestAPI.PythonNamingCollisions.f__iota_get_TestAPI_PythonNamingCollisions_list = dylib.lookupFunction<
+        ffi.IntPtr Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_PythonNamingCollisions_list");
     TestAPI.Ranges.f__iota_get_TestAPI_Ranges_int16Range = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6079,6 +6468,28 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Ranges_uIntRange");
+    TestAPI.ReferenceCaseEnum.f__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection");
+    TestAPI.ReferenceCaseEnum.f__iota_get_TestAPI_ReferenceCaseEnum_opposite = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceCaseEnum_opposite");
     TestAPI.ReferenceEmptyEnum.f__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -6089,6 +6500,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty");
+    TestAPI.ReferenceOnlyTypes_Marker.f__iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash = dylib.lookupFunction<
+        ffi.Int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        int Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash");
     TestAPI.Results.f__iota_get_TestAPI_Results_aFailure = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -6109,6 +6532,18 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_Results_aSuccess");
+    TestAPI.ShadowBox.f__iota_get_TestAPI_ShadowBox_allShades = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef _this,
+            OutCreatedRef _exn
+        )
+    >("__iota_get_TestAPI_ShadowBox_allShades");
     TestAPI.SimpleEnum.f__iota_get_TestAPI_SimpleEnum_favoriteColor = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -7909,6 +8344,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_ArrayConverter<TestAPI.Shade>", () {
+        // print("setting up Array<Shade> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<TestAPI.Shade>(
+                Loader.shared.env,
+                "ArrayConverter<TestAPI.Shade>",
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_ArrayConverter<Swift.String>", () {
         // print("setting up Array<String> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -8162,6 +8608,16 @@ final ensureLoaded = (() {
 
     Loader.shared.once("setup_OptionalConverter<Swift.Int8>", () {
         // print("setting up Optional<Int8> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_OptionalConverter<TestAPI.Shade>", () {
+        // print("setting up Optional<Shade> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_OptionalConverter_setup(
                 Loader.shared.env,
@@ -8732,6 +9188,17 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.ReferenceOnlyTypes.Marker", () {
+        // print("setting up TestAPI.ReferenceOnlyTypes.Marker (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ReferenceOnlyTypes_Marker_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ReferenceOnlyTypes_Marker.ffi_new),
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Results.Error", () {
         // print("setting up TestAPI.Results.Error (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -8902,6 +9369,8 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractBar),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newNoValue),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNoValue),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newNone),
+                ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractNone),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.newSimpleEnum),
                 ffi.Pointer.fromFunction(TestAPI.AssociatedDataEnum.extractSimpleEnum),
                 exn
@@ -9064,11 +9533,50 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.ProtocolFixtures", () {
+        // print("setting up TestAPI.ProtocolFixtures (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ProtocolFixtures_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.PythonNamingCollisions", () {
+        // print("setting up TestAPI.PythonNamingCollisions (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_PythonNamingCollisions_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Ranges", () {
         // print("setting up TestAPI.Ranges (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Ranges_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.ReferenceCaseEnum", () {
+        // print("setting up TestAPI.ReferenceCaseEnum (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ReferenceCaseEnum_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newNorth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractNorth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newSouth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractSouth),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newEast),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractEast),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.newWest),
+                ffi.Pointer.fromFunction(TestAPI.ReferenceCaseEnum.extractWest),
                 exn
             );
         });
@@ -9084,11 +9592,49 @@ final ensureLoaded = (() {
         });
     });
 
+    Loader.shared.once("setup_TestAPI.ReferenceOnlyTypes", () {
+        // print("setting up TestAPI.ReferenceOnlyTypes (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ReferenceOnlyTypes_setup(
+                Loader.shared.env,
+                exn
+            );
+        });
+    });
+
     Loader.shared.once("setup_TestAPI.Results", () {
         // print("setting up TestAPI.Results (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             TestAPI_Results_setup(
                 Loader.shared.env,
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Shade", () {
+        // print("setting up TestAPI.Shade (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Shade_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_get_darkness, 0.0),
+                ffi.Pointer.fromFunction(TestAPI.Shade.ffi_set_darkness),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.ShadowBox", () {
+        // print("setting up TestAPI.ShadowBox (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_ShadowBox_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.enumDiscriminator, 0),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.newShade),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.extractShade),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.newEmpty),
+                ffi.Pointer.fromFunction(TestAPI.ShadowBox.extractEmpty),
                 exn
             );
         });

@@ -7,6 +7,7 @@ class NodePhases: BasePhases, Phases {
 
         // Possible TODO: should the `Platform` type be able to describe node-native on windows when building on a mac?
         for platform in ["macos", "ubuntu", "windows"] {
+            let packageOutputPath = nodePackageOutputPath(for: platform)
             let npmDependencies = [
                 (
                     swift: "FishyJoes",
@@ -23,13 +24,24 @@ class NodePhases: BasePhases, Phases {
                 )
             }
             let npmDependencyLines = npmDependencies.map { dependency in
-                let version = options.packageInfo?.dependencyMap[dependency.swift]?
-                    .versionInNpmFormat(
-                        relativeTo: "bindings/ts/generated/packages/node-native\(platform)",
-                        addIfLocalPath: dependency.subPath,
-                        flexibleVersions: options.config.flexibleVersions
-                    )
-                    ?? "0.0.1-unknown"
+                let version: String
+                if let swiftDependency = options.packageInfo?.dependencyMap[dependency.swift] {
+                    if let editedPath = options.editedDependencyPaths[swiftDependency.identity.lowercased()] {
+                        let localPath = relativePath(
+                            of: editedPath,
+                            relativeTo: packageOutputPath
+                        )
+                        version = "file:\(localPath)/\(dependency.subPath)"
+                    } else {
+                        version = swiftDependency.versionInNpmFormat(
+                            relativeTo: packageOutputPath,
+                            addIfLocalPath: dependency.subPath,
+                            flexibleVersions: options.config.flexibleVersions
+                        )
+                    }
+                } else {
+                    version = "0.0.1-unknown"
+                }
                 return #""@cricut/\#(dependency.npm)": "\#(version)""#
             }
             replacements["__NPM_DEPENDENCIES_\(platform)__"] = npmDependencyLines.joined(separator: ",\n    ")
@@ -51,6 +63,13 @@ class NodePhases: BasePhases, Phases {
         }
 
         return replacements
+    }
+
+    private func nodePackageOutputPath(for platform: String) -> String {
+        URL(fileURLWithPath: options.packageRootPath, isDirectory: true)
+            .appendingPathComponent("bindings/ts/generated/packages/node-native-\(platform)")
+            .standardizedFileURL
+            .path
     }
 
     override func preBuildPhase() throws {
@@ -92,7 +111,8 @@ class NodePhases: BasePhases, Phases {
 
         // Perform library installation and platform-specific customization
         // Find the path to the runtime
-        let runtimePath = "\(fishyJoesDependency.localPath)/node-runtime"
+        let fishyJoesPath = options.localPath(for: fishyJoesDependency)
+        let runtimePath = "\(fishyJoesPath)/node-runtime"
         guard cmd("test", "-d", runtimePath).runBool() else {
             fatalError("Could not find node runtime at: \(runtimePath)")
         }
@@ -126,10 +146,11 @@ class NodePhases: BasePhases, Phases {
             guard let dependency = options.packageInfo.dependencyMap[requiredModule] else {
                 fatalError("Could not locate dependency \(requiredModule) in Package.swift")
             }
+            let dependencyPath = options.localPath(for: dependency)
             return NodeModule(
                 name: requiredModule,
-                definitionsPath: "\(dependency.localPath)/bindings/ts/generated/\(requiredModule).d.ts.part",
-                extensionsPath: "\(dependency.localPath)/bindings/ts",
+                definitionsPath: "\(dependencyPath)/bindings/ts/generated/\(requiredModule).d.ts.part",
+                extensionsPath: "\(dependencyPath)/bindings/ts",
                 jsExports: [requiredModule],
                 tsExports: [requiredModule],
                 nativeLibName: "\(requiredModule)-node",
@@ -168,17 +189,17 @@ class NodePhases: BasePhases, Phases {
                 }
                 try cmd("cp", "\(platform.buildDir(buildConfig))/\(nodeModule.wasmMainShimName)", "\(outputDir)/\(nodeModule.name).wasm").run()
             }
-            try cmd("cp", "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
+            try cmd("cp", "\(fishyJoesPath)/Sources/FishyJoesNodeRuntime/Templates/wasm-napi.js", outputDir).run()
 
             // Create the required Javascript files for loading the module's Wasm bundle
             try template(
-                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.js",
+                inPath: "\(fishyJoesPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.js",
                 outPath: "\(outputDir)/\(nodeModule.name).js",
                 moduleName: nodeModule.name,
                 dependencies: nodeDependencies.map(\.name)
             )
             try template(
-                inPath: "\(fishyJoesDependency.localPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.browser.js",
+                inPath: "\(fishyJoesPath)/Sources/FishyJoesNodeRuntime/Templates/__MODULE_NAME__.browser.js",
                 outPath: "\(outputDir)/\(nodeModule.name).browser.js",
                 moduleName: nodeModule.name,
                 dependencies: nodeDependencies.map(\.name)
@@ -220,7 +241,7 @@ class NodePhases: BasePhases, Phases {
             try clangBuild(
                 sources: ["\(shimDir)/NAPIRegisterModule.c"],
                 dependencies: [nodeModule.nativeLibName],
-                headerSearchPaths: ["\(fishyJoesDependency.localPath)/Sources/NodeAPI/include"],
+                headerSearchPaths: ["\(fishyJoesPath)/Sources/NodeAPI/include"],
                 librarySearchPaths: [platform.buildDir(buildConfig), platform.extraLibPathDir()],
                 outputPath: "\(platform.buildDir(buildConfig))/\(platform.dylibName(for: nodeModule.nodeShimLibName))",
                 configuration: buildConfig
@@ -360,6 +381,7 @@ class NodePhases: BasePhases, Phases {
     }
 
     func testPhase() throws {
+        let generatedNodeModules = "\(FileManager.default.currentDirectoryPath)/\(platform.outputDir(options.config))/node_modules"
         try withDirectory("bindings/ts/tests") {
             let addEnv = options.codeCoveragePath.map {
                 [
@@ -367,7 +389,8 @@ class NodePhases: BasePhases, Phases {
                     "NODE_V8_COVERAGE": "\($0)/node",
                 ]
             } ?? [:]
-            try npm("run", "test-\(platform.nodeExecutionEnvironment)", addEnv: addEnv).run()
+            let testEnv = addEnv.merging(["NODE_PATH": generatedNodeModules]) { current, _ in current }
+            try npm("run", "test-\(platform.nodeExecutionEnvironment)", addEnv: testEnv).run()
         }
     }
 

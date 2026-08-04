@@ -13,7 +13,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
      */
     override var corge: kotlin.String
       get() = __jni_get_corge()
-      set(value) { __jni_set_corge(value) } 
+      set(value) { __jni_set_corge(value) }
     @JvmName("__jni_get_corge")
     private external fun __jni_get_corge(): kotlin.String
     @JvmName("__jni_set_corge")
@@ -24,7 +24,7 @@ class TestProtocolClass private constructor(_swiftReference: Long): com.cricut.f
      */
     override var flarp: kotlin.String?
       get() = __jni_get_flarp()
-      set(value) { __jni_set_flarp(value) } 
+      set(value) { __jni_set_flarp(value) }
     @JvmName("__jni_get_flarp")
     private external fun __jni_get_flarp(): kotlin.String?
     @JvmName("__jni_set_flarp")

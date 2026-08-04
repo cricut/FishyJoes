@@ -53,4 +53,18 @@ struct TranslatedDictionary: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let key = keyType.pythonRepresentation(in: context.recursingIntoChild()),
+              let value = valueType.pythonRepresentation(in: context.recursingIntoChild()),
+              let keyConversion = key.conversionDescriptor,
+              let valueConversion = value.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: .container("dict", [key.annotation, value.annotation]),
+            cType: "foreignObject",
+            conversion: "_native.Dictionary(\"\(converterType.name)\", \(keyConversion), \(valueConversion))"
+        )
+    }
 }

@@ -1023,7 +1023,7 @@ sealed class Primitives {
              */
             var staticMutableProperty: kotlin.collections.List<UByte?>
               get() = __jni_get_staticMutableProperty()
-              set(value) { __jni_set_staticMutableProperty(value) } 
+              set(value) { __jni_set_staticMutableProperty(value) }
             @JvmStatic
             @JvmName("__jni_get_staticMutableProperty")
             private external fun __jni_get_staticMutableProperty(): kotlin.collections.List<UByte?>

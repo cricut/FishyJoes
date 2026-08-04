@@ -124,6 +124,22 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_AsyncFunctions_willThrow(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <!-- FishyJoes.export(delayedConst) -->
+        /// </summary>
+        public static System.Threading.Tasks.Task<nint> DelayedConst(
+            nint nanoseconds
+        ) {
+            return Check((out CreatedRef _exn) => __iota_TestAPI_AsyncFunctions_delayedConst(Loader.env, nanoseconds, out _exn)).Consume<System.Threading.Tasks.Task<nint>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_AsyncFunctions_delayedConst(
+            IntPtr envRef,
+            nint nanoseconds,
+            out CreatedRef exn
+        );
+
+        /// <summary>
         /// <!-- FishyJoes.export(exercise0) -->
         /// </summary>
         public static System.Threading.Tasks.Task<string> Exercise0(

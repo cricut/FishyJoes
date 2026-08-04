@@ -6,12 +6,14 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
+    /// <para>A reference type with playful members for binding coverage.</para>
     /// <!-- FishyJoes.exportReference(EmptyClass1) -->
     /// </summary>
     public class EmptyClass1 : SwiftReference {
         internal EmptyClass1(ConsumedRef reference): base(reference) {}
 
         /// <summary>
+        /// <para>A cheerful nonsense string.</para>
         /// <!-- FishyJoes.export(blarg) -->
         /// </summary>
         public string GetBlarg() {
@@ -52,6 +54,7 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <para>Returns a short pirate greeting.</para>
         /// <!-- FishyJoes.export(shme) -->
         /// </summary>
         public string Shme(

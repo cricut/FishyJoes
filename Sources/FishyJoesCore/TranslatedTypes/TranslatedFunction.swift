@@ -116,4 +116,32 @@ struct TranslatedFunction: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        let parameterRepresentations = parameters.compactMap { $0.pythonRepresentation(in: context.recursingIntoChild()) }
+        guard parameterRepresentations.count == parameters.count,
+              let returnRepresentation = returnType.pythonRepresentation(in: context.recursingIntoChild()) else {
+            return nil
+        }
+        let parameterConversions = parameterRepresentations.compactMap(\.conversionDescriptor)
+        guard parameterConversions.count == parameters.count,
+              let returnConversion = returnRepresentation.conversionDescriptor else {
+            return nil
+        }
+        let annotation = PythonType.callable(
+            parameters: parameterRepresentations.map(\.annotation),
+            returnType: isAsync ? .awaitable(returnRepresentation.annotation) : returnRepresentation.annotation
+        )
+        let conversion: String
+        if isAsync {
+            conversion = "_native.AsyncFunction(\"\(converterType.name)\", \"\(translatedFutureFunction.converterType.name)\", [\(parameterConversions.joined(separator: ", "))], \(returnConversion))"
+        } else {
+            conversion = "_native.Function(\"\(converterType.name)\", [\(parameterConversions.joined(separator: ", "))], \(returnConversion))"
+        }
+        return PythonRepresentation(
+            annotation: annotation,
+            cType: "foreignObject",
+            conversion: conversion
+        )
+    }
 }
