@@ -54,6 +54,74 @@ struct ExportAnnotation: Hashable {
         case asReference = "exportReference"
         case asMethod = "exportAsMethod"
     }
+
+    enum ParseError: Error, Equatable {
+        case invalidSyntax
+        case unknownKind(String)
+        case invalidExportName([SimpleParse])
+    }
+
+    struct ParsedDocumentationHeader: Equatable {
+        let annotationText: String
+        let kind: Kind
+        let exportName: String
+        let remainingTree: [SimpleParse]
+    }
+
+    private static let annotationPattern = try! NSRegularExpression(
+        pattern: #"^\s*<!--\s*FishyJoes\.([A-Za-z_][A-Za-z0-9_]*)\((.*)\)\s*-->\s*$"#
+    )
+
+    static func parseDocumentationHeader(from docLine: String) -> Result<ParsedDocumentationHeader, ParseError>? {
+        guard let rawAnnotation = rawAnnotationText(in: docLine) else { return nil }
+
+        let nsString = rawAnnotation as NSString
+        guard let match = annotationPattern.firstMatch(
+            in: rawAnnotation,
+            range: NSRange(location: 0, length: nsString.length)
+        ) else {
+            return .failure(.invalidSyntax)
+        }
+
+        let annotationName = nsString.substring(with: match.range(at: 1))
+        guard let kind = Kind(rawValue: annotationName) else {
+            return .failure(.unknownKind(annotationName))
+        }
+
+        let parseString = nsString.substring(with: match.range(at: 2))
+        guard var tree = SimpleParse.parse(parseString) else {
+            return .failure(.invalidSyntax)
+        }
+
+        let exportName: String
+        switch tree.first3 {
+        case (.token(let name), nil, nil), (.token(let name), .comma, .some):
+            exportName = name
+            tree.removeFirst(min(2, tree.count))
+        default:
+            return .failure(.invalidExportName(tree))
+        }
+
+        return .success(
+            .init(
+                annotationText: rawAnnotation,
+                kind: kind,
+                exportName: exportName,
+                remainingTree: tree
+            )
+        )
+    }
+
+    private static func rawAnnotationText(in line: String) -> String? {
+        guard let start = line.range(of: "<!--"),
+              let end = line.range(of: "-->", range: start.upperBound ..< line.endIndex)
+        else {
+            return nil
+        }
+        let rawAnnotation = line[start.lowerBound ..< end.upperBound].trimmingCharacters(in: .whitespaces)
+        guard rawAnnotation.contains("FishyJoes.") else { return nil }
+        return rawAnnotation
+    }
 }
 
 extension ExportAnnotation.SimpleParse {
@@ -155,35 +223,26 @@ extension ExportAnnotation.SimpleParse.Reader {
     }
 }
 
-private let annotationPattern = try! NSRegularExpression(pattern: #"^\s*<!--\s*FishyJoes\.(.*)\((.*)\)\s*-->\s*$"#)
-
 extension Documented {
     var exportAnnotation: ExportAnnotation? {
         for docLine in documentation {
-            let nsString = docLine as NSString
-            guard let match = annotationPattern.firstMatch(in: docLine, range: NSRange(location: 0, length: nsString.length)) else {
-                continue
-            }
-            let annotationName = nsString.substring(with: match.range(at: 1))
-            guard let kind = ExportAnnotation.Kind(rawValue: annotationName) else {
+            guard let parsedHeader = ExportAnnotation.parseDocumentationHeader(from: docLine) else { continue }
+
+            let header: ExportAnnotation.ParsedDocumentationHeader
+            switch parsedHeader {
+            case .success(let parsed):
+                header = parsed
+            case .failure(.unknownKind):
                 // TODO: remove after things stabilize to allow compatibility with other templates
                 fatalErr("unknown FishyJoes annotation: \(docLine)")
                 // continue
-            }
-
-            let parseString = nsString.substring(with: match.range(at: 2))
-            guard var tree = ExportAnnotation.SimpleParse.parse(parseString) else {
+            case .failure(.invalidSyntax):
                 fatalErr("couldn't parse annotation: \(docLine)")
-            }
-
-            let exportName: String
-            switch tree.first3 {
-            case (.token(let name), nil, nil), (.token(let name), .comma, .some):
-                exportName = name
-                tree.removeFirst(min(2, tree.count))
-            default:
+            case .failure(.invalidExportName(let tree)):
                 fatalErr("Expected export name first in export annotation: \(tree.map(\.asString))")
             }
+
+            let tree = header.remainingTree
 
             var attrs: [AttributeName: ExportAnnotation.SimpleParse] = [:]
             for commaSeparatedBit in tree.split(separator: .comma).map({ Array($0) }) {
@@ -267,8 +326,8 @@ extension Documented {
             // }
 
             return ExportAnnotation(
-                kind: kind,
-                name: exportName,
+                kind: header.kind,
+                name: header.exportName,
                 cSharpName: cSharpName,
                 isOverride: isOverride,
                 noReturn: noReturn,
