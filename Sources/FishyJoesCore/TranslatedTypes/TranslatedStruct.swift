@@ -50,7 +50,7 @@ struct TranslatedStruct: TranslatedType {
         }
         return PythonRepresentation(
             annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: context.pythonValueTypeDescriptor(for: self)
         )
     }
@@ -525,12 +525,12 @@ struct TranslatedStruct: TranslatedType {
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.type)
-                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType,")
                 if storedVar.isMutable {
-                    fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                    fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void,")
                 }
             }
-            fragment.output("_ exn: foreignOutExn")
+            fragment.output("_ exn: OutHostException")
         }
         fragment.outputBlock(" {") {
             fragment.output("let env = Env(envRef)")
@@ -548,22 +548,22 @@ struct TranslatedStruct: TranslatedType {
         fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaMutator {") {
             for storedVar in storedVariables {
                 let resolved = context.resolve(type: storedVar.type)
-                fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType>()")
                 if storedVar.isMutable {
-                    fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                    fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void>()")
                 }
             }
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> HostObject") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.type)
                     fragment.output("\(resolved.converterType.name).CType,")
                 }
-                fragment.output("_ exn: foreignOutExn")
+                fragment.output("_ exn: OutHostException")
             }
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: HostObject, env: Env) throws -> Self {") {
                 fragment.outputBlock("Self(") {
                     for (index, storedVar) in storedVariables.enumerated() {
                         let resolved = context.resolve(type: storedVar.type)
@@ -577,7 +577,7 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> HostObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod[env](") {
                         for storedVar in storedVariables {
@@ -590,7 +590,7 @@ struct TranslatedStruct: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {") {
+            fragment.outputBlock("public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {") {
                 for storedVar in storedVariables {
                     let resolved = context.resolve(type: storedVar.type)
                     if storedVar.isMutable {

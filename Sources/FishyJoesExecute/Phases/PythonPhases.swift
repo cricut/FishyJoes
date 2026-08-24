@@ -1,6 +1,6 @@
+import FishyJoesCore
 import Foundation
 import swsh
-import FishyJoesCore
 
 class PythonPhases: IotaPhases, Phases {
     func generationPhaseTemplateReplacements() throws -> [String: String] {

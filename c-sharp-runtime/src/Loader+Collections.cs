@@ -6,8 +6,8 @@ using static Cricut.FishyJoesRuntime.Utilities;
 namespace Cricut.FishyJoesRuntime {
     public partial class Loader {
 
-        delegate int collection_Length(IntPtr context, UnownedRef array, out CreatedRef exn);
-        unsafe delegate void collection_Values(IntPtr context, UnownedRef arr, CreatedRef* outValues, out CreatedRef exn);
+        delegate int collection_Length(IntPtr context, UnownedRef collection, out CreatedRef exn);
+        unsafe delegate void collection_Values(IntPtr context, UnownedRef collection, CreatedRef* outValues, out CreatedRef exn);
         unsafe delegate CreatedRef collection_Constructor(IntPtr context, UnownedRef* objects, int length, out CreatedRef exn);
 
         [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

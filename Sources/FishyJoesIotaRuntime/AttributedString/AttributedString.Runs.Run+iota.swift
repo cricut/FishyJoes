@@ -1,14 +1,14 @@
 import Foundation
 
 extension AttributedString.Runs.Run: IotaReferenceMutator {
-    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = IotaSwiftReferenceConstructor
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributedString.Runs.Run {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> AttributedString.Runs.Run {
         try Box<AttributedString.Runs.Run>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: AttributedString.Runs.Run, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: AttributedString.Runs.Run, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
     }
@@ -18,7 +18,7 @@ extension AttributedString.Runs.Run: IotaReferenceMutator {
 public func FishyJoesRuntime_iota_AttributedString_Runs_Run_setup(
     envRef: EnvRef,
     constructor: @escaping AttributedString.Runs.Run.Constructor,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if AttributedString.Runs.Run.constructor.isInitialized(env) { return }
@@ -28,8 +28,8 @@ public func FishyJoesRuntime_iota_AttributedString_Runs_Run_setup(
 @_cdecl("__iota_get_Foundation_AttributedString_Runs_Run_range")
 public func __iota_get_Foundation_AttributedString_Runs_Run_range(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> RangeConverter<AttributedString.Index>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -43,8 +43,8 @@ public func __iota_get_Foundation_AttributedString_Runs_Run_range(
 @_cdecl("__iota_get_Foundation_AttributedString_Runs_Run_attributes")
 public func __iota_get_Foundation_AttributedString_Runs_Run_attributes(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributeContainer.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -58,9 +58,9 @@ public func __iota_get_Foundation_AttributedString_Runs_Run_attributes(
 @_cdecl("__iota_Foundation_AttributedString_Runs_Run_equals")
 public func AttributedString_Runs_Run_iotaEquals(
     envRef: EnvRef,
-    lhs: foreignObject,
-    rhs: foreignObject,
-    _exn: foreignOutExn
+    lhs: HostObject,
+    rhs: HostObject,
+    _exn: OutHostException
 ) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -74,8 +74,8 @@ public func AttributedString_Runs_Run_iotaEquals(
 @_cdecl("__iota_get_Foundation_AttributedString_Runs_Run_hash")
 public func AttributedString_Runs_Run_iotaHash(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {

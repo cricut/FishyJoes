@@ -1,14 +1,14 @@
 import Foundation
 
 extension AttributedSubstring: IotaReferenceMutator {
-    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = IotaSwiftReferenceConstructor
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributedSubstring {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> AttributedSubstring {
         try Box<AttributedSubstring>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: AttributedSubstring, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: AttributedSubstring, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
     }
@@ -18,7 +18,7 @@ extension AttributedSubstring: IotaReferenceMutator {
 public func FishyJoesRuntime_iota_AttributedSubstring_setup(
     envRef: EnvRef,
     constructor: @escaping AttributedSubstring.Constructor,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if AttributedSubstring.constructor.isInitialized(env) { return }
@@ -28,8 +28,8 @@ public func FishyJoesRuntime_iota_AttributedSubstring_setup(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_base")
 public func __iota_get_Foundation_AttributedSubstring_base(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -43,8 +43,8 @@ public func __iota_get_Foundation_AttributedSubstring_base(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_string")
 public func __iota_get_Foundation_AttributedSubstring_string(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -59,8 +59,8 @@ public func __iota_get_Foundation_AttributedSubstring_string(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_runs")
 public func __iota_get_Foundation_AttributedSubstring_runs(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.Runs.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -74,8 +74,8 @@ public func __iota_get_Foundation_AttributedSubstring_runs(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_characters")
 public func __iota_get_Foundation_AttributedSubstring_characters(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.CharacterView.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -89,8 +89,8 @@ public func __iota_get_Foundation_AttributedSubstring_characters(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_unicodeScalars")
 public func __iota_get_Foundation_AttributedSubstring_unicodeScalars(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.UnicodeScalarView.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -104,8 +104,8 @@ public func __iota_get_Foundation_AttributedSubstring_unicodeScalars(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_startIndex")
 public func __iota_get_Foundation_AttributedSubstring_startIndex(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -119,8 +119,8 @@ public func __iota_get_Foundation_AttributedSubstring_startIndex(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_endIndex")
 public func __iota_get_Foundation_AttributedSubstring_endIndex(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -134,8 +134,8 @@ public func __iota_get_Foundation_AttributedSubstring_endIndex(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_substring")
 public func __iota_get_Foundation_AttributedSubstring_substring(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedSubstring.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -150,9 +150,9 @@ public func __iota_get_Foundation_AttributedSubstring_substring(
 @_cdecl("__iota_Foundation_AttributedSubstring_substringForRange")
 public func __iota_Foundation_AttributedSubstring_substringForRange(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     range: RangeConverter<AttributedString.Index>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributedSubstring.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -168,9 +168,9 @@ public func __iota_Foundation_AttributedSubstring_substringForRange(
 @_cdecl("__iota_Foundation_AttributedSubstring_equals")
 public func AttributedSubstring_iotaEquals(
     envRef: EnvRef,
-    lhs: foreignObject,
-    rhs: foreignObject,
-    _exn: foreignOutExn
+    lhs: HostObject,
+    rhs: HostObject,
+    _exn: OutHostException
 ) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -189,8 +189,8 @@ public func AttributedSubstring_iotaEquals(
 @_cdecl("__iota_get_Foundation_AttributedSubstring_hash")
 public func AttributedSubstring_iotaHash(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -204,7 +204,7 @@ public func AttributedSubstring_iotaHash(
 @_cdecl("__iota_Foundation_AttributedSubstring_createEmpty")
 public func __iota_Foundation_AttributedSubstring_createEmpty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributedSubstring.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {

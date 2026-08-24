@@ -6,7 +6,7 @@ namespace Cricut.FishyJoesRuntime;
 
 public partial class Loader {
     delegate CreatedRef SwiftRangeLowerBoundGetter(IntPtr context, UnownedRef obj, out CreatedRef exn);
-    delegate CreatedRef SwiftRangeUpperBoundGetter(IntPtr context,UnownedRef obj, out CreatedRef exn);
+    delegate CreatedRef SwiftRangeUpperBoundGetter(IntPtr context, UnownedRef obj, out CreatedRef exn);
     delegate CreatedRef SwiftRangeConstructor(IntPtr context, UnownedRef lowerBound, UnownedRef upperBound, out CreatedRef exn);
 
     [DllImport("FishyJoesIotaRuntime", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]

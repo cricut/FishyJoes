@@ -1,7 +1,5 @@
 """Read Windows PE import tables needed for runtime-wheel DLL bundling."""
 
-from __future__ import annotations
-
 import contextlib
 from pathlib import Path
 

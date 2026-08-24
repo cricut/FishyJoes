@@ -140,7 +140,7 @@ struct TranslatedFunction: TranslatedType {
         }
         return PythonRepresentation(
             annotation: annotation,
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: conversion
         )
     }

@@ -59,7 +59,7 @@ extension ExternalTranslatedType: TranslatedType {
         }
         return PythonRepresentation(
             annotation: context.pythonExternalClassType(self),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: conversion
         )
     }

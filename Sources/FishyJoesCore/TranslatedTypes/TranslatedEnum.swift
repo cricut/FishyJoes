@@ -98,7 +98,7 @@ struct TranslatedEnum: TranslatedType {
         }
         return PythonRepresentation(
             annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: context.pythonValueTypeDescriptor(for: self)
         )
     }

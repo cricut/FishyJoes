@@ -87,7 +87,7 @@ struct PythonRepresentation {
     /// embeds for its element, and what a value-type field descriptor uses.
     ///
     /// `nil` here means there is genuinely no descriptor for this C type (e.g.
-    /// an opaque `foreignObject` with no conversion), preserving the old
+    /// an opaque `HostObject` with no conversion), preserving the old
     /// `descriptorExpression`'s `None` default as a `nil` signal callers turn
     /// into `"None"` where a descriptor literal is required.
     var conversionDescriptor: String? {

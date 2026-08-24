@@ -27,8 +27,8 @@ typedef _UriConstructor = CreatedRef Function(UnownedRef string, OutCreatedRef e
 typedef _Foundation_URL_setup<R> =
     R Function(
       Env env,
-      ffi.Pointer<ffi.NativeFunction<_UriAbsoluteURIMethod>> getLengthMethod,
-      ffi.Pointer<ffi.NativeFunction<_UriConstructor>> getBytesMethod,
+      ffi.Pointer<ffi.NativeFunction<_UriAbsoluteURIMethod>> absoluteURIMethod,
+      ffi.Pointer<ffi.NativeFunction<_UriConstructor>> constructor,
     );
 
 extension LoaderMisc on Loader {

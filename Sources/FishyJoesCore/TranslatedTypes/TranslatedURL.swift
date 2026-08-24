@@ -15,7 +15,7 @@ struct TranslatedURL: TranslatedType {
         // The Python annotation for a URL is `str` (matching the old switch).
         PythonRepresentation(
             annotation: PythonType(annotation: "str"),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.URL"
         )
     }

@@ -65,7 +65,7 @@ struct TranslatedResult: TranslatedType {
                 success: successRepresentation.annotation,
                 failure: failureRepresentation.annotation
             ),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Result(\"\(converterType.name)\", \(successConversion), \(failureConversion))"
         )
     }

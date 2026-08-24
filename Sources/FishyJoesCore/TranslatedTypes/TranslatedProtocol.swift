@@ -70,7 +70,7 @@ struct TranslatedProtocol: TranslatedType {
         }
         return PythonRepresentation(
             annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: context.pythonProtocolTypeDescriptor(for: self)
         )
     }
@@ -657,23 +657,23 @@ struct TranslatedProtocol: TranslatedType {
             fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
             for field in fields {
                 let resolved = context.resolve(type: field.type)
-                fragment.output("_ \(field.name)Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType,")
+                fragment.output("_ \(field.name)Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType,")
                 if field.isMutable {
-                    fragment.output("_ \(field.name)Setter: @escaping @convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void,")
+                    fragment.output("_ \(field.name)Setter: @escaping @convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void,")
                 }
             }
             for method in methods {
                 let resolvedReturnType = context.resolve(type: method.returnType)
                 fragment.outputBlock("_ \(method.callName): @escaping @convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType,") {
-                    fragment.output("foreignObject,")
+                    fragment.output("HostObject,")
                     for param in method.parameters {
                         let resolvedParam = context.resolve(type: param.type)
                         fragment.output("\(resolvedParam.converterType.name).CType,")
                     }
-                    fragment.output("_ exn: foreignOutExn")
+                    fragment.output("_ exn: OutHostException")
                 }
             }
-            fragment.output("_ exn: foreignOutExn")
+            fragment.output("_ exn: OutHostException")
         }
         fragment.outputBlock(" {") {
             fragment.output("let env = Env(envRef)")
@@ -692,34 +692,34 @@ struct TranslatedProtocol: TranslatedType {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaConverter {") {
-            fragment.output("public typealias CType = foreignObject")
+            fragment.output("public typealias CType = HostObject")
 
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> foreignObject") {
+            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> HostObject") {
                 fragment.output("_ ref: UnsafeMutableRawPointer,")
-                fragment.output("_ exn: foreignOutExn")
+                fragment.output("_ exn: OutHostException")
             }
             fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             for field in fields {
                 let resolved = context.resolve(type: field.type)
-                fragment.output("fileprivate static let _\(field.name)Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> \(resolved.converterType.name).CType>()")
+                fragment.output("fileprivate static let _\(field.name)Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType>()")
                 if field.isMutable {
-                    fragment.output("fileprivate static let _\(field.name)Setter = Env.CallbackMap<@convention(c) (foreignObject, \(resolved.converterType.name).CType, _ exn: foreignOutExn) -> Void>()")
+                    fragment.output("fileprivate static let _\(field.name)Setter = Env.CallbackMap<@convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void>()")
                 }
             }
             for method in methods {
                 let resolvedReturnType = context.resolve(type: method.returnType)
                 fragment.outputBlock("fileprivate static let _\(method.callName) = Env.CallbackMap<@convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType>()") {
-                    fragment.output("foreignObject,")
+                    fragment.output("HostObject,")
                     for param in method.parameters {
                         let resolvedParam = context.resolve(type: param.type)
                         fragment.output("\(resolvedParam.converterType.name).CType,")
                     }
-                    fragment.output("_ exn: foreignOutExn")
+                    fragment.output("_ exn: OutHostException")
                 }
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {") {
+            fragment.outputBlock("public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {") {
                 fragment.outputBlock("do {", newLineTerminated: false) {
                     fragment.output("let box = try Box<SwiftType>.peekIota(value, env: env)")
                     fragment.output("return box.value")
@@ -731,7 +731,7 @@ struct TranslatedProtocol: TranslatedType {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
                     fragment.outputBlock("_constructorMethod[env](") {
                         fragment.output("Box(value).retainedOpaque(),")

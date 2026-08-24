@@ -4,25 +4,25 @@ import Foundation
 public struct IotaSwiftFuture {
     public typealias Constructor = @convention(c) (
         _ context: OpaquePointer,
-        _ outPromise: UnsafeMutablePointer<foreignObject>,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ outPromise: UnsafeMutablePointer<HostObject>,
+        _ exn: OutHostException
+    ) -> HostObject
     public typealias SinkFutureMethod = @convention(c) (
         _ context: OpaquePointer,
-        _ future: foreignObject,
-        _ handlerContext: foreignObject,
-        _ exn: foreignOutExn
+        _ future: HostObject,
+        _ handlerContext: HostObject,
+        _ exn: OutHostException
     ) -> Void
     public typealias ResolveRejectMethod = @convention(c) (
         _ context: OpaquePointer,
-        _ promise: foreignObject,
-        _ result: foreignObject,
-        _ exn: foreignOutExn
+        _ promise: HostObject,
+        _ result: HostObject,
+        _ exn: OutHostException
     ) -> Void
 
     static var interfaces = Env.CallbackMap<[ObjectIdentifier: IotaSwiftFuture]>()
 
-    typealias SinkContext = (Result<foreignObject, any Error>, Env) -> Void
+    typealias SinkContext = (Result<HostObject, any Error>, Env) -> Void
 
     var constructor: Constructor
     var sinkFutureMethod: SinkFutureMethod
@@ -30,35 +30,35 @@ public struct IotaSwiftFuture {
     var rejectMethod: ResolveRejectMethod
     var context: OpaquePointer
 
-    public func construct(env: Env) throws -> (foreignObject, foreignObject) {
-        var promise: foreignObject = nil
+    public func construct(env: Env) throws -> (HostObject, HostObject) {
+        var promise: HostObject = nil
         let future = try env.check { exn in constructor(context, &promise, exn) }
         return (future, promise)
     }
 
-    public func sink(future: foreignObject, handlerContext: foreignObject, env: Env) throws {
+    public func sink(future: HostObject, handlerContext: HostObject, env: Env) throws {
         try env.check { exn in sinkFutureMethod(context, future, handlerContext, exn) }
     }
 
-    public func resolve(promise: foreignObject, _ value: foreignObject, env: Env) throws {
+    public func resolve(promise: HostObject, _ value: HostObject, env: Env) throws {
         try env.check { exn in resolveMethod(context, promise, value, exn) }
     }
-    public func reject(promise: foreignObject, _ error: foreignObject, env: Env) throws {
+    public func reject(promise: HostObject, _ error: HostObject, env: Env) throws {
         try env.check { exn in rejectMethod(context, promise, error, exn) }
     }
 }
 
 private struct SendableForeignObject: @unchecked Sendable {
-    let value: foreignObject
+    let value: HostObject
 }
 
 @_cdecl("FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler")
 public func FutureConverter_invokeSinkHandler(
     envRef: EnvRef,
-    context: foreignObject,
+    context: HostObject,
     success: UInt32,
-    result: foreignObject,
-    exn: foreignOutExn
+    result: HostObject,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: exn) {
@@ -80,7 +80,7 @@ public func FutureConverter_iota_setup(
     resolveMethod: @escaping IotaSwiftFuture.ResolveRejectMethod,
     rejectMethod: @escaping IotaSwiftFuture.ResolveRejectMethod,
     context: OpaquePointer,
-    exn: foreignOutExn
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
@@ -99,7 +99,7 @@ public func FutureConverter_iota_setup(
 }
 
 extension FutureConverter: IotaConverter where OutputConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let interface = IotaSwiftFuture.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -120,7 +120,7 @@ extension FutureConverter: IotaConverter where OutputConverter: IotaConverter {
         return future
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let interface = IotaSwiftFuture.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }

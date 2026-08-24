@@ -93,7 +93,7 @@ struct TranslatedTuple: TranslatedType {
         }
         return PythonRepresentation(
             annotation: .container("tuple", representations.map(\.annotation)),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Tuple(\"\(converterType.name)\", [\(elementConversions.joined(separator: ", "))])"
         )
     }

@@ -2,15 +2,15 @@ import FishyJoesCommonRuntime
 import Foundation
 
 public class IotaReference {
-    public let object: foreignObject
+    public let object: HostObject
     public let env: Env
 
-    public init(_ object: foreignObject, env: Env) throws {
+    public init(_ object: HostObject, env: Env) throws {
         self.env = env
         self.object = object.flatMap(env.newRef)
     }
 
-    public init(take object: foreignObject, env: Env) {
+    public init(take object: HostObject, env: Env) {
         self.env = env
         self.object = object
     }

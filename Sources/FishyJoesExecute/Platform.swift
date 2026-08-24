@@ -1,7 +1,7 @@
+import FishyJoesCore
 import Foundation
 import RegexBuilder
 import swsh
-import FishyJoesCore
 import ToolchainConfig
 
 struct BuildConfiguration: Hashable {
@@ -230,8 +230,7 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             let envStr = env.map {
                 escape("\($0.key)=\($0.value)")
             }.joined(separator: " ")
-            print()
-            print("env \(envStr) \\")
+            fputs("\nenv \(envStr) \\", stderr)
         }
         return cmd(path, arguments: args, addEnv: env)
     }

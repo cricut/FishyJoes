@@ -1,14 +1,14 @@
 import Foundation
 
 extension AttributedString.Runs.Index: IotaReferenceMutator {
-    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = IotaSwiftReferenceConstructor
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributedString.Runs.Index {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> AttributedString.Runs.Index {
         try Box<AttributedString.Runs.Index>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: AttributedString.Runs.Index, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: AttributedString.Runs.Index, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
     }
@@ -18,7 +18,7 @@ extension AttributedString.Runs.Index: IotaReferenceMutator {
 public func FishyJoesRuntime_iota_AttributedString_Runs_Index_setup(
     envRef: EnvRef,
     constructor: @escaping AttributedString.Runs.Index.Constructor,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if AttributedString.Runs.Index.constructor.isInitialized(env) { return }
@@ -28,9 +28,9 @@ public func FishyJoesRuntime_iota_AttributedString_Runs_Index_setup(
 @_cdecl("__iota_Foundation_AttributedString_Runs_Index_equals")
 public func AttributedString_Runs_Index_iotaEquals(
     envRef: EnvRef,
-    lhs: foreignObject,
-    rhs: foreignObject,
-    _exn: foreignOutExn
+    lhs: HostObject,
+    rhs: HostObject,
+    _exn: OutHostException
 ) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -45,8 +45,8 @@ public func AttributedString_Runs_Index_iotaEquals(
 @_cdecl("__iota_get_Foundation_AttributedString_Runs_Index_hash")
 public func AttributedString_Runs_Index_iotaHash(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -68,9 +68,9 @@ public func AttributedString_Runs_Index_iotaHash(
 @_cdecl("__iota_Foundation_AttributedString_Runs_Index_compare")
 public func AttributedString_Runs_Index_iotaCompare(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    other: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    other: HostObject,
+    _exn: OutHostException
 ) -> Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {

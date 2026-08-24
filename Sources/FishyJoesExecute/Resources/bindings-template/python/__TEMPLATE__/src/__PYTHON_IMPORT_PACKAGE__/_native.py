@@ -1,14 +1,12 @@
 # __AUTOGEN_WARNING__
 
-from __future__ import annotations
-
 from pathlib import Path
 
-from fishyjoes_runtime import RuntimeConfig, RuntimeDependency, create_runtime
+from fishyjoes_runtime import RuntimeConfig, RuntimeDependency, Runtime
 
 
 _PACKAGE_DIR = Path(__file__).resolve().parent
-_RUNTIME_EXPORTS = create_runtime(
+_RUNTIME_EXPORTS = Runtime(
     RuntimeConfig(
         package_dir=_PACKAGE_DIR,
         module_name="__MODULE_NAME__",

@@ -63,7 +63,7 @@ struct TranslatedDictionary: TranslatedType {
         }
         return PythonRepresentation(
             annotation: .container("dict", [key.annotation, value.annotation]),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Dictionary(\"\(converterType.name)\", \(keyConversion), \(valueConversion))"
         )
     }

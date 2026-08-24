@@ -49,7 +49,7 @@ struct TranslatedReference: TranslatedType {
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         PythonRepresentation(
             annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: context.pythonValueTypeDescriptor(for: self)
         )
     }
@@ -359,8 +359,8 @@ struct TranslatedReference: TranslatedType {
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
-            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,")
-            fragment.output("_ exn: foreignOutExn")
+            fragment.output("constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,")
+            fragment.output("_ exn: OutHostException")
         }
         fragment.outputBlock(" {") {
             fragment.output("let env = Env(envRef)")
@@ -370,15 +370,15 @@ struct TranslatedReference: TranslatedType {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaReferenceMutator {") {
-            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()")
+            fragment.output("fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()")
             fragment.blankLine()
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> \(sourceType.name) {") {
+            fragment.outputBlock("public static func peekIota(_ value: HostObject, env: Env) throws -> \(sourceType.name) {") {
                 fragment.output("try Box<\(sourceType.name)>.peekIota(value, env: env).value")
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name), env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: \(sourceType.name), env: Env) throws -> HostObject {") {
                 if !isInhabited {
                     fragment.output("// Uninhabited type")
                 } else {
@@ -395,7 +395,7 @@ struct TranslatedReference: TranslatedType {
 
         if equatable {
             fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_equals\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
                     fragment.outputBlock("try Bool.toIota(") {
@@ -407,7 +407,7 @@ struct TranslatedReference: TranslatedType {
         }
         if hashable {
             fragment.output("@_cdecl(\"__iota_get_\(sourceType.name.mangled)_hash\")")
-            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {") {
+            fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
                     fragment.outputBlock("try Int32.toIota(") {

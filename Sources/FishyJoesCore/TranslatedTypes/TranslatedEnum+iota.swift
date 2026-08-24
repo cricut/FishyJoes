@@ -5,14 +5,14 @@ extension TranslatedEnum {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
-        var setupMethods = isInhabited ? [(name: "discriminator", args: ["foreignObject", "foreignOutExn"], returns: "Int")] : []
+        var setupMethods = isInhabited ? [(name: "discriminator", args: ["HostObject", "OutHostException"], returns: "Int")] : []
 
         for enumCase in cases {
             let args = enumCase.associatedValues.map { value in
                 "\(context.resolve(type: value.type).converterType.name).CType"
             }
-            setupMethods.append((name: "\(enumCase.name)_constructor", args: args + ["foreignOutExn"], returns: "foreignObject"))
-            setupMethods.append((name: "\(enumCase.name)_extractor", args: ["foreignObject"] + args.map { "UnsafePointer<\($0)>" } + ["foreignOutExn"], returns: "Void"))
+            setupMethods.append((name: "\(enumCase.name)_constructor", args: args + ["OutHostException"], returns: "HostObject"))
+            setupMethods.append((name: "\(enumCase.name)_extractor", args: ["HostObject"] + args.map { "UnsafePointer<\($0)>" } + ["OutHostException"], returns: "Void"))
         }
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
@@ -43,7 +43,7 @@ extension TranslatedEnum {
                 fragment.blankLine()
             }
 
-            fragment.outputBlock("public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {") {
+            fragment.outputBlock("public static func peekIota(_ value: HostObject, env: Env) throws -> Self {") {
                 if isInhabited {
                     fragment.output("switch try env.check({ exn in discriminator[env](value, exn) }) {")
                     for (index, enumCase) in cases.enumerated() {
@@ -86,7 +86,7 @@ extension TranslatedEnum {
             }
             fragment.blankLine()
 
-            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> foreignObject {") {
+            fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> HostObject {") {
                 if isInhabited {
                     fragment.output("switch value {")
                     for enumCase in cases {

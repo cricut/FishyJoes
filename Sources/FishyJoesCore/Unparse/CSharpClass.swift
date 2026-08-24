@@ -110,7 +110,7 @@ class CSharpClass: NestedClass {
             // Renaming automatically (e.g. appending "_") would make the generated
             // interface unstable: adding a nested type could silently rename an
             // unrelated member. Make the conflict the library author's decision.
-            fatalError(
+            print(
                 "C# member '\(identifier)' of '\(name)' conflicts with nested type "
                     + "'\(identifier)' in \(self.name). Export the member or the type under a "
                     + "different C# name, e.g. /// <!-- FishyJoes.export(\(name), cSharp: SomeOtherName) -->"

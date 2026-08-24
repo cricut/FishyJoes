@@ -15,9 +15,6 @@ module (like ``config``/``native``/``diagnostics``) so the marshalling core in
 ``_native.pyi`` (see ``PythonTranslator.emitAttributedStringFamilyStubs``).
 """
 
-from __future__ import annotations
-
-
 def setup_attributed_string_family(
     *,
     runtime_lib,

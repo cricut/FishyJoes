@@ -117,57 +117,57 @@ final class PythonTranslator: Translator {
             }
             classes.append(pythonClass)
             for field in pythonClass.fields {
-                let selfParam = field.isStatic ? [] : ["foreignObject _iotaThis"]
-                let allParams = (["EnvRef envRef"] + selfParam + ["foreignOutExn _exn"]).joined(separator: ", ")
+                let selfParam = field.isStatic ? [] : ["HostObject _iotaThis"]
+                let allParams = (["EnvRef envRef"] + selfParam + ["OutHostException _exn"]).joined(separator: ", ")
                 declarations.insert("\(field.returnType) \(field.symbol)(\(allParams));")
                 if let setterSymbol = field.setterSymbol {
-                    let setterParams = (["EnvRef envRef"] + selfParam + ["\(field.returnType) newValue"] + ["foreignOutExn _exn"]).joined(separator: ", ")
+                    let setterParams = (["EnvRef envRef"] + selfParam + ["\(field.returnType) newValue"] + ["OutHostException _exn"]).joined(separator: ", ")
                     declarations.insert("void \(setterSymbol)(\(setterParams));")
                 }
             }
             for method in pythonClass.methods {
                 let params = method.parameters.map { "\($0.cType) \($0.cName)" }
-                let selfParam = method.isStatic ? [] : ["foreignObject _iotaThis"]
-                let allParams = (["EnvRef envRef"] + selfParam + params + ["foreignOutExn _exn"]).joined(separator: ", ")
+                let selfParam = method.isStatic ? [] : ["HostObject _iotaThis"]
+                let allParams = (["EnvRef envRef"] + selfParam + params + ["OutHostException _exn"]).joined(separator: ", ")
                 declarations.insert("\(method.returnType) \(method.symbol)(\(allParams));")
             }
             if let setupName = pythonClass.setupName {
                 switch pythonClass.setupKind {
                 case "reference":
                     let constructorType = "\(pythonClass.className)ConstructorFn"
-                    declarations.insert("typedef foreignObject (*\(constructorType))(void *ptr, foreignOutExn _exn);")
-                    declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, foreignOutExn _exn);")
+                    declarations.insert("typedef HostObject (*\(constructorType))(void *ptr, OutHostException _exn);")
+                    declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, OutHostException _exn);")
                 case "emptyValue":
                     let constructorType = "\(pythonClass.className)ConstructorFn"
-                    declarations.insert("typedef foreignObject (*\(constructorType))(foreignOutExn _exn);")
-                    declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, foreignOutExn _exn);")
+                    declarations.insert("typedef HostObject (*\(constructorType))(OutHostException _exn);")
+                    declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, OutHostException _exn);")
                 case "value":
                     let constructorType = "\(pythonClass.className)ConstructorFn"
-                    let constructorArgs = (pythonClass.storedFields.map { "\($0.cType) \($0.cName)" } + ["foreignOutExn _exn"]).joined(separator: ", ")
-                    declarations.insert("typedef foreignObject (*\(constructorType))(\(constructorArgs));")
+                    let constructorArgs = (pythonClass.storedFields.map { "\($0.cType) \($0.cName)" } + ["OutHostException _exn"]).joined(separator: ", ")
+                    declarations.insert("typedef HostObject (*\(constructorType))(\(constructorArgs));")
                     var setupArgs = ["EnvRef envRef", "\(constructorType) constructorMethod"]
                     for field in pythonClass.storedFields {
                         let getterType = "\(pythonClass.className)_\(field.cName)GetterFn"
-                        declarations.insert("typedef \(field.cType) (*\(getterType))(foreignObject obj, foreignOutExn _exn);")
+                        declarations.insert("typedef \(field.cType) (*\(getterType))(HostObject obj, OutHostException _exn);")
                         setupArgs.append("\(getterType) \(field.cName)Getter")
                         if field.isMutable {
                             let setterType = "\(pythonClass.className)_\(field.cName)SetterFn"
-                            declarations.insert("typedef void (*\(setterType))(foreignObject obj, \(field.cType) newValue, foreignOutExn _exn);")
+                            declarations.insert("typedef void (*\(setterType))(HostObject obj, \(field.cType) newValue, OutHostException _exn);")
                             setupArgs.append("\(setterType) \(field.cName)Setter")
                         }
                     }
-                    setupArgs.append("foreignOutExn _exn")
+                    setupArgs.append("OutHostException _exn")
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
                 case "enum":
                     let discriminatorType = "\(pythonClass.className)DiscriminatorFn"
-                    declarations.insert("typedef int (*\(discriminatorType))(foreignObject obj, foreignOutExn _exn);")
+                    declarations.insert("typedef int (*\(discriminatorType))(HostObject obj, OutHostException _exn);")
                     var setupArgs = ["EnvRef envRef", "\(discriminatorType) discriminator"]
                     for enumCase in pythonClass.enumCases {
                         let constructorType = "\(pythonClass.className)_\(enumCase.cName)ConstructorFn"
                         let extractorType = "\(pythonClass.className)_\(enumCase.cName)ExtractorFn"
-                        let constructorArgs = (enumCase.values.map { "\($0.cType) \($0.cName)" } + ["foreignOutExn _exn"]).joined(separator: ", ")
-                        let extractorArgs = (["foreignObject obj"] + enumCase.values.map { "\($0.cType) *\($0.cName)" } + ["foreignOutExn _exn"]).joined(separator: ", ")
-                        declarations.insert("typedef foreignObject (*\(constructorType))(\(constructorArgs));")
+                        let constructorArgs = (enumCase.values.map { "\($0.cType) \($0.cName)" } + ["OutHostException _exn"]).joined(separator: ", ")
+                        let extractorArgs = (["HostObject obj"] + enumCase.values.map { "\($0.cType) *\($0.cName)" } + ["OutHostException _exn"]).joined(separator: ", ")
+                        declarations.insert("typedef HostObject (*\(constructorType))(\(constructorArgs));")
                         declarations.insert("typedef void (*\(extractorType))(\(extractorArgs));")
                         setupArgs.append("\(constructorType) \(enumCase.cName)_constructor")
                         setupArgs.append("\(extractorType) \(enumCase.cName)_extractor")
@@ -175,30 +175,30 @@ final class PythonTranslator: Translator {
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
                 case "protocol":
                     let constructorType = "\(pythonClass.className)ConstructorFn"
-                    declarations.insert("typedef foreignObject (*\(constructorType))(void *ptr, foreignOutExn _exn);")
+                    declarations.insert("typedef HostObject (*\(constructorType))(void *ptr, OutHostException _exn);")
                     var setupArgs = ["EnvRef envRef", "\(constructorType) constructorMethod"]
                     for field in pythonClass.fields {
                         let getterType = "\(pythonClass.className)_\(field.cName)GetterFn"
-                        declarations.insert("typedef \(field.returnType) (*\(getterType))(foreignObject obj, foreignOutExn _exn);")
+                        declarations.insert("typedef \(field.returnType) (*\(getterType))(HostObject obj, OutHostException _exn);")
                         setupArgs.append("\(getterType) \(field.cName)Getter")
                     }
                     for method in pythonClass.methods {
                         let callbackType = "\(pythonClass.className)_\(method.cName)MethodFn"
-                        let callbackArgs = (["foreignObject obj"] + method.parameters.map { "\($0.cType) \($0.cName)" } + ["foreignOutExn _exn"]).joined(separator: ", ")
+                        let callbackArgs = (["HostObject obj"] + method.parameters.map { "\($0.cType) \($0.cName)" } + ["OutHostException _exn"]).joined(separator: ", ")
                         declarations.insert("typedef \(method.returnType) (*\(callbackType))(\(callbackArgs));")
                         setupArgs.append("\(callbackType) \(method.cName)")
                     }
-                    setupArgs.append("foreignOutExn _exn")
+                    setupArgs.append("OutHostException _exn")
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
                 default:
                     break
                 }
             }
             if let equalsSymbol = pythonClass.equalsSymbol {
-                declarations.insert("bool \(equalsSymbol)(EnvRef envRef, foreignObject lhs, foreignObject rhs, foreignOutExn _exn);")
+                declarations.insert("bool \(equalsSymbol)(EnvRef envRef, HostObject lhs, HostObject rhs, OutHostException _exn);")
             }
             if let hashSymbol = pythonClass.hashSymbol {
-                declarations.insert("int32_t \(hashSymbol)(EnvRef envRef, foreignObject _iotaThis, foreignOutExn _exn);")
+                declarations.insert("int32_t \(hashSymbol)(EnvRef envRef, HostObject _iotaThis, OutHostException _exn);")
             }
         }
 
@@ -206,8 +206,8 @@ final class PythonTranslator: Translator {
             [classFragment(pythonClass), classStubFragment(pythonClass)]
         }
 
-        let exportsFragment = context.pythonFragment("_exports.py")
-        exportsFragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
+        let exportsFragment = context.pythonFragment("__init__.py")
+        exportsFragment.output("# \(CommonStrings.autogenWarning)")
         exportsFragment.blankLine()
         for pythonClass in classes.sorted(by: { $0.className < $1.className }) {
             exportsFragment.output("from .\(pythonClass.moduleName) import \(pythonClass.className)")
@@ -218,7 +218,7 @@ final class PythonTranslator: Translator {
         fragments.append(exportsFragment)
 
         let exportsStubFragment = context.pythonFragment("_exports.pyi")
-        exportsStubFragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
+        exportsStubFragment.output("# \(CommonStrings.autogenWarning)")
         exportsStubFragment.blankLine()
         for pythonClass in classes.sorted(by: { $0.className < $1.className }) {
             exportsStubFragment.output("from .\(pythonClass.moduleName) import \(pythonClass.className) as \(pythonClass.className)")
@@ -228,7 +228,7 @@ final class PythonTranslator: Translator {
         fragments.append(exportsStubFragment)
 
         let initStubFragment = context.pythonFragment("__init__.pyi")
-        initStubFragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
+        initStubFragment.output("# \(CommonStrings.autogenWarning)")
         initStubFragment.blankLine()
         initStubFragment.output("from typing import Any")
         initStubFragment.blankLine()
@@ -252,103 +252,12 @@ final class PythonTranslator: Translator {
         initStubFragment.output("__all__ = [\(initExportedNames.joined(separator: ", "))]")
         fragments.append(initStubFragment)
 
-        let nativeStubTypes = Set(
-            classes
-                .flatMap { pythonStubImports(for: $0) }
-                .filter { $0.isRelative && $0.moduleName == "_native" && !$0.className.isEmpty }
-                .map(\.className)
-        )
-        .subtracting(["ResultFailure", "ResultSuccess", "SwiftClosedRange", "SwiftRange"])
-        // The Foundation AttributedString family is implemented by the Python
-        // runtime (fishyjoes_runtime.iota) with a rich typed surface mirroring the
-        // Dart/Kotlin runtimes. Like SwiftRange below, these classes are created
-        // dynamically by create_runtime, so the hardcoded stubs are their only
-        // typing surface and must match the runtime members exactly (stubtest
-        // verifies stub against the live `Runtime_*` objects). Emitted as a closed
-        // set whenever any member is referenced so cross-references resolve.
-        let referencedAttributedStringFamily = !nativeStubTypes
-            .isDisjoint(with: Self.attributedStringStubFamilyNames)
-        let nativeStubFragment = context.pythonFragment("_native.pyi")
-        nativeStubFragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("from dataclasses import dataclass")
-        if referencedAttributedStringFamily {
-            nativeStubFragment.output("from collections.abc import Iterator")
-        }
-        nativeStubFragment.output("from typing import Any, Generic, TypeVar")
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("SUPPORTED: bool")
-        nativeStubFragment.output("def diagnostics(package_name: str) -> dict[str, Any]: ...")
-        nativeStubFragment.output("def shutdown() -> None: ...")
-        nativeStubFragment.blankLine()
-        // Typed interfaces for the runtime value types every generated
-        // package re-exports. The classes are created dynamically by
-        // fishyjoes_runtime.create_runtime, so these stubs are their only
-        // typing surface; the shapes mirror python-runtime iota.py.
-        nativeStubFragment.output("_BoundT = TypeVar(\"_BoundT\")")
-        nativeStubFragment.output("_SuccessT = TypeVar(\"_SuccessT\")")
-        nativeStubFragment.output("_FailureT = TypeVar(\"_FailureT\")")
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("@dataclass(frozen=True)")
-        nativeStubFragment.output("class SwiftRange(Generic[_BoundT]):")
-        nativeStubFragment.indent {
-            nativeStubFragment.output("\"\"\"A Swift `Range`; `upper_bound` is excluded.\"\"\"")
-            nativeStubFragment.output("lower_bound: _BoundT")
-            nativeStubFragment.output("upper_bound: _BoundT")
-        }
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("@dataclass(frozen=True)")
-        nativeStubFragment.output("class SwiftClosedRange(Generic[_BoundT]):")
-        nativeStubFragment.indent {
-            nativeStubFragment.output("\"\"\"A Swift `ClosedRange`; `upper_bound` is included.\"\"\"")
-            nativeStubFragment.output("lower_bound: _BoundT")
-            nativeStubFragment.output("upper_bound: _BoundT")
-        }
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("@dataclass(frozen=True)")
-        nativeStubFragment.output("class ResultSuccess(Generic[_SuccessT]):")
-        nativeStubFragment.indent {
-            nativeStubFragment.output("\"\"\"The success case of a Swift `Result`, carrying the value.\"\"\"")
-            nativeStubFragment.output("value: _SuccessT")
-            nativeStubFragment.output("def get_or_none(self) -> _SuccessT: ...")
-            nativeStubFragment.output("def exception_or_none(self) -> None: ...")
-        }
-        nativeStubFragment.blankLine()
-        nativeStubFragment.output("@dataclass(frozen=True)")
-        nativeStubFragment.output("class ResultFailure(Generic[_FailureT]):")
-        nativeStubFragment.indent {
-            nativeStubFragment.output("\"\"\"The failure case of a Swift `Result`, carrying the error.\"\"\"")
-            nativeStubFragment.output("error: _FailureT")
-            nativeStubFragment.output("def get_or_none(self) -> None: ...")
-            nativeStubFragment.output("def exception_or_none(self) -> _FailureT: ...")
-        }
-        if referencedAttributedStringFamily {
-            Self.emitAttributedStringFamilyStubs(into: nativeStubFragment)
-        }
-        let remainingStubTypes = nativeStubTypes
-            .subtracting(Self.attributedStringStubFamilyNames)
-            .sorted()
-        if !remainingStubTypes.isEmpty {
-            nativeStubFragment.blankLine()
-            for typeName in remainingStubTypes {
-                nativeStubFragment.output("class \(typeName): ...")
-            }
-        }
-        fragments.append(nativeStubFragment)
-
         let pyTypedFragment = context.pythonFragment("py.typed")
         pyTypedFragment.output("")
         fragments.append(pyTypedFragment)
 
         let declarationsFragment = context.pythonFragment("_generated_declarations.h")
-        declarationsFragment.output("/* THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT. */")
-        declarationsFragment.blankLine()
-        declarationsFragment.output("/*")
-        declarationsFragment.output("ABI pointer conventions:")
-        declarationsFragment.output("- calling-convention: cdecl for all exported functions and callback typedefs.")
-        declarationsFragment.output("- nullability: EnvRef is nonnull; foreignOutExn is nonnull; foreignObject values are nonnull unless named optional or documented otherwise.")
-        declarationsFragment.output("- ownership: foreignObject return values are created unless explicitly documented; foreignObject parameters are borrowed unless explicitly documented; foreignOutExn is nonnull and receives an optional created error object.")
-        declarationsFragment.output("*/")
+        declarationsFragment.output("/* \(CommonStrings.autogenWarning) */")
         declarationsFragment.blankLine()
         declarationsFragment.output("void FishyJoes_\(context.module.name.mangled)_registerTypes(void);")
         declarationsFragment.blankLine()
@@ -358,264 +267,6 @@ final class PythonTranslator: Translator {
         fragments.append(declarationsFragment)
 
         return fragments
-    }
-
-    // MARK: - Per-package typing gates
-
-    /// The stubtest allowlist entries this package's own generated code makes
-    /// necessary — its irreducible residue, computed from the translated model
-    /// (never observed from a specific generated library's names). Three entry
-    /// classes exist, each a genuine limit of stubtest or of Python itself:
-    ///
-    /// - An associated-value enum case whose class attribute the stub cannot
-    ///   declare (`None` and other keywords/constants): the runtime sets it via
-    ///   `setattr` for case parity, so stubtest reports a member absent from
-    ///   the stub.
-    /// - A class whose runtime metaclass differs from the stub's: settable
-    ///   static properties dispatch through a synthesized runtime metaclass the
-    ///   stub models as plain `ClassVar` attributes, while deprecated read-only
-    ///   static properties render on a synthesized stub metaclass (PEP 702
-    ///   markers only decorate function-shaped members) with no runtime
-    ///   counterpart. stubtest reports the class whenever exactly one side has
-    ///   a custom metaclass — and skips the check entirely for enum stubs.
-    /// - A deprecated read-only static property: a class-body descriptor at
-    ///   runtime, a metaclass property in the stub, so stubtest reports the
-    ///   member as absent from the stub.
-    static func stubtestAllowlistEntries(for classes: [PythonClass], importPackageName: String) -> [String] {
-        var entries: [String] = []
-        for pythonClass in classes {
-            let classPath = "\(importPackageName).\(pythonClass.moduleName).\(pythonClass.className)"
-            let isAssociatedEnum = pythonClass.enumCases.contains { !$0.values.isEmpty }
-
-            if isAssociatedEnum {
-                for enumCase in pythonClass.enumCases {
-                    let attributeName = upperCaseFirst(enumCase.cName)
-                    if !PythonNaming.canEmitStubAttribute(attributeName) {
-                        entries.append("\(classPath).\(attributeName)")
-                    }
-                }
-            }
-
-            // Simple enum stubs derive `enum.Enum`; stubtest skips both their
-            // metaclass verification and (having no synthesized stub metaclass)
-            // their deprecated statics stay honest `ClassVar` declarations.
-            guard !(pythonClass.setupKind == "enum" && !isAssociatedEnum) else { continue }
-
-            let runtimeHasMetaclass = pythonClass.fields.contains { $0.isStatic && $0.setterSymbol != nil }
-            let stubHasMetaclass = pythonClass.fields.contains { $0.isStatic && !$0.asMethod && $0.deprecationMessage != nil }
-            if runtimeHasMetaclass != stubHasMetaclass {
-                entries.append(classPath)
-            }
-
-            for field in pythonClass.fields
-            where field.isStatic && !field.asMethod && field.deprecationMessage != nil && field.setterSymbol == nil {
-                entries.append("\(classPath).\(field.pythonName)")
-            }
-        }
-        return entries.sorted()
-    }
-
-    /// The closed set of `_native` runtime classes for the Foundation
-    /// AttributedString family. Their typed stubs are hardcoded (see
-    /// `emitAttributedStringFamilyStubs`) because the classes are created
-    /// dynamically by `fishyjoes_runtime.create_runtime`, exactly as for
-    /// SwiftRange / Result*; the stubs mirror the runtime members one-for-one so
-    /// stubtest passes without allowlisting them.
-    static let attributedStringStubFamilyNames: Set<String> = [
-        "Runtime_AttributedString",
-        "Runtime_AttributedString_Index",
-        "Runtime_AttributedString_UnicodeScalarView",
-        "Runtime_AttributedString_CharacterView",
-        "Runtime_AttributedString_Runs",
-        "Runtime_AttributedString_Runs_Index",
-        "Runtime_AttributedString_Runs_Run",
-        "Runtime_AttributedSubstring",
-        "Runtime_AttributeContainer",
-        "Runtime_AttributeContainer_FoundationAttributes",
-    ]
-
-    /// Emits typed `.pyi` stubs for the whole AttributedString family. Members
-    /// (snake_case, properties, `__iter__`/`__getitem__`, comparisons) must match
-    /// the runtime classes in `python-runtime/.../iota.py` exactly. `SwiftRange`
-    /// is defined earlier in the same stub; `Iterator` is imported conditionally.
-    static func emitAttributedStringFamilyStubs(into fragment: SourceFragment) {
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_Index:")
-        fragment.indent {
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-            fragment.output("def __lt__(self, other: Runtime_AttributedString_Index) -> bool: ...")
-            fragment.output("def __le__(self, other: Runtime_AttributedString_Index) -> bool: ...")
-            fragment.output("def __gt__(self, other: Runtime_AttributedString_Index) -> bool: ...")
-            fragment.output("def __ge__(self, other: Runtime_AttributedString_Index) -> bool: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_Runs_Index:")
-        fragment.indent {
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-            fragment.output("def __lt__(self, other: Runtime_AttributedString_Runs_Index) -> bool: ...")
-            fragment.output("def __le__(self, other: Runtime_AttributedString_Runs_Index) -> bool: ...")
-            fragment.output("def __gt__(self, other: Runtime_AttributedString_Runs_Index) -> bool: ...")
-            fragment.output("def __ge__(self, other: Runtime_AttributedString_Runs_Index) -> bool: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_Runs_Run:")
-        fragment.indent {
-            fragment.output("@property")
-            fragment.output("def range(self) -> SwiftRange[Runtime_AttributedString_Index]: ...")
-            fragment.output("@property")
-            fragment.output("def attributes(self) -> Runtime_AttributeContainer: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_UnicodeScalarView:")
-        fragment.indent {
-            fragment.output("@property")
-            fragment.output("def start_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("@property")
-            fragment.output("def end_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def index_before(self, index: Runtime_AttributedString_Index) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def index_after(self, index: Runtime_AttributedString_Index) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def element_at(self, index: Runtime_AttributedString_Index) -> int: ...")
-            fragment.output("def __getitem__(self, index: Runtime_AttributedString_Index) -> int: ...")
-            fragment.output("def __iter__(self) -> Iterator[int]: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_CharacterView:")
-        fragment.indent {
-            fragment.output("@property")
-            fragment.output("def start_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("@property")
-            fragment.output("def end_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def index_before(self, index: Runtime_AttributedString_Index) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def index_after(self, index: Runtime_AttributedString_Index) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def element_at(self, index: Runtime_AttributedString_Index) -> str: ...")
-            fragment.output("def __getitem__(self, index: Runtime_AttributedString_Index) -> str: ...")
-            fragment.output("def __iter__(self) -> Iterator[str]: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString_Runs:")
-        fragment.indent {
-            fragment.output("@property")
-            fragment.output("def start_index(self) -> Runtime_AttributedString_Runs_Index: ...")
-            fragment.output("@property")
-            fragment.output("def end_index(self) -> Runtime_AttributedString_Runs_Index: ...")
-            fragment.output("def index_before(self, index: Runtime_AttributedString_Runs_Index) -> Runtime_AttributedString_Runs_Index: ...")
-            fragment.output("def index_after(self, index: Runtime_AttributedString_Runs_Index) -> Runtime_AttributedString_Runs_Index: ...")
-            fragment.output("def element_at(self, index: Runtime_AttributedString_Runs_Index) -> Runtime_AttributedString_Runs_Run: ...")
-            fragment.output("def element_at_position(self, index: Runtime_AttributedString_Index) -> Runtime_AttributedString_Runs_Run: ...")
-            fragment.output("def __getitem__(self, index: Runtime_AttributedString_Runs_Index | Runtime_AttributedString_Index) -> Runtime_AttributedString_Runs_Run: ...")
-            fragment.output("def __iter__(self) -> Iterator[Runtime_AttributedString_Runs_Run]: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedString:")
-        fragment.indent {
-            fragment.output("def __init__(self, value: str | Runtime_AttributedSubstring | None = ..., attributes: Runtime_AttributeContainer | None = ...) -> None: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_empty(cls) -> Runtime_AttributedString: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create(cls, value: str, attributes: Runtime_AttributeContainer | None = ...) -> Runtime_AttributedString: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_from_substring(cls, substring: Runtime_AttributedSubstring) -> Runtime_AttributedString: ...")
-            fragment.output("@property")
-            fragment.output("def string(self) -> str: ...")
-            fragment.output("@property")
-            fragment.output("def runs(self) -> Runtime_AttributedString_Runs: ...")
-            fragment.output("@property")
-            fragment.output("def characters(self) -> Runtime_AttributedString_CharacterView: ...")
-            fragment.output("@property")
-            fragment.output("def unicode_scalars(self) -> Runtime_AttributedString_UnicodeScalarView: ...")
-            fragment.output("@property")
-            fragment.output("def substring(self) -> Runtime_AttributedSubstring: ...")
-            fragment.output("@property")
-            fragment.output("def start_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("@property")
-            fragment.output("def end_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("def append(self, attributed_string: Runtime_AttributedString) -> None: ...")
-            fragment.output("def append_substring(self, substring: Runtime_AttributedSubstring) -> None: ...")
-            fragment.output("def insert(self, attributed_string: Runtime_AttributedString, index: Runtime_AttributedString_Index) -> None: ...")
-            fragment.output("def insert_substring(self, substring: Runtime_AttributedSubstring, index: Runtime_AttributedString_Index) -> None: ...")
-            fragment.output("def replace_subrange(self, range: SwiftRange[Runtime_AttributedString_Index], attributed_string: Runtime_AttributedString) -> None: ...")
-            fragment.output("def replace_subrange_with_substring(self, range: SwiftRange[Runtime_AttributedString_Index], substring: Runtime_AttributedSubstring) -> None: ...")
-            fragment.output("def remove_subrange(self, range: SwiftRange[Runtime_AttributedString_Index]) -> None: ...")
-            fragment.output("def set_attributes(self, attributes: Runtime_AttributeContainer) -> None: ...")
-            fragment.output("def set_attributes_for_range(self, range: SwiftRange[Runtime_AttributedString_Index], attributes: Runtime_AttributeContainer) -> None: ...")
-            fragment.output("def merge_attributes(self, attributes: Runtime_AttributeContainer, keep_current: bool = ...) -> None: ...")
-            fragment.output("def merge_attributes_for_range(self, range: SwiftRange[Runtime_AttributedString_Index], attributes: Runtime_AttributeContainer, keep_current: bool = ...) -> None: ...")
-            fragment.output("def replace_attributes(self, attributes: Runtime_AttributeContainer, others: Runtime_AttributeContainer) -> None: ...")
-            fragment.output("def replace_attributes_for_range(self, range: SwiftRange[Runtime_AttributedString_Index], attributes: Runtime_AttributeContainer, others: Runtime_AttributeContainer) -> None: ...")
-            fragment.output("def copy(self) -> Runtime_AttributedString: ...")
-            fragment.output("def __copy__(self) -> Runtime_AttributedString: ...")
-            fragment.output("def __add__(self, other: Runtime_AttributedString | Runtime_AttributedSubstring | str) -> Runtime_AttributedString: ...")
-            fragment.output("def substring_for_range(self, range: SwiftRange[Runtime_AttributedString_Index]) -> Runtime_AttributedSubstring: ...")
-            fragment.output("def __getitem__(self, range: SwiftRange[Runtime_AttributedString_Index]) -> Runtime_AttributedSubstring: ...")
-            fragment.output("def __setitem__(self, range: SwiftRange[Runtime_AttributedString_Index], value: Runtime_AttributedString | Runtime_AttributedSubstring | str) -> None: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributedSubstring:")
-        fragment.indent {
-            fragment.output("def __init__(self) -> None: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_empty(cls) -> Runtime_AttributedSubstring: ...")
-            fragment.output("@property")
-            fragment.output("def base(self) -> Runtime_AttributedString: ...")
-            fragment.output("@property")
-            fragment.output("def string(self) -> str: ...")
-            fragment.output("@property")
-            fragment.output("def runs(self) -> Runtime_AttributedString_Runs: ...")
-            fragment.output("@property")
-            fragment.output("def characters(self) -> Runtime_AttributedString_CharacterView: ...")
-            fragment.output("@property")
-            fragment.output("def unicode_scalars(self) -> Runtime_AttributedString_UnicodeScalarView: ...")
-            fragment.output("@property")
-            fragment.output("def start_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("@property")
-            fragment.output("def end_index(self) -> Runtime_AttributedString_Index: ...")
-            fragment.output("@property")
-            fragment.output("def substring(self) -> Runtime_AttributedSubstring: ...")
-            fragment.output("def substring_for_range(self, range: SwiftRange[Runtime_AttributedString_Index]) -> Runtime_AttributedSubstring: ...")
-            fragment.output("def __getitem__(self, range: SwiftRange[Runtime_AttributedString_Index]) -> Runtime_AttributedSubstring: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributeContainer_FoundationAttributes:")
-        fragment.indent {
-            fragment.output("def __init__(self) -> None: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_empty(cls) -> Runtime_AttributeContainer_FoundationAttributes: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_from_container(cls, container: Runtime_AttributeContainer) -> Runtime_AttributeContainer_FoundationAttributes: ...")
-            fragment.output("@property")
-            fragment.output("def link(self) -> str | None: ...")
-            fragment.output("@link.setter")
-            fragment.output("def link(self, value: str | None) -> None: ...")
-            fragment.output("@property")
-            fragment.output("def language_identifier(self) -> str | None: ...")
-            fragment.output("@language_identifier.setter")
-            fragment.output("def language_identifier(self, value: str | None) -> None: ...")
-            fragment.output("def as_container(self) -> Runtime_AttributeContainer: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
-        fragment.blankLine()
-        fragment.output("class Runtime_AttributeContainer:")
-        fragment.indent {
-            fragment.output("def __init__(self) -> None: ...")
-            fragment.output("@classmethod")
-            fragment.output("def create_empty(cls) -> Runtime_AttributeContainer: ...")
-            fragment.output("@property")
-            fragment.output("def foundation(self) -> Runtime_AttributeContainer_FoundationAttributes: ...")
-            fragment.output("def merge(self, other: Runtime_AttributeContainer, keep_current: bool = ...) -> None: ...")
-            fragment.output("def __eq__(self, other: object) -> bool: ...")
-            fragment.output("def __hash__(self) -> int: ...")
-        }
     }
 
     private func outputDocstring(_ documentation: [String], into fragment: SourceFragment) {
@@ -628,9 +279,7 @@ final class PythonTranslator: Translator {
         let fragment = SourceFragment(destinationPath: "python/generated/src/\(pythonClass.fileName)")
         let isAssociatedEnum = hasAssociatedValues(pythonClass)
         let runtimeImports = pythonRuntimeImports(for: pythonClass)
-        fragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
-        fragment.blankLine()
-        fragment.output("from __future__ import annotations")
+        fragment.output("# \(CommonStrings.autogenWarning)")
         fragment.blankLine()
         if pythonClass.setupKind == "value" || isAssociatedEnum {
             fragment.output("from dataclasses import dataclass")
@@ -956,7 +605,7 @@ final class PythonTranslator: Translator {
         let stubImports = pythonStubImports(for: pythonClass)
         let shadowedImportedTypes = pythonShadowedImportedTypes(in: pythonClass, imports: stubImports)
         let fragment = SourceFragment(destinationPath: "python/generated/src/\(fileName)")
-        fragment.output("# THIS FILE IS AUTOMATICALLY GENERATED, AND WILL BE OVERWRITTEN. DO NOT EDIT.")
+        fragment.output("# \(CommonStrings.autogenWarning)")
         fragment.blankLine()
         // PEP 702 deprecation markers only decorate function-shaped members.
         // Deprecated static properties therefore render as deprecated
@@ -1527,7 +1176,7 @@ final class PythonTranslator: Translator {
             // B2: a field with no Python representation is dropped; surface it.
             context.warn("dropping property \(memberName): no Python type for its value")
             return nil
-        }
+7        }
 
         let cName = exportAnnotation.name.mangled
         let symbol = field.isDefaultImplementation
@@ -1571,7 +1220,7 @@ final class PythonTranslator: Translator {
             // not by any conformer.
             returnType = PythonRepresentation(
                 annotation: PythonType(annotation: "NoReturn"),
-                cType: "foreignObject",
+                cType: "HostObject",
                 conversion: nil
             )
         } else {

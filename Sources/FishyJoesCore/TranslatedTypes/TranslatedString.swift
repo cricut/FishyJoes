@@ -14,7 +14,7 @@ struct TranslatedString: TranslatedType {
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         PythonRepresentation(
             annotation: PythonType(annotation: "str"),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.STRING"
         )
     }

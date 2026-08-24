@@ -5,21 +5,21 @@ import Foundation
 public struct CollectionInfo {
     public typealias LengthMethod = @convention(c) (
         _ context: OpaquePointer,
-        _ array: foreignObject,
-        _ exn: foreignOutExn
+        _ array: HostObject,
+        _ exn: OutHostException
     ) -> Int32
     public typealias ValuesMethod = @convention(c) (
         _ context: OpaquePointer,
-        _ array: foreignObject,
-        _ outValues: UnsafeMutablePointer<foreignObject>,
-        _ exn: foreignOutExn
+        _ array: HostObject,
+        _ outValues: UnsafeMutablePointer<HostObject>,
+        _ exn: OutHostException
     ) -> Void
     public typealias Constructor = @convention(c) (
         _ context: OpaquePointer,
-        _ inValues: UnsafePointer<foreignObject>?,
+        _ inValues: UnsafePointer<HostObject>?,
         _ length: Int32,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
 
     var lengthMethod: LengthMethod
     var valuesMethod: ValuesMethod
@@ -28,15 +28,15 @@ public struct CollectionInfo {
 
     static let infos = Env.CallbackMap<[ObjectIdentifier: CollectionInfo]>()
 
-    func length(_ object: foreignObject, env: Env) throws -> Int {
+    func length(_ object: HostObject, env: Env) throws -> Int {
         try env.check { exn in Int(lengthMethod(context, object, exn)) }
     }
 
-    func values(_ object: foreignObject, outValues: UnsafeMutablePointer<foreignObject>, env: Env) throws {
+    func values(_ object: HostObject, outValues: UnsafeMutablePointer<HostObject>, env: Env) throws {
         try env.check { exn in valuesMethod(context, object, outValues, exn) }
     }
 
-    func construct(inValues: UnsafePointer<foreignObject>?, length: Int32, env: Env) throws -> foreignObject {
+    func construct(inValues: UnsafePointer<HostObject>?, length: Int32, env: Env) throws -> HostObject {
         try env.check { exn in constructor(context, inValues, length, exn) }
     }
 }
@@ -49,7 +49,7 @@ public func collectionSetup(
     valuesMethod: @escaping CollectionInfo.ValuesMethod,
     constructor: @escaping CollectionInfo.Constructor,
     context: OpaquePointer,
-    exn: foreignOutExn
+    exn: OutHostException
 ) {
     let name = String(decodingCString: name, as: Unicode.UTF16.self)
     let env = Env(envRef)
@@ -67,13 +67,13 @@ public func collectionSetup(
 }
 
 extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
         let length = try info.length(value, env: env)
-        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: length)
+        let buffer = UnsafeMutablePointer<HostObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
         try info.values(value, outValues: buffer, env: env)
         defer {
@@ -90,12 +90,12 @@ extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
         return result
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [foreignObject] = []
+        var iotaObjects: [HostObject] = []
         iotaObjects.reserveCapacity(value.count)
         defer { iotaObjects.forEach(env.deleteRef) }
 
@@ -110,13 +110,13 @@ extension ArrayConverter: IotaConverter where ElementConverter: IotaConverter {
 }
 
 extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, KeyConverter.SwiftType: Hashable, ValueConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
         let length = try info.length(value, env: env)
-        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: 2 * length)
+        let buffer = UnsafeMutablePointer<HostObject>.allocate(capacity: 2 * length)
         defer { buffer.deallocate() }
         try info.values(value, outValues: buffer, env: env)
         defer {
@@ -134,12 +134,12 @@ extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, 
         return result
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [foreignObject] = []
+        var iotaObjects: [HostObject] = []
         iotaObjects.reserveCapacity(value.count * 2)
         defer { iotaObjects.forEach(env.deleteRef) }
 
@@ -155,13 +155,13 @@ extension DictionaryConverter: IotaConverter where KeyConverter: IotaConverter, 
 }
 
 extension SetConverter: IotaConverter where ElementConverter: IotaConverter, ElementConverter.SwiftType: Hashable {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
         let length = try info.length(value, env: env)
-        let buffer = UnsafeMutablePointer<foreignObject>.allocate(capacity: length)
+        let buffer = UnsafeMutablePointer<HostObject>.allocate(capacity: length)
         defer { buffer.deallocate() }
         try info.values(value, outValues: buffer, env: env)
         defer {
@@ -177,12 +177,12 @@ extension SetConverter: IotaConverter where ElementConverter: IotaConverter, Ele
         return result
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = CollectionInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
 
-        var iotaObjects: [foreignObject] = []
+        var iotaObjects: [HostObject] = []
         iotaObjects.reserveCapacity(value.count)
         defer { iotaObjects.forEach(env.deleteRef) }
 
@@ -199,7 +199,7 @@ extension SetConverter: IotaConverter where ElementConverter: IotaConverter, Ele
 // MARK: - Optional Type Conversions
 
 extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         if value == nil {
             return nil
         } else {
@@ -207,7 +207,7 @@ extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         if let wrapped = value {
             return try WrappedConverter.toIotaObject(wrapped, env: env)
         } else {
@@ -219,9 +219,9 @@ extension OptionalConverter: IotaConverter where WrappedConverter: IotaConverter
 // MARK: - Range Type Conversions
 
 public struct IotaSwiftRange {
-    public typealias GetLowerBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias GetUpperBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Constructor = @convention(c) (_ context: OpaquePointer, _ start: foreignObject, _ end: foreignObject, _ exn: foreignOutExn) -> foreignObject
+    public typealias GetLowerBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: HostObject, _ exn: OutHostException) -> HostObject
+    public typealias GetUpperBoundMethod = @convention(c) (_ context: OpaquePointer, _ range: HostObject, _ exn: OutHostException) -> HostObject
+    public typealias Constructor = @convention(c) (_ context: OpaquePointer, _ start: HostObject, _ end: HostObject, _ exn: OutHostException) -> HostObject
 
     static var interfaces = Env.CallbackMap<[ObjectIdentifier: IotaSwiftRange]>()
 
@@ -230,15 +230,15 @@ public struct IotaSwiftRange {
     var constructor: Constructor
     var context: OpaquePointer
 
-    func lowerBound(_ object: foreignObject, env: Env) throws -> foreignObject {
+    func lowerBound(_ object: HostObject, env: Env) throws -> HostObject {
         try env.check { exn in getLowerBoundMethod(context, object, exn) }
     }
 
-    func upperBound(_ object: foreignObject, env: Env) throws -> foreignObject {
+    func upperBound(_ object: HostObject, env: Env) throws -> HostObject {
         try env.check { exn in getUpperBoundMethod(context, object, exn) }
     }
 
-    func construct(lowerBound: foreignObject, upperBound: foreignObject, env: Env) throws -> foreignObject {
+    func construct(lowerBound: HostObject, upperBound: HostObject, env: Env) throws -> HostObject {
         try env.check { exn in constructor(context, lowerBound, upperBound, exn) }
     }
 }
@@ -268,7 +268,7 @@ public func RangeConverter_iota_setup(
 }
 
 extension RangeConverter: IotaConverter where BoundConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -279,7 +279,7 @@ extension RangeConverter: IotaConverter where BoundConverter: IotaConverter {
         return lowerBound..<upperBound
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -294,7 +294,7 @@ extension RangeConverter: IotaConverter where BoundConverter: IotaConverter {
 }
 
 extension ClosedRangeConverter: IotaConverter where BoundConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -305,7 +305,7 @@ extension ClosedRangeConverter: IotaConverter where BoundConverter: IotaConverte
         return lowerBound...upperBound
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let interface = IotaSwiftRange.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -323,16 +323,16 @@ extension ClosedRangeConverter: IotaConverter where BoundConverter: IotaConverte
 public struct IotaResult {
     public typealias GetContentsMethod = @convention(c) (
         _ context: OpaquePointer,
-        _ result: foreignObject,
+        _ result: HostObject,
         _ outIsSuccess: UnsafeMutablePointer<UInt8>,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     public typealias Constructor = @convention(c) (
         _ context: OpaquePointer,
         _ isSuccess: UInt8,
-        _ contents: foreignObject,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ contents: HostObject,
+        _ exn: OutHostException
+    ) -> HostObject
 
     static var interfaces = Env.CallbackMap<[ObjectIdentifier: IotaResult]>()
 
@@ -340,7 +340,7 @@ public struct IotaResult {
     var constructor: Constructor
     var context: OpaquePointer
 
-    func getContents(_ object: foreignObject, env: Env) throws -> (isSuccess: Bool, contents: foreignObject) {
+    func getContents(_ object: HostObject, env: Env) throws -> (isSuccess: Bool, contents: HostObject) {
         try env.check { exn in
             var isSuccess: UInt8 = 0
             let contents = getContentsMethod(context, object, &isSuccess, exn)
@@ -348,7 +348,7 @@ public struct IotaResult {
         }
     }
 
-    func construct(isSuccess: Bool, contents: foreignObject, env: Env) throws -> foreignObject {
+    func construct(isSuccess: Bool, contents: HostObject, env: Env) throws -> HostObject {
         try env.check { exn in constructor(context, isSuccess ? 1 : 0, contents, exn) }
     }
 }
@@ -376,7 +376,7 @@ public func ResultConverter_iota_setup(
 }
 
 extension ResultConverter: IotaConverter where SuccessConverter: IotaConverter, FailureConverter: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let interface = IotaResult.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -389,7 +389,7 @@ extension ResultConverter: IotaConverter where SuccessConverter: IotaConverter, 
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let interface = IotaResult.interfaces[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }

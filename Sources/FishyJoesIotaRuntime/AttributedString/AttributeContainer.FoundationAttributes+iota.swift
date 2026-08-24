@@ -1,14 +1,14 @@
 import Foundation
 
 extension AttributeContainer.FoundationAttributes: IotaReferenceMutator {
-    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = IotaSwiftReferenceConstructor
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributeContainer.FoundationAttributes {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> AttributeContainer.FoundationAttributes {
         try Box<AttributeContainer.FoundationAttributes>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: AttributeContainer.FoundationAttributes, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: AttributeContainer.FoundationAttributes, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
     }
@@ -18,7 +18,7 @@ extension AttributeContainer.FoundationAttributes: IotaReferenceMutator {
 public func FishyJoesRuntime_iota_AttributeContainer_FoundationAttributes_setup(
     envRef: EnvRef,
     constructor: @escaping AttributeContainer.FoundationAttributes.Constructor,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if AttributeContainer.FoundationAttributes.constructor.isInitialized(env) { return }
@@ -28,8 +28,8 @@ public func FishyJoesRuntime_iota_AttributeContainer_FoundationAttributes_setup(
 @_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")
 public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> OptionalConverter<Foundation.URL>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -43,9 +43,9 @@ public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 @_cdecl("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_link")
 public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_Link(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: OptionalConverter<Foundation.URL>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -58,8 +58,8 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 @_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier")
 public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -73,9 +73,9 @@ public func __iota_get_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 @_cdecl("__iota_set_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_languageIdentifier")
 public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_LanguageIdentifier(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: OptionalConverter<Swift.String>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -88,9 +88,9 @@ public func __iota_set_FishyJoesRuntime_AttributeContainer_FoundationAttributes_
 @_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_equals")
 public func AttributeContainer_FoundationAttributes_iotaEquals(
     envRef: EnvRef,
-    lhs: foreignObject,
-    rhs: foreignObject,
-    _exn: foreignOutExn
+    lhs: HostObject,
+    rhs: HostObject,
+    _exn: OutHostException
 ) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -103,8 +103,8 @@ public func AttributeContainer_FoundationAttributes_iotaEquals(
 @_cdecl("__iota_get_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_hash")
 public func AttributeContainer_FoundationAttributes_iotaHash(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -118,7 +118,7 @@ public func AttributeContainer_FoundationAttributes_iotaHash(
 @_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_createEmpty")
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createEmpty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributeContainer.FoundationAttributes.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -133,7 +133,7 @@ public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_crea
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_createFromContainer(
     envRef: EnvRef,
     container: Foundation.AttributeContainer.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributeContainer.FoundationAttributes.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -149,8 +149,8 @@ public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_crea
 @_cdecl("__iota_FishyJoesCommonRuntime_AttributeContainer_FoundationAttributes_asContainer")
 public func __iota_FishyJoesRuntime_AttributeContainer_FoundationAttributes_asContainer(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributeContainer.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {

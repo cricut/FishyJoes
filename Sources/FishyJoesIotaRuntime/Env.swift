@@ -1,9 +1,9 @@
 @_exported import FishyJoesCommonRuntime
 import Foundation
 
-// TODO (refactor): capitalize these types
-public typealias foreignObject = OpaquePointer?
-public typealias foreignOutExn = UnsafeMutablePointer<foreignObject>
+// A handle or pointer to a boxed host object
+public typealias HostObject = OpaquePointer?
+public typealias OutHostException = UnsafeMutablePointer<HostObject>
 
 public typealias TypeID = Int
 public typealias EnvRef = UnsafeMutableRawPointer
@@ -12,7 +12,7 @@ public struct IotaException: Error {
     public let description: String
     public let exception: IotaReference
 
-    public init(consuming exception: foreignObject, env: Env) {
+    public init(consuming exception: HostObject, env: Env) {
         self.description = env.describe(iota: exception)
         self.exception = IotaReference(take: exception, env: env)
     }
@@ -56,7 +56,7 @@ public func Env_getTypeID(name: UnsafePointer<unichar>) -> TypeID {
 public func Env_runScheduledWork(
     envRef: EnvRef,
     context: UnsafeMutableRawPointer,
-    exn: foreignOutExn
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: exn) {
@@ -74,10 +74,10 @@ public struct Env {
         self.id = id
     }
 
-    public typealias NewRefFn = @convention(c) (foreignObject) -> foreignObject
-    public typealias DeleteRefFn = @convention(c) (foreignObject) -> Void
-    public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> foreignObject
-    public typealias DescribeFn = @convention(c) (foreignObject) -> UnsafeMutableRawPointer?
+    public typealias NewRefFn = @convention(c) (HostObject) -> HostObject
+    public typealias DeleteRefFn = @convention(c) (HostObject) -> Void
+    public typealias NewErrorFn = @convention(c) (UnsafePointer<UInt16>) -> HostObject
+    public typealias DescribeFn = @convention(c) (HostObject) -> UnsafeMutableRawPointer?
     public typealias ScheduleThreadWorkFn = @convention(c) (EnvRef, UnsafeMutableRawPointer) -> Void
 
     public static let staticLock = NSRecursiveLock()
@@ -173,15 +173,15 @@ public struct Env {
         return value
     }
 
-    public func newRef(_ object: foreignObject) -> foreignObject {
+    public func newRef(_ object: HostObject) -> HostObject {
         Env.newRefHandle[self](object)
     }
 
-    public func deleteRef(_ object: foreignObject) {
+    public func deleteRef(_ object: HostObject) {
         Env.deleteRefHandle[self](object)
     }
 
-    public func newError(_ swiftError: Error) -> foreignObject {
+    public func newError(_ swiftError: Error) -> HostObject {
         if let iotaException = swiftError as? IotaException {
             // print("rethrowing iota exception \(iotaException.description)")
             return newRef(iotaException.exception.object)
@@ -193,14 +193,14 @@ public struct Env {
         }
     }
 
-    public func describe(iota obj: foreignObject) -> String {
+    public func describe(iota obj: HostObject) -> String {
         guard let utf8 = Env.describeHandle[self](obj) else { return "<null description>" }
         defer { free(utf8) }
         return String(cString: utf8.assumingMemoryBound(to: CChar.self))
     }
 
-    public func check<R>(_ body: (_ exn: foreignOutExn) throws -> R) throws -> R {
-        var exn: foreignObject = nil
+    public func check<R>(_ body: (_ exn: OutHostException) throws -> R) throws -> R {
+        var exn: HostObject = nil
         let result = try body(&exn)
         if let exn = exn {
             throw IotaException(consuming: exn, env: self)
@@ -208,7 +208,7 @@ public struct Env {
         return result
     }
 
-    public func catching(to pointer: foreignOutExn, _ body: () throws -> Void) {
+    public func catching(to pointer: OutHostException, _ body: () throws -> Void) {
         // Stashing the environment in the thread dictionary isn't needed to catch errors, but it's a common entry point.
         // The environment is stored so that `syncOnThread` can know when it's safe to execute immediately
         let originalEnvOfThread = Thread.current.threadDictionary[Env.envThreadDictionaryKey]
@@ -223,7 +223,7 @@ public struct Env {
         }
     }
 
-    public func catching<R: Defaultable>(to pointer: foreignOutExn, _ body: () throws -> R) -> R {
+    public func catching<R: Defaultable>(to pointer: OutHostException, _ body: () throws -> R) -> R {
         var result: R?
         catching(to: pointer) {
             result = try body()

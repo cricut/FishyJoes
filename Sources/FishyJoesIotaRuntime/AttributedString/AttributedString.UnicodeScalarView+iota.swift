@@ -1,14 +1,14 @@
 import Foundation
 
 extension AttributedString.UnicodeScalarView: IotaReferenceMutator {
-    public typealias Constructor = @convention(c) (_ ptr: UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject
+    public typealias Constructor = IotaSwiftReferenceConstructor
     fileprivate static var constructor = Env.CallbackMap<Constructor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> AttributedString.UnicodeScalarView {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> AttributedString.UnicodeScalarView {
         try Box<AttributedString.UnicodeScalarView>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: AttributedString.UnicodeScalarView, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: AttributedString.UnicodeScalarView, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in constructor[env](ptr, exn) }
     }
@@ -18,7 +18,7 @@ extension AttributedString.UnicodeScalarView: IotaReferenceMutator {
 public func FishyJoesRuntime_iota_AttributedString_UnicodeScalarView_setup(
     envRef: EnvRef,
     constructor: @escaping AttributedString.UnicodeScalarView.Constructor,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if AttributedString.UnicodeScalarView.constructor.isInitialized(env) { return }
@@ -28,8 +28,8 @@ public func FishyJoesRuntime_iota_AttributedString_UnicodeScalarView_setup(
 @_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex")
 public func __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -43,8 +43,8 @@ public func __iota_get_Foundation_AttributedString_UnicodeScalarView_startIndex(
 @_cdecl("__iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex")
 public func __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -58,9 +58,9 @@ public func __iota_get_Foundation_AttributedString_UnicodeScalarView_endIndex(
 @_cdecl("__iota_Foundation_AttributedString_UnicodeScalarView_indexBefore")
 public func __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     i: AttributedString.Index.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -76,9 +76,9 @@ public func __iota_Foundation_AttributedString_UnicodeScalarView_indexBefore(
 @_cdecl("__iota_Foundation_AttributedString_UnicodeScalarView_indexAfter")
 public func __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     i: AttributedString.Index.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AttributedString.Index.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -94,9 +94,9 @@ public func __iota_Foundation_AttributedString_UnicodeScalarView_indexAfter(
 @_cdecl("__iota_Foundation_AttributedString_UnicodeScalarView_elementAt")
 public func __iota_Foundation_AttributedString_UnicodeScalarView_elementAt(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     index: AttributedString.Index.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> UInt32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {

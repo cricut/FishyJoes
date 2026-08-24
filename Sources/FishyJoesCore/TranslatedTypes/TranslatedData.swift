@@ -14,7 +14,7 @@ struct TranslatedData: TranslatedType {
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         PythonRepresentation(
             annotation: PythonType(annotation: "bytes"),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.DATA"
         )
     }

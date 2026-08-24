@@ -2,8 +2,8 @@ import FishyJoesCommonRuntime
 import Foundation
 
 public struct TupleInfo {
-    public typealias GetMethod = @convention(c) (_ context: OpaquePointer, _ tuple: foreignObject, _ exn: foreignOutExn) -> foreignObject
-    public typealias Constructor = @convention(c) (_ context: OpaquePointer, _ values: UnsafePointer<foreignObject>, _ exn: foreignOutExn) -> foreignObject
+    public typealias GetMethod = @convention(c) (_ context: OpaquePointer, _ tuple: HostObject, _ exn: OutHostException) -> HostObject
+    public typealias Constructor = @convention(c) (_ context: OpaquePointer, _ values: UnsafePointer<HostObject>, _ exn: OutHostException) -> HostObject
 
     let getMethods: [GetMethod]
     let constructor: Constructor
@@ -11,11 +11,11 @@ public struct TupleInfo {
 
     static var infos = Env.CallbackMap<[ObjectIdentifier: TupleInfo]>()
 
-    func `get`(_ tuple: foreignObject, _ index: Int, env: Env) throws -> foreignObject {
+    func `get`(_ tuple: HostObject, _ index: Int, env: Env) throws -> HostObject {
         try env.check { exn in getMethods[index](context, tuple, exn) }
     }
 
-    func construct(_ values: [foreignObject], env: Env) throws -> foreignObject {
+    func construct(_ values: [HostObject], env: Env) throws -> HostObject {
         try env.check { exn in constructor(context, values, exn) }
     }
 }
@@ -55,7 +55,7 @@ public func tuple_iota_setup(
 }
 
 extension Tuple2Converter: IotaConverter where T0: IotaConverter, T1: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -65,7 +65,7 @@ extension Tuple2Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
         )
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -78,7 +78,7 @@ extension Tuple2Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
 }
 
 extension Tuple3Converter: IotaConverter where T0: IotaConverter, T1: IotaConverter, T2: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -89,7 +89,7 @@ extension Tuple3Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
         )
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -104,7 +104,7 @@ extension Tuple3Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
 }
 
 extension Tuple4Converter: IotaConverter where T0: IotaConverter, T1: IotaConverter, T2: IotaConverter, T3: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -116,7 +116,7 @@ extension Tuple4Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
         )
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -133,7 +133,7 @@ extension Tuple4Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
 }
 
 extension Tuple5Converter: IotaConverter where T0: IotaConverter, T1: IotaConverter, T2: IotaConverter, T3: IotaConverter, T4: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -146,7 +146,7 @@ extension Tuple5Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
         )
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -165,7 +165,7 @@ extension Tuple5Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
 }
 
 extension Tuple6Converter: IotaConverter where T0: IotaConverter, T1: IotaConverter, T2: IotaConverter, T3: IotaConverter, T4: IotaConverter, T5: IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }
@@ -179,7 +179,7 @@ extension Tuple6Converter: IotaConverter where T0: IotaConverter, T1: IotaConver
         )
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         guard let info = TupleInfo.infos[env][ObjectIdentifier(Self.self)] else {
             fatalError("Type \(SwiftType.self) improperly set up")
         }

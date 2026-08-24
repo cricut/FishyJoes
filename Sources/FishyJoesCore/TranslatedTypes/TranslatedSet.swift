@@ -53,7 +53,7 @@ struct TranslatedSet: TranslatedType {
         }
         return PythonRepresentation(
             annotation: .container("set", [element.annotation]),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Set(\"\(converterType.name)\", \(elementConversion))"
         )
     }

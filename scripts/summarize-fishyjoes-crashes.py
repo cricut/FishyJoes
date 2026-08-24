@@ -6,8 +6,6 @@ small redacted summaries. It is meant for local debugging of crashes triggered b
 local FishyJoes builds/tests, not for browsing unrelated diagnostics.
 """
 
-from __future__ import annotations
-
 import argparse
 import json
 import os

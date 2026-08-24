@@ -56,7 +56,7 @@ struct TranslatedFuture: TranslatedType {
         }
         return PythonRepresentation(
             annotation: .awaitable(outputRepresentation.annotation),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Future(\"\(converterType.name)\", \(outputConversion))"
         )
     }

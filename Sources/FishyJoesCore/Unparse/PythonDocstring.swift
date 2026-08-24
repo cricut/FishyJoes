@@ -15,21 +15,7 @@ enum PythonDocstring {
     }
 
     private static func renderableLines(_ documentation: [String]) -> [String] {
-        var lines = documentation
-            .filter { !isAnnotationLine($0) }
-            .map(escape)
-        while lines.first?.trimmingCharacters(in: .whitespaces).isEmpty == true {
-            lines.removeFirst()
-        }
-        while lines.last?.trimmingCharacters(in: .whitespaces).isEmpty == true {
-            lines.removeLast()
-        }
-        return lines
-    }
-
-    private static func isAnnotationLine(_ line: String) -> Bool {
-        let trimmed = line.trimmingCharacters(in: .whitespaces)
-        return trimmed.hasPrefix("<!--") && trimmed.hasSuffix("-->")
+        documentation.map(escape)
     }
 
     private static func escape(_ line: String) -> String {

@@ -62,7 +62,7 @@ struct TranslatedRange: TranslatedType {
         let constructor = isClosedRange ? "_native.ClosedRange" : "_native.Range"
         return PythonRepresentation(
             annotation: context.pythonRangeType(isClosedRange: isClosedRange, bound: boundRepresentation.annotation),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "\(constructor)(\"\(converterType.name)\", \(boundConversion))"
         )
     }

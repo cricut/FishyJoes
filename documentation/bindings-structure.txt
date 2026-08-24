@@ -92,8 +92,6 @@ MyGreatLibrary/bindings/
 │   │           ├── _native.py
 │   │           ├── _declarations.h
 │   │           ├── _generated_declarations.h
-│   │           ├── _exports.py
-│   │           ├── _exports.pyi
 │   │           ├── py.typed
 │   │           ├── Path.py
 │   │           └── native/    // Not committed

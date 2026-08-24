@@ -34,7 +34,7 @@ struct TranslatedOptional: TranslatedType {
         }
         return PythonRepresentation(
             annotation: wrappedRepresentation.annotation.optional(),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Optional(\(wrappedConversion))"
         )
     }

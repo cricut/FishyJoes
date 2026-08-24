@@ -51,7 +51,7 @@ struct TranslatedArray: TranslatedType {
         }
         return PythonRepresentation(
             annotation: .container("list", [element.annotation]),
-            cType: "foreignObject",
+            cType: "HostObject",
             conversion: "_native.Array(\"\(converterType.name)\", \(elementConversion))"
         )
     }

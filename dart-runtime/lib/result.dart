@@ -8,7 +8,7 @@ final class ResultFailure<T, F> extends Result<T, F> {
   ResultFailure(this.exception);
 }
 
-// Interface borrows heavily from kotlin implementation, which in turn is based on
+// Interface borrows heavily from the kotlin-runtime implementation, which in turn is based on
 // https://github.com/JetBrains/kotlin/blob/6a670dc5f38fc73eb01d754d8f7c158ae0176ceb/libraries/stdlib/src/kotlin/util/Result.kt
 sealed class Result<T, F> {
   /// Returns `true` if this instance represents a successful outcome.
