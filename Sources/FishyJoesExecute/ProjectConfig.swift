@@ -27,8 +27,9 @@ struct ProjectConfig: Codable {
     let ciDependencyAuth: CIDependencyAuth?
 
     // Which .NET SDK CI installs, and which target framework the generated
-    // C# projects build against. Lets a repo move to a newer .NET without
-    // waiting for every other FishyJoes consumer to move at the same time.
+    // C# projects build against. Defaults to .NET 10; a repo that still has a
+    // downstream consumer on an older runtime can pin it back here instead of
+    // waiting on a FishyJoes release.
     let dotNet: DotNet?
 
     enum SourceryOverride {
@@ -53,7 +54,7 @@ struct ProjectConfig: Codable {
         let sdkVersion: String      // `dotnet-version` for actions/setup-dotnet, e.g. "10.0.x"
         let targetFramework: String // csproj `<TargetFramework>`, e.g. "net10.0"
 
-        static let defaults = DotNet(sdkVersion: "8.0.x", targetFramework: "net8.0")
+        static let defaults = DotNet(sdkVersion: "10.0.x", targetFramework: "net10.0")
     }
 
     static func readFromFile(basePath: String) throws -> ProjectConfig {
