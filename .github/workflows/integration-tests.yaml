@@ -18,7 +18,7 @@ concurrency:
 env:
   JAVA_VERSION: '20'
   NODE_VERSION: '18.x'
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '10.0.x'
   GITHUB_USER: ${{ github.actor }}
   GITHUB_TOKEN: ${{ github.token }}
 

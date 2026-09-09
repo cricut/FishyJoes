@@ -26,6 +26,12 @@ struct ProjectConfig: Codable {
     // Authorization that may be needed to fetch any dependencies of the library
     let ciDependencyAuth: CIDependencyAuth?
 
+    // Which .NET SDK CI installs, and which target framework the generated
+    // C# projects build against. Defaults to .NET 10; a repo that still has a
+    // downstream consumer on an older runtime can pin it back here instead of
+    // waiting on a FishyJoes release.
+    let dotNet: DotNet?
+
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
         case remote(String) // Run a specific version using mint
@@ -42,6 +48,13 @@ struct ProjectConfig: Codable {
     struct CIDependencyAuth: Codable {
         let user: String?
         let token: String
+    }
+
+    struct DotNet: Codable {
+        let sdkVersion: String      // `dotnet-version` for actions/setup-dotnet, e.g. "10.0.x"
+        let targetFramework: String // csproj `<TargetFramework>`, e.g. "net10.0"
+
+        static let defaults = DotNet(sdkVersion: "10.0.x", targetFramework: "net10.0")
     }
 
     static func readFromFile(basePath: String) throws -> ProjectConfig {
@@ -67,6 +80,9 @@ struct ProjectConfig: Codable {
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
             Log.error("  windows: \(CIRunners.defaults.windows)  # default")
+            Log.error("DotNet:")
+            Log.error("  sdkVersion: \(DotNet.defaults.sdkVersion)  # default")
+            Log.error("  targetFramework: \(DotNet.defaults.targetFramework)  # default")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -143,6 +159,15 @@ struct ProjectConfig: Codable {
             }
             return CIDependencyAuth(user: dict["user"] as? String, token: token)
         }
+        let dotNet = try configDictionary["DotNet"].map { obj -> DotNet in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `DotNet` is not a [String: String] dictionary")
+            }
+            return DotNet(
+                sdkVersion: dict["sdkVersion"] as? String ?? DotNet.defaults.sdkVersion,
+                targetFramework: dict["targetFramework"] as? String ?? DotNet.defaults.targetFramework,
+            )
+        }
 
         return ProjectConfig(
             module: module,
@@ -155,7 +180,8 @@ struct ProjectConfig: Codable {
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
-            ciDependencyAuth: ciDependencyAuth
+            ciDependencyAuth: ciDependencyAuth,
+            dotNet: dotNet
         )
     }
 }
