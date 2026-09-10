@@ -96,7 +96,7 @@ class DartClass {
         fatalErr("This method must be overridden and call `outputInner`")
     }
 
-    func fragment(context: FishyJoesContext) -> SourceFragment {
+    func fragments(context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.dartFragment("\(unqualifiedName).dart")
 
         for (name, type) in setupTypes?.typedefs ?? [:] {
@@ -104,11 +104,10 @@ class DartClass {
         }
 
         output(to: fragment)
-        return fragment
+        return [fragment]
     }
 
     func document(_ documentation: [String], fragment: SourceFragment) {
-        guard !documentation.isEmpty else { return }
         for line in documentation {
             fragment.output("/// \(line)")
         }
@@ -401,7 +400,7 @@ extension DartClass.DartType: CustomStringConvertible {
 }
 
 extension DartClass {
-    func ffiFor(fields: [Variable], fragment: SourceFragment, isReference: Bool) {
+    func ffiFor(fields: [Variable], fragment: SourceFragment) {
         for field in fields {
             let isObject = field.type.isObject
 
@@ -435,8 +434,7 @@ extension DartClass {
                     fragment.output("peekRef<\(unqualifiedName)>(obj).\(DartClass.deforbidify(field.name))")
                 }
             }
-            if !isReference,
-                field.isMutable {
+            if field.isMutable {
                 fragment.outputBlock("static void ffi_set_\(field.name)(", newLineTerminated: false) {
                     fragment.output("UnownedRef obj,")
                     fragment.output("\(field.type.ffiConsumedName) newValue,")
@@ -461,10 +459,7 @@ extension DartClass {
 
     func ffiFor(methods: [Method], fragment: SourceFragment) {
         for method in methods {
-            guard !method.documentation.isEmpty else {
-                continue
-            }
-            guard !method.isStatic else {
+            if method.isStatic {
                 continue
             }
             fragment.outputBlock("static \(method.returnType.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {

@@ -7,6 +7,7 @@ struct TranslatedResult: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let jniType = JNIType.object("com/cricut/fishyjoes/runtime/TypedResult")
     let definingModule = Module.runtime
 
@@ -21,6 +22,11 @@ struct TranslatedResult: TranslatedType {
             name: "Result<\(success.cSharpType.name), \(failure.cSharpType.name)>"
         )
         self.dartType = .result(success.dartType, failure.dartType)
+        self.pythonType = .class(
+            module: "fishyjoes_runtime",
+            name: "Result",
+            genericArgs: [success.pythonType.static, failure.pythonType.static]
+        )
     }
 
     var sourceType: BetterType {

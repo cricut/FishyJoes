@@ -7,6 +7,7 @@ struct TranslatedOptional: TranslatedType {
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(wrapped: TranslatedType) {
@@ -18,6 +19,7 @@ struct TranslatedOptional: TranslatedType {
         self.jniType = wrapped.jniObjectType
         self.cSharpType = .optional(wrapped.cSharpType)
         self.dartType = .optional(wrapped.dartType)
+        self.pythonType = .optional(wrapped.pythonType)
     }
 
     var sourceType: BetterType {

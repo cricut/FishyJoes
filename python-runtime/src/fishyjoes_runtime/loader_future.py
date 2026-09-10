@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Awaitable, Callable, Generator, TypeAlias, final, override
+from typing import Any, Awaitable, Callable, Generator, TypeAlias, final, override, ClassVar
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
@@ -25,6 +25,8 @@ class Future[T](Awaitable[T]):
 
     def reject(self, error: BaseException) -> None:
         self._loop.call_soon_threadsafe(self._future.set_exception, error)
+
+    _thing: ClassVar[Callable[[], None]]
 
 
 # MARK: C APIs

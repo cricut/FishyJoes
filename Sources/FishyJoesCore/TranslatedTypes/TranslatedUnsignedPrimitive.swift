@@ -9,6 +9,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }
@@ -46,6 +47,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.kotlinPackage = nil
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
+        self.pythonType = .class(module: nil, name: "int")
         self.jniType = jniType
     }
 

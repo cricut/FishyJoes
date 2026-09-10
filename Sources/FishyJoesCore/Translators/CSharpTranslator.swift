@@ -21,9 +21,9 @@ final class CSharpTranslator: Translator {
                 for type in generatedTypes {
                     let resolved = context.resolve(type: type)
                     let setupParams = resolved.cSharpSetupParameters(in: context)
-                    let setupDelegates = resolved.cSharpSetupDelegates(in: context)
+                    let setupTypeAliases = resolved.cSharpSetupTypeAliases(in: context)
 
-                    setupDelegates.forEach { fragment.output($0) }
+                    setupTypeAliases.forEach { fragment.output($0) }
 
                     if resolved.definingModule == context.module {
                         precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")

@@ -13,6 +13,7 @@ struct TranslatedDictionary: TranslatedType {
     let jniType = JNIType.object("java/util/Map")
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(key: TranslatedType, value: TranslatedType) {
@@ -29,6 +30,7 @@ struct TranslatedDictionary: TranslatedType {
             name: "IDictionary<\(key.cSharpType.name), \(value.cSharpType.name)>"
         )
         self.dartType = .named(package: nil, name: "Map", genericArgs: [key.dartType, value.dartType])
+        self.pythonType = .class(module: nil, name: "dict", genericArgs: [key.pythonType.static, value.pythonType.static])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {

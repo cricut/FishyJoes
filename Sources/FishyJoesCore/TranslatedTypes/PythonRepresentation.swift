@@ -1,8 +1,6 @@
 import Foundation
 
-/// A Python type annotation (a `.pyi` annotation string plus the imports it
-/// needs). Moved out of `PythonTranslator` so a `TranslatedType` conformer can
-/// build and return it from `pythonRepresentation(in:)`.
+/// A Python type annotation (a `.pyi` annotation string plus the imports it needs).
 struct PythonType: Hashable {
     let annotation: String
     let imports: Set<PythonImport>

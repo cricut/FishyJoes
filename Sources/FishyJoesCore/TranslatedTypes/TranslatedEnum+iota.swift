@@ -116,6 +116,7 @@ extension TranslatedEnum {
 
         context.add(dartClass: dartClass(context: context))
         context.add(cSharpClass: cSharpClass(context: context))
+        context.add(pythonClass: pythonClass(context: context))
 
         return fragment
     }

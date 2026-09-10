@@ -578,12 +578,6 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void TestAPI_AttributedStrings_setup(
-            IntPtr envRef,
-            out CreatedRef _exn
-        );
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -1173,6 +1167,22 @@ namespace Cricut.TestAPI {
             _TestAPI_TestProtocolStructConstructor constructor,
             _TestAPI_TestProtocolStruct_corgeGetter get_corge,
             _TestAPI_TestProtocolStruct_corgeSetter set_corge,
+            out CreatedRef _exn
+        );
+
+        delegate CreatedRef _TestAPI_TreeConstructor(
+            nint value,
+            ConsumedRef children,
+            out CreatedRef exn
+        );
+        delegate nint _TestAPI_Tree_valueGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _TestAPI_Tree_childrenGetter(UnownedRef obj, out CreatedRef exn);
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_Tree_setup(
+            IntPtr envRef,
+            _TestAPI_TreeConstructor constructor,
+            _TestAPI_Tree_valueGetter get_value,
+            _TestAPI_Tree_childrenGetter get_children,
             out CreatedRef _exn
         );
 
@@ -1868,22 +1878,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
-                // Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
-                    Loader.env,
-                    "ArrayConverter<Foundation.AttributedString.Runs.Run>",
-                    out exn
-                ));
-            });
-            Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
-                // Console.WriteLine("setting up Array<AttributedSubstring>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
-                    Loader.env,
-                    "ArrayConverter<Foundation.AttributedSubstring>",
-                    out exn
-                ));
-            });
             Once("setup_ArrayConverter<Swift.Bool>", () => {
                 // Console.WriteLine("setting up Array<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<bool>(
@@ -1961,6 +1955,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<string>(
                     Loader.env,
                     "ArrayConverter<Swift.String>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<TestAPI.Tree>", () => {
+                // Console.WriteLine("setting up Array<Tree>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.TestAPI.Tree>(
+                    Loader.env,
+                    "ArrayConverter<TestAPI.Tree>",
                     out exn
                 ));
             });
@@ -2299,14 +2301,6 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<byte>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt8>",
-                    out exn
-                ));
-            });
-            Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
-                // Console.WriteLine("setting up Range<AttributedString.Index>...");
-                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
-                    Loader.env,
-                    "RangeConverter<Foundation.AttributedString.Index>",
                     out exn
                 ));
             });
@@ -3277,13 +3271,6 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_TestAPI.AttributedStrings", () => {
-                // Console.WriteLine("setting up TestAPI.AttributedStrings...");
-                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
-                    Loader.env,
-                    out exn
-                ));
-            });
             Once("setup_TestAPI.Bytes", () => {
                 // Console.WriteLine("setting up TestAPI.Bytes...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_Bytes_setup(
@@ -4150,6 +4137,25 @@ namespace Cricut.TestAPI {
                     bag<_TestAPI_TestProtocolStruct_corgeSetter>((UnownedRef obj, ConsumedRef newValue, out CreatedRef exn) => Catching(out exn, () => {
                         obj.Peek<Cricut.TestAPI.TestProtocolStruct>().Corge = newValue.Consume<string>();
                     })),
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.Tree", () => {
+                // Console.WriteLine("setting up TestAPI.Tree...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_Tree_setup(
+                    Loader.env,
+                    bag<_TestAPI_TreeConstructor>((nint value, ConsumedRef children, out CreatedRef exn) => Catching(out exn, () => {
+                        return new CreatedRef(new Cricut.TestAPI.Tree(
+                            value,
+                            children.Consume<System.Collections.Generic.IList<Cricut.TestAPI.Tree>>()
+                        ));
+                    })),
+                    bag<_TestAPI_Tree_valueGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        obj.Peek<Cricut.TestAPI.Tree>().Value
+                    )),
+                    bag<_TestAPI_Tree_childrenGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                        new CreatedRef(obj.Peek<Cricut.TestAPI.Tree>().Children)
+                    )),
                     out exn
                 ));
             });

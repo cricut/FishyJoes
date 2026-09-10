@@ -29,7 +29,7 @@ struct ExportAnnotation: Hashable {
         kind: Kind = .unmodified,
         name: String,
         cSharpName: String?,
-        pythonName: String? = nil,
+        pythonName: String?,
         isOverride: Bool = false,
         noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],

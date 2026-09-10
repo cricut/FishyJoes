@@ -12,6 +12,7 @@ struct TranslatedFunction: TranslatedType {
     let kotlinPackage: String? = nil
     let jniType: JNIType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool, isThrowing: Bool) {
@@ -34,6 +35,7 @@ struct TranslatedFunction: TranslatedType {
             args: parameters.map(\.dartType),
             return: isAsync ? .future(returnType.dartType) : returnType.dartType
         )
+        self.pythonType = .callable(args: parameters.map(\.pythonType.static), return: returnType.pythonType.static)
     }
 
     var cSharpType: CSharpClass.CSType {

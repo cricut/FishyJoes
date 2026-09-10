@@ -519,6 +519,13 @@ typedef _TestAPI_TestProtocolStructConstructor = CreatedRef Function(
 );
 typedef _TestAPI_TestProtocolStruct_corgeGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _TestAPI_TestProtocolStruct_corgeSetter = ffi.Void Function(UnownedRef obj, ConsumedRef newValue, OutCreatedRef exn);
+typedef _TestAPI_TreeConstructor = CreatedRef Function(
+    ffi.IntPtr value,
+    ConsumedRef children,
+    OutCreatedRef exn
+);
+typedef _TestAPI_Tree_valueGetter = ffi.IntPtr Function(UnownedRef obj, OutCreatedRef exn);
+typedef _TestAPI_Tree_childrenGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 
 final ensureLoaded = (() {
     FishyJoesRuntime.Loader.shared.ensureLoaded;
@@ -1040,16 +1047,6 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_AsyncFunctions_setup');
-    final TestAPI_AttributedStrings_setup = dylib.lookupFunction<
-        ffi.Void Function(
-            Env env,
-            OutCreatedRef exn
-        ),
-        void Function(
-            Env env,
-            OutCreatedRef exn
-        )
-    >('TestAPI_AttributedStrings_setup');
     final TestAPI_Bytes_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1704,6 +1701,22 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_TestProtocolStruct_setup');
+    final TestAPI_Tree_setup = dylib.lookupFunction<
+        ffi.Void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TreeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Tree_valueGetter>> get_value,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Tree_childrenGetter>> get_children,
+            OutCreatedRef exn
+        ),
+        void Function(
+            Env env,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_TreeConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Tree_valueGetter>> get_value,
+            ffi.Pointer<ffi.NativeFunction<_TestAPI_Tree_childrenGetter>> get_children,
+            OutCreatedRef exn
+        )
+    >('TestAPI_Tree_setup');
     final TestAPI_Tuples_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -2046,90 +2059,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_AsyncFunctions_thunkTwiceMaker");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_attributedCharacters = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_attributedCharacters");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_echo = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_echo");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_emptyAttributeRuns = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_emptyAttributeRuns");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_firstIndex = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_firstIndex");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_fullRange = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_fullRange");
-    TestAPI.AttributedStrings.f__iota_TestAPI_AttributedStrings_lastIndex = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            UnownedRef string,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_AttributedStrings_lastIndex");
     TestAPI.Bytes.f__iota_TestAPI_Bytes_echoBytes = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -4928,96 +4857,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_get_TestAPI_AsyncFunctions_willThrow");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_accent = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_accent");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_chinese = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_chinese");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_chineseBMP = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_chineseBMP");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_chineseSIP = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_chineseSIP");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_emoji = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_emoji");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_emojiMulti = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_emojiMulti");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_polyglot = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_polyglot");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_script = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_script");
-    TestAPI.AttributedStrings.f__iota_get_TestAPI_AttributedStrings_simple = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            OutCreatedRef _exn
-        )
-    >("__iota_get_TestAPI_AttributedStrings_simple");
     TestAPI.Bytes.f__iota_get_TestAPI_Bytes_bytes = dylib.lookupFunction<
         CreatedRef Function(
             Env env,
@@ -8234,28 +8073,6 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () {
-        // print("setting up Array<AttributedString.Runs.Run> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedString_Runs_Run>(
-                Loader.shared.env,
-                "ArrayConverter<Foundation.AttributedString.Runs.Run>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_ArrayConverter<Foundation.AttributedSubstring>", () {
-        // print("setting up Array<AttributedSubstring> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedSubstring>(
-                Loader.shared.env,
-                "ArrayConverter<Foundation.AttributedSubstring>",
-                exn
-            );
-        });
-    });
-
     Loader.shared.once("setup_ArrayConverter<Swift.Bool>", () {
         // print("setting up Array<Bool> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -8361,6 +8178,17 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<String>(
                 Loader.shared.env,
                 "ArrayConverter<Swift.String>",
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_ArrayConverter<TestAPI.Tree>", () {
+        // print("setting up Array<Tree> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<TestAPI.Tree>(
+                Loader.shared.env,
+                "ArrayConverter<TestAPI.Tree>",
                 exn
             );
         });
@@ -8834,17 +8662,6 @@ final ensureLoaded = (() {
             Loader.shared.FishyJoesCommonRuntime_ClosedRangeConverter_setup<int>(
                 Loader.shared.env,
                 "ClosedRangeConverter<Swift.UInt8>",
-                exn
-            );
-        });
-    });
-
-    Loader.shared.once("setup_RangeConverter<Foundation.AttributedString.Index>", () {
-        // print("setting up Range<AttributedString.Index> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
-                Loader.shared.env,
-                "RangeConverter<Foundation.AttributedString.Index>",
                 exn
             );
         });
@@ -9388,16 +9205,6 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_TestAPI.AttributedStrings", () {
-        // print("setting up TestAPI.AttributedStrings (env=0x${Loader.shared.env.address.toRadixString(16)})...");
-        utils.check<void>((exn) {
-            TestAPI_AttributedStrings_setup(
-                Loader.shared.env,
-                exn
-            );
-        });
-    });
-
     Loader.shared.once("setup_TestAPI.Bytes", () {
         // print("setting up TestAPI.Bytes (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
@@ -9935,6 +9742,19 @@ final ensureLoaded = (() {
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_get_corge),
                 ffi.Pointer.fromFunction(TestAPI.TestProtocolStruct.ffi_set_corge),
+                exn
+            );
+        });
+    });
+
+    Loader.shared.once("setup_TestAPI.Tree", () {
+        // print("setting up TestAPI.Tree (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+        utils.check<void>((exn) {
+            TestAPI_Tree_setup(
+                Loader.shared.env,
+                ffi.Pointer.fromFunction(TestAPI.Tree.ffi_constructor),
+                ffi.Pointer.fromFunction(TestAPI.Tree.ffi_get_value, 0),
+                ffi.Pointer.fromFunction(TestAPI.Tree.ffi_get_children),
                 exn
             );
         });

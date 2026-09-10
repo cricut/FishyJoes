@@ -1,5 +1,5 @@
 extension TranslatedEnum {
-    func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
+    func dartSetupTypeAliases(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         for enumCase in cases {
             lines.append("typedef \(dartType.name().mangled)_new_\(enumCase.name.mangled) = \(dartType.ffiCreatedTag) Function(")

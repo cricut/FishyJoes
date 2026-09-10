@@ -10,6 +10,7 @@ struct TranslatedPrimitive: TranslatedType {
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(
@@ -23,7 +24,8 @@ struct TranslatedPrimitive: TranslatedType {
             jni: typeNames.jni,
             cSharp: typeNames.cSharp,
             dart: typeNames.dart,
-            dartFFI: typeNames.dartFFI
+            dartFFI: typeNames.dartFFI,
+            python: typeNames.python
         )
     }
 
@@ -34,7 +36,8 @@ struct TranslatedPrimitive: TranslatedType {
         jni jniType: JNIType,
         cSharp cSharpName: String,
         dart dartName: String,
-        dartFFI dartFFIName: String
+        dartFFI dartFFIName: String,
+        python pythonName: String
     ) {
         self.sourceType = .named(.swift(swiftName))
         self.cName = cName
@@ -45,6 +48,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.jniType = jniType
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
+        self.pythonType = .class(module: nil, name: pythonName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

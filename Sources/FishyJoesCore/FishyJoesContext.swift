@@ -13,11 +13,19 @@ public class FishyJoesContext {
     }
 
     var debugContext = ""
+    /// Mark a scoped, dynamic section of the program with a marker for debugging if a crash happens in that context
+    func withDebugContext<R>(_ scopedDebugContext: String, body: () throws -> R) rethrows -> R {
+        let originalDebugContext = debugContext
+        defer { debugContext = originalDebugContext }
+        debugContext = scopedDebugContext
+        return try body()
+    }
 
     var tsAnnotations: TypeScriptAnnotations
     private(set) var kotlinClasses: [KotlinClass] = []
     private(set) var cSharpClasses: [CSharpClass] = []
     private(set) var dartClasses: [DartClass] = []
+    private(set) var pythonClasses: [PythonClass2] = []
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
@@ -25,7 +33,7 @@ public class FishyJoesContext {
     let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
-    let pythonTranslator = PythonTranslator()
+    let pythonTranslator = PythonTranslator2()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
@@ -145,7 +153,7 @@ public class FishyJoesContext {
 
     func pythonFragment(_ name: String) -> SourceFragment {
         let fileName = "python/generated/src/\(module.pythonPackageName)/\(name)"
-        return SourceFragment(destinationPath: fileName)
+        return SourceFragment(destinationPath: fileName, createIntermediateDirectories: true)
     }
 
     /// A package-level generated test file (the per-package typing gates),
@@ -178,8 +186,9 @@ public class FishyJoesContext {
         // Collect type information before starting translation
         // This collects the named types possible for use later in resolve().
         let translatedTypes = templateContext.types.compactMap { type -> TranslatedType? in
-            debugContext = "Translating type \(type.name)"
-            return translate(typeDefinition: type)
+            withDebugContext("Translating type \(type.name)") {
+                translate(typeDefinition: type)
+            }
         }
         for translatedType in translatedTypes {
             let name = translatedType.sourceType
@@ -197,10 +206,11 @@ public class FishyJoesContext {
 
         for (type, methods) in methodsToTranslateForTypeDict {
             for method in methods {
-                debugContext = "Translating method \(type.name).\(method.name)"
-                let betterType = BetterType(named: type, context: self)
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, betterType: betterType))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
+                withDebugContext("Translating method \(type.name).\(method.name)") {
+                    let betterType = BetterType(named: type, context: self)
+                    collectedFragments.append(contentsOf: kotlinTranslator.translate(method: method, context: self, betterType: betterType))
+                    collectedFragments.append(contentsOf: iotaTranslator.translate(method: method, context: self, betterType: betterType))
+                }
             }
         }
 
@@ -211,11 +221,11 @@ public class FishyJoesContext {
 
         for (type, fields) in fieldsToTranslateForTypeDict {
             for field in fields {
-                debugContext = "Translating variable \(type.name).\(field.name)"
                 guard field.exportAnnotation != nil else { continue }
-
-                collectedFragments.append(contentsOf: kotlinTranslator.translate(field: field, context: self, type: type))
-                collectedFragments.append(contentsOf: iotaTranslator.translate(field: field, context: self, type: type))
+                withDebugContext("Translating variable \(type.name).\(field.name)") {
+                    collectedFragments.append(contentsOf: kotlinTranslator.translate(field: field, context: self, type: type))
+                    collectedFragments.append(contentsOf: iotaTranslator.translate(field: field, context: self, type: type))
+                }
             }
         }
         // Translate any top level functions
@@ -228,25 +238,27 @@ public class FishyJoesContext {
         var processedTypes = Set<BetterType>()
         while processedTypes != Set(typeCache.keys) {
             for type in typeCache.sorted(by: { "\($0.key)" < "\($1.key)" }) {
-                debugContext = "generating definition code for \(type.key.name)"
-                processedTypes.insert(type.key)
-                guard !generatedTypes.contains(type.key),
-                      case .type(let translatedType, usedLocally: true) = type.value
-                else {
-                    continue
+                withDebugContext("generating definition code for \(type.key.name)") {
+                    processedTypes.insert(type.key)
+                    guard !generatedTypes.contains(type.key),
+                          case .type(let translatedType, usedLocally: true) = type.value
+                    else {
+                        return
+                    }
+                    collectedFragments.append(contentsOf: translatedType.definitionFragments(in: self))
+                    generatedTypes.insert(type.key)
                 }
-                collectedFragments.append(contentsOf: translatedType.definitionFragments(in: self))
-                generatedTypes.insert(type.key)
             }
         }
 
         collectedFragments.append(
             contentsOf: translators.flatMap { translator -> [SourceFragment] in
-                debugContext = "generating setup code for \(type(of: translator))"
-                return translator.setupFragments(
-                    context: self,
-                    generatedTypes: generatedTypes.sorted { "\($0)" < "\($1)" }
-                )
+                withDebugContext("generating setup code for \(type(of: translator))") {
+                    translator.setupFragments(
+                        context: self,
+                        generatedTypes: generatedTypes.sorted { "\($0)" < "\($1)" }
+                    )
+                }
             }
         )
 
@@ -254,27 +266,16 @@ public class FishyJoesContext {
 
         // process all the fragments so that inner classes are inside outer classes
         collectedFragments.append(
-            contentsOf: processInnerClasses(
-                rootClass: KotlinClass(
-                    module: module,
-                    documentation: [],
-                    name: "__root__",
-                    fields: [],
-                    methods: [],
-                    conformances: []
-                ),
-                in: &kotlinClasses
-            )
+            contentsOf: processInnerClasses(in: &kotlinClasses)
         )
         collectedFragments.append(
-            contentsOf: processInnerClasses(
-                rootClass: CSharpClass(module: module, documentation: [], name: "__root__", fields: [], methods: [], conformances: []),
-                in: &cSharpClasses,
-                ignorePrefix: "\(module.cSharpNamespace)."
-            )
+            contentsOf: processInnerClasses(in: &cSharpClasses, ignorePrefix: "\(module.cSharpNamespace).")
         )
         collectedFragments.append(
-            contentsOf: dartClasses.map { $0.fragment(context: self) }
+            contentsOf: dartClasses.flatMap { $0.fragments(context: self) }
+        )
+        collectedFragments.append(
+            contentsOf: pythonClasses.flatMap { $0.fragments(context: self) }
         )
 
         // Output moduleInfo for FishyJoes packages that depend on this one
@@ -308,24 +309,26 @@ public class FishyJoesContext {
         return headerFragments + collectedFragments.sorted()
     }
 
+    class DummyRootClass<InnerClass: NestedClass>: NestedClass {
+        let name = "__root__"
+        var innerClasses: [InnerClass] = []
+        let unqualifiedName = ""
+        func fragments(context: FishyJoesContext) -> [SourceFragment] { [] }
+
+        init() {}
+    }
+
     /// Process a set of classes to nest their inner classes properly for generation.
-    ///
-    /// - Important: The provided `rootClass` is assumed to transfer all ownership to this function.
-    ///     It should genrally not be used elsewhere as it will be heavily mutated.
-    ///     This is why an auto closure is used for this parameter.
-    ///
     /// - Parameters:
-    ///   - rootClass: The root to put all nested classes inside.
     ///   - classes: The classes to process.
     ///   - separator: The separator in the name to split on for namespaces.
     /// - Returns: The resulting fragments with their inner classes properly processed.
     func processInnerClasses<C: NestedClass>(
-        rootClass: @autoclosure () -> C,
         in classes: inout [C],
         separator: Character = ".",
         ignorePrefix: String = ""
     ) -> [SourceFragment] where C.InnerClass == C {
-        let rootClass = rootClass()
+        let dummyRootClass = DummyRootClass<C>()
         // sort by length of qualified name so that outer classes are processed before inner ones
         for cClass in classes.sorted(by: { $0.name.utf8.count < $1.name.utf8.count }) {
             var name = cClass.name
@@ -334,7 +337,7 @@ public class FishyJoesContext {
             }
             var namespace = Array(name.split(separator: separator).map(String.init).dropLast().reversed())
 
-            var containingClass = rootClass
+            var containingClass: any NestedClass<C> = dummyRootClass
             while let outer = namespace.popLast() {
                 guard let next = containingClass.innerClasses.first(where: { $0.unqualifiedName == outer }) else {
                     fatalErr("""
@@ -347,7 +350,7 @@ public class FishyJoesContext {
             }
             containingClass.innerClasses.append(cClass)
         }
-        return rootClass.innerClasses.map { $0.fragment(context: self) }
+        return dummyRootClass.innerClasses.flatMap { $0.fragments(context: self) }
     }
 
     func translate(typeDefinition type: SourceryType) -> TranslatedType? {
@@ -378,7 +381,7 @@ public class FishyJoesContext {
         }
     }
 
-    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String, dart: String, dartFFI: String)
+    typealias TypeNames = (c: String, ts: String, jni: JNIType, cSharp: String, dart: String, dartFFI: String, python: String)
 
     func resolve(type: BetterType, generics: [String: BetterType] = [:]) -> TranslatedType {
         do {
@@ -425,22 +428,22 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap: [String: TypeNames] = [
-            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool", dart: "bool", dartFFI: "Bool"),
-            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte", dart: "int", dartFFI: "Int8"),
-            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int", dartFFI: "Int16"),
-            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int", dartFFI: "Int32"),
-            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int", dartFFI: "Int64"),
-            "Int": (c: "intptr_t", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "IntPtr"),
-            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "double", dartFFI: "Float"),
-            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double", dartFFI: "Double"),
+            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool", dart: "bool", dartFFI: "Bool", python: "bool"),
+            "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte", dart: "int", dartFFI: "Int8", python: "int"),
+            "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int", dartFFI: "Int16", python: "int"),
+            "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int", dartFFI: "Int32", python: "int"),
+            "Int64": (c: "int64_t", ts: "bigint", jni: JNIType.long, cSharp: "long", dart: "int", dartFFI: "Int64", python: "int"),
+            "Int": (c: "intptr_t", ts: "number", jni: JNIType.long, cSharp: "nint", dart: "int", dartFFI: "IntPtr", python: "int"),
+            "Float": (c: "float", ts: "number", jni: JNIType.float, cSharp: "float", dart: "double", dartFFI: "Float", python: "float"),
+            "Double": (c: "double", ts: "number", jni: JNIType.double, cSharp: "double", dart: "double", dartFFI: "Double", python: "float"),
         ]
 
         let primitiveUnsignedTypeMap: [String: TypeNames] = [
-            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte", dart: "int", dartFFI: "Uint8"),
-            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16"),
-            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32"),
-            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64"),
-            "UInt": (c: "uintptr_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UintPtr"),
+            "UInt8": (c: "uint8_t", ts: "number", jni: JNIType.byte, cSharp: "byte", dart: "int", dartFFI: "Uint8", python: "int"),
+            "UInt16": (c: "uint16_t", ts: "number", jni: JNIType.short, cSharp: "ushort", dart: "int", dartFFI: "Uint16", python: "int"),
+            "UInt32": (c: "uint32_t", ts: "number", jni: JNIType.int, cSharp: "uint", dart: "int", dartFFI: "Uint32", python: "int"),
+            "UInt64": (c: "uint64_t", ts: "bigint", jni: JNIType.long, cSharp: "ulong", dart: "int", dartFFI: "Uint64", python: "int"),
+            "UInt": (c: "uintptr_t", ts: "number", jni: JNIType.long, cSharp: "nuint", dart: "int", dartFFI: "UintPtr", python: "int"),
         ]
 
         var dontCache = false
@@ -593,6 +596,15 @@ public class FishyJoesContext {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
+    func python(method: Method, of type: TranslatedType) -> PythonClass2.MethodOrVariable? {
+        pythonTranslator.python(method: method, of: type, context: self)
+    }
+
+    func python(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> PythonClass2.MethodOrVariable? {
+        pythonTranslator.python(field: field, of: type, context: self, useNativeName: useNativeName)
+    }
+
+
     // MARK: warnings
 
     var warningsPrintedOnce: Set<String> = []
@@ -633,6 +645,10 @@ public class FishyJoesContext {
 
     func add(cSharpClass: CSharpClass) {
         cSharpClasses.append(cSharpClass)
+    }
+
+    func add(pythonClass: PythonClass2) {
+        pythonClasses.append(pythonClass)
     }
 
     struct FileHeader: Hashable, Comparable {

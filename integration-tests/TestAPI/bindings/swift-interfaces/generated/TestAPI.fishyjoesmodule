@@ -42,6 +42,20 @@
       "kotlinName" : "AProtocol",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.AProtocol",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "AProtocol"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AProtocol"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -96,6 +110,20 @@
       "kotlinName" : "AProtocolImplementation",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.AProtocolImplementation",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "AProtocolImplementation"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AProtocolImplementation"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -150,6 +178,17 @@
       "kotlinName" : "Actors",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Actors",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Actors"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -204,6 +243,20 @@
       "kotlinName" : "Actors.TemperatureLogger",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Actors.TemperatureLogger",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Actors.TemperatureLogger"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Actors.TemperatureLogger"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -258,6 +311,40 @@
       "kotlinName" : "AssociatedDataEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.AssociatedDataEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.thing"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.other"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.bar"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.noValue"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.none"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.simpleEnum"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AssociatedDataEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -312,65 +399,22 @@
       "kotlinName" : "AsyncFunctions",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.AsyncFunctions",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AsyncFunctions"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
             "module" : "TestAPI",
             "name" : "AsyncFunctions",
-            "namespace" : [
-
-            ]
-          }
-        }
-      }
-    },
-    {
-      "converterType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AttributedStrings",
-            "namespace" : [
-
-            ]
-          }
-        }
-      },
-      "cSharpType" : {
-        "named" : {
-          "name" : "AttributedStrings",
-          "package" : "Cricut.TestAPI"
-        }
-      },
-      "dartType" : {
-        "named" : {
-          "name" : "AttributedStrings",
-          "package" : "TestAPI"
-        }
-      },
-      "definingModule" : {
-        "dependencies" : [
-
-        ],
-        "extraDynamicLibraries" : [
-
-        ],
-        "name" : "TestAPI"
-      },
-      "isInhabited" : false,
-      "jniType" : {
-        "object" : {
-          "_0" : "com/cricut/testapi/AttributedStrings"
-        }
-      },
-      "kotlinName" : "AttributedStrings",
-      "kotlinPackage" : "com.cricut.testapi",
-      "nodeName" : "TestAPI.AttributedStrings",
-      "sourceType" : {
-        "named" : {
-          "_0" : {
-            "module" : "TestAPI",
-            "name" : "AttributedStrings",
             "namespace" : [
 
             ]
@@ -420,6 +464,17 @@
       "kotlinName" : "Bytes",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Bytes",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Bytes"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -474,6 +529,17 @@
       "kotlinName" : "ClosedRanges",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ClosedRanges",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ClosedRanges"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -528,6 +594,17 @@
       "kotlinName" : "Collections",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Collections",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Collections"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -582,6 +659,20 @@
       "kotlinName" : "Collections.CollectionHolder",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Collections.CollectionHolder",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Collections.CollectionHolder"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Collections.CollectionHolder"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -636,6 +727,17 @@
       "kotlinName" : "DefaultArguments",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.DefaultArguments",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "DefaultArguments"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -690,6 +792,17 @@
       "kotlinName" : "Deprecations",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Deprecations",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Deprecations"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -744,6 +857,20 @@
       "kotlinName" : "EmptyClass1",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.EmptyClass1",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "EmptyClass1"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "EmptyClass1"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -798,6 +925,20 @@
       "kotlinName" : "EmptyClass2",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.EmptyClass2",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "EmptyClass2"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "EmptyClass2"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -852,6 +993,17 @@
       "kotlinName" : "EmptyEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.EmptyEnum",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "EmptyEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -906,6 +1058,20 @@
       "kotlinName" : "EmptyStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.EmptyStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "EmptyStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "EmptyStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -960,6 +1126,20 @@
       "kotlinName" : "EmptyStruct2",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.EmptyStruct2",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "EmptyStruct2"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "EmptyStruct2"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1014,6 +1194,20 @@
       "kotlinName" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1068,6 +1262,17 @@
       "kotlinName" : "Functions",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Functions",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Functions"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1122,6 +1327,20 @@
       "kotlinName" : "Methods",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Methods",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Methods"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Methods"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1176,6 +1395,20 @@
       "kotlinName" : "TheMethodError",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TheMethodError",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TheMethodError"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TheMethodError"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1230,6 +1463,17 @@
       "kotlinName" : "Primitives",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Primitives",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Primitives"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1284,6 +1528,20 @@
       "kotlinName" : "Primitives.PrimitiveHolder",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Primitives.PrimitiveHolder",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Primitives.PrimitiveHolder"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Primitives.PrimitiveHolder"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1338,6 +1596,17 @@
       "kotlinName" : "ProtocolFixtures",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ProtocolFixtures",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ProtocolFixtures"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1392,6 +1661,17 @@
       "kotlinName" : "PythonNamingCollisions",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.PythonNamingCollisions",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "PythonNamingCollisions"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1446,6 +1726,17 @@
       "kotlinName" : "Ranges",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Ranges",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Ranges"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1500,6 +1791,32 @@
       "kotlinName" : "ReferenceCaseEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ReferenceCaseEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.north"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.south"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.east"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.west"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ReferenceCaseEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1554,6 +1871,17 @@
       "kotlinName" : "ReferenceEmptyEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ReferenceEmptyEnum",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ReferenceEmptyEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1608,6 +1936,17 @@
       "kotlinName" : "ReferenceOnlyTypes",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ReferenceOnlyTypes",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ReferenceOnlyTypes"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1662,6 +2001,20 @@
       "kotlinName" : "ReferenceOnlyTypes.Marker",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ReferenceOnlyTypes.Marker",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "ReferenceOnlyTypes.Marker"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ReferenceOnlyTypes.Marker"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1716,6 +2069,17 @@
       "kotlinName" : "Results",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Results",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Results"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1770,6 +2134,20 @@
       "kotlinName" : "Results.Error",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Results.Error",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Results.Error"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Results.Error"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1824,6 +2202,20 @@
       "kotlinName" : "Shade",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Shade",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Shade"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Shade"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1878,6 +2270,24 @@
       "kotlinName" : "ShadowBox",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.ShadowBox",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.shade"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.empty"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "ShadowBox"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1932,6 +2342,28 @@
       "kotlinName" : "SimpleEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.SimpleEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.red"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.green"
+          },
+          {
+            "module" : "testapi",
+            "name" : "enumName.blue"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "SimpleEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -1986,6 +2418,17 @@
       "kotlinName" : "Strings",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Strings",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Strings"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2040,6 +2483,17 @@
       "kotlinName" : "Structs",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2094,6 +2548,20 @@
       "kotlinName" : "Structs.MemberwiseStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs.MemberwiseStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Structs.MemberwiseStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs.MemberwiseStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2148,6 +2616,20 @@
       "kotlinName" : "Structs.MutableStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs.MutableStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Structs.MutableStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs.MutableStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2202,6 +2684,20 @@
       "kotlinName" : "Structs_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs_PuttingTypesIntoQuestionablePlaces",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2256,6 +2752,20 @@
       "kotlinName" : "Structs.ReferenceStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs.ReferenceStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Structs.ReferenceStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs.ReferenceStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2310,6 +2820,20 @@
       "kotlinName" : "Structs.TwentyOneItemStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Structs.TwentyOneItemStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Structs.TwentyOneItemStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Structs.TwentyOneItemStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2364,6 +2888,20 @@
       "kotlinName" : "String_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.String_PuttingTypesIntoQuestionablePlaces",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2418,6 +2956,20 @@
       "kotlinName" : "TestAsyncForeignSideFunctionsStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestAsyncForeignSideFunctionsStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestAsyncForeignSideFunctionsStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestAsyncForeignSideFunctionsStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2472,6 +3024,20 @@
       "kotlinName" : "TestAsyncFunctions",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestAsyncFunctions",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestAsyncFunctions"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestAsyncFunctions"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2526,6 +3092,20 @@
       "kotlinName" : "TestAsyncSwiftSideFunctionsClass",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestAsyncSwiftSideFunctionsClass",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestAsyncSwiftSideFunctionsClass"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestAsyncSwiftSideFunctionsClass"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2580,6 +3160,20 @@
       "kotlinName" : "TestDefaultComputedProperties",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDefaultComputedProperties",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedProperties"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedProperties"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2634,6 +3228,20 @@
       "kotlinName" : "TestDefaultComputedPropertiesReference",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesReference",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedPropertiesReference"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedPropertiesReference"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2688,6 +3296,20 @@
       "kotlinName" : "TestDefaultComputedPropertiesEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.qux"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedPropertiesEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2742,6 +3364,20 @@
       "kotlinName" : "TestDefaultComputedPropertiesStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDefaultComputedPropertiesStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedPropertiesStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDefaultComputedPropertiesStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2796,6 +3432,20 @@
       "kotlinName" : "TestDifferingExportNameProtocolDiffy",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDifferingExportNameProtocolDiffy",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestDifferingExportNameProtocolDiffy"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDifferingExportNameProtocolDiffy"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2850,6 +3500,20 @@
       "kotlinName" : "TestDifferingExportNameStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestDifferingExportNameStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestDifferingExportNameStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestDifferingExportNameStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2904,6 +3568,20 @@
       "kotlinName" : "TestLeadingUnderscoredProp",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestLeadingUnderscoredProp",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestLeadingUnderscoredProp"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestLeadingUnderscoredProp"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -2958,6 +3636,20 @@
       "kotlinName" : "TestLeadingUnderscoredPropStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestLeadingUnderscoredPropStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestLeadingUnderscoredPropStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestLeadingUnderscoredPropStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3012,6 +3704,20 @@
       "kotlinName" : "TestMethodsProtocol",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestMethodsProtocol",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestMethodsProtocol"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestMethodsProtocol"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3066,6 +3772,20 @@
       "kotlinName" : "TestNonExportedProtocolEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestNonExportedProtocolEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.hogehoge"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestNonExportedProtocolEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3120,6 +3840,20 @@
       "kotlinName" : "TestOptionalsProtocol",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestOptionalsProtocol",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestOptionalsProtocol"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestOptionalsProtocol"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3174,6 +3908,20 @@
       "kotlinName" : "TestPropertiesProtocol",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestPropertiesProtocol",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestPropertiesProtocol"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestPropertiesProtocol"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3228,6 +3976,20 @@
       "kotlinName" : "TestProtocolClass",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestProtocolClass",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestProtocolClass"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestProtocolClass"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3282,6 +4044,20 @@
       "kotlinName" : "TestProtocolEnum",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestProtocolEnum",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.qux"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestProtocolEnum"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3336,11 +4112,93 @@
       "kotlinName" : "TestProtocolStruct",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.TestProtocolStruct",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "TestProtocolStruct"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "TestProtocolStruct"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
             "module" : "TestAPI",
             "name" : "TestProtocolStruct",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Tree",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "Tree",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "Tree",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "isInhabited" : true,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/Tree"
+        }
+      },
+      "kotlinName" : "Tree",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.Tree",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "Tree"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Tree"
+          }
+        }
+      },
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "Tree",
             "namespace" : [
 
             ]
@@ -3390,6 +4248,17 @@
       "kotlinName" : "Tuples",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.Tuples",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "Tuples"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3444,6 +4313,17 @@
       "kotlinName" : "URLs",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.URLs",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "URLs"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -3498,6 +4378,20 @@
       "kotlinName" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
       "kotlinPackage" : "com.cricut.testapi",
       "nodeName" : "TestAPI.UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+      "pythonType" : {
+        "dynamics" : [
+          {
+            "module" : "testapi",
+            "name" : "enumName.thing"
+          }
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+          }
+        }
+      },
       "sourceType" : {
         "named" : {
           "_0" : {
@@ -7771,6 +8665,71 @@
               }
             ],
             "name" : "TestProtocolStruct"
+          },
+          {
+            "constructor" : {
+              "visible" : {
+                "names" : [
+                  "value",
+                  "children"
+                ],
+                "types" : [
+                  {
+                    "named" : {
+                      "_0" : "number"
+                    }
+                  },
+                  {
+                    "named" : {
+                      "_0" : "Tree[]"
+                    }
+                  }
+                ]
+              }
+            },
+            "documentation" : [
+              "<!-- FishyJoes.export(Tree) -->"
+            ],
+            "extends" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "value",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "number"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : false,
+                "name" : "children",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Tree[]"
+                  }
+                }
+              }
+            ],
+            "implements" : [
+
+            ],
+            "methods" : [
+
+            ],
+            "name" : "Tree"
           }
         ],
         "fields" : [
@@ -9660,325 +10619,6 @@
               }
             ],
             "name" : "AsyncFunctions",
-            "namespaces" : {
-
-            },
-            "typealiases" : [
-
-            ]
-          },
-          "AttributedStrings" : {
-            "classes" : [
-
-            ],
-            "fields" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(accent) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "accent",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(chinese) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "chinese",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(chineseBMP) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "chineseBMP",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(chineseSIP) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "chineseSIP",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(emoji) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "emoji",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(emojiMulti) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "emojiMulti",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(polyglot) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "polyglot",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(script) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "script",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(simple) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isStatic" : true,
-                "name" : "simple",
-                "readOnly" : true,
-                "type" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              }
-            ],
-            "interfaces" : [
-
-            ],
-            "methods" : [
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(echo) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "echo",
-                "parameters" : [
-                  {
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(firstIndex) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "firstIndex",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString.Index"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(lastIndex) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "lastIndex",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString.Index"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(fullRange) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "fullRange",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.SwiftRange<Runtime.AttributedString.Index>"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(attributedCharacters) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "attributedCharacters",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedSubstring[]"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "attributesPreferringDuplicatesNearerStart",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributeContainer"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(emptyAttributeRuns) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "emptyAttributeRuns",
-                "parameters" : [
-                  {
-                    "label" : "of",
-                    "name" : "string",
-                    "type" : {
-                      "named" : {
-                        "_0" : "Runtime.AttributedString"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "Runtime.AttributedString.Runs.Run[]"
-                  }
-                }
-              }
-            ],
-            "name" : "AttributedStrings",
             "namespaces" : {
 
             },
@@ -17306,19 +17946,6 @@
               "<!-- FishyJoes.export(AsyncFunctions) -->"
             ],
             "name" : "AsyncFunctions",
-            "value" : {
-              "union" : {
-                "_0" : [
-
-                ]
-              }
-            }
-          },
-          {
-            "documentation" : [
-              "<!-- FishyJoes.export(AttributedStrings) -->"
-            ],
-            "name" : "AttributedStrings",
             "value" : {
               "union" : {
                 "_0" : [

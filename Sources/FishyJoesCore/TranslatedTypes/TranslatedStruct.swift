@@ -8,6 +8,7 @@ struct TranslatedStruct: TranslatedType {
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let storedVariables: [Field]
     let computedVariables: [Field]
     let methods: [Method]
@@ -30,6 +31,7 @@ struct TranslatedStruct: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
+        self.pythonType = .class(module: context.module.pythonPackageName, name: exportAnnotation.pythonName ?? exportAnnotation.name)
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables.compactMap { Field($0, inType: type, context: context) }
@@ -362,7 +364,7 @@ struct TranslatedStruct: TranslatedType {
         return fragment
     }
 
-    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
+    func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         let created = cSharpType.pInvokeCreatedName
         lines += created.returnMark
@@ -446,7 +448,7 @@ struct TranslatedStruct: TranslatedType {
         }
     }
 
-    func dartSetupDelegates(in context: FishyJoesContext) -> [String] {
+    func dartSetupTypeAliases(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         lines.append("typedef _\(converterType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
         for storedVar in storedVariables {
@@ -606,6 +608,7 @@ struct TranslatedStruct: TranslatedType {
 
         registerDartClass(context: context)
         registerCSharpClass(context: context)
+        registerPythonClass(context: context)
 
         return fragment
     }
@@ -641,7 +644,7 @@ struct TranslatedStruct: TranslatedType {
                 constructor: .`public`(fields: storedFields),
                 fields: productFields,
                 methods: productMethods,
-                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
+                conformances: Set(exportedConformances(in: context).map { $0.cSharpType })
             )
         )
     }
@@ -672,7 +675,38 @@ struct TranslatedStruct: TranslatedType {
                 ),
                 fields: fields,
                 methods: methods,
-                conformances: Set(exportedConformances(in: context).map { $0.dartType})
+                conformances: Set(exportedConformances(in: context).map { $0.dartType })
+            )
+        )
+    }
+
+    func registerPythonClass(context: FishyJoesContext) {
+        let (fields, methods) = PythonClass2.separate(
+            fieldsAndMethods:
+                computedVariables.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
+
+        context.add(
+            pythonClass: PythonProductClass(
+                module: context.module,
+                documentation: documentation,
+                name: pythonType.static.name(),
+                constructor: .`public`(
+                    fields: storedVariables.compactMap {
+                        switch context.python(field: $0, of: self, useNativeName: true) {
+                        case .method: fatalErr("Can't export a stored variable `\(self.sourceType.name).\($0.name)` as a method")
+                        case .variable(let field): return field
+                        case nil: return nil
+                        }
+                    }
+                ),
+                fields: fields,
+                methods: methods,
+                conformances: Set(exportedConformances(in: context).map { $0.pythonType })
             )
         )
     }

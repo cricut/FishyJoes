@@ -72,13 +72,13 @@ class CSharpClass: NestedClass {
         }
     }
 
-    func fragment(context: FishyJoesContext) -> SourceFragment {
+    func fragments(context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.cSharpFragment("\(unqualifiedName).cs")
 
         fragment.outputBlock("namespace \(module.cSharpNamespace) {") {
             output(to: fragment)
         }
-        return fragment
+        return [fragment]
     }
 
     func document(_ documentation: [String], fragment: SourceFragment) {

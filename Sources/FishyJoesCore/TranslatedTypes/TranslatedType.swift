@@ -9,22 +9,23 @@ protocol TranslatedType {
     var jniType: JNIType { get }
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
+    var pythonType: PythonClass2.PythonType { get }
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
     var containedNamedTypes: [TranslatedType] { get }
     var conformances: Set<BetterType> { get }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>]
-    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String]
+    func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
-    func dartSetupDelegates(in context: FishyJoesContext) -> [String]
-    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
-    /// The bundled Python representation of this type: annotation + C ABI type +
-    /// optional conversion descriptor. A `nil` result means "no C ABI
-    /// representation" (the old `pythonCType == nil`); when non-`nil` the
-    /// annotation is always present. Non-defaulted, so a new `TranslatedType`
-    /// cannot compile without supplying its Python representation.
+    func dartSetupTypeAliases(in context: FishyJoesContext) -> [String]
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>]
+    func pythonSetupTypeAliases(in context: FishyJoesContext) -> [String]
+
+    // TODO: delete
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation?
+
+    func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }
 
 extension TranslatedType {
@@ -82,10 +83,12 @@ extension TranslatedType {
         sourceType.name.mangled
     }
 
-    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] { [] }
-    func dartSetupDelegates(in context: FishyJoesContext) -> [String] { [] }
+    func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
+    func dartSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] { [] }
+    func pythonSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
 
     var iotaSetupName: String {
         "\(converterType.genericBaseName.mangledName)_setup"

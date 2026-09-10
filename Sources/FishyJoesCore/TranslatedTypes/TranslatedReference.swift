@@ -9,6 +9,7 @@ struct TranslatedReference: TranslatedType {
     let kotlinPackage: String?
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let methods: [Method]
     let computedVariables: [Field]
     let documentation: [String]
@@ -33,6 +34,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
+        self.pythonType = .class(module: context.module.pythonPackageName, name: exportAnnotation.pythonName ?? exportAnnotation.name)
         self.methods = Method.methods(type: type, context: context)
         self.computedVariables = Field.fields(type: type, context: context)
         self.documentation = type.documentation
@@ -420,6 +422,7 @@ struct TranslatedReference: TranslatedType {
 
         registerDartClass(in: context)
         registerCSharpClass(in: context)
+        registerPythonClass(in: context)
 
         return fragment
     }
@@ -609,6 +612,104 @@ struct TranslatedReference: TranslatedType {
                 )
             ) { fragment in
                 fragment.output("ffi.Pointer.fromFunction(\(dartType.name()).ffi_new),")
+            },
+        ]
+    }
+
+    func registerPythonClass(in context: FishyJoesContext) {
+        var fieldsAndMethods =
+        computedVariables.compactMap {
+            context.python(field: $0, of: self, useNativeName: false)
+        } +
+        methods.compactMap {
+            context.python(method: $0, of: self)
+        }
+
+        if equatable {
+            fieldsAndMethods.append(
+                .method(
+                    PythonClass2.Method(
+                        documentation: [],
+                        isStatic: false,
+                        name: "operator ==",
+                        mangledName: "",
+                        parameters: [
+                            (labelComment: nil, name: "other", type: .object, defaultValue: nil),
+                        ],
+                        returnType: .bool,
+                        deprecation: nil,
+                        body: [
+                            "identical(other, this) ||",
+                            "(other is \(pythonType.static.name()) &&",
+                            "    GCRef.using(this, (thisHandle) =>",
+                            "        GCRef.using(other, (otherHandle) =>",
+                            "            check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))",
+                        ],
+                        isDefaultImplementation: false
+                    )
+                )
+            )
+            fieldsAndMethods.append(
+                .method(
+                    PythonClass2.Method(
+                        documentation: [],
+                        isStatic: true,
+                        name: "_equals",
+                        mangledName: "\(sourceType.name.mangled)_equals",
+                        parameters: [
+                            (labelComment: nil, name: "lhs", type: pythonType, nil),
+                            (labelComment: nil, name: "rhs", type: .optional(pythonType), nil),
+                        ],
+                        returnType: .bool,
+                        deprecation: nil,
+                        body: nil,
+                        isDefaultImplementation: false
+                    )
+                )
+            )
+        }
+        if hashable {
+            fieldsAndMethods.append(
+                .variable(
+                    PythonClass2.Variable(
+                        documentation: [],
+                        isStatic: false,
+                        isMutable: false,
+                        isPubliclyWritable: false,
+                        asMethod: false,
+                        name: "hashCode",
+                        mangledName: "\(sourceType.name.mangled)_hash",
+                        type: .int,
+                        deprecation: nil,
+                        isDefaultImplementation: false
+                    )
+                )
+            )
+        }
+
+        let (fields, methods) = PythonClass2.separate(fieldsAndMethods: fieldsAndMethods)
+        let pythonProduct = PythonProductClass(
+            module: context.module,
+            documentation: documentation,
+            name: pythonType.static.name(),
+            constructor: .reference,
+            fields: fields,
+            methods: methods,
+            conformances: Set(exportedConformances(in: context).map { $0.pythonType})
+        )
+        context.add(pythonClass: pythonProduct)
+    }
+
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+        [
+            .value(
+                name: "constructorMethod",
+                type: .callable(
+                    args: [.consumedSwiftRef, .outCreatedHostRef],
+                    return: .createdHostRef
+                )
+            ) { fragment in
+                fragment.output("ffi.Pointer.fromFunction(\(pythonType.static.name()).ffi_new),")
             },
         ]
     }

@@ -12,4 +12,13 @@ public enum PythonNamingConventions {
             .replacingOccurrences(of: ".", with: "_")
             .lowercased()
     }
+
+    public static func namespaceFor(typeName: String) -> String {
+        var result = snakify(typeName).lowercased()
+        // Namespace must be different from type name for python to work correctly.
+        if result == typeName {
+            result += "_"
+        }
+        return result
+    }
 }

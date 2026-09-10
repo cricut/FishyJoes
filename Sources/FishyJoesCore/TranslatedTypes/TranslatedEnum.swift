@@ -10,6 +10,7 @@ struct TranslatedEnum: TranslatedType {
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let cases: [Case]
     let documentation: [String]
     let methods: [Method]
@@ -31,6 +32,10 @@ struct TranslatedEnum: TranslatedType {
         }
         var classInstanceVar: String {
             "_java_\(name)_INSTANCE"
+        }
+
+        func pythonType(inModule module: String, enumName: String) -> PythonClass2.PythonType {
+            .class(module: module, name: "enumName.\(name)")
         }
     }
 
@@ -81,6 +86,11 @@ struct TranslatedEnum: TranslatedType {
                 }
             )
         }
+        let pythonName = exportAnnotation.pythonName ?? name
+        self.pythonType = .init(
+            static: .named(module: context.module.pythonPackageName, name: pythonName),
+            dynamics: cases.flatMap { $0.pythonType(inModule: context.module.pythonPackageName, enumName: pythonName).dynamics }
+        )
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.documentation = type.documentation
 

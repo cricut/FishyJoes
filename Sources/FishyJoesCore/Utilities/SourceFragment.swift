@@ -3,12 +3,15 @@ import Foundation
 public class SourceFragment {
     private let spacesPerIndent = 4
     public var destinationPath: String?
+    public var createIntermediateDirectories: Bool
     private var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
 
-    public init(destinationPath: String?) {
+    // Creating directories defaults to false to help avoid writing files into non-agreeing directories
+    public init(destinationPath: String?, createIntermediateDirectories: Bool = false) {
         self.destinationPath = destinationPath
+        self.createIntermediateDirectories = createIntermediateDirectories
     }
 
     private func append(fragments: [String]) {
@@ -70,6 +73,8 @@ public class SourceFragment {
                 matchingClose = ")"
             case "[":
                 matchingClose = "]"
+            case ":":
+                matchingClose = ""
             default:
                 fatalErr("don't know how to close \"\(openingLine)\". Specify explicitly.")
             }
@@ -112,14 +117,19 @@ public class SourceFragment {
     }
 
     // Concatenate SourceFragments and group by destination
-    public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String)] {
-        var collated: [String?: [String]] = [:]
+    public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String, createIntermediateDirectories: Bool)] {
+        var collated: [String?: [(contents: String, createIntermediateDirectories: Bool)]] = [:]
         for fragment in fragments {
-            collated[fragment.destinationPath, default: []].append(fragment.contents)
+            collated[fragment.destinationPath, default: []].append((fragment.contents, fragment.createIntermediateDirectories))
         }
         return collated.map {
             let (destination, contentFragments) = $0
-            return (path: destination, contents: contentFragments.joined(separator: "\n"))
+            let combinedContents = contentFragments.map(\.contents).joined(separator: "\n")
+            let createIntermediateDirectories = Set(contentFragments.map(\.createIntermediateDirectories))
+            if createIntermediateDirectories.count != 1 {
+                fatalErr("Fragments for \(destination ?? "<null>") must all agree on createIntermediateDirectories")
+            }
+            return (path: destination, contents: combinedContents, createIntermediateDirectories: createIntermediateDirectories.first!)
         }.sorted { $0.path ?? "" < $1.path ?? "" }
     }
 }

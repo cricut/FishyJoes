@@ -60,9 +60,9 @@ final class DartTranslator: Translator {
             let resolved = context.resolve(type: type)
 
             let setupParams = resolved.dartSetupParameters(in: context)
-            let setupDelegates = resolved.dartSetupDelegates(in: context)
+            let setupTypeAliases = resolved.dartSetupTypeAliases(in: context)
 
-            setupDelegates.forEach { fragment.output($0) }
+            setupTypeAliases.forEach { fragment.output($0) }
 
             if resolved.definingModule == context.module {
                 precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")

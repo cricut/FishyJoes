@@ -1,3 +1,4 @@
+from typing import final
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Callable, Never, TypeAlias, assert_never, cast, override
@@ -73,6 +74,7 @@ class _BaseResult[Success, Failure: BaseException](ABC):
         ...
 
 
+@final
 @dataclass(frozen=True)
 class ResultSuccess[Success](_BaseResult[Success, Never]):
     """The success case of a Swift `Result`, carrying the value."""
@@ -88,6 +90,7 @@ class ResultSuccess[Success](_BaseResult[Success, Never]):
         return ResultSuccess(transform(self.value))
 
 
+@final
 @dataclass(frozen=True)
 class ResultFailure[Failure: BaseException](_BaseResult[Never, Failure]):
     """The failure case of a Swift `Result`, carrying the error."""

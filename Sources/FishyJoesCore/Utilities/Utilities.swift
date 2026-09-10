@@ -59,6 +59,19 @@ extension RandomAccessCollection {
     }
 }
 
+extension Sequence where Element: Hashable {
+    func deduplicated() -> [Element] {
+        var seen: Set<Element> = []
+        return filter { element in
+            if seen.contains(element) {
+                return false
+            }
+            seen.insert(element)
+            return true
+        }
+    }
+}
+
 extension String {
     /// Not a good or reversible mangling, but hopefully good enough
     var mangled: String {

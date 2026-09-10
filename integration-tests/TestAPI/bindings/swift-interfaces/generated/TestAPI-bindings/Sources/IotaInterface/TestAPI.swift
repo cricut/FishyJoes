@@ -11,8 +11,8 @@ import TestAPI_CommonInterface
 @_cdecl("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall")
 public func __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -30,8 +30,8 @@ public func __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlace
 public func Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
     constructorMethod: @escaping Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
-    _ xGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ xGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
@@ -40,14 +40,14 @@ public func Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup
 }
 
 extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             x: try Swift.String.consumeIota(
                 try env.check { exn in _xGetter[env](value, exn) },
@@ -56,7 +56,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.x, env: env),
@@ -65,7 +65,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -75,8 +75,8 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
 @_cdecl("__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall")
 public func __iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -94,8 +94,8 @@ public func __iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(
 public func Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
     constructorMethod: @escaping Swift.String.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
-    _ xGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ xGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
@@ -104,14 +104,14 @@ public func Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
 }
 
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             x: try Swift.String.consumeIota(
                 try env.check { exn in _xGetter[env](value, exn) },
@@ -120,7 +120,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.x, env: env),
@@ -129,7 +129,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -139,8 +139,8 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.
 @_cdecl("__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall")
 public func __iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -169,21 +169,21 @@ public func Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
 
 extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Thing_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
     public typealias Thing_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in thing_extractor[env](value, exn) }
@@ -193,7 +193,7 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaR
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case thing:
             return try env.check { exn in
@@ -211,10 +211,10 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaR
 @_cdecl("__iota_TestAPI_AProtocol_bar")
 public func __iota_TestAPI_AProtocol_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     x: Swift.Int.CType,
     y: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._AProtocolConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -234,8 +234,8 @@ public func __iota_TestAPI_AProtocol_bar(
 @_cdecl("__iota_get_TestAPI_AProtocol_baz")
 public func __iota_get_TestAPI_AProtocol_baz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -249,8 +249,8 @@ public func __iota_get_TestAPI_AProtocol_baz(
 @_cdecl("__iota_get_TestAPI_AProtocol_foo")
 public func __iota_get_TestAPI_AProtocol_foo(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -264,10 +264,10 @@ public func __iota_get_TestAPI_AProtocol_foo(
 @_cdecl("__iota_TestAPI_AProtocol_hasADefaultImplementation")
 public func __iota_TestAPI_AProtocol_hasADefaultImplementation(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     x: Swift.Int.CType,
     y: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -290,11 +290,11 @@ public func __iota_TestAPI_AProtocol_hasADefaultImplementation(
 @_cdecl("__iota_TestAPI_AProtocol_hasADefaultImplementation2")
 public func __iota_TestAPI_AProtocol_hasADefaultImplementation2(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     a: Swift.String.CType,
     b: Swift.Bool.CType,
     c: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -387,28 +387,28 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
-    _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
-    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
+    _ bazGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
+    _ fooGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
     _ bar: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         Swift.Int.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType,
     _ hasADefaultImplementation: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         Swift.Double.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ hasADefaultImplementation2: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.String.CType,
         Swift.Bool.CType,
         Swift.String.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -421,35 +421,35 @@ public func TestAPI_CommonInterface__AProtocolConverter_setup(
 }
 
 extension TestAPI_CommonInterface._AProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
+    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
     fileprivate static let _bar = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         Swift.Int.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> TestAPI_CommonInterface._AProtocolConverter.CType>()
     fileprivate static let _hasADefaultImplementation = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         Swift.Double.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _hasADefaultImplementation2 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.String.CType,
         Swift.Bool.CType,
         Swift.String.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -459,7 +459,7 @@ extension TestAPI_CommonInterface._AProtocolConverter: FishyJoesIotaRuntime.Iota
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -475,10 +475,10 @@ extension TestAPI_CommonInterface._AProtocolConverter: FishyJoesIotaRuntime.Iota
 @_cdecl("__iota_TestAPI_AProtocolImplementation_bar")
 public func __iota_TestAPI_AProtocolImplementation_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     x: Swift.Int.CType,
     y: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._AProtocolConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -498,10 +498,10 @@ public func __iota_TestAPI_AProtocolImplementation_bar(
 @_cdecl("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation")
 public func __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     x: Swift.Int.CType,
     y: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -521,11 +521,11 @@ public func __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation(
 @_cdecl("__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2")
 public func __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     a: Swift.String.CType,
     b: Swift.Bool.CType,
     c: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -546,11 +546,11 @@ public func __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
 public func TestAPI_AProtocolImplementation_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.AProtocolImplementation._ConstructorMethod,
-    _ fooGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ fooSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ bazGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
-    _ bazSetter: @escaping @convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ fooGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ fooSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ bazGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
+    _ bazSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.AProtocolImplementation._constructorMethod.isInitialized(env) { return }
@@ -562,18 +562,18 @@ public func TestAPI_AProtocolImplementation_setup(
 }
 
 extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
-    fileprivate static let _bazSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
+    fileprivate static let _bazSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
         Swift.Bool.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             foo: try Swift.String.consumeIota(
                 try env.check { exn in _fooGetter[env](value, exn) },
@@ -586,7 +586,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.foo, env: env),
@@ -596,7 +596,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _fooSetter[env](
             this,
             try Swift.String.toIota(value.foo, env: env),
@@ -619,11 +619,11 @@ public func TestAPI_Actors_setup(
 }
 
 extension TestAPI.Actors: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -633,8 +633,8 @@ extension TestAPI.Actors: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel")
 public func __iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -648,9 +648,9 @@ public func __iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(
 @_cdecl("__iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel")
 public func __iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Actors.TemperatureLogger.peekIota(_iotaThis, env: env))
@@ -668,8 +668,8 @@ public func __iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel(
 @_cdecl("__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel")
 public func __iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -687,8 +687,8 @@ public func __iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel
 @_cdecl("__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel")
 public func __iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -704,7 +704,7 @@ public func __iota_TestAPI_Actors_TemperatureLogger_create(
     envRef: EnvRef,
     label: Swift.String.CType,
     measurement: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Actors.TemperatureLogger.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -724,8 +724,8 @@ public func __iota_TestAPI_Actors_TemperatureLogger_create(
 @_cdecl("__iota_get_TestAPI_Actors_TemperatureLogger_label")
 public func __iota_get_TestAPI_Actors_TemperatureLogger_label(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -739,9 +739,9 @@ public func __iota_get_TestAPI_Actors_TemperatureLogger_label(
 @_cdecl("__iota_TestAPI_Actors_TemperatureLogger_min")
 public func __iota_TestAPI_Actors_TemperatureLogger_min(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Actors.TemperatureLogger.peekIota(_iotaThis, env: env))
@@ -759,10 +759,10 @@ public func __iota_TestAPI_Actors_TemperatureLogger_min(
 @_cdecl("__iota_TestAPI_Actors_TemperatureLogger_update")
 public func __iota_TestAPI_Actors_TemperatureLogger_update(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     measurement: Swift.Int.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let measurement = try Swift.Int.peekIota(measurement, env: env)
@@ -781,8 +781,8 @@ public func __iota_TestAPI_Actors_TemperatureLogger_update(
 @_cdecl("TestAPI_Actors_TemperatureLogger_setup")
 public func TestAPI_Actors_TemperatureLogger_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Actors.TemperatureLogger._constructorMethod.isInitialized(env) { return }
@@ -790,13 +790,13 @@ public func TestAPI_Actors_TemperatureLogger_setup(
 }
 
 extension TestAPI.Actors.TemperatureLogger: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Actors.TemperatureLogger {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.Actors.TemperatureLogger {
         try Box<TestAPI.Actors.TemperatureLogger>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.Actors.TemperatureLogger, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.Actors.TemperatureLogger, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -808,8 +808,8 @@ extension TestAPI.Actors.TemperatureLogger: FishyJoesIotaRuntime.IotaReferenceMu
 @_cdecl("__iota_get_TestAPI_AssociatedDataEnum_intValue")
 public func __iota_get_TestAPI_AssociatedDataEnum_intValue(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -823,9 +823,9 @@ public func __iota_get_TestAPI_AssociatedDataEnum_intValue(
 @_cdecl("__iota_TestAPI_AssociatedDataEnum_plus")
 public func __iota_TestAPI_AssociatedDataEnum_plus(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     other: TestAPI.AssociatedDataEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.AssociatedDataEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -844,7 +844,7 @@ public func __iota_TestAPI_AssociatedDataEnum_plus(
 @_cdecl("__iota_get_TestAPI_AssociatedDataEnum_staticThing")
 public func __iota_get_TestAPI_AssociatedDataEnum_staticThing(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.AssociatedDataEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -889,80 +889,80 @@ public func TestAPI_AssociatedDataEnum_setup(
 
 extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Thing_constructor = @convention(c) (
         Swift.Int.CType,
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
     public typealias Thing_extractor = @convention(c) (
-        foreignObject,
+        HostObject,
         UnsafePointer<Swift.Int.CType>,
-        foreignOutExn
+        OutHostException
     ) -> Void
     fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
     public typealias Other_constructor = @convention(c) (
         Swift.String.CType,
         Swift.Int.CType,
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let other_constructor = Env.CallbackMap<Other_constructor>()
     public typealias Other_extractor = @convention(c) (
-        foreignObject,
+        HostObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<Swift.Int.CType>,
-        foreignOutExn
+        OutHostException
     ) -> Void
     fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
     public typealias Bar_constructor = @convention(c) (
         Swift.String.CType,
         TestAPI.AssociatedDataEnum.CType,
         Swift.Bool.CType,
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let bar_constructor = Env.CallbackMap<Bar_constructor>()
     public typealias Bar_extractor = @convention(c) (
-        foreignObject,
+        HostObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<TestAPI.AssociatedDataEnum.CType>,
         UnsafePointer<Swift.Bool.CType>,
-        foreignOutExn
+        OutHostException
     ) -> Void
     fileprivate static let bar_extractor = Env.CallbackMap<Bar_extractor>()
     public typealias NoValue_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let noValue_constructor = Env.CallbackMap<NoValue_constructor>()
     public typealias NoValue_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let noValue_extractor = Env.CallbackMap<NoValue_extractor>()
     public typealias None_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let none_constructor = Env.CallbackMap<None_constructor>()
     public typealias None_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let none_extractor = Env.CallbackMap<None_extractor>()
     public typealias SimpleEnum_constructor = @convention(c) (
         TestAPI.SimpleEnum.CType,
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let simpleEnum_constructor = Env.CallbackMap<SimpleEnum_constructor>()
     public typealias SimpleEnum_extractor = @convention(c) (
-        foreignObject,
+        HostObject,
         UnsafePointer<TestAPI.SimpleEnum.CType>,
-        foreignOutExn
+        OutHostException
     ) -> Void
     fileprivate static let simpleEnum_extractor = Env.CallbackMap<SimpleEnum_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             var _value = Swift.Int.CType.default
@@ -1015,7 +1015,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case let thing(value):
             return try env.check { exn in
@@ -1070,7 +1070,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_add3Things")
 public func __iota_get_TestAPI_AsyncFunctions_add3Things(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1084,7 +1084,7 @@ public func __iota_get_TestAPI_AsyncFunctions_add3Things(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_const42")
 public func __iota_get_TestAPI_AsyncFunctions_const42(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1099,8 +1099,8 @@ public func __iota_get_TestAPI_AsyncFunctions_const42(
 public func __iota_TestAPI_AsyncFunctions_delayedConst(
     envRef: EnvRef,
     nanoseconds: Swift.Int.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let nanoseconds = try Swift.Int.peekIota(nanoseconds, env: env)
@@ -1120,8 +1120,8 @@ public func __iota_TestAPI_AsyncFunctions_delayedConst(
 public func __iota_TestAPI_AsyncFunctions_exercise0(
     envRef: EnvRef,
     fn: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction0Converter<Swift.Int>.peekIota(fn, env: env)
@@ -1141,8 +1141,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise0(
 public func __iota_TestAPI_AsyncFunctions_exercise1(
     envRef: EnvRef,
     fn: AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction1Converter<Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -1162,8 +1162,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise1(
 public func __iota_TestAPI_AsyncFunctions_exercise2(
     envRef: EnvRef,
     fn: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.peekIota(fn, env: env)
@@ -1183,8 +1183,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise2(
 public func __iota_TestAPI_AsyncFunctions_exercise3(
     envRef: EnvRef,
     fn: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.peekIota(fn, env: env)
@@ -1204,8 +1204,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise3(
 public func __iota_TestAPI_AsyncFunctions_exercise4(
     envRef: EnvRef,
     fn: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.peekIota(fn, env: env)
@@ -1225,8 +1225,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise4(
 public func __iota_TestAPI_AsyncFunctions_exercise5(
     envRef: EnvRef,
     fn: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.peekIota(fn, env: env)
@@ -1246,8 +1246,8 @@ public func __iota_TestAPI_AsyncFunctions_exercise5(
 public func __iota_TestAPI_AsyncFunctions_exercise6(
     envRef: EnvRef,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -1266,7 +1266,7 @@ public func __iota_TestAPI_AsyncFunctions_exercise6(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_fifthThing")
 public func __iota_get_TestAPI_AsyncFunctions_fifthThing(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1280,7 +1280,7 @@ public func __iota_get_TestAPI_AsyncFunctions_fifthThing(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_abs")
 public func __iota_get_TestAPI_AsyncFunctions_abs(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1294,7 +1294,7 @@ public func __iota_get_TestAPI_AsyncFunctions_abs(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_intCompose")
 public func __iota_get_TestAPI_AsyncFunctions_intCompose(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1308,7 +1308,7 @@ public func __iota_get_TestAPI_AsyncFunctions_intCompose(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_makeList")
 public func __iota_get_TestAPI_AsyncFunctions_makeList(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1322,7 +1322,7 @@ public func __iota_get_TestAPI_AsyncFunctions_makeList(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_sixthThing")
 public func __iota_get_TestAPI_AsyncFunctions_sixthThing(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1337,7 +1337,7 @@ public func __iota_get_TestAPI_AsyncFunctions_sixthThing(
 public func __iota_TestAPI_AsyncFunctions_thunkTwiceMaker(
     envRef: EnvRef,
     thunk: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1356,7 +1356,7 @@ public func __iota_TestAPI_AsyncFunctions_thunkTwiceMaker(
 @_cdecl("__iota_get_TestAPI_AsyncFunctions_willThrow")
 public func __iota_get_TestAPI_AsyncFunctions_willThrow(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1373,294 +1373,11 @@ public func TestAPI_AsyncFunctions_setup(
 }
 
 extension TestAPI.AsyncFunctions: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.accent`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_accent")
-public func __iota_get_TestAPI_AttributedStrings_accent(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.accent, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.attributedCharacters(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_attributedCharacters")
-public func __iota_TestAPI_AttributedStrings_attributedCharacters(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> ArrayConverter<Foundation.AttributedSubstring>.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try ArrayConverter<Foundation.AttributedSubstring>.toIota(
-            TestAPI.AttributedStrings.attributedCharacters(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.attributesPreferringDuplicatesNearerStart(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart")
-public func __iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> Foundation.AttributeContainer.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try Foundation.AttributeContainer.toIota(
-            TestAPI.AttributedStrings.attributesPreferringDuplicatesNearerStart(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.chineseBMP`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_chineseBMP")
-public func __iota_get_TestAPI_AttributedStrings_chineseBMP(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.chineseBMP, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.chineseSIP`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_chineseSIP")
-public func __iota_get_TestAPI_AttributedStrings_chineseSIP(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.chineseSIP, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.chinese`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_chinese")
-public func __iota_get_TestAPI_AttributedStrings_chinese(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.chinese, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.echo(_ string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_echo")
-public func __iota_TestAPI_AttributedStrings_echo(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try Foundation.AttributedString.toIota(
-            TestAPI.AttributedStrings.echo(
-                try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.emojiMulti`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_emojiMulti")
-public func __iota_get_TestAPI_AttributedStrings_emojiMulti(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.emojiMulti, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.emoji`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_emoji")
-public func __iota_get_TestAPI_AttributedStrings_emoji(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.emoji, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.emptyAttributeRuns(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_emptyAttributeRuns")
-public func __iota_TestAPI_AttributedStrings_emptyAttributeRuns(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> ArrayConverter<Foundation.AttributedString.Runs.Run>.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try ArrayConverter<Foundation.AttributedString.Runs.Run>.toIota(
-            TestAPI.AttributedStrings.emptyAttributeRuns(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.firstIndex(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_firstIndex")
-public func __iota_TestAPI_AttributedStrings_firstIndex(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.Index.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try Foundation.AttributedString.Index.toIota(
-            TestAPI.AttributedStrings.firstIndex(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.fullRange(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_fullRange")
-public func __iota_TestAPI_AttributedStrings_fullRange(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> RangeConverter<Foundation.AttributedString.Index>.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try RangeConverter<Foundation.AttributedString.Index>.toIota(
-            TestAPI.AttributedStrings.fullRange(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.lastIndex(of string: AttributedString)`
-@_cdecl("__iota_TestAPI_AttributedStrings_lastIndex")
-public func __iota_TestAPI_AttributedStrings_lastIndex(
-    envRef: EnvRef,
-    string: Foundation.AttributedString.CType,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.Index.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        return try Foundation.AttributedString.Index.toIota(
-            TestAPI.AttributedStrings.lastIndex(
-                of: try Foundation.AttributedString.peekIota(string, env: env)
-            ),
-            env: env
-        )
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.polyglot`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_polyglot")
-public func __iota_get_TestAPI_AttributedStrings_polyglot(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.polyglot, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.script`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_script")
-public func __iota_get_TestAPI_AttributedStrings_script(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.script, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-methods.swift
-
-// Generated by FishyJoes for `TestAPI.AttributedStrings.simple`
-@_cdecl("__iota_get_TestAPI_AttributedStrings_simple")
-public func __iota_get_TestAPI_AttributedStrings_simple(
-    envRef: EnvRef,
-    _exn: foreignOutExn
-) -> Foundation.AttributedString.CType {
-    let env = Env(envRef)
-    return env.catching(to: _exn) {
-        try Foundation.AttributedString.toIota(TestAPI.AttributedStrings.simple, env: env)
-    }
-}
-
-// MARK: - IotaInterface/TestAPI.AttributedStrings+iota-type.swift
-
-@_cdecl("TestAPI_AttributedStrings_setup")
-public func TestAPI_AttributedStrings_setup(
-    envRef: EnvRef
-) {
-}
-
-extension TestAPI.AttributedStrings: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
-        throw UninhabitedTypeCreationError(self)
-    }
-
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -1670,7 +1387,7 @@ extension TestAPI.AttributedStrings: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Bytes_bytes")
 public func __iota_get_TestAPI_Bytes_bytes(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1684,7 +1401,7 @@ public func __iota_get_TestAPI_Bytes_bytes(
 @_cdecl("__iota_get_TestAPI_Bytes_data")
 public func __iota_get_TestAPI_Bytes_data(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.Data.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1699,7 +1416,7 @@ public func __iota_get_TestAPI_Bytes_data(
 public func __iota_TestAPI_Bytes_echoBytes(
     envRef: EnvRef,
     bytes: ArrayConverter<Swift.UInt8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1719,7 +1436,7 @@ public func __iota_TestAPI_Bytes_echoBytes(
 public func __iota_TestAPI_Bytes_echoData(
     envRef: EnvRef,
     data: Foundation.Data.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.Data.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1741,11 +1458,11 @@ public func TestAPI_Bytes_setup(
 }
 
 extension TestAPI.Bytes: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -1755,7 +1472,7 @@ extension TestAPI.Bytes: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_ClosedRanges_doubleRange")
 public func __iota_get_TestAPI_ClosedRanges_doubleRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1770,7 +1487,7 @@ public func __iota_get_TestAPI_ClosedRanges_doubleRange(
 public func __iota_TestAPI_ClosedRanges_echoDoubleRange(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1790,7 +1507,7 @@ public func __iota_TestAPI_ClosedRanges_echoDoubleRange(
 public func __iota_TestAPI_ClosedRanges_echoFloatRange(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Float>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Float>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1810,7 +1527,7 @@ public func __iota_TestAPI_ClosedRanges_echoFloatRange(
 public func __iota_TestAPI_ClosedRanges_echoInt16Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Int16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1830,7 +1547,7 @@ public func __iota_TestAPI_ClosedRanges_echoInt16Range(
 public func __iota_TestAPI_ClosedRanges_echoInt32Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Int32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1850,7 +1567,7 @@ public func __iota_TestAPI_ClosedRanges_echoInt32Range(
 public func __iota_TestAPI_ClosedRanges_echoInt64Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Int64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1870,7 +1587,7 @@ public func __iota_TestAPI_ClosedRanges_echoInt64Range(
 public func __iota_TestAPI_ClosedRanges_echoInt8Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Int8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1890,7 +1607,7 @@ public func __iota_TestAPI_ClosedRanges_echoInt8Range(
 public func __iota_TestAPI_ClosedRanges_echoIntRange(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1910,7 +1627,7 @@ public func __iota_TestAPI_ClosedRanges_echoIntRange(
 public func __iota_TestAPI_ClosedRanges_echoStringRange(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.String>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1930,7 +1647,7 @@ public func __iota_TestAPI_ClosedRanges_echoStringRange(
 public func __iota_TestAPI_ClosedRanges_echoUInt16Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.UInt16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1950,7 +1667,7 @@ public func __iota_TestAPI_ClosedRanges_echoUInt16Range(
 public func __iota_TestAPI_ClosedRanges_echoUInt32Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.UInt32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1970,7 +1687,7 @@ public func __iota_TestAPI_ClosedRanges_echoUInt32Range(
 public func __iota_TestAPI_ClosedRanges_echoUInt64Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.UInt64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -1990,7 +1707,7 @@ public func __iota_TestAPI_ClosedRanges_echoUInt64Range(
 public func __iota_TestAPI_ClosedRanges_echoUInt8Range(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.UInt8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2010,7 +1727,7 @@ public func __iota_TestAPI_ClosedRanges_echoUInt8Range(
 public func __iota_TestAPI_ClosedRanges_echoUIntRange(
     envRef: EnvRef,
     range: ClosedRangeConverter<Swift.UInt>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2029,7 +1746,7 @@ public func __iota_TestAPI_ClosedRanges_echoUIntRange(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_floatRange")
 public func __iota_get_TestAPI_ClosedRanges_floatRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Float>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2043,7 +1760,7 @@ public func __iota_get_TestAPI_ClosedRanges_floatRange(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_int16Range")
 public func __iota_get_TestAPI_ClosedRanges_int16Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2057,7 +1774,7 @@ public func __iota_get_TestAPI_ClosedRanges_int16Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_int32Range")
 public func __iota_get_TestAPI_ClosedRanges_int32Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2071,7 +1788,7 @@ public func __iota_get_TestAPI_ClosedRanges_int32Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_int64Range")
 public func __iota_get_TestAPI_ClosedRanges_int64Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2085,7 +1802,7 @@ public func __iota_get_TestAPI_ClosedRanges_int64Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_int8Range")
 public func __iota_get_TestAPI_ClosedRanges_int8Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2099,7 +1816,7 @@ public func __iota_get_TestAPI_ClosedRanges_int8Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_intRange")
 public func __iota_get_TestAPI_ClosedRanges_intRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2113,7 +1830,7 @@ public func __iota_get_TestAPI_ClosedRanges_intRange(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_stringRange")
 public func __iota_get_TestAPI_ClosedRanges_stringRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2127,7 +1844,7 @@ public func __iota_get_TestAPI_ClosedRanges_stringRange(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_uInt16Range")
 public func __iota_get_TestAPI_ClosedRanges_uInt16Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2141,7 +1858,7 @@ public func __iota_get_TestAPI_ClosedRanges_uInt16Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_uInt32Range")
 public func __iota_get_TestAPI_ClosedRanges_uInt32Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2155,7 +1872,7 @@ public func __iota_get_TestAPI_ClosedRanges_uInt32Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_uInt64Range")
 public func __iota_get_TestAPI_ClosedRanges_uInt64Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2169,7 +1886,7 @@ public func __iota_get_TestAPI_ClosedRanges_uInt64Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_uInt8Range")
 public func __iota_get_TestAPI_ClosedRanges_uInt8Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2183,7 +1900,7 @@ public func __iota_get_TestAPI_ClosedRanges_uInt8Range(
 @_cdecl("__iota_get_TestAPI_ClosedRanges_uIntRange")
 public func __iota_get_TestAPI_ClosedRanges_uIntRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ClosedRangeConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2200,11 +1917,11 @@ public func TestAPI_ClosedRanges_setup(
 }
 
 extension TestAPI.ClosedRanges: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -2214,7 +1931,7 @@ extension TestAPI.ClosedRanges: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Collections_arrayOfBigTuples")
 public func __iota_get_TestAPI_Collections_arrayOfBigTuples(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Tuple4Converter<Swift.Int8, Swift.Int16, Swift.Int32, Swift.Int64>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2228,7 +1945,7 @@ public func __iota_get_TestAPI_Collections_arrayOfBigTuples(
 @_cdecl("__iota_get_TestAPI_Collections_arrayOfInt")
 public func __iota_get_TestAPI_Collections_arrayOfInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2244,7 +1961,7 @@ public func __iota_TestAPI_Collections_collectionMapper(
     envRef: EnvRef,
     collection: OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType,
     mapper: Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2264,7 +1981,7 @@ public func __iota_TestAPI_Collections_collectionMapper(
 @_cdecl("__iota_get_TestAPI_Collections_defaultCollectionHolder")
 public func __iota_get_TestAPI_Collections_defaultCollectionHolder(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Collections.CollectionHolder.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2278,7 +1995,7 @@ public func __iota_get_TestAPI_Collections_defaultCollectionHolder(
 @_cdecl("__iota_get_TestAPI_Collections_dictionaryOfIntToInt")
 public func __iota_get_TestAPI_Collections_dictionaryOfIntToInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> DictionaryConverter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2293,7 +2010,7 @@ public func __iota_get_TestAPI_Collections_dictionaryOfIntToInt(
 public func __iota_TestAPI_Collections_echoArrayOfInt(
     envRef: EnvRef,
     arrayOfInt: ArrayConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2313,7 +2030,7 @@ public func __iota_TestAPI_Collections_echoArrayOfInt(
 public func __iota_TestAPI_Collections_echoDictionaryOfIntToInt(
     envRef: EnvRef,
     dictionaryOfIntToInt: DictionaryConverter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> DictionaryConverter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2333,7 +2050,7 @@ public func __iota_TestAPI_Collections_echoDictionaryOfIntToInt(
 public func __iota_TestAPI_Collections_echoMaybeArrayOfMaybeInt(
     envRef: EnvRef,
     maybeArrayOfMaybeInt: OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2353,7 +2070,7 @@ public func __iota_TestAPI_Collections_echoMaybeArrayOfMaybeInt(
 public func __iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(
     envRef: EnvRef,
     maybeDictionaryOfIntToMaybeInt: OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2373,7 +2090,7 @@ public func __iota_TestAPI_Collections_echoMaybeDictionaryOfIntToMaybeInt(
 public func __iota_TestAPI_Collections_echoMaybeSetOfMaybeInt(
     envRef: EnvRef,
     maybeSetOfMaybeInt: OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2393,7 +2110,7 @@ public func __iota_TestAPI_Collections_echoMaybeSetOfMaybeInt(
 public func __iota_TestAPI_Collections_echoSetOfInt(
     envRef: EnvRef,
     setOfInt: SetConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> SetConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2412,7 +2129,7 @@ public func __iota_TestAPI_Collections_echoSetOfInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeArrayOfInt")
 public func __iota_get_TestAPI_Collections_maybeArrayOfInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<ArrayConverter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2426,7 +2143,7 @@ public func __iota_get_TestAPI_Collections_maybeArrayOfInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeArrayOfMaybeInt")
 public func __iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2440,7 +2157,7 @@ public func __iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt")
 public func __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<DictionaryConverter<Swift.Int, Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2454,7 +2171,7 @@ public func __iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt")
 public func __iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<DictionaryConverter<Swift.Int, OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2468,7 +2185,7 @@ public func __iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeSetOfInt")
 public func __iota_get_TestAPI_Collections_maybeSetOfInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<SetConverter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2482,7 +2199,7 @@ public func __iota_get_TestAPI_Collections_maybeSetOfInt(
 @_cdecl("__iota_get_TestAPI_Collections_maybeSetOfMaybeInt")
 public func __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<SetConverter<OptionalConverter<Swift.Int>>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2496,7 +2213,7 @@ public func __iota_get_TestAPI_Collections_maybeSetOfMaybeInt(
 @_cdecl("__iota_get_TestAPI_Collections_setOfInt")
 public func __iota_get_TestAPI_Collections_setOfInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> SetConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2513,11 +2230,11 @@ public func TestAPI_Collections_setup(
 }
 
 extension TestAPI.Collections: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -2527,7 +2244,7 @@ extension TestAPI.Collections: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty")
 public func __iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2538,7 +2255,7 @@ public func __iota_get_TestAPI_Collections_CollectionHolder_staticMutablePropert
 public func __iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty(
     envRef: EnvRef,
     newValue: ArrayConverter<OptionalConverter<Swift.Int>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -2552,7 +2269,7 @@ public func __iota_set_TestAPI_Collections_CollectionHolder_staticMutablePropert
 @_cdecl("__iota_get_TestAPI_Collections_CollectionHolder_staticProperty")
 public func __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2566,25 +2283,25 @@ public func __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(
 public func TestAPI_Collections_CollectionHolder_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Collections.CollectionHolder._ConstructorMethod,
-    _ boolArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Bool>.CType,
-    _ boolArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void,
-    _ boolSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.Bool>.CType,
-    _ boolSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void,
-    _ boolDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType,
-    _ boolDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: foreignOutExn) -> Void,
-    _ integerArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType,
-    _ integerArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void,
-    _ integerSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.Int>.CType,
-    _ integerSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void,
-    _ integerDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.Int, Swift.Int>.CType,
-    _ integerDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: foreignOutExn) -> Void,
-    _ stringArrayGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType,
-    _ stringArraySetter: @escaping @convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void,
-    _ stringSetGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType,
-    _ stringSetSetter: @escaping @convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void,
-    _ stringDictionaryGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType,
-    _ stringDictionarySetter: @escaping @convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ boolArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Bool>.CType,
+    _ boolArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
+    _ boolSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Bool>.CType,
+    _ boolSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
+    _ boolDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType,
+    _ boolDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: OutHostException) -> Void,
+    _ integerArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType,
+    _ integerArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
+    _ integerSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Int>.CType,
+    _ integerSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
+    _ integerDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Int, Swift.Int>.CType,
+    _ integerDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: OutHostException) -> Void,
+    _ stringArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.String>.CType,
+    _ stringArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.String>.CType, _ exn: OutHostException) -> Void,
+    _ stringSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.String>.CType,
+    _ stringSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.String>.CType, _ exn: OutHostException) -> Void,
+    _ stringDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.String, Swift.String>.CType,
+    _ stringDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Collections.CollectionHolder._constructorMethod.isInitialized(env) { return }
@@ -2610,24 +2327,24 @@ public func TestAPI_Collections_CollectionHolder_setup(
 }
 
 extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Bool>.CType>()
-    fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.Bool>.CType>()
-    fileprivate static let _boolSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType>()
-    fileprivate static let _boolDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _integerArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType>()
-    fileprivate static let _integerArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _integerSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.Int>.CType>()
-    fileprivate static let _integerSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _integerDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _stringArrayGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.String>.CType>()
-    fileprivate static let _stringArraySetter = Env.CallbackMap<@convention(c) (foreignObject, ArrayConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _stringSetGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> SetConverter<Swift.String>.CType>()
-    fileprivate static let _stringSetSetter = Env.CallbackMap<@convention(c) (foreignObject, SetConverter<Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
-    fileprivate static let _stringDictionarySetter = Env.CallbackMap<@convention(c) (foreignObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Bool>.CType>()
+    fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Bool>.CType>()
+    fileprivate static let _boolSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType>()
+    fileprivate static let _boolDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _integerArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType>()
+    fileprivate static let _integerArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _integerSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Int>.CType>()
+    fileprivate static let _integerSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _integerDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _stringArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.String>.CType>()
+    fileprivate static let _stringArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.String>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _stringSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.String>.CType>()
+    fileprivate static let _stringSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.String>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
+    fileprivate static let _stringDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         ArrayConverter<Swift.Bool>.CType,
         SetConverter<Swift.Bool>.CType,
@@ -2638,11 +2355,11 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator
         ArrayConverter<Swift.String>.CType,
         SetConverter<Swift.String>.CType,
         DictionaryConverter<Swift.String, Swift.String>.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             boolArray: try ArrayConverter<Swift.Bool>.consumeIota(
                 try env.check { exn in _boolArrayGetter[env](value, exn) },
@@ -2683,7 +2400,7 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try ArrayConverter<Swift.Bool>.toIota(value.boolArray, env: env),
@@ -2700,7 +2417,7 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _boolArraySetter[env](
             this,
             try ArrayConverter<Swift.Bool>.toIota(value.boolArray, env: env),
@@ -2757,7 +2474,7 @@ public func __iota_TestAPI_DefaultArguments_describeEnumDefault(
     envRef: EnvRef,
     value: Swift.Int.CType,
     color: TestAPI.SimpleEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2779,7 +2496,7 @@ public func __iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
     envRef: EnvRef,
     minValue: Swift.Int.CType,
     maxValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2800,7 +2517,7 @@ public func __iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
 public func __iota_TestAPI_DefaultArguments_echoDefaultTolerance(
     envRef: EnvRef,
     tolerance: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2822,7 +2539,7 @@ public func __iota_TestAPI_DefaultArguments_echoDefaults(
     y: OptionalConverter<Swift.Int>.CType,
     x: OptionalConverter<Swift.Int>.CType,
     z: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2846,11 +2563,11 @@ public func TestAPI_DefaultArguments_setup(
 }
 
 extension TestAPI.DefaultArguments: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -2861,7 +2578,7 @@ extension TestAPI.DefaultArguments: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_Deprecations_deprecatedMethod")
 public func __iota_TestAPI_Deprecations_deprecatedMethod(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2880,7 +2597,7 @@ public func __iota_TestAPI_Deprecations_deprecatedMethod(
 @_cdecl("__iota_get_TestAPI_Deprecations_deprecatedVariable")
 public func __iota_get_TestAPI_Deprecations_deprecatedVariable(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2897,11 +2614,11 @@ public func TestAPI_Deprecations_setup(
 }
 
 extension TestAPI.Deprecations: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -2911,8 +2628,8 @@ extension TestAPI.Deprecations: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_EmptyClass_blarg")
 public func __iota_get_TestAPI_EmptyClass_blarg(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2926,8 +2643,8 @@ public func __iota_get_TestAPI_EmptyClass_blarg(
 @_cdecl("__iota_TestAPI_EmptyClass_Gorpers")
 public func __iota_TestAPI_EmptyClass_Gorpers(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2945,7 +2662,7 @@ public func __iota_TestAPI_EmptyClass_Gorpers(
 @_cdecl("__iota_TestAPI_EmptyClass_create")
 public func __iota_TestAPI_EmptyClass_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.EmptyClass.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2963,8 +2680,8 @@ public func __iota_TestAPI_EmptyClass_create(
 @_cdecl("__iota_TestAPI_EmptyClass_shme")
 public func __iota_TestAPI_EmptyClass_shme(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2982,8 +2699,8 @@ public func __iota_TestAPI_EmptyClass_shme(
 @_cdecl("__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey")
 public func __iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -2996,8 +2713,8 @@ public func __iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(
 @_cdecl("TestAPI_EmptyClass_setup")
 public func TestAPI_EmptyClass_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.EmptyClass._constructorMethod.isInitialized(env) { return }
@@ -3005,19 +2722,19 @@ public func TestAPI_EmptyClass_setup(
 }
 
 extension TestAPI.EmptyClass: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.EmptyClass {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.EmptyClass {
         try Box<TestAPI.EmptyClass>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.EmptyClass, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.EmptyClass, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
 @_cdecl("__iota_TestAPI_EmptyClass_equals")
-public func TestAPI_EmptyClass_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+public func TestAPI_EmptyClass_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Bool.toIota(
@@ -3027,7 +2744,7 @@ public func TestAPI_EmptyClass_iotaEquals(envRef: EnvRef, lhs: foreignObject, rh
     }
 }
 @_cdecl("__iota_get_TestAPI_EmptyClass_hash")
-public func TestAPI_EmptyClass_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+public func TestAPI_EmptyClass_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Int32.toIota(
@@ -3043,8 +2760,8 @@ public func TestAPI_EmptyClass_iotaHash(envRef: EnvRef, this: foreignObject, exn
 @_cdecl("__iota_get_TestAPI_EmptyClass2_blorg")
 public func __iota_get_TestAPI_EmptyClass2_blorg(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3058,8 +2775,8 @@ public func __iota_get_TestAPI_EmptyClass2_blorg(
 @_cdecl("__iota_TestAPI_EmptyClass2_gorp")
 public func __iota_TestAPI_EmptyClass2_gorp(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3077,7 +2794,7 @@ public func __iota_TestAPI_EmptyClass2_gorp(
 @_cdecl("__iota_TestAPI_EmptyClass2_make")
 public func __iota_TestAPI_EmptyClass2_make(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.EmptyClass2.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3095,8 +2812,8 @@ public func __iota_TestAPI_EmptyClass2_make(
 @_cdecl("__iota_TestAPI_EmptyClass2_shmee")
 public func __iota_TestAPI_EmptyClass2_shmee(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3114,8 +2831,8 @@ public func __iota_TestAPI_EmptyClass2_shmee(
 @_cdecl("__iota_get_TestAPI_EmptyClass2_wibble")
 public func __iota_get_TestAPI_EmptyClass2_wibble(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3128,8 +2845,8 @@ public func __iota_get_TestAPI_EmptyClass2_wibble(
 @_cdecl("TestAPI_EmptyClass2_setup")
 public func TestAPI_EmptyClass2_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.EmptyClass2._constructorMethod.isInitialized(env) { return }
@@ -3137,19 +2854,19 @@ public func TestAPI_EmptyClass2_setup(
 }
 
 extension TestAPI.EmptyClass2: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.EmptyClass2 {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.EmptyClass2 {
         try Box<TestAPI.EmptyClass2>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.EmptyClass2, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.EmptyClass2, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
 @_cdecl("__iota_TestAPI_EmptyClass2_equals")
-public func TestAPI_EmptyClass2_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+public func TestAPI_EmptyClass2_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Bool.toIota(
@@ -3159,7 +2876,7 @@ public func TestAPI_EmptyClass2_iotaEquals(envRef: EnvRef, lhs: foreignObject, r
     }
 }
 @_cdecl("__iota_get_TestAPI_EmptyClass2_hash")
-public func TestAPI_EmptyClass2_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+public func TestAPI_EmptyClass2_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Int32.toIota(
@@ -3175,7 +2892,7 @@ public func TestAPI_EmptyClass2_iotaHash(envRef: EnvRef, this: foreignObject, ex
 @_cdecl("__iota_TestAPI_EmptyEnum_aStaticMethod")
 public func __iota_TestAPI_EmptyEnum_aStaticMethod(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3193,7 +2910,7 @@ public func __iota_TestAPI_EmptyEnum_aStaticMethod(
 @_cdecl("__iota_get_TestAPI_EmptyEnum_aStaticProperty")
 public func __iota_get_TestAPI_EmptyEnum_aStaticProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3207,7 +2924,7 @@ public func __iota_get_TestAPI_EmptyEnum_aStaticProperty(
 @_cdecl("__iota_TestAPI_EmptyEnum_notGoingToHappen")
 public func __iota_TestAPI_EmptyEnum_notGoingToHappen(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.EmptyEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3227,11 +2944,11 @@ public func TestAPI_EmptyEnum_setup(
 }
 
 extension TestAPI.EmptyEnum: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -3241,8 +2958,8 @@ extension TestAPI.EmptyEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_EmptyStruct_aap")
 public func __iota_TestAPI_EmptyStruct_aap(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3260,7 +2977,7 @@ public func __iota_TestAPI_EmptyStruct_aap(
 @_cdecl("__iota_TestAPI_EmptyStruct_create")
 public func __iota_TestAPI_EmptyStruct_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.EmptyStruct.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3278,8 +2995,8 @@ public func __iota_TestAPI_EmptyStruct_create(
 @_cdecl("__iota_get_TestAPI_EmptyStruct_tatiana")
 public func __iota_get_TestAPI_EmptyStruct_tatiana(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3293,8 +3010,8 @@ public func __iota_get_TestAPI_EmptyStruct_tatiana(
 @_cdecl("__iota_get_TestAPI_EmptyStruct_tutu")
 public func __iota_get_TestAPI_EmptyStruct_tutu(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3308,8 +3025,8 @@ public func __iota_get_TestAPI_EmptyStruct_tutu(
 @_cdecl("__iota_TestAPI_EmptyStruct_zxccxz")
 public func __iota_TestAPI_EmptyStruct_zxccxz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3327,7 +3044,7 @@ public func __iota_TestAPI_EmptyStruct_zxccxz(
 public func TestAPI_EmptyStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.EmptyStruct._ConstructorMethod,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.EmptyStruct._constructorMethod.isInitialized(env) { return }
@@ -3336,16 +3053,16 @@ public func TestAPI_EmptyStruct_setup(
 
 extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
     public typealias _ConstructorMethod = @convention(c) (
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 exn
@@ -3353,7 +3070,7 @@ extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -3363,8 +3080,8 @@ extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("__iota_TestAPI_EmptyStruct2_aap")
 public func __iota_TestAPI_EmptyStruct2_aap(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3382,7 +3099,7 @@ public func __iota_TestAPI_EmptyStruct2_aap(
 @_cdecl("__iota_TestAPI_EmptyStruct2_create")
 public func __iota_TestAPI_EmptyStruct2_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.EmptyStruct2.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3400,8 +3117,8 @@ public func __iota_TestAPI_EmptyStruct2_create(
 @_cdecl("__iota_get_TestAPI_EmptyStruct2_tatiana")
 public func __iota_get_TestAPI_EmptyStruct2_tatiana(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3415,8 +3132,8 @@ public func __iota_get_TestAPI_EmptyStruct2_tatiana(
 @_cdecl("__iota_get_TestAPI_EmptyStruct2_tutu")
 public func __iota_get_TestAPI_EmptyStruct2_tutu(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3430,8 +3147,8 @@ public func __iota_get_TestAPI_EmptyStruct2_tutu(
 @_cdecl("__iota_TestAPI_EmptyStruct2_zxccxz")
 public func __iota_TestAPI_EmptyStruct2_zxccxz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3449,7 +3166,7 @@ public func __iota_TestAPI_EmptyStruct2_zxccxz(
 public func TestAPI_EmptyStruct2_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.EmptyStruct2._ConstructorMethod,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.EmptyStruct2._constructorMethod.isInitialized(env) { return }
@@ -3458,16 +3175,16 @@ public func TestAPI_EmptyStruct2_setup(
 
 extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
     public typealias _ConstructorMethod = @convention(c) (
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 exn
@@ -3475,7 +3192,7 @@ extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -3485,7 +3202,7 @@ extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("__iota_get_TestAPI_Functions_add3Things")
 public func __iota_get_TestAPI_Functions_add3Things(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3499,7 +3216,7 @@ public func __iota_get_TestAPI_Functions_add3Things(
 @_cdecl("__iota_get_TestAPI_Functions_const42")
 public func __iota_get_TestAPI_Functions_const42(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3514,7 +3231,7 @@ public func __iota_get_TestAPI_Functions_const42(
 public func __iota_TestAPI_Functions_exercise0(
     envRef: EnvRef,
     fn: Function0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3534,7 +3251,7 @@ public func __iota_TestAPI_Functions_exercise0(
 public func __iota_TestAPI_Functions_exercise1(
     envRef: EnvRef,
     fn: Function1Converter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3554,7 +3271,7 @@ public func __iota_TestAPI_Functions_exercise1(
 public func __iota_TestAPI_Functions_exercise2(
     envRef: EnvRef,
     fn: Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3574,7 +3291,7 @@ public func __iota_TestAPI_Functions_exercise2(
 public func __iota_TestAPI_Functions_exercise3(
     envRef: EnvRef,
     fn: Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3594,7 +3311,7 @@ public func __iota_TestAPI_Functions_exercise3(
 public func __iota_TestAPI_Functions_exercise4(
     envRef: EnvRef,
     fn: Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3614,7 +3331,7 @@ public func __iota_TestAPI_Functions_exercise4(
 public func __iota_TestAPI_Functions_exercise5(
     envRef: EnvRef,
     fn: Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3634,7 +3351,7 @@ public func __iota_TestAPI_Functions_exercise5(
 public func __iota_TestAPI_Functions_exercise6(
     envRef: EnvRef,
     fn: Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3653,7 +3370,7 @@ public func __iota_TestAPI_Functions_exercise6(
 @_cdecl("__iota_get_TestAPI_Functions_fifthThing")
 public func __iota_get_TestAPI_Functions_fifthThing(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Function0Converter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3667,7 +3384,7 @@ public func __iota_get_TestAPI_Functions_fifthThing(
 @_cdecl("__iota_get_TestAPI_Functions_abs")
 public func __iota_get_TestAPI_Functions_abs(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function1Converter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3681,7 +3398,7 @@ public func __iota_get_TestAPI_Functions_abs(
 @_cdecl("__iota_get_TestAPI_Functions_intCompose")
 public func __iota_get_TestAPI_Functions_intCompose(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3695,7 +3412,7 @@ public func __iota_get_TestAPI_Functions_intCompose(
 @_cdecl("__iota_get_TestAPI_Functions_makeList")
 public func __iota_get_TestAPI_Functions_makeList(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3709,7 +3426,7 @@ public func __iota_get_TestAPI_Functions_makeList(
 @_cdecl("__iota_get_TestAPI_Functions_sixthThing")
 public func __iota_get_TestAPI_Functions_sixthThing(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3724,7 +3441,7 @@ public func __iota_get_TestAPI_Functions_sixthThing(
 public func __iota_TestAPI_Functions_thunkTwiceMaker(
     envRef: EnvRef,
     thunk: Function0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Function0Converter<FishyJoesCommonRuntime.VoidConverter>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3743,7 +3460,7 @@ public func __iota_TestAPI_Functions_thunkTwiceMaker(
 @_cdecl("__iota_TestAPI_Functions_willThrow")
 public func __iota_TestAPI_Functions_willThrow(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3764,11 +3481,11 @@ public func TestAPI_Functions_setup(
 }
 
 extension TestAPI.Functions: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -3778,9 +3495,9 @@ extension TestAPI.Functions: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_Methods_async42")
 public func __iota_TestAPI_Methods_async42(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
@@ -3798,10 +3515,10 @@ public func __iota_TestAPI_Methods_async42(
 @_cdecl("__iota_TestAPI_Methods_asyncCallbackFunc0")
 public func __iota_TestAPI_Methods_asyncCallbackFunc0(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     callback: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let callback = try AsyncFunction0Converter<Swift.Int>.peekIota(callback, env: env)
@@ -3821,10 +3538,10 @@ public func __iota_TestAPI_Methods_asyncCallbackFunc0(
 @_cdecl("__iota_TestAPI_Methods_asyncDouble")
 public func __iota_TestAPI_Methods_asyncDouble(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     d: Swift.Double.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let d = try Swift.Double.peekIota(d, env: env)
@@ -3844,11 +3561,11 @@ public func __iota_TestAPI_Methods_asyncDouble(
 @_cdecl("__iota_TestAPI_Methods_asyncMultipleArgs")
 public func __iota_TestAPI_Methods_asyncMultipleArgs(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     i: Swift.Int.CType,
     j: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let i = try Swift.Int.peekIota(i, env: env)
@@ -3870,9 +3587,9 @@ public func __iota_TestAPI_Methods_asyncMultipleArgs(
 @_cdecl("__iota_TestAPI_Methods_asyncSleep")
 public func __iota_TestAPI_Methods_asyncSleep(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
@@ -3890,9 +3607,9 @@ public func __iota_TestAPI_Methods_asyncSleep(
 @_cdecl("__iota_TestAPI_Methods_asyncThrowing")
 public func __iota_TestAPI_Methods_asyncThrowing(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
@@ -3910,9 +3627,9 @@ public func __iota_TestAPI_Methods_asyncThrowing(
 @_cdecl("__iota_TestAPI_Methods_asyncVoid")
 public func __iota_TestAPI_Methods_asyncVoid(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
@@ -3930,9 +3647,9 @@ public func __iota_TestAPI_Methods_asyncVoid(
 @_cdecl("__iota_TestAPI_Methods_asyncYield")
 public func __iota_TestAPI_Methods_asyncYield(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Methods.peekIota(_iotaThis, env: env))
@@ -3950,7 +3667,7 @@ public func __iota_TestAPI_Methods_asyncYield(
 @_cdecl("__iota_TestAPI_Methods_create")
 public func __iota_TestAPI_Methods_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Methods.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3968,10 +3685,10 @@ public func __iota_TestAPI_Methods_create(
 @_cdecl("__iota_TestAPI_Methods_doublePlusGood")
 public func __iota_TestAPI_Methods_doublePlusGood(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     a: Swift.Int.CType,
     b: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -3991,8 +3708,8 @@ public func __iota_TestAPI_Methods_doublePlusGood(
 @_cdecl("__iota_get_TestAPI_Methods_garply")
 public func __iota_get_TestAPI_Methods_garply(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4006,8 +3723,8 @@ public func __iota_get_TestAPI_Methods_garply(
 @_cdecl("__iota_get_TestAPI_Methods_instanceGetMethod")
 public func __iota_get_TestAPI_Methods_instanceGetMethod(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4021,8 +3738,8 @@ public func __iota_get_TestAPI_Methods_instanceGetMethod(
 @_cdecl("__iota_get_TestAPI_Methods_instanceGet")
 public func __iota_get_TestAPI_Methods_instanceGet(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4036,8 +3753,8 @@ public func __iota_get_TestAPI_Methods_instanceGet(
 @_cdecl("__iota_get_TestAPI_Methods_instanceModifiable")
 public func __iota_get_TestAPI_Methods_instanceModifiable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4047,9 +3764,9 @@ public func __iota_get_TestAPI_Methods_instanceModifiable(
 @_cdecl("__iota_set_TestAPI_Methods_instanceModifiable")
 public func __iota_set_TestAPI_Methods_instanceModifiable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -4065,8 +3782,8 @@ public func __iota_set_TestAPI_Methods_instanceModifiable(
 @_cdecl("__iota_get_TestAPI_Methods_instanceStored")
 public func __iota_get_TestAPI_Methods_instanceStored(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4076,9 +3793,9 @@ public func __iota_get_TestAPI_Methods_instanceStored(
 @_cdecl("__iota_set_TestAPI_Methods_instanceStored")
 public func __iota_set_TestAPI_Methods_instanceStored(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -4095,7 +3812,7 @@ public func __iota_set_TestAPI_Methods_instanceStored(
 public func __iota_TestAPI_Methods_methodWithNewlinesInTypes(
     envRef: EnvRef,
     thing: AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4114,8 +3831,8 @@ public func __iota_TestAPI_Methods_methodWithNewlinesInTypes(
 @_cdecl("__iota_TestAPI_Methods_staticAsync42")
 public func __iota_TestAPI_Methods_staticAsync42(
     envRef: EnvRef,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftFuture = Future {
@@ -4133,8 +3850,8 @@ public func __iota_TestAPI_Methods_staticAsync42(
 public func __iota_TestAPI_Methods_staticAsyncCallbackFunc0(
     envRef: EnvRef,
     callback: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let callback = try AsyncFunction0Converter<Swift.Int>.peekIota(callback, env: env)
@@ -4154,8 +3871,8 @@ public func __iota_TestAPI_Methods_staticAsyncCallbackFunc0(
 public func __iota_TestAPI_Methods_staticAsyncDouble(
     envRef: EnvRef,
     d: Swift.Double.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let d = try Swift.Double.peekIota(d, env: env)
@@ -4176,8 +3893,8 @@ public func __iota_TestAPI_Methods_staticAsyncMultipleArgs(
     envRef: EnvRef,
     i: Swift.Int.CType,
     j: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let i = try Swift.Int.peekIota(i, env: env)
@@ -4198,8 +3915,8 @@ public func __iota_TestAPI_Methods_staticAsyncMultipleArgs(
 @_cdecl("__iota_TestAPI_Methods_staticAsyncSleep")
 public func __iota_TestAPI_Methods_staticAsyncSleep(
     envRef: EnvRef,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftFuture = Future {
@@ -4216,8 +3933,8 @@ public func __iota_TestAPI_Methods_staticAsyncSleep(
 @_cdecl("__iota_TestAPI_Methods_staticAsyncThrowing")
 public func __iota_TestAPI_Methods_staticAsyncThrowing(
     envRef: EnvRef,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftFuture = Future {
@@ -4234,8 +3951,8 @@ public func __iota_TestAPI_Methods_staticAsyncThrowing(
 @_cdecl("__iota_TestAPI_Methods_staticAsyncVoid")
 public func __iota_TestAPI_Methods_staticAsyncVoid(
     envRef: EnvRef,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftFuture = Future {
@@ -4252,8 +3969,8 @@ public func __iota_TestAPI_Methods_staticAsyncVoid(
 @_cdecl("__iota_TestAPI_Methods_staticAsyncYield")
 public func __iota_TestAPI_Methods_staticAsyncYield(
     envRef: EnvRef,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftFuture = Future {
@@ -4270,7 +3987,7 @@ public func __iota_TestAPI_Methods_staticAsyncYield(
 @_cdecl("__iota_get_TestAPI_Methods_staticGetMethod")
 public func __iota_get_TestAPI_Methods_staticGetMethod(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4284,7 +4001,7 @@ public func __iota_get_TestAPI_Methods_staticGetMethod(
 @_cdecl("__iota_get_TestAPI_Methods_staticGet")
 public func __iota_get_TestAPI_Methods_staticGet(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4298,7 +4015,7 @@ public func __iota_get_TestAPI_Methods_staticGet(
 @_cdecl("__iota_get_TestAPI_Methods_staticModifiable")
 public func __iota_get_TestAPI_Methods_staticModifiable(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4309,7 +4026,7 @@ public func __iota_get_TestAPI_Methods_staticModifiable(
 public func __iota_set_TestAPI_Methods_staticModifiable(
     envRef: EnvRef,
     newValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -4323,7 +4040,7 @@ public func __iota_set_TestAPI_Methods_staticModifiable(
 @_cdecl("__iota_get_TestAPI_Methods_staticStored")
 public func __iota_get_TestAPI_Methods_staticStored(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4334,7 +4051,7 @@ public func __iota_get_TestAPI_Methods_staticStored(
 public func __iota_set_TestAPI_Methods_staticStored(
     envRef: EnvRef,
     newValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -4347,8 +4064,8 @@ public func __iota_set_TestAPI_Methods_staticStored(
 @_cdecl("TestAPI_Methods_setup")
 public func TestAPI_Methods_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Methods._constructorMethod.isInitialized(env) { return }
@@ -4356,13 +4073,13 @@ public func TestAPI_Methods_setup(
 }
 
 extension TestAPI.Methods: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Methods {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.Methods {
         try Box<TestAPI.Methods>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.Methods, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.Methods, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -4373,8 +4090,8 @@ extension TestAPI.Methods: FishyJoesIotaRuntime.IotaReferenceMutator {
 @_cdecl("TestAPI_Methods_TheMethodError_setup")
 public func TestAPI_Methods_TheMethodError_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Methods.TheMethodError._constructorMethod.isInitialized(env) { return }
@@ -4382,13 +4099,13 @@ public func TestAPI_Methods_TheMethodError_setup(
 }
 
 extension TestAPI.Methods.TheMethodError: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Methods.TheMethodError {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.Methods.TheMethodError {
         try Box<TestAPI.Methods.TheMethodError>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.Methods.TheMethodError, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.Methods.TheMethodError, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -4400,7 +4117,7 @@ extension TestAPI.Methods.TheMethodError: FishyJoesIotaRuntime.IotaReferenceMuta
 @_cdecl("__iota_get_TestAPI_Primitives_bitCountInt")
 public func __iota_get_TestAPI_Primitives_bitCountInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4414,7 +4131,7 @@ public func __iota_get_TestAPI_Primitives_bitCountInt(
 @_cdecl("__iota_get_TestAPI_Primitives_bitCountUInt")
 public func __iota_get_TestAPI_Primitives_bitCountUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4444,7 +4161,7 @@ public func __iota_TestAPI_Primitives_boolOverflow(
     bd: Swift.Bool.CType,
     be: Swift.Bool.CType,
     bf: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4478,7 +4195,7 @@ public func __iota_TestAPI_Primitives_boolOverflow(
 @_cdecl("__iota_get_TestAPI_Primitives_defaultPrimitiveHolder")
 public func __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Primitives.PrimitiveHolder.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4493,7 +4210,7 @@ public func __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(
 public func __iota_TestAPI_Primitives_echoBool(
     envRef: EnvRef,
     value: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4513,7 +4230,7 @@ public func __iota_TestAPI_Primitives_echoBool(
 public func __iota_TestAPI_Primitives_echoDouble(
     envRef: EnvRef,
     value: Swift.Double.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4533,7 +4250,7 @@ public func __iota_TestAPI_Primitives_echoDouble(
 public func __iota_TestAPI_Primitives_echoFloat(
     envRef: EnvRef,
     value: Swift.Float.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Float.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4553,7 +4270,7 @@ public func __iota_TestAPI_Primitives_echoFloat(
 public func __iota_TestAPI_Primitives_echoInt(
     envRef: EnvRef,
     value: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4573,7 +4290,7 @@ public func __iota_TestAPI_Primitives_echoInt(
 public func __iota_TestAPI_Primitives_echoInt16(
     envRef: EnvRef,
     value: Swift.Int16.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4593,7 +4310,7 @@ public func __iota_TestAPI_Primitives_echoInt16(
 public func __iota_TestAPI_Primitives_echoInt32(
     envRef: EnvRef,
     value: Swift.Int32.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4613,7 +4330,7 @@ public func __iota_TestAPI_Primitives_echoInt32(
 public func __iota_TestAPI_Primitives_echoInt64(
     envRef: EnvRef,
     value: Swift.Int64.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4633,7 +4350,7 @@ public func __iota_TestAPI_Primitives_echoInt64(
 public func __iota_TestAPI_Primitives_echoInt8(
     envRef: EnvRef,
     value: Swift.Int8.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4653,7 +4370,7 @@ public func __iota_TestAPI_Primitives_echoInt8(
 public func __iota_TestAPI_Primitives_echoUInt(
     envRef: EnvRef,
     value: Swift.UInt.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4673,7 +4390,7 @@ public func __iota_TestAPI_Primitives_echoUInt(
 public func __iota_TestAPI_Primitives_echoUInt16(
     envRef: EnvRef,
     value: Swift.UInt16.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4693,7 +4410,7 @@ public func __iota_TestAPI_Primitives_echoUInt16(
 public func __iota_TestAPI_Primitives_echoUInt32(
     envRef: EnvRef,
     value: Swift.UInt32.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4713,7 +4430,7 @@ public func __iota_TestAPI_Primitives_echoUInt32(
 public func __iota_TestAPI_Primitives_echoUInt64(
     envRef: EnvRef,
     value: Swift.UInt64.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4733,7 +4450,7 @@ public func __iota_TestAPI_Primitives_echoUInt64(
 public func __iota_TestAPI_Primitives_echoUInt8(
     envRef: EnvRef,
     value: Swift.UInt8.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4752,7 +4469,7 @@ public func __iota_TestAPI_Primitives_echoUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_falseBool")
 public func __iota_get_TestAPI_Primitives_falseBool(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4766,7 +4483,7 @@ public func __iota_get_TestAPI_Primitives_falseBool(
 @_cdecl("__iota_get_TestAPI_Primitives_manyBool")
 public func __iota_get_TestAPI_Primitives_manyBool(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Bool>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4780,7 +4497,7 @@ public func __iota_get_TestAPI_Primitives_manyBool(
 @_cdecl("__iota_get_TestAPI_Primitives_manyDouble")
 public func __iota_get_TestAPI_Primitives_manyDouble(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4794,7 +4511,7 @@ public func __iota_get_TestAPI_Primitives_manyDouble(
 @_cdecl("__iota_get_TestAPI_Primitives_manyFloat")
 public func __iota_get_TestAPI_Primitives_manyFloat(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Float>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4808,7 +4525,7 @@ public func __iota_get_TestAPI_Primitives_manyFloat(
 @_cdecl("__iota_get_TestAPI_Primitives_manyInt16")
 public func __iota_get_TestAPI_Primitives_manyInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4822,7 +4539,7 @@ public func __iota_get_TestAPI_Primitives_manyInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_manyInt32")
 public func __iota_get_TestAPI_Primitives_manyInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4836,7 +4553,7 @@ public func __iota_get_TestAPI_Primitives_manyInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_manyInt64")
 public func __iota_get_TestAPI_Primitives_manyInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4850,7 +4567,7 @@ public func __iota_get_TestAPI_Primitives_manyInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_manyInt8")
 public func __iota_get_TestAPI_Primitives_manyInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4864,7 +4581,7 @@ public func __iota_get_TestAPI_Primitives_manyInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_manyInt")
 public func __iota_get_TestAPI_Primitives_manyInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4878,7 +4595,7 @@ public func __iota_get_TestAPI_Primitives_manyInt(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeBool")
 public func __iota_get_TestAPI_Primitives_manyMaybeBool(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Bool>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4892,7 +4609,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeBool(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeDouble")
 public func __iota_get_TestAPI_Primitives_manyMaybeDouble(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Double>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4906,7 +4623,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeDouble(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeFloat")
 public func __iota_get_TestAPI_Primitives_manyMaybeFloat(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Float>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4920,7 +4637,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeFloat(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeInt16")
 public func __iota_get_TestAPI_Primitives_manyMaybeInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int16>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4934,7 +4651,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeInt32")
 public func __iota_get_TestAPI_Primitives_manyMaybeInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int32>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4948,7 +4665,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeInt64")
 public func __iota_get_TestAPI_Primitives_manyMaybeInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int64>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4962,7 +4679,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeInt8")
 public func __iota_get_TestAPI_Primitives_manyMaybeInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int8>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4976,7 +4693,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeInt")
 public func __iota_get_TestAPI_Primitives_manyMaybeInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -4990,7 +4707,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeInt(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeUInt16")
 public func __iota_get_TestAPI_Primitives_manyMaybeUInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt16>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5004,7 +4721,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeUInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeUInt32")
 public func __iota_get_TestAPI_Primitives_manyMaybeUInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt32>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5018,7 +4735,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeUInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeUInt64")
 public func __iota_get_TestAPI_Primitives_manyMaybeUInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt64>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5032,7 +4749,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeUInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeUInt8")
 public func __iota_get_TestAPI_Primitives_manyMaybeUInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt8>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5046,7 +4763,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_manyMaybeUInt")
 public func __iota_get_TestAPI_Primitives_manyMaybeUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5060,7 +4777,7 @@ public func __iota_get_TestAPI_Primitives_manyMaybeUInt(
 @_cdecl("__iota_get_TestAPI_Primitives_manyUInt16")
 public func __iota_get_TestAPI_Primitives_manyUInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5074,7 +4791,7 @@ public func __iota_get_TestAPI_Primitives_manyUInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_manyUInt32")
 public func __iota_get_TestAPI_Primitives_manyUInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5088,7 +4805,7 @@ public func __iota_get_TestAPI_Primitives_manyUInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_manyUInt64")
 public func __iota_get_TestAPI_Primitives_manyUInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5102,7 +4819,7 @@ public func __iota_get_TestAPI_Primitives_manyUInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_manyUInt8")
 public func __iota_get_TestAPI_Primitives_manyUInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5116,7 +4833,7 @@ public func __iota_get_TestAPI_Primitives_manyUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_manyUInt")
 public func __iota_get_TestAPI_Primitives_manyUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5130,7 +4847,7 @@ public func __iota_get_TestAPI_Primitives_manyUInt(
 @_cdecl("__iota_get_TestAPI_Primitives_maxDouble")
 public func __iota_get_TestAPI_Primitives_maxDouble(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5144,7 +4861,7 @@ public func __iota_get_TestAPI_Primitives_maxDouble(
 @_cdecl("__iota_get_TestAPI_Primitives_maxFloat")
 public func __iota_get_TestAPI_Primitives_maxFloat(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Float.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5158,7 +4875,7 @@ public func __iota_get_TestAPI_Primitives_maxFloat(
 @_cdecl("__iota_get_TestAPI_Primitives_maxInt16")
 public func __iota_get_TestAPI_Primitives_maxInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5172,7 +4889,7 @@ public func __iota_get_TestAPI_Primitives_maxInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_maxInt32")
 public func __iota_get_TestAPI_Primitives_maxInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5186,7 +4903,7 @@ public func __iota_get_TestAPI_Primitives_maxInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_maxInt64")
 public func __iota_get_TestAPI_Primitives_maxInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5200,7 +4917,7 @@ public func __iota_get_TestAPI_Primitives_maxInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_maxInt8")
 public func __iota_get_TestAPI_Primitives_maxInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5214,7 +4931,7 @@ public func __iota_get_TestAPI_Primitives_maxInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_maxInt")
 public func __iota_get_TestAPI_Primitives_maxInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5228,7 +4945,7 @@ public func __iota_get_TestAPI_Primitives_maxInt(
 @_cdecl("__iota_get_TestAPI_Primitives_maxUInt16")
 public func __iota_get_TestAPI_Primitives_maxUInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5242,7 +4959,7 @@ public func __iota_get_TestAPI_Primitives_maxUInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_maxUInt32")
 public func __iota_get_TestAPI_Primitives_maxUInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5256,7 +4973,7 @@ public func __iota_get_TestAPI_Primitives_maxUInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_maxUInt64")
 public func __iota_get_TestAPI_Primitives_maxUInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5270,7 +4987,7 @@ public func __iota_get_TestAPI_Primitives_maxUInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_maxUInt8")
 public func __iota_get_TestAPI_Primitives_maxUInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5284,7 +5001,7 @@ public func __iota_get_TestAPI_Primitives_maxUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_maxUInt")
 public func __iota_get_TestAPI_Primitives_maxUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5299,7 +5016,7 @@ public func __iota_get_TestAPI_Primitives_maxUInt(
 public func __iota_TestAPI_Primitives_maybeEchoBool(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Bool>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Bool>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5319,7 +5036,7 @@ public func __iota_TestAPI_Primitives_maybeEchoBool(
 public func __iota_TestAPI_Primitives_maybeEchoDouble(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5339,7 +5056,7 @@ public func __iota_TestAPI_Primitives_maybeEchoDouble(
 public func __iota_TestAPI_Primitives_maybeEchoFloat(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Float>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Float>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5359,7 +5076,7 @@ public func __iota_TestAPI_Primitives_maybeEchoFloat(
 public func __iota_TestAPI_Primitives_maybeEchoInt(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5379,7 +5096,7 @@ public func __iota_TestAPI_Primitives_maybeEchoInt(
 public func __iota_TestAPI_Primitives_maybeEchoInt16(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Int16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5399,7 +5116,7 @@ public func __iota_TestAPI_Primitives_maybeEchoInt16(
 public func __iota_TestAPI_Primitives_maybeEchoInt32(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Int32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5419,7 +5136,7 @@ public func __iota_TestAPI_Primitives_maybeEchoInt32(
 public func __iota_TestAPI_Primitives_maybeEchoInt64(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Int64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5439,7 +5156,7 @@ public func __iota_TestAPI_Primitives_maybeEchoInt64(
 public func __iota_TestAPI_Primitives_maybeEchoInt8(
     envRef: EnvRef,
     value: OptionalConverter<Swift.Int8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5459,7 +5176,7 @@ public func __iota_TestAPI_Primitives_maybeEchoInt8(
 public func __iota_TestAPI_Primitives_maybeEchoUInt(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5479,7 +5196,7 @@ public func __iota_TestAPI_Primitives_maybeEchoUInt(
 public func __iota_TestAPI_Primitives_maybeEchoUInt16(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5499,7 +5216,7 @@ public func __iota_TestAPI_Primitives_maybeEchoUInt16(
 public func __iota_TestAPI_Primitives_maybeEchoUInt32(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5519,7 +5236,7 @@ public func __iota_TestAPI_Primitives_maybeEchoUInt32(
 public func __iota_TestAPI_Primitives_maybeEchoUInt64(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5539,7 +5256,7 @@ public func __iota_TestAPI_Primitives_maybeEchoUInt64(
 public func __iota_TestAPI_Primitives_maybeEchoUInt8(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5558,7 +5275,7 @@ public func __iota_TestAPI_Primitives_maybeEchoUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_minDouble")
 public func __iota_get_TestAPI_Primitives_minDouble(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5572,7 +5289,7 @@ public func __iota_get_TestAPI_Primitives_minDouble(
 @_cdecl("__iota_get_TestAPI_Primitives_minFloat")
 public func __iota_get_TestAPI_Primitives_minFloat(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Float.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5586,7 +5303,7 @@ public func __iota_get_TestAPI_Primitives_minFloat(
 @_cdecl("__iota_get_TestAPI_Primitives_minInt16")
 public func __iota_get_TestAPI_Primitives_minInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5600,7 +5317,7 @@ public func __iota_get_TestAPI_Primitives_minInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_minInt32")
 public func __iota_get_TestAPI_Primitives_minInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5614,7 +5331,7 @@ public func __iota_get_TestAPI_Primitives_minInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_minInt64")
 public func __iota_get_TestAPI_Primitives_minInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5628,7 +5345,7 @@ public func __iota_get_TestAPI_Primitives_minInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_minInt8")
 public func __iota_get_TestAPI_Primitives_minInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5642,7 +5359,7 @@ public func __iota_get_TestAPI_Primitives_minInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_minInt")
 public func __iota_get_TestAPI_Primitives_minInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5656,7 +5373,7 @@ public func __iota_get_TestAPI_Primitives_minInt(
 @_cdecl("__iota_get_TestAPI_Primitives_minUInt16")
 public func __iota_get_TestAPI_Primitives_minUInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5670,7 +5387,7 @@ public func __iota_get_TestAPI_Primitives_minUInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_minUInt32")
 public func __iota_get_TestAPI_Primitives_minUInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5684,7 +5401,7 @@ public func __iota_get_TestAPI_Primitives_minUInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_minUInt64")
 public func __iota_get_TestAPI_Primitives_minUInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5698,7 +5415,7 @@ public func __iota_get_TestAPI_Primitives_minUInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_minUInt8")
 public func __iota_get_TestAPI_Primitives_minUInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5712,7 +5429,7 @@ public func __iota_get_TestAPI_Primitives_minUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_minUInt")
 public func __iota_get_TestAPI_Primitives_minUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5726,7 +5443,7 @@ public func __iota_get_TestAPI_Primitives_minUInt(
 @_cdecl("__iota_get_TestAPI_Primitives_trueBool")
 public func __iota_get_TestAPI_Primitives_trueBool(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5742,7 +5459,7 @@ public func __iota_TestAPI_Primitives_valueMapper(
     envRef: EnvRef,
     value: OptionalConverter<Swift.UInt8>.CType,
     mapper: Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5762,7 +5479,7 @@ public func __iota_TestAPI_Primitives_valueMapper(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroDouble")
 public func __iota_get_TestAPI_Primitives_zeroDouble(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5776,7 +5493,7 @@ public func __iota_get_TestAPI_Primitives_zeroDouble(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroFloat")
 public func __iota_get_TestAPI_Primitives_zeroFloat(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Float.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5790,7 +5507,7 @@ public func __iota_get_TestAPI_Primitives_zeroFloat(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroInt16")
 public func __iota_get_TestAPI_Primitives_zeroInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5804,7 +5521,7 @@ public func __iota_get_TestAPI_Primitives_zeroInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroInt32")
 public func __iota_get_TestAPI_Primitives_zeroInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5818,7 +5535,7 @@ public func __iota_get_TestAPI_Primitives_zeroInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroInt64")
 public func __iota_get_TestAPI_Primitives_zeroInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5832,7 +5549,7 @@ public func __iota_get_TestAPI_Primitives_zeroInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroInt8")
 public func __iota_get_TestAPI_Primitives_zeroInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5846,7 +5563,7 @@ public func __iota_get_TestAPI_Primitives_zeroInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroInt")
 public func __iota_get_TestAPI_Primitives_zeroInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5860,7 +5577,7 @@ public func __iota_get_TestAPI_Primitives_zeroInt(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroUInt16")
 public func __iota_get_TestAPI_Primitives_zeroUInt16(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt16.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5874,7 +5591,7 @@ public func __iota_get_TestAPI_Primitives_zeroUInt16(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroUInt32")
 public func __iota_get_TestAPI_Primitives_zeroUInt32(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt32.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5888,7 +5605,7 @@ public func __iota_get_TestAPI_Primitives_zeroUInt32(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroUInt64")
 public func __iota_get_TestAPI_Primitives_zeroUInt64(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt64.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5902,7 +5619,7 @@ public func __iota_get_TestAPI_Primitives_zeroUInt64(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroUInt8")
 public func __iota_get_TestAPI_Primitives_zeroUInt8(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt8.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5916,7 +5633,7 @@ public func __iota_get_TestAPI_Primitives_zeroUInt8(
 @_cdecl("__iota_get_TestAPI_Primitives_zeroUInt")
 public func __iota_get_TestAPI_Primitives_zeroUInt(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.UInt.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5933,11 +5650,11 @@ public func TestAPI_Primitives_setup(
 }
 
 extension TestAPI.Primitives: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -5947,7 +5664,7 @@ extension TestAPI.Primitives: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty")
 public func __iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt8>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5958,7 +5675,7 @@ public func __iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(
 public func __iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(
     envRef: EnvRef,
     newValue: ArrayConverter<OptionalConverter<Swift.UInt8>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -5972,7 +5689,7 @@ public func __iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(
 @_cdecl("__iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty")
 public func __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<OptionalConverter<Swift.UInt8>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -5986,59 +5703,59 @@ public func __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(
 public func TestAPI_Primitives_PrimitiveHolder_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Primitives.PrimitiveHolder._ConstructorMethod,
-    _ bGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
-    _ bSetter: @escaping @convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void,
-    _ bqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Bool>.CType,
-    _ bqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void,
-    _ ui8Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt8.CType,
-    _ ui8Setter: @escaping @convention(c) (foreignObject, Swift.UInt8.CType, _ exn: foreignOutExn) -> Void,
-    _ ui8qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt8>.CType,
-    _ ui8qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.UInt8>.CType, _ exn: foreignOutExn) -> Void,
-    _ ui16Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt16.CType,
-    _ ui16Setter: @escaping @convention(c) (foreignObject, Swift.UInt16.CType, _ exn: foreignOutExn) -> Void,
-    _ ui16qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt16>.CType,
-    _ ui16qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.UInt16>.CType, _ exn: foreignOutExn) -> Void,
-    _ ui32Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt32.CType,
-    _ ui32Setter: @escaping @convention(c) (foreignObject, Swift.UInt32.CType, _ exn: foreignOutExn) -> Void,
-    _ ui32qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt32>.CType,
-    _ ui32qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.UInt32>.CType, _ exn: foreignOutExn) -> Void,
-    _ ui64Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt64.CType,
-    _ ui64Setter: @escaping @convention(c) (foreignObject, Swift.UInt64.CType, _ exn: foreignOutExn) -> Void,
-    _ ui64qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt64>.CType,
-    _ ui64qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.UInt64>.CType, _ exn: foreignOutExn) -> Void,
-    _ uiGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt.CType,
-    _ uiSetter: @escaping @convention(c) (foreignObject, Swift.UInt.CType, _ exn: foreignOutExn) -> Void,
-    _ uiqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt>.CType,
-    _ uiqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.UInt>.CType, _ exn: foreignOutExn) -> Void,
-    _ i8Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int8.CType,
-    _ i8Setter: @escaping @convention(c) (foreignObject, Swift.Int8.CType, _ exn: foreignOutExn) -> Void,
-    _ i8qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int8>.CType,
-    _ i8qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Int8>.CType, _ exn: foreignOutExn) -> Void,
-    _ i16Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int16.CType,
-    _ i16Setter: @escaping @convention(c) (foreignObject, Swift.Int16.CType, _ exn: foreignOutExn) -> Void,
-    _ i16qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int16>.CType,
-    _ i16qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Int16>.CType, _ exn: foreignOutExn) -> Void,
-    _ i32Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int32.CType,
-    _ i32Setter: @escaping @convention(c) (foreignObject, Swift.Int32.CType, _ exn: foreignOutExn) -> Void,
-    _ i32qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int32>.CType,
-    _ i32qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Int32>.CType, _ exn: foreignOutExn) -> Void,
-    _ i64Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int64.CType,
-    _ i64Setter: @escaping @convention(c) (foreignObject, Swift.Int64.CType, _ exn: foreignOutExn) -> Void,
-    _ i64qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int64>.CType,
-    _ i64qSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Int64>.CType, _ exn: foreignOutExn) -> Void,
-    _ iGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ iSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
-    _ iqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int>.CType,
-    _ iqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void,
-    _ fGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Float.CType,
-    _ fSetter: @escaping @convention(c) (foreignObject, Swift.Float.CType, _ exn: foreignOutExn) -> Void,
-    _ fqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Float>.CType,
-    _ fqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Float>.CType, _ exn: foreignOutExn) -> Void,
-    _ dGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Double.CType,
-    _ dSetter: @escaping @convention(c) (foreignObject, Swift.Double.CType, _ exn: foreignOutExn) -> Void,
-    _ dqGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Double>.CType,
-    _ dqSetter: @escaping @convention(c) (foreignObject, OptionalConverter<Swift.Double>.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ bGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
+    _ bSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
+    _ bqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Bool>.CType,
+    _ bqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
+    _ ui8Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt8.CType,
+    _ ui8Setter: @escaping @convention(c) (HostObject, Swift.UInt8.CType, _ exn: OutHostException) -> Void,
+    _ ui8qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt8>.CType,
+    _ ui8qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt8>.CType, _ exn: OutHostException) -> Void,
+    _ ui16Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt16.CType,
+    _ ui16Setter: @escaping @convention(c) (HostObject, Swift.UInt16.CType, _ exn: OutHostException) -> Void,
+    _ ui16qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt16>.CType,
+    _ ui16qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt16>.CType, _ exn: OutHostException) -> Void,
+    _ ui32Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt32.CType,
+    _ ui32Setter: @escaping @convention(c) (HostObject, Swift.UInt32.CType, _ exn: OutHostException) -> Void,
+    _ ui32qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt32>.CType,
+    _ ui32qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt32>.CType, _ exn: OutHostException) -> Void,
+    _ ui64Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt64.CType,
+    _ ui64Setter: @escaping @convention(c) (HostObject, Swift.UInt64.CType, _ exn: OutHostException) -> Void,
+    _ ui64qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt64>.CType,
+    _ ui64qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt64>.CType, _ exn: OutHostException) -> Void,
+    _ uiGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt.CType,
+    _ uiSetter: @escaping @convention(c) (HostObject, Swift.UInt.CType, _ exn: OutHostException) -> Void,
+    _ uiqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt>.CType,
+    _ uiqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt>.CType, _ exn: OutHostException) -> Void,
+    _ i8Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int8.CType,
+    _ i8Setter: @escaping @convention(c) (HostObject, Swift.Int8.CType, _ exn: OutHostException) -> Void,
+    _ i8qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int8>.CType,
+    _ i8qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int8>.CType, _ exn: OutHostException) -> Void,
+    _ i16Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int16.CType,
+    _ i16Setter: @escaping @convention(c) (HostObject, Swift.Int16.CType, _ exn: OutHostException) -> Void,
+    _ i16qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int16>.CType,
+    _ i16qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int16>.CType, _ exn: OutHostException) -> Void,
+    _ i32Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int32.CType,
+    _ i32Setter: @escaping @convention(c) (HostObject, Swift.Int32.CType, _ exn: OutHostException) -> Void,
+    _ i32qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int32>.CType,
+    _ i32qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int32>.CType, _ exn: OutHostException) -> Void,
+    _ i64Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int64.CType,
+    _ i64Setter: @escaping @convention(c) (HostObject, Swift.Int64.CType, _ exn: OutHostException) -> Void,
+    _ i64qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int64>.CType,
+    _ i64qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int64>.CType, _ exn: OutHostException) -> Void,
+    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ iSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    _ iqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int>.CType,
+    _ iqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
+    _ fGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Float.CType,
+    _ fSetter: @escaping @convention(c) (HostObject, Swift.Float.CType, _ exn: OutHostException) -> Void,
+    _ fqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Float>.CType,
+    _ fqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Float>.CType, _ exn: OutHostException) -> Void,
+    _ dGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType,
+    _ dSetter: @escaping @convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void,
+    _ dqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Double>.CType,
+    _ dqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Double>.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Primitives.PrimitiveHolder._constructorMethod.isInitialized(env) { return }
@@ -6098,58 +5815,58 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
 }
 
 extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
-    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _bqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Bool>.CType>()
-    fileprivate static let _bqSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Bool>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui8Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt8.CType>()
-    fileprivate static let _ui8Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.UInt8.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui8qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt8>.CType>()
-    fileprivate static let _ui8qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.UInt8>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui16Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt16.CType>()
-    fileprivate static let _ui16Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.UInt16.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui16qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt16>.CType>()
-    fileprivate static let _ui16qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.UInt16>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui32Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt32.CType>()
-    fileprivate static let _ui32Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.UInt32.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui32qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt32>.CType>()
-    fileprivate static let _ui32qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.UInt32>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui64Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt64.CType>()
-    fileprivate static let _ui64Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.UInt64.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _ui64qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt64>.CType>()
-    fileprivate static let _ui64qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.UInt64>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _uiGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.UInt.CType>()
-    fileprivate static let _uiSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.UInt.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _uiqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.UInt>.CType>()
-    fileprivate static let _uiqSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.UInt>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i8Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int8.CType>()
-    fileprivate static let _i8Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int8.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i8qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int8>.CType>()
-    fileprivate static let _i8qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Int8>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i16Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int16.CType>()
-    fileprivate static let _i16Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int16.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i16qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int16>.CType>()
-    fileprivate static let _i16qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Int16>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i32Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int32.CType>()
-    fileprivate static let _i32Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int32.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i32qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int32>.CType>()
-    fileprivate static let _i32qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Int32>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i64Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int64.CType>()
-    fileprivate static let _i64Setter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int64.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _i64qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int64>.CType>()
-    fileprivate static let _i64qSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Int64>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _iqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Int>.CType>()
-    fileprivate static let _iqSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Int>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Float.CType>()
-    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Float.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _fqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Float>.CType>()
-    fileprivate static let _fqSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Float>.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Double.CType>()
-    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Double.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _dqGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.Double>.CType>()
-    fileprivate static let _dqSetter = Env.CallbackMap<@convention(c) (foreignObject, OptionalConverter<Swift.Double>.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
+    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _bqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Bool>.CType>()
+    fileprivate static let _bqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui8Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt8.CType>()
+    fileprivate static let _ui8Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt8.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui8qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt8>.CType>()
+    fileprivate static let _ui8qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt8>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui16Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt16.CType>()
+    fileprivate static let _ui16Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt16.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui16qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt16>.CType>()
+    fileprivate static let _ui16qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt16>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui32Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt32.CType>()
+    fileprivate static let _ui32Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt32.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui32qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt32>.CType>()
+    fileprivate static let _ui32qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt32>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui64Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt64.CType>()
+    fileprivate static let _ui64Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt64.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _ui64qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt64>.CType>()
+    fileprivate static let _ui64qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt64>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _uiGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt.CType>()
+    fileprivate static let _uiSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _uiqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt>.CType>()
+    fileprivate static let _uiqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i8Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int8.CType>()
+    fileprivate static let _i8Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int8.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i8qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int8>.CType>()
+    fileprivate static let _i8qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int8>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i16Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int16.CType>()
+    fileprivate static let _i16Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int16.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i16qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int16>.CType>()
+    fileprivate static let _i16qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int16>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i32Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int32.CType>()
+    fileprivate static let _i32Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int32.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i32qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int32>.CType>()
+    fileprivate static let _i32qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int32>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i64Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int64.CType>()
+    fileprivate static let _i64Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int64.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _i64qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int64>.CType>()
+    fileprivate static let _i64qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int64>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _iqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int>.CType>()
+    fileprivate static let _iqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Float.CType>()
+    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Float.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _fqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Float>.CType>()
+    fileprivate static let _fqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Float>.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType>()
+    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _dqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Double>.CType>()
+    fileprivate static let _dqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Double>.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Bool.CType,
         OptionalConverter<Swift.Bool>.CType,
@@ -6177,11 +5894,11 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
         OptionalConverter<Swift.Float>.CType,
         Swift.Double.CType,
         OptionalConverter<Swift.Double>.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             b: try Swift.Bool.consumeIota(
                 try env.check { exn in _bGetter[env](value, exn) },
@@ -6290,7 +6007,7 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Bool.toIota(value.b, env: env),
@@ -6324,7 +6041,7 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _bSetter[env](
             this,
             try Swift.Bool.toIota(value.b, env: env),
@@ -6467,7 +6184,7 @@ public func __iota_TestAPI_ProtocolFixtures_describeAProtocol(
     value: TestAPI_CommonInterface._AProtocolConverter.CType,
     x: Swift.Int.CType,
     y: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6489,7 +6206,7 @@ public func __iota_TestAPI_ProtocolFixtures_describeAProtocol(
 public func __iota_TestAPI_ProtocolFixtures_returnAProtocol(
     envRef: EnvRef,
     value: TestAPI_CommonInterface._AProtocolConverter.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._AProtocolConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6511,11 +6228,11 @@ public func TestAPI_ProtocolFixtures_setup(
 }
 
 extension TestAPI.ProtocolFixtures: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -6525,7 +6242,7 @@ extension TestAPI.ProtocolFixtures: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions_class")
 public func __iota_get_TestAPI_PythonNamingCollisions_class(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6539,7 +6256,7 @@ public func __iota_get_TestAPI_PythonNamingCollisions_class(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions___dunder__")
 public func __iota_get_TestAPI_PythonNamingCollisions___dunder__(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6553,7 +6270,7 @@ public func __iota_get_TestAPI_PythonNamingCollisions___dunder__(
 @_cdecl("__iota_TestAPI_PythonNamingCollisions_from")
 public func __iota_TestAPI_PythonNamingCollisions_from(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6571,7 +6288,7 @@ public func __iota_TestAPI_PythonNamingCollisions_from(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions_isNaN")
 public func __iota_get_TestAPI_PythonNamingCollisions_isNaN(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6587,7 +6304,7 @@ public func __iota_TestAPI_PythonNamingCollisions_keywordArgs(
     envRef: EnvRef,
     `class`: Swift.Int.CType,
     list: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6607,7 +6324,7 @@ public func __iota_TestAPI_PythonNamingCollisions_keywordArgs(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore")
 public func __iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6621,7 +6338,7 @@ public func __iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions_list")
 public func __iota_get_TestAPI_PythonNamingCollisions_list(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6635,7 +6352,7 @@ public func __iota_get_TestAPI_PythonNamingCollisions_list(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions_Url")
 public func __iota_get_TestAPI_PythonNamingCollisions_Url(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6649,7 +6366,7 @@ public func __iota_get_TestAPI_PythonNamingCollisions_Url(
 @_cdecl("__iota_get_TestAPI_PythonNamingCollisions_URL")
 public func __iota_get_TestAPI_PythonNamingCollisions_URL(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6666,11 +6383,11 @@ public func TestAPI_PythonNamingCollisions_setup(
 }
 
 extension TestAPI.PythonNamingCollisions: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -6681,7 +6398,7 @@ extension TestAPI.PythonNamingCollisions: FishyJoesIotaRuntime.IotaConverter {
 public func __iota_TestAPI_Ranges_echoInt16Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.Int16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6701,7 +6418,7 @@ public func __iota_TestAPI_Ranges_echoInt16Range(
 public func __iota_TestAPI_Ranges_echoInt32Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.Int32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6721,7 +6438,7 @@ public func __iota_TestAPI_Ranges_echoInt32Range(
 public func __iota_TestAPI_Ranges_echoInt64Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.Int64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6741,7 +6458,7 @@ public func __iota_TestAPI_Ranges_echoInt64Range(
 public func __iota_TestAPI_Ranges_echoInt8Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.Int8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6761,7 +6478,7 @@ public func __iota_TestAPI_Ranges_echoInt8Range(
 public func __iota_TestAPI_Ranges_echoIntRange(
     envRef: EnvRef,
     range: RangeConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6781,7 +6498,7 @@ public func __iota_TestAPI_Ranges_echoIntRange(
 public func __iota_TestAPI_Ranges_echoUInt16Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.UInt16>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6801,7 +6518,7 @@ public func __iota_TestAPI_Ranges_echoUInt16Range(
 public func __iota_TestAPI_Ranges_echoUInt32Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.UInt32>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6821,7 +6538,7 @@ public func __iota_TestAPI_Ranges_echoUInt32Range(
 public func __iota_TestAPI_Ranges_echoUInt64Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.UInt64>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6841,7 +6558,7 @@ public func __iota_TestAPI_Ranges_echoUInt64Range(
 public func __iota_TestAPI_Ranges_echoUInt8Range(
     envRef: EnvRef,
     range: RangeConverter<Swift.UInt8>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6861,7 +6578,7 @@ public func __iota_TestAPI_Ranges_echoUInt8Range(
 public func __iota_TestAPI_Ranges_echoUIntRange(
     envRef: EnvRef,
     range: RangeConverter<Swift.UInt>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6880,7 +6597,7 @@ public func __iota_TestAPI_Ranges_echoUIntRange(
 @_cdecl("__iota_get_TestAPI_Ranges_int16Range")
 public func __iota_get_TestAPI_Ranges_int16Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6894,7 +6611,7 @@ public func __iota_get_TestAPI_Ranges_int16Range(
 @_cdecl("__iota_get_TestAPI_Ranges_int32Range")
 public func __iota_get_TestAPI_Ranges_int32Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6908,7 +6625,7 @@ public func __iota_get_TestAPI_Ranges_int32Range(
 @_cdecl("__iota_get_TestAPI_Ranges_int64Range")
 public func __iota_get_TestAPI_Ranges_int64Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6922,7 +6639,7 @@ public func __iota_get_TestAPI_Ranges_int64Range(
 @_cdecl("__iota_get_TestAPI_Ranges_int8Range")
 public func __iota_get_TestAPI_Ranges_int8Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6936,7 +6653,7 @@ public func __iota_get_TestAPI_Ranges_int8Range(
 @_cdecl("__iota_get_TestAPI_Ranges_intRange")
 public func __iota_get_TestAPI_Ranges_intRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6950,7 +6667,7 @@ public func __iota_get_TestAPI_Ranges_intRange(
 @_cdecl("__iota_get_TestAPI_Ranges_uInt16Range")
 public func __iota_get_TestAPI_Ranges_uInt16Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt16>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6964,7 +6681,7 @@ public func __iota_get_TestAPI_Ranges_uInt16Range(
 @_cdecl("__iota_get_TestAPI_Ranges_uInt32Range")
 public func __iota_get_TestAPI_Ranges_uInt32Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt32>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6978,7 +6695,7 @@ public func __iota_get_TestAPI_Ranges_uInt32Range(
 @_cdecl("__iota_get_TestAPI_Ranges_uInt64Range")
 public func __iota_get_TestAPI_Ranges_uInt64Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt64>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -6992,7 +6709,7 @@ public func __iota_get_TestAPI_Ranges_uInt64Range(
 @_cdecl("__iota_get_TestAPI_Ranges_uInt8Range")
 public func __iota_get_TestAPI_Ranges_uInt8Range(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt8>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7006,7 +6723,7 @@ public func __iota_get_TestAPI_Ranges_uInt8Range(
 @_cdecl("__iota_get_TestAPI_Ranges_uIntRange")
 public func __iota_get_TestAPI_Ranges_uIntRange(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> RangeConverter<Swift.UInt>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7023,11 +6740,11 @@ public func TestAPI_Ranges_setup(
 }
 
 extension TestAPI.Ranges: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -7037,7 +6754,7 @@ extension TestAPI.Ranges: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection")
 public func __iota_get_TestAPI_ReferenceCaseEnum_defaultDirection(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.ReferenceCaseEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7051,8 +6768,8 @@ public func __iota_get_TestAPI_ReferenceCaseEnum_defaultDirection(
 @_cdecl("__iota_get_TestAPI_ReferenceCaseEnum_opposite")
 public func __iota_get_TestAPI_ReferenceCaseEnum_opposite(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> TestAPI.ReferenceCaseEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7067,7 +6784,7 @@ public func __iota_get_TestAPI_ReferenceCaseEnum_opposite(
 public func __iota_TestAPI_ReferenceCaseEnum_rotate180(
     envRef: EnvRef,
     direction: TestAPI.ReferenceCaseEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.ReferenceCaseEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7109,48 +6826,48 @@ public func TestAPI_ReferenceCaseEnum_setup(
 
 extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias North_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let north_constructor = Env.CallbackMap<North_constructor>()
     public typealias North_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let north_extractor = Env.CallbackMap<North_extractor>()
     public typealias South_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let south_constructor = Env.CallbackMap<South_constructor>()
     public typealias South_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let south_extractor = Env.CallbackMap<South_extractor>()
     public typealias East_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let east_constructor = Env.CallbackMap<East_constructor>()
     public typealias East_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let east_extractor = Env.CallbackMap<East_extractor>()
     public typealias West_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let west_constructor = Env.CallbackMap<West_constructor>()
     public typealias West_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let west_extractor = Env.CallbackMap<West_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in north_extractor[env](value, exn) }
@@ -7169,7 +6886,7 @@ extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case north:
             return try env.check { exn in
@@ -7205,7 +6922,7 @@ extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_ReferenceEmptyEnum_aStaticMethod")
 public func __iota_TestAPI_ReferenceEmptyEnum_aStaticMethod(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7223,7 +6940,7 @@ public func __iota_TestAPI_ReferenceEmptyEnum_aStaticMethod(
 @_cdecl("__iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty")
 public func __iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7237,7 +6954,7 @@ public func __iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty(
 @_cdecl("__iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen")
 public func __iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.ReferenceEmptyEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7257,11 +6974,11 @@ public func TestAPI_ReferenceEmptyEnum_setup(
 }
 
 extension TestAPI.ReferenceEmptyEnum: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -7271,7 +6988,7 @@ extension TestAPI.ReferenceEmptyEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_ReferenceOnlyTypes_marker")
 public func __iota_TestAPI_ReferenceOnlyTypes_marker(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.ReferenceOnlyTypes.Marker.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7292,11 +7009,11 @@ public func TestAPI_ReferenceOnlyTypes_setup(
 }
 
 extension TestAPI.ReferenceOnlyTypes: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -7305,8 +7022,8 @@ extension TestAPI.ReferenceOnlyTypes: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("TestAPI_ReferenceOnlyTypes_Marker_setup")
 public func TestAPI_ReferenceOnlyTypes_Marker_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.ReferenceOnlyTypes.Marker._constructorMethod.isInitialized(env) { return }
@@ -7314,19 +7031,19 @@ public func TestAPI_ReferenceOnlyTypes_Marker_setup(
 }
 
 extension TestAPI.ReferenceOnlyTypes.Marker: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.ReferenceOnlyTypes.Marker {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.ReferenceOnlyTypes.Marker {
         try Box<TestAPI.ReferenceOnlyTypes.Marker>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.ReferenceOnlyTypes.Marker, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.ReferenceOnlyTypes.Marker, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
 @_cdecl("__iota_TestAPI_ReferenceOnlyTypes_Marker_equals")
-public func TestAPI_ReferenceOnlyTypes_Marker_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+public func TestAPI_ReferenceOnlyTypes_Marker_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Bool.toIota(
@@ -7336,7 +7053,7 @@ public func TestAPI_ReferenceOnlyTypes_Marker_iotaEquals(envRef: EnvRef, lhs: fo
     }
 }
 @_cdecl("__iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash")
-public func TestAPI_ReferenceOnlyTypes_Marker_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+public func TestAPI_ReferenceOnlyTypes_Marker_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Int32.toIota(
@@ -7352,7 +7069,7 @@ public func TestAPI_ReferenceOnlyTypes_Marker_iotaHash(envRef: EnvRef, this: for
 @_cdecl("__iota_get_TestAPI_Results_aFailure")
 public func __iota_get_TestAPI_Results_aFailure(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ResultConverter<Swift.Int, TestAPI.Results.Error>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7366,7 +7083,7 @@ public func __iota_get_TestAPI_Results_aFailure(
 @_cdecl("__iota_get_TestAPI_Results_aSuccess")
 public func __iota_get_TestAPI_Results_aSuccess(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ResultConverter<Swift.Int, TestAPI.Results.Error>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7381,7 +7098,7 @@ public func __iota_get_TestAPI_Results_aSuccess(
 public func __iota_TestAPI_Results_processResult(
     envRef: EnvRef,
     result: ResultConverter<Swift.String, TestAPI.Results.Error>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7403,11 +7120,11 @@ public func TestAPI_Results_setup(
 }
 
 extension TestAPI.Results: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -7417,8 +7134,8 @@ extension TestAPI.Results: FishyJoesIotaRuntime.IotaConverter {
 public func TestAPI_Results_Error_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Results.Error._ConstructorMethod,
-    _ messageGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ messageGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Results.Error._constructorMethod.isInitialized(env) { return }
@@ -7427,14 +7144,14 @@ public func TestAPI_Results_Error_setup(
 }
 
 extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _messageGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _messageGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             message: try Swift.String.consumeIota(
                 try env.check { exn in _messageGetter[env](value, exn) },
@@ -7443,7 +7160,7 @@ extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.message, env: env),
@@ -7452,7 +7169,7 @@ extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -7462,9 +7179,9 @@ extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
 public func TestAPI_Shade_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Shade._ConstructorMethod,
-    _ darknessGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Double.CType,
-    _ darknessSetter: @escaping @convention(c) (foreignObject, Swift.Double.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ darknessGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType,
+    _ darknessSetter: @escaping @convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Shade._constructorMethod.isInitialized(env) { return }
@@ -7474,15 +7191,15 @@ public func TestAPI_Shade_setup(
 }
 
 extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _darknessGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Double.CType>()
-    fileprivate static let _darknessSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Double.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _darknessGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType>()
+    fileprivate static let _darknessSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Double.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             darkness: try Swift.Double.consumeIota(
                 try env.check { exn in _darknessGetter[env](value, exn) },
@@ -7491,7 +7208,7 @@ extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Double.toIota(value.darkness, env: env),
@@ -7500,7 +7217,7 @@ extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _darknessSetter[env](
             this,
             try Swift.Double.toIota(value.darkness, env: env),
@@ -7515,8 +7232,8 @@ extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("__iota_get_TestAPI_ShadowBox_allShades")
 public func __iota_get_TestAPI_ShadowBox_allShades(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> ArrayConverter<TestAPI.Shade>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7531,7 +7248,7 @@ public func __iota_get_TestAPI_ShadowBox_allShades(
 public func __iota_TestAPI_ShadowBox_darkest(
     envRef: EnvRef,
     shades: ArrayConverter<TestAPI.Shade>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<TestAPI.Shade>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7565,32 +7282,32 @@ public func TestAPI_ShadowBox_setup(
 
 extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Shade_constructor = @convention(c) (
         TestAPI.Shade.CType,
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let shade_constructor = Env.CallbackMap<Shade_constructor>()
     public typealias Shade_extractor = @convention(c) (
-        foreignObject,
+        HostObject,
         UnsafePointer<TestAPI.Shade.CType>,
-        foreignOutExn
+        OutHostException
     ) -> Void
     fileprivate static let shade_extractor = Env.CallbackMap<Shade_extractor>()
     public typealias Empty_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let empty_constructor = Env.CallbackMap<Empty_constructor>()
     public typealias Empty_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let empty_extractor = Env.CallbackMap<Empty_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             var __0 = TestAPI.Shade.CType.default
@@ -7609,7 +7326,7 @@ extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case let shade(_0):
             return try env.check { exn in
@@ -7634,7 +7351,7 @@ extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_SimpleEnum_favoriteColor")
 public func __iota_get_TestAPI_SimpleEnum_favoriteColor(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.SimpleEnum.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7645,7 +7362,7 @@ public func __iota_get_TestAPI_SimpleEnum_favoriteColor(
 public func __iota_set_TestAPI_SimpleEnum_favoriteColor(
     envRef: EnvRef,
     newValue: TestAPI.SimpleEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -7659,8 +7376,8 @@ public func __iota_set_TestAPI_SimpleEnum_favoriteColor(
 @_cdecl("__iota_TestAPI_SimpleEnum_hexMethod")
 public func __iota_TestAPI_SimpleEnum_hexMethod(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7678,8 +7395,8 @@ public func __iota_TestAPI_SimpleEnum_hexMethod(
 @_cdecl("__iota_get_TestAPI_SimpleEnum_hex")
 public func __iota_get_TestAPI_SimpleEnum_hex(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7694,7 +7411,7 @@ public func __iota_get_TestAPI_SimpleEnum_hex(
 public func __iota_TestAPI_SimpleEnum_pickAColor(
     envRef: EnvRef,
     rawValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<TestAPI.SimpleEnum>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7713,7 +7430,7 @@ public func __iota_TestAPI_SimpleEnum_pickAColor(
 @_cdecl("__iota_TestAPI_SimpleEnum_resetFavoriteColor")
 public func __iota_TestAPI_SimpleEnum_resetFavoriteColor(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7750,39 +7467,39 @@ public func TestAPI_SimpleEnum_setup(
 
 extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Red_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let red_constructor = Env.CallbackMap<Red_constructor>()
     public typealias Red_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let red_extractor = Env.CallbackMap<Red_extractor>()
     public typealias Green_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let green_constructor = Env.CallbackMap<Green_constructor>()
     public typealias Green_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let green_extractor = Env.CallbackMap<Green_extractor>()
     public typealias Blue_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let blue_constructor = Env.CallbackMap<Blue_constructor>()
     public typealias Blue_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let blue_extractor = Env.CallbackMap<Blue_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in red_extractor[env](value, exn) }
@@ -7798,7 +7515,7 @@ extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case red:
             return try env.check { exn in
@@ -7828,7 +7545,7 @@ extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_Strings_accent")
 public func __iota_get_TestAPI_Strings_accent(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7842,7 +7559,7 @@ public func __iota_get_TestAPI_Strings_accent(
 @_cdecl("__iota_get_TestAPI_Strings_chineseBMP")
 public func __iota_get_TestAPI_Strings_chineseBMP(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7856,7 +7573,7 @@ public func __iota_get_TestAPI_Strings_chineseBMP(
 @_cdecl("__iota_get_TestAPI_Strings_chineseSIP")
 public func __iota_get_TestAPI_Strings_chineseSIP(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7870,7 +7587,7 @@ public func __iota_get_TestAPI_Strings_chineseSIP(
 @_cdecl("__iota_get_TestAPI_Strings_chinese")
 public func __iota_get_TestAPI_Strings_chinese(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7885,7 +7602,7 @@ public func __iota_get_TestAPI_Strings_chinese(
 public func __iota_TestAPI_Strings_echo(
     envRef: EnvRef,
     string: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7904,7 +7621,7 @@ public func __iota_TestAPI_Strings_echo(
 @_cdecl("__iota_get_TestAPI_Strings_emojiMulti")
 public func __iota_get_TestAPI_Strings_emojiMulti(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7918,7 +7635,7 @@ public func __iota_get_TestAPI_Strings_emojiMulti(
 @_cdecl("__iota_get_TestAPI_Strings_emoji")
 public func __iota_get_TestAPI_Strings_emoji(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7932,7 +7649,7 @@ public func __iota_get_TestAPI_Strings_emoji(
 @_cdecl("__iota_get_TestAPI_Strings_script")
 public func __iota_get_TestAPI_Strings_script(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7946,7 +7663,7 @@ public func __iota_get_TestAPI_Strings_script(
 @_cdecl("__iota_get_TestAPI_Strings_simple")
 public func __iota_get_TestAPI_Strings_simple(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7962,7 +7679,7 @@ public func __iota_TestAPI_Strings_split(
     envRef: EnvRef,
     string: Swift.String.CType,
     by: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -7985,11 +7702,11 @@ public func TestAPI_Strings_setup(
 }
 
 extension TestAPI.Strings: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -8002,11 +7719,11 @@ public func TestAPI_Structs_setup(
 }
 
 extension TestAPI.Structs: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -8016,9 +7733,9 @@ extension TestAPI.Structs: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable")
 public func __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.MemberwiseStruct.peekIota(_iotaThis, env: env))
@@ -8036,7 +7753,7 @@ public func __iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable(
 @_cdecl("__iota_TestAPI_Structs_MemberwiseStruct_create")
 public func __iota_TestAPI_Structs_MemberwiseStruct_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Structs.MemberwiseStruct.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8054,11 +7771,11 @@ public func __iota_TestAPI_Structs_MemberwiseStruct_create(
 public func TestAPI_Structs_MemberwiseStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Structs.MemberwiseStruct._ConstructorMethod,
-    _ immutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ immutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ mutableGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ mutableSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ immutableGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ immutableSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ mutableGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ mutableSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Structs.MemberwiseStruct._constructorMethod.isInitialized(env) { return }
@@ -8070,18 +7787,18 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
 }
 
 extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _mutableSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _mutableSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             immutable: try Swift.String.consumeIota(
                 try env.check { exn in _immutableGetter[env](value, exn) },
@@ -8094,7 +7811,7 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.immutable, env: env),
@@ -8104,7 +7821,7 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _immutableSetter[env](
             this,
             try Swift.String.toIota(value.immutable, env: env),
@@ -8124,9 +7841,9 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("__iota_TestAPI_Structs_MutableStruct_asyncGetI")
 public func __iota_TestAPI_Structs_MutableStruct_asyncGetI(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.MutableStruct.peekIota(_iotaThis, env: env))
@@ -8144,8 +7861,8 @@ public func __iota_TestAPI_Structs_MutableStruct_asyncGetI(
 @_cdecl("__iota_TestAPI_Structs_MutableStruct_increment")
 public func __iota_TestAPI_Structs_MutableStruct_increment(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8165,9 +7882,9 @@ public func __iota_TestAPI_Structs_MutableStruct_increment(
 @_cdecl("__iota_TestAPI_Structs_MutableStruct_incrementAsync")
 public func __iota_TestAPI_Structs_MutableStruct_incrementAsync(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _iotaThisRef = try IotaReference(_iotaThis, env: env)
@@ -8196,7 +7913,7 @@ public func __iota_TestAPI_Structs_MutableStruct_incrementAsync(
 @_cdecl("__iota_TestAPI_Structs_MutableStruct_create")
 public func __iota_TestAPI_Structs_MutableStruct_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Structs.MutableStruct.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8214,9 +7931,9 @@ public func __iota_TestAPI_Structs_MutableStruct_create(
 public func TestAPI_Structs_MutableStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Structs.MutableStruct._ConstructorMethod,
-    _ iGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ iSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ iSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Structs.MutableStruct._constructorMethod.isInitialized(env) { return }
@@ -8226,15 +7943,15 @@ public func TestAPI_Structs_MutableStruct_setup(
 }
 
 extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Int.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             i: try Swift.Int.consumeIota(
                 try env.check { exn in _iGetter[env](value, exn) },
@@ -8243,7 +7960,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Int.toIota(value.i, env: env),
@@ -8252,7 +7969,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _iSetter[env](
             this,
             try Swift.Int.toIota(value.i, env: env),
@@ -8267,7 +7984,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create")
 public func __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8285,8 +8002,8 @@ public func __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_create(
 @_cdecl("__iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall")
 public func __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8303,8 +8020,8 @@ public func __iota_TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_testCall(
 @_cdecl("TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup")
 public func TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Structs.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
@@ -8312,13 +8029,13 @@ public func TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
 }
 
 extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.Structs.PuttingTypesIntoQuestionablePlaces {
         try Box<TestAPI.Structs.PuttingTypesIntoQuestionablePlaces>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.Structs.PuttingTypesIntoQuestionablePlaces, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -8330,9 +8047,9 @@ extension TestAPI.Structs.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRunti
 @_cdecl("__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable")
 public func __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _iotaThis: HostObject,
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let _swiftSelf = UncheckedSendableBox(try TestAPI.Structs.ReferenceStruct.peekIota(_iotaThis, env: env))
@@ -8350,8 +8067,8 @@ public func __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
 @_cdecl("__iota_get_TestAPI_Structs_ReferenceStruct_immutable")
 public func __iota_get_TestAPI_Structs_ReferenceStruct_immutable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8365,7 +8082,7 @@ public func __iota_get_TestAPI_Structs_ReferenceStruct_immutable(
 @_cdecl("__iota_TestAPI_Structs_ReferenceStruct_create")
 public func __iota_TestAPI_Structs_ReferenceStruct_create(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.Structs.ReferenceStruct.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8383,8 +8100,8 @@ public func __iota_TestAPI_Structs_ReferenceStruct_create(
 @_cdecl("__iota_get_TestAPI_Structs_ReferenceStruct_mutable")
 public func __iota_get_TestAPI_Structs_ReferenceStruct_mutable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -8394,9 +8111,9 @@ public func __iota_get_TestAPI_Structs_ReferenceStruct_mutable(
 @_cdecl("__iota_set_TestAPI_Structs_ReferenceStruct_mutable")
 public func __iota_set_TestAPI_Structs_ReferenceStruct_mutable(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -8411,8 +8128,8 @@ public func __iota_set_TestAPI_Structs_ReferenceStruct_mutable(
 @_cdecl("TestAPI_Structs_ReferenceStruct_setup")
 public func TestAPI_Structs_ReferenceStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Structs.ReferenceStruct._constructorMethod.isInitialized(env) { return }
@@ -8420,19 +8137,19 @@ public func TestAPI_Structs_ReferenceStruct_setup(
 }
 
 extension TestAPI.Structs.ReferenceStruct: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.Structs.ReferenceStruct {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.Structs.ReferenceStruct {
         try Box<TestAPI.Structs.ReferenceStruct>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.Structs.ReferenceStruct, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.Structs.ReferenceStruct, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
 @_cdecl("__iota_TestAPI_Structs_ReferenceStruct_equals")
-public func TestAPI_Structs_ReferenceStruct_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+public func TestAPI_Structs_ReferenceStruct_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Bool.toIota(
@@ -8442,7 +8159,7 @@ public func TestAPI_Structs_ReferenceStruct_iotaEquals(envRef: EnvRef, lhs: fore
     }
 }
 @_cdecl("__iota_get_TestAPI_Structs_ReferenceStruct_hash")
-public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Int32.toIota(
@@ -8458,49 +8175,49 @@ public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: forei
 public func TestAPI_Structs_TwentyOneItemStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.Structs.TwentyOneItemStruct._ConstructorMethod,
-    _ aGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ aSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ bGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ bSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ cGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ cSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ dGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ dSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ eGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ eSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ fGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ fSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ gGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ gSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ hGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ hSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ iGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ iSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ jGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ jSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ kGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ kSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ lGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ lSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ mGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ mSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ nGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ nSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ oGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ oSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ pGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ pSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ qGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ qSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ rGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ rSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ sGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ sSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ tGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ tSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ uGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ uSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ aGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ aSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ bGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ bSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ cGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ cSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ dGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ dSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ eGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ eSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ fGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ fSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ gGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ gSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ hGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ hSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ iSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ jGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ jSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ kGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ kSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ lGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ lSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ mGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ mSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ nGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ nSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ oGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ oSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ pGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ pSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ qSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ rGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ rSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ sGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ sSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ tGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ tSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ uGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ uSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.Structs.TwentyOneItemStruct._constructorMethod.isInitialized(env) { return }
@@ -8550,48 +8267,48 @@ public func TestAPI_Structs_TwentyOneItemStruct_setup(
 }
 
 extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _aGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _aSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _cGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _cSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _eGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _eSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _gGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _gSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _hGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _hSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _jGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _jSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _kGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _kSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _lGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _lSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _mGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _mSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _nGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _nSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _oGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _oSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _pGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _pSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _qGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _qSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _rGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _rSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _sGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _sSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _tGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _tSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _uGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _uSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _aGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _aSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _cGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _cSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _eGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _eSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _gGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _gSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _hGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _hSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _jGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _jSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _kGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _kSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _lGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _lSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _mGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _mSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _nGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _nSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _oGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _oSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _pGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _pSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _qSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _rGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _rSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _sGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _sSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _tGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _tSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _uGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _uSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
@@ -8614,11 +8331,11 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
         Swift.String.CType,
         Swift.String.CType,
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             a: try Swift.String.consumeIota(
                 try env.check { exn in _aGetter[env](value, exn) },
@@ -8707,7 +8424,7 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.a, env: env),
@@ -8736,7 +8453,7 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _aSetter[env](
             this,
             try Swift.String.toIota(value.a, env: env),
@@ -8851,10 +8568,10 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -8874,10 +8591,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction0Converter<Swift.Int>.peekIota(fn, env: env)
@@ -8897,10 +8614,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction1Converter<Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -8920,10 +8637,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.peekIota(fn, env: env)
@@ -8943,10 +8660,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.peekIota(fn, env: env)
@@ -8966,10 +8683,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.peekIota(fn, env: env)
@@ -8989,10 +8706,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.peekIota(fn, env: env)
@@ -9012,10 +8729,10 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -9035,9 +8752,9 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thunk: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9056,8 +8773,8 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMaker(
 @_cdecl("__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness")
 public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9075,23 +8792,23 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness(
 public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._ConstructorMethod,
-    _ const42Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ iabsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _ intComposeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _ add3ThingsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _ makeListGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _ fifthThingGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _ sixGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _ willThrowGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ exercise0FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType,
-    _ exercise1FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType,
-    _ exercise2FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType,
-    _ exercise3FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType,
-    _ exercise4FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType,
-    _ exercise5FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
-    _ exercise6FunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
-    _ thunkTwiceMakerFunGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
-    _ exn: foreignOutExn
+    _ const42Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
+    _ iabsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+    _ intComposeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
+    _ add3ThingsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
+    _ makeListGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
+    _ fifthThingGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+    _ sixGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
+    _ willThrowGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
+    _ exercise0FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType,
+    _ exercise1FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType,
+    _ exercise2FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType,
+    _ exercise3FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType,
+    _ exercise4FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType,
+    _ exercise5FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
+    _ exercise6FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
+    _ thunkTwiceMakerFunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestAsyncForeignSideFunctionsStruct._constructorMethod.isInitialized(env) { return }
@@ -9115,22 +8832,22 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
 }
 
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
-    fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
-    fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
-    fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
-    fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
-    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
-    fileprivate static let _exercise0FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _exercise1FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _exercise2FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType>()
-    fileprivate static let _exercise3FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType>()
-    fileprivate static let _exercise4FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType>()
-    fileprivate static let _exercise5FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType>()
-    fileprivate static let _exercise6FunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _thunkTwiceMakerFunGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType>()
+    fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
+    fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
+    fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
+    fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
+    fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
+    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
+    fileprivate static let _exercise0FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType>()
+    fileprivate static let _exercise1FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType>()
+    fileprivate static let _exercise2FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType>()
+    fileprivate static let _exercise3FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType>()
+    fileprivate static let _exercise4FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType>()
+    fileprivate static let _exercise5FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType>()
+    fileprivate static let _exercise6FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType>()
+    fileprivate static let _thunkTwiceMakerFunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType>()
     public typealias _ConstructorMethod = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
@@ -9148,11 +8865,11 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
         AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
         AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
         Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             const42: try AsyncFunction0Converter<Swift.Int>.consumeIota(
                 try env.check { exn in _const42Getter[env](value, exn) },
@@ -9221,7 +8938,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try AsyncFunction0Converter<Swift.Int>.toIota(value.const42, env: env),
@@ -9245,7 +8962,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -9255,8 +8972,8 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_add3Things")
 public func __iota_get_TestAPI_TestAsyncFunctions_add3Things(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9270,8 +8987,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_add3Things(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_const42")
 public func __iota_get_TestAPI_TestAsyncFunctions_const42(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9285,10 +9002,10 @@ public func __iota_get_TestAPI_TestAsyncFunctions_const42(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_defaultExercise6")
 public func __iota_TestAPI_TestAsyncFunctions_defaultExercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -9309,10 +9026,10 @@ public func __iota_TestAPI_TestAsyncFunctions_defaultExercise6(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise0")
 public func __iota_TestAPI_TestAsyncFunctions_exercise0(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction0Converter<Swift.Int>.peekIota(fn, env: env)
@@ -9332,10 +9049,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise0(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise1")
 public func __iota_TestAPI_TestAsyncFunctions_exercise1(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction1Converter<Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -9355,10 +9072,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise1(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise2")
 public func __iota_TestAPI_TestAsyncFunctions_exercise2(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.peekIota(fn, env: env)
@@ -9378,10 +9095,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise2(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise3")
 public func __iota_TestAPI_TestAsyncFunctions_exercise3(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.peekIota(fn, env: env)
@@ -9401,10 +9118,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise3(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise4")
 public func __iota_TestAPI_TestAsyncFunctions_exercise4(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.peekIota(fn, env: env)
@@ -9424,10 +9141,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise4(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise5")
 public func __iota_TestAPI_TestAsyncFunctions_exercise5(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.peekIota(fn, env: env)
@@ -9447,10 +9164,10 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise5(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_exercise6")
 public func __iota_TestAPI_TestAsyncFunctions_exercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -9470,8 +9187,8 @@ public func __iota_TestAPI_TestAsyncFunctions_exercise6(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_fifthThing")
 public func __iota_get_TestAPI_TestAsyncFunctions_fifthThing(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9485,8 +9202,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_fifthThing(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_iabs")
 public func __iota_get_TestAPI_TestAsyncFunctions_iabs(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9500,8 +9217,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_iabs(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_intCompose")
 public func __iota_get_TestAPI_TestAsyncFunctions_intCompose(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9515,8 +9232,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_intCompose(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_makeList")
 public func __iota_get_TestAPI_TestAsyncFunctions_makeList(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9530,8 +9247,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_makeList(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_six")
 public func __iota_get_TestAPI_TestAsyncFunctions_six(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9545,9 +9262,9 @@ public func __iota_get_TestAPI_TestAsyncFunctions_six(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker")
 public func __iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thunk: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9566,8 +9283,8 @@ public func __iota_TestAPI_TestAsyncFunctions_thunkTwiceMaker(
 @_cdecl("__iota_get_TestAPI_TestAsyncFunctions_willThrow")
 public func __iota_get_TestAPI_TestAsyncFunctions_willThrow(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9581,8 +9298,8 @@ public func __iota_get_TestAPI_TestAsyncFunctions_willThrow(
 @_cdecl("__iota_TestAPI_TestAsyncFunctions_witness")
 public func __iota_TestAPI_TestAsyncFunctions_witness(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -9821,64 +9538,64 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
 public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestAsyncFunctionsConverter._ConstructorMethod,
-    _ add3ThingsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _ const42Getter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ fifthThingGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _ iabsGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _ intComposeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _ makeListGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _ sixGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _ willThrowGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType,
+    _ add3ThingsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
+    _ const42Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
+    _ fifthThingGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+    _ iabsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+    _ intComposeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
+    _ makeListGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
+    _ sixGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
+    _ willThrowGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
     _ exercise0: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction0Converter<Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise1: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise2: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise3: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise4: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise5: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ exercise6: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ thunkTwiceMaker: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
     _ defaultExercise6: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ witness: @escaping @convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestAsyncFunctionsConverter._constructorMethod.isInitialized(env) { return }
@@ -9904,71 +9621,71 @@ public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
 }
 
 extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
-    fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
-    fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
-    fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
-    fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
-    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> AsyncFunction0Converter<Swift.Int>.CType>()
+    fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
+    fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
+    fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
+    fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
+    fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
+    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
+    fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
     fileprivate static let _exercise0 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction0Converter<Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise1 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise2 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise3 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise4 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise5 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _exercise6 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _thunkTwiceMaker = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType>()
     fileprivate static let _defaultExercise6 = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _witness = Env.CallbackMap<@convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -9978,7 +9695,7 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: FishyJoesIotaRun
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -9994,8 +9711,8 @@ extension TestAPI_CommonInterface._TestAsyncFunctionsConverter: FishyJoesIotaRun
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10009,8 +9726,8 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10024,10 +9741,10 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -10047,10 +9764,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction0Converter<Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction0Converter<Swift.Int>.peekIota(fn, env: env)
@@ -10070,10 +9787,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction1Converter<Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -10093,10 +9810,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise1(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.peekIota(fn, env: env)
@@ -10116,10 +9833,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise2(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.peekIota(fn, env: env)
@@ -10139,10 +9856,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise3(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.peekIota(fn, env: env)
@@ -10162,10 +9879,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise4(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.peekIota(fn, env: env)
@@ -10185,10 +9902,10 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise5(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fn: AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _exn: foreignOutExn
-) -> foreignObject {
+    _exn: OutHostException
+) -> HostObject {
     let env = Env(envRef)
     return env.catching(to: _exn) {
         let fn = try AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.peekIota(fn, env: env)
@@ -10208,8 +9925,8 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10223,8 +9940,8 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10238,7 +9955,7 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.TestAsyncSwiftSideFunctionsClass.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10256,8 +9973,8 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10271,8 +9988,8 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10286,8 +10003,8 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10301,9 +10018,9 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thunk: AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10322,8 +10039,8 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker(
 @_cdecl("__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow")
 public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> AsyncFunction0Converter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10337,8 +10054,8 @@ public func __iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(
 @_cdecl("__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness")
 public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10355,8 +10072,8 @@ public func __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness(
 @_cdecl("TestAPI_TestAsyncSwiftSideFunctionsClass_setup")
 public func TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestAsyncSwiftSideFunctionsClass._constructorMethod.isInitialized(env) { return }
@@ -10364,13 +10081,13 @@ public func TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
 }
 
 extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestAsyncSwiftSideFunctionsClass {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.TestAsyncSwiftSideFunctionsClass {
         try Box<TestAPI.TestAsyncSwiftSideFunctionsClass>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.TestAsyncSwiftSideFunctionsClass, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.TestAsyncSwiftSideFunctionsClass, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -10382,8 +10099,8 @@ extension TestAPI.TestAsyncSwiftSideFunctionsClass: FishyJoesIotaRuntime.IotaRef
 @_cdecl("__iota__default_TestAPI_TestDefaultComputedProperties_noot")
 public func __iota__default_TestAPI_TestDefaultComputedProperties_noot(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10397,8 +10114,8 @@ public func __iota__default_TestAPI_TestDefaultComputedProperties_noot(
 @_cdecl("__iota__default_TestAPI_TestDefaultComputedProperties_plutonic")
 public func __iota__default_TestAPI_TestDefaultComputedProperties_plutonic(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10438,9 +10155,9 @@ struct _IotaTestDefaultComputedProperties: TestAPI.TestDefaultComputedProperties
 public func TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._ConstructorMethod,
-    _ nootGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ plutoGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ nootGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ plutoGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._constructorMethod.isInitialized(env) { return }
@@ -10450,16 +10167,16 @@ public func TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setu
 }
 
 extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _plutoGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _plutoGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -10469,7 +10186,7 @@ extension TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter: Fishy
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -10487,7 +10204,7 @@ public func __iota_TestAPI_TestDefaultComputedPropertiesClass_init(
     envRef: EnvRef,
     spam: Swift.Bool.CType,
     noot: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.TestDefaultComputedPropertiesClass.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10507,8 +10224,8 @@ public func __iota_TestAPI_TestDefaultComputedPropertiesClass_init(
 @_cdecl("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot")
 public func __iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10518,9 +10235,9 @@ public func __iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot(
 @_cdecl("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot")
 public func __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.Int.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -10536,8 +10253,8 @@ public func __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(
 @_cdecl("__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic")
 public func __iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10551,8 +10268,8 @@ public func __iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic(
 @_cdecl("__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam")
 public func __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10562,9 +10279,9 @@ public func __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(
 @_cdecl("__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam")
 public func __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -10579,8 +10296,8 @@ public func __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(
 @_cdecl("TestAPI_TestDefaultComputedPropertiesClass_setup")
 public func TestAPI_TestDefaultComputedPropertiesClass_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestDefaultComputedPropertiesClass._constructorMethod.isInitialized(env) { return }
@@ -10588,13 +10305,13 @@ public func TestAPI_TestDefaultComputedPropertiesClass_setup(
 }
 
 extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestDefaultComputedPropertiesClass {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.TestDefaultComputedPropertiesClass {
         try Box<TestAPI.TestDefaultComputedPropertiesClass>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.TestDefaultComputedPropertiesClass, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.TestDefaultComputedPropertiesClass, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
@@ -10606,8 +10323,8 @@ extension TestAPI.TestDefaultComputedPropertiesClass: FishyJoesIotaRuntime.IotaR
 @_cdecl("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot")
 public func __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10621,8 +10338,8 @@ public func __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(
 @_cdecl("__iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic")
 public func __iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10636,8 +10353,8 @@ public func __iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic(
 @_cdecl("__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam")
 public func __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10662,21 +10379,21 @@ public func TestAPI_TestDefaultComputedPropertiesEnum_setup(
 
 extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Qux_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let qux_constructor = Env.CallbackMap<Qux_constructor>()
     public typealias Qux_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let qux_extractor = Env.CallbackMap<Qux_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in qux_extractor[env](value, exn) }
@@ -10686,7 +10403,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaCo
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case qux:
             return try env.check { exn in
@@ -10704,8 +10421,8 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaCo
 @_cdecl("__iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic")
 public func __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10719,11 +10436,11 @@ public func __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic
 public func TestAPI_TestDefaultComputedPropertiesStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.TestDefaultComputedPropertiesStruct._ConstructorMethod,
-    _ spamGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType,
-    _ spamSetter: @escaping @convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void,
-    _ nootGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ nootSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ spamGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
+    _ spamSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
+    _ nootGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ nootSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestDefaultComputedPropertiesStruct._constructorMethod.isInitialized(env) { return }
@@ -10735,18 +10452,18 @@ public func TestAPI_TestDefaultComputedPropertiesStruct_setup(
 }
 
 extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _spamGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Bool.CType>()
-    fileprivate static let _spamSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Bool.CType, _ exn: foreignOutExn) -> Void>()
-    fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _nootSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _spamGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
+    fileprivate static let _spamSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
+    fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _nootSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Bool.CType,
         Swift.Int.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             spam: try Swift.Bool.consumeIota(
                 try env.check { exn in _spamGetter[env](value, exn) },
@@ -10759,7 +10476,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.Iota
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Bool.toIota(value.spam, env: env),
@@ -10769,7 +10486,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.Iota
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _spamSetter[env](
             this,
             try Swift.Bool.toIota(value.spam, env: env),
@@ -10789,8 +10506,8 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.Iota
 @_cdecl("__iota_get_TestAPI_TestDifferingExportNameProtocol_tata")
 public func __iota_get_TestAPI_TestDifferingExportNameProtocol_tata(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10819,8 +10536,8 @@ struct _IotaTestDifferingExportNameProtocol: TestAPI.TestDifferingExportNameProt
 public func TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._ConstructorMethod,
-    _ tataGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ exn: foreignOutExn
+    _ tataGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -10829,15 +10546,15 @@ public func TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_se
 }
 
 extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
+    fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -10847,7 +10564,7 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Fis
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -10863,9 +10580,9 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Fis
 public func TestAPI_TestDifferingExportNameStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.TestDifferingExportNameStruct._ConstructorMethod,
-    _ tataGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType,
-    _ tataSetter: @escaping @convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ tataGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ tataSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestDifferingExportNameStruct._constructorMethod.isInitialized(env) { return }
@@ -10875,15 +10592,15 @@ public func TestAPI_TestDifferingExportNameStruct_setup(
 }
 
 extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.Int.CType>()
-    fileprivate static let _tataSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.Int.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _tataSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.Int.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             tata: try Swift.Int.consumeIota(
                 try env.check { exn in _tataGetter[env](value, exn) },
@@ -10892,7 +10609,7 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutato
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.Int.toIota(value.tata, env: env),
@@ -10901,7 +10618,7 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutato
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _tataSetter[env](
             this,
             try Swift.Int.toIota(value.tata, env: env),
@@ -10916,8 +10633,8 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutato
 @_cdecl("__iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp")
 public func __iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -10946,8 +10663,8 @@ struct _IotaTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 public func TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter._ConstructorMethod,
-    _ _leadingUnderscorePropGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ exn: foreignOutExn
+    _ _leadingUnderscorePropGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter._constructorMethod.isInitialized(env) { return }
@@ -10956,15 +10673,15 @@ public func TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
 }
 
 extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
+    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -10974,7 +10691,7 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: FishyJoe
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -10990,9 +10707,9 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: FishyJoe
 public func TestAPI_TestLeadingUnderscoredPropStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.TestLeadingUnderscoredPropStruct._ConstructorMethod,
-    _ _leadingUnderscorePropGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ _leadingUnderscorePropSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ _leadingUnderscorePropGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ _leadingUnderscorePropSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestLeadingUnderscoredPropStruct._constructorMethod.isInitialized(env) { return }
@@ -11002,15 +10719,15 @@ public func TestAPI_TestLeadingUnderscoredPropStruct_setup(
 }
 
 extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let __leadingUnderscorePropSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let __leadingUnderscorePropSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             _leadingUnderscoreProp: try Swift.String.consumeIota(
                 try env.check { exn in __leadingUnderscorePropGetter[env](value, exn) },
@@ -11019,7 +10736,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMut
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value._leadingUnderscoreProp, env: env),
@@ -11028,7 +10745,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMut
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in __leadingUnderscorePropSetter[env](
             this,
             try Swift.String.toIota(value._leadingUnderscoreProp, env: env),
@@ -11043,8 +10760,8 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMut
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_bar")
 public func __iota_TestAPI_TestMethodsProtocol_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11062,9 +10779,9 @@ public func __iota_TestAPI_TestMethodsProtocol_bar(
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_baz")
 public func __iota_TestAPI_TestMethodsProtocol_baz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     qux: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11083,8 +10800,8 @@ public func __iota_TestAPI_TestMethodsProtocol_baz(
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_foo")
 public func __iota_TestAPI_TestMethodsProtocol_foo(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11102,9 +10819,9 @@ public func __iota_TestAPI_TestMethodsProtocol_foo(
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_garply")
 public func __iota_TestAPI_TestMethodsProtocol_garply(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     _0: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11123,9 +10840,9 @@ public func __iota_TestAPI_TestMethodsProtocol_garply(
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_plugh")
 public func __iota_TestAPI_TestMethodsProtocol_plugh(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fred: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11144,10 +10861,10 @@ public func __iota_TestAPI_TestMethodsProtocol_plugh(
 @_cdecl("__iota_TestAPI_TestMethodsProtocol_xyzzy")
 public func __iota_TestAPI_TestMethodsProtocol_xyzzy(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thud: Swift.Int.CType,
     grault: ArrayConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11249,35 +10966,35 @@ public func TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestMethodsProtocolConverter._ConstructorMethod,
     _ foo: @escaping @convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> FishyJoesCommonRuntime.VoidConverter.CType,
     _ bar: @escaping @convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> Swift.Bool.CType,
     _ baz: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Bool.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> FishyJoesCommonRuntime.VoidConverter.CType,
     _ garply: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.String.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ xyzzy: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         ArrayConverter<Swift.Double>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType,
     _ plugh: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestMethodsProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11291,43 +11008,43 @@ public func TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
 }
 
 extension TestAPI_CommonInterface._TestMethodsProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
     fileprivate static let _foo = Env.CallbackMap<@convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> FishyJoesCommonRuntime.VoidConverter.CType>()
     fileprivate static let _bar = Env.CallbackMap<@convention(c) (
-        foreignObject,
-        _ exn: foreignOutExn
+        HostObject,
+        _ exn: OutHostException
     ) -> Swift.Bool.CType>()
     fileprivate static let _baz = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Bool.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> FishyJoesCommonRuntime.VoidConverter.CType>()
     fileprivate static let _garply = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.String.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _xyzzy = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Swift.Int.CType,
         ArrayConverter<Swift.Double>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.String.CType>()
     fileprivate static let _plugh = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -11337,7 +11054,7 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: FishyJoesIotaRu
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -11353,8 +11070,8 @@ extension TestAPI_CommonInterface._TestMethodsProtocolConverter: FishyJoesIotaRu
 @_cdecl("__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga")
 public func __iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11368,8 +11085,8 @@ public func __iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(
 @_cdecl("__iota_TestAPI_TestNonExportedProtocolEnum_hoge")
 public func __iota_TestAPI_TestNonExportedProtocolEnum_hoge(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Double.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11398,21 +11115,21 @@ public func TestAPI_TestNonExportedProtocolEnum_setup(
 
 extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Hogehoge_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let hogehoge_constructor = Env.CallbackMap<Hogehoge_constructor>()
     public typealias Hogehoge_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let hogehoge_extractor = Env.CallbackMap<Hogehoge_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in hogehoge_extractor[env](value, exn) }
@@ -11422,7 +11139,7 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverte
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case hogehoge:
             return try env.check { exn in
@@ -11440,8 +11157,8 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverte
 @_cdecl("__iota_get_TestAPI_TestOptionalsProtocol_flarp")
 public func __iota_get_TestAPI_TestOptionalsProtocol_flarp(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11455,9 +11172,9 @@ public func __iota_get_TestAPI_TestOptionalsProtocol_flarp(
 @_cdecl("__iota_TestAPI_TestOptionalsProtocol_spqr")
 public func __iota_TestAPI_TestOptionalsProtocol_spqr(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     pippo: TestAPI.AssociatedDataEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11476,9 +11193,9 @@ public func __iota_TestAPI_TestOptionalsProtocol_spqr(
 @_cdecl("__iota_TestAPI_TestOptionalsProtocol_wombat")
 public func __iota_TestAPI_TestOptionalsProtocol_wombat(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     zxc: OptionalConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11538,18 +11255,18 @@ struct _IotaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 public func TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestOptionalsProtocolConverter._ConstructorMethod,
-    _ flarpGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.String>.CType,
+    _ flarpGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.String>.CType,
     _ wombat: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         OptionalConverter<Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> OptionalConverter<Swift.Double>.CType,
     _ spqr: @escaping @convention(c) (
-        foreignObject,
+        HostObject,
         TestAPI.AssociatedDataEnum.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.Int.CType,
-    _ exn: foreignOutExn
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestOptionalsProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11560,25 +11277,25 @@ public func TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
 }
 
 extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _flarpGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> OptionalConverter<Swift.String>.CType>()
+    fileprivate static let _flarpGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.String>.CType>()
     fileprivate static let _wombat = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         OptionalConverter<Swift.Int>.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> OptionalConverter<Swift.Double>.CType>()
     fileprivate static let _spqr = Env.CallbackMap<@convention(c) (
-        foreignObject,
+        HostObject,
         TestAPI.AssociatedDataEnum.CType,
-        _ exn: foreignOutExn
+        _ exn: OutHostException
     ) -> Swift.Int.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -11588,7 +11305,7 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: FishyJoesIota
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -11604,8 +11321,8 @@ extension TestAPI_CommonInterface._TestOptionalsProtocolConverter: FishyJoesIota
 @_cdecl("__iota_get_TestAPI_TestPropertiesProtocol_corge")
 public func __iota_get_TestAPI_TestPropertiesProtocol_corge(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11619,8 +11336,8 @@ public func __iota_get_TestAPI_TestPropertiesProtocol_corge(
 @_cdecl("__iota_get_TestAPI_TestPropertiesProtocol_frobby")
 public func __iota_get_TestAPI_TestPropertiesProtocol_frobby(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11660,9 +11377,9 @@ struct _IotaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 public func TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI_CommonInterface._TestPropertiesProtocolConverter._ConstructorMethod,
-    _ corgeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ frobGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType,
-    _ exn: foreignOutExn
+    _ corgeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ frobGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestPropertiesProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11672,16 +11389,16 @@ public func TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
 }
 
 extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: FishyJoesIotaRuntime.IotaConverter {
-    public typealias CType = foreignObject
+    public typealias CType = HostObject
     public typealias _ConstructorMethod = @convention(c) (
         _ ref: UnsafeMutableRawPointer,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
-    fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _frobGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> ArrayConverter<Swift.Int>.CType>()
+    fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _frobGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> SwiftType {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> SwiftType {
         do {
             let box = try Box<SwiftType>.peekIota(value, env: env)
             return box.value
@@ -11691,7 +11408,7 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: FishyJoesIot
         }
     }
 
-    public static func toIota(_ value: SwiftType, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: SwiftType, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 Box(value).retainedOpaque(),
@@ -11707,8 +11424,8 @@ extension TestAPI_CommonInterface._TestPropertiesProtocolConverter: FishyJoesIot
 @_cdecl("__iota_TestAPI_TestProtocolClass_bar")
 public func __iota_TestAPI_TestProtocolClass_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11726,9 +11443,9 @@ public func __iota_TestAPI_TestProtocolClass_bar(
 @_cdecl("__iota_TestAPI_TestProtocolClass_baz")
 public func __iota_TestAPI_TestProtocolClass_baz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     qux: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11747,8 +11464,8 @@ public func __iota_TestAPI_TestProtocolClass_baz(
 @_cdecl("__iota_get_TestAPI_TestProtocolClass_corge")
 public func __iota_get_TestAPI_TestProtocolClass_corge(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11758,9 +11475,9 @@ public func __iota_get_TestAPI_TestProtocolClass_corge(
 @_cdecl("__iota_set_TestAPI_TestProtocolClass_corge")
 public func __iota_set_TestAPI_TestProtocolClass_corge(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -11776,8 +11493,8 @@ public func __iota_set_TestAPI_TestProtocolClass_corge(
 @_cdecl("__iota_get_TestAPI_TestProtocolClass_flarp")
 public func __iota_get_TestAPI_TestProtocolClass_flarp(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11787,9 +11504,9 @@ public func __iota_get_TestAPI_TestProtocolClass_flarp(
 @_cdecl("__iota_set_TestAPI_TestProtocolClass_flarp")
 public func __iota_set_TestAPI_TestProtocolClass_flarp(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     newValue: OptionalConverter<Swift.String>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) {
     let env = Env(envRef)
     env.catching(to: _exn) {
@@ -11805,8 +11522,8 @@ public func __iota_set_TestAPI_TestProtocolClass_flarp(
 @_cdecl("__iota_TestAPI_TestProtocolClass_foo")
 public func __iota_TestAPI_TestProtocolClass_foo(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11824,8 +11541,8 @@ public func __iota_TestAPI_TestProtocolClass_foo(
 @_cdecl("__iota_get_TestAPI_TestProtocolClass_frobby")
 public func __iota_get_TestAPI_TestProtocolClass_frobby(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11839,9 +11556,9 @@ public func __iota_get_TestAPI_TestProtocolClass_frobby(
 @_cdecl("__iota_TestAPI_TestProtocolClass_garply")
 public func __iota_TestAPI_TestProtocolClass_garply(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     str: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11862,7 +11579,7 @@ public func __iota_TestAPI_TestProtocolClass_init(
     envRef: EnvRef,
     corge: Swift.String.CType,
     flarp: OptionalConverter<Swift.String>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> TestAPI.TestProtocolClass.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11882,9 +11599,9 @@ public func __iota_TestAPI_TestProtocolClass_init(
 @_cdecl("__iota_TestAPI_TestProtocolClass_plugh")
 public func __iota_TestAPI_TestProtocolClass_plugh(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fred: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11903,9 +11620,9 @@ public func __iota_TestAPI_TestProtocolClass_plugh(
 @_cdecl("__iota_TestAPI_TestProtocolClass_spqr")
 public func __iota_TestAPI_TestProtocolClass_spqr(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     pippo: TestAPI.AssociatedDataEnum.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Int.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11924,9 +11641,9 @@ public func __iota_TestAPI_TestProtocolClass_spqr(
 @_cdecl("__iota_TestAPI_TestProtocolClass_wombat")
 public func __iota_TestAPI_TestProtocolClass_wombat(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     zxc: OptionalConverter<Swift.Int>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> OptionalConverter<Swift.Double>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11945,10 +11662,10 @@ public func __iota_TestAPI_TestProtocolClass_wombat(
 @_cdecl("__iota_TestAPI_TestProtocolClass_xyzzy")
 public func __iota_TestAPI_TestProtocolClass_xyzzy(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thud: Swift.Int.CType,
     grault: ArrayConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -11967,8 +11684,8 @@ public func __iota_TestAPI_TestProtocolClass_xyzzy(
 @_cdecl("TestAPI_TestProtocolClass_setup")
 public func TestAPI_TestProtocolClass_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject,
-    _ exn: foreignOutExn
+    constructorMethod: @escaping @convention(c) (UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestProtocolClass._constructorMethod.isInitialized(env) { return }
@@ -11976,19 +11693,19 @@ public func TestAPI_TestProtocolClass_setup(
 }
 
 extension TestAPI.TestProtocolClass: FishyJoesIotaRuntime.IotaReferenceMutator {
-    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: foreignOutExn) -> foreignObject>()
+    fileprivate static var _constructorMethod = Env.CallbackMap<(UnsafeMutableRawPointer, _ exn: OutHostException) -> HostObject>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> TestAPI.TestProtocolClass {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> TestAPI.TestProtocolClass {
         try Box<TestAPI.TestProtocolClass>.peekIota(value, env: env).value
     }
 
-    public static func toIota(_ value: TestAPI.TestProtocolClass, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: TestAPI.TestProtocolClass, env: Env) throws -> HostObject {
         let ptr = Box(value).retainedOpaque()
         return try env.check { exn in _constructorMethod[env](ptr, exn) }
     }
 }
 @_cdecl("__iota_TestAPI_TestProtocolClass_equals")
-public func TestAPI_TestProtocolClass_iotaEquals(envRef: EnvRef, lhs: foreignObject, rhs: foreignObject, exn: foreignOutExn) -> Bool.CType {
+public func TestAPI_TestProtocolClass_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Bool.toIota(
@@ -11998,7 +11715,7 @@ public func TestAPI_TestProtocolClass_iotaEquals(envRef: EnvRef, lhs: foreignObj
     }
 }
 @_cdecl("__iota_get_TestAPI_TestProtocolClass_hash")
-public func TestAPI_TestProtocolClass_iotaHash(envRef: EnvRef, this: foreignObject, exn: foreignOutExn) -> Int32.CType {
+public func TestAPI_TestProtocolClass_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {
     let env = Env(envRef)
     return env.catching(to: exn) {
         try Int32.toIota(
@@ -12014,8 +11731,8 @@ public func TestAPI_TestProtocolClass_iotaHash(envRef: EnvRef, this: foreignObje
 @_cdecl("__iota_TestAPI_TestProtocolEnum_bar")
 public func __iota_TestAPI_TestProtocolEnum_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12033,9 +11750,9 @@ public func __iota_TestAPI_TestProtocolEnum_bar(
 @_cdecl("__iota_TestAPI_TestProtocolEnum_baz")
 public func __iota_TestAPI_TestProtocolEnum_baz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     qux: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12054,8 +11771,8 @@ public func __iota_TestAPI_TestProtocolEnum_baz(
 @_cdecl("__iota_TestAPI_TestProtocolEnum_foo")
 public func __iota_TestAPI_TestProtocolEnum_foo(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12073,9 +11790,9 @@ public func __iota_TestAPI_TestProtocolEnum_foo(
 @_cdecl("__iota_TestAPI_TestProtocolEnum_garply")
 public func __iota_TestAPI_TestProtocolEnum_garply(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     str: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12094,9 +11811,9 @@ public func __iota_TestAPI_TestProtocolEnum_garply(
 @_cdecl("__iota_TestAPI_TestProtocolEnum_plugh")
 public func __iota_TestAPI_TestProtocolEnum_plugh(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fred: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12115,10 +11832,10 @@ public func __iota_TestAPI_TestProtocolEnum_plugh(
 @_cdecl("__iota_TestAPI_TestProtocolEnum_xyzzy")
 public func __iota_TestAPI_TestProtocolEnum_xyzzy(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thud: Swift.Int.CType,
     grault: ArrayConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12149,21 +11866,21 @@ public func TestAPI_TestProtocolEnum_setup(
 
 extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
     public typealias Discriminator = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
     public typealias Qux_constructor = @convention(c) (
-        foreignOutExn
-    ) -> foreignObject
+        OutHostException
+    ) -> HostObject
     fileprivate static let qux_constructor = Env.CallbackMap<Qux_constructor>()
     public typealias Qux_extractor = @convention(c) (
-        foreignObject,
-        foreignOutExn
+        HostObject,
+        OutHostException
     ) -> Void
     fileprivate static let qux_extractor = Env.CallbackMap<Qux_extractor>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             try env.check { exn in qux_extractor[env](value, exn) }
@@ -12173,7 +11890,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
         }
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         switch value {
         case qux:
             return try env.check { exn in
@@ -12191,8 +11908,8 @@ extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_TestAPI_TestProtocolStruct_bar")
 public func __iota_TestAPI_TestProtocolStruct_bar(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12210,9 +11927,9 @@ public func __iota_TestAPI_TestProtocolStruct_bar(
 @_cdecl("__iota_TestAPI_TestProtocolStruct_baz")
 public func __iota_TestAPI_TestProtocolStruct_baz(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     qux: Swift.Bool.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12231,8 +11948,8 @@ public func __iota_TestAPI_TestProtocolStruct_baz(
 @_cdecl("__iota_TestAPI_TestProtocolStruct_foo")
 public func __iota_TestAPI_TestProtocolStruct_foo(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> FishyJoesCommonRuntime.VoidConverter.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12250,8 +11967,8 @@ public func __iota_TestAPI_TestProtocolStruct_foo(
 @_cdecl("__iota_get_TestAPI_TestProtocolStruct_frobby")
 public func __iota_get_TestAPI_TestProtocolStruct_frobby(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
-    _exn: foreignOutExn
+    _iotaThis: HostObject,
+    _exn: OutHostException
 ) -> ArrayConverter<Swift.Int>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12265,9 +11982,9 @@ public func __iota_get_TestAPI_TestProtocolStruct_frobby(
 @_cdecl("__iota_TestAPI_TestProtocolStruct_garply")
 public func __iota_TestAPI_TestProtocolStruct_garply(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     str: Swift.String.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12286,9 +12003,9 @@ public func __iota_TestAPI_TestProtocolStruct_garply(
 @_cdecl("__iota_TestAPI_TestProtocolStruct_plugh")
 public func __iota_TestAPI_TestProtocolStruct_plugh(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     fred: Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12307,10 +12024,10 @@ public func __iota_TestAPI_TestProtocolStruct_plugh(
 @_cdecl("__iota_TestAPI_TestProtocolStruct_xyzzy")
 public func __iota_TestAPI_TestProtocolStruct_xyzzy(
     envRef: EnvRef,
-    _iotaThis: foreignObject,
+    _iotaThis: HostObject,
     thud: Swift.Int.CType,
     grault: ArrayConverter<Swift.Double>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.String.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12330,9 +12047,9 @@ public func __iota_TestAPI_TestProtocolStruct_xyzzy(
 public func TestAPI_TestProtocolStruct_setup(
     envRef: EnvRef,
     constructorMethod: @escaping TestAPI.TestProtocolStruct._ConstructorMethod,
-    _ corgeGetter: @escaping @convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType,
-    _ corgeSetter: @escaping @convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void,
-    _ exn: foreignOutExn
+    _ corgeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    _ corgeSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    _ exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI.TestProtocolStruct._constructorMethod.isInitialized(env) { return }
@@ -12342,15 +12059,15 @@ public func TestAPI_TestProtocolStruct_setup(
 }
 
 extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (foreignObject, _ exn: foreignOutExn) -> Swift.String.CType>()
-    fileprivate static let _corgeSetter = Env.CallbackMap<@convention(c) (foreignObject, Swift.String.CType, _ exn: foreignOutExn) -> Void>()
+    fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
+    fileprivate static let _corgeSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
     public typealias _ConstructorMethod = @convention(c) (
         Swift.String.CType,
-        _ exn: foreignOutExn
-    ) -> foreignObject
+        _ exn: OutHostException
+    ) -> HostObject
     fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
 
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
             corge: try Swift.String.consumeIota(
                 try env.check { exn in _corgeGetter[env](value, exn) },
@@ -12359,7 +12076,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
         )
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
             _constructorMethod[env](
                 try Swift.String.toIota(value.corge, env: env),
@@ -12368,12 +12085,66 @@ extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
         }
     }
 
-    public static func mutateIota(_ this: foreignObject, to value: Self, env: Env) throws {
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
         try env.check { exn in _corgeSetter[env](
             this,
             try Swift.String.toIota(value.corge, env: env),
             exn
         )}
+    }
+}
+
+// MARK: - IotaInterface/TestAPI.Tree+iota-type.swift
+
+@_cdecl("TestAPI_Tree_setup")
+public func TestAPI_Tree_setup(
+    envRef: EnvRef,
+    constructorMethod: @escaping TestAPI.Tree._ConstructorMethod,
+    _ valueGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    _ childrenGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<TestAPI.Tree>.CType,
+    _ exn: OutHostException
+) {
+    let env = Env(envRef)
+    if TestAPI.Tree._constructorMethod.isInitialized(env) { return }
+    TestAPI.Tree._constructorMethod[env] = constructorMethod
+    TestAPI.Tree._valueGetter[env] = valueGetter
+    TestAPI.Tree._childrenGetter[env] = childrenGetter
+}
+
+extension TestAPI.Tree: FishyJoesIotaRuntime.IotaMutator {
+    fileprivate static let _valueGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
+    fileprivate static let _childrenGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<TestAPI.Tree>.CType>()
+    public typealias _ConstructorMethod = @convention(c) (
+        Swift.Int.CType,
+        ArrayConverter<TestAPI.Tree>.CType,
+        _ exn: OutHostException
+    ) -> HostObject
+    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
+        Self(
+            value: try Swift.Int.consumeIota(
+                try env.check { exn in _valueGetter[env](value, exn) },
+                env: env
+            ),
+            children: try ArrayConverter<TestAPI.Tree>.consumeIota(
+                try env.check { exn in _childrenGetter[env](value, exn) },
+                env: env
+            )
+        )
+    }
+
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
+        try env.check { exn in
+            _constructorMethod[env](
+                try Swift.Int.toIota(value.value, env: env),
+                try ArrayConverter<TestAPI.Tree>.toIota(value.children, env: env),
+                exn
+            )
+        }
+    }
+
+    public static func mutateIota(_ this: HostObject, to value: Self, env: Env) throws {
     }
 }
 
@@ -12388,7 +12159,7 @@ public func __iota_TestAPI_Tuples_checkTuples(
     t4: Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.CType,
     t5: Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.CType,
     t6: Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Swift.Bool.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12411,7 +12182,7 @@ public func __iota_TestAPI_Tuples_checkTuples(
 @_cdecl("__iota_get_TestAPI_Tuples_tuple2")
 public func __iota_get_TestAPI_Tuples_tuple2(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple2Converter<Swift.Int, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12425,7 +12196,7 @@ public func __iota_get_TestAPI_Tuples_tuple2(
 @_cdecl("__iota_get_TestAPI_Tuples_tuple3")
 public func __iota_get_TestAPI_Tuples_tuple3(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple3Converter<Swift.String, Swift.Double, Swift.String>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12439,7 +12210,7 @@ public func __iota_get_TestAPI_Tuples_tuple3(
 @_cdecl("__iota_get_TestAPI_Tuples_tuple4")
 public func __iota_get_TestAPI_Tuples_tuple4(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12453,7 +12224,7 @@ public func __iota_get_TestAPI_Tuples_tuple4(
 @_cdecl("__iota_get_TestAPI_Tuples_tuple5")
 public func __iota_get_TestAPI_Tuples_tuple5(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12467,7 +12238,7 @@ public func __iota_get_TestAPI_Tuples_tuple5(
 @_cdecl("__iota_get_TestAPI_Tuples_tuple6")
 public func __iota_get_TestAPI_Tuples_tuple6(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Tuple6Converter<Swift.String, Swift.Int, Swift.Double, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple5Converter<Swift.String, Swift.UInt8, Tuple4Converter<Tuple2Converter<Swift.Int, Swift.String>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Swift.String, Swift.Bool>, Tuple3Converter<Swift.String, Swift.Double, Swift.String>, Tuple2Converter<Swift.Int, Swift.String>>, Swift.Bool>.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12484,11 +12255,11 @@ public func TestAPI_Tuples_setup(
 }
 
 extension TestAPI.Tuples: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }
 
@@ -12498,7 +12269,7 @@ extension TestAPI.Tuples: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("__iota_get_TestAPI_URLs_dataImage")
 public func __iota_get_TestAPI_URLs_dataImage(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.URL.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12513,7 +12284,7 @@ public func __iota_get_TestAPI_URLs_dataImage(
 public func __iota_TestAPI_URLs_echo(
     envRef: EnvRef,
     url: Foundation.URL.CType,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.URL.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12532,7 +12303,7 @@ public func __iota_TestAPI_URLs_echo(
 @_cdecl("__iota_get_TestAPI_URLs_localFile")
 public func __iota_get_TestAPI_URLs_localFile(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.URL.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12546,7 +12317,7 @@ public func __iota_get_TestAPI_URLs_localFile(
 @_cdecl("__iota_get_TestAPI_URLs_remoteFile")
 public func __iota_get_TestAPI_URLs_remoteFile(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.URL.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12560,7 +12331,7 @@ public func __iota_get_TestAPI_URLs_remoteFile(
 @_cdecl("__iota_get_TestAPI_URLs_simple")
 public func __iota_get_TestAPI_URLs_simple(
     envRef: EnvRef,
-    _exn: foreignOutExn
+    _exn: OutHostException
 ) -> Foundation.URL.CType {
     let env = Env(envRef)
     return env.catching(to: _exn) {
@@ -12577,10 +12348,10 @@ public func TestAPI_URLs_setup(
 }
 
 extension TestAPI.URLs: FishyJoesIotaRuntime.IotaConverter {
-    public static func peekIota(_ value: foreignObject, env: Env) throws -> Self {
+    public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         throw UninhabitedTypeCreationError(self)
     }
 
-    public static func toIota(_ value: Self, env: Env) throws -> foreignObject {
+    public static func toIota(_ value: Self, env: Env) throws -> HostObject {
     }
 }

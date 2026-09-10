@@ -7,62 +7,62 @@
 
 import Foundation
 
-/// <!-- FishyJoes.export(AttributedStrings) -->
-public enum AttributedStrings {
-    /// <!-- FishyJoes.export(simple) -->
-    public static let simple = AttributedString("Hello", attributes: .init().languageIdentifier("en"))
-    /// <!-- FishyJoes.export(accent) -->
-    public static let accent = AttributedString("Olá", attributes: .init().languageIdentifier("pt"))
-    /// <!-- FishyJoes.export(script) -->
-    public static let script = AttributedString("こんにちは", attributes: .init().languageIdentifier("ja"))
-    /// <!-- FishyJoes.export(chinese) -->
-    public static let chinese = AttributedString("你好", attributes: .init().languageIdentifier("zh"))
-    /// <!-- FishyJoes.export(chineseBMP) -->
-    public static let chineseBMP = AttributedString("豈更車賈滑", attributes: .init().languageIdentifier("zh"))
-    /// <!-- FishyJoes.export(chineseSIP) -->
-    public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}", attributes: .init().languageIdentifier("zh"))
-    /// <!-- FishyJoes.export(emoji) -->
-    public static let emoji = AttributedString("🤯🐶🍓", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
-    /// <!-- FishyJoes.export(emojiMulti) -->
-    public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji/emoji-frequency")!))
-    /// <!-- FishyJoes.export(polyglot) -->
-    public static let polyglot: AttributedString = { Self.simple + " " + Self.accent + " " + Self.script }()
+// /// <!-- FishyJoes.export(AttributedStrings) -->
+// public enum AttributedStrings {
+//     /// <!-- FishyJoes.export(simple) -->
+//     public static let simple = AttributedString("Hello", attributes: .init().languageIdentifier("en"))
+//     /// <!-- FishyJoes.export(accent) -->
+//     public static let accent = AttributedString("Olá", attributes: .init().languageIdentifier("pt"))
+//     /// <!-- FishyJoes.export(script) -->
+//     public static let script = AttributedString("こんにちは", attributes: .init().languageIdentifier("ja"))
+//     /// <!-- FishyJoes.export(chinese) -->
+//     public static let chinese = AttributedString("你好", attributes: .init().languageIdentifier("zh"))
+//     /// <!-- FishyJoes.export(chineseBMP) -->
+//     public static let chineseBMP = AttributedString("豈更車賈滑", attributes: .init().languageIdentifier("zh"))
+//     /// <!-- FishyJoes.export(chineseSIP) -->
+//     public static let chineseSIP = AttributedString("\u{20001}\u{20002}\u{20003}\u{20004}", attributes: .init().languageIdentifier("zh"))
+//     /// <!-- FishyJoes.export(emoji) -->
+//     public static let emoji = AttributedString("🤯🐶🍓", attributes: .init().link(URL(string: "https://home.unicode.org/emoji")!))
+//     /// <!-- FishyJoes.export(emojiMulti) -->
+//     public static let emojiMulti = AttributedString("👨‍👩‍👧‍👦👍🏿🇺🇸", attributes: .init().link(URL(string: "https://home.unicode.org/emoji/emoji-frequency")!))
+//     /// <!-- FishyJoes.export(polyglot) -->
+//     public static let polyglot: AttributedString = { Self.simple + " " + Self.accent + " " + Self.script }()
 
-    /// <!-- FishyJoes.export(echo) -->
-    public static func echo(_ string: AttributedString) -> AttributedString {
-        return string
-    }
+//     /// <!-- FishyJoes.export(echo) -->
+//     public static func echo(_ string: AttributedString) -> AttributedString {
+//         return string
+//     }
 
-    /// <!-- FishyJoes.export(firstIndex) -->
-    public static func firstIndex(of string: AttributedString) -> AttributedString.Index {
-        return string.characters.indices.first!
-    }
+//     /// <!-- FishyJoes.export(firstIndex) -->
+//     public static func firstIndex(of string: AttributedString) -> AttributedString.Index {
+//         return string.characters.indices.first!
+//     }
 
-    /// <!-- FishyJoes.export(lastIndex) -->
-    public static func lastIndex(of string: AttributedString) -> AttributedString.Index {
-        return string.characters.indices.last!
-    }
+//     /// <!-- FishyJoes.export(lastIndex) -->
+//     public static func lastIndex(of string: AttributedString) -> AttributedString.Index {
+//         return string.characters.indices.last!
+//     }
 
-    /// <!-- FishyJoes.export(fullRange) -->
-    public static func fullRange(of string: AttributedString) -> Range<AttributedString.Index> {
-        return string.startIndex..<string.endIndex
-    }
+//     /// <!-- FishyJoes.export(fullRange) -->
+//     public static func fullRange(of string: AttributedString) -> Range<AttributedString.Index> {
+//         return string.startIndex..<string.endIndex
+//     }
 
-    /// <!-- FishyJoes.export(attributedCharacters) -->
-    public static func attributedCharacters(of string: AttributedString) -> [AttributedSubstring] {
-        return zip(string.characters.indices, string.characters.indices.dropFirst() + [string.endIndex]).map { string[$0..<$1] }
-    }
+//     /// <!-- FishyJoes.export(attributedCharacters) -->
+//     public static func attributedCharacters(of string: AttributedString) -> [AttributedSubstring] {
+//         return zip(string.characters.indices, string.characters.indices.dropFirst() + [string.endIndex]).map { string[$0..<$1] }
+//     }
 
-    /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
-    public static func attributesPreferringDuplicatesNearerStart(of string: AttributedString) -> AttributeContainer {
-        return string.runs.reduce(AttributeContainer()) { $0.merging($1.attributes, mergePolicy: .keepCurrent) }
-    }
+//     /// <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
+//     public static func attributesPreferringDuplicatesNearerStart(of string: AttributedString) -> AttributeContainer {
+//         return string.runs.reduce(AttributeContainer()) { $0.merging($1.attributes, mergePolicy: .keepCurrent) }
+//     }
 
-    /// <!-- FishyJoes.export(emptyAttributeRuns) -->
-    public static func emptyAttributeRuns(of string: AttributedString) -> [AttributedString.Runs.Run] {
-        return string.runs.filter { $0.attributes == AttributeContainer() }
-    }
-}
+//     /// <!-- FishyJoes.export(emptyAttributeRuns) -->
+//     public static func emptyAttributeRuns(of string: AttributedString) -> [AttributedString.Runs.Run] {
+//         return string.runs.filter { $0.attributes == AttributeContainer() }
+//     }
+// }
 
 /*
 /// A string with associated attributes for portions of its text.
@@ -391,10 +391,7 @@ extension AttributeContainerASDF {
 
         /// Extracts the Foundation attributes from an attribute container and makes them available as statically typed properties.
         /// <!-- FishyJoes.export(createFromContainer) -->
-        public init(_ container: AttributeContainer) {
-            self.link = container.link
-            self.languageIdentifier = container.languageIdentifier
-        }
+        public init(_ container: AttributeContainerASDF) {}
     }
 }
 
@@ -600,4 +597,5 @@ extension AttributedStringASDF {
         public subscript(index: Index) -> Element { .max }//{ "A" }
     }
 }
+
 */

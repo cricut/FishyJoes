@@ -74,10 +74,10 @@ class KotlinClass: NestedClass {
         }
     }
 
-    func fragment(context: FishyJoesContext) -> SourceFragment {
+    func fragments(context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.kotlinFragment("\(name).kt")
         output(to: fragment)
-        return fragment
+        return [fragment]
     }
 
     func document(_ documentation: [String], fragment: SourceFragment) {

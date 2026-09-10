@@ -3,109 +3,6 @@ import Foundation
 final class PythonTranslator: Translator {
     required init() {}
 
-    // `PythonType`, `PythonImport`, and the bundled `PythonRepresentation` (which
-    // replaces the old nested `NativeType`) now live in the shared model
-    // (TranslatedTypes/PythonRepresentation.swift) so `TranslatedType` conformers
-    // can return them from `pythonRepresentation(in:)`.
-
-    struct NativeStoredField {
-        var pythonName: String
-        let cName: String
-        let cType: String
-        let conversion: String
-        let pythonType: PythonType
-        let isMutable: Bool
-        let documentation: [String]
-    }
-
-    struct NativeEnumCase {
-        var pythonName: String
-        let cName: String
-        let className: String
-        var values: [NativeEnumCaseValue]
-        let documentation: [String]
-    }
-
-    struct NativeEnumCaseValue {
-        var pythonName: String
-        let cName: String
-        let cType: String
-        let conversion: String?
-        let pythonType: PythonType
-    }
-
-    struct NativeField {
-        var pythonName: String
-        /// True when `pythonName` came from a `python:` export attribute; the
-        /// name is then emitted verbatim instead of being snake-cased.
-        let isExplicitPythonName: Bool
-        let cName: String
-        let symbol: String
-        let setterSymbol: String?
-        let isStatic: Bool
-        let asMethod: Bool
-        let returnType: String
-        let returnConversion: String?
-        let pythonReturnType: PythonType
-        let deprecationMessage: String?
-        let originName: String
-        let documentation: [String]
-    }
-
-    struct NativeParameter {
-        var pythonName: String
-        let cName: String
-        let cType: String
-        let conversion: String?
-        let pythonType: PythonType
-        let defaultValue: String?
-        let defaultValueImports: Set<PythonImport>
-    }
-
-    struct PythonDefaultValue {
-        let expression: String
-        let imports: Set<PythonImport>
-
-        init(expression: String, imports: Set<PythonImport> = []) {
-            self.expression = expression
-            self.imports = imports
-        }
-    }
-
-    struct NativeMethod {
-        var pythonName: String
-        /// True when `pythonName` came from a `python:` export attribute; the
-        /// name is then emitted verbatim instead of being snake-cased.
-        let isExplicitPythonName: Bool
-        let cName: String
-        let symbol: String
-        let isStatic: Bool
-        var parameters: [NativeParameter]
-        let returnType: String
-        let returnConversion: String?
-        let pythonReturnType: PythonType
-        let deprecationMessage: String?
-        let originName: String
-        let documentation: [String]
-    }
-
-    struct PythonClass {
-        let originName: String
-        let moduleName: String
-        let fileName: String
-        let className: String
-        let setupName: String?
-        let setupKind: String?
-        let equalsSymbol: String?
-        let hashSymbol: String?
-        let isValueHashable: Bool
-        let storedFields: [NativeStoredField]
-        let enumCases: [NativeEnumCase]
-        let fields: [NativeField]
-        let methods: [NativeMethod]
-        let documentation: [String]
-    }
-
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         var classes: [PythonClass] = []
         var declarations: Set<String> = []
@@ -133,15 +30,15 @@ final class PythonTranslator: Translator {
             }
             if let setupName = pythonClass.setupName {
                 switch pythonClass.setupKind {
-                case "reference":
+                case .reference:
                     let constructorType = "\(pythonClass.className)ConstructorFn"
                     declarations.insert("typedef HostObject (*\(constructorType))(void *ptr, OutHostException _exn);")
                     declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, OutHostException _exn);")
-                case "emptyValue":
+                case .emptyValue:
                     let constructorType = "\(pythonClass.className)ConstructorFn"
                     declarations.insert("typedef HostObject (*\(constructorType))(OutHostException _exn);")
                     declarations.insert("void \(setupName)(EnvRef envRef, \(constructorType) constructorMethod, OutHostException _exn);")
-                case "value":
+                case .value:
                     let constructorType = "\(pythonClass.className)ConstructorFn"
                     let constructorArgs = (pythonClass.storedFields.map { "\($0.cType) \($0.cName)" } + ["OutHostException _exn"]).joined(separator: ", ")
                     declarations.insert("typedef HostObject (*\(constructorType))(\(constructorArgs));")
@@ -158,7 +55,7 @@ final class PythonTranslator: Translator {
                     }
                     setupArgs.append("OutHostException _exn")
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
-                case "enum":
+                case .enum:
                     let discriminatorType = "\(pythonClass.className)DiscriminatorFn"
                     declarations.insert("typedef int (*\(discriminatorType))(HostObject obj, OutHostException _exn);")
                     var setupArgs = ["EnvRef envRef", "\(discriminatorType) discriminator"]
@@ -173,7 +70,7 @@ final class PythonTranslator: Translator {
                         setupArgs.append("\(extractorType) \(enumCase.cName)_extractor")
                     }
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
-                case "protocol":
+                case .protocol:
                     let constructorType = "\(pythonClass.className)ConstructorFn"
                     declarations.insert("typedef HostObject (*\(constructorType))(void *ptr, OutHostException _exn);")
                     var setupArgs = ["EnvRef envRef", "\(constructorType) constructorMethod"]
@@ -190,8 +87,6 @@ final class PythonTranslator: Translator {
                     }
                     setupArgs.append("OutHostException _exn")
                     declarations.insert("void \(setupName)(\(setupArgs.joined(separator: ", ")));")
-                default:
-                    break
                 }
             }
             if let equalsSymbol = pythonClass.equalsSymbol {
@@ -281,16 +176,16 @@ final class PythonTranslator: Translator {
         let runtimeImports = pythonRuntimeImports(for: pythonClass)
         fragment.output("# \(CommonStrings.autogenWarning)")
         fragment.blankLine()
-        if pythonClass.setupKind == "value" || isAssociatedEnum {
+        if pythonClass.setupKind == .value || isAssociatedEnum {
             fragment.output("from dataclasses import dataclass")
         }
-        if pythonClass.setupKind == "enum" && !isAssociatedEnum {
+        if pythonClass.setupKind == .enum && !isAssociatedEnum {
             fragment.output("import enum")
         }
         for importedModule in runtimeImports where importedModule.className.isEmpty {
             fragment.output(pythonImportStatement(importedModule))
         }
-        if pythonClass.setupKind == "value" || pythonClass.setupKind == "enum" || runtimeImports.contains(where: \.className.isEmpty) {
+        if pythonClass.setupKind == .value || pythonClass.setupKind == .enum || runtimeImports.contains(where: \.className.isEmpty) {
             fragment.blankLine()
         }
         fragment.output("from . import _native")
@@ -309,13 +204,13 @@ final class PythonTranslator: Translator {
         }
         let baseClass: String
         switch pythonClass.setupKind {
-        case "emptyValue":
+        case .emptyValue:
             baseClass = "(_native.IotaObject)"
-        case "reference":
+        case .reference:
             baseClass = "(_native.SwiftReference)"
-        case "enum":
+        case .enum:
             baseClass = isAssociatedEnum ? "" : "(enum.Enum)"
-        case "protocol":
+        case .protocol:
             baseClass = "(_native.SwiftReference)"
         default:
             baseClass = ""
@@ -332,7 +227,7 @@ final class PythonTranslator: Translator {
             classHeaderBases = baseClass
         } else {
             let metaclassName = "_\(pythonClass.className)Meta"
-            let baseMetaclass = (pythonClass.setupKind == "enum" && !isAssociatedEnum) ? "enum.EnumMeta" : "type"
+            let baseMetaclass = (pythonClass.setupKind == .enum && !isAssociatedEnum) ? "enum.EnumMeta" : "type"
             fragment.output("class \(metaclassName)(\(baseMetaclass)):")
             fragment.indent {
                 for field in settableStaticFields.sorted(by: { $0.pythonName < $1.pythonName }) {
@@ -372,7 +267,7 @@ final class PythonTranslator: Translator {
                 classHeaderBases = "(\(inner), metaclass=\(metaclassName))"
             }
         }
-        if pythonClass.setupKind == "value" {
+        if pythonClass.setupKind == .value {
             fragment.output(pythonClass.isValueHashable ? "@dataclass(unsafe_hash=True)" : "@dataclass")
         }
         fragment.output("class \(pythonClass.className)\(classHeaderBases):")
@@ -385,14 +280,14 @@ final class PythonTranslator: Translator {
             fragment.output("__fishyjoes_origin__ = {")
             fragment.indent {
                 for (name, origin) in origins {
-                    fragment.output("\(pythonStringLiteral(name)): \(pythonStringLiteral(origin)),")
+                    fragment.output("\(PythonNaming.stringLiteral(name)): \(PythonNaming.stringLiteral(origin)),")
                 }
             }
             fragment.output("}")
             if !pythonClass.enumCases.isEmpty || !pythonClass.fields.isEmpty || !pythonClass.methods.isEmpty || !pythonClass.storedFields.isEmpty {
                 fragment.blankLine()
             }
-            if pythonClass.setupKind == "enum" && !isAssociatedEnum {
+            if pythonClass.setupKind == .enum && !isAssociatedEnum {
                 for enumCase in pythonClass.enumCases {
                     fragment.output("\(enumCase.pythonName) = \"\(enumCase.cName)\"")
                 }
@@ -413,7 +308,7 @@ final class PythonTranslator: Translator {
                     fragment.blankLine()
                 }
             }
-            if pythonClass.setupKind == "value" {
+            if pythonClass.setupKind == .value {
                 for field in pythonClass.storedFields {
                     fragment.output("\(field.pythonName): object")
                 }
@@ -612,7 +507,7 @@ final class PythonTranslator: Translator {
         // properties on a synthesized metaclass, which pyright and mypy honor
         // for class-level attribute access. Simple enums keep ClassVar
         // attributes because their stub already inherits enum.EnumMeta.
-        let stubMetaclassFields = (pythonClass.setupKind == "enum" && !isAssociatedEnum)
+        let stubMetaclassFields = (pythonClass.setupKind == .enum && !isAssociatedEnum)
             ? []
             : pythonClass.fields
                 .filter { $0.isStatic && !$0.asMethod && $0.deprecationMessage != nil }
@@ -635,7 +530,7 @@ final class PythonTranslator: Translator {
         if !collectionsAbcNames.isEmpty {
             fragment.output("from collections.abc import \(collectionsAbcNames.joined(separator: ", "))")
         }
-        if pythonClass.setupKind == "value" || isAssociatedEnum {
+        if pythonClass.setupKind == .value || isAssociatedEnum {
             fragment.output("from dataclasses import dataclass")
         }
         var typingNames: [String] = []
@@ -670,7 +565,7 @@ final class PythonTranslator: Translator {
                 }
             }
         }
-        if pythonClass.setupKind == "enum" && !isAssociatedEnum {
+        if pythonClass.setupKind == .enum && !isAssociatedEnum {
             fragment.output("import enum")
         }
         for importedModule in stubImports where importedModule.className.isEmpty {
@@ -691,7 +586,7 @@ final class PythonTranslator: Translator {
 
         let baseClass: String
         switch pythonClass.setupKind {
-        case "enum":
+        case .enum:
             baseClass = isAssociatedEnum ? "" : "(enum.Enum)"
         default:
             baseClass = ""
@@ -720,7 +615,7 @@ final class PythonTranslator: Translator {
                 classHeaderBases = "(\(inner), metaclass=\(metaclassName))"
             }
         }
-        if pythonClass.setupKind == "value" {
+        if pythonClass.setupKind == .value {
             fragment.output(pythonClass.isValueHashable ? "@dataclass(unsafe_hash=True)" : "@dataclass")
         }
         fragment.output("class \(pythonClass.className)\(classHeaderBases):")
@@ -737,7 +632,7 @@ final class PythonTranslator: Translator {
             // rather than suppressing a real attribute in the stubtest allowlist.
             fragment.output("__fishyjoes_origin__: ClassVar[dict[str, str]]")
             emittedMember = true
-            if pythonClass.setupKind == "enum" && !isAssociatedEnum {
+            if pythonClass.setupKind == .enum && !isAssociatedEnum {
                 for enumCase in pythonClass.enumCases {
                     fragment.output("\(enumCase.pythonName) = ...")
                     outputDocstring(enumCase.documentation, into: fragment)
@@ -755,13 +650,13 @@ final class PythonTranslator: Translator {
                         documentation: enumCase.documentation
                     )
                     let caseTypeName = upperCaseFirst(enumCase.cName)
-                    if canEmitPythonStubAttribute(caseTypeName) {
+                    if PythonNaming.canEmitStubAttribute(caseTypeName) {
                         fragment.output("\(caseTypeName): ClassVar[type[\(enumCase.className)]]")
                     }
                     emittedMember = true
                 }
             }
-            if pythonClass.setupKind == "value" {
+            if pythonClass.setupKind == .value {
                 for field in pythonClass.storedFields {
                     fragment.output("\(field.pythonName): \(pythonTypeAnnotation(field.pythonType, shadowedBuiltinTypes: shadowedBuiltinTypes, shadowedImportedTypes: shadowedImportedTypes))")
                     outputDocstring(field.documentation, into: fragment)
@@ -1000,28 +895,28 @@ final class PythonTranslator: Translator {
         let className: String
         let fields: [Field]
         let methods: [Method]
-        let setupKind: String?
+        let setupKind: PythonClass.SetupKind
         let equalsSymbol: String?
         let hashSymbol: String?
         let isValueHashable: Bool
-        let storedFields: [NativeStoredField]
-        let enumCases: [NativeEnumCase]
+        let storedFields: [PythonClass.StoredField]
+        let enumCases: [PythonClass.EnumCase]
         let typeDocumentation: [String]
 
         switch type {
         case let translatedEnum as TranslatedEnum:
-            className = pythonClassName(translatedEnum.nodeName)
+            className = PythonNaming.className(translatedEnum.nodeName)
             fields = translatedEnum.fields
             methods = translatedEnum.methods
             typeDocumentation = translatedEnum.documentation
-            setupKind = translatedEnum.isInhabited ? "enum" : nil
+            setupKind = .enum
             equalsSymbol = nil
             hashSymbol = nil
             isValueHashable = false
             storedFields = []
             let enumSourceName = translatedEnum.sourceType.name
             enumCases = translatedEnum.cases.compactMap { enumCase in
-                let values = enumCase.associatedValues.compactMap { value -> NativeEnumCaseValue? in
+                let values = enumCase.associatedValues.compactMap { value -> PythonClass.EnumCaseValue? in
                     let resolved = context.resolve(type: value.type)
                     guard let nativeType = pythonCType(
                         for: resolved,
@@ -1034,7 +929,7 @@ final class PythonTranslator: Translator {
                         context.warn("dropping enum \(enumSourceName): case `\(enumCase.name)` has an associated value with no Python type")
                         return nil
                     }
-                    return NativeEnumCaseValue(
+                    return PythonClass.EnumCaseValue(
                         pythonName: value.bindingName,
                         cName: value.bindingName.mangled,
                         cType: nativeType.cType,
@@ -1045,7 +940,7 @@ final class PythonTranslator: Translator {
                 guard values.count == enumCase.associatedValues.count else {
                     return nil
                 }
-                return NativeEnumCase(
+                return PythonClass.EnumCase(
                     pythonName: enumCase.name,
                     cName: enumCase.name.mangled,
                     className: "\(className)_\(upperCaseFirst(enumCase.name))",
@@ -1057,7 +952,7 @@ final class PythonTranslator: Translator {
                 return nil
             }
         case let translatedStruct as TranslatedStruct:
-            className = pythonClassName(translatedStruct.nodeName)
+            className = PythonNaming.className(translatedStruct.nodeName)
             fields = translatedStruct.computedVariables
             methods = translatedStruct.methods
             typeDocumentation = translatedStruct.documentation
@@ -1067,18 +962,18 @@ final class PythonTranslator: Translator {
             guard translatedFields.count == translatedStruct.storedVariables.count else {
                 return nil
             }
-            setupKind = translatedFields.isEmpty ? "emptyValue" : "value"
+            setupKind = translatedFields.isEmpty ? .emptyValue : .value
             equalsSymbol = nil
             hashSymbol = nil
             isValueHashable = translatedStruct.hashable
             storedFields = translatedFields
             enumCases = []
         case let translatedReference as TranslatedReference:
-            className = pythonClassName(translatedReference.nodeName)
+            className = PythonNaming.className(translatedReference.nodeName)
             fields = translatedReference.computedVariables
             methods = translatedReference.methods
             typeDocumentation = translatedReference.documentation
-            setupKind = "reference"
+            setupKind = .reference
             equalsSymbol = translatedReference.equatable ? "__iota_\(translatedReference.sourceType.name.mangled)_equals" : nil
             hashSymbol = translatedReference.hashable ? "__iota_get_\(translatedReference.sourceType.name.mangled)_hash" : nil
             isValueHashable = false
@@ -1089,11 +984,11 @@ final class PythonTranslator: Translator {
                 context.warn("dropping protocol \(translatedProtocol.sourceType.name): a member has no Python type")
                 return nil
             }
-            className = pythonClassName(translatedProtocol.nodeName)
+            className = PythonNaming.className(translatedProtocol.nodeName)
             fields = translatedProtocol.fields
             methods = translatedProtocol.methods
             typeDocumentation = translatedProtocol.documentation
-            setupKind = "protocol"
+            setupKind = .protocol
             equalsSymbol = nil
             hashSymbol = nil
             isValueHashable = false
@@ -1107,7 +1002,7 @@ final class PythonTranslator: Translator {
         var finalEnumCases = enumCases
         var nativeFields = fields.compactMap { nativeField($0, of: type, context: context) }
         var nativeMethods = methods.compactMap { nativeMethod($0, of: type, context: context) }
-        let needsNominalType = setupKind == "reference"
+        let needsNominalType = setupKind == .reference
         guard needsNominalType || !nativeFields.isEmpty || !nativeMethods.isEmpty || !storedFields.isEmpty || !enumCases.isEmpty else {
             return nil
         }
@@ -1119,13 +1014,13 @@ final class PythonTranslator: Translator {
             methods: &nativeMethods
         )
 
-        let moduleName = pythonModuleName(className)
+        let moduleName = PythonNaming.moduleName(className)
         return PythonClass(
             originName: type.sourceType.name,
             moduleName: moduleName,
             fileName: "\(context.module.pythonPackageName)/\(moduleName).py",
             className: className,
-            setupName: setupKind == nil ? nil : type.iotaSetupName,
+            setupName: type.iotaSetupName,
             setupKind: setupKind,
             equalsSymbol: equalsSymbol,
             hashSymbol: hashSymbol,
@@ -1138,7 +1033,7 @@ final class PythonTranslator: Translator {
         )
     }
 
-    private func nativeStoredField(_ field: Field, ownerName: String, context: FishyJoesContext) -> NativeStoredField? {
+    private func nativeStoredField(_ field: Field, ownerName: String, context: FishyJoesContext) -> PythonClass.StoredField? {
         let resolvedType = context.resolve(type: field.type)
         // R5: the value-type field descriptor is the call-site conversion when
         // present, otherwise derived from the C scalar type (exactly the old
@@ -1150,7 +1045,7 @@ final class PythonTranslator: Translator {
             context.warn("dropping value type \(ownerName): stored field `\(field.name)` has no Python type")
             return nil
         }
-        return NativeStoredField(
+        return PythonClass.StoredField(
             pythonName: field.name,
             cName: field.name.mangled,
             cType: nativeType.cType,
@@ -1161,7 +1056,7 @@ final class PythonTranslator: Translator {
         )
     }
 
-    private func nativeField(_ field: Field, of type: TranslatedType, context: FishyJoesContext) -> NativeField? {
+    private func nativeField(_ field: Field, of type: TranslatedType, context: FishyJoesContext) -> PythonClass.Field? {
         guard field.isStatic || supportsInstanceMembers(for: type) else {
             return nil
         }
@@ -1176,7 +1071,7 @@ final class PythonTranslator: Translator {
             // B2: a field with no Python representation is dropped; surface it.
             context.warn("dropping property \(memberName): no Python type for its value")
             return nil
-7        }
+        }
 
         let cName = exportAnnotation.name.mangled
         let symbol = field.isDefaultImplementation
@@ -1186,7 +1081,7 @@ final class PythonTranslator: Translator {
             ? "__iota_set_\(sourceName)_\(exportAnnotation.name)".mangled
             : nil
 
-        return NativeField(
+        return PythonClass.Field(
             pythonName: exportAnnotation.pythonName ?? exportAnnotation.name,
             isExplicitPythonName: exportAnnotation.pythonName != nil,
             cName: cName,
@@ -1203,7 +1098,7 @@ final class PythonTranslator: Translator {
         )
     }
 
-    private func nativeMethod(_ method: Method, of type: TranslatedType, context: FishyJoesContext) -> NativeMethod? {
+    private func nativeMethod(_ method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass.Method? {
         guard method.isStatic || supportsInstanceMembers(for: type) else {
             return nil
         }
@@ -1230,7 +1125,7 @@ final class PythonTranslator: Translator {
             return nil
         }
 
-        var parameters: [NativeParameter] = []
+        var parameters: [PythonClass.Parameter] = []
         for parameter in method.parameters {
             let resolvedParameterType = context.resolve(type: parameter.type, generics: method.exportAnnotation.genericOverrides)
             guard let cType = pythonCType(for: resolvedParameterType, context: context) else {
@@ -1238,8 +1133,8 @@ final class PythonTranslator: Translator {
                 context.warn("dropping method \(memberName): no Python type for parameter `\(parameter.name)`")
                 return nil
             }
-            let parameterName = swiftIdentifierName(parameter.name)
-            var defaultValue: PythonDefaultValue?
+            let parameterName = parameter.name.unescapedSwiftIdentifier
+            var defaultValue: PythonClass.DefaultValue?
             if let swiftDefaultValue = parameter.defaultValue {
                 if let translatedDefaultValue = pythonDefaultValue(swiftDefaultValue, type: resolvedParameterType, context: context) {
                     defaultValue = translatedDefaultValue
@@ -1247,7 +1142,7 @@ final class PythonTranslator: Translator {
                     context.warnMissingDefault(parameter: parameter, in: method)
                 }
             }
-            parameters.append(NativeParameter(
+            parameters.append(PythonClass.Parameter(
                 pythonName: parameterName,
                 cName: parameterName.mangled,
                 cType: cType.cType,
@@ -1259,7 +1154,7 @@ final class PythonTranslator: Translator {
         }
 
         let symbol = "__iota_\(sourceName)_\(method.exportAnnotation.name)".mangled
-        return NativeMethod(
+        return PythonClass.Method(
             pythonName: method.exportAnnotation.pythonName ?? method.exportAnnotation.name,
             isExplicitPythonName: method.exportAnnotation.pythonName != nil,
             cName: method.exportAnnotation.name.mangled,
@@ -1363,7 +1258,7 @@ final class PythonTranslator: Translator {
         var seen: [String: PythonMemberNameEntry] = [:]
         var names: [String] = []
         for entry in entries {
-            let name = entry.isExplicit ? entry.rawName : pythonSafeIdentifier(entry.rawName)
+            let name = entry.isExplicit ? entry.rawName : PythonNaming.safeIdentifier(entry.rawName)
             if let previous = seen[name] {
                 let remedyName = entry.annotatableName ?? previous.annotatableName
                 let remedy = remedyName.map {
@@ -1379,10 +1274,10 @@ final class PythonTranslator: Translator {
 
     private func disambiguateClassMemberNames(
         owner: String,
-        storedFields: inout [NativeStoredField],
-        enumCases: inout [NativeEnumCase],
-        fields: inout [NativeField],
-        methods: inout [NativeMethod]
+        storedFields: inout [PythonClass.StoredField],
+        enumCases: inout [PythonClass.EnumCase],
+        fields: inout [PythonClass.Field],
+        methods: inout [PythonClass.Method]
     ) {
         let entries =
             storedFields.map { PythonMemberNameEntry(rawName: $0.pythonName, isExplicit: false, origin: "stored field `\($0.cName)`", annotatableName: nil) } +
@@ -1411,7 +1306,7 @@ final class PythonTranslator: Translator {
         }
     }
 
-    private func disambiguatedEnumCaseValues(_ values: [NativeEnumCaseValue]) -> [NativeEnumCaseValue] {
+    private func disambiguatedEnumCaseValues(_ values: [PythonClass.EnumCaseValue]) -> [PythonClass.EnumCaseValue] {
         let valueNames = uniqueAssociatedValueNames(values.map(\.pythonName))
         return values.indices.map { index in
             var value = values[index]
@@ -1420,7 +1315,7 @@ final class PythonTranslator: Translator {
         }
     }
 
-    private func disambiguatedParameters(_ parameters: [NativeParameter]) -> [NativeParameter] {
+    private func disambiguatedParameters(_ parameters: [PythonClass.Parameter]) -> [PythonClass.Parameter] {
         let parameterNames = uniqueParameterNames(parameters.map(\.pythonName))
         return parameters.indices.map { index in
             var parameter = parameters[index]
@@ -1430,11 +1325,11 @@ final class PythonTranslator: Translator {
     }
 
     private func uniqueParameterNames(_ rawNames: [String]) -> [String] {
-        uniquePythonNames(rawNames, sanitize: pythonSafeIdentifier)
+        uniquePythonNames(rawNames, sanitize: PythonNaming.safeIdentifier)
     }
 
     private func uniqueAssociatedValueNames(_ rawNames: [String]) -> [String] {
-        uniquePythonNames(rawNames, sanitize: pythonSafeAssociatedValueIdentifier)
+        uniquePythonNames(rawNames, sanitize: PythonNaming.safeAssociatedValueIdentifier)
     }
 
     /// Deterministic `_2`-suffix disambiguation, kept ONLY for method
@@ -1450,7 +1345,7 @@ final class PythonTranslator: Translator {
             let baseName = sanitize(rawName)
             var name = baseName
             var suffix = 2
-            while used.contains(name) || isReservedPythonName(name) {
+            while used.contains(name) || PythonNaming.isReserved(name) {
                 name = "\(baseName)_\(suffix)"
                 suffix += 1
             }
@@ -1497,16 +1392,16 @@ final class PythonTranslator: Translator {
         setupFunction: String,
         nativeModuleName: String
     ) -> String {
-        if pythonClass.setupKind == "reference" {
+        if pythonClass.setupKind == .reference {
             return "\(nativeModuleName).setup_reference_type(\(setupFunction), \(pythonClass.className))"
         }
-        if pythonClass.setupKind == "value" {
+        if pythonClass.setupKind == .value {
             let fields = pythonClass.storedFields.map { field in
                 "\(nativeModuleName).Field(\"\(field.pythonName)\", \(descriptorExpression(cType: field.cType, conversion: field.conversion, nativeModuleName: nativeModuleName)), mutable=\(field.isMutable ? "True" : "False"))"
             }
             return "\(nativeModuleName).setup_value_type(\(setupFunction), \(pythonClass.className), [\(fields.joined(separator: ", "))])"
         }
-        if pythonClass.setupKind == "enum" {
+        if pythonClass.setupKind == .enum {
             if hasAssociatedValues(pythonClass) {
                 let cases = pythonClass.enumCases.map { enumCase in
                     let fields = enumCase.values.map { value in
@@ -1519,7 +1414,7 @@ final class PythonTranslator: Translator {
             let cases = pythonClass.enumCases.map { "\"\($0.pythonName)\"" }.joined(separator: ", ")
             return "\(nativeModuleName).setup_simple_enum_type(\(setupFunction), \(pythonClass.className), [\(cases)])"
         }
-        if pythonClass.setupKind == "protocol" {
+        if pythonClass.setupKind == .protocol {
             let fields = pythonClass.fields.map { field in
                 "\(nativeModuleName).ProtocolField(\"\(field.pythonName)\", \(descriptorExpression(cType: field.returnType, conversion: field.returnConversion, nativeModuleName: nativeModuleName)))"
             }
@@ -1546,28 +1441,28 @@ final class PythonTranslator: Translator {
 
     private func selfConversion(for pythonClass: PythonClass) -> String? {
         switch pythonClass.setupKind {
-        case "emptyValue", "value", "enum":
-            return "_native.ValueType(\(pythonStringLiteral(pythonClass.originName)))"
+        case .emptyValue, .value, .enum:
+            return "_native.ValueType(\(PythonNaming.stringLiteral(pythonClass.originName)))"
         default:
             return nil
         }
     }
 
-    private func pythonDefaultValue(_ swiftValue: String, type: TranslatedType, context: FishyJoesContext) -> PythonDefaultValue? {
+    private func pythonDefaultValue(_ swiftValue: String, type: TranslatedType, context: FishyJoesContext) -> PythonClass.DefaultValue? {
         guard let expression = SwiftDefaultExpression.parse(swiftValue) else {
             return nil
         }
         return pythonDefaultValue(expression, type: type, context: context)
     }
 
-    private func pythonDefaultValue(_ swiftValue: SwiftDefaultExpression, type: TranslatedType, context: FishyJoesContext) -> PythonDefaultValue? {
+    private func pythonDefaultValue(_ swiftValue: SwiftDefaultExpression, type: TranslatedType, context: FishyJoesContext) -> PythonClass.DefaultValue? {
         switch swiftValue {
         case .nilLiteral:
-            return PythonDefaultValue(expression: "None")
+            return PythonClass.DefaultValue(expression: "None")
         case let .boolLiteral(value):
-            return PythonDefaultValue(expression: value ? "True" : "False")
+            return PythonClass.DefaultValue(expression: value ? "True" : "False")
         case let .integerLiteral(value), let .floatingPointLiteral(value):
-            return PythonDefaultValue(expression: value)
+            return PythonClass.DefaultValue(expression: value)
         case let .implicitMember(memberName):
             if let integerLimit = pythonIntegerLimitDefaultValue(memberName: memberName, type: type) {
                 return integerLimit
@@ -1589,51 +1484,51 @@ final class PythonTranslator: Translator {
         }
     }
 
-    private func pythonIntegerLimitDefaultValue(memberName: String, type: TranslatedType) -> PythonDefaultValue? {
+    private func pythonIntegerLimitDefaultValue(memberName: String, type: TranslatedType) -> PythonClass.DefaultValue? {
         switch type.sourceType.unqualifiedName {
         case "Int":
             switch memberName {
             case "min":
-                return PythonDefaultValue(expression: "-sys.maxsize - 1", imports: [.module("sys")])
+                return PythonClass.DefaultValue(expression: "-sys.maxsize - 1", imports: [.module("sys")])
             case "max":
-                return PythonDefaultValue(expression: "sys.maxsize", imports: [.module("sys")])
+                return PythonClass.DefaultValue(expression: "sys.maxsize", imports: [.module("sys")])
             default:
                 return nil
             }
         case "UInt":
             switch memberName {
             case "min":
-                return PythonDefaultValue(expression: "0")
+                return PythonClass.DefaultValue(expression: "0")
             case "max":
-                return PythonDefaultValue(expression: "sys.maxsize * 2 + 1", imports: [.module("sys")])
+                return PythonClass.DefaultValue(expression: "sys.maxsize * 2 + 1", imports: [.module("sys")])
             default:
                 return nil
             }
         case "Int8", "Int16", "Int32", "Int64", "UInt8", "UInt16", "UInt32", "UInt64":
             return pythonFixedWidthIntegerLimitDefaultValue(components: [type.sourceType.unqualifiedName, memberName]).map {
-                PythonDefaultValue(expression: $0)
+                PythonClass.DefaultValue(expression: $0)
             }
         default:
             return nil
         }
     }
 
-    private func pythonIntegerLimitDefaultValue(components: [String]) -> PythonDefaultValue? {
+    private func pythonIntegerLimitDefaultValue(components: [String]) -> PythonClass.DefaultValue? {
         guard components.count == 2 else {
             return nil
         }
         switch (components[0], components[1]) {
         case ("Int", "min"):
-            return PythonDefaultValue(expression: "-sys.maxsize - 1", imports: [.module("sys")])
+            return PythonClass.DefaultValue(expression: "-sys.maxsize - 1", imports: [.module("sys")])
         case ("Int", "max"):
-            return PythonDefaultValue(expression: "sys.maxsize", imports: [.module("sys")])
+            return PythonClass.DefaultValue(expression: "sys.maxsize", imports: [.module("sys")])
         case ("UInt", "min"):
-            return PythonDefaultValue(expression: "0")
+            return PythonClass.DefaultValue(expression: "0")
         case ("UInt", "max"):
-            return PythonDefaultValue(expression: "sys.maxsize * 2 + 1", imports: [.module("sys")])
+            return PythonClass.DefaultValue(expression: "sys.maxsize * 2 + 1", imports: [.module("sys")])
         default:
             return pythonFixedWidthIntegerLimitDefaultValue(components: components).map {
-                PythonDefaultValue(expression: $0)
+                PythonClass.DefaultValue(expression: $0)
             }
         }
     }
@@ -1647,7 +1542,7 @@ final class PythonTranslator: Translator {
         arguments: [SwiftDefaultExpression],
         type: TranslatedType,
         context: FishyJoesContext
-    ) -> PythonDefaultValue? {
+    ) -> PythonClass.DefaultValue? {
         guard arguments.isEmpty,
               case let .memberAccess(components) = callee,
               let methodName = components.last else {
@@ -1661,7 +1556,7 @@ final class PythonTranslator: Translator {
 
         switch methodName {
         case "squareRoot":
-            return PythonDefaultValue(
+            return PythonClass.DefaultValue(
                 expression: "\(receiverDefault.expression) ** 0.5",
                 imports: receiverDefault.imports
             )
@@ -1670,16 +1565,16 @@ final class PythonTranslator: Translator {
         }
     }
 
-    private func pythonSwiftStandardLibraryMemberAccess(_ components: [String]) -> PythonDefaultValue? {
+    private func pythonSwiftStandardLibraryMemberAccess(_ components: [String]) -> PythonClass.DefaultValue? {
         switch components {
         case ["Double", "ulpOfOne"]:
-            return PythonDefaultValue(expression: "sys.float_info.epsilon", imports: [.module("sys")])
+            return PythonClass.DefaultValue(expression: "sys.float_info.epsilon", imports: [.module("sys")])
         default:
             return nil
         }
     }
 
-    private func pythonSimpleEnumDefaultValue(_ swiftCaseName: String, type: TranslatedType) -> PythonDefaultValue? {
+    private func pythonSimpleEnumDefaultValue(_ swiftCaseName: String, type: TranslatedType) -> PythonClass.DefaultValue? {
         guard let translatedEnum = type as? TranslatedEnum,
               translatedEnum.isInhabited,
               translatedEnum.cases.allSatisfy({ $0.associatedValues.isEmpty }) else {
@@ -1689,9 +1584,9 @@ final class PythonTranslator: Translator {
         guard let pythonCaseName = enumCaseNames[swiftCaseName] else {
             return nil
         }
-        let className = pythonClassName(translatedEnum.nodeName)
-        let importedType = PythonImport(moduleName: pythonModuleName(className), className: className)
-        return PythonDefaultValue(
+        let className = PythonNaming.className(translatedEnum.nodeName)
+        let importedType = PythonImport(moduleName: PythonNaming.moduleName(className), className: className)
+        return PythonClass.DefaultValue(
             expression: "\(className).\(pythonCaseName)",
             imports: [importedType]
         )
@@ -1713,38 +1608,6 @@ final class PythonTranslator: Translator {
             }
         let memberNames = resolvePythonMemberNames(entries, owner: translatedEnum.nodeName)
         return Dictionary(uniqueKeysWithValues: zip(translatedEnum.cases.map(\.name), memberNames.prefix(translatedEnum.cases.count)))
-    }
-
-    private func pythonModuleName(_ name: String) -> String {
-        PythonNaming.moduleName(name)
-    }
-
-    private func pythonClassName(_ name: String) -> String {
-        PythonNaming.className(name)
-    }
-
-    private func pythonStringLiteral(_ value: String) -> String {
-        PythonNaming.stringLiteral(value)
-    }
-
-    private func pythonSafeIdentifier(_ name: String) -> String {
-        PythonNaming.safeIdentifier(name)
-    }
-
-    private func pythonSafeAssociatedValueIdentifier(_ name: String) -> String {
-        PythonNaming.safeAssociatedValueIdentifier(name)
-    }
-
-    private func swiftIdentifierName(_ name: String) -> String {
-        name.unescapedSwiftIdentifier
-    }
-
-    private func isReservedPythonName(_ name: String) -> Bool {
-        PythonNaming.isReserved(name)
-    }
-
-    private func canEmitPythonStubAttribute(_ name: String) -> Bool {
-        PythonNaming.canEmitStubAttribute(name)
     }
 
     private func hasAssociatedValues(_ pythonClass: PythonClass) -> Bool {

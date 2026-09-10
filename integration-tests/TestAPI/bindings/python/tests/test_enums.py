@@ -1,6 +1,7 @@
 import importlib
 import unittest
 import testapi
+from testapi.empty_enum import EmptyEnum
 
 
 class EnumTests(unittest.TestCase):
@@ -47,6 +48,10 @@ class EnumTests(unittest.TestCase):
     #         pass
     #     x = NewEnumCase()
     #     x.plus(x)
+
+    def test_create_bad_enum(self) -> None:
+        e = EmptyEnum()
+        EmptyEnum.not_going_to_happen()
 
     def test_reference_annotated_enum_surfaces_cases(self) -> None:
         # An inhabited enum annotated `exportReference` must still bridge its cases

@@ -9,6 +9,7 @@ struct TranslatedFuture: TranslatedType {
     let jniType = JNIType.object("kotlinx/coroutines/Deferred")
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(output: TranslatedType) {
@@ -18,6 +19,7 @@ struct TranslatedFuture: TranslatedType {
         self.containedNamedTypes = [output]
         self.cSharpType = .task(output.cSharpType)
         self.dartType = .future(output.dartType)
+        self.pythonType = .future(output.pythonType)
     }
 
     var sourceType: BetterType {

@@ -7,6 +7,7 @@ struct ExternalTranslatedType: Codable {
     var jniType: JNIType
     var cSharpType: CSharpClass.CSType
     var dartType: DartClass.DartType
+    var pythonType: PythonClass2.PythonType
     var isInhabited: Bool
     var definingModule: Module
 
@@ -19,6 +20,7 @@ struct ExternalTranslatedType: Codable {
         jniType: JNIType,
         cSharpType: CSharpClass.CSType,
         dartType: DartClass.DartType,
+        pythonType: PythonClass2.PythonType,
         isInhabited: Bool,
         definingModule: Module
     ) {
@@ -30,6 +32,7 @@ struct ExternalTranslatedType: Codable {
         self.jniType = jniType
         self.cSharpType = cSharpType
         self.dartType = dartType
+        self.pythonType = pythonType
         self.isInhabited = isInhabited
         self.definingModule = definingModule
     }
@@ -76,6 +79,7 @@ extension TranslatedType {
             jniType: jniType,
             cSharpType: cSharpType,
             dartType: dartType,
+            pythonType: pythonType,
             isInhabited: isInhabited,
             definingModule: definingModule
         )

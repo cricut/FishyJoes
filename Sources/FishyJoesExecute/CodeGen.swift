@@ -509,14 +509,20 @@ extension CodeGen {
                 context: context
             )
 
-            for (path, contents) in SourceFragment.combine(fragments: context.translateAll()) {
+            for (path, contents, createIntermediateDirectories) in SourceFragment.combine(fragments: context.translateAll()) {
                 guard let path = path else {
                     fatalError("generated source fragment with no output path. Contents: \(contents)")
                 }
-                let outputPath = "bindings/\(path)"
-                print("writing \(outputPath)")
+                let outputURL = URL(fileURLWithPath: "bindings/\(path)", isDirectory: false)
+                print("writing \(outputURL.path) \(createIntermediateDirectories)")
+                if createIntermediateDirectories {
+                    try FileManager.default.createDirectory(
+                        at: outputURL.deletingLastPathComponent(),
+                        withIntermediateDirectories: true
+                    )
+                }
                 try contents.write(
-                    to: URL(fileURLWithPath: outputPath),
+                    to: outputURL,
                     atomically: false,
                     encoding: .utf8
                 )

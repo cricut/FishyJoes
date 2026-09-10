@@ -384,106 +384,6 @@ export declare namespace TestAPI {
     }
 
     /**
-     * <!-- FishyJoes.export(AttributedStrings) -->
-     */
-    export type AttributedStrings = never;
-    export namespace AttributedStrings {
-        /**
-         * <!-- FishyJoes.export(accent) -->
-         */
-        const accent: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(attributedCharacters) -->
-         */
-        function attributedCharacters(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.AttributedSubstring[];
-
-        /**
-         * <!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->
-         */
-        function attributesPreferringDuplicatesNearerStart(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.AttributeContainer;
-
-        /**
-         * <!-- FishyJoes.export(chinese) -->
-         */
-        const chinese: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(chineseBMP) -->
-         */
-        const chineseBMP: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(chineseSIP) -->
-         */
-        const chineseSIP: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(echo) -->
-         */
-        function echo(
-            string: Runtime.AttributedString
-        ): Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(emoji) -->
-         */
-        const emoji: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(emojiMulti) -->
-         */
-        const emojiMulti: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(emptyAttributeRuns) -->
-         */
-        function emptyAttributeRuns(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.AttributedString.Runs.Run[];
-
-        /**
-         * <!-- FishyJoes.export(firstIndex) -->
-         */
-        function firstIndex(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.AttributedString.Index;
-
-        /**
-         * <!-- FishyJoes.export(fullRange) -->
-         */
-        function fullRange(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.SwiftRange<Runtime.AttributedString.Index>;
-
-        /**
-         * <!-- FishyJoes.export(lastIndex) -->
-         */
-        function lastIndex(
-            /* of */ string: Runtime.AttributedString
-        ): Runtime.AttributedString.Index;
-
-        /**
-         * <!-- FishyJoes.export(polyglot) -->
-         */
-        const polyglot: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(script) -->
-         */
-        const script: Runtime.AttributedString;
-
-        /**
-         * <!-- FishyJoes.export(simple) -->
-         */
-        const simple: Runtime.AttributedString;
-    }
-
-    /**
      * <!-- FishyJoes.export(Bytes) -->
      */
     export type Bytes = never;
@@ -3797,6 +3697,17 @@ export declare namespace TestAPI {
     export class TheMethodError {
         private constructor()
         private _inhibitStructuralTyping: any
+    }
+
+    /**
+     * <!-- FishyJoes.export(Tree) -->
+     */
+    export class Tree {
+        constructor(value: number, children: Tree[])
+
+        readonly value: number;
+
+        readonly children: Tree[];
     }
 
     /**

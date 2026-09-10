@@ -9,6 +9,7 @@ struct TranslatedData: TranslatedType {
     let jniType = JNIType.array(.byte)
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "byte[]")
     let dartType: DartClass.DartType = .named(package: nil, name: "typed_data.Uint8List")
+    let pythonType: PythonClass2.PythonType = .class(module: nil, name: "bytes")
     let definingModule = Module.runtime
 
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {

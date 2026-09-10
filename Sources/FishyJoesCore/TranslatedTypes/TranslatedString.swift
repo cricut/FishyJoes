@@ -9,6 +9,7 @@ struct TranslatedString: TranslatedType {
     let jniType = JNIType.object("java/lang/String")
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "string")
     let dartType: DartClass.DartType = .named(package: nil, name: "String")
+    let pythonType: PythonClass2.PythonType = .class(module: nil, name: "str")
     let definingModule = Module.runtime
 
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {

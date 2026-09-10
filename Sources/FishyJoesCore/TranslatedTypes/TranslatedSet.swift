@@ -12,6 +12,7 @@ struct TranslatedSet: TranslatedType {
     let jniType = JNIType.object("java/util/Set")
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingModule = Module.runtime
 
     init(element: TranslatedType) {
@@ -23,6 +24,7 @@ struct TranslatedSet: TranslatedType {
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "ISet<\(element.cSharpType.name)>")
         self.dartType = .named(package: nil, name: "Set", genericArgs: [element.dartType])
+        self.pythonType = .class(module: nil, name: "set", genericArgs: [element.pythonType.static])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {

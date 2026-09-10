@@ -206,7 +206,7 @@ class DartProtocolClass: DartClass {
 
         let ffiHooksName = "\(unqualifiedName)_FfiHooks"
         fragment.outputBlock("extension \(ffiHooksName) on \(unqualifiedName) {") {
-            ffiFor(fields: fields, fragment: fragment, isReference: false)
+            ffiFor(fields: fields, fragment: fragment)
             ffiFor(methods: normalMethods, fragment: fragment)
         }
     }

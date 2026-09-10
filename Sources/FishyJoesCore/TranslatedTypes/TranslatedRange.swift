@@ -11,6 +11,7 @@ struct TranslatedRange: TranslatedType {
     let jniType: JNIType
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
+    let pythonType: PythonClass2.PythonType
     let definingTSNamespace: String?
     let definingModule = Module.runtime
 
@@ -25,6 +26,7 @@ struct TranslatedRange: TranslatedType {
         self.jniType = .object("com/cricut/fishyjoes/runtime/Swift\(name)")
         self.cSharpType = .named(package: "Cricut.FishyJoesRuntime", name: "Swift\(name)<\(bound.cSharpType.name)>")
         self.dartType = .named(package: "FishyJoesRuntime", name: "Swift\(name)", genericArgs: [bound.dartType])
+        self.pythonType = .class(module: "FishyJoesRuntime", name: "Swift\(name)", genericArgs: [bound.pythonType.static])
         self.definingTSNamespace = "Runtime"
     }
 

@@ -1,5 +1,5 @@
 extension TranslatedEnum {
-    func cSharpSetupDelegates(in context: FishyJoesContext) -> [String] {
+    func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String] {
         var lines: [String] = []
         for enumCase in cases {
             let created = cSharpType.pInvokeCreatedName

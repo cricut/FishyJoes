@@ -187,10 +187,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<OptionalConverter<Swift.UInt64>>.javaSetup(env: env)
         // print("setting up ArrayConverter<OptionalConverter<Swift.UInt8>>...")
         try ArrayConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
-        // print("setting up ArrayConverter<Foundation.AttributedString.Runs.Run>...")
-        try ArrayConverter<Foundation.AttributedString.Runs.Run>.javaSetup(env: env)
-        // print("setting up ArrayConverter<Foundation.AttributedSubstring>...")
-        try ArrayConverter<Foundation.AttributedSubstring>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.Bool>...")
         try ArrayConverter<Swift.Bool>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.Double>...")
@@ -211,6 +207,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<TestAPI.Shade>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.String>...")
         try ArrayConverter<Swift.String>.javaSetup(env: env)
+        // print("setting up ArrayConverter<TestAPI.Tree>...")
+        try ArrayConverter<TestAPI.Tree>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.UInt>...")
         try ArrayConverter<Swift.UInt>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.UInt16>...")
@@ -301,8 +299,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ClosedRangeConverter<Swift.UInt64>.javaSetup(env: env)
         // print("setting up ClosedRangeConverter<Swift.UInt8>...")
         try ClosedRangeConverter<Swift.UInt8>.javaSetup(env: env)
-        // print("setting up RangeConverter<Foundation.AttributedString.Index>...")
-        try RangeConverter<Foundation.AttributedString.Index>.javaSetup(env: env)
         // print("setting up RangeConverter<Swift.Int>...")
         try RangeConverter<Swift.Int>.javaSetup(env: env)
         // print("setting up RangeConverter<Swift.Int16>...")
@@ -731,91 +727,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_thunkTwiceMaker"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;"),
                 fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_thunkTwiceMaker, to: UnsafeMutableRawPointer.self)
-            )
-        )
-        // print("setting up TestAPI.AttributedStrings...")
-        try TestAPI.AttributedStrings.javaSetup(env: env)
-        try env.RegisterNatives(
-            TestAPI.AttributedStrings.javaClass,
-            JNINativeMethod(
-                name: bag.add("__jni_attributedCharacters"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_attributedCharacters, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_attributesPreferringDuplicatesNearerStart"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributeContainer;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_echo"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_echo, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_emptyAttributeRuns"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Ljava/util/List;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_emptyAttributeRuns, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_firstIndex"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_firstIndex, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_fullRange"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/SwiftRange;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_fullRange, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_accent"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_accent, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_chinese"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_chinese, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_chineseBMP"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_chineseBMP, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_chineseSIP"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_chineseSIP, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_emoji"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_emoji, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_emojiMulti"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_emojiMulti, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_polyglot"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_polyglot, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_script"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_script, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_get_simple"),
-                signature: bag.add("()Lcom/cricut/fishyjoes/runtime/AttributedString;"),
-                fnPtr: unsafeBitCast(java_get_TestAPI_AttributedStrings_simple, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_lastIndex"),
-                signature: bag.add("(Lcom/cricut/fishyjoes/runtime/AttributedString;)Lcom/cricut/fishyjoes/runtime/AttributedString$Index;"),
-                fnPtr: unsafeBitCast(java_TestAPI_AttributedStrings_lastIndex, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Bytes...")
@@ -2957,6 +2868,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_TestProtocolStruct_xyzzy, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.Tree...")
+        try TestAPI.Tree.javaSetup(env: env)
         // print("setting up TestAPI.Tuples...")
         try TestAPI.Tuples.javaSetup(env: env)
         try env.RegisterNatives(
@@ -3022,16 +2935,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_URLs_simple, to: UnsafeMutableRawPointer.self)
             )
         )
-        // print("setting up Foundation.AttributedString.Runs.Run...")
-        try Foundation.AttributedString.Runs.Run.javaSetup(env: env)
-        // print("setting up Foundation.AttributedString.Index...")
-        try Foundation.AttributedString.Index.javaSetup(env: env)
-        // print("setting up Foundation.AttributeContainer...")
-        try Foundation.AttributeContainer.javaSetup(env: env)
-        // print("setting up Foundation.AttributedString...")
-        try Foundation.AttributedString.javaSetup(env: env)
-        // print("setting up Foundation.AttributedSubstring...")
-        try Foundation.AttributedSubstring.javaSetup(env: env)
         // print("setting up Swift.Bool...")
         try Swift.Bool.javaSetup(env: env)
         // print("setting up Foundation.Data...")

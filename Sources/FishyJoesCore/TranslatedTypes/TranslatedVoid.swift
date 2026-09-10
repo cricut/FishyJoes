@@ -11,6 +11,7 @@ struct TranslatedVoid: TranslatedType {
     let jniType = JNIType.void
     var cSharpType: CSharpClass.CSType = .unit
     var dartType: DartClass.DartType = .void
+    let pythonType: PythonClass2.PythonType = .none
     let definingModule = Module.runtime
 
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {

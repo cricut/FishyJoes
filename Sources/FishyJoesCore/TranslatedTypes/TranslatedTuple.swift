@@ -44,6 +44,10 @@ struct TranslatedTuple: TranslatedType {
         .named(package: "tuple", name: "Tuple\(elements.count)", genericArgs: elements.map(\.type.dartType))
     }
 
+    var pythonType: PythonClass2.PythonType {
+        .class(module: nil, name: "tuple", genericArgs: elements.map(\.type.pythonType.static))
+    }
+
     let cSharpNamespace: String? = nil
     let definingModule = Module.runtime
 
