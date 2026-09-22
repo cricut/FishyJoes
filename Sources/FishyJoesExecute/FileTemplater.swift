@@ -109,6 +109,12 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
+        if let extraSetupSteps = config.ciExtraSetupSteps {
+            // Right after checkout, ahead of every `swift package resolve` and
+            // `swift run`, so the steps can prepare package resolution.
+            credentialStepLines.append("")
+            credentialStepLines.append(contentsOf: dedent(lines: extraSetupSteps.split(separator: "\n", omittingEmptySubsequences: false).map(String.init)))
+        }
         credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
         replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
