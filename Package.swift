@@ -315,7 +315,7 @@ let package = Package(
                     .product(name: "ArgumentParser", package: "swift-argument-parser"),
                     .product(name: "Yams", package: "Yams")
                 ],
-                resources: [.copy("Resources")],
+                resources: [.copy("Resources/bindings-template")],
                 swiftSettings: strictConcurrencyFlags
             ),
             T.testTarget(
