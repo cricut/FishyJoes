@@ -166,7 +166,12 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             #if os(macOS)
             swiftBuild = [Platform.nativeMacSwiftBuild]
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            #elseif os(Linux) || os(Windows)
+            #elseif os(Linux)
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftLinux.toolchain,
+                configuration: configuration
+            ) + ["build"]
+            #elseif os(Windows)
             swiftBuild = ["swift", "build"]
             #else
             fatalError("unknown host OS")
@@ -184,7 +189,12 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             swiftBuild = [Platform.nativeMacSwiftBuild]
             // This seems to be needed because of https://github.com/mono/mono/issues/21049
             args.append(contentsOf: ["-Xlinker", "-rpath", "-Xlinker", "@loader_path"])
-            #elseif os(Linux) || os(Windows)
+            #elseif os(Linux)
+            swiftBuild = try swiftlyRunSwiftCommand(
+                toolchainVersion: ToolVersions.shared.swiftLinux.toolchain,
+                configuration: configuration
+            ) + ["build"]
+            #elseif os(Windows)
             swiftBuild = ["swift", "build"]
             #else
             fatalError("unknown host OS")

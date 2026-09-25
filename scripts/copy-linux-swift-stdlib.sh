@@ -105,6 +105,12 @@ fi
 if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
     didSomething=1
     echo "Installing ubuntu swift stdlib to $FISHYJOES_UBUNTU_DEST"
+    swiftVersionOutput=$(swift --version 2>&1)
+    if [[ $swiftVersionOutput != *"Swift version $swiftLinuxToolchain "* ]]; then
+        echo "Refusing to bundle the Swift runtime: expected Swift $swiftLinuxToolchain (tool-versions.json), got:"
+        echo $swiftVersionOutput
+        exit 1
+    fi
     runtimeLibraryPath=$(swift -print-target-info | jq -r '.paths.runtimeLibraryPaths[0]')
     ubuntuRoots=(
         $runtimeLibraryPath/libFoundation.so

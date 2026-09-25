@@ -85,6 +85,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Swift
+        uses: ./.github/actions/setup-swift
+
       - name: Set up node
         uses: actions/setup-node@v6
         with:
@@ -152,10 +155,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
-        with:
-          swift-version: swift-6.3-release
-          swift-build: 6.3-RELEASE
+      - name: Set up Swift
+        uses: ./.github/actions/setup-swift
 
       - name: Pre-resolve required SwiftPM packages
         continue-on-error: true

@@ -5,6 +5,8 @@ if [[ ! -d kotlin-runtime ]]; then
     exit 1
 fi
 
+swiftLinuxToolchain="$(jq -r .swiftLinux.toolchain Sources/ToolchainConfig/tool-versions.json)"
+
 swiftWasmToolchain="$(jq -r .swiftWasm.toolchain Sources/ToolchainConfig/tool-versions.json)"
 swiftWasmSDK="$(jq -r .swiftWasm.sdk Sources/ToolchainConfig/tool-versions.json)"
 swiftWasmSDKURL="$(jq -r .swiftWasm.sdkURL Sources/ToolchainConfig/tool-versions.json)"
@@ -20,6 +22,8 @@ swiftAndroidTargetTriples=($(jq -r '.swiftAndroid.targets[].triple' Sources/Tool
 swiftAndroidTargetNDKArchNames=($(jq -r '.swiftAndroid.targets[].ndkArchName' Sources/ToolchainConfig/tool-versions.json))
 
 if [[ "${1:-}" == "--verbose" ]]; then
+    declare -p swiftLinuxToolchain
+
     declare -p swiftWasmToolchain
     declare -p swiftWasmSDK
     declare -p swiftWasmSDKURL

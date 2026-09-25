@@ -57,6 +57,10 @@ public struct FileTemplater {
         replacements["__CI_RUNNER_UBUNTU__"] = (config.ciRunners ?? .defaults).ubuntu
         replacements["__CI_RUNNER_WINDOWS__"] = (config.ciRunners ?? .defaults).windows
 
+        replacements["__CI_SWIFT_LINUX_TOOLCHAIN__"] = ToolVersions.shared.swiftLinux.toolchain
+        replacements["__CI_SWIFT_WINDOWS_BRANCH__"] = ToolVersions.shared.swiftWindows.branch
+        replacements["__CI_SWIFT_WINDOWS_BUILD__"] = ToolVersions.shared.swiftWindows.build
+
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
         let preBuildHookLines = ciPreBuildHook.split(separator: "\n").map(String.init)
         replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: preBuildHookLines, indent: 10)

@@ -1,4 +1,13 @@
 {
+  "swiftLinux": {
+    "//": "toolchain is a release `name` from https://www.swift.org/api/v1/install/releases.json",
+    "toolchain": "6.3.3"
+  },
+  "swiftWindows": {
+    "//": "from a release `tag` in https://www.swift.org/api/v1/install/releases.json: build is the tag without the `swift-` prefix, branch is the tag lowercased",
+    "branch": "swift-6.3-release",
+    "build": "6.3-RELEASE"
+  },
   "swiftWasm": {
     "//": "values taken from https://github.com/swiftwasm/swift/releases",
     "toolchain": "6.3-snapshot-2026-02-21",
