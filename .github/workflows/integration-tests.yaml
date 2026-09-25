@@ -282,6 +282,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      # setup-dart locates its problem matcher through GITHUB_ACTION_PATH,
+      # which the runner leaves set after a composite action. Run it before
+      # the Swift setup so the path is not stale.
+      - uses: dart-lang/setup-dart@v1
+
       - name: Set up Swift
         uses: ./.github/actions/setup-swift
 
@@ -301,8 +306,6 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      - uses: dart-lang/setup-dart@v1
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
