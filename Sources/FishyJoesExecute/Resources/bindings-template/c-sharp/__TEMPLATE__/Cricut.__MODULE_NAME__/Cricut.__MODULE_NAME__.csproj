@@ -3,7 +3,7 @@
 <Project Sdk="Microsoft.NET.Sdk">__CSPROJ_DEPENDENCIES__
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>__CSPROJ_TARGET_FRAMEWORK__</TargetFramework>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RepositoryUrl>https://__BINDINGS_REPO__</RepositoryUrl>

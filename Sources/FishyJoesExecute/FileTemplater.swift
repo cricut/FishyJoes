@@ -57,6 +57,11 @@ public struct FileTemplater {
         replacements["__CI_RUNNER_UBUNTU__"] = (config.ciRunners ?? .defaults).ubuntu
         replacements["__CI_RUNNER_WINDOWS__"] = (config.ciRunners ?? .defaults).windows
 
+        // Set here rather than in CSharpPhases: `fishy-joes init` builds a FileTemplater
+        // with no phases, and the scaffolded csproj still needs a target framework.
+        let dotNet = config.dotNet ?? .defaults
+        replacements["__CSPROJ_TARGET_FRAMEWORK__"] = dotNet.targetFramework
+
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
         let preBuildHookLines = ciPreBuildHook.split(separator: "\n").map(String.init)
         replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: preBuildHookLines, indent: 10)
@@ -72,7 +77,7 @@ public struct FileTemplater {
             "FISHYJOES": "1",
             "JAVA_VERSION": "20",
             "NODE_VERSION": "18.x",
-            "DOTNET_VERSION": "8.0.x",
+            "DOTNET_VERSION": dotNet.sdkVersion,
             "GRADLE_OPTS": "-Dorg.gradle.daemon=false",
         ]
 

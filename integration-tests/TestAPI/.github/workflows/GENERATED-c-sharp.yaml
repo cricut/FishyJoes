@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '10.0.x'
   FISHYJOES: '1'
   GRADLE_OPTS: '-Dorg.gradle.daemon=false'
   JAVA_VERSION: '20'
