@@ -144,6 +144,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Swift
+        uses: ./.github/actions/setup-swift
+
       - name: Set up java
         uses: actions/setup-java@v5
         with:
@@ -171,13 +174,6 @@ jobs:
           sudo apt-get install -y zsh libcurl4-openssl-dev pkg-config python3-lldb-13
 
           swift run fishy-joes install-system-dependencies for-wasm for-android
-
-          source ~/.local/share/swiftly/env.sh
-          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
-          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
-
-          swiftly install 6.2.4
-          swiftly use -y 6.2.4
 
       - name: Build FishyJoesNodeRuntime
         shell: zsh {0}
@@ -288,13 +284,11 @@ jobs:
 
       # setup-dart locates its problem matcher through GITHUB_ACTION_PATH,
       # which the runner leaves set after a composite action. Run it before
-      # gha-setup-swift so the path is not stale.
+      # the Swift setup so the path is not stale.
       - uses: dart-lang/setup-dart@v1
 
-      - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
-        with:
-          swift-version: swift-6.3-release
-          swift-build: 6.3-RELEASE
+      - name: Set up Swift
+        uses: ./.github/actions/setup-swift
 
       - name: Set up java
         uses: actions/setup-java@v5

@@ -1,0 +1,25 @@
+name: Set up Swift
+description: Install the host Swift toolchain pinned in Sources/ToolchainConfig/tool-versions.json
+
+runs:
+  using: composite
+  steps:
+    - id: versions
+      name: Read pinned Swift versions
+      shell: bash
+      run: |
+        versions=Sources/ToolchainConfig/tool-versions.json
+        echo "linux-toolchain=$(jq -r .swiftLinux.toolchain "$versions")" >> "$GITHUB_OUTPUT"
+        echo "windows-branch=$(jq -r .swiftWindows.branch "$versions")" >> "$GITHUB_OUTPUT"
+        echo "windows-build=$(jq -r .swiftWindows.build "$versions")" >> "$GITHUB_OUTPUT"
+
+    - if: runner.os == 'Linux'
+      uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
+      with:
+        toolchain: ${{ steps.versions.outputs.linux-toolchain }}
+
+    - if: runner.os == 'Windows'
+      uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
+      with:
+        swift-version: ${{ steps.versions.outputs.windows-branch }}
+        swift-build: ${{ steps.versions.outputs.windows-build }}

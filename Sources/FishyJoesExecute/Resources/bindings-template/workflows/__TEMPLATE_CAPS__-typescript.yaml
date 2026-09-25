@@ -94,6 +94,11 @@ jobs:
     steps:
       - __CI_GIT_STEPS__
 
+      - name: Set up Swift
+        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
+        with:
+          toolchain: __CI_SWIFT_LINUX_TOOLCHAIN__
+
       - name: Set up node
         uses: actions/setup-node@v6
         with:
@@ -108,10 +113,6 @@ jobs:
           sudo apt-get install -y zsh libcurl4-openssl-dev pkg-config python3-lldb-13
 
           swift run fishy-joes install-system-dependencies for-wasm
-
-          source ~/.local/share/swiftly/env.sh
-          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
-          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
 
       - name: Pre-build hook
         shell: bash
@@ -185,8 +186,8 @@ jobs:
 
       - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
-          swift-version: swift-6.3-release
-          swift-build: 6.3-RELEASE
+          swift-version: __CI_SWIFT_WINDOWS_BRANCH__
+          swift-build: __CI_SWIFT_WINDOWS_BUILD__
 
       - name: Pre-resolve required swiftpm packages & fetch fishyjoes scripts
         continue-on-error: true

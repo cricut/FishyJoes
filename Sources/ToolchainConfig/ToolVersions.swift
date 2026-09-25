@@ -2,8 +2,23 @@ import Foundation
 
 /// A centralized place for versions of build tools. Sourced from tool-versions.json
 public struct ToolVersions: Codable {
+    public let swiftLinux: LinuxToolchain
+    public let swiftWindows: WindowsToolchain
     public let swiftWasm: SDKVersion
     public let swiftAndroid: SDKVersion
+
+    public struct LinuxToolchain: Codable {
+        /// A release `name` from https://www.swift.org/api/v1/install/releases.json
+        public let toolchain: String
+    }
+
+    public struct WindowsToolchain: Codable {
+        /// A release `tag` from https://www.swift.org/api/v1/install/releases.json, lowercased
+        public let branch: String
+
+        /// A release `tag` from https://www.swift.org/api/v1/install/releases.json, without the `swift-` prefix
+        public let build: String
+    }
 
     public struct SDKVersion: Codable {
         /// The native component of the toolchain (from https://swift.org )

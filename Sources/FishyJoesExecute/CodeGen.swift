@@ -35,7 +35,7 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Use swiftly to select correct toolchain version when building for relevant platforms (wasm and android currently)")
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use swiftly to select correct toolchain version when building for relevant platforms (wasm, android and linux)")
     var swiftly = true
 
     @Option(name: .long, help: "Update version number of generated package.")
