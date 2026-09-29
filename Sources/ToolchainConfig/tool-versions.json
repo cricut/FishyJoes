@@ -22,10 +22,10 @@
   },
   "swiftAndroid": {
     "//": "values taken from https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html",
-    "toolchain": "6.3.1",
-    "sdk": "6.3.1-RELEASE_android",
-    "sdkURL": "https://download.swift.org/swift-6.3.1-release/android-sdk/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE_android.artifactbundle.tar.gz",
-    "sdkChecksum": "8193a4e96538635131a154736c8896fba0e5a1c30e065524f00ed78719bac35a",
+    "toolchain": "6.3.3",
+    "sdk": "6.3.3-RELEASE_android",
+    "sdkURL": "https://download.swift.org/swift-6.3.3-release/android-sdk/swift-6.3.3-RELEASE/swift-6.3.3-RELEASE_android.artifactbundle.tar.gz",
+    "sdkChecksum": "d160cc3206dd1886dae3fef2337af5e25ec034692cd0ec225721c56cc69da7f5",
     "ndkVersion": "27.3.13750724",
     "targets": [
       {
