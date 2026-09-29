@@ -12,7 +12,19 @@ import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extens
 let __MODULE_NAME__;
 let __MODULE_DEPENDENCY__;
 
-const init = async () => {
+/**
+ * Initialize the Wasm module.
+ *
+ * `wasmSource` optionally supplies the binary, so a host that already holds it
+ * (or shares one download between the main thread and workers) can instantiate
+ * without this module fetching it again:
+ * - `WebAssembly.Module`: instantiated directly (compile is skipped).
+ * - `ArrayBuffer` / typed array view: compiled and instantiated from bytes.
+ * - `Response` or a promise of one (e.g. a `fetch(...)` call): streamed;
+ *   the response must carry `Content-Type: application/wasm`.
+ * - omitted: fetches "__MODULE_NAME__.wasm" relative to the document, as before.
+ */
+const init = async (wasmSource) => {
   let napi = new NAPI(WASI, WasmFs);
   const importObject = {};
   const importsToMerge = [
@@ -29,10 +41,14 @@ const init = async () => {
     }
   }
 
-  const response = await fetch("__MODULE_NAME__.wasm");
-  const wasmPromise = WebAssembly.instantiateStreaming(response, importObject);
-  const { instance } = await wasmPromise;
-  console.log(instance);
+  let instance;
+  if (wasmSource instanceof WebAssembly.Module) {
+    instance = await WebAssembly.instantiate(wasmSource, importObject);
+  } else if (wasmSource instanceof ArrayBuffer || ArrayBuffer.isView(wasmSource)) {
+    ({ instance } = await WebAssembly.instantiate(wasmSource, importObject));
+  } else {
+    ({ instance } = await WebAssembly.instantiateStreaming(wasmSource ?? fetch("__MODULE_NAME__.wasm"), importObject));
+  }
   const library = napi.init(instance);
   ({
     __MODULE_NAME__,

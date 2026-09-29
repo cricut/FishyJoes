@@ -301,8 +301,16 @@ class NodePhases: BasePhases, Phases {
             definitions.append("")
         }
 
-        // Export a function that can be used to load the module and its dependencies using a promise
-        definitions.append("export declare function init(): Promise<{")
+        // Export a function that can be used to load the module and its dependencies using a promise.
+        // Wasm builds accept an optional caller-supplied binary source (shared-download hosts);
+        // native builds keep the zero-argument form — their init ignores no arguments silently.
+        if platform == .wasm {
+            definitions.append(
+                "export declare function init(wasmSource?: Response | PromiseLike<Response> | BufferSource | WebAssembly.Module): Promise<{"
+            )
+        } else {
+            definitions.append("export declare function init(): Promise<{")
+        }
         for dependency in nodeDependencies {
             definitions.append("    \(dependency.name): typeof \(dependency.name),")
         }
