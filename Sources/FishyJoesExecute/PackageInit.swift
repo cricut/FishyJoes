@@ -90,7 +90,8 @@ public struct PackageInit: ParsableCommand {
             flexibleVersions: false,
             sourceryOverride: nil,
             ciRunners: nil,
-            ciDependencyAuth: nil
+            ciDependencyAuth: nil,
+            ciExtraSetupSteps: nil
         )
 
         let encoder = YAMLEncoder()

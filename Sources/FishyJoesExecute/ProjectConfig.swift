@@ -26,6 +26,10 @@ struct ProjectConfig: Codable {
     // Authorization that may be needed to fetch any dependencies of the library
     let ciDependencyAuth: CIDependencyAuth?
 
+    // Extra workflow steps (YAML sequence) inserted right after checkout in
+    // every generated job, e.g. auth for a private Swift package registry
+    let ciExtraSetupSteps: String?
+
     enum SourceryOverride {
         case local(String?) // Local sourcery binary. Will search PATH if nil
         case remote(String) // Run a specific version using mint
@@ -67,6 +71,9 @@ struct ProjectConfig: Codable {
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
             Log.error("  windows: \(CIRunners.defaults.windows)  # default")
+            Log.error("CIExtraSetupSteps: |")
+            Log.error("  - name: Log in to a package registry")
+            Log.error("    run: swift package-registry login https://registry.example.com --token ${{ secrets.REGISTRY_TOKEN }}")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -143,6 +150,15 @@ struct ProjectConfig: Codable {
             }
             return CIDependencyAuth(user: dict["user"] as? String, token: token)
         }
+        let ciExtraSetupSteps = try configDictionary["CIExtraSetupSteps"].map { obj -> String in
+            guard let yaml = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIExtraSetupSteps` is not a (string) YAML sequence of workflow steps")
+            }
+            guard let parsed = try? Yams.load(yaml: yaml), let steps = parsed as? [Any], !steps.isEmpty, steps.allSatisfy({ $0 is [String: Any] }) else {
+                throw ValidationError("fishy-joes.yaml value for key `CIExtraSetupSteps` must be a YAML sequence of workflow step mappings")
+            }
+            return yaml
+        }
 
         return ProjectConfig(
             module: module,
@@ -155,7 +171,8 @@ struct ProjectConfig: Codable {
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
-            ciDependencyAuth: ciDependencyAuth
+            ciDependencyAuth: ciDependencyAuth,
+            ciExtraSetupSteps: ciExtraSetupSteps
         )
     }
 }
