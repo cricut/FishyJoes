@@ -46,6 +46,7 @@ var package = Package(
     name: "TestAPI-bindings",
     platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
+        .library(name: "TestAPI-common", targets: ["TestAPI_CommonInterface"]),
         .library(name: "TestAPI-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["TestAPI_NodeInterface"]),
     ] + (
         wasmCompatibleOnly ? [] : [

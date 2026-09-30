@@ -46,6 +46,7 @@ var package = Package(
     name: "EmojiFun-bindings",
     platforms: [.macOS(.v13), .iOS(.v15)],
     products: [
+        .library(name: "EmojiFun-common", targets: ["EmojiFun_CommonInterface"]),
         .library(name: "EmojiFun-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["EmojiFun_NodeInterface"]),
     ] + (
         wasmCompatibleOnly ? [] : [

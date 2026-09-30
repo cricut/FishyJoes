@@ -301,6 +301,7 @@ extension CodeGen {
                 fragment.output(#"name: "\#(config.module)-bindings","#)
                 fragment.output(#"platforms: [.macOS(.v13), .iOS(.v15)],"#)
                 fragment.outputBlock(#"products: ["#, newLineTerminated: false) {
+                    fragment.output(#".library(name: "\#(config.module)-common", targets: ["\#(config.module)_CommonInterface"]),"#)
                     fragment.output(#".library(name: "\#(config.module)-node", type: wasmCompatibleOnly ? nil : .dynamic, targets: ["\#(config.module)_NodeInterface"]),"#)
                 }
                 fragment.outputBlock(#" + ("#, closeWith: "),") {
@@ -323,6 +324,9 @@ extension CodeGen {
                     fragment.outputBlock(".target(", closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
                         fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                            for module in config.requiredModules {
+                                fragment.output(#".product(name: "\#(module)-common", package: "\#(module)-bindings"),"#)
+                            }
                             for module in config.requiredModules {
                                 fragment.output(#".product(name: "\#(module)", package: "\#(module)"),"#)
                             }
