@@ -86,20 +86,6 @@ sealed class PythonNamingCollisions {
         private external fun __jni_from(
         ): kotlin.String
 
-        /**
-         * <!-- FishyJoes.export(keywordArgs) -->
-         */
-        fun keywordArgs(
-            `class`: Long,
-            list: Long
-        ): Long = __jni_keywordArgs(`class`, list)
-        @JvmStatic
-        @JvmName("__jni_keywordArgs")
-        private external fun __jni_keywordArgs(
-            `class`: Long,
-            list: Long
-        ): Long
-
         init { loadNativeLibs() }
     }
 }

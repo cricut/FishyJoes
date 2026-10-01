@@ -47,7 +47,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.kotlinPackage = nil
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
-        self.pythonType = .class(module: nil, name: "int")
+        self.pythonType = .class(module: nil, qualifiedName: "int")
         self.jniType = jniType
     }
 

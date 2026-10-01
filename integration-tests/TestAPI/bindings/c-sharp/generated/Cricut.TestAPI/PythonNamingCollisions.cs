@@ -126,24 +126,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// <!-- FishyJoes.export(keywordArgs) -->
-        /// </summary>
-        public static nint KeywordArgs(
-            nint _class,
-            nint list
-        ) {
-            return Check((out CreatedRef _exn) => __iota_TestAPI_PythonNamingCollisions_keywordArgs(Loader.env, _class, list, out _exn));
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_TestAPI_PythonNamingCollisions_keywordArgs(
-            IntPtr envRef,
-            nint _class,
-            nint list,
-            out CreatedRef exn
-        );
-
         static PythonNamingCollisions() { _TypeSetup._ensureLoaded(); }
     }
 }

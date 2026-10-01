@@ -20,27 +20,19 @@ final class PythonTranslator2: Translator {
 
     func declareExternVoid(_ symbol: String, params: [ForeignSetupParameter<PythonClass2.PythonType>]) -> ((SourceFragment) -> Void) {
         { fragment in
-            fragment.outputBlock("final \(symbol) = dylib.lookupFunction<", closeWith: ">('\(symbol)');") {
-                fragment.outputBlock("ffi.Void Function(", closeWith: "),") {
-                    fragment.output("Env env,")
-                    for param in params {
-                        fragment.output("\(param.type!.static.name()) \(param.name!),")
-                    }
-                    fragment.output("OutCreatedRef exn")
-                }
-                fragment.outputBlock("void Function(") {
-                    fragment.output("Env env,")
-                    for param in params {
-                        fragment.output("\(param.type!.static.name()) \(param.name!),")
-                    }
-                    fragment.output("OutCreatedRef exn")
-                }
-            }
         }
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
-        let fragment = context.pythonFragment("type_setup.py")
+        let cAPIFragment = context.pythonFragment("_c_api.py", additionalImports: ["import importlib"])
+        let libVar = "_\(context.module.pythonPackageName)_lib"
+
+        cAPIFragment.output("_resources = importlib.resources.files('\(context.module.pythonPackageName)')")
+        cAPIFragment.output("fishyjoes_runtime.ffi.cdef((_resources / '_declarations.h').read_text('utf-8'))")
+        cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / 'lib\(context.module)-iota.dylib'))")
+        cAPIFragment.output("__all__ = [ '_\(context.module.pythonPackageName)_lib' ]")
+
+        let fragment = context.pythonFragment("_type_setup.py", additionalImports: ["from ._c_api import \(libVar)"])
 
         let moduleRegisterTypesFn = self.moduleRegisterTypesFn(context: context)
         var externDeclarations: [(SourceFragment) -> Void] = []
@@ -56,40 +48,31 @@ final class PythonTranslator2: Translator {
 
             if resolved.definingModule == context.module {
                 precondition(!setupParams.contains(where: \.isTypeParameter), "unexpected type parameter in \(type.name)")
-
                 externDeclarations.append(
-                    declareExternVoid(resolved.iotaSetupName, params: setupParams)
+                    { fragment in
+                        fragment.outputBlock("\(resolved.iotaSetupName): typing.Callable[[", closeWith: "], None]", newLineTerminated: false) {
+                            fragment.output("fishyjoes_runtime.EnvRef,")
+                            for param in setupParams {
+                                fragment.output("\(param.type!.static.name()),")
+                            }
+                        }
+                        fragment.output(" = fishyjoes_runtime.raise_by_out_ref(getattr(\(libVar), '\(resolved.iotaSetupName)'))")
+                    }
                 )
-
-                // TODO
             } else if !type.isGeneric {
                 // non-generic types are sufficiently set up by defining module
                 continue
             }
 
             initializerWriters.append {
-                fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
-                    fragment.output("// print(\"setting up \(type.name) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
-
-                    fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
-                        let setupName: String
-                        if resolved.definingModule.name == "FishyJoesRuntime" {
-                            setupName = "Loader.shared.\(resolved.iotaSetupName)"
-                        } else {
-                            setupName = resolved.iotaSetupName
-                        }
-
-                        var typeArgStr = ""
-                        if case let typeArguments = setupParams.compactMap(\.typeValue), !typeArguments.isEmpty {
-                            typeArgStr = "<\(typeArguments.map { $0.static.name() }.joined(separator: ", "))>"
-                        }
-
-                        fragment.outputBlock("\(setupName)\(typeArgStr)(", closeWith: ");") {
-                            fragment.output("Loader.shared.env,")
-                            for param in setupParams {
-                                param.valueWriter(fragment)
-                            }
-                            fragment.output("exn")
+                fragment.output("@fishyjoes_runtime.eval_once_now('setup_\(resolved.converterType.name)')")
+                fragment.outputBlock("def _() -> None:") {
+                    fragment.output("print(f\"setting up \(type.name)\")")
+                    let setupName = "\(resolved.definingModule.pythonPackageName)._type_setup.\(resolved.iotaSetupName)"
+                    fragment.outputBlock("\(setupName)(") {
+                        fragment.output("fishyjoes_runtime.Runtime.shared.env_ref,")
+                        for param in setupParams {
+                            param.valueWriter(fragment)
                         }
                     }
                 }
@@ -100,10 +83,10 @@ final class PythonTranslator2: Translator {
             let definingPythonClass = nativeMethod.definingPythonClass + (nativeMethod.doDefaultImplementationsSuffix ? "_DefaultImplementations" : "")
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(definingPythonClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
-                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedTag) Function(", closeWith: "),") {
+                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedName) Function(", closeWith: "),") {
                         fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {
-                            fragment.output("\(argType.static.ffiUnownedTag) \(argName),")
+                            fragment.output("\(argType.static.ffiUnownedName) \(argName),")
                         }
                         fragment.output("OutCreatedRef _exn")
                     }
@@ -115,44 +98,71 @@ final class PythonTranslator2: Translator {
                         fragment.output("OutCreatedRef _exn")
                     }
                 }
-                fragment.output("(\"\(nativeMethod.name)\");")
+                fragment.output("(\"\(nativeMethod.name)\")")
             }
         }
 
         fragment.blankLine()
-        fragment.outputBlock("final ensureLoaded = (() {", closeWith: "})();") {
-            fragment.output("FishyJoesRuntime.Loader.shared.ensureLoaded;")
+        for externDeclaration in externDeclarations {
+            externDeclaration(fragment)
+        }
+
+        fragment.blankLine()
+        fragment.output("@fishyjoes_runtime.lazy_once(\"\(context.module.pythonPackageName)_setup\")")
+        fragment.outputBlock("def ensure_loaded() -> None:") {
+            fragment.output("fishyjoes_runtime.ensure_loaded()")
             for dependency in context.module.dependencies {
-                fragment.output("\(dependency).ensureLoaded;")
+                fragment.output("\(dependency)._type_setup.ensure_loaded()")
             }
-            fragment.blankLine()
-
-            fragment.output("final dylib = Loader.openLibrary('\(context.module)-iota');")
-            fragment.output("final arena = ffi.Arena();")
 
             fragment.blankLine()
-            fragment.output("dylib.lookupFunction<ffi.Void Function(), void Function()>('\(moduleRegisterTypesFn)')();")
-
-            fragment.blankLine()
-            for externDeclaration in externDeclarations {
-                externDeclaration(fragment)
-            }
+            fragment.output("getattr(\(libVar), '\(moduleRegisterTypesFn)')()")
 
             fragment.blankLine()
             for writer in initializerWriters {
                 writer()
                 fragment.blankLine()
             }
-
-            fragment.output("arena.releaseAll();")
         }
 
-        let exportsFragment = context.pythonFragment("__init__.py")
-        // for pythonClass in context.pythonClasses {
-        //     exportsFragment.output("export './\(pythonClass.unqualifiedName).python';")
-        // }
+        let pythonRootDir = "python/generated/src/\(context.module.pythonPackageName)"
+        let internalExportedName = "_\(context.module.pythonPackageName)_exported"
+        // Put exports into both _module_exported.py and __init__.py so that internal files have something convenient to import everything
+        let internalExportedFragment = SourceFragment(destinationPath: "\(pythonRootDir)/\(internalExportedName).py")
+        let initFragment = SourceFragment(destinationPath: "\(pythonRootDir)/__init__.py")
 
-        return [fragment, exportsFragment]
+        var exportNames: [String] = ["_type_setup"]
+        internalExportedFragment.output("from . import _type_setup")
+        initFragment.output("from . import _type_setup")
+
+        for cls in context.pythonClasses {
+            let namespaceStr = cls.namespaces.map { "\($0)." }.joined()
+            internalExportedFragment.output("from .\(namespaceStr)\(cls.typeDefinitionModuleName) import \(cls.unqualifiedName)")
+            initFragment.output("from .\(namespaceStr)\(cls.typeDefinitionModuleName) import \(cls.unqualifiedName)")
+            if let namespace = cls.associatedNamespace {
+                internalExportedFragment.output("from . import \(namespace)")
+                exportNames.append(namespace)
+            }
+            exportNames.append(cls.unqualifiedName)
+        }
+
+        internalExportedFragment.output()
+        internalExportedFragment.output()
+        internalExportedFragment.outputBlock("__all__: list[str] = [") {
+            for exportName in exportNames {
+                internalExportedFragment.output("\"\(exportName)\",")
+            }
+        }
+
+        initFragment.output()
+        initFragment.output()
+        initFragment.outputBlock("__all__: list[str] = [") {
+            for exportName in exportNames {
+                initFragment.output("\"\(exportName)\",")
+            }
+        }
+
+        return [fragment, cAPIFragment, internalExportedFragment, initFragment]
     }
 
     func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass2.MethodOrVariable? {
@@ -238,9 +248,9 @@ final class PythonTranslator2: Translator {
 
         switch expression {
         case .nilLiteral:
-            return "null"
+            return "None"
         case let .boolLiteral(value):
-            return value ? "true" : "false"
+            return value ? "True" : "False"
         case let .integerLiteral(value), let .floatingPointLiteral(value):
             return value
         case .memberAccess:

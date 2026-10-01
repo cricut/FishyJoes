@@ -1,28 +1,11 @@
-class Shade extends ShadowBox {
-    const Shade(
-        this.0_
-    )
-    final testapi.Shade 0_
+from .. import _testapi_exported as testapi
+from .._shadow_box_type import _BaseShadowBox
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Shade
-        && const DeepCollectionEquality().equals(other.0_, 0_)
-    )
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(0_)
-    )
-
-    @override
-    String toString() => 'ShadowBox.shade(0_: $0_)'
-
-    Shade copyWith([
-        testapi.Shade? 0_
-    ]) => Shade(
-        0_ ?? this.0_
-    )
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Shade(_BaseShadowBox):
+    _0: testapi.Shade

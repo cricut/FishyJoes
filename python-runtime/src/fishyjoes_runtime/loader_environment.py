@@ -2,7 +2,7 @@ from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import ConsumedRef, CreatedRef, EnvRef, Pointer, UTF16CString, UTF8CString, UnownedRef
-from fishyjoes_runtime.runtime import _consume_ref, _create_ref, _peek_ref, raise_by_out_ref
+from fishyjoes_runtime.runtime import consume_ref, create_ref, peek_ref, raise_by_out_ref
 
 # MARK: C APIs
 
@@ -25,17 +25,17 @@ FishyJoesCommonRuntime_runScheduledWork: \
 
 @callback("FishyJoes_NewRefFn")
 def _env_new_ref(ref: UnownedRef) -> CreatedRef:
-    return _create_ref(_peek_ref(ref, object))
+    return create_ref(peek_ref(ref, object))
 
 
 @callback("FishyJoes_DeleteRefFn")
 def _env_delete_ref(ref: ConsumedRef) -> None:
-    _consume_ref(ref, object)
+    consume_ref(ref, object)
 
 
 @callback("FishyJoes_NewErrorFn")
 def _env_new_error(message: UTF16CString) -> CreatedRef:
-    return _create_ref(RuntimeError(message))
+    return create_ref(RuntimeError(message))
 
 
 @callback("FishyJoes_DescribeFn")
@@ -43,7 +43,7 @@ def _env_describe(ref: UnownedRef) -> UTF8CString:
     if ref == ffi.NULL:
         text = "<null>"
     else:
-        text = str(_peek_ref(ref, object))
+        text = str(peek_ref(ref, object))
     return UTF8CString(ffi.new("char[]", text.encode("utf-8")))
 
 

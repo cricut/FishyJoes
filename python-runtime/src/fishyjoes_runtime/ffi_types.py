@@ -1,5 +1,7 @@
-from _cffi_backend import _CDataBase
 from typing import NewType, TypeAlias
+
+from _cffi_backend import _CDataBase
+from cffi import FFI
 
 Pointer: TypeAlias = _CDataBase
 
@@ -24,10 +26,14 @@ EnvRef = NewType("EnvRef", Pointer)
 UTF8CString = NewType("UTF8CString", Pointer)
 UTF16CString = NewType("UTF16CString", Pointer)
 
+# Specific pointers
+CREATED_REF_NULL = CreatedRef(FFI.NULL)
+
 __all__ = [
     "Pointer",
     "CreatedRef", "UnownedRef", "ConsumedRef",
     "CreatedSwiftRef", "UnownedSwiftRef", "ConsumedSwiftRef",
     "OutCreatedRef", "CreatedRefArray", "UnownedRefArray", "ConsumedRefArray",
     "EnvRef", "UTF8CString", "UTF16CString",
+    "CREATED_REF_NULL",
 ]

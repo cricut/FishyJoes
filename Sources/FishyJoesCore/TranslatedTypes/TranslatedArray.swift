@@ -25,7 +25,7 @@ struct TranslatedArray: TranslatedType {
         self.containedNamedTypes = element.containedNamedTypes
         self.cSharpType = .named(package: "System.Collections.Generic", name: "IList<\(element.cSharpType.name)>")
         self.dartType = .named(package: nil, name: "List", genericArgs: [element.dartType])
-        self.pythonType = .class(module: nil, name: "list", genericArgs: [element.pythonType.static])
+        self.pythonType = .class(module: nil, qualifiedName: "list", genericArgs: [element.pythonType.static])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {

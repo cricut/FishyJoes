@@ -1,10 +1,9 @@
-from fishyjoes_runtime.runtime import _create_consumed_ref
 from dataclasses import dataclass
-from typing import Callable, Protocol, Self, TypeAlias, cast
+from typing import Callable, Protocol, Self, TypeAlias
 
 from ._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from .ffi_types import ConsumedRef, CreatedRef, EnvRef, OutCreatedRef, UTF16CString, UnownedRef
-from .runtime import _create_ref, _peek_ref, catch_by_out_ref
+from .runtime import catch_by_out_ref, create_consumed_ref, create_ref, peek_ref
 
 
 class Comparable(Protocol):
@@ -54,23 +53,23 @@ _FishyJoesCommonRuntime_RangeConverter_setup: \
 @callback("FishyJoes_RangeGetBoundFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _get_lower_bound(context: UnownedRef, ref: UnownedRef) -> CreatedRef:
-    return _create_ref(_peek_ref(ref, SwiftRange, SwiftClosedRange).lower_bound)
+    return create_ref(peek_ref(ref, SwiftRange, SwiftClosedRange).lower_bound)
 
 
 @callback("FishyJoes_RangeGetBoundFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _get_upper_bound(context: UnownedRef, ref: UnownedRef) -> CreatedRef:
-    return _create_ref(_peek_ref(ref, SwiftRange, SwiftClosedRange).upper_bound)
+    return create_ref(peek_ref(ref, SwiftRange, SwiftClosedRange).upper_bound)
 
 
 @callback("FishyJoes_RangeConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _construct_range(context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef) -> CreatedRef:
-    dyn_type: type[Comparable] = _peek_ref(context, type)
-    lower_bound = _peek_ref(lower_bound_ref, dyn_type)
-    upper_bound = _peek_ref(upper_bound_ref, dyn_type)
+    dyn_type: type[Comparable] = peek_ref(context, type)
+    lower_bound = peek_ref(lower_bound_ref, dyn_type)
+    upper_bound = peek_ref(upper_bound_ref, dyn_type)
     result = SwiftRange(lower_bound, upper_bound)
-    return _create_ref(result)
+    return create_ref(result)
 
 
 @callback("FishyJoes_RangeConstructorFn")
@@ -78,11 +77,11 @@ def _construct_range(context: UnownedRef, lower_bound_ref: UnownedRef, upper_bou
 def _construct_closed_range(
     context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef,
 ) -> CreatedRef:
-    dyn_type: type[Comparable] = _peek_ref(context, type)
-    lower_bound = _peek_ref(lower_bound_ref, dyn_type)
-    upper_bound = _peek_ref(upper_bound_ref, dyn_type)
+    dyn_type: type[Comparable] = peek_ref(context, type)
+    lower_bound = peek_ref(lower_bound_ref, dyn_type)
+    upper_bound = peek_ref(upper_bound_ref, dyn_type)
     result = SwiftClosedRange(lower_bound, upper_bound)
-    return _create_ref(result)
+    return create_ref(result)
 
 
 # MARK: setup
@@ -94,7 +93,7 @@ def FishyJoesCommonRuntime_RangeConverter_setup[T: Comparable](env_ref: EnvRef, 
         _get_lower_bound,
         _get_upper_bound,
         _construct_range,
-        _create_consumed_ref(dyn_type),
+        create_consumed_ref(dyn_type),
     )
     out_exn[0] = CreatedRef(ffi.NULL)
 
@@ -108,7 +107,7 @@ def FishyJoesCommonRuntime_ClosedRangeConverter_setup[T: Comparable](
         _get_lower_bound,
         _get_upper_bound,
         _construct_closed_range,
-        _create_consumed_ref(dyn_type),
+        create_consumed_ref(dyn_type),
     )
     out_exn[0] = CreatedRef(ffi.NULL)
 

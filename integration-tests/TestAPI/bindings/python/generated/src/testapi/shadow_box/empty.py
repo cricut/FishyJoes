@@ -1,17 +1,11 @@
-class Empty extends ShadowBox {
-    const Empty()
+from .. import _testapi_exported as testapi
+from .._shadow_box_type import _BaseShadowBox
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Empty
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'ShadowBox.empty()'
-
-    Empty copyWith() => Empty()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Empty(_BaseShadowBox):
+    pass

@@ -48,7 +48,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.jniType = jniType
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
-        self.pythonType = .class(module: nil, name: pythonName)
+        self.pythonType = .class(module: nil, qualifiedName: pythonName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

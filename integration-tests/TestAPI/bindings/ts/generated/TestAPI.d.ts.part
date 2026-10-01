@@ -2198,14 +2198,6 @@ export declare namespace TestAPI {
         const isNaN: boolean;
 
         /**
-         * <!-- FishyJoes.export(keywordArgs) -->
-         */
-        function keywordArgs(
-            `class`: number,
-            list: number
-        ): number;
-
-        /**
          * <!-- FishyJoes.export(list) -->
          */
         const list: number;

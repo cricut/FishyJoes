@@ -15,6 +15,7 @@ class PythonProductClass: PythonClass2 {
     init(
         module: Module,
         documentation: [String],
+        namespaces: [String],
         name: String,
         constructor: Constructor,
         fields: [Variable],
@@ -27,6 +28,7 @@ class PythonProductClass: PythonClass2 {
         super.init(
             module: module,
             documentation: documentation,
+            namespaces: namespaces,
             name: name,
             fields: fields,
             methods: methods,
@@ -35,11 +37,15 @@ class PythonProductClass: PythonClass2 {
     }
 
     override func publicFragments(context: FishyJoesContext) -> [SourceFragment] {
-        let fragment = context.pythonFragment("\(unqualifiedName).py")
+        let fragment = context.pythonFragment(
+            typeDefinitionModulePath,
+            additionalImports: ["from . import \(implementationModuleName) as _impl"]
+        )
         var conformances = conformances.map { $0.static.name(in: self) }
         if case .reference = constructor {
-            conformances = ["SwiftReference"] + conformances
+            conformances = ["fishyjoes_runtime.SwiftReference"] + conformances
         } else {
+            context.addHeader(to: fragment, "import dataclasses")
             fragment.output("@dataclasses.dataclass")
         }
 
@@ -52,7 +58,7 @@ class PythonProductClass: PythonClass2 {
                     if field.isMutable {
                         fragment.output("\(name): \(type)")
                     } else {
-                        fragment.output("\(name): Final[\(type)]")
+                        fragment.output("\(name): typing.Final[\(type)]")
                     }
                 }
             }
@@ -67,28 +73,31 @@ class PythonProductClass: PythonClass2 {
         return [fragment]
     }
 
-    override func outputCAPIs(to fragment: SourceFragment) {
+    // output to _type_name_implementation.py
+    override func outputCAPIs(to fragment: SourceFragment, context: FishyJoesContext) {
         outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         fragment.blankLine()
     }
 
-    override func outputCCallbackImplementations(to fragment: SourceFragment) {
+    // output to _type_name_implementation.py
+    override func outputCCallbackImplementations(to fragment: SourceFragment, context: FishyJoesContext) {
+        context.addHeader(to: fragment, "from .\(typeDefinitionModuleName) import \(unqualifiedName)")
         switch constructor {
         case .public(let fields):
             fragment.output("@fishyjoes_runtime.callback('TODO[ffi_constructor]')")
-            fragment.output("@catch_by_out_ref(default=CreatedRef(ffi.NULL))")
-            fragment.outputBlock("def _ffi_constructor(", newLineTerminated: false) {
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
+            fragment.outputBlock("def ffi_constructor(", newLineTerminated: false) {
                 fragment.outputMap(fields, separator: ",") { field in
                     "\(field.name): \(field.type.static.ffiConsumedName)"
                 }
             }
-            fragment.outputBlock(" -> CreatedHostRef:") {
-                fragment.outputBlock("createRef(\(unqualifiedName)(", closeWith: "))") {
+            fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
+                fragment.outputBlock("return fishyjoes_runtime.create_ref(\(unqualifiedName)(", closeWith: "))") {
                     for field in fields {
                         if field.type.static.isPrimitive {
-                            fragment.output("\(field.name)=\(field.name),")
+                            fragment.output("\(field.name) = \(field.name),")
                         } else {
-                            fragment.output("\(field.name)=consumeRef(\(field.name)),")
+                            fragment.output("\(field.name) = fishyjoes_runtime.consume_ref(\(field.name), \(field.type.dynamicsString)),")
                         }
                     }
                 }
@@ -98,10 +107,17 @@ class PythonProductClass: PythonClass2 {
                 ffiFor(fields: fields, fragment: fragment)
             }
         case .reference:
-            fragment.outputBlock("static CreatedRef ffi_new(ffi.Pointer ref, OutCreatedRef exn) => check((exn) =>", closeWith: ");") {
-                fragment.output("createRef(\(unqualifiedName)(ref))")
+            fragment.output("@fishyjoes_runtime.callback('TODO[ffi_new]')")
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
+            fragment.outputBlock("def _ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:") {
+                fragment.output("return fishyjoes_runtime.create_ref(\(unqualifiedName)(ref))")
             }
             fragment.blankLine()
         }
+    }
+
+    // output to _type_name_implementation.py
+    override func outputSetup(to fragment: SourceFragment, context: FishyJoesContext) {
+        fragment.output("# TODO: setup for \(name)")
     }
 }

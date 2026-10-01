@@ -5823,22 +5823,6 @@ extension TestAPI.PythonNamingCollisions: FishyJoesNodeRuntime.NodeConverter {
                     isStatic: true
                 ),
                 (
-                    name: "keywordArgs",
-                    .method { env, info in
-                        FishyJoesNodeRuntime.callbackBody(env, info, name: "keywordArgs", expectedArgumentCount: 2, hasNamedOptions: false) { env in
-                            let result = try Swift.Int.toNode(
-                                TestAPI.PythonNamingCollisions.keywordArgs(
-                                    `class`: try env.argument(at: 0, converter: Swift.Int.self),
-                                    list: try env.argument(at: 1, converter: Swift.Int.self)
-                                ),
-                                env: env.env
-                            )
-                            return result
-                        }
-                    },
-                    isStatic: true
-                ),
-                (
                     name: "class",
                     .accessor(
                         getter: { env, info in

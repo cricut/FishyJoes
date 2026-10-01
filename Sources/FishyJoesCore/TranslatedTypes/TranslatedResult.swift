@@ -24,7 +24,7 @@ struct TranslatedResult: TranslatedType {
         self.dartType = .result(success.dartType, failure.dartType)
         self.pythonType = .class(
             module: "fishyjoes_runtime",
-            name: "Result",
+            qualifiedName: "Result",
             genericArgs: [success.pythonType.static, failure.pythonType.static]
         )
     }

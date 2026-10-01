@@ -34,6 +34,7 @@ func snakify<S: StringProtocol>(_ camel: S) -> String {
     camel
         .replacingOccurrences(of: #"(.)([A-Z][a-z]+)"#, with: #"$1_$2"#, options: .regularExpression)
         .replacingOccurrences(of: #"([a-z0-9])([A-Z])"#, with: #"$1_$2"#, options: .regularExpression)
+        .lowercased()
 }
 
 func upperCaseFirst<S: StringProtocol>(_ camel: S) -> String {

@@ -1,17 +1,11 @@
-class Thing extends UnicodeScalar_PuttingTypesIntoQuestionablePlaces {
-    const Thing()
+from .. import _testapi_exported as testapi
+from .._unicode_scalar__putting_types_into_questionable_places_type import _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Thing
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'UnicodeScalar_PuttingTypesIntoQuestionablePlaces.thing()'
-
-    Thing copyWith() => Thing()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Thing(_BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces):
+    pass

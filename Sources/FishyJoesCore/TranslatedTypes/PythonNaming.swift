@@ -52,12 +52,7 @@ enum PythonNaming {
     }
 
     private static func pythonName(_ name: String) -> String {
-        let normalized = name
-            .replacingOccurrences(of: "NaN", with: "Nan")
-            .replacingOccurrences(of: "UInt", with: "Uint")
-            .replacingOccurrences(of: "URL", with: "Url")
-            .replacingOccurrences(of: "UTF", with: "Utf")
-        return snakify(normalized).lowercased()
+        snakify(name)
     }
 
     private static func swiftIdentifierName(_ name: String) -> String {

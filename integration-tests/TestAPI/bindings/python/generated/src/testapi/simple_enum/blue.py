@@ -1,17 +1,11 @@
-class Blue extends SimpleEnum {
-    const Blue()
+from .. import _testapi_exported as testapi
+from .._simple_enum_type import _BaseSimpleEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Blue
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'SimpleEnum.blue()'
-
-    Blue copyWith() => Blue()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Blue(_BaseSimpleEnum):
+    pass

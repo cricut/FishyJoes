@@ -29,7 +29,7 @@ public enum PythonNamingCollisions {
     }
 
     /// <!-- FishyJoes.export(keywordArgs) -->
-    public static func keywordArgs(`class`: Int, list: Int) -> Int {
-        `class` + list
-    }
+    // public static func keywordArgs(`class`: Int, list: Int) -> Int {
+    //     `class` + list
+    // }
 }

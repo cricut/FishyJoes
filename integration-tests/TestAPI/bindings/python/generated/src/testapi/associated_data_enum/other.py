@@ -1,34 +1,12 @@
-class Other extends AssociatedDataEnum {
-    const Other(
-        this.unnamed,
-        this.1_
-    )
-    final str unnamed
-    final int 1_
+from .. import _testapi_exported as testapi
+from .._associated_data_enum_type import _BaseAssociatedDataEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Other
-        && const DeepCollectionEquality().equals(other.unnamed, unnamed)
-        && const DeepCollectionEquality().equals(other.1_, 1_)
-    )
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(unnamed),
-        const DeepCollectionEquality().hash(1_)
-    )
-
-    @override
-    String toString() => 'AssociatedDataEnum.other(unnamed: $unnamed, 1_: $1_)'
-
-    Other copyWith([
-        str? unnamed,
-        int? 1_
-    ]) => Other(
-        unnamed ?? this.unnamed,
-        1_ ?? this.1_
-    )
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Other(_BaseAssociatedDataEnum):
+    unnamed: str
+    _1: int

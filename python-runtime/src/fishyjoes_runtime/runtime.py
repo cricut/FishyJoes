@@ -1,8 +1,6 @@
-from typing import overload
-import asyncio
-import threading
+from typing import Literal
 from contextlib import AbstractContextManager
-from typing import Any, Callable, ClassVar, ContextManager, List, Self, cast, final, override
+from typing import Any, Callable, ClassVar, ContextManager, List, Self, cast, final, overload, override
 
 from cffi import FFI
 
@@ -23,7 +21,7 @@ def catch_by_out_ref[*Args, Ret](*, default: Ret) -> Callable[
             try:
                 return inner(*args[:-1])
             except BaseException as error:
-                args[-1][0] = _create_ref(error)
+                args[-1][0] = create_ref(error)
                 return default
 
         return wrapped
@@ -38,7 +36,7 @@ def call_with_raise_by_out_ref[Ret](inner: Callable[[OutCreatedRef], Ret]) -> Re
         out_exn = OutCreatedRef(out_exn_ptr)
         result = inner(out_exn)
         if out_exn[0] != ffi.NULL:
-            error = _consume_ref(out_exn[0], object)
+            error = consume_ref(out_exn[0], object)
             raise error if isinstance(error, BaseException) else RuntimeError(str(error))
         return result
 
@@ -65,7 +63,7 @@ class local_handles(ContextManager[tuple[UnownedRef, ...]]):
         del self.refs
 
 
-def _create_ref(obj: object) -> CreatedRef:
+def create_ref(obj: object) -> CreatedRef:
     if object is None:
         return CreatedRef(ffi.NULL)
     handle = CreatedRef(ffi.new_handle(obj))
@@ -73,43 +71,42 @@ def _create_ref(obj: object) -> CreatedRef:
     return handle
 
 
-def _create_consumed_ref(obj: object) -> ConsumedRef:
-    return ConsumedRef(_create_ref(obj))
+def create_consumed_ref(obj: object) -> ConsumedRef:
+    return ConsumedRef(create_ref(obj))
 
 
-def _assert_type[T](obj: object, *types: type[T]) -> T:
-    if not isinstance(obj, types):
+# Overloads are later used to approximate ideal signature:
+# def assert_type[*Ts](obj: object, *types: *type[Ts]) -> Union[*Ts]
+def _assert_type[T](obj: object, *types: type[T] | Literal["Callable"]) -> T:
+    if types == ("Callable",):
+        if not callable(obj):
+            raise Exception(f"Expected {types}, got {obj}")
+    elif not isinstance(obj, cast(type[Any], types)):
         raise Exception(f"Expected {types}, got {obj}")
-    return obj
+    return cast(T, obj)
 
-
-@overload
-def _peek_ref[T0](ref: UnownedRef, type0: type[T0], /) -> T0: ...
-
-
-@overload
-def _peek_ref[T0, T1](ref: UnownedRef, type0: type[T0], type1: type[T1], /) -> T0 | T1: ...
-
-@overload
-def _peek_ref[T0, T1, T2](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], /) -> T0 | T1 | T2: ...
-
-
-def _peek_ref[T](ref: UnownedRef, *types: type[T]) -> T:
+# Overloads are later used to approximate ideal signature:
+# def peek_ref[*Ts](ref: UnownedRef, *types: *type[Ts]) -> Union[*Ts]
+def _peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
     if ref == ffi.NULL:
         res = None
     else:
         res = ffi.from_handle(ffi.cast('void *', ref))
     return _assert_type(res, *types)
 
-
-def _consume_ref[T](ref: ConsumedRef, typ: type[T]) -> T:
-    obj = _peek_ref(UnownedRef(ref), typ)
+# Overloads are later used to approximate ideal signature:
+# def consume_ref[*Ts](ref: ConsumedRef, *types: *type[Ts]) -> Union[*Ts]
+def _consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> T:
+    obj = _peek_ref(UnownedRef(ref), *types)
     _python_handles_referenced_by_swift.remove(CreatedRef(ref))
     return obj
 
-
-def _consume_created_ref[T](ref: CreatedRef, typ: type[T]) -> T:
-    return _consume_ref(ConsumedRef(ref), typ)
+# Overloads are later used to approximate ideal signature:
+# def consume_created_ref[*Ts](ref: ConsumedRef, *types: *type[Ts]) -> Union[*Ts]
+def _consume_created_ref[T](ref: CreatedRef, *types: type[T] | Literal["Callable"]) -> T:
+    obj = _peek_ref(UnownedRef(ref), *types)
+    _python_handles_referenced_by_swift.remove(CreatedRef(ref))
+    return obj
 
 
 # Weird string type syntax from https://github.com/python/typing/issues/2276
@@ -140,9 +137,44 @@ class CStringBag(AbstractContextManager["CStringBag"]):
         self._refs = []
 
 
-class FishyJoesRuntime:
+class Runtime:
     env_ref: EnvRef
-    shared: ClassVar[FishyJoesRuntime]
+    shared: ClassVar[Runtime]
 
     def __init__(self, env_ref: EnvRef) -> None:
         self.env_ref = env_ref
+
+# Overloads to deal with various shortcomings:
+#  - mypy doesn't like Type[Callable]: https://github.com/python/mypy/issues/11071
+#  - mypy has trouble inferring the implicit parameter T when variadics are involved
+@overload
+def assert_type[T](obj: object, type0: Literal["Callable"], /) -> T: ...
+@overload
+def assert_type[T](obj: object, *types: type[T]) -> T: ...
+def assert_type[T](obj: object, *types: type[T] | Literal["Callable"]) -> T:
+    return _assert_type(obj, *types)
+
+@overload
+def peek_ref(ref: UnownedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def peek_ref[T0](ref: UnownedRef, type0: type[T0], /) -> T0: ...
+@overload
+def peek_ref[T0, T1](ref: UnownedRef, type0: type[T0], type1: type[T1], /) -> T0 | T1: ...
+@overload
+def peek_ref[T0, T1, T2](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], /) -> T0 | T1 | T2: ...
+def peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
+    return _peek_ref(ref, *types)
+
+@overload
+def consume_ref(ref: ConsumedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def consume_ref[T](ref: ConsumedRef, *types: type[T]) -> T: ...
+def consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> T:
+    return _consume_ref(ref, *types)
+
+@overload
+def consume_created_ref(ref: CreatedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def consume_created_ref[T](ref: CreatedRef, *types: type[T]) -> T: ...
+def consume_created_ref[T](ref: CreatedRef, *types: type[T] | Literal["Callable"]) -> T:
+    return _consume_created_ref(ref, *types)

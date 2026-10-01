@@ -73,24 +73,10 @@ class PythonNamingCollisions {
         consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_PythonNamingCollisions_from(Loader.shared.env, _exn)))
     ;
 
-    /// <!-- FishyJoes.export(keywordArgs) -->
-    static int keywordArgs(
-        int m_class,
-        int list,
-    ) =>
-        check((OutCreatedRef _exn) => f__iota_TestAPI_PythonNamingCollisions_keywordArgs(Loader.shared.env, m_class, list, _exn))
-    ;
-
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn
     ) f__iota_TestAPI_PythonNamingCollisions_from;
-    static late int Function(
-        Env env,
-        int m_class,
-        int list,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_PythonNamingCollisions_keywordArgs;
     static late CreatedRef Function(
         Env env,
         OutCreatedRef _exn

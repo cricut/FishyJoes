@@ -1972,11 +1972,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_get_list"),
                 signature: bag.add("()J"),
                 fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_list, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
-                name: bag.add("__jni_keywordArgs"),
-                signature: bag.add("(JJ)J"),
-                fnPtr: unsafeBitCast(java_TestAPI_PythonNamingCollisions_keywordArgs, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Ranges...")

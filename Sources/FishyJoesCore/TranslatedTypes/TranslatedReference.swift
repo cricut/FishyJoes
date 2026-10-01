@@ -34,7 +34,7 @@ struct TranslatedReference: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.pythonType = .class(module: context.module.pythonPackageName, name: exportAnnotation.pythonName ?? exportAnnotation.name)
+        self.pythonType = .class(module: context.module.pythonPackageName, qualifiedName: exportAnnotation.pythonName ?? exportAnnotation.name)
         self.methods = Method.methods(type: type, context: context)
         self.computedVariables = Field.fields(type: type, context: context)
         self.documentation = type.documentation
@@ -631,7 +631,7 @@ struct TranslatedReference: TranslatedType {
                     PythonClass2.Method(
                         documentation: [],
                         isStatic: false,
-                        name: "operator ==",
+                        name: "__eq__",
                         mangledName: "",
                         parameters: [
                             (labelComment: nil, name: "other", type: .object, defaultValue: nil),
@@ -639,11 +639,12 @@ struct TranslatedReference: TranslatedType {
                         returnType: .bool,
                         deprecation: nil,
                         body: [
-                            "identical(other, this) ||",
-                            "(other is \(pythonType.static.name()) &&",
-                            "    GCRef.using(this, (thisHandle) =>",
-                            "        GCRef.using(other, (otherHandle) =>",
-                            "            check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))",
+                            "if self is other: return True",
+                            "if not isinstance(other, \(pythonType.dynamicsString)): return False",
+                            "\(PythonClass2.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
+                            "    return _impl.iota_\(sourceType.name.mangled)_equals(",
+                            "        fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle",
+                            "    )",
                         ],
                         isDefaultImplementation: false
                     )
@@ -691,6 +692,7 @@ struct TranslatedReference: TranslatedType {
         let pythonProduct = PythonProductClass(
             module: context.module,
             documentation: documentation,
+            namespaces: pythonType.static.namespaces,
             name: pythonType.static.name(),
             constructor: .reference,
             fields: fields,
@@ -709,7 +711,7 @@ struct TranslatedReference: TranslatedType {
                     return: .createdHostRef
                 )
             ) { fragment in
-                fragment.output("ffi.Pointer.fromFunction(\(pythonType.static.name()).ffi_new),")
+                fragment.output("_\(snakify(pythonType.static.name()))_implementation.ffi_new),")
             },
         ]
     }

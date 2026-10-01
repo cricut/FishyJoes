@@ -30,7 +30,7 @@ struct TranslatedDictionary: TranslatedType {
             name: "IDictionary<\(key.cSharpType.name), \(value.cSharpType.name)>"
         )
         self.dartType = .named(package: nil, name: "Map", genericArgs: [key.dartType, value.dartType])
-        self.pythonType = .class(module: nil, name: "dict", genericArgs: [key.pythonType.static, value.pythonType.static])
+        self.pythonType = .class(module: nil, qualifiedName: "dict", genericArgs: [key.pythonType.static, value.pythonType.static])
     }
 
     func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {

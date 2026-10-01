@@ -9,17 +9,17 @@ class PythonClass2 {
         enum Static: Hashable, Codable {
             case primitive(name: String)
             indirect case callable(args: [Static], return: Static)
-            case named(module: String?, name: String, genericArgs: [Static]? = nil)
+            case named(module: String?, namespaces: [String], name: String, genericArgs: [Static]? = nil)
             indirect case union(_ lhs: Static, _ rhs: Static)
         }
 
-
         struct Dynamic: Hashable, Codable {
             let module: String?
+            let namespaces: [String]
             let name: String
 
             static var object: Dynamic {
-                Dynamic(module: nil, name: "object")
+                Dynamic(module: nil, namespaces: [], name: "object")
             }
         }
     }
@@ -67,24 +67,29 @@ class PythonClass2 {
 
     let module: Module
     let documentation: [String]
+    let namespaces: [String]
     let name: String
     let setupTypes: SetupTypes?
     let fields: [Variable]
     let methods: [Method]
     let conformances: [PythonType]
 
+    var associatedNamespace: String? { nil }
+
     init(
         module: Module,
         documentation: [String],
+        namespaces: [String],
         name: String,
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
         conformances: Set<PythonType>
     ) {
-        self.name = name
-        self.documentation = documentation
         self.module = module
+        self.documentation = documentation
+        self.namespaces = namespaces
+        self.name = name
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
@@ -93,31 +98,40 @@ class PythonClass2 {
 
     func publicFragments(context: FishyJoesContext) -> [SourceFragment] { [] }
 
-    func outputCAPIs(to fragment: SourceFragment) {
+    // output to _type_name_implementation.py
+    func outputCAPIs(to fragment: SourceFragment, context: FishyJoesContext) {
         for (name, type) in setupTypes?.typedefs ?? [:] {
-            fragment.output(" \(name): TypeAlias = \(type.static.name())")
+            fragment.output(" \(name): typing.TypeAlias = \(type.static.name())")
         }
     }
 
-    func outputCCallbackImplementations(to fragment: SourceFragment) {}
+    // output to _type_name_implementation.py
+    func outputCCallbackImplementations(to fragment: SourceFragment, context: FishyJoesContext) {}
 
-    func outputSetup(to fragment: SourceFragment) {}
+    // output to _type_name_implementation.py
+    func outputSetup(to fragment: SourceFragment, context: FishyJoesContext) {}
 
     func fragments(context: FishyJoesContext) -> [SourceFragment] {
         let publicFragments = publicFragments(context: context)
-        let implementationFragment = context.pythonFragment("\(unqualifiedName).implementation.py")
+        let implementationFragment = context.pythonFragment(
+            implementationModulePath,
+            additionalImports: [
+                "from ._c_api import _\(context.module.pythonPackageName)_lib",
+                "from .\(typeDefinitionModuleName) import \(unqualifiedName)",
+            ]
+        )
 
         implementationFragment.output("# MARK: C APIs")
         implementationFragment.output()
-        outputCAPIs(to: implementationFragment)
+        outputCAPIs(to: implementationFragment, context: context)
 
         implementationFragment.output("# MARK: C callback implementations")
         implementationFragment.output()
-        outputCCallbackImplementations(to: implementationFragment)
+        outputCCallbackImplementations(to: implementationFragment, context: context)
 
         implementationFragment.output("# MARK: setup")
         implementationFragment.output()
-        outputSetup(to: implementationFragment)
+        outputSetup(to: implementationFragment, context: context)
 
         return publicFragments + [implementationFragment]
     }
@@ -133,18 +147,34 @@ class PythonClass2 {
         String(name.split(separator: ".").last!)
     }
 
+    var typeDefinitionModuleName: String {
+        "_\(snakify(unqualifiedName))_type"
+    }
+
+    var implementationModuleName: String {
+        "_\(snakify(unqualifiedName))_implementation"
+    }
+
+    var implementationModulePath: String {
+        (namespaces + ["\(implementationModuleName).py"]).joined(separator: "/")
+    }
+
+    var typeDefinitionModulePath: String {
+        (namespaces + ["\(typeDefinitionModuleName).py"]).joined(separator: "/")
+    }
+
     var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)] {
         var result: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
 
-        let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, name: name))
+        let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: name))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
 
-            let resultName = field.isDefaultImplementation ? "__iota__default_\(field.mangledName)" : "__iota_get_\(field.mangledName)"
+            let resultName = field.isDefaultImplementation ? "iota__default_\(field.mangledName)" : "iota_get_\(field.mangledName)"
             result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation, isProtocol: false)
             if field.isPubliclyWritable {
-                result["__iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .none, isDefaultImplementation: false, isProtocol: false)
+                result["iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .none, isDefaultImplementation: false, isProtocol: false)
             }
         }
 
@@ -155,10 +185,10 @@ class PythonClass2 {
 
             // Keep the parameters in original order here, because the swift-side expects them in that order
             for param in method.parameters {
-                params.append((PythonClass2.deforbidify(param.name), param.type))
+                params.append((PythonClass2.deforbidify(param.name, localVar: true), param.type))
             }
 
-            result["__iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation, isProtocol: false)
+            result["iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation, isProtocol: false)
         }
 
         return result
@@ -166,86 +196,66 @@ class PythonClass2 {
 
     func outputNativeMethodDeclarations(methods: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)], fragment: SourceFragment) {
         for (name, (args, returnType, _, _)) in methods.sorted(by: { $0.key < $1.key}) {
-            fragment.outputBlock("\(name): Callable[[", newLineTerminated: false) {
+            fragment.outputBlock("\(name): typing.Callable[[", newLineTerminated: false) {
                 fragment.output("fishyjoes_runtime.EnvRef,")
                 for (_, argType) in args {
                     fragment.output("\(argType.static.ffiUnownedName),")
                 }
-                fragment.output("OutCreatedRef")
             }
             fragment.outputBlock(", \(returnType.static.ffiCreatedName)] = \\", closeWith: "") {
-                fragment.output("getattr(_\(module.pythonPackageName)_lib, \"TODO\")")
+                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, \"TODO\"))")
+            }
+        }
+    }
+
+    func outputPublic(instanceField field: Variable, to fragment: SourceFragment) {
+        precondition(!field.isStatic)
+        let name = PythonClass2.deforbidify(field.name, localVar: false)
+        if let deprecation = field.deprecation {
+            fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+        }
+        fragment.output("@property")
+        fragment.outputBlock("def \(name)(self) -> \(field.type.static.name(in: self)):") {
+            document(field.documentation, fragment: fragment)
+            let fieldFuncName = field.isDefaultImplementation ? "_impl.iota__default_\(field.mangledName)" : "_impl.iota_get_\(field.mangledName)"
+            let functionCall = "\(fieldFuncName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)"
+            fragment.outputBlock("\(PythonClass2.withLocalHandles([("self", "self_handle")])):") {
+                if field.type.static.isPrimitive {
+                    fragment.output("return \(functionCall)")
+                } else {
+                    fragment.output("return fishyjoes_runtime.consume_created_ref(\(functionCall), \(field.type.dynamicsString))")
+                }
+            }
+        }
+        fragment.blankLine()
+
+        if field.isPubliclyWritable {
+            fragment.output("@\(name).setter")
+            fragment.outputBlock("def \(name)(self, new_value: \(field.type.static.name(in: self))) -> None:") {
+                var localHandles = [(expression: "self", bindTo: "self_handle")]
+                let value: String
+                if field.type.static.isPrimitive {
+                    value = "new_value"
+                } else {
+                    localHandles.append((expression: "new_value", bindTo: "new_value_handle"))
+                    value = "new_value_handle"
+                }
+                fragment.outputBlock("\(PythonClass2.withLocalHandles(localHandles)):") {
+                    fragment.output("_impl.iota_set_\(field.mangledName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, \(value))")
+                }
             }
         }
     }
 
     func output(field: Variable, to fragment: SourceFragment) {
-        document(field.documentation, fragment: fragment)
-        let selfArg = field.isStatic ? "" : "_thisHandle.ptr, "
-        let wrap: (() -> Void) -> Void = { body in
-            if !field.isStatic {
-                fragment.outputBlock("GCRef.using(this, (_thisHandle) =>", closeWith: ")", body)
-            } else {
-                body()
-            }
-        }
-
-        func outputGetterBody() {
-            wrap {
-                fragment.outputBlock("check((exn) =>", closeWith: ")") {
-                    let fieldFuncName = field.isDefaultImplementation ? "f__iota__default_\(field.mangledName)" : "f__iota_get_\(field.mangledName)"
-                    if field.type.static.isPrimitive {
-                        fragment.output("\(fieldFuncName)(Loader.shared.env, \(selfArg)exn)")
-                    } else {
-                        fragment.output("consumeCreatedRef<\(field.type.static.name(in: self))>(\(fieldFuncName)(Loader.shared.env, \(selfArg)exn))")
-                    }
-                }
-            }
-        }
-
-        func outputSetterBody() {
-            let valueValue: String
-            var wrap = wrap
-            if field.type.static.isPrimitive {
-                valueValue = "value"
-            } else {
-                let oldWrap = wrap
-                wrap = { body in
-                    oldWrap {
-                        fragment.outputBlock("GCRef.using(value, (_valueHandle) =>", closeWith: ")", body)
-                    }
-                }
-                valueValue = "_valueHandle.ptr"
-            }
-            wrap {
-                fragment.outputBlock("check((exn) =>", closeWith: ")") {
-                    fragment.output("f__iota_set_\(field.mangledName)(Loader.shared.env, \(selfArg)\(valueValue), exn)")
-                }
-            }
-        }
-
-        func outputAttributes() {
-            if let deprecation = field.deprecation {
-                fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
-            }
-        }
-
-        outputAttributes()
-        let staticMark = field.isStatic ? "static " : ""
-        fragment.outputBlock("\(staticMark)\(field.type.static.name(in: self)) get \(PythonClass2.deforbidify(field.name)) =>", closeWith: "") {
-            outputGetterBody()
-        }
-        if field.isPubliclyWritable {
-            outputAttributes()
-            fragment.outputBlock("\(staticMark)void set \(PythonClass2.deforbidify(field.name))(\(field.type.static.name(in: self)) value) {") {
-                outputSetterBody()
-            }
+        if field.isStatic {
+            fragment.output("# TODO: static field \(field.name)")
+        } else {
+            outputPublic(instanceField: field, to: fragment)
         }
     }
 
     func output(method: Method, to fragment: SourceFragment) {
-        if method.name.hasPrefix("_") { return }
-
         if let deprecation = method.deprecation {
             fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
         }
@@ -253,9 +263,12 @@ class PythonClass2 {
             fragment.output("@staticmethod")
         }
         fragment.outputBlock("def \(method.name)(", newLineTerminated: false) {
+            if !method.isStatic {
+                fragment.output("self,")
+            }
             func outputParameter(parameter: Method.Parameter) {
                 let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                fragment.output("\(PythonClass2.deforbidify(parameter.name)): \(parameter.type.static.name(in: self))\(defaultValue),")
+                fragment.output("\(PythonClass2.deforbidify(parameter.name, localVar: true)): \(parameter.type.static.name(in: self))\(defaultValue),")
             }
 
             // put all optional parameters at the end, or python gets unhappy
@@ -264,9 +277,8 @@ class PythonClass2 {
 
             requiredParams.forEach(outputParameter)
             if !optionalParams.isEmpty {
-                fragment.outputBlock("{") {
-                    optionalParams.forEach(outputParameter)
-                }
+                fragment.output("*,")
+                optionalParams.forEach(outputParameter)
             }
         }
         fragment.outputBlock(" -> \(method.returnType.static.name(in: self)):") {
@@ -278,25 +290,23 @@ class PythonClass2 {
                 var paramStrings: [String] = []
                 if !method.isStatic {
                     localHandles.append(("self", "_selfHandle"))
-                    paramStrings.append("_selfHandle.ptr")
+                    paramStrings.append("_selfHandle")
                 }
 
                 // Keep the parameters in original order here, because the swift-side expects them in that order
                 for param in method.parameters {
                     if param.type.static.isPrimitive {
-                        paramStrings.append("\(PythonClass2.deforbidify(param.name))")
+                        paramStrings.append("\(PythonClass2.deforbidify(param.name, localVar: true))")
                     } else {
-                        localHandles.append((PythonClass2.deforbidify(param.name), "_\(param.name)Handle"))
-                        paramStrings.append("_\(param.name)Handle.ptr")
+                        localHandles.append((PythonClass2.deforbidify(param.name, localVar: true), "_\(param.name)Handle"))
+                        paramStrings.append("_\(param.name)Handle")
                     }
                 }
 
                 var wrap: (() -> Void) -> Void = { $0() }
                 if !localHandles.isEmpty {
                     wrap = { innerWriter in
-                        let expressions = localHandles.map(\.expression).joined(separator: ", ")
-                        let binds = localHandles.map(\.bindTo).joined(separator: ", ")
-                        fragment.outputBlock("with fishyjoes_runtime.local_handles(\(expressions)) as (\(binds)):") {
+                        fragment.outputBlock("\(PythonClass2.withLocalHandles(localHandles)):") {
                             innerWriter()
                         }
                     }
@@ -315,7 +325,7 @@ class PythonClass2 {
                     let outerWrap = wrap
                     wrap = { innerWriter in
                         outerWrap {
-                            fragment.outputBlock("return consume_created_ref(") {
+                            fragment.outputBlock("return fishyjoes_runtime.consume_created_ref(") {
                                 innerWriter()
                                 fragment.output(",")
                                 fragment.output("\(method.returnType.dynamicsString)")
@@ -325,8 +335,8 @@ class PythonClass2 {
                 }
 
                 wrap {
-                    fragment.outputBlock("fishyjoes_runtime.raise_by_out_ref(f__iota_\(method.mangledName))(", newLineTerminated: false) {
-                        fragment.output("Loader.shared.env,")
+                    fragment.outputBlock("_impl.iota_\(method.mangledName)(", newLineTerminated: false) {
+                        fragment.output("fishyjoes_runtime.Runtime.shared.env_ref,")
                         for paramString in paramStrings {
                             fragment.output("\(paramString),")
                         }
@@ -339,10 +349,15 @@ class PythonClass2 {
 }
 
 extension PythonClass2.PythonType: CustomStringConvertible {
-    static func `class`(module: String?, name: String, genericArgs: [Static]? = nil) -> Self {
-        .init(
-            static: .named(module: module, name: name, genericArgs: genericArgs),
-            dynamics: [.init(module: module, name: name)]
+    static func `class`(module: String?, qualifiedName: String, genericArgs: [Static]? = nil) -> Self {
+        let (namespaces, name) = PythonNamingConventions.splitIntoNamespaces(qualifiedName)
+        return .class(module: module, namespaces: namespaces, name: name, genericArgs: genericArgs)
+    }
+
+    static func `class`(module: String?, namespaces: [String], name: String, genericArgs: [Static]? = nil) -> Self {
+        return .init(
+            static: .named(module: module, namespaces: namespaces, name: name, genericArgs: genericArgs),
+            dynamics: [.init(module: module, namespaces: namespaces, name: name)]
         )
     }
 
@@ -355,43 +370,47 @@ extension PythonClass2.PythonType: CustomStringConvertible {
 
     static var none: Self {
         .init(
-            static: .named(module: nil, name: "None"),
-            dynamics: [.init(module: "types", name: "NoneType")]
+            static: .named(module: nil, namespaces: [], name: "None"),
+            dynamics: [.init(module: "types", namespaces: [], name: "NoneType")]
         )
     }
 
     static var int: Self {
         .init(
             static: .primitive(name: "int"),
-            dynamics: [.init(module: nil, name: "int")]
+            dynamics: [.init(module: nil, namespaces: [], name: "int")]
         )
     }
 
     static var bool: Self {
         .init(
             static: .primitive(name: "bool"),
-            dynamics: [.init(module: nil, name: "bool")]
+            dynamics: [.init(module: nil, namespaces: [], name: "bool")]
         )
     }
 
     static var object: Self {
-        .class(module: nil, name: "object")
+        .class(module: nil, qualifiedName: "object")
     }
 
     static func optional(_ wrapped: Self) -> Self {
         .union(wrapped, .none)
     }
 
+    static var TODO: Self {
+        .class(module: nil, qualifiedName: "TODO")
+    }
+
     static func future(_ inner: Self) -> Self {
-        .class(module: "fishyjoes_runtime", name: "Future", genericArgs: [inner.static])
+        .class(module: "fishyjoes_runtime", qualifiedName: "Future", genericArgs: [inner.static])
     }
 
     static func result(_ success: Self, _ failure: Self) -> Self {
         .init(
-            static: .named(module: "fishyjoes_runtime", name: "Result", genericArgs: [success.static, failure.static]),
+            static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Result", genericArgs: [success.static, failure.static]),
             dynamics: [
-                .init(module: "fishyjoes_runtime", name: "ResultSuccess"),
-                .init(module: "fishyjoes_runtime", name: "ResultFailure"),
+                .init(module: "fishyjoes_runtime", namespaces: ["result"], name: "Success"),
+                .init(module: "fishyjoes_runtime", namespaces: ["result"], name: "Failure"),
             ]
         )
     }
@@ -399,7 +418,7 @@ extension PythonClass2.PythonType: CustomStringConvertible {
     static func callable(args: [Static], return: Static) -> Self {
         .init(
             static: .callable(args: args, return: `return`),
-            dynamics: [.object] // Any dynamic value may be callable
+            dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
         )
     }
 
@@ -409,17 +428,22 @@ extension PythonClass2.PythonType: CustomStringConvertible {
 
     var dynamicsString: String {
         let options = dynamics.map { dyn in
-            if let module = dyn.module {
-                "\(module).\(dyn.name)"
-            } else {
-                dyn.name
-            }
+            (dyn.module.asArray + dyn.namespaces + [dyn.name]).joined(separator: ".")
         }
         return options.joined(separator: ", ")
     }
 }
 
 extension PythonClass2.PythonType.Static {
+    var namespaces: [String] {
+        switch self {
+        case .primitive, .callable, .union:
+            return []
+        case .named(_, let namespaces, _, _):
+            return namespaces
+        }
+    }
+
     func name(in pythonClass: PythonClass2? = nil) -> String {
         switch self {
         case .primitive(let name):
@@ -428,8 +452,8 @@ extension PythonClass2.PythonType.Static {
             let argNames = args.map { $0.name(in: pythonClass) }
             let retName = ret.name(in: pythonClass)
             return "typing.Callable[[\(argNames.joined(separator: ", "))], \(retName)]"
-        case .named(let module, let name, let genericArgs):
-            var result = (module.map { "\($0)." } ?? "") + name
+        case .named(let module, let namespaces, let name, let genericArgs):
+            var result = (module.asArray + namespaces + [name]).joined(separator: ".")
             if let genericArgs = genericArgs {
                 result.append("[\(genericArgs.map { $0.name(in: pythonClass) }.joined(separator: ","))]")
             }
@@ -439,93 +463,65 @@ extension PythonClass2.PythonType.Static {
         }
     }
 
-    var ffiTag: String {
-        "TODO[ffiTag]"
-        // switch self {
-        // case .void: return "ffi.Void"
-        // case .utf16Pointer: return "ffi.Pointer<package_ffi.Utf16>"
-        // case let .primitive(_, ffiName): return "ffi.\(ffiName)"
-        // case let .function(args, returnType):
-        //     return "\(returnType.ffiTag) Function(\(args.map { $0.ffiTag }.joined(separator: ", ")))"
-        // default:
-        //     return "ffi.Pointer"
-        // }
+    var ffiOutCreatedName: String {
+        isPrimitive ? "fishyjoes_runtime.Pointer" : "fishyjoes_runtime.OutCreatedRef"
     }
 
-    var defaultReturnValue: String? {
+    var ffiConsumedName: String {
+        isPrimitive ? name() : "fishyjoes_runtime.ConsumedRef"
+    }
+
+    var ffiCreatedName: String {
+        isPrimitive ? name() : "fishyjoes_runtime.CreatedRef"
+    }
+
+    var ffiUnownedName: String {
+        isPrimitive ? name(): "fishyjoes_runtime.UnownedRef"
+    }
+
+    var ffiDefault: String {
         switch self {
         case .primitive("bool"): return "false"
         case .primitive("int"): return "0"
         case .primitive("float"): return "0.0"
-        default: return "CreatedRef(ffi.NULL)"
+        default: return "fishyjoes_runtime.CREATED_REF_NULL"
         }
-    }
-
-    var ffiOutCreatedName: String {
-        "TODO[ffiOutCreatedName]"
-        // isObject ? "OutCreatedRef" : "ffi.Pointer<\(ffiTag)>"
-    }
-
-    var ffiConsumedName: String {
-        "TODO[ffiConsumedName]"
-        // isObject ? "ConsumedRef" : name()
-    }
-
-    var ffiCreatedName: String {
-        "TODO[ffiCreatedName]"
-        // isObject ? "CreatedRef" : name()
-    }
-
-    var ffiUnownedName: String {
-        "TODO[ffiUnownedName]"
-        // isObject ? "UnownedRef" : name()
-    }
-
-    var ffiOutCreatedTag: String {
-        "TODO[ffiOutCreatedTag]"
-        // isObject ? "OutCreatedRef" : "ffi.Pointer<\(ffiTag)>"
-    }
-
-    var ffiConsumedTag: String {
-        "TODO[ffiConsumedTag]"
-        // isObject ? "ConsumedRef" : ffiTag
-    }
-
-    var ffiCreatedTag: String {
-        "TODO[ffiCreatedTag]"
-        // isObject ? "CreatedRef" : ffiTag
-    }
-
-    var ffiUnownedTag: String {
-        "TODO[ffiUnownedTag]"
-        // isObject ? "UnownedRef" : ffiTag
-    }
-
-    var ffiDefault: String {
-        "TODO[ffiDefault]"
     }
 
     var package: String? {
         switch self {
-        case .named(let package, _, _):
+        case .named(let package, _, _, _):
             return package
         default:
             return nil
         }
     }
 
+    var baseName: String? {
+        switch self {
+        case .primitive(let name): return name
+        case .named(_, _, let name, _): return name
+        case .callable: return "Callable"
+        case .union: return "Union"
+        }
+    }
+
     // NOTE: these are a bit weird types, since they're not user-visible. Only useful in limited internal places.
     static var unownedHostRef: Self {
-        .named(module: "fishyjoes_runtime", name: "UnownedHostRef")
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "UnownedRef")
     }
     static var createdHostRef: Self {
-        .named(module: "fishyjoes_runtime", name: "CreatedHostRef")
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "CreatedRef")
     }
     static var outCreatedHostRef: Self {
-        .named(module: "fishyjoes_runtime", name: "OutCreatedHostRef")
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "OutCreatedRef")
     }
     static var consumedSwiftRef: Self {
-        .named(module: "fishyjoes_runtime", name: "ConsumedSwiftRef")
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "ConsumedSwiftRef")
+    }
+
+    static var TODO: Self {
+        .named(module: nil, namespaces: [], name: "TODO")
     }
 
     var isPrimitive: Bool {
@@ -540,39 +536,39 @@ extension PythonClass2 {
     func ffiFor(fields: [Variable], fragment: SourceFragment) {
         for field in fields {
             let isPrimitive = field.type.static.isPrimitive
-            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(field.name))"
+            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(field.name, localVar: false))"
 
             fragment.output("@fishyjoes_runtime.callback('TODO[getter_type]')")
-            fragment.output("@catch_by_out_ref(default=\(field.type.static.ffiDefault))")
-            let getParameters = field.isStatic ? "" : "obj: UnownedHostRef"
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
+            let getParameters = field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef"
             fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedName):") {
                 let body: String
                     if field.isStatic {
                         body = "\(unqualifiedName).\(fieldName)"
                     } else {
-                        body = "peekRef(obj, \(unqualifiedName)).\(fieldName)"
+                        body = "fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(fieldName)"
                     }
                 if isPrimitive {
                     fragment.output("return \(body)")
                 } else {
-                    fragment.output("return createRef(\(body))")
+                    fragment.output("return fishyjoes_runtime.create_ref(\(body))")
                 }
             }
             if field.isMutable {
                 fragment.output("@fishyjoes_runtime.callback('TODO[setter_type]')")
-                fragment.output("@catch_by_out_ref(default=None)")
-                let setParameters = (field.isStatic ? "" : "obj: UnownedHostRef, ") +
+                fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
+                let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
                     "newValue: \(field.type.static.ffiConsumedName)"
                 fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)):") {
                     if field.isStatic {
                         fragment.output("\(unqualifiedName).\(fieldName) = ", newLineTerminated: false)
                     } else {
-                        fragment.output("peekRef(obj, \(unqualifiedName)).\(fieldName) = ", newLineTerminated: false)
+                        fragment.output("fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(fieldName) = ", newLineTerminated: false)
                     }
                     if isPrimitive {
                         fragment.output("newValue")
                     } else {
-                        fragment.output("consumeRef(newValue, \(field.type.dynamicsString))")
+                        fragment.output("fishyjoes_runtime.consume_ref(newValue, \(field.type.dynamicsString))")
                     }
                 }
                 fragment.blankLine()
@@ -588,14 +584,14 @@ extension PythonClass2 {
             fragment.outputBlock("static \(method.returnType.static.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
-                    fragment.output("\(param.type.static.ffiUnownedName) \(PythonClass2.deforbidify(param.name)),")
+                    fragment.output("\(param.type.static.ffiUnownedName) \(PythonClass2.deforbidify(param.name, localVar: true)),")
                 }
-                fragment.output("OutCreatedRef exn")
+                fragment.output("fishyjoes_runtime.OutCreatedRef exn")
             }
             var wrapper: (() -> Void) -> Void
             if method.returnType.static.isPrimitive {
                 wrapper = { body in
-                    let defaultValue = method.returnType.static.defaultReturnValue.map { " ?? \($0)" } ?? ""
+                    let defaultValue = method.returnType.static.ffiDefault.map { " ?? \($0)" }
                     fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue)") {
                         body()
                     }
@@ -616,7 +612,7 @@ extension PythonClass2 {
                 if method.isStatic {
                     methodCall = "\(unqualifiedName).\(method.name)"
                 } else {
-                    methodCall = "peekRef<\(unqualifiedName)>(obj).\(method.name)"
+                    methodCall = "fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(method.name)"
                 }
                 fragment.outputBlock("\(methodCall)(", closeWith: ")") {
                     // put all optional parameters at the end, or python gets unhappy
@@ -624,9 +620,9 @@ extension PythonClass2 {
                     let optionalParams = method.parameters.filter { $0.defaultValue != nil }
                     fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                         if $0.type.static.isPrimitive {
-                            return PythonClass2.deforbidify($0.name)
+                            return PythonClass2.deforbidify($0.name, localVar: true)
                         } else {
-                            return "peekRef(\(PythonClass2.deforbidify($0.name)))"
+                            return "fishyjoes_runtime.peek_ref(\(PythonClass2.deforbidify($0.name, localVar: true)))"
                         }
                     }
                     if !optionalParams.isEmpty {
@@ -635,9 +631,9 @@ extension PythonClass2 {
                         }
                         fragment.outputMap(optionalParams, separator: ",") {
                             if $0.type.static.isPrimitive {
-                                return "\(PythonClass2.deforbidify($0.name)): \(PythonClass2.deforbidify($0.name))"
+                                return "\(PythonClass2.deforbidify($0.name, localVar: true)): \(PythonClass2.deforbidify($0.name, localVar: true))"
                             } else {
-                                return "\(PythonClass2.deforbidify($0.name)): consumeRef(\(PythonClass2.deforbidify($0.name)))"
+                                return "\(PythonClass2.deforbidify($0.name, localVar: true)): fishyjoes_runtime.consume_ref(\(PythonClass2.deforbidify($0.name, localVar: true)), \($0.type.dynamicsString))"
                             }
                         }
                     } else {
@@ -656,9 +652,7 @@ extension PythonClass2 {
             return "(\(superclasses.joined(separator: ", ")))"
         }
     }
-}
 
-extension PythonClass2 {
     static func separate(fieldsAndMethods: [PythonClass2.MethodOrVariable]) -> ([PythonClass2.Variable], [PythonClass2.Method]) {
         let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {
@@ -674,12 +668,10 @@ extension PythonClass2 {
         }
         return (fields, methods)
     }
-}
 
-extension PythonClass2 {
     // python code to get this list:
     //     __import__('keyword').kwlist + __import__('keyword').softkwlist
-    private static var forbiddenVarNames: Set<String> = [
+    private static var forbiddenKeywordNames: Set<String> = [
         "False",
         "None",
         "True",
@@ -718,14 +710,107 @@ extension PythonClass2 {
         "_",
         "case",
         "match",
-        "type"
+        "type",
     ]
 
-    static func deforbidify(_ name: String) -> String {
+    // Not keywords, but important builtin types/functions. Shouldn't be shadowed by local variables, but are fine as qualified names
+    // pulled from https://docs.python.org/3/builtins/functions.html
+    static let forbiddenVarNames: Set<String> = [
+        "abs",
+        "aiter",
+        "all",
+        "anext",
+        "any",
+        "ascii",
+        "bin",
+        "bool",
+        "breakpoint",
+        "bytearray",
+        "bytes",
+        "callable",
+        "chr",
+        "classmethod",
+        "compile",
+        "complex",
+        "delattr",
+        "dict",
+        "dir",
+        "divmod",
+        "enumerate",
+        "eval",
+        "exec",
+        "filter",
+        "float",
+        "format",
+        "frozenset",
+        "getattr",
+        "globals",
+        "hasattr",
+        "hash",
+        "help",
+        "hex",
+        "id",
+        "input",
+        "int",
+        "isinstance",
+        "issubclass",
+        "iter",
+        "len",
+        "list",
+        "locals",
+        "map",
+        "max",
+        "memoryview",
+        "min",
+        "next",
+        "object",
+        "oct",
+        "open",
+        "ord",
+        "pow",
+        "print",
+        "property",
+        "range",
+        "repr",
+        "reversed",
+        "round",
+        "set",
+        "setattr",
+        "slice",
+        "sorted",
+        "staticmethod",
+        "str",
+        "sum",
+        "super",
+        "tuple",
+        "type",
+        "vars",
+        "zip",
+        "__import__",
+
+        // imported modules used by runtime
+        "types",
+        "typing",
+    ]
+
+    static func deforbidify(_ name: String, localVar: Bool) -> String {
         var name = name.unescapedSwiftIdentifier
-        name = forbiddenVarNames.contains(name) ? "\(name)_" : name
+        if forbiddenKeywordNames.contains(name) || (localVar && forbiddenVarNames.contains(name)) {
+            name = "\(name)_"
+        }
         // leading underscores have semantic meaning in python, move them to the end. (recommended by PEP-8)
         let firstNonUnderscore = name.firstIndex { $0 != "_" } ?? name.startIndex
-        return String(name[firstNonUnderscore...] + name[..<firstNonUnderscore])
+        let underscorePostfixName = String(name[firstNonUnderscore...] + name[..<firstNonUnderscore])
+        // ... unless they would then start with a digit, which would make them an invalid identifier
+        return underscorePostfixName.first?.isNumber == true ? name : underscorePostfixName
+    }
+
+    static func withLocalHandles(
+        _ localHandles: [(expression: String, bindTo: String)],
+    ) -> String {
+        let expressions = localHandles.map(\.expression).joined(separator: ", ")
+        // trailing comma is sometimes important for python tuples, so always add it
+        let bindings = localHandles.map { "\($0.bindTo)," }.joined(separator: " ")
+        return "with fishyjoes_runtime.local_handles(\(expressions)) as (\(bindings))"
     }
 }

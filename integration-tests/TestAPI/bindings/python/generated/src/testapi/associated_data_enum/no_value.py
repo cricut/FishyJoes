@@ -1,17 +1,11 @@
-class NoValue extends AssociatedDataEnum {
-    const NoValue()
+from .. import _testapi_exported as testapi
+from .._associated_data_enum_type import _BaseAssociatedDataEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is NoValue
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'AssociatedDataEnum.noValue()'
-
-    NoValue copyWith() => NoValue()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class NoValue(_BaseAssociatedDataEnum):
+    pass

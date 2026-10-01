@@ -151,9 +151,30 @@ public class FishyJoesContext {
         return SourceFragment(destinationPath: fileName)
     }
 
-    func pythonFragment(_ name: String) -> SourceFragment {
+    func pythonFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
         let fileName = "python/generated/src/\(module.pythonPackageName)/\(name)"
+        addHeader(file: fileName, "import fishyjoes_runtime")
+        // These imports are also tracked in PythonClass.forbiddenVarNames to avoid conflicts
+        addHeader(file: fileName, "import typing")
+        addHeader(file: fileName, "import types")
+        for dependency in module.dependencies {
+            // TODO: get correct package name here
+            addHeader(file: fileName, "import \(dependency)")
+        }
+        // TODO: parse a a little better
+        let superdirectoryImportName = "." + name.filter { $0 == "/" }.map { _ in "." }
+        addHeader(file: fileName, "from \(superdirectoryImportName) import _\(module.pythonPackageName)_exported as \(module.pythonPackageName)")
+        for additionalImport in additionalImports {
+            addHeader(file: fileName, additionalImport)
+        }
         return SourceFragment(destinationPath: fileName, createIntermediateDirectories: true)
+    }
+
+    func addHeader(to fragment: SourceFragment, _ additionalImport: String) {
+        guard let fileName = fragment.destinationPath else {
+            fatalErr("Can't add imports to anonymous fragments")
+        }
+        addHeader(file: fileName, additionalImport)
     }
 
     /// A package-level generated test file (the per-package typing gates),

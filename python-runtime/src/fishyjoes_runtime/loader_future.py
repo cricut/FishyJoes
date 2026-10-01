@@ -3,7 +3,7 @@ from typing import Any, Awaitable, Callable, Generator, TypeAlias, final, overri
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
-from fishyjoes_runtime.runtime import FishyJoesRuntime, _consume_ref, _create_consumed_ref, _create_ref, _peek_ref, \
+from fishyjoes_runtime.runtime import Runtime, consume_ref, create_consumed_ref, create_ref, peek_ref, \
     catch_by_out_ref, raise_by_out_ref
 
 
@@ -51,23 +51,23 @@ _FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler: \
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _future_create(context: UnownedRef, out_promise: OutCreatedRef) -> CreatedRef:
     future: Future[Any] = Future(asyncio.get_running_loop())
-    out_promise[0] = _create_ref(future)
-    return _create_ref(future)
+    out_promise[0] = create_ref(future)
+    return create_ref(future)
 
 
 @callback("FutureSinkFn")
 @catch_by_out_ref(default=None)
 def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: ConsumedSwiftRef) -> None:
-    future = _peek_ref(future_ref, Future)
+    future = peek_ref(future_ref, Future)
 
     def callback(done_future: asyncio.Future[Any]) -> None:
         exception = done_future.exception()
         is_success = exception is None
         raise_by_out_ref(_FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler)(
-            FishyJoesRuntime.shared.env_ref,
+            Runtime.shared.env_ref,
             host_context,
             1 if is_success else 0,
-            _create_consumed_ref(done_future.result() if is_success else exception),
+            create_consumed_ref(done_future.result() if is_success else exception),
         )
 
     future._future.add_done_callback(callback)
@@ -76,18 +76,18 @@ def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: Cons
 @callback("FutureResolveRejectFn")
 @catch_by_out_ref(default=None)
 def _future_resolve(context: UnownedRef, future_ref: ConsumedRef, result_ref: ConsumedRef) -> None:
-    dyn_type = _peek_ref(context, type)
-    future = _consume_ref(future_ref, Future)
-    result: Any = _consume_ref(result_ref, dyn_type)
+    dyn_type = peek_ref(context, type)
+    future = consume_ref(future_ref, Future)
+    result: Any = consume_ref(result_ref, dyn_type)
     future.resolve(result)
 
 
 @callback("FutureResolveRejectFn")
 @catch_by_out_ref(default=None)
 def _future_reject(context: UnownedRef, future_ref: ConsumedRef, failure_ref: ConsumedRef) -> None:
-    future = _consume_ref(future_ref, Future)
+    future = consume_ref(future_ref, Future)
     # TODO: This will probably crash, will probably need to wrap in an exception
-    failure = _consume_ref(failure_ref, BaseException)
+    failure = consume_ref(failure_ref, BaseException)
     future.reject(failure)
 
 # MARK: setup
@@ -100,7 +100,7 @@ def FishyJoesCommonRuntime_FutureConverter_setup[T](env: EnvRef, name: UTF16CStr
         _future_sink,
         _future_resolve,
         _future_reject,
-        _create_consumed_ref(dyn_type),
+        create_consumed_ref(dyn_type),
         out_exn,
     )
 

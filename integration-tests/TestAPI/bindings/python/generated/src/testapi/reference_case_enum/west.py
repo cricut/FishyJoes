@@ -1,17 +1,11 @@
-class West extends ReferenceCaseEnum {
-    const West()
+from .. import _testapi_exported as testapi
+from .._reference_case_enum_type import _BaseReferenceCaseEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is West
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'ReferenceCaseEnum.west()'
-
-    West copyWith() => West()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class West(_BaseReferenceCaseEnum):
+    pass

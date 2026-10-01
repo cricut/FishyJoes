@@ -46,13 +46,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "AProtocol"
+            "name" : "AProtocol",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "AProtocol"
+            "name" : "AProtocol",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -114,13 +120,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "AProtocolImplementation"
+            "name" : "AProtocolImplementation",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "AProtocolImplementation"
+            "name" : "AProtocolImplementation",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -185,7 +197,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Actors"
+            "name" : "Actors",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -247,13 +262,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Actors.TemperatureLogger"
+            "name" : "TemperatureLogger",
+            "namespaces" : [
+              "actors"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Actors.TemperatureLogger"
+            "name" : "TemperatureLogger",
+            "namespaces" : [
+              "actors"
+            ]
           }
         }
       },
@@ -315,33 +336,54 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.thing"
+            "name" : "Thing",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.other"
+            "name" : "Other",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.bar"
+            "name" : "Bar",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.noValue"
+            "name" : "NoValue",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.none"
+            "name" : "None_",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.simpleEnum"
+            "name" : "SimpleEnum",
+            "namespaces" : [
+              "associated_data_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "AssociatedDataEnum"
+            "name" : "AssociatedDataEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -406,7 +448,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "AsyncFunctions"
+            "name" : "AsyncFunctions",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -471,7 +516,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Bytes"
+            "name" : "Bytes",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -536,7 +584,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ClosedRanges"
+            "name" : "ClosedRanges",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -601,7 +652,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Collections"
+            "name" : "Collections",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -663,13 +717,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Collections.CollectionHolder"
+            "name" : "CollectionHolder",
+            "namespaces" : [
+              "collections"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Collections.CollectionHolder"
+            "name" : "CollectionHolder",
+            "namespaces" : [
+              "collections"
+            ]
           }
         }
       },
@@ -734,7 +794,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "DefaultArguments"
+            "name" : "DefaultArguments",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -799,7 +862,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Deprecations"
+            "name" : "Deprecations",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -861,13 +927,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "EmptyClass1"
+            "name" : "EmptyClass1",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "EmptyClass1"
+            "name" : "EmptyClass1",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -929,13 +1001,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "EmptyClass2"
+            "name" : "EmptyClass2",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "EmptyClass2"
+            "name" : "EmptyClass2",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1000,7 +1078,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "EmptyEnum"
+            "name" : "EmptyEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1062,13 +1143,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "EmptyStruct"
+            "name" : "EmptyStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "EmptyStruct"
+            "name" : "EmptyStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1130,13 +1217,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "EmptyStruct2"
+            "name" : "EmptyStruct2",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "EmptyStruct2"
+            "name" : "EmptyStruct2",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1198,13 +1291,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces"
+            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces"
+            "name" : "AttributedString_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1269,7 +1368,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Functions"
+            "name" : "Functions",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1331,13 +1433,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Methods"
+            "name" : "Methods",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Methods"
+            "name" : "Methods",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1399,13 +1507,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TheMethodError"
+            "name" : "TheMethodError",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TheMethodError"
+            "name" : "TheMethodError",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1470,7 +1584,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Primitives"
+            "name" : "Primitives",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1532,13 +1649,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Primitives.PrimitiveHolder"
+            "name" : "PrimitiveHolder",
+            "namespaces" : [
+              "primitives"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Primitives.PrimitiveHolder"
+            "name" : "PrimitiveHolder",
+            "namespaces" : [
+              "primitives"
+            ]
           }
         }
       },
@@ -1603,7 +1726,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ProtocolFixtures"
+            "name" : "ProtocolFixtures",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1668,7 +1794,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "PythonNamingCollisions"
+            "name" : "PythonNamingCollisions",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1733,7 +1862,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Ranges"
+            "name" : "Ranges",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1795,25 +1927,40 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.north"
+            "name" : "North",
+            "namespaces" : [
+              "reference_case_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.south"
+            "name" : "South",
+            "namespaces" : [
+              "reference_case_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.east"
+            "name" : "East",
+            "namespaces" : [
+              "reference_case_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.west"
+            "name" : "West",
+            "namespaces" : [
+              "reference_case_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ReferenceCaseEnum"
+            "name" : "ReferenceCaseEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1878,7 +2025,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ReferenceEmptyEnum"
+            "name" : "ReferenceEmptyEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -1943,7 +2093,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ReferenceOnlyTypes"
+            "name" : "ReferenceOnlyTypes",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2005,13 +2158,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "ReferenceOnlyTypes.Marker"
+            "name" : "Marker",
+            "namespaces" : [
+              "reference_only_types"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ReferenceOnlyTypes.Marker"
+            "name" : "Marker",
+            "namespaces" : [
+              "reference_only_types"
+            ]
           }
         }
       },
@@ -2076,7 +2235,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Results"
+            "name" : "Results",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2138,13 +2300,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Results.Error"
+            "name" : "Error",
+            "namespaces" : [
+              "results"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Results.Error"
+            "name" : "Error",
+            "namespaces" : [
+              "results"
+            ]
           }
         }
       },
@@ -2206,13 +2374,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Shade"
+            "name" : "Shade",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Shade"
+            "name" : "Shade",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2274,17 +2448,26 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.shade"
+            "name" : "Shade",
+            "namespaces" : [
+              "shadow_box"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.empty"
+            "name" : "Empty",
+            "namespaces" : [
+              "shadow_box"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "ShadowBox"
+            "name" : "ShadowBox",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2346,21 +2529,33 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.red"
+            "name" : "Red",
+            "namespaces" : [
+              "simple_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.green"
+            "name" : "Green",
+            "namespaces" : [
+              "simple_enum"
+            ]
           },
           {
             "module" : "testapi",
-            "name" : "enumName.blue"
+            "name" : "Blue",
+            "namespaces" : [
+              "simple_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "SimpleEnum"
+            "name" : "SimpleEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2425,7 +2620,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Strings"
+            "name" : "Strings",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2490,7 +2688,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs"
+            "name" : "Structs",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2552,13 +2753,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Structs.MemberwiseStruct"
+            "name" : "MemberwiseStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs.MemberwiseStruct"
+            "name" : "MemberwiseStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         }
       },
@@ -2620,13 +2827,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Structs.MutableStruct"
+            "name" : "MutableStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs.MutableStruct"
+            "name" : "MutableStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         }
       },
@@ -2688,13 +2901,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs_PuttingTypesIntoQuestionablePlaces"
+            "name" : "Structs_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2756,13 +2975,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Structs.ReferenceStruct"
+            "name" : "ReferenceStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs.ReferenceStruct"
+            "name" : "ReferenceStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         }
       },
@@ -2824,13 +3049,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Structs.TwentyOneItemStruct"
+            "name" : "TwentyOneItemStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Structs.TwentyOneItemStruct"
+            "name" : "TwentyOneItemStruct",
+            "namespaces" : [
+              "structs"
+            ]
           }
         }
       },
@@ -2892,13 +3123,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+            "name" : "String_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "String_PuttingTypesIntoQuestionablePlaces"
+            "name" : "String_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -2960,13 +3197,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestAsyncForeignSideFunctionsStruct"
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestAsyncForeignSideFunctionsStruct"
+            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3028,13 +3271,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestAsyncFunctions"
+            "name" : "TestAsyncFunctions",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestAsyncFunctions"
+            "name" : "TestAsyncFunctions",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3096,13 +3345,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestAsyncSwiftSideFunctionsClass"
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestAsyncSwiftSideFunctionsClass"
+            "name" : "TestAsyncSwiftSideFunctionsClass",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3164,13 +3419,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestDefaultComputedProperties"
+            "name" : "TestDefaultComputedProperties",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDefaultComputedProperties"
+            "name" : "TestDefaultComputedProperties",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3232,13 +3493,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestDefaultComputedPropertiesReference"
+            "name" : "TestDefaultComputedPropertiesReference",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDefaultComputedPropertiesReference"
+            "name" : "TestDefaultComputedPropertiesReference",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3300,13 +3567,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.qux"
+            "name" : "Qux",
+            "namespaces" : [
+              "test_default_computed_properties_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDefaultComputedPropertiesEnum"
+            "name" : "TestDefaultComputedPropertiesEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3368,13 +3641,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestDefaultComputedPropertiesStruct"
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDefaultComputedPropertiesStruct"
+            "name" : "TestDefaultComputedPropertiesStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3436,13 +3715,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestDifferingExportNameProtocolDiffy"
+            "name" : "TestDifferingExportNameProtocolDiffy",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDifferingExportNameProtocolDiffy"
+            "name" : "TestDifferingExportNameProtocolDiffy",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3504,13 +3789,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestDifferingExportNameStruct"
+            "name" : "TestDifferingExportNameStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestDifferingExportNameStruct"
+            "name" : "TestDifferingExportNameStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3572,13 +3863,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestLeadingUnderscoredProp"
+            "name" : "TestLeadingUnderscoredProp",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestLeadingUnderscoredProp"
+            "name" : "TestLeadingUnderscoredProp",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3640,13 +3937,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestLeadingUnderscoredPropStruct"
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestLeadingUnderscoredPropStruct"
+            "name" : "TestLeadingUnderscoredPropStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3708,13 +4011,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestMethodsProtocol"
+            "name" : "TestMethodsProtocol",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestMethodsProtocol"
+            "name" : "TestMethodsProtocol",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3776,13 +4085,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.hogehoge"
+            "name" : "Hogehoge",
+            "namespaces" : [
+              "test_non_exported_protocol_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestNonExportedProtocolEnum"
+            "name" : "TestNonExportedProtocolEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3844,13 +4159,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestOptionalsProtocol"
+            "name" : "TestOptionalsProtocol",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestOptionalsProtocol"
+            "name" : "TestOptionalsProtocol",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3912,13 +4233,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestPropertiesProtocol"
+            "name" : "TestPropertiesProtocol",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestPropertiesProtocol"
+            "name" : "TestPropertiesProtocol",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -3980,13 +4307,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestProtocolClass"
+            "name" : "TestProtocolClass",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestProtocolClass"
+            "name" : "TestProtocolClass",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4048,13 +4381,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.qux"
+            "name" : "Qux",
+            "namespaces" : [
+              "test_protocol_enum"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestProtocolEnum"
+            "name" : "TestProtocolEnum",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4116,13 +4455,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestProtocolStruct"
+            "name" : "TestProtocolStruct",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestProtocolStruct"
+            "name" : "TestProtocolStruct",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4184,13 +4529,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "Tree"
+            "name" : "Tree",
+            "namespaces" : [
+
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Tree"
+            "name" : "Tree",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4255,7 +4606,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "Tuples"
+            "name" : "Tuples",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4320,7 +4674,10 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "URLs"
+            "name" : "URLs",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -4382,13 +4739,19 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "enumName.thing"
+            "name" : "Thing",
+            "namespaces" : [
+              "unicode_scalar__putting_types_into_questionable_places"
+            ]
           }
         ],
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces"
+            "name" : "UnicodeScalar_PuttingTypesIntoQuestionablePlaces",
+            "namespaces" : [
+
+            ]
           }
         }
       },
@@ -15233,38 +15596,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "string"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(keywordArgs) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "keywordArgs",
-                "parameters" : [
-                  {
-                    "name" : "`class`",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "name" : "list",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "number"
                   }
                 }
               }

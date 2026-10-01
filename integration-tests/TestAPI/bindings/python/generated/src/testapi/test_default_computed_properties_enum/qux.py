@@ -1,17 +1,11 @@
-class Qux extends TestDefaultComputedPropertiesEnum {
-    const Qux()
+from .. import _testapi_exported as testapi
+from .._test_default_computed_properties_enum_type import _BaseTestDefaultComputedPropertiesEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Qux
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'TestDefaultComputedPropertiesEnum.qux()'
-
-    Qux copyWith() => Qux()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Qux(_BaseTestDefaultComputedPropertiesEnum):
+    pass

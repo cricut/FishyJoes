@@ -9,8 +9,8 @@ struct TranslatedURL: TranslatedType {
     let cSharpType: CSharpClass.CSType = .named(package: "System", name: "Uri")
     let dartType: DartClass.DartType = .named(package: nil, name: "Uri")
     let pythonType: PythonClass2.PythonType = .init(
-        static: .named(module: "fishyjoes_runtime", name: "URI"),
-        dynamics: [.init(module: nil, name: "str")]
+        static: .named(module: "fishyjoes_runtime", namespaces: [], name: "URI"),
+        dynamics: [.init(module: nil, namespaces: [], name: "str")]
     )
     let containedNamedTypes: [TranslatedType] = []
     let definingModule = Module.runtime

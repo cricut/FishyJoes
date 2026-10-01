@@ -5,7 +5,7 @@ from typing import Callable, Never, TypeAlias, assert_never, cast, override
 
 from ._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from .ffi_types import *
-from .runtime import _consume_ref, _create_ref, _peek_ref, catch_by_out_ref
+from .runtime import consume_ref, create_ref, peek_ref, catch_by_out_ref
 
 
 # Interface borrows heavily from the kotlin-runtime implementation, which in turn is based on
@@ -129,22 +129,22 @@ _FishyJoesCommonRuntime_ResultConverter_setup: \
 def _construct_result(context: UnownedRef, is_success: int, contents: ConsumedRef) -> CreatedRef:
     # TODO: dynamic type check here probably
     if is_success != 0:
-        return _create_ref(ResultSuccess(_consume_ref(contents, object)))
+        return create_ref(ResultSuccess(consume_ref(contents, object)))
     else:
-        return _create_ref(ResultFailure(cast(BaseException, _consume_ref(contents, object))))
+        return create_ref(ResultFailure(cast(BaseException, consume_ref(contents, object))))
 
 
 @callback("FishyJoes_ResultGetContentsFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _result_getter(context: UnownedRef, result_ref: UnownedRef, out_is_success: Pointer) -> CreatedRef:
-    result = _peek_ref(result_ref, ResultSuccess, ResultFailure)
+    result = peek_ref(result_ref, ResultSuccess, ResultFailure)
     match result:
         case ResultSuccess(value=contents):
             out_is_success[0] = 1
-            return _create_ref(contents)
+            return create_ref(contents)
         case ResultFailure(error=contents):
             out_is_success[0] = 0
-            return _create_ref(contents)
+            return create_ref(contents)
     assert_never(result)
 
 

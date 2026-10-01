@@ -1,3 +1,4 @@
+# type: ignore
 import testapi
 
 def pytest_sessionfinish(session, exitstatus):

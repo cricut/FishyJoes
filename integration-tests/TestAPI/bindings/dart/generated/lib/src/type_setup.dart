@@ -3317,20 +3317,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_PythonNamingCollisions_from");
-    TestAPI.PythonNamingCollisions.f__iota_TestAPI_PythonNamingCollisions_keywordArgs = dylib.lookupFunction<
-        ffi.IntPtr Function(
-            Env env,
-            ffi.IntPtr m_class,
-            ffi.IntPtr list,
-            OutCreatedRef _exn
-        ),
-        int Function(
-            Env env,
-            int m_class,
-            int list,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_PythonNamingCollisions_keywordArgs");
     TestAPI.Ranges.f__iota_TestAPI_Ranges_echoInt16Range = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

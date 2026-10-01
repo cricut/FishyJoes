@@ -1,4 +1,6 @@
 # type: ignore
+# pyrefly: ignore-errors
+
 from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 import os
 

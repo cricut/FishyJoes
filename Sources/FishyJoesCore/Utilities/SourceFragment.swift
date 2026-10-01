@@ -125,11 +125,8 @@ public class SourceFragment {
         return collated.map {
             let (destination, contentFragments) = $0
             let combinedContents = contentFragments.map(\.contents).joined(separator: "\n")
-            let createIntermediateDirectories = Set(contentFragments.map(\.createIntermediateDirectories))
-            if createIntermediateDirectories.count != 1 {
-                fatalErr("Fragments for \(destination ?? "<null>") must all agree on createIntermediateDirectories")
-            }
-            return (path: destination, contents: combinedContents, createIntermediateDirectories: createIntermediateDirectories.first!)
+            let createIntermediateDirectories = contentFragments.contains(where: \.createIntermediateDirectories)
+            return (path: destination, contents: combinedContents, createIntermediateDirectories: createIntermediateDirectories)
         }.sorted { $0.path ?? "" < $1.path ?? "" }
     }
 }

@@ -1,17 +1,11 @@
-class North extends ReferenceCaseEnum {
-    const North()
+from .. import _testapi_exported as testapi
+from .._reference_case_enum_type import _BaseReferenceCaseEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is North
-    )
-
-    @override
-    int get hashCode => runtimeType.hashCode
-
-    @override
-    String toString() => 'ReferenceCaseEnum.north()'
-
-    North copyWith() => North()
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class North(_BaseReferenceCaseEnum):
+    pass

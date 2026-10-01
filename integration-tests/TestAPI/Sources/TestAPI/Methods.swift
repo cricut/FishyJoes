@@ -142,7 +142,7 @@ public struct Methods {
 
     /// <!-- FishyJoes.export(methodWithNewlinesInTypes) -->
     public static func methodWithNewlinesInTypes(
-        thing: @escaping @Sendable (Int, Data, Bool) async throws -> Result<
+        thing: @escaping (Int, Data, Bool) async throws -> Result<
             Int, TheMethodError
         >
     ) {

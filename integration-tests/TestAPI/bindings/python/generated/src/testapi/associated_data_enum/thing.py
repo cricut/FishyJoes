@@ -1,28 +1,11 @@
-class Thing extends AssociatedDataEnum {
-    const Thing(
-        this.value
-    )
-    final int value
+from .. import _testapi_exported as testapi
+from .._associated_data_enum_type import _BaseAssociatedDataEnum
+import dataclasses
+import fishyjoes_runtime
+import types
+import typing
 
-    @override
-    bool operator ==(Object other) => identical(other, this) || (
-        other.runtimeType == runtimeType
-        && other is Thing
-        && const DeepCollectionEquality().equals(other.value, value)
-    )
-
-    @override
-    int get hashCode => Object.hash(
-        runtimeType,
-        const DeepCollectionEquality().hash(value)
-    )
-
-    @override
-    String toString() => 'AssociatedDataEnum.thing(value: $value)'
-
-    Thing copyWith([
-        int? value
-    ]) => Thing(
-        value ?? this.value
-    )
-}
+@typing.final
+@dataclasses.dataclass(frozen=True)
+class Thing(_BaseAssociatedDataEnum):
+    value: int

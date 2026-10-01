@@ -31,7 +31,7 @@ struct TranslatedStruct: TranslatedType {
         self.kotlinPackage = context.module.kotlinPackage
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.pythonType = .class(module: context.module.pythonPackageName, name: exportAnnotation.pythonName ?? exportAnnotation.name)
+        self.pythonType = .class(module: context.module.pythonPackageName, qualifiedName: exportAnnotation.pythonName ?? exportAnnotation.name)
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
 
         self.storedVariables = type.storedVariables.compactMap { Field($0, inType: type, context: context) }
@@ -694,6 +694,7 @@ struct TranslatedStruct: TranslatedType {
             pythonClass: PythonProductClass(
                 module: context.module,
                 documentation: documentation,
+                namespaces: pythonType.static.namespaces,
                 name: pythonType.static.name(),
                 constructor: .`public`(
                     fields: storedVariables.compactMap {

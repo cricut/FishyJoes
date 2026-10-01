@@ -40,7 +40,7 @@ struct TranslatedProtocol: TranslatedType {
         self.jniType = .object(context.kotlinTranslator.javaClassName(nodeName, in: context))
         self.cSharpType = .named(package: context.module.cSharpNamespace, name: exportAnnotation.cSharpName)
         self.dartType = .named(package: context.module.dartNamespace, name: context.dartTranslator.fakeNamespace(exportAnnotation.name))
-        self.pythonType = .class(module: context.module.pythonPackageName, name: exportAnnotation.pythonName ?? exportAnnotation.name)
+        self.pythonType = .class(module: context.module.pythonPackageName, qualifiedName: exportAnnotation.pythonName ?? exportAnnotation.name)
 
         self.definingModule = context.module
         self.definingTSNamespace = context.module.name
@@ -1061,45 +1061,46 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func registerPythonClass(context: FishyJoesContext) {
-        // TODO!
-        // let (protocolFields, protocolMethods) = DartClass.separate(
-        //     fieldsAndMethods:
-        //         fields.compactMap {
-        //             context.dart(field: $0, of: self, useNativeName: false)
-        //         } + methods.compactMap {
-        //             context.dart(method: $0, of: self)
-        //         }
-        // )
+        let (protocolFields, protocolMethods) = PythonClass2.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
 
-        // context.add(
-        //     dartClass: DartProtocolClass(
-        //         module: context.module,
-        //         documentation: documentation,
-        //         name: dartType.name(),
-        //         fields: protocolFields,
-        //         methods: protocolMethods,
-        //         conformances: Set(exportedConformances(in: context).map { $0.dartType})
-        //     )
-        // )
+        context.add(
+            pythonClass: PythonProtocolClass(
+                module: context.module,
+                documentation: documentation,
+                namespaces: pythonType.static.namespaces,
+                name: pythonType.static.name(),
+                fields: protocolFields,
+                methods: protocolMethods,
+                conformances: Set(exportedConformances(in: context).map { $0.pythonType})
+            )
+        )
 
-        // let (externalWitnessFields, externalWitnessMethods) = DartClass.separate(
-        //     fieldsAndMethods:
-        //         fields.compactMap {
-        //             context.dart(field: $0, of: self, useNativeName: false)
-        //         } + methods.filter { !$0.isDefaultImplementation }.compactMap {
-        //             context.dart(method: $0, of: self)
-        //         }
-        // )
-        // context.add(
-        //     dartClass: DartProductClass(
-        //         module: context.module,
-        //         documentation: documentation,
-        //         name: "\(context.module.name).\(iotaExternalWitnessClassName)",
-        //         constructor: .reference,
-        //         fields: externalWitnessFields,
-        //         methods: externalWitnessMethods,
-        //         conformances: [dartType]
-        //     )
-        // )
+        let (externalWitnessFields, externalWitnessMethods) = PythonClass2.separate(
+            fieldsAndMethods:
+                fields.compactMap {
+                    context.python(field: $0, of: self, useNativeName: false)
+                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
+                    context.python(method: $0, of: self)
+                }
+        )
+        context.add(
+            pythonClass: PythonProductClass(
+                module: context.module,
+                documentation: documentation,
+                namespaces: pythonType.static.namespaces + [context.module.name],
+                name: iotaExternalWitnessClassName,
+                constructor: .reference,
+                fields: externalWitnessFields,
+                methods: externalWitnessMethods,
+                conformances: [pythonType]
+            )
+        )
     }
 }

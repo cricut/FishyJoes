@@ -4,7 +4,7 @@ from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib
 from fishyjoes_runtime.ffi_types import EnvRef, OutCreatedRef, UnownedRef
-from fishyjoes_runtime.runtime import FishyJoesRuntime, _create_ref, _peek_ref, catch_by_out_ref, local_handles
+from fishyjoes_runtime.runtime import Runtime, create_ref, peek_ref, catch_by_out_ref, local_handles
 
 # MARK: C APIs
 
@@ -74,145 +74,145 @@ Swift_Double_setup: \
 @callback("FishyJoes_BoolValueFn")
 @catch_by_out_ref(default=False)
 def _bool_value_extract(obj: UnownedRef) -> bool:
-    return _peek_ref(obj, bool)
+    return peek_ref(obj, bool)
 
 
 @callback("FishyJoes_Int8ValueFn")
 @catch_by_out_ref(default=0)
 def _int8_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_Int16ValueFn")
 @catch_by_out_ref(default=0)
 def _int16_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_Int32ValueFn")
 @catch_by_out_ref(default=0)
 def _int32_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_Int64ValueFn")
 @catch_by_out_ref(default=0)
 def _int64_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_IntValueFn")
 @catch_by_out_ref(default=0)
 def _int_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_UInt8ValueFn")
 @catch_by_out_ref(default=0)
 def _uint8_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_UInt16ValueFn")
 @catch_by_out_ref(default=0)
 def _uint16_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_UInt32ValueFn")
 @catch_by_out_ref(default=0)
 def _uint32_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_UInt64ValueFn")
 @catch_by_out_ref(default=0)
 def _uint64_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_UIntValueFn")
 @catch_by_out_ref(default=0)
 def _uint_value_extract(obj: UnownedRef) -> int:
-    return _peek_ref(obj, int)
+    return peek_ref(obj, int)
 
 
 @callback("FishyJoes_FloatValueFn")
 @catch_by_out_ref(default=0.0)
 def _float_value_extract(obj: UnownedRef) -> float:
-    return _peek_ref(obj, float, int)
+    return peek_ref(obj, float, int)
 
 
 @callback("FishyJoes_DoubleValueFn")
 @catch_by_out_ref(default=0.0)
 def _double_value_extract(obj: UnownedRef) -> float:
-    return _peek_ref(obj, float, int)
+    return peek_ref(obj, float, int)
 
 
 @callback("FishyJoes_Int8ConstructorFn")
 def _int8_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_Int16ConstructorFn")
 def _int16_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_Int32ConstructorFn")
 def _int32_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_Int64ConstructorFn")
 def _int64_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_IntConstructorFn")
 def _int_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_UInt8ConstructorFn")
 def _uint8_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_UInt16ConstructorFn")
 def _uint16_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_UInt32ConstructorFn")
 def _uint32_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_UInt64ConstructorFn")
 def _uint64_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_UIntConstructorFn")
 def _uint_constructor(value: int) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_FloatConstructorFn")
 def _float_constructor(value: float) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 @callback("FishyJoes_DoubleConstructorFn")
 def _double_constructor(value: float) -> CreatedRef:
-    return _create_ref(value)
+    return create_ref(value)
 
 
 # MARK: setup
 
 def setup_primitives() -> None:
-    env_ref = FishyJoesRuntime.shared.env_ref
+    env_ref = Runtime.shared.env_ref
     with local_handles(True, False) as (true_ref, false_ref):
         Swift_Bool_setup(env_ref, true_ref, false_ref, _bool_value_extract)
     Swift_Int8_setup(env_ref, _int8_value_extract, _int8_constructor)
