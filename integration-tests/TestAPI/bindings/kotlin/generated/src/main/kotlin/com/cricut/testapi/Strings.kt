@@ -5,6 +5,7 @@ import java.lang.Exception
 import kotlinx.coroutines.*
 
 /**
+ * Sample strings and string operations for Unicode round-trips.
  * <!-- FishyJoes.export(Strings) -->
  */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -75,6 +76,7 @@ sealed class Strings {
         private external fun __jni_get_script(): kotlin.String
 
         /**
+         * A simple ASCII greeting.
          * <!-- FishyJoes.export(simple) -->
          */
         val simple: kotlin.String
@@ -84,6 +86,7 @@ sealed class Strings {
         private external fun __jni_get_simple(): kotlin.String
 
         /**
+         * Returns the given string unchanged.
          * <!-- FishyJoes.export(echo) -->
          */
         fun echo(
@@ -96,6 +99,8 @@ sealed class Strings {
         ): kotlin.String
 
         /**
+         * Splits the string on each occurrence of the separator.
+         * Returns the pieces in order without the separator.
          * <!-- FishyJoes.export(split) -->
          */
         fun split(

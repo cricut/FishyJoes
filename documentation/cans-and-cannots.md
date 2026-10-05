@@ -7,7 +7,8 @@ FishyJoes exposes a subset of swift interfaces to several other languages. This 
 3. It is not equally-representable in all languages
 
 ## Standard Types
- - :white_check_mark: Void, Int, UInt, Int64, Float, Double, String, etc.
+ - :white_check_mark: Void, Bool, Float, Double, String, etc.
+ - :white_check_mark: Fixed-width integers: `Int`, `Int8`, `Int16`, `Int32`, `Int64`, `UInt`, `UInt8`, `UInt16`, `UInt32`, `UInt64` (all targets, including Python)
  - :white_check_mark: tuples (named and unnamed)
  - :white_check_mark: `Data`
  - :white_check_mark: `Optional<T>`

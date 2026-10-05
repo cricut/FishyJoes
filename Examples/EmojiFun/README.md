@@ -11,6 +11,7 @@ Test each suite by executing:
 * `swift run fishy-joes build test --kotlin-fast`
 * `swift run fishy-joes build test --c-sharp`
 * `swift run fishy-joes build test --dart`
+* `swift run fishy-joes build test --python`
 
 Generation can be tested by adding a member to the `EmojiExplorer` type in `Sources/EmojiFun/EmojiExplorer.swift` like:
 

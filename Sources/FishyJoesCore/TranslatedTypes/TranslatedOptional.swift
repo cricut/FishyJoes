@@ -26,4 +26,16 @@ struct TranslatedOptional: TranslatedType {
     var converterType: BetterType {
         .generic(base: .runtime("OptionalConverter"), args: [wrapped.converterType])
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let wrappedRepresentation = wrapped.pythonRepresentation(in: context.recursingIntoChild()),
+              let wrappedConversion = wrappedRepresentation.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: wrappedRepresentation.annotation.optional(),
+            cType: "foreignObject",
+            conversion: "_native.Optional(\(wrappedConversion))"
+        )
+    }
 }

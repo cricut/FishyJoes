@@ -50,4 +50,19 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        // R5: conversion stays `nil` (C scalar passes through). B1: an unlisted
+        // unsigned primitive returns `nil` rather than degrading to `Any`.
+        switch sourceType.name {
+        case "Swift.UInt", "Swift.UInt8", "Swift.UInt16", "Swift.UInt32", "Swift.UInt64":
+            return PythonRepresentation(
+                annotation: PythonType(annotation: "int"),
+                cType: cName,
+                conversion: nil
+            )
+        default:
+            return nil
+        }
+    }
 }

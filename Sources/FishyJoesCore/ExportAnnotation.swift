@@ -6,6 +6,7 @@ private enum AttributeName: String, Hashable, CaseIterable {
     case generic
     case `override`
     case cSharp
+    case python
     case noReturn
     case compatibilityOrder
 }
@@ -14,6 +15,10 @@ struct ExportAnnotation: Hashable {
     let kind: Kind
     let name: String
     let cSharpName: String
+    /// Explicit Python member name. Unlike `cSharpName` this stays optional:
+    /// an explicit name is emitted verbatim (no snake-casing), so the
+    /// translator must know whether one was given.
+    let pythonName: String?
     let isOverride: Bool
     let noReturn: Bool
     let genericOverrides: [String: BetterType]
@@ -24,6 +29,7 @@ struct ExportAnnotation: Hashable {
         kind: Kind = .unmodified,
         name: String,
         cSharpName: String?,
+        pythonName: String? = nil,
         isOverride: Bool = false,
         noReturn: Bool = false,
         genericOverrides: [String: BetterType] = [:],
@@ -33,6 +39,7 @@ struct ExportAnnotation: Hashable {
         self.kind = kind
         self.name = name
         self.cSharpName = cSharpName ?? name
+        self.pythonName = pythonName
         self.isOverride = isOverride
         self.noReturn = noReturn
         self.genericOverrides = genericOverrides
@@ -232,6 +239,19 @@ extension Documented {
                 cSharpName = name
             }
 
+            var pythonName: String?
+            if let pythonParse = attrs[.python] {
+                guard case .token(let name) = pythonParse else {
+                    fatalErr("invalid python name in \(docLine).")
+                }
+                guard name.range(of: #"^[A-Za-z][A-Za-z0-9_]*$"#, options: .regularExpression) != nil,
+                      !PythonNaming.isReserved(name), !PythonNaming.syntaxNames.contains(name)
+                else {
+                    fatalErr("invalid python name '\(name)' in \(docLine). Must be a Python identifier that is not a keyword and does not start with an underscore.")
+                }
+                pythonName = name
+            }
+
             var genericOverrides: [String: BetterType] = [:]
             if let genericParse = attrs[.generic] {
                 guard case .squareBracketed(let list) = genericParse else {
@@ -270,6 +290,7 @@ extension Documented {
                 kind: kind,
                 name: exportName,
                 cSharpName: cSharpName,
+                pythonName: pythonName,
                 isOverride: isOverride,
                 noReturn: noReturn,
                 genericOverrides: genericOverrides,

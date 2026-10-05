@@ -84,7 +84,7 @@ class TestDefaultComputedPropertiesStruct implements TestAPI.TestDefaultComputed
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(spam), 
+        const DeepCollectionEquality().hash(spam),
         const DeepCollectionEquality().hash(noot)
     );
 

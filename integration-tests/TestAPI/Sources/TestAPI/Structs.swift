@@ -7,6 +7,7 @@
 
 /// <!-- FishyJoes.export(Structs) -->
 public enum Structs {
+    /// A plain value type with one immutable and one mutable field.
     /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
     public struct MemberwiseStruct: Hashable {
         public private(set) var immutable = "Eternal"
@@ -199,5 +200,18 @@ public struct EmptyStruct2 {
     /// <!-- FishyJoes.export(zxccxz) -->
     public func zxc() -> String {
         "Cambridge University (England)2"
+    }
+}
+
+/// <!-- FishyJoes.export(ReferenceOnlyTypes) -->
+public enum ReferenceOnlyTypes {
+    /// <!-- FishyJoes.exportReference(ReferenceOnlyTypes.Marker) -->
+    public struct Marker: Hashable {
+        public init() {}
+    }
+
+    /// <!-- FishyJoes.export(marker, cSharp: MakeMarker) -->
+    public static func marker() -> Marker {
+        Marker()
     }
 }

@@ -45,4 +45,16 @@ struct TranslatedSet: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let element = elementType.pythonRepresentation(in: context.recursingIntoChild()),
+              let elementConversion = element.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: .container("set", [element.annotation]),
+            cType: "foreignObject",
+            conversion: "_native.Set(\"\(converterType.name)\", \(elementConversion))"
+        )
+    }
 }

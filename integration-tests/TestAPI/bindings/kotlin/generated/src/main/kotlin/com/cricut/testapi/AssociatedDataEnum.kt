@@ -31,6 +31,7 @@ sealed class AssociatedDataEnum {
      * Documentation about noValue
      */
     object NoValue : AssociatedDataEnum()
+    object None : AssociatedDataEnum()
     data class SimpleEnum(
         var value: com.cricut.testapi.SimpleEnum
     ) : AssociatedDataEnum()

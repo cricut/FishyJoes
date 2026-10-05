@@ -242,14 +242,14 @@ class Collections_CollectionHolder {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(boolArray), 
-        const DeepCollectionEquality().hash(boolSet), 
-        const DeepCollectionEquality().hash(boolDictionary), 
-        const DeepCollectionEquality().hash(integerArray), 
-        const DeepCollectionEquality().hash(integerSet), 
-        const DeepCollectionEquality().hash(integerDictionary), 
-        const DeepCollectionEquality().hash(stringArray), 
-        const DeepCollectionEquality().hash(stringSet), 
+        const DeepCollectionEquality().hash(boolArray),
+        const DeepCollectionEquality().hash(boolSet),
+        const DeepCollectionEquality().hash(boolDictionary),
+        const DeepCollectionEquality().hash(integerArray),
+        const DeepCollectionEquality().hash(integerSet),
+        const DeepCollectionEquality().hash(integerDictionary),
+        const DeepCollectionEquality().hash(stringArray),
+        const DeepCollectionEquality().hash(stringSet),
         const DeepCollectionEquality().hash(stringDictionary)
     );
 

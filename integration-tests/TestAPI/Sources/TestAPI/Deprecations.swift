@@ -5,6 +5,7 @@ import Foundation
 /// <!-- FishyJoes.export(Deprecations) -->
 public enum Deprecations {
     @available(*, deprecated, message: "don't use this")
+    /// An old greeting kept only for deprecation coverage.
     /// <!-- FishyJoes.export(deprecatedMethod) -->
     public static func deprecatedMethod() -> String {
         "Hello"

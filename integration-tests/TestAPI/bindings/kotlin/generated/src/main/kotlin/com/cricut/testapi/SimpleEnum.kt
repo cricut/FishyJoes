@@ -43,7 +43,7 @@ sealed class SimpleEnum {
          */
         var favoriteColor: com.cricut.testapi.SimpleEnum
           get() = __jni_get_favoriteColor()
-          set(value) { __jni_set_favoriteColor(value) } 
+          set(value) { __jni_set_favoriteColor(value) }
         @JvmStatic
         @JvmName("__jni_get_favoriteColor")
         private external fun __jni_get_favoriteColor(): com.cricut.testapi.SimpleEnum

@@ -16,6 +16,7 @@ struct TranslatedStruct: TranslatedType {
     let isInhabited: Bool
     let definingModule: Module
     let conformances: Set<BetterType>
+    let hashable: Bool
 
     init(context: FishyJoesContext, type: SourceryType) {
         guard let exportAnnotation = type.exportAnnotation else {
@@ -40,6 +41,18 @@ struct TranslatedStruct: TranslatedType {
         self.definingModule = context.module
 
         self.conformances = Set(type.implements.map(\.better))
+        self.hashable = type.hashable
+    }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard context.canGenerateValueType(self) else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
+            cType: "foreignObject",
+            conversion: context.pythonValueTypeDescriptor(for: self)
+        )
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

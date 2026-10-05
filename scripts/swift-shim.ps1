@@ -16,6 +16,8 @@ $SwiftExit = $?
 $SwiftExitMessage = "swift exited with code $LastExitCode"
 
 if (-not $SwiftExit) {
-    gci Env:PATH | Format-List | Out-String | Write-Debug
+    # Write-Host, not Write-Debug: with $DebugPreference = 'Inquire' the
+    # debug stream prompts for input, which hangs a CI runner.
+    gci Env:PATH | Format-List | Out-String | Write-Host
     throw $SwiftExitMessage
 }

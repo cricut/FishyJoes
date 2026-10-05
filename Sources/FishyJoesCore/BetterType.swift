@@ -196,6 +196,15 @@ extension BetterType {
         }
     }
 
+    var unqualifiedName: String {
+        switch self {
+        case let .named(name):
+            return name.name
+        default:
+            return name
+        }
+    }
+
     var nonNamespacedName: String {
         switch self {
         case let .named(name):

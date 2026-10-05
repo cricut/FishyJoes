@@ -15,6 +15,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
+/// Sample strings and string operations for Unicode round-trips.
 /// <!-- FishyJoes.export(Strings) -->
 class Strings {
     Strings._();
@@ -65,12 +66,14 @@ class Strings {
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_script(Loader.shared.env, exn))
         )
     ;
+    /// A simple ASCII greeting.
     /// <!-- FishyJoes.export(simple) -->
     static String get simple =>
         check((exn) =>
             consumeCreatedRef<String>(f__iota_get_TestAPI_Strings_simple(Loader.shared.env, exn))
         )
     ;
+    /// Returns the given string unchanged.
     /// <!-- FishyJoes.export(echo) -->
     static String echo(
         String string,
@@ -80,6 +83,8 @@ class Strings {
         )
     ;
 
+    /// Splits the string on each occurrence of the separator.
+    /// Returns the pieces in order without the separator.
     /// <!-- FishyJoes.export(split) -->
     static List<String> split(
         String string,

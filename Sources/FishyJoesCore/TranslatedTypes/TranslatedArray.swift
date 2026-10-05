@@ -43,4 +43,16 @@ struct TranslatedArray: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let element = elementType.pythonRepresentation(in: context.recursingIntoChild()),
+              let elementConversion = element.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: .container("list", [element.annotation]),
+            cType: "foreignObject",
+            conversion: "_native.Array(\"\(converterType.name)\", \(elementConversion))"
+        )
+    }
 }

@@ -29,7 +29,7 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
      */
     var instanceModifiable: Long
       get() = __jni_get_instanceModifiable()
-      set(value) { __jni_set_instanceModifiable(value) } 
+      set(value) { __jni_set_instanceModifiable(value) }
     @JvmName("__jni_get_instanceModifiable")
     private external fun __jni_get_instanceModifiable(): Long
     @JvmName("__jni_set_instanceModifiable")
@@ -40,7 +40,7 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
      */
     var instanceStored: Long
       get() = __jni_get_instanceStored()
-      set(value) { __jni_set_instanceStored(value) } 
+      set(value) { __jni_set_instanceStored(value) }
     @JvmName("__jni_get_instanceStored")
     private external fun __jni_get_instanceStored(): Long
     @JvmName("__jni_set_instanceStored")
@@ -163,7 +163,7 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
          */
         var staticModifiable: Long
           get() = __jni_get_staticModifiable()
-          set(value) { __jni_set_staticModifiable(value) } 
+          set(value) { __jni_set_staticModifiable(value) }
         @JvmStatic
         @JvmName("__jni_get_staticModifiable")
         private external fun __jni_get_staticModifiable(): Long
@@ -176,7 +176,7 @@ class Methods private constructor(_swiftReference: Long): com.cricut.fishyjoes.r
          */
         var staticStored: Long
           get() = __jni_get_staticStored()
-          set(value) { __jni_set_staticStored(value) } 
+          set(value) { __jni_set_staticStored(value) }
         @JvmStatic
         @JvmName("__jni_get_staticStored")
         private external fun __jni_get_staticStored(): Long

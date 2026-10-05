@@ -34,6 +34,46 @@ sealed class DefaultArguments {
             z: Double
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(describeEnumDefault) -->
+         */
+        fun describeEnumDefault(
+            value: Long,
+            color: com.cricut.testapi.SimpleEnum
+        ): kotlin.String = __jni_describeEnumDefault(value, color)
+        @JvmStatic
+        @JvmName("__jni_describeEnumDefault")
+        private external fun __jni_describeEnumDefault(
+            value: Long,
+            color: com.cricut.testapi.SimpleEnum
+        ): kotlin.String
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultTolerance) -->
+         */
+        fun echoDefaultTolerance(
+            tolerance: Double = 1.4901161193847656E-8
+        ): Double = __jni_echoDefaultTolerance(tolerance)
+        @JvmStatic
+        @JvmName("__jni_echoDefaultTolerance")
+        private external fun __jni_echoDefaultTolerance(
+            tolerance: Double
+        ): Double
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
+         */
+        fun echoDefaultIntLimits(
+            minValue: Long,
+            maxValue: Long
+        ): kotlin.String = __jni_echoDefaultIntLimits(minValue, maxValue)
+        @JvmStatic
+        @JvmName("__jni_echoDefaultIntLimits")
+        private external fun __jni_echoDefaultIntLimits(
+            minValue: Long,
+            maxValue: Long
+        ): kotlin.String
+
         init { loadNativeLibs() }
     }
 }

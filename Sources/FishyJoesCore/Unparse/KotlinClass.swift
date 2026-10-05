@@ -98,6 +98,7 @@ class KotlinClass: NestedClass {
     }
 
     func output(field: Variable, to fragment: SourceFragment, external: Bool = true) {
+        let jniName = KotlinClass.jniIdentifier(field.name)
         document(field.documentation, fragment: fragment)
         if let deprecation = field.deprecation {
             fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
@@ -108,23 +109,23 @@ class KotlinClass: NestedClass {
         }
 
         if external {
-            fragment.output("  get() = __jni_get_\(field.name)()\(field.type.toKotlinType)")
+            fragment.output("  get() = __jni_get_\(jniName)()\(field.type.toKotlinType)")
             if field.isPubliclyWritable {
-                fragment.output("  set(value) { __jni_set_\(field.name)(value\(field.type.toJVMType)) } ")
+                fragment.output("  set(value) { __jni_set_\(jniName)(value\(field.type.toJVMType)) } ")
             }
 
             if field.isStatic {
                 fragment.output("@JvmStatic")
             }
 
-            fragment.output("@JvmName(\"__jni_get_\(field.name)\")")
-            fragment.output("private external fun __jni_get_\(field.name)(): \(field.type.jvmType)")
+            fragment.output("@JvmName(\"__jni_get_\(jniName)\")")
+            fragment.output("private external fun __jni_get_\(jniName)(): \(field.type.jvmType)")
             if field.isMutable {
                 if field.isStatic {
                     fragment.output("@JvmStatic")
                 }
-                fragment.output("@JvmName(\"__jni_set_\(field.name)\")")
-                fragment.output("private external fun __jni_set_\(field.name)(newValue: \(field.type.jvmType))")
+                fragment.output("@JvmName(\"__jni_set_\(jniName)\")")
+                fragment.output("private external fun __jni_set_\(jniName)(newValue: \(field.type.jvmType))")
             }
             fragment.blankLine()
         }
@@ -172,7 +173,8 @@ class KotlinClass: NestedClass {
                             arguments.append("\(parameter.name)\(parameter.type.toJVMType)")
                         }
                     }
-                    let methodName = method.isDefaultImplementation ? "_default_" + method.name : method.name
+                    let jniName = KotlinClass.jniIdentifier(method.name)
+                    let methodName = method.isDefaultImplementation ? "_default_" + jniName : jniName
                     fragment.output(" = __jni_\(methodName)(\(arguments.joined(separator: ", ")))", newLineTerminated: false)
                     if method.isSuspend {
                         fragment.output(".await()")
@@ -189,7 +191,8 @@ class KotlinClass: NestedClass {
                !isDefaultInCompanionObject {
                 fragment.output("@JvmStatic")
             }
-            let methodName = method.isDefaultImplementation ? "_default_" + method.name : method.name
+            let jniName = KotlinClass.jniIdentifier(method.name)
+            let methodName = method.isDefaultImplementation ? "_default_" + jniName : jniName
             fragment.output("@JvmName(\"__jni_\(methodName)\")")
             fragment.outputBlock("private external fun __jni_\(methodName)(", newLineTerminated: false) {
                 var unnamedParamsCnt = 1
@@ -283,6 +286,47 @@ extension KotlinClass.MethodOrVariable {
 }
 
 extension KotlinClass {
+    static func deforbidify(_ name: String) -> String {
+        let unescaped = name.unescapedSwiftIdentifier
+        guard forbiddenNames.contains(unescaped) else { return unescaped }
+        return "`\(unescaped)`"
+    }
+
+    static func jniIdentifier(_ name: String) -> String {
+        name.unescapedSwiftIdentifier
+    }
+
+    private static let forbiddenNames: Set<String> = [
+        "as",
+        "break",
+        "class",
+        "continue",
+        "do",
+        "else",
+        "false",
+        "for",
+        "fun",
+        "if",
+        "in",
+        "interface",
+        "is",
+        "null",
+        "object",
+        "package",
+        "return",
+        "super",
+        "this",
+        "throw",
+        "true",
+        "try",
+        "typealias",
+        "typeof",
+        "val",
+        "var",
+        "when",
+        "while",
+    ]
+
     static func separate(fieldsAndMethods: [KotlinClass.MethodOrVariable]) -> ([KotlinClass.Variable], [KotlinClass.Method]) {
         let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {

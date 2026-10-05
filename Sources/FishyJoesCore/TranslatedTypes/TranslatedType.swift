@@ -19,6 +19,12 @@ protocol TranslatedType {
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
     func dartSetupDelegates(in context: FishyJoesContext) -> [String]
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
+    /// The bundled Python representation of this type: annotation + C ABI type +
+    /// optional conversion descriptor. A `nil` result means "no C ABI
+    /// representation" (the old `pythonCType == nil`); when non-`nil` the
+    /// annotation is always present. Non-defaulted, so a new `TranslatedType`
+    /// cannot compile without supplying its Python representation.
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation?
 }
 
 extension TranslatedType {

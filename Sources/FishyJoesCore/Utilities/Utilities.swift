@@ -68,6 +68,10 @@ extension String {
         let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
         return components(separatedBy: invalidCharacters).joined(separator: "_")
     }
+
+    var unescapedSwiftIdentifier: String {
+        trimmingCharacters(in: CharacterSet(charactersIn: "`"))
+    }
 }
 
 extension SourceryVariable {

@@ -86,7 +86,7 @@ class AProtocolImplementation implements TestAPI.AProtocol {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(foo), 
+        const DeepCollectionEquality().hash(foo),
         const DeepCollectionEquality().hash(baz)
     );
 

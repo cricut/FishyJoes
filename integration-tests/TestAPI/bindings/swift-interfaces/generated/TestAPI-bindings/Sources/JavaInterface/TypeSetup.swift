@@ -207,6 +207,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try ArrayConverter<Swift.Int64>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.Int8>...")
         try ArrayConverter<Swift.Int8>.javaSetup(env: env)
+        // print("setting up ArrayConverter<TestAPI.Shade>...")
+        try ArrayConverter<TestAPI.Shade>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.String>...")
         try ArrayConverter<Swift.String>.javaSetup(env: env)
         // print("setting up ArrayConverter<Swift.UInt>...")
@@ -257,6 +259,8 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try OptionalConverter<Swift.Int64>.javaSetup(env: env)
         // print("setting up OptionalConverter<Swift.Int8>...")
         try OptionalConverter<Swift.Int8>.javaSetup(env: env)
+        // print("setting up OptionalConverter<TestAPI.Shade>...")
+        try OptionalConverter<TestAPI.Shade>.javaSetup(env: env)
         // print("setting up OptionalConverter<TestAPI.SimpleEnum>...")
         try OptionalConverter<TestAPI.SimpleEnum>.javaSetup(env: env)
         // print("setting up OptionalConverter<Swift.String>...")
@@ -450,6 +454,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.ReferenceOnlyTypes.Marker...")
+        try TestAPI.ReferenceOnlyTypes.Marker.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ReferenceOnlyTypes.Marker.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_hashCode"),
+                signature: bag.add("()I"),
+                fnPtr: unsafeBitCast(TestAPI.ReferenceOnlyTypes.Marker._javaHash, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_swiftEquals"),
+                signature: bag.add("(Lcom/cricut/testapi/ReferenceOnlyTypes$Marker;Lcom/cricut/testapi/ReferenceOnlyTypes$Marker;)Z"),
+                fnPtr: unsafeBitCast(TestAPI.ReferenceOnlyTypes.Marker._javaEquals, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Results.Error...")
         try TestAPI.Results.Error.javaSetup(env: env)
         // print("setting up TestAPI.Structs.MemberwiseStruct...")
@@ -628,6 +647,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try TestAPI.AsyncFunctions.javaSetup(env: env)
         try env.RegisterNatives(
             TestAPI.AsyncFunctions.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_delayedConst"),
+                signature: bag.add("(J)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_AsyncFunctions_delayedConst, to: UnsafeMutableRawPointer.self)
+            ),
             JNINativeMethod(
                 name: bag.add("__jni_exercise0"),
                 signature: bag.add("(Lkotlin/jvm/functions/Function1;)Lkotlinx/coroutines/Deferred;"),
@@ -1053,6 +1077,21 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
         try TestAPI.DefaultArguments.javaSetup(env: env)
         try env.RegisterNatives(
             TestAPI.DefaultArguments.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_describeEnumDefault"),
+                signature: bag.add("(JLcom/cricut/testapi/SimpleEnum;)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_describeEnumDefault, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDefaultIntLimits"),
+                signature: bag.add("(JJ)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultIntLimits, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDefaultTolerance"),
+                signature: bag.add("(D)D"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultTolerance, to: UnsafeMutableRawPointer.self)
+            ),
             JNINativeMethod(
                 name: bag.add("__jni_echoDefaults"),
                 signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
@@ -1964,6 +2003,71 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_Primitives_valueMapper, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.ProtocolFixtures...")
+        try TestAPI.ProtocolFixtures.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ProtocolFixtures.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_describeAProtocol"),
+                signature: bag.add("(Lcom/cricut/testapi/AProtocol;JJ)Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ProtocolFixtures_describeAProtocol, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_returnAProtocol"),
+                signature: bag.add("(Lcom/cricut/testapi/AProtocol;)Lcom/cricut/testapi/AProtocol;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ProtocolFixtures_returnAProtocol, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.PythonNamingCollisions...")
+        try TestAPI.PythonNamingCollisions.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.PythonNamingCollisions.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_from"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_TestAPI_PythonNamingCollisions_from, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_URL"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_URL, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_Url"),
+                signature: bag.add("()Ljava/lang/String;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_Url, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get___dunder__"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions___dunder__, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get__leadingUnderscore"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions__leadingUnderscore, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_class"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_class, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_isNaN"),
+                signature: bag.add("()Z"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_isNaN, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_list"),
+                signature: bag.add("()J"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_PythonNamingCollisions_list, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_keywordArgs"),
+                signature: bag.add("(JJ)J"),
+                fnPtr: unsafeBitCast(java_TestAPI_PythonNamingCollisions_keywordArgs, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Ranges...")
         try TestAPI.Ranges.javaSetup(env: env)
         try env.RegisterNatives(
@@ -2069,6 +2173,26 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_get_TestAPI_Ranges_uIntRange, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.ReferenceCaseEnum...")
+        try TestAPI.ReferenceCaseEnum.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ReferenceCaseEnum.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_get_defaultDirection"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ReferenceCaseEnum_defaultDirection, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_opposite"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ReferenceCaseEnum_opposite, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_rotate180"),
+                signature: bag.add("(Lcom/cricut/testapi/ReferenceCaseEnum;)Lcom/cricut/testapi/ReferenceCaseEnum;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ReferenceCaseEnum_rotate180, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.ReferenceEmptyEnum...")
         try TestAPI.ReferenceEmptyEnum.javaSetup(env: env)
         try env.RegisterNatives(
@@ -2089,6 +2213,16 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_ReferenceEmptyEnum_notGoingToHappen, to: UnsafeMutableRawPointer.self)
             )
         )
+        // print("setting up TestAPI.ReferenceOnlyTypes...")
+        try TestAPI.ReferenceOnlyTypes.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ReferenceOnlyTypes.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_marker"),
+                signature: bag.add("()Lcom/cricut/testapi/ReferenceOnlyTypes$Marker;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ReferenceOnlyTypes_marker, to: UnsafeMutableRawPointer.self)
+            )
+        )
         // print("setting up TestAPI.Results...")
         try TestAPI.Results.javaSetup(env: env)
         try env.RegisterNatives(
@@ -2107,6 +2241,23 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_processResult"),
                 signature: bag.add("(Lcom/cricut/fishyjoes/runtime/TypedResult;)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_Results_processResult, to: UnsafeMutableRawPointer.self)
+            )
+        )
+        // print("setting up TestAPI.Shade...")
+        try TestAPI.Shade.javaSetup(env: env)
+        // print("setting up TestAPI.ShadowBox...")
+        try TestAPI.ShadowBox.javaSetup(env: env)
+        try env.RegisterNatives(
+            TestAPI.ShadowBox.javaClass,
+            JNINativeMethod(
+                name: bag.add("__jni_darkest"),
+                signature: bag.add("(Ljava/util/List;)Lcom/cricut/testapi/Shade;"),
+                fnPtr: unsafeBitCast(java_TestAPI_ShadowBox_darkest, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_get_allShades"),
+                signature: bag.add("()Ljava/util/List;"),
+                fnPtr: unsafeBitCast(java_get_TestAPI_ShadowBox_allShades, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.SimpleEnum...")

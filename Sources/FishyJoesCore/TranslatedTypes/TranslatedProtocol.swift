@@ -61,6 +61,20 @@ struct TranslatedProtocol: TranslatedType {
         enforceNoProtocolMutatingFunctions()
     }
 
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        // A protocol already being visited in this recursion is treated as
+        // generatable (matching the old `visitedProtocols.contains` short-circuit
+        // in the three switches), otherwise probe its members.
+        guard context.visitedProtocols.contains(nodeName) || context.canGenerateProtocolType(self) else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
+            cType: "foreignObject",
+            conversion: context.pythonProtocolTypeDescriptor(for: self)
+        )
+    }
+
     func enforceProtocolThrows() {
         if let method = methods.first(where: { !$0.isThrowing }) {
             fatalErr("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")

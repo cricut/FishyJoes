@@ -26,7 +26,19 @@ public struct DownloadNodeLib: ParsableCommand {
         destinations allDestinations: [String],
         force: Bool = false
     ) throws {
-        let url = url ?? "https://nodejs.org/dist/latest-v16.x/win-x64/node.lib"
+        let url = try url ?? {
+            guard cmd("node", "--version").runBool() else {
+                throw ValidationError("node is not available in PATH; cannot determine Node version for node.lib download")
+            }
+            let nodeVersion = try cmd("node", "-p", "process.versions.node").runString()
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            // Strip any pre-release suffix (e.g. "18.0.0-rc.1" -> "18.0.0")
+                .components(separatedBy: "-").first ?? ""
+            guard !nodeVersion.isEmpty else {
+                throw ValidationError("Could not determine Node version from `node -p process.versions.node`")
+            }
+            return "https://nodejs.org/dist/v\(nodeVersion)/win-x64/node.lib"
+        }()
         let firstDestination = allDestinations.first ?? ".build/lib/node.lib"
         let remainingDestinations = allDestinations.dropFirst()
 

@@ -17,15 +17,18 @@ repositories {
         name = "GitHubPackagesFishyJoes"
         url = uri("https://maven.pkg.github.com/cricut/FishyJoes")
         credentials {
+            // These seem to be needed even for a public repository. We should probably migrate to maven central instead.
             username = if ((System.getenv("GITHUB_USER") ?: "") != "") System.getenv("GITHUB_USER") else project.property("gpr_user") as String
             password = if ((System.getenv("GITHUB_TOKEN") ?: "") != "") System.getenv("GITHUB_TOKEN") else project.property("gpr_key") as String
         }
     }
 }
 
-val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
+java {
+    withSourcesJar()
+}
+
+tasks.named<Jar>("sourcesJar") {
     exclude("**/*.so", "**/*.dylib", "**/*.dll")
 }
 
@@ -63,7 +66,6 @@ publishing {
             version = properties["version"] as? String
 
             from(components["java"])
-            artifact(sourcesJar.get())
 
             pom {
                 name.set("EmojiFun")
@@ -119,6 +121,7 @@ dependencies {
     implementation(kotlin("stdlib:1.9.10"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")

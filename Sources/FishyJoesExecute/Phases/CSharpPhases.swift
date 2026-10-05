@@ -7,24 +7,28 @@ class CSharpPhases: IotaPhases, Phases {
         replacements["__LIBRARY_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(options.config.module).csproj").uuidString
         replacements["__TESTS_CSPROJ_UUID__"] = UUID(deterministicFrom: "Cricut.\(options.config.module).Tests.csproj").uuidString
 
-        let csProjDependencies = [
-            (swift: "FishyJoes", nupkgsPath: "c-sharp-runtime/nupkgs", nuget: "Cricut.FishyJoesRuntime")
-        ] + options.config.requiredModules.map {
-            (swift: $0, nupkgsPath: "bindings/c-sharp/nupkgs", nuget: "Cricut.\($0)")
+        let csProjDependencies = [CSharpNuGetDependency(
+            swift: "FishyJoes",
+            nupkgsPath: "c-sharp-runtime/nupkgs",
+            nuget: "Cricut.FishyJoesRuntime"
+        )] + options.config.requiredModules.map {
+            CSharpNuGetDependency(swift: $0, nupkgsPath: "bindings/c-sharp/nupkgs", nuget: "Cricut.\($0)")
         }
         let csProjDependencyLines = {
             var dependencyPaths: [String] = []
-            let deps = csProjDependencies.map {
-                guard let dependency = options.packageInfo?.dependencyMap[$0.swift] else {
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+            let generatedProjectPath = "bindings/c-sharp/generated/Cricut.\(options.config.module)/"
+            let deps = csProjDependencies.map { cSharpDependency in
+                guard let swiftDependency = options.packageInfo?.dependencyMap[cSharpDependency.swift] else {
+                    return #"<ItemGroup><PackageReference Include="\#(cSharpDependency.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
                 }
-                if let version = dependency.versionInNugetFormat(flexibleVersions: options.config.flexibleVersions) {
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="\#(version)" /></ItemGroup>"#
-                } else {
-                    let path = relativePath(of: dependency.localPath, relativeTo: "bindings/c-sharp/generated/Cricut.\(options.config.module)/")
-                    dependencyPaths.append("$(MSBuildThisFileDirectory)\(path)/\($0.nupkgsPath)")
-                    return #"<ItemGroup><PackageReference Include="\#($0.nuget)" Version="[0.0.1-unknown]" /></ItemGroup>"#
+
+                if cSharpDependency.requiresLocalPackageSource(swiftDependency, options: options) {
+                    let path = relativePath(of: options.localPath(for: swiftDependency), relativeTo: generatedProjectPath)
+                    dependencyPaths.append("$(MSBuildThisFileDirectory)\(path)/\(cSharpDependency.nupkgsPath)")
                 }
+
+                let version = swiftDependency.versionInNugetFormat(flexibleVersions: options.config.flexibleVersions) ?? "[0.0.1-unknown]"
+                return #"<ItemGroup><PackageReference Include="\#(cSharpDependency.nuget)" Version="\#(version)" /></ItemGroup>"#
             }
 
             if dependencyPaths.isEmpty {
@@ -53,16 +57,26 @@ class CSharpPhases: IotaPhases, Phases {
             let solution = "generated/Cricut.\(options.config.module).sln"
             // dotnet caches "package doesn't exist" for an annoyingly long time. This still caches the large downloads.
             // This seems consistently flaky on clean checkouts, so try multiple times
+            let restoreAttempts = 3
             var restoreSucceeded = false
-            for _ in 0..<2 {
+            for attempt in 1...restoreAttempts {
                 if cmd("dotnet", "restore", "--no-cache", solution).runBool() {
                     restoreSucceeded = true
                     break
                 }
+                if attempt < restoreAttempts {
+                    Log.error("dotnet restore attempt \(attempt)/\(restoreAttempts) failed, retrying...")
+                    Thread.sleep(forTimeInterval: TimeInterval(attempt * 5))
+                }
             }
             guard restoreSucceeded else {
-                Log.error("dotnet restore failed after multiple attempts")
-                fatalError()
+                fatalError(
+                    "dotnet restore --no-cache \(solution) failed after \(restoreAttempts) attempts."
+                        + " The NuGet error is in the restore output above."
+                        + " Deterministic NU1608 version conflicts mean a dependency package constrains a different"
+                        + " FishyJoes runtime major; intermittent failures on clean checkouts are NuGet feed flakes —"
+                        + " check package-feed availability and NUGET_AUTH_TOKEN/GITHUB_TOKEN, then retry."
+                )
             }
 
             var args = ["build", solution]
@@ -102,10 +116,10 @@ class CSharpPhases: IotaPhases, Phases {
         // TODO: fix this to use dotnet's package exclusion instead of using rm
         var dependencyBindingsPaths: [String: String] = [options.config.module: "."]
         for moduleName in options.config.requiredModules {
-            guard let dependencyPath = options.packageInfo.dependencyMap[moduleName]?.localPath else {
+            guard let dependency = options.packageInfo.dependencyMap[moduleName] else {
                 fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
             }
-            dependencyBindingsPaths[moduleName] = dependencyPath
+            dependencyBindingsPaths[moduleName] = options.localPath(for: dependency)
         }
         var dependencyXDLs = Set<String>()
         // Locate dependencies yaml files
@@ -132,5 +146,16 @@ class CSharpPhases: IotaPhases, Phases {
             "/p:Version=\(version)",
             "--output", "bindings/c-sharp/nupkgs"
         ).run()
+    }
+}
+
+private struct CSharpNuGetDependency {
+    let swift: String
+    let nupkgsPath: String
+    let nuget: String
+
+    func requiresLocalPackageSource(_ dependency: SwiftPackage.Dependency, options: CodeGen) -> Bool {
+        dependency.versionInNugetFormat(flexibleVersions: options.config.flexibleVersions) == nil ||
+            options.editedDependencyPaths[dependency.identity.lowercased()] != nil
     }
 }

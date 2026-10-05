@@ -15,6 +15,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
+/// A reference type with playful members for binding coverage.
 /// <!-- FishyJoes.exportReference(EmptyClass1) -->
 class EmptyClass1 extends SwiftReference {
     EmptyClass1(ffi.Pointer reference): super(reference) {}
@@ -22,6 +23,7 @@ class EmptyClass1 extends SwiftReference {
         createRef(EmptyClass1(ref))
     );
 
+    /// A cheerful nonsense string.
     /// <!-- FishyJoes.export(blarg) -->
     String get blarg =>
         GCRef.using(this, (_thisHandle) =>
@@ -51,6 +53,7 @@ class EmptyClass1 extends SwiftReference {
         consumeCreatedRef<TestAPI.EmptyClass1>(check((OutCreatedRef _exn) => f__iota_TestAPI_EmptyClass_create(Loader.shared.env, _exn)))
     ;
 
+    /// Returns a short pirate greeting.
     /// <!-- FishyJoes.export(shme) -->
     String shme(
     ) =>
@@ -70,10 +73,11 @@ class EmptyClass1 extends SwiftReference {
     bool operator ==(
         Object other,
     ) =>
-        other is TestAPI.EmptyClass1 &&
-        GCRef.using(this, (thisHandle) =>
-            GCRef.using(other, (otherHandle) =>
-                check((exn) => f__iota_TestAPI_EmptyClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))
+        identical(other, this) ||
+        (other is TestAPI.EmptyClass1 &&
+            GCRef.using(this, (thisHandle) =>
+                GCRef.using(other, (otherHandle) =>
+                    check((exn) => f__iota_TestAPI_EmptyClass_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))
     ;
 
     static late CreatedRef Function(

@@ -52,4 +52,21 @@ struct TranslatedResult: TranslatedType {
     }
 
     var isInhabited: Bool { success.isInhabited || failure.isInhabited }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let successRepresentation = success.pythonRepresentation(in: context.recursingIntoChild()),
+              let failureRepresentation = failure.pythonRepresentation(in: context.recursingIntoChild()),
+              let successConversion = successRepresentation.conversionDescriptor,
+              let failureConversion = failureRepresentation.conversionDescriptor else {
+            return nil
+        }
+        return PythonRepresentation(
+            annotation: context.pythonResultType(
+                success: successRepresentation.annotation,
+                failure: failureRepresentation.annotation
+            ),
+            cType: "foreignObject",
+            conversion: "_native.Result(\"\(converterType.name)\", \(successConversion), \(failureConversion))"
+        )
+    }
 }

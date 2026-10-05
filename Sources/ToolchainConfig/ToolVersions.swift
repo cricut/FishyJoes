@@ -6,6 +6,7 @@ public struct ToolVersions: Codable {
     public let swiftWindows: WindowsToolchain
     public let swiftWasm: SDKVersion
     public let swiftAndroid: SDKVersion
+    public let linuxContainer: LinuxContainer
 
     public struct LinuxToolchain: Codable {
         /// A release `name` from https://www.swift.org/api/v1/install/releases.json
@@ -48,10 +49,22 @@ public struct ToolVersions: Codable {
         // Unused for non-android
         public let ndkArchName: String?
     }
+
+    public struct LinuxContainer: Codable {
+        public let image: String
+        public let version: String
+    }
+
     public static let shared: ToolVersions = {
         let data = try! Data(contentsOf: Bundle.module.url(forResource: "tool-versions", withExtension: "json")!)
         return try! JSONDecoder().decode(ToolVersions.self, from: data)
     }()
+}
+
+extension ToolVersions.LinuxContainer {
+    public var imageSpec: String {
+        "\(image):\(version)"
+    }
 }
 
 extension ToolVersions.SDKVersion {

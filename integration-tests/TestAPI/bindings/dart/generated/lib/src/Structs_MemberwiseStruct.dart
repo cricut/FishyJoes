@@ -15,6 +15,7 @@ import 'package:tuple/tuple.dart' as tuple;
 // ignore_for_file: file_names
 // ignore_for_file: annotate_overrides
 
+/// A plain value type with one immutable and one mutable field.
 /// <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
 class Structs_MemberwiseStruct {
     String _immutable;
@@ -89,7 +90,7 @@ class Structs_MemberwiseStruct {
     @override
     int get hashCode => Object.hash(
         runtimeType,
-        const DeepCollectionEquality().hash(immutable), 
+        const DeepCollectionEquality().hash(immutable),
         const DeepCollectionEquality().hash(mutable)
     );
 

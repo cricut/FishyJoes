@@ -53,4 +53,17 @@ struct TranslatedRange: TranslatedType {
             },
         ]
     }
+
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        guard let boundRepresentation = bound.pythonRepresentation(in: context.recursingIntoChild()),
+              let boundConversion = boundRepresentation.conversionDescriptor else {
+            return nil
+        }
+        let constructor = isClosedRange ? "_native.ClosedRange" : "_native.Range"
+        return PythonRepresentation(
+            annotation: context.pythonRangeType(isClosedRange: isClosedRange, bound: boundRepresentation.annotation),
+            cType: "foreignObject",
+            conversion: "\(constructor)(\"\(converterType.name)\", \(boundConversion))"
+        )
+    }
 }

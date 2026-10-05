@@ -1,3 +1,3 @@
 // __AUTOGEN_WARNING__
 
-rootProject.name = "kotlin"
+rootProject.name = "__MODULE_NAME__"__GRADLE_INCLUDED_BUILDS__

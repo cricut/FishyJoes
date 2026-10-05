@@ -6,6 +6,7 @@ using static Cricut.FishyJoesRuntime.Utilities;
 
 namespace Cricut.TestAPI {
     /// <summary>
+    /// <para>Sample strings and string operations for Unicode round-trips.</para>
     /// <!-- FishyJoes.export(Strings) -->
     /// </summary>
     public record Strings {
@@ -110,6 +111,7 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Strings_script(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <para>A simple ASCII greeting.</para>
         /// <!-- FishyJoes.export(simple) -->
         /// </summary>
         public static string Simple {
@@ -124,6 +126,7 @@ namespace Cricut.TestAPI {
         private static extern CreatedRef __iota_get_TestAPI_Strings_simple(IntPtr envRef, out CreatedRef exn);
 
         /// <summary>
+        /// <para>Returns the given string unchanged.</para>
         /// <!-- FishyJoes.export(echo) -->
         /// </summary>
         public static string Echo(
@@ -141,6 +144,8 @@ namespace Cricut.TestAPI {
         );
 
         /// <summary>
+        /// <para>Splits the string on each occurrence of the separator.</para>
+        /// <para>Returns the pieces in order without the separator.</para>
         /// <!-- FishyJoes.export(split) -->
         /// </summary>
         public static System.Collections.Generic.IList<string> Split(

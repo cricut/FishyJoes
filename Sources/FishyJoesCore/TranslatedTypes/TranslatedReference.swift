@@ -46,6 +46,14 @@ struct TranslatedReference: TranslatedType {
         self.conformances = Set(type.implements.map(\.better))
     }
 
+    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
+        PythonRepresentation(
+            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
+            cType: "foreignObject",
+            conversion: context.pythonValueTypeDescriptor(for: self)
+        )
+    }
+
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         [
             nodeDefinitionFragment(in: context),
@@ -518,10 +526,11 @@ struct TranslatedReference: TranslatedType {
                         returnType: .primitive("bool", ffiName: "Bool"),
                         deprecation: nil,
                         body: [
-                            "other is \(dartType.name()) &&",
-                            "GCRef.using(this, (thisHandle) =>",
-                            "    GCRef.using(other, (otherHandle) =>",
-                            "        check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn))))",
+                            "identical(other, this) ||",
+                            "(other is \(dartType.name()) &&",
+                            "    GCRef.using(this, (thisHandle) =>",
+                            "        GCRef.using(other, (otherHandle) =>",
+                            "            check((exn) => f__iota_\(sourceType.name.mangled)_equals(Loader.shared.env, thisHandle.ptr, otherHandle.ptr, exn)))))",
                         ],
                         isDefaultImplementation: false
                     )

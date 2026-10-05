@@ -22,6 +22,7 @@ sealed class Deprecations {
         private external fun __jni_get_deprecatedVariable(): Long
 
         /**
+         * An old greeting kept only for deprecation coverage.
          * <!-- FishyJoes.export(deprecatedMethod) -->
          */
         @Deprecated("don't use this")

@@ -591,7 +591,8 @@ extension DartClass {
     ]
 
     static func deforbidify(_ name: String) -> String {
-        var name = forbiddenVarNames.contains(name) ? "_\(name)" : name
+        var name = name.unescapedSwiftIdentifier
+        name = forbiddenVarNames.contains(name) ? "_\(name)" : name
         // leading underscores have semantic meaning in dart, avoid them.
         if name.hasPrefix("_") {
             name = "m\(name)" // This is far from ideal...

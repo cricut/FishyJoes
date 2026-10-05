@@ -1,3 +1,4 @@
+/// A reference type with playful members for binding coverage.
 /// <!-- FishyJoes.exportReference(EmptyClass1) -->
 public class EmptyClass: Hashable {
     public static func == (lhs: EmptyClass, rhs: EmptyClass) -> Bool {
@@ -11,6 +12,7 @@ public class EmptyClass: Hashable {
     /// <!-- FishyJoes.export(create) -->
     public init() { }
 
+    /// A cheerful nonsense string.
     /// <!-- FishyJoes.export(blarg) -->
     public var blarg: String {
         "Blarg!"
@@ -21,6 +23,7 @@ public class EmptyClass: Hashable {
         "<wibble>*Wobble*"
     }
 
+    /// Returns a short pirate greeting.
     /// <!-- FishyJoes.export(shme) -->
     public func shme() -> String {
         "Shme! Hand me my hook."

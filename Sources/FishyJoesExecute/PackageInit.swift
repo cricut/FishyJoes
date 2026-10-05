@@ -88,6 +88,7 @@ public struct PackageInit: ParsableCommand {
             ciPreBuildHook: nil,
             ciPostBuildHook: nil,
             flexibleVersions: false,
+            python: .default,
             sourceryOverride: nil,
             ciRunners: nil,
             ciDependencyAuth: nil

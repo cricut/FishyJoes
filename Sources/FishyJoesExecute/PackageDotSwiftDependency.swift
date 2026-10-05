@@ -14,7 +14,21 @@ enum PackageDotSwiftDependency {
 }
 
 extension PackageDotSwiftDependency.Dependency {
-    init(from spmDependency: SwiftPackage.Dependency) {
+    init(
+        from spmDependency: SwiftPackage.Dependency,
+        preferResolvedLocalPath: Bool = false,
+        currentDirectory: String = FileManager.default.currentDirectoryPath
+    ) {
+        if preferResolvedLocalPath {
+            let resolvedLocalPath = URL(
+                fileURLWithPath: spmDependency.localPath,
+                relativeTo: URL(fileURLWithPath: currentDirectory, isDirectory: true)
+            ).standardizedFileURL.path
+            if FileManager.default.fileExists(atPath: resolvedLocalPath) {
+                self = .local(path: resolvedLocalPath)
+                return
+            }
+        }
         switch spmDependency {
         case let .sourceControl(_, url, .branch(name)):
             self = .remote(url: url.absoluteString, .branch(name: name))

@@ -71,6 +71,13 @@ class AsyncFunctions {
             consumeCreatedRef<Future<int> Function()>(f__iota_get_TestAPI_AsyncFunctions_willThrow(Loader.shared.env, exn))
         )
     ;
+    /// <!-- FishyJoes.export(delayedConst) -->
+    static Future<int> delayedConst(
+        int nanoseconds,
+    ) =>
+        consumeCreatedRef<Future<int>>(check((OutCreatedRef _exn) => f__iota_TestAPI_AsyncFunctions_delayedConst(Loader.shared.env, nanoseconds, _exn)))
+    ;
+
     /// <!-- FishyJoes.export(exercise0) -->
     static Future<String> exercise0(
         Future<int> Function() fn,
@@ -143,6 +150,11 @@ class AsyncFunctions {
         )
     ;
 
+    static late CreatedRef Function(
+        Env env,
+        int nanoseconds,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_AsyncFunctions_delayedConst;
     static late CreatedRef Function(
         Env env,
         UnownedRef fn,
