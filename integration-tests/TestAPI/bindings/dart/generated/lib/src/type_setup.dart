@@ -2233,6 +2233,22 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_DefaultArguments_echoDefaults");
+    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultsAsync = dylib.lookupFunction<
+        CreatedRef Function(
+            Env env,
+            UnownedRef y,
+            UnownedRef x,
+            ffi.Double z,
+            OutCreatedRef _exn
+        ),
+        CreatedRef Function(
+            Env env,
+            UnownedRef y,
+            UnownedRef x,
+            double z,
+            OutCreatedRef _exn
+        )
+    >("__iota_TestAPI_DefaultArguments_echoDefaultsAsync");
     TestAPI.Deprecations.f__iota_TestAPI_Deprecations_deprecatedMethod = dylib.lookupFunction<
         CreatedRef Function(
             Env env,

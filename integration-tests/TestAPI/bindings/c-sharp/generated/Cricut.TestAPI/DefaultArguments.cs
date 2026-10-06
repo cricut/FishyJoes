@@ -33,6 +33,28 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
+        /// <summary>
+        /// <!-- FishyJoes.export(echoDefaultsAsync) -->
+        /// </summary>
+        public static System.Threading.Tasks.Task<string> EchoDefaultsAsync(
+            nint? x,
+            nint? y = null,
+            double /* theLabelForZ */ z = 3.14
+        ) {
+            using var _yHandle = new GCRef(y);
+            using var _xHandle = new GCRef(x);
+            return Check((out CreatedRef _exn) => __iota_TestAPI_DefaultArguments_echoDefaultsAsync(Loader.env, _yHandle.ptr, _xHandle.ptr, z, out _exn)).Consume<System.Threading.Tasks.Task<string>>();
+        }
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern CreatedRef __iota_TestAPI_DefaultArguments_echoDefaultsAsync(
+            IntPtr envRef,
+            UnownedRef y,
+            UnownedRef x,
+            double z,
+            out CreatedRef exn
+        );
+
         static DefaultArguments() { _TypeSetup._ensureLoaded(); }
     }
 }

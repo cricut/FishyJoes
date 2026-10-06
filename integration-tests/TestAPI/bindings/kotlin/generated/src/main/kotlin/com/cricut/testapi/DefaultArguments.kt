@@ -34,6 +34,22 @@ sealed class DefaultArguments {
             z: Double
         ): kotlin.String
 
+        /**
+         * <!-- FishyJoes.export(echoDefaultsAsync) -->
+         */
+        suspend fun echoDefaultsAsync(
+            y: Long? = null,
+            x: Long?,
+            /* theLabelForZ */ z: Double = 3.14
+        ): kotlin.String = __jni_echoDefaultsAsync(y, x, z).await()
+        @JvmStatic
+        @JvmName("__jni_echoDefaultsAsync")
+        private external fun __jni_echoDefaultsAsync(
+            y: Long?,
+            x: Long?,
+            z: Double
+        ): kotlinx.coroutines.Deferred<kotlin.String>
+
         init { loadNativeLibs() }
     }
 }

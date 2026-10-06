@@ -38,6 +38,21 @@ class DefaultArguments {
         )
     ;
 
+    /// <!-- FishyJoes.export(echoDefaultsAsync) -->
+    static Future<String> echoDefaultsAsync(
+        int? x,
+        {
+            int? y = null,
+            double /* theLabelForZ */ z = 3.14,
+        }
+    ) =>
+        GCRef.using(y, (_yHandle) =>
+            GCRef.using(x, (_xHandle) =>
+                consumeCreatedRef<Future<String>>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultsAsync(Loader.shared.env, _yHandle.ptr, _xHandle.ptr, z, _exn)))
+            )
+        )
+    ;
+
     static late CreatedRef Function(
         Env env,
         UnownedRef y,
@@ -45,4 +60,11 @@ class DefaultArguments {
         double z,
         OutCreatedRef _exn
     ) f__iota_TestAPI_DefaultArguments_echoDefaults;
+    static late CreatedRef Function(
+        Env env,
+        UnownedRef y,
+        UnownedRef x,
+        double z,
+        OutCreatedRef _exn
+    ) f__iota_TestAPI_DefaultArguments_echoDefaultsAsync;
 }

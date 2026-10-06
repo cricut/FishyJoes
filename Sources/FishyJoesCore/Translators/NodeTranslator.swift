@@ -112,9 +112,11 @@ struct NodeTranslator: Translator {
 
                     fragment.output("let (deferred, promise) = try env.env.createPromise()")
 
+                    // `arg<n>` is named after the parameter's position, matching the call below; only
+                    // positional parameters advance the JS argument index.
                     var argIndex = 0
-                    fragment.outputMap(method.parameters, separator: "") { formal in
-                        return "let arg\(argIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
+                    fragment.outputMap(method.parameters.enumerated(), separator: "") { parameterIndex, formal in
+                        return "let arg\(parameterIndex) = UncheckedSendableBox(\(convertMethodParameter(formal: formal, argIndex: &argIndex, includeFormalLabel: false)))"
                     }
 
                     if method.isMutating {

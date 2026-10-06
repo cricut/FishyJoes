@@ -2624,6 +2624,42 @@ extension TestAPI.DefaultArguments: FishyJoesNodeRuntime.NodeConverter {
                     },
                     isStatic: true
                 ),
+                (
+                    name: "echoDefaultsAsync",
+                    .method { env, info in
+                        FishyJoesNodeRuntime.callbackBody(env, info, name: "echoDefaultsAsync", expectedArgumentCount: 1, hasNamedOptions: true) { env in
+                            let (deferred, promise) = try env.env.createPromise()
+                            let arg0 = UncheckedSendableBox(try env.argument(named: "y", default: nil, converter: OptionalConverter<Swift.Int>.self))
+                            let arg1 = UncheckedSendableBox(try env.argument(at: 0, converter: OptionalConverter<Swift.Int>.self))
+                            let arg2 = UncheckedSendableBox(try env.argument(named: "theLabelForZ", default: 3.14, converter: Swift.Double.self))
+                            Task {
+                                do {
+                                    let taskResult: String = await TestAPI.DefaultArguments.echoDefaultsAsync(
+                                        y: arg0.value,
+                                        x: arg1.value,
+                                        theLabelForZ: arg2.value
+                                    )
+                                    try onMainThread { env in
+                                        let convertedTaskResult: NAPI.Value
+                                        do {
+                                            convertedTaskResult = try Swift.String.toNode(taskResult, env: env)
+                                        } catch {
+                                            try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                            return
+                                        }
+                                        try env.resolveDeferred(deferred, convertedTaskResult)
+                                    }
+                                } catch {
+                                    try onMainThread { env in
+                                        try env.rejectDeferred(deferred, FishyJoesNodeRuntime.nodeError(error, env: env))
+                                    }
+                                }
+                            }
+                            return promise
+                        }
+                    },
+                    isStatic: true
+                ),
             ],
             constructor: { env, info in
                 FishyJoesNodeRuntime.callbackBody(

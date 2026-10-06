@@ -10780,6 +10780,61 @@
                     "_0" : "string"
                   }
                 }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echoDefaultsAsync) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : true,
+                "isStatic" : true,
+                "name" : "echoDefaultsAsync",
+                "parameters" : [
+                  {
+                    "defaultValue" : "nil",
+                    "name" : "y",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "name" : "x",
+                    "type" : {
+                      "optional" : {
+                        "_0" : {
+                          "named" : {
+                            "_0" : "number"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "defaultValue" : "3.14",
+                    "label" : "theLabelForZ",
+                    "name" : "z",
+                    "type" : {
+                      "named" : {
+                        "_0" : "number"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "promise" : {
+                    "_0" : {
+                      "named" : {
+                        "_0" : "string"
+                      }
+                    }
+                  }
+                }
               }
             ],
             "name" : "DefaultArguments",

@@ -6,4 +6,9 @@ public enum DefaultArguments {
     public static func echoDefaults(y: Int? = nil, x: Int?, theLabelForZ z: Double = 3.14) -> String {
         "\(x ?? 42) \(y ?? 52) \(z)"
     }
+
+    /// <!-- FishyJoes.export(echoDefaultsAsync) -->
+    public static func echoDefaultsAsync(y: Int? = nil, x: Int?, theLabelForZ z: Double = 3.14) async -> String {
+        echoDefaults(y: y, x: x, theLabelForZ: z)
+    }
 }

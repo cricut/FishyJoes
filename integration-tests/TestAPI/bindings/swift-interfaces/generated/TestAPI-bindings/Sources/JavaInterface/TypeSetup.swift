@@ -1057,6 +1057,11 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 name: bag.add("__jni_echoDefaults"),
                 signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Ljava/lang/String;"),
                 fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaults, to: UnsafeMutableRawPointer.self)
+            ),
+            JNINativeMethod(
+                name: bag.add("__jni_echoDefaultsAsync"),
+                signature: bag.add("(Ljava/lang/Long;Ljava/lang/Long;D)Lkotlinx/coroutines/Deferred;"),
+                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultsAsync, to: UnsafeMutableRawPointer.self)
             )
         )
         // print("setting up TestAPI.Deprecations...")

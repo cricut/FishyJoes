@@ -824,6 +824,17 @@ export declare namespace TestAPI {
                 "theLabelForZ"?: number /* defaults to `3.14` */,
             }
         ): string;
+
+        /**
+         * <!-- FishyJoes.export(echoDefaultsAsync) -->
+         */
+        function echoDefaultsAsync(
+            x: Optional<number>,
+            options?: {
+                "y"?: Optional<number> /* defaults to `nil` */,
+                "theLabelForZ"?: number /* defaults to `3.14` */,
+            }
+        ): Promise<string>;
     }
 
     /**
