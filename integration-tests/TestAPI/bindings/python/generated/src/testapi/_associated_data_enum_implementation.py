@@ -51,7 +51,7 @@ def new_thing(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Thing(
+def extract_thing(
     obj: fishyjoes_runtime.UnownedRef,
     out_value: fishyjoes_runtime.OutCreatedRef,
 ) -> None:
@@ -71,7 +71,7 @@ def new_other(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Other(
+def extract_other(
     obj: fishyjoes_runtime.UnownedRef,
     out_unnamed: fishyjoes_runtime.OutCreatedRef,
     out__1: fishyjoes_runtime.OutCreatedRef,
@@ -95,7 +95,7 @@ def new_bar(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Bar(
+def extract_bar(
     obj: fishyjoes_runtime.UnownedRef,
     out_named: fishyjoes_runtime.OutCreatedRef,
     out__1: fishyjoes_runtime.OutCreatedRef,
@@ -115,21 +115,21 @@ def new_no_value(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_NoValue(
+def extract_no_value(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, associated_data_enum.NoValue)
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def new_none_(
+def new_none(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(associated_data_enum.None_(
     ))
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_None_(
+def extract_none(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, associated_data_enum.None_)
@@ -145,7 +145,7 @@ def new_simple_enum(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_SimpleEnum(
+def extract_simple_enum(
     obj: fishyjoes_runtime.UnownedRef,
     out_value: fishyjoes_runtime.OutCreatedRef,
 ) -> None:

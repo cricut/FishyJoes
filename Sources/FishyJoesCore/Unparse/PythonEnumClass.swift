@@ -130,9 +130,9 @@ class PythonEnumClass: PythonClass2 {
             // case constructor
             fragment.output("@fishyjoes_runtime.callback(\"TODO\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
-            fragment.outputBlock("def new_\(snakify(enumCase.pythonName))(", newLineTerminated: false) {
+            fragment.outputBlock("def new_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 for value in enumCase.values {
-                    fragment.output("\(value.name): \(value.type.static.ffiConsumedName),")
+                    fragment.output("\(value.name): \(value.type.static.ffiConsumedType.name()),")
                 }
             }
             fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
@@ -151,10 +151,10 @@ class PythonEnumClass: PythonClass2 {
             // case unpacker
             fragment.output("@fishyjoes_runtime.callback(\"TODO\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
-            fragment.outputBlock("def extract_\(enumCase.pythonName)(", newLineTerminated: false) {
+            fragment.outputBlock("def extract_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 fragment.output("obj: fishyjoes_runtime.UnownedRef,")
                 for value in enumCase.values {
-                    fragment.output("out_\(value.name): \(value.type.static.ffiOutCreatedName),")
+                    fragment.output("out_\(value.name): \(value.type.static.ffiOutCreatedType.name()),")
                 }
             }
             fragment.outputBlock(" -> None:") {

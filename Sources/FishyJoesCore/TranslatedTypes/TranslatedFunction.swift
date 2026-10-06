@@ -119,6 +119,26 @@ struct TranslatedFunction: TranslatedType {
         ]
     }
 
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+        if isAsync {
+            // All of the async setup is done in the translatedFutureFunction's setup
+            return []
+        }
+        return [
+            .value(name: "typeName", type: .str) { fragment in
+                fragment.output("string_bag.utf16(\"\(converterType.name)\"),")
+            },
+        ] + parameters.enumerated().map { (index, param) in
+            .value(name: "arg\(index)_dyn_types", type: param.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(param.pythonType.dynamicsStringAsTuple),")
+            }
+        } + [
+            .value(name: "ret_dyn_type", type: returnType.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(returnType.pythonType.dynamicsStringAsTuple),")
+            }
+        ]
+    }
+
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         let parameterRepresentations = parameters.compactMap { $0.pythonRepresentation(in: context.recursingIntoChild()) }
         guard parameterRepresentations.count == parameters.count,

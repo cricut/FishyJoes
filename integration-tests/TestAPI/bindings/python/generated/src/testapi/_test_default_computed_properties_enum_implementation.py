@@ -44,7 +44,7 @@ def new_qux(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Qux(
+def extract_qux(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, test_default_computed_properties_enum.Qux)

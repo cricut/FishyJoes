@@ -1,3 +1,4 @@
+from typing import Literal
 from typing import NewType, TypeAlias
 
 from _cffi_backend import _CDataBase
@@ -29,6 +30,8 @@ UTF16CString = NewType("UTF16CString", Pointer)
 # Specific pointers
 CREATED_REF_NULL = CreatedRef(FFI.NULL)
 
+DynTypes: TypeAlias = tuple[type, ...] | tuple[Literal["Callable"]]
+
 __all__ = [
     "Pointer",
     "CreatedRef", "UnownedRef", "ConsumedRef",
@@ -36,4 +39,5 @@ __all__ = [
     "OutCreatedRef", "CreatedRefArray", "UnownedRefArray", "ConsumedRefArray",
     "EnvRef", "UTF8CString", "UTF16CString",
     "CREATED_REF_NULL",
+    "DynTypes"
 ]

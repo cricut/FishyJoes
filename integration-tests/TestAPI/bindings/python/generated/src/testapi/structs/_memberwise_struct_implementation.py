@@ -1,5 +1,5 @@
 from .. import _testapi_exported as testapi
-from ._c_api import _testapi_lib
+from .._c_api import _testapi_lib
 from ._memberwise_struct_type import MemberwiseStruct
 import fishyjoes_runtime
 import types

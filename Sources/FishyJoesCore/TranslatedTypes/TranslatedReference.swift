@@ -703,7 +703,8 @@ struct TranslatedReference: TranslatedType {
     }
 
     func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
-        [
+        let (importLine, implLocalName) = PythonNamingConventions.importImplemenationModule(for: pythonType)
+        return [
             .value(
                 name: "constructorMethod",
                 type: .callable(
@@ -711,7 +712,8 @@ struct TranslatedReference: TranslatedType {
                     return: .createdHostRef
                 )
             ) { fragment in
-                fragment.output("_\(snakify(pythonType.static.name()))_implementation.ffi_new),")
+                context.addHeader(to: fragment, importLine)
+                fragment.output("\(implLocalName).ffi_new,")
             },
         ]
     }

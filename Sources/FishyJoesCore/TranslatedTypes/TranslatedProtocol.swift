@@ -1094,7 +1094,7 @@ struct TranslatedProtocol: TranslatedType {
             pythonClass: PythonProductClass(
                 module: context.module,
                 documentation: documentation,
-                namespaces: pythonType.static.namespaces + [context.module.name],
+                namespaces: pythonType.static.namespaces,
                 name: iotaExternalWitnessClassName,
                 constructor: .reference,
                 fields: externalWitnessFields,

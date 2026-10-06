@@ -58,89 +58,95 @@ def _tuple_get_5(context: UnownedRef, ref: UnownedRef, out_exn: OutCreatedRef) -
 @callback("FishyJoes_TupleConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _tuple_constructor(context: UnownedRef, elements: UnownedRefArray) -> CreatedRef:
-    dyn_types: tuple[type, ...] = peek_ref(context, tuple)
-    return create_ref(tuple(peek_ref(elements[index], dyn_type) for (index, dyn_type) in enumerate(dyn_types)))
+    all_dyn_types: tuple[DynTypes, ...] = peek_ref(context, tuple)
+    return create_ref(tuple(peek_ref(elements[index], *dyn_types) for (index, dyn_types) in enumerate(all_dyn_types)))
+
 
 # MARK: setup
 
-def FishyJoesCommonRuntime_Tuple2Converter_setup[T0, T1](
+def FishyJoesCommonRuntime_Tuple2Converter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_types: tuple[type[T0], type[T1]],
-    out_exn: OutCreatedRef,
+    dyn_types_0: DynTypes,
+    dyn_types_1: DynTypes,
 ) -> None:
     FishyJoesCommonRuntime_TupleConverter_setup(
         env_ref,
         utf16_name,
         _tuple_get_0, _tuple_get_1, ffi.NULL, ffi.NULL, ffi.NULL, ffi.NULL,
         _tuple_constructor,
-        create_consumed_ref(dyn_types),
+        create_consumed_ref((dyn_types_0, dyn_types_1)),
     )
-    out_exn[0] = ffi.NULL
 
 
-def FishyJoesCommonRuntime_Tuple3Converter_setup[T0, T1, T2](
+def FishyJoesCommonRuntime_Tuple3Converter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_types: tuple[type[T0], type[T1], type[T2]],
-    out_exn: OutCreatedRef,
+    dyn_types_0: DynTypes,
+    dyn_types_1: DynTypes,
+    dyn_types_2: DynTypes,
 ) -> None:
     FishyJoesCommonRuntime_TupleConverter_setup(
         env_ref,
         utf16_name,
         _tuple_get_0, _tuple_get_1, _tuple_get_2, ffi.NULL, ffi.NULL, ffi.NULL,
         _tuple_constructor,
-        create_consumed_ref(dyn_types),
+        create_consumed_ref((dyn_types_0, dyn_types_1, dyn_types_2)),
     )
-    out_exn[0] = ffi.NULL
 
 
-def FishyJoesCommonRuntime_Tuple4Converter_setup[T0, T1, T2, T3](
+def FishyJoesCommonRuntime_Tuple4Converter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_types: tuple[type[T0], type[T1], type[T2], type[T3]],
-    out_exn: OutCreatedRef,
+    dyn_types_0: DynTypes,
+    dyn_types_1: DynTypes,
+    dyn_types_2: DynTypes,
+    dyn_types_3: DynTypes,
 ) -> None:
     FishyJoesCommonRuntime_TupleConverter_setup(
         env_ref,
         utf16_name,
         _tuple_get_0, _tuple_get_1, _tuple_get_2, _tuple_get_3, ffi.NULL, ffi.NULL,
         _tuple_constructor,
-        create_consumed_ref(dyn_types),
+        create_consumed_ref((dyn_types_0, dyn_types_1, dyn_types_2, dyn_types_3)),
     )
-    out_exn[0] = ffi.NULL
 
 
-def FishyJoesCommonRuntime_Tuple5Converter_setup[T0, T1, T2, T3, T4](
+def FishyJoesCommonRuntime_Tuple5Converter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_types: tuple[type[T0], type[T1], type[T2], type[T3], type[T4]],
-    out_exn: OutCreatedRef,
+    dyn_types_0: DynTypes,
+    dyn_types_1: DynTypes,
+    dyn_types_2: DynTypes,
+    dyn_types_3: DynTypes,
+    dyn_types_4: DynTypes,
 ) -> None:
     FishyJoesCommonRuntime_TupleConverter_setup(
         env_ref,
         utf16_name,
         _tuple_get_0, _tuple_get_1, _tuple_get_2, _tuple_get_3, _tuple_get_4, ffi.NULL,
         _tuple_constructor,
-        create_consumed_ref(dyn_types),
+        create_consumed_ref((dyn_types_0, dyn_types_1, dyn_types_2, dyn_types_3, dyn_types_4)),
     )
-    out_exn[0] = ffi.NULL
 
 
-def FishyJoesCommonRuntime_Tuple6Converter_setup[T0, T1, T2, T3, T4, T5](
+def FishyJoesCommonRuntime_Tuple6Converter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_types: tuple[type[T0], type[T1], type[T2], type[T3], type[T4], type[T5]],
-    out_exn: OutCreatedRef,
+    dyn_types_0: DynTypes,
+    dyn_types_1: DynTypes,
+    dyn_types_2: DynTypes,
+    dyn_types_3: DynTypes,
+    dyn_types_4: DynTypes,
+    dyn_types_5: DynTypes,
 ) -> None:
     FishyJoesCommonRuntime_TupleConverter_setup(
         env_ref,
         utf16_name,
         _tuple_get_0, _tuple_get_1, _tuple_get_2, _tuple_get_3, _tuple_get_4, _tuple_get_5,
         _tuple_constructor,
-        create_consumed_ref(dyn_types),
+        create_consumed_ref((dyn_types_0, dyn_types_1, dyn_types_2, dyn_types_3, dyn_types_4, dyn_types_5)),
     )
-    out_exn[0] = ffi.NULL
 
 
 def setup_tuples() -> None:

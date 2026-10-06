@@ -62,7 +62,7 @@ def new_red(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Red(
+def extract_red(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Red)
@@ -76,7 +76,7 @@ def new_green(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Green(
+def extract_green(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Green)
@@ -90,7 +90,7 @@ def new_blue(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Blue(
+def extract_blue(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Blue)

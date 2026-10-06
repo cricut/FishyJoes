@@ -29,4 +29,14 @@ public enum PythonNamingConventions {
         let parts = name.split(separator: ".").map(String.init)
         return (parts.dropLast().map(namespaceFor(typeName:)), parts.last!)
     }
+
+    /// Generate an import line like `from .name.spaced import the_type_implementation as _name_spaced_the_type_impl`
+    static func importImplemenationModule(
+        for pythonType: PythonClass2.PythonType
+    ) -> (importLine: String, localName: String) {
+        let implImportPath = "." + pythonType.static.namespaces.joined(separator: ".")
+        let localName = "_\(pythonType.static.name().replacingOccurrences(of: ".", with: "_"))_impl"
+        let importLine = "from \(implImportPath) import _\(snakify(pythonType.static.baseName))_implementation as \(localName)"
+        return (importLine, localName)
+    }
 }

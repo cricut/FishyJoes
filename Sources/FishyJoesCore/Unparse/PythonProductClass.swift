@@ -44,22 +44,51 @@ class PythonProductClass: PythonClass2 {
         var conformances = conformances.map { $0.static.name(in: self) }
         if case .reference = constructor {
             conformances = ["fishyjoes_runtime.SwiftReference"] + conformances
-        } else {
-            context.addHeader(to: fragment, "import dataclasses")
-            fragment.output("@dataclasses.dataclass")
         }
 
         fragment.outputBlock("class \(unqualifiedName)\(declareSupers(conformances)):") {
             document(documentation, fragment: fragment)
+            fragment.blankLine()
+
             if case .public(let fields) = constructor {
                 for field in fields {
                     let type = field.type.static.name(in: self)
-                    let name = field.name
-                    if field.isMutable {
-                        fragment.output("\(name): \(type)")
+                    if field.hiddenStorage {
+                        fragment.output("\(field.storedName): \(type)")
+                        fragment.output("@property")
+                        fragment.outputBlock("def \(field.name)(self) -> \(type):") {
+                            fragment.output("return self.\(field.storedName)")
+                        }
+                    } else if field.isMutable {
+                        fragment.output("\(field.storedName): \(type)")
                     } else {
-                        fragment.output("\(name): typing.Final[\(type)]")
+                        fragment.output("\(field.storedName): typing.Final[\(type)]")
                     }
+                }
+
+                fragment.blankLine()
+                fragment.outputBlock("def __init__(", newLineTerminated: false) {
+                    fragment.output("self,")
+                    for field in fields {
+                        fragment.output("\(field.name): \(field.type.static.name(in: self)),")
+                    }
+                }
+                fragment.outputBlock(" -> None:") {
+                    if fields.isEmpty {
+                        fragment.output("pass")
+                    } else {
+                        for field in fields {
+                            fragment.output("self.\(field.storedName) = \(field.name)")
+                        }
+                    }
+                }
+
+                fragment.blankLine()
+                fragment.outputBlock("def __repr__(self) -> str:") {
+                    let reprParts = fields.map { field in
+                        "\(field.name)={self.\(field.storedName)!r}"
+                    }.joined(separator: ", ")
+                    fragment.output("return f'\(name)(\(reprParts))'", newLineTerminated: false)
                 }
             }
 
@@ -88,7 +117,7 @@ class PythonProductClass: PythonClass2 {
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def ffi_constructor(", newLineTerminated: false) {
                 fragment.outputMap(fields, separator: ",") { field in
-                    "\(field.name): \(field.type.static.ffiConsumedName)"
+                    "\(field.name): \(field.type.static.ffiConsumedType.name())"
                 }
             }
             fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
@@ -109,7 +138,7 @@ class PythonProductClass: PythonClass2 {
         case .reference:
             fragment.output("@fishyjoes_runtime.callback('TODO[ffi_new]')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
-            fragment.outputBlock("def _ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:") {
+            fragment.outputBlock("def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:") {
                 fragment.output("return fishyjoes_runtime.create_ref(\(unqualifiedName)(ref))")
             }
             fragment.blankLine()

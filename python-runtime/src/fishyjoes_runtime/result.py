@@ -1,16 +1,19 @@
-from typing import final
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Callable, Never, TypeAlias, assert_never, cast, override
+from typing import Callable, Never, TypeAlias, assert_never, final, override
 
 from ._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from .ffi_types import *
-from .runtime import consume_ref, create_ref, peek_ref, catch_by_out_ref
+from .runtime import catch_by_out_ref, consume_ref, create_consumed_ref, create_ref, peek_ref
 
+
+@dataclass(frozen=True)
+class SwiftException(Exception):
+    wrapped_error: object
 
 # Interface borrows heavily from the kotlin-runtime implementation, which in turn is based on
 # https://github.com/JetBrains/kotlin/blob/6a670dc5f38fc73eb01d754d8f7c158ae0176ceb/libraries/stdlib/src/kotlin/util/Result.kt
-class _BaseResult[Success, Failure: BaseException](ABC):
+class _BaseResult[Success, Failure](ABC):
 
     def get_or_none(self) -> Success | None:
         """
@@ -92,20 +95,23 @@ class ResultSuccess[Success](_BaseResult[Success, Never]):
 
 @final
 @dataclass(frozen=True)
-class ResultFailure[Failure: BaseException](_BaseResult[Never, Failure]):
+class ResultFailure[Failure](_BaseResult[Never, Failure]):
     """The failure case of a Swift `Result`, carrying the error."""
     error: Failure
 
     @override
     def get_or_raise(self) -> Never:
-        raise self.error
+        if isinstance(self.error, BaseException):
+            raise self.error
+        else:
+            raise SwiftException(self.error)
 
     @override
     def map(self, transform: Callable[[Never], object]) -> ResultFailure[Failure]:
         return self
 
 
-type Result[Success, Failure: BaseException] = ResultSuccess[Success] | ResultFailure[Failure]
+type Result[Success, Failure] = ResultSuccess[Success] | ResultFailure[Failure]
 """
 A discriminated union that encapsulates a successful outcome with a value of type [Success]
 or a failure of exception type [Failure].
@@ -127,11 +133,11 @@ _FishyJoesCommonRuntime_ResultConverter_setup: \
 @callback("FishyJoes_ResultConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _construct_result(context: UnownedRef, is_success: int, contents: ConsumedRef) -> CreatedRef:
-    # TODO: dynamic type check here probably
+    (success_dyn_types, failure_dyn_types) = peek_ref(context, tuple)
     if is_success != 0:
-        return create_ref(ResultSuccess(consume_ref(contents, object)))
+        return create_ref(ResultSuccess(consume_ref(contents, *success_dyn_types)))
     else:
-        return create_ref(ResultFailure(cast(BaseException, consume_ref(contents, object))))
+        return create_ref(ResultFailure(consume_ref(contents, *failure_dyn_types)))
 
 
 @callback("FishyJoes_ResultGetContentsFn")
@@ -150,16 +156,14 @@ def _result_getter(context: UnownedRef, result_ref: UnownedRef, out_is_success: 
 
 # MARK: setup
 
-def FishyJoesCommonRuntime_ResultConverter_setup(envRef: EnvRef, name: UTF16CString, out_exn: OutCreatedRef) -> None:
+def FishyJoesCommonRuntime_ResultConverter_setup(envRef: EnvRef, name: UTF16CString, success_dyn_types: DynTypes, failure_dyn_types: DynTypes) -> None:
     _FishyJoesCommonRuntime_ResultConverter_setup(
         envRef,
         name,
         _result_getter,
         _construct_result,
-        ConsumedRef(ffi.NULL),
+        create_consumed_ref((success_dyn_types, failure_dyn_types)),
     )
-    out_exn[0] = CreatedRef(ffi.NULL)
-
 
 def setup_results() -> None:
     # Generic types need to be set up as instantiated types, so nothing to do here.

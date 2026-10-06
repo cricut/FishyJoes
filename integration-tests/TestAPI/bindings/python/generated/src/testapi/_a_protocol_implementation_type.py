@@ -1,15 +1,25 @@
 from . import _a_protocol_implementation_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class AProtocolImplementation(testapi.AProtocol):
     """<!-- FishyJoes.export(AProtocolImplementation) -->"""
+
     foo: str
     baz: bool
+
+    def __init__(
+        self,
+        foo: str,
+        baz: bool,
+    ) -> None:
+        self.foo = foo
+        self.baz = baz
+
+    def __repr__(self) -> str:
+        return f'testapi.AProtocolImplementation(foo={self.foo!r}, baz={self.baz!r})'
 
     def bar(
         self,

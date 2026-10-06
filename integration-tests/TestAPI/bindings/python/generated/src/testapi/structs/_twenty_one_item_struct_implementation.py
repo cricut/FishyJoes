@@ -1,5 +1,5 @@
 from .. import _testapi_exported as testapi
-from ._c_api import _testapi_lib
+from .._c_api import _testapi_lib
 from ._twenty_one_item_struct_type import TwentyOneItemStruct
 import fishyjoes_runtime
 import types

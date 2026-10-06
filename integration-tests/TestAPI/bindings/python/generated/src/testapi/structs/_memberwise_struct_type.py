@@ -1,16 +1,30 @@
 from . import _memberwise_struct_implementation as _impl
 from .. import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class MemberwiseStruct:
     """A plain value type with one immutable and one mutable field."""
     """<!-- FishyJoes.export(Structs.MemberwiseStruct) -->"""
-    immutable: str
+
+    _immutable: str
+    @property
+    def immutable(self) -> str:
+        return self._immutable
+
     mutable: str
+
+    def __init__(
+        self,
+        immutable: str,
+        mutable: str,
+    ) -> None:
+        self._immutable = immutable
+        self.mutable = mutable
+
+    def __repr__(self) -> str:
+        return f'testapi.structs.MemberwiseStruct(immutable={self._immutable!r}, mutable={self.mutable!r})'
 
     @staticmethod
     def create(

@@ -22,10 +22,12 @@ struct TranslatedResult: TranslatedType {
             name: "Result<\(success.cSharpType.name), \(failure.cSharpType.name)>"
         )
         self.dartType = .result(success.dartType, failure.dartType)
-        self.pythonType = .class(
-            module: "fishyjoes_runtime",
-            qualifiedName: "Result",
-            genericArgs: [success.pythonType.static, failure.pythonType.static]
+        self.pythonType = .init(
+            static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Result", genericArgs: [success.pythonType.static, failure.pythonType.static]),
+            dynamics: [
+                .init(module: "fishyjoes_runtime", namespaces: [], name: "ResultSuccess"),
+                .init(module: "fishyjoes_runtime", namespaces: [], name: "ResultFailure"),
+            ]
         )
     }
 
@@ -53,6 +55,20 @@ struct TranslatedResult: TranslatedType {
             .type(typeValue: failure.dartType),
             .value(name: "typeName", type: .string) { fragment in
                 fragment.output("\"\(converterType.name)\",")
+            },
+        ]
+    }
+
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+        return [
+            .value(name: "type_name", type: .str) { fragment in
+                fragment.output("string_bag.utf16(\"\(converterType.name)\"),")
+            },
+            .value(name: "dyn_types", type: success.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(success.pythonType.dynamicsStringAsTuple),")
+            },
+            .value(name: "dyn_types", type: failure.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(failure.pythonType.dynamicsStringAsTuple),")
             },
         ]
     }

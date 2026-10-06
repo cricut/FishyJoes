@@ -1,15 +1,25 @@
 from . import _test_default_computed_properties_struct_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class TestDefaultComputedPropertiesStruct(testapi.TestDefaultComputedProperties):
     """<!-- FishyJoes.export(TestDefaultComputedPropertiesStruct) -->"""
+
     spam: bool
     noot: int
+
+    def __init__(
+        self,
+        spam: bool,
+        noot: int,
+    ) -> None:
+        self.spam = spam
+        self.noot = noot
+
+    def __repr__(self) -> str:
+        return f'testapi.TestDefaultComputedPropertiesStruct(spam={self.spam!r}, noot={self.noot!r})'
 
     @property
     def plutonic(self) -> str:

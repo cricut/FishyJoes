@@ -86,6 +86,18 @@ struct TranslatedTuple: TranslatedType {
         ]
     }
 
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+        return [
+            .value(name: "typeName", type: .str) { fragment in
+                fragment.output("string_bag.utf16(\"\(converterType.name)\"),")
+            },
+        ] + elements.map { element in
+            .value(name: "dyn_types_\(element.label)", type: element.type.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(element.type.pythonType.dynamicsStringAsTuple),")
+            }
+        }
+    }
+
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         let representations = elements.compactMap { $0.type.pythonRepresentation(in: context.recursingIntoChild()) }
         guard representations.count == elements.count else {

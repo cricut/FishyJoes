@@ -1,4 +1,4 @@
-from .. import _testapi_exported as testapi
+from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from ._external_witness__test_leading_underscored_prop_type import ExternalWitness_TestLeadingUnderscoredProp
 import fishyjoes_runtime
@@ -17,7 +17,7 @@ iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp: typing.Calla
 
 @fishyjoes_runtime.callback('TODO[ffi_new]')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(ExternalWitness_TestLeadingUnderscoredProp(ref))
 
 # MARK: setup

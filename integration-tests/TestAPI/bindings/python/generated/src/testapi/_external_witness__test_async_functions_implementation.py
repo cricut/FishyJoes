@@ -1,4 +1,4 @@
-from .. import _testapi_exported as testapi
+from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from ._external_witness__test_async_functions_type import ExternalWitness_TestAsyncFunctions
 import fishyjoes_runtime
@@ -121,7 +121,7 @@ iota_get_TestAPI_TestAsyncFunctions_willThrow: typing.Callable[[
 
 @fishyjoes_runtime.callback('TODO[ffi_new]')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(ExternalWitness_TestAsyncFunctions(ref))
 
 # MARK: setup

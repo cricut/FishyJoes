@@ -32,7 +32,7 @@ final class PythonTranslator2: Translator {
         cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / 'lib\(context.module)-iota.dylib'))")
         cAPIFragment.output("__all__ = [ '_\(context.module.pythonPackageName)_lib' ]")
 
-        let fragment = context.pythonFragment("_type_setup.py", additionalImports: ["from ._c_api import \(libVar)"])
+        let fragment = context.pythonFragment("fishyjoes_type_setup.py", additionalImports: ["from ._c_api import \(libVar)"])
 
         let moduleRegisterTypesFn = self.moduleRegisterTypesFn(context: context)
         var externDeclarations: [(SourceFragment) -> Void] = []
@@ -66,9 +66,9 @@ final class PythonTranslator2: Translator {
 
             initializerWriters.append {
                 fragment.output("@fishyjoes_runtime.eval_once_now('setup_\(resolved.converterType.name)')")
-                fragment.outputBlock("def _() -> None:") {
+                fragment.outputBlock("def setup_\(resolved.converterType.name.mangled)() -> None:") {
                     fragment.output("print(f\"setting up \(type.name)\")")
-                    let setupName = "\(resolved.definingModule.pythonPackageName)._type_setup.\(resolved.iotaSetupName)"
+                    let setupName = "\(resolved.definingModule.pythonPackageName).fishyjoes_type_setup.\(resolved.iotaSetupName)"
                     fragment.outputBlock("\(setupName)(") {
                         fragment.output("fishyjoes_runtime.Runtime.shared.env_ref,")
                         for param in setupParams {
@@ -83,17 +83,17 @@ final class PythonTranslator2: Translator {
             let definingPythonClass = nativeMethod.definingPythonClass + (nativeMethod.doDefaultImplementationsSuffix ? "_DefaultImplementations" : "")
             externDeclarations.append { fragment in
                 fragment.outputBlock("\(definingPythonClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
-                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedName) Function(", closeWith: "),") {
+                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(", closeWith: "),") {
                         fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {
-                            fragment.output("\(argType.static.ffiUnownedName) \(argName),")
+                            fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
                         }
                         fragment.output("OutCreatedRef _exn")
                     }
-                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedName) Function(") {
+                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(") {
                         fragment.output("Env env,")
                         for (argName, argType) in nativeMethod.args {
-                            fragment.output("\(argType.static.ffiUnownedName) \(argName),")
+                            fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
                         }
                         fragment.output("OutCreatedRef _exn")
                     }
@@ -112,57 +112,59 @@ final class PythonTranslator2: Translator {
         fragment.outputBlock("def ensure_loaded() -> None:") {
             fragment.output("fishyjoes_runtime.ensure_loaded()")
             for dependency in context.module.dependencies {
-                fragment.output("\(dependency)._type_setup.ensure_loaded()")
+                fragment.output("\(dependency).fishyjoes_type_setup.ensure_loaded()")
             }
 
             fragment.blankLine()
             fragment.output("getattr(\(libVar), '\(moduleRegisterTypesFn)')()")
 
-            fragment.blankLine()
-            for writer in initializerWriters {
-                writer()
+            fragment.outputBlock("with fishyjoes_runtime.CStringBag() as string_bag:") {
                 fragment.blankLine()
+                for writer in initializerWriters {
+                    writer()
+                    fragment.blankLine()
+                }
             }
         }
 
         let pythonRootDir = "python/generated/src/\(context.module.pythonPackageName)"
         let internalExportedName = "_\(context.module.pythonPackageName)_exported"
-        // Put exports into both _module_exported.py and __init__.py so that internal files have something convenient to import everything
-        let internalExportedFragment = SourceFragment(destinationPath: "\(pythonRootDir)/\(internalExportedName).py")
-        let initFragment = SourceFragment(destinationPath: "\(pythonRootDir)/__init__.py")
+        var initFragments: [[String]: SourceFragment] = [:]
 
-        var exportNames: [String] = ["_type_setup"]
-        internalExportedFragment.output("from . import _type_setup")
-        initFragment.output("from . import _type_setup")
+        // mapping from nested namespaces to the exported, unqualified names in the namespace
+        var exportedNamesByNamespace: [[String]: [(unqualifiedName: String, importLocation: String)]] = [:]
+        exportedNamesByNamespace[[]] = [(unqualifiedName: "fishyjoes_type_setup", importLocation: ".")]
 
         for cls in context.pythonClasses {
-            let namespaceStr = cls.namespaces.map { "\($0)." }.joined()
-            internalExportedFragment.output("from .\(namespaceStr)\(cls.typeDefinitionModuleName) import \(cls.unqualifiedName)")
-            initFragment.output("from .\(namespaceStr)\(cls.typeDefinitionModuleName) import \(cls.unqualifiedName)")
             if let namespace = cls.associatedNamespace {
-                internalExportedFragment.output("from . import \(namespace)")
-                exportNames.append(namespace)
+                exportedNamesByNamespace[cls.namespaces, default: []].append((namespace, "."))
             }
-            exportNames.append(cls.unqualifiedName)
+            exportedNamesByNamespace[cls.namespaces, default: []]
+                .append((cls.unqualifiedName, ".\(cls.typeDefinitionModuleName)"))
         }
 
-        internalExportedFragment.output()
-        internalExportedFragment.output()
-        internalExportedFragment.outputBlock("__all__: list[str] = [") {
-            for exportName in exportNames {
-                internalExportedFragment.output("\"\(exportName)\",")
+        for (namespace, names) in exportedNamesByNamespace {
+            let namespacePath = ([pythonRootDir] + namespace).joined(separator: "/")
+            let namespaceInitFragment = SourceFragment(destinationPath: "\(namespacePath)/__init__.py")
+            initFragments[namespace] = namespaceInitFragment
+
+            for (name, importLocation) in names {
+                context.addHeader(to: namespaceInitFragment, "from \(importLocation) import \(name)")
+            }
+            namespaceInitFragment.outputBlock("__all__: list[str] = [") {
+                for (name, _) in names {
+                    namespaceInitFragment.output("\"\(name)\",")
+                }
             }
         }
 
-        initFragment.output()
-        initFragment.output()
-        initFragment.outputBlock("__all__: list[str] = [") {
-            for exportName in exportNames {
-                initFragment.output("\"\(exportName)\",")
-            }
-        }
+        // Duplicate top-level init.py into _module_exported.py so that both internal and external code can refer to `module.thing`
+        let internalExportedFragment = context.duplicate(
+            fragment: initFragments[[]]!,
+            to: "\(pythonRootDir)/\(internalExportedName).py"
+        )
 
-        return [fragment, cAPIFragment, internalExportedFragment, initFragment]
+        return [fragment, cAPIFragment, internalExportedFragment] + initFragments.values
     }
 
     func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass2.MethodOrVariable? {
@@ -216,7 +218,7 @@ final class PythonTranslator2: Translator {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
             }
-            pythonName = field.name
+            pythonName = PythonClass2.deforbidify(field.name, localVar: false)
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil

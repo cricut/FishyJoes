@@ -151,23 +151,24 @@ public class FishyJoesContext {
         return SourceFragment(destinationPath: fileName)
     }
 
-    func pythonFragment(_ name: String, additionalImports: [String] = []) -> SourceFragment {
-        let fileName = "python/generated/src/\(module.pythonPackageName)/\(name)"
-        addHeader(file: fileName, "import fishyjoes_runtime")
+    func pythonFragment(_ name: String, additionalImports: [String] = []) -> PythonFragment {
+        let fragment = PythonFragment(packageRoot: "python/generated/src/\(module.pythonPackageName)", name: name, createIntermediateDirectories: true)
+        addHeader(to: fragment, "import fishyjoes_runtime")
         // These imports are also tracked in PythonClass.forbiddenVarNames to avoid conflicts
-        addHeader(file: fileName, "import typing")
-        addHeader(file: fileName, "import types")
+        addHeader(to: fragment, "import typing")
+        addHeader(to: fragment, "import types")
         for dependency in module.dependencies {
             // TODO: get correct package name here
-            addHeader(file: fileName, "import \(dependency)")
+            addHeader(to: fragment, "import \(dependency)")
         }
         // TODO: parse a a little better
-        let superdirectoryImportName = "." + name.filter { $0 == "/" }.map { _ in "." }
-        addHeader(file: fileName, "from \(superdirectoryImportName) import _\(module.pythonPackageName)_exported as \(module.pythonPackageName)")
+
+        addHeader(to: fragment, "from \(fragment.rootImportName) import _\(module.pythonPackageName)_exported as \(module.pythonPackageName)")
+        // addHeader(to: fragment, "from \(fragment.rootImportName) import __init__ as \(module.pythonPackageName)")
         for additionalImport in additionalImports {
-            addHeader(file: fileName, additionalImport)
+            addHeader(to: fragment, additionalImport)
         }
-        return SourceFragment(destinationPath: fileName, createIntermediateDirectories: true)
+        return fragment
     }
 
     func addHeader(to fragment: SourceFragment, _ additionalImport: String) {
@@ -175,6 +176,15 @@ public class FishyJoesContext {
             fatalErr("Can't add imports to anonymous fragments")
         }
         addHeader(file: fileName, additionalImport)
+    }
+
+    func duplicate(fragment: SourceFragment, to newDestinationPath: String) -> SourceFragment {
+        let newFragment = fragment.duplicate(destinationPath: newDestinationPath)
+        if let oldDestinationPath = fragment.destinationPath {
+            fileHeaders[newDestinationPath, default: []]
+                .formUnion(fileHeaders[oldDestinationPath, default: []])
+        }
+        return newFragment
     }
 
     /// A package-level generated test file (the per-package typing gates),

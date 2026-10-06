@@ -65,9 +65,9 @@ def _get_upper_bound(context: UnownedRef, ref: UnownedRef) -> CreatedRef:
 @callback("FishyJoes_RangeConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _construct_range(context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef) -> CreatedRef:
-    dyn_type: type[Comparable] = peek_ref(context, type)
-    lower_bound = peek_ref(lower_bound_ref, dyn_type)
-    upper_bound = peek_ref(upper_bound_ref, dyn_type)
+    dyn_types: tuple[type[Comparable], ...] = peek_ref(context, tuple)
+    lower_bound = peek_ref(lower_bound_ref, *dyn_types)
+    upper_bound = peek_ref(upper_bound_ref, *dyn_types)
     result = SwiftRange(lower_bound, upper_bound)
     return create_ref(result)
 
@@ -86,20 +86,19 @@ def _construct_closed_range(
 
 # MARK: setup
 
-def FishyJoesCommonRuntime_RangeConverter_setup[T: Comparable](env_ref: EnvRef, name: UTF16CString, dyn_type: type[T], out_exn: OutCreatedRef) -> None:
+def FishyJoesCommonRuntime_RangeConverter_setup(env_ref: EnvRef, name: UTF16CString, dyn_types: tuple[type, ...]) -> None:
     _FishyJoesCommonRuntime_RangeConverter_setup(
         env_ref,
         name,
         _get_lower_bound,
         _get_upper_bound,
         _construct_range,
-        create_consumed_ref(dyn_type),
+        create_consumed_ref(dyn_types),
     )
-    out_exn[0] = CreatedRef(ffi.NULL)
 
 
-def FishyJoesCommonRuntime_ClosedRangeConverter_setup[T: Comparable](
-    env_ref: EnvRef, name: UTF16CString, dyn_type: type[T], out_exn: OutCreatedRef,
+def FishyJoesCommonRuntime_ClosedRangeConverter_setup(
+    env_ref: EnvRef, name: UTF16CString, dyn_types: tuple[type, ...]
 ) -> None:
     _FishyJoesCommonRuntime_RangeConverter_setup(
         env_ref,
@@ -107,9 +106,8 @@ def FishyJoesCommonRuntime_ClosedRangeConverter_setup[T: Comparable](
         _get_lower_bound,
         _get_upper_bound,
         _construct_closed_range,
-        create_consumed_ref(dyn_type),
+        create_consumed_ref(dyn_types),
     )
-    out_exn[0] = CreatedRef(ffi.NULL)
 
 
 def setup_ranges() -> None:

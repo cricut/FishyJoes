@@ -1,13 +1,12 @@
 from . import _test_async_foreign_side_functions_struct_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class TestAsyncForeignSideFunctionsStruct(testapi.TestAsyncFunctions):
     """<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"""
+
     const42: typing.Final[typing.Callable[[], int]]
     iabs: typing.Final[typing.Callable[[int], int]]
     intCompose: typing.Final[typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]]]
@@ -24,6 +23,45 @@ class TestAsyncForeignSideFunctionsStruct(testapi.TestAsyncFunctions):
     exercise5Fun: typing.Final[typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]], str]]
     exercise6Fun: typing.Final[typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]], str]]
     thunkTwiceMakerFun: typing.Final[typing.Callable[[typing.Callable[[], None]], typing.Callable[[], None]]]
+
+    def __init__(
+        self,
+        const42: typing.Callable[[], int],
+        iabs: typing.Callable[[int], int],
+        intCompose: typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]],
+        add3Things: typing.Callable[[float, float, int], float],
+        makeList: typing.Callable[[str, str, str, str], list[str]],
+        fifthThing: typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]],
+        six: typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int],
+        willThrow: typing.Callable[[], int],
+        exercise0Fun: typing.Callable[[typing.Callable[[], int]], str],
+        exercise1Fun: typing.Callable[[typing.Callable[[int], int]], str],
+        exercise2Fun: typing.Callable[[typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]]], str],
+        exercise3Fun: typing.Callable[[typing.Callable[[float, float, int], float]], str],
+        exercise4Fun: typing.Callable[[typing.Callable[[str, str, str, str], list[str]]], str],
+        exercise5Fun: typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]], str],
+        exercise6Fun: typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]], str],
+        thunkTwiceMakerFun: typing.Callable[[typing.Callable[[], None]], typing.Callable[[], None]],
+    ) -> None:
+        self.const42 = const42
+        self.iabs = iabs
+        self.intCompose = intCompose
+        self.add3Things = add3Things
+        self.makeList = makeList
+        self.fifthThing = fifthThing
+        self.six = six
+        self.willThrow = willThrow
+        self.exercise0Fun = exercise0Fun
+        self.exercise1Fun = exercise1Fun
+        self.exercise2Fun = exercise2Fun
+        self.exercise3Fun = exercise3Fun
+        self.exercise4Fun = exercise4Fun
+        self.exercise5Fun = exercise5Fun
+        self.exercise6Fun = exercise6Fun
+        self.thunkTwiceMakerFun = thunkTwiceMakerFun
+
+    def __repr__(self) -> str:
+        return f'testapi.TestAsyncForeignSideFunctionsStruct(const42={self.const42!r}, iabs={self.iabs!r}, intCompose={self.intCompose!r}, add3Things={self.add3Things!r}, makeList={self.makeList!r}, fifthThing={self.fifthThing!r}, six={self.six!r}, willThrow={self.willThrow!r}, exercise0Fun={self.exercise0Fun!r}, exercise1Fun={self.exercise1Fun!r}, exercise2Fun={self.exercise2Fun!r}, exercise3Fun={self.exercise3Fun!r}, exercise4Fun={self.exercise4Fun!r}, exercise5Fun={self.exercise5Fun!r}, exercise6Fun={self.exercise6Fun!r}, thunkTwiceMakerFun={self.thunkTwiceMakerFun!r})'
 
     def exercise0(
         self,

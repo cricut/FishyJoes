@@ -1,11 +1,19 @@
 from . import _test_leading_underscored_prop_struct_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class TestLeadingUnderscoredPropStruct(testapi.TestLeadingUnderscoredProp):
     """<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"""
-    _leadingUnderscoreProp: str
+
+    leadingUnderscoreProp_: str
+
+    def __init__(
+        self,
+        leadingUnderscoreProp_: str,
+    ) -> None:
+        self.leadingUnderscoreProp_ = leadingUnderscoreProp_
+
+    def __repr__(self) -> str:
+        return f'testapi.TestLeadingUnderscoredPropStruct(leadingUnderscoreProp_={self.leadingUnderscoreProp_!r})'

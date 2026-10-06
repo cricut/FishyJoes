@@ -1,14 +1,22 @@
 from . import _test_protocol_struct_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class TestProtocolStruct(testapi.TestMethodsProtocol, testapi.TestPropertiesProtocol):
     """<!-- FishyJoes.export(TestProtocolStruct) -->"""
+
     corge: str
+
+    def __init__(
+        self,
+        corge: str,
+    ) -> None:
+        self.corge = corge
+
+    def __repr__(self) -> str:
+        return f'testapi.TestProtocolStruct(corge={self.corge!r})'
 
     @property
     def frobby(self) -> list[int]:

@@ -133,7 +133,7 @@ iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow: typing.Callable[[
 
 @fishyjoes_runtime.callback('TODO[ffi_new]')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(TestAsyncSwiftSideFunctionsClass(ref))
 
 # MARK: setup

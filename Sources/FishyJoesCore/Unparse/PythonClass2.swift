@@ -58,6 +58,10 @@ class PythonClass2 {
         var hiddenStorage: Bool {
             isMutable && !isPubliclyWritable
         }
+
+        var storedName: String {
+            "\(hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(name, localVar: false))"
+        }
     }
 
     struct SetupTypes {
@@ -116,10 +120,12 @@ class PythonClass2 {
         let implementationFragment = context.pythonFragment(
             implementationModulePath,
             additionalImports: [
-                "from ._c_api import _\(context.module.pythonPackageName)_lib",
                 "from .\(typeDefinitionModuleName) import \(unqualifiedName)",
             ]
         )
+        let rootImportPath = implementationFragment.rootImportName
+
+        context.addHeader(to: implementationFragment, "from \(rootImportPath)_c_api import _\(context.module.pythonPackageName)_lib")
 
         implementationFragment.output("# MARK: C APIs")
         implementationFragment.output()
@@ -199,10 +205,10 @@ class PythonClass2 {
             fragment.outputBlock("\(name): typing.Callable[[", newLineTerminated: false) {
                 fragment.output("fishyjoes_runtime.EnvRef,")
                 for (_, argType) in args {
-                    fragment.output("\(argType.static.ffiUnownedName),")
+                    fragment.output("\(argType.static.ffiUnownedType.name()),")
                 }
             }
-            fragment.outputBlock(", \(returnType.static.ffiCreatedName)] = \\", closeWith: "") {
+            fragment.outputBlock(", \(returnType.static.ffiCreatedType.name())] = \\", closeWith: "") {
                 fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, \"TODO\"))")
             }
         }
@@ -370,7 +376,7 @@ extension PythonClass2.PythonType: CustomStringConvertible {
 
     static var none: Self {
         .init(
-            static: .named(module: nil, namespaces: [], name: "None"),
+            static: .none,
             dynamics: [.init(module: "types", namespaces: [], name: "NoneType")]
         )
     }
@@ -389,12 +395,26 @@ extension PythonClass2.PythonType: CustomStringConvertible {
         )
     }
 
+    static var str: Self {
+        .init(
+            static: .primitive(name: "str"),
+            dynamics: [.init(module: nil, namespaces: [], name: "str")]
+        )
+    }
+
     static var object: Self {
         .class(module: nil, qualifiedName: "object")
     }
 
     static func optional(_ wrapped: Self) -> Self {
         .union(wrapped, .none)
+    }
+
+    static func tuple(_ elements: [Self]) -> Self {
+        .init(
+            static: .named(module: nil, namespaces: [], name: "tuple", genericArgs: elements.map(\.static)),
+            dynamics: [.init(module: nil, namespaces: [], name: "tuple")]
+        )
     }
 
     static var TODO: Self {
@@ -432,6 +452,20 @@ extension PythonClass2.PythonType: CustomStringConvertible {
         }
         return options.joined(separator: ", ")
     }
+
+    var dynamicsStringAsTuple: String {
+        dynamics.count == 1 ? "(\(dynamicsString),)" : "(\(dynamicsString))"
+    }
+
+    var metaTypeTuple: Self {
+        let typeOfSelf = Static.named(module: nil, namespaces: [], name: "type", genericArgs: [self.static])
+        // I don't think this is technically a type, but this works
+        let dots = Static.named(module: nil, namespaces: [], name: "...")
+        return .init(
+            static: .named(module: nil, namespaces: [], name: "tuple", genericArgs: [typeOfSelf, dots]),
+            dynamics: [.init(module: nil, namespaces: [], name: "tuple")]
+        )
+    }
 }
 
 extension PythonClass2.PythonType.Static {
@@ -463,20 +497,20 @@ extension PythonClass2.PythonType.Static {
         }
     }
 
-    var ffiOutCreatedName: String {
-        isPrimitive ? "fishyjoes_runtime.Pointer" : "fishyjoes_runtime.OutCreatedRef"
+    var ffiOutCreatedType: Self {
+        isPrimitive ? .opaquePointer : .outCreatedHostRef
     }
 
-    var ffiConsumedName: String {
-        isPrimitive ? name() : "fishyjoes_runtime.ConsumedRef"
+    var ffiConsumedType: Self {
+        isPrimitive ? self : .consumedHostRef
     }
 
-    var ffiCreatedName: String {
-        isPrimitive ? name() : "fishyjoes_runtime.CreatedRef"
+    var ffiCreatedType: Self {
+        isPrimitive ? self : .createdHostRef
     }
 
-    var ffiUnownedName: String {
-        isPrimitive ? name(): "fishyjoes_runtime.UnownedRef"
+    var ffiUnownedType: Self {
+        isPrimitive ? self : .unownedHostRef
     }
 
     var ffiDefault: String {
@@ -497,7 +531,7 @@ extension PythonClass2.PythonType.Static {
         }
     }
 
-    var baseName: String? {
+    var baseName: String {
         switch self {
         case .primitive(let name): return name
         case .named(_, _, let name, _): return name
@@ -506,6 +540,19 @@ extension PythonClass2.PythonType.Static {
         }
     }
 
+    func modifyingBaseName(with modify: (String) throws -> String) rethrows -> Self {
+        switch self {
+        case .primitive(let name):
+            return .primitive(name: try modify(name))
+        case .named(let module, let namespaces, let name, let genericArgs):
+            return .named(module: module, namespaces: namespaces, name: try modify(name), genericArgs: genericArgs)
+        case .callable: fatalErr("internal error: invalid type modification")
+        case .union: fatalErr("internal error: invalid type modification")
+        }
+    }
+
+    static var none: Self { .named(module: nil, namespaces: [], name: "None") }
+
     // NOTE: these are a bit weird types, since they're not user-visible. Only useful in limited internal places.
     static var unownedHostRef: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "UnownedRef")
@@ -513,11 +560,17 @@ extension PythonClass2.PythonType.Static {
     static var createdHostRef: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "CreatedRef")
     }
+    static var consumedHostRef: Self {
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "ConsumedRef")
+    }
     static var outCreatedHostRef: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "OutCreatedRef")
     }
     static var consumedSwiftRef: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "ConsumedSwiftRef")
+    }
+    static var opaquePointer: Self {
+        .named(module: "fishyjoes_runtime", namespaces: [], name: "Pointer" )
     }
 
     static var TODO: Self {
@@ -541,7 +594,7 @@ extension PythonClass2 {
             fragment.output("@fishyjoes_runtime.callback('TODO[getter_type]')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
             let getParameters = field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef"
-            fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedName):") {
+            fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
                 let body: String
                     if field.isStatic {
                         body = "\(unqualifiedName).\(fieldName)"
@@ -558,7 +611,7 @@ extension PythonClass2 {
                 fragment.output("@fishyjoes_runtime.callback('TODO[setter_type]')")
                 fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
                 let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
-                    "newValue: \(field.type.static.ffiConsumedName)"
+                    "newValue: \(field.type.static.ffiConsumedType.name())"
                 fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)):") {
                     if field.isStatic {
                         fragment.output("\(unqualifiedName).\(fieldName) = ", newLineTerminated: false)
@@ -581,10 +634,10 @@ extension PythonClass2 {
             if method.isStatic {
                 continue
             }
-            fragment.outputBlock("static \(method.returnType.static.ffiCreatedName) ffi_\(method.name)(", newLineTerminated: false) {
+            fragment.outputBlock("static \(method.returnType.static.ffiCreatedType.name()) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
-                    fragment.output("\(param.type.static.ffiUnownedName) \(PythonClass2.deforbidify(param.name, localVar: true)),")
+                    fragment.output("\(param.type.static.ffiUnownedType.name()) \(PythonClass2.deforbidify(param.name, localVar: true)),")
                 }
                 fragment.output("fishyjoes_runtime.OutCreatedRef exn")
             }

@@ -1,13 +1,19 @@
 from . import _empty_struct2_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class EmptyStruct2:
     """<!-- FishyJoes.export(EmptyStruct2) -->"""
+
+    def __init__(
+        self,
+    ) -> None:
+        pass
+
+    def __repr__(self) -> str:
+        return f'testapi.EmptyStruct2()'
 
     @property
     def tatiana(self) -> str:

@@ -119,9 +119,9 @@ class CStringBag(AbstractContextManager["CStringBag"]):
     def __init__(self) -> None:
         self._refs = []
 
-    def utf16(self, string: str) -> Pointer:
+    def utf16(self, string: str) -> UTF16CString:
         code_units = string.encode('utf16') + b'\0\0'
-        ref = ffi.new("uint8_t[]", code_units)
+        ref = UTF16CString(ffi.new("uint8_t[]", code_units))
         # as long as ref remains referenced, the memory won't be freed
         self._refs.append(ref)
         return ref

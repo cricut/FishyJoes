@@ -1,6 +1,9 @@
 class PythonProtocolClass: PythonClass2 {
     override func publicFragments(context: FishyJoesContext) -> [SourceFragment] {
-        let fragment = context.pythonFragment("_\(snakify(unqualifiedName))_type.py", additionalImports: ["import abc"])
+        let fragment = context.pythonFragment(
+            typeDefinitionModulePath,
+            additionalImports: ["import abc"]
+        )
 
         // let normalFields = fields.filter { !$0.isDefaultImplementation }
         // let defaultFields = fields.filter { $0.isDefaultImplementation }

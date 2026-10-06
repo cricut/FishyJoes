@@ -41,7 +41,7 @@ def new_shade(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Shade(
+def extract_shade(
     obj: fishyjoes_runtime.UnownedRef,
     out__0: fishyjoes_runtime.OutCreatedRef,
 ) -> None:
@@ -57,7 +57,7 @@ def new_empty(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Empty(
+def extract_empty(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, shadow_box.Empty)

@@ -32,7 +32,7 @@ def new_thing(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Thing(
+def extract_thing(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, unicode_scalar__putting_types_into_questionable_places.Thing)

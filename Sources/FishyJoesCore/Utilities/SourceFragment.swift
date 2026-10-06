@@ -4,7 +4,7 @@ public class SourceFragment {
     private let spacesPerIndent = 4
     public var destinationPath: String?
     public var createIntermediateDirectories: Bool
-    private var stringBuilder: [String] = []
+    public var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
 
@@ -12,6 +12,16 @@ public class SourceFragment {
     public init(destinationPath: String?, createIntermediateDirectories: Bool = false) {
         self.destinationPath = destinationPath
         self.createIntermediateDirectories = createIntermediateDirectories
+    }
+
+    // Copy fragment contents into a new fragment with a different path
+    public func duplicate(destinationPath: String?, createIntermediateDirectories: Bool = false) -> SourceFragment {
+        let result = SourceFragment(
+            destinationPath: destinationPath,
+            createIntermediateDirectories: createIntermediateDirectories
+        )
+        result.stringBuilder = self.stringBuilder
+        return result
     }
 
     private func append(fragments: [String]) {

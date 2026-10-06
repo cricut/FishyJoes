@@ -12,20 +12,20 @@ import typing
 @fishyjoes_runtime.callback('TODO[ffi_constructor]')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
-    _leadingUnderscoreProp: fishyjoes_runtime.ConsumedRef
+    leadingUnderscoreProp_: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(TestLeadingUnderscoredPropStruct(
-        _leadingUnderscoreProp = fishyjoes_runtime.consume_ref(_leadingUnderscoreProp, str),
+        leadingUnderscoreProp_ = fishyjoes_runtime.consume_ref(leadingUnderscoreProp_, str),
     ))
 
 @fishyjoes_runtime.callback('TODO[getter_type]')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get__leadingUnderscoreProp(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def _ffi_get_leadingUnderscoreProp_(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, TestLeadingUnderscoredPropStruct).leadingUnderscoreProp_)
 
 @fishyjoes_runtime.callback('TODO[setter_type]')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set__leadingUnderscoreProp(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef):
+def _ffi_set_leadingUnderscoreProp_(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef):
     fishyjoes_runtime.peek_ref(obj, TestLeadingUnderscoredPropStruct).leadingUnderscoreProp_ = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup

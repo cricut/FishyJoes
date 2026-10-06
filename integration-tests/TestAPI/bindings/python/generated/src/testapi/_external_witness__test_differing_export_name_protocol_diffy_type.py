@@ -1,5 +1,5 @@
 from . import _external_witness__test_differing_export_name_protocol_diffy_implementation as _impl
-from .. import _testapi_exported as testapi
+from . import _testapi_exported as testapi
 import fishyjoes_runtime
 import types
 import typing

@@ -1,9 +1,12 @@
+from typing import Literal
 from typing import Callable, Sized, TypeAlias, cast, Any
 
-from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
-from fishyjoes_runtime.ffi_types import ConsumedRef, CreatedRef, CreatedRefArray, EnvRef, OutCreatedRef, UTF16CString, \
+from .runtime import raise_by_out_ref
+from ._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
+from .ffi_types import ConsumedRef, CreatedRef, CreatedRefArray, EnvRef, OutCreatedRef, UTF16CString, \
     UnownedRef, UnownedRefArray
-from fishyjoes_runtime.runtime import create_consumed_ref, create_ref, peek_ref, catch_by_out_ref
+from .runtime import create_consumed_ref, create_ref, peek_ref, catch_by_out_ref
+from .swift_function_impl import DynTypes
 
 # MARK: C APIs
 
@@ -12,9 +15,9 @@ CollectionLengthFn: TypeAlias = Callable[[UnownedRef, UnownedRef, OutCreatedRef]
 CollectionValuesFn: TypeAlias = Callable[[UnownedRef, UnownedRef, CreatedRefArray, OutCreatedRef], None]
 
 FishyJoesCommonRuntime_collection_setup: \
-    Callable[[EnvRef, UTF16CString, CollectionLengthFn, CollectionValuesFn, CollectionConstructorFn, ConsumedRef,
-              OutCreatedRef], None] = \
-    getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_collection_setup")
+    Callable[
+        [EnvRef, UTF16CString, CollectionLengthFn, CollectionValuesFn, CollectionConstructorFn, ConsumedRef], None] = \
+    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_collection_setup"))
 
 
 # MARK: C callback implementations
@@ -46,19 +49,19 @@ def _dictionary_values(context: UnownedRef, collection: UnownedRef, out_values: 
 @callback("FishyJoes_CollectionConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _array_constructor(context: UnownedRef, in_values: UnownedRefArray, length: int) -> CreatedRef:
-    dyn_type = peek_ref(context, type)
-    elements: list[Any] = [peek_ref(in_values[index], dyn_type) for index in range(length)]
+    dyn_types = peek_ref(context, tuple)
+    elements: list[Any] = [peek_ref(in_values[index], *dyn_types) for index in range(length)]
     return create_ref(elements)
 
 
 @callback("FishyJoes_CollectionConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _dictionary_constructor(context: UnownedRef, in_values: UnownedRefArray, length: int) -> CreatedRef:
-    (key_dyn_type, value_dyn_type) = peek_ref(context, tuple)
+    (key_dyn_types, value_dyn_types) = peek_ref(context, tuple)
     dictionary = dict()
     for index in range(length):
-        key = peek_ref(in_values[index * 2 + 0], key_dyn_type)
-        value = peek_ref(in_values[index * 2 + 1], value_dyn_type)
+        key = peek_ref(in_values[index * 2 + 0], *key_dyn_types)
+        value = peek_ref(in_values[index * 2 + 1], *value_dyn_types)
         dictionary[key] = value
     return create_ref(dictionary)
 
@@ -66,14 +69,15 @@ def _dictionary_constructor(context: UnownedRef, in_values: UnownedRefArray, len
 @callback("FishyJoes_CollectionConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _set_constructor(context: UnownedRef, in_values: UnownedRefArray, length: int) -> CreatedRef:
-    dyn_type = peek_ref(context, type)
-    elements: set[Any] = {peek_ref(in_values[index], dyn_type) for index in range(length)}
+    dyn_types = peek_ref(context, tuple)
+    elements: set[Any] = {peek_ref(in_values[index], *dyn_types) for index in range(length)}
     return create_ref(elements)
+
 
 # MARK: setup
 
-def FishyJoesCommonRuntime_ArrayConverter_setup[T](
-    env_ref: EnvRef, utf16_name: UTF16CString, dyn_type: type[T], out_exn: OutCreatedRef,
+def FishyJoesCommonRuntime_ArrayConverter_setup(
+    env_ref: EnvRef, utf16_name: UTF16CString, dyn_types: DynTypes
 ) -> None:
     return FishyJoesCommonRuntime_collection_setup(
         env_ref,
@@ -81,17 +85,15 @@ def FishyJoesCommonRuntime_ArrayConverter_setup[T](
         _collection_length,
         _array_or_set_values,
         _array_constructor,
-        create_consumed_ref(dyn_type),
-        out_exn,
+        create_consumed_ref(dyn_types),
     )
 
 
-def FishyJoesCommonRuntime_DictionaryConverter_setup[K, V](
+def FishyJoesCommonRuntime_DictionaryConverter_setup(
     env_ref: EnvRef,
     utf16_name: UTF16CString,
-    dyn_key_type: type[K],
-    dyn_value_type: type[V],
-    out_exn: OutCreatedRef,
+    dyn_key_type: DynTypes,
+    dyn_value_type: DynTypes,
 ) -> None:
     return FishyJoesCommonRuntime_collection_setup(
         env_ref,
@@ -100,12 +102,11 @@ def FishyJoesCommonRuntime_DictionaryConverter_setup[K, V](
         _dictionary_values,
         _dictionary_constructor,
         create_consumed_ref((dyn_key_type, dyn_value_type)),
-        out_exn,
     )
 
 
-def FishyJoesCommonRuntime_SetConverter_setup[T](
-    env_ref: EnvRef, utf16_name: UTF16CString, dyn_type: type[T], out_exn: OutCreatedRef,
+def FishyJoesCommonRuntime_SetConverter_setup(
+    env_ref: EnvRef, utf16_name: UTF16CString, dyn_types: DynTypes,
 ) -> None:
     return FishyJoesCommonRuntime_collection_setup(
         env_ref,
@@ -113,9 +114,13 @@ def FishyJoesCommonRuntime_SetConverter_setup[T](
         _collection_length,
         _array_or_set_values,
         _set_constructor,
-        create_consumed_ref(dyn_type),
-        out_exn,
+        create_consumed_ref(dyn_types),
     )
+
+
+def FishyJoesCommonRuntime_OptionalConverter_setup[T](env_ref: EnvRef) -> None:
+    # Optionals need no extra setup
+    pass
 
 
 def setup_collections() -> None:

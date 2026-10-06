@@ -56,6 +56,20 @@ struct TranslatedDictionary: TranslatedType {
         ]
     }
 
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+        return [
+            .value(name: "typeName", type: .str) { fragment in
+                fragment.output("string_bag.utf16(\"\(converterType.name)\"),")
+            },
+            .value(name: "dyn_type", type: keyType.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(keyType.pythonType.dynamicsStringAsTuple),")
+            },
+            .value(name: "dyn_type", type: valueType.pythonType.metaTypeTuple) { fragment in
+                fragment.output("\(valueType.pythonType.dynamicsStringAsTuple),")
+            },
+        ]
+    }
+
     func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
         guard let key = keyType.pythonRepresentation(in: context.recursingIntoChild()),
               let value = valueType.pythonRepresentation(in: context.recursingIntoChild()),

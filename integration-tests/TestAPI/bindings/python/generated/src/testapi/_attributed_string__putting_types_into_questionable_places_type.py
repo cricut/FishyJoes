@@ -1,14 +1,22 @@
 from . import _attributed_string__putting_types_into_questionable_places_implementation as _impl
 from . import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class AttributedString_PuttingTypesIntoQuestionablePlaces:
     """<!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->"""
+
     x: typing.Final[str]
+
+    def __init__(
+        self,
+        x: str,
+    ) -> None:
+        self.x = x
+
+    def __repr__(self) -> str:
+        return f'testapi.AttributedString_PuttingTypesIntoQuestionablePlaces(x={self.x!r})'
 
     def testCall(
         self,

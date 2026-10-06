@@ -38,7 +38,7 @@ def new_hogehoge(
 
 @fishyjoes_runtime.callback("TODO")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def extract_Hogehoge(
+def extract_hogehoge(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, test_non_exported_protocol_enum.Hogehoge)

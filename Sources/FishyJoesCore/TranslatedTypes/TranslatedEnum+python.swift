@@ -5,15 +5,15 @@ extension TranslatedEnum {
             lines.append("_\(pythonType.static.name().mangled)_new_\(enumCase.name.mangled): typing.TypeAlias = typing.Callable[[")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                lines.append("    \(resolved.pythonType.static.ffiConsumedName),")
+                lines.append("    \(resolved.pythonType.static.ffiConsumedType.name()),")
             }
             lines.append("    fishyjoes_runtime.OutCreatedRef")
-            lines.append("], \(pythonType.static.ffiCreatedName)]")
+            lines.append("], \(pythonType.static.ffiCreatedType.name())]")
             lines.append("_\(pythonType.static.name().mangled)_extract_\(enumCase.name.mangled): typing.TypeAlias = typing.Callable[[")
-            lines.append("    \(pythonType.static.ffiUnownedName),")
+            lines.append("    \(pythonType.static.ffiUnownedType.name()),")
             for value in enumCase.associatedValues {
                 let resolved = context.resolve(type: value.type)
-                lines.append("    \(resolved.pythonType.static.ffiOutCreatedName),")
+                lines.append("    \(resolved.pythonType.static.ffiOutCreatedType.name()),")
             }
             lines.append("    fishyjoes_runtime.OutCreatedRef")
             lines.append("], None]")
@@ -26,31 +26,39 @@ extension TranslatedEnum {
 
     func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
         var parameters: [ForeignSetupParameter<PythonClass2.PythonType>] = []
-        let implModule = "_\(pythonType.static.baseName!)_implementation"
+
+        let (importLine, implLocalName) = PythonNamingConventions.importImplemenationModule(for: pythonType)
+
         if isInhabited {
             parameters.append(
                 .value(name: "discriminator", type: Self.enumDiscriminatorTagType) { fragment in
-                    context.addHeader(to: fragment, "from . import \(implModule)")
-                    fragment.output("\(implModule).enum_discriminator,")
+                    context.addHeader(to: fragment, importLine)
+                    fragment.output("\(implLocalName).enum_discriminator,")
                 }
             )
         }
         for enumCase in cases {
+            let pythonTypes = enumCase.associatedValues.map { value in
+                context.resolve(type: value.type).pythonType
+            }
             parameters.append(
                 .value(
                     name: "\(enumCase.name)_constructor",
-                    type: .callable(args: [.TODO], return: .TODO)
+                    type: .callable(args: pythonTypes.map(\.static.ffiConsumedType) + [.outCreatedHostRef], return: .createdHostRef)
                 ) { fragment in
-                    context.addHeader(to: fragment, "from . import \(implModule)")
-                    fragment.output("\(implModule).new_\(enumCase.name.mangled),")
+                    fragment.output("\(implLocalName).new_\(snakify(enumCase.name)),")
                 }
             )
             parameters.append(
                 .value(
                     name: "\(enumCase.name)_extractor",
-                    type: .callable(args: [.TODO], return: .TODO)
+                    type: .callable(
+                        args: [.unownedHostRef]
+                            + pythonTypes.map(\.static.ffiOutCreatedType)
+                            + [.outCreatedHostRef],
+                        return: .none)
                 ) { fragment in
-                    fragment.output("\(implModule).extract_\(enumCase.name.mangled),")
+                    fragment.output("\(implLocalName).extract_\(snakify(enumCase.name)),")
                 }
             )
         }

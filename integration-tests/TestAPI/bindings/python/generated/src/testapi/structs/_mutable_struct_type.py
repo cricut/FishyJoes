@@ -1,14 +1,22 @@
 from . import _mutable_struct_implementation as _impl
 from .. import _testapi_exported as testapi
-import dataclasses
 import fishyjoes_runtime
 import types
 import typing
 
-@dataclasses.dataclass
 class MutableStruct:
     """<!-- FishyJoes.export(Structs.MutableStruct) -->"""
+
     i: int
+
+    def __init__(
+        self,
+        i: int,
+    ) -> None:
+        self.i = i
+
+    def __repr__(self) -> str:
+        return f'testapi.structs.MutableStruct(i={self.i!r})'
 
     @staticmethod
     def create(
