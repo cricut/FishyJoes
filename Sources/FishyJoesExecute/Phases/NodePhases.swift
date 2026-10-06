@@ -302,12 +302,34 @@ class NodePhases: BasePhases, Phases {
         }
 
         // Export a function that can be used to load the module and its dependencies using a promise
-        definitions.append("export declare function init(): Promise<{")
-        for dependency in nodeDependencies {
-            definitions.append("    \(dependency.name): typeof \(dependency.name),")
+        if platform == .wasm {
+            // Wasm builds accept a pre-compiled module or a caller-supplied binary, and expose the compiled module,
+            // so one compile can be shared across threads. Native builds keep the zero-argument form.
+            definitions.append("export interface \(nodeModule.name)InitOptions {")
+            definitions.append("    /** Pre-compiled \(nodeModule.name).wasm, instantiated as is. Nothing is fetched or compiled. */")
+            definitions.append("    module?: WebAssembly.Module;")
+            definitions.append("    /** Binary to compile instead of fetching \"\(nodeModule.name).wasm\". Ignored when `module` is set. */")
+            definitions.append("    source?: Response | PromiseLike<Response> | BufferSource;")
+            definitions.append("}")
+            definitions.append("")
+            definitions.append("export interface \(nodeModule.name)Library {")
+            for dependency in nodeDependencies {
+                definitions.append("    \(dependency.name): typeof \(dependency.name);")
+            }
+            definitions.append("    \(nodeModule.name): typeof \(nodeModule.name);")
+            definitions.append("    /** The compiled \(nodeModule.name).wasm this library was instantiated from. */")
+            definitions.append("    wasmModule: WebAssembly.Module;")
+            definitions.append("}")
+            definitions.append("")
+            definitions.append("export declare function init(options?: \(nodeModule.name)InitOptions): Promise<\(nodeModule.name)Library>;")
+        } else {
+            definitions.append("export declare function init(): Promise<{")
+            for dependency in nodeDependencies {
+                definitions.append("    \(dependency.name): typeof \(dependency.name),")
+            }
+            definitions.append("    \(nodeModule.name): typeof \(nodeModule.name),")
+            definitions.append("}>;")
         }
-        definitions.append("    \(nodeModule.name): typeof \(nodeModule.name),")
-        definitions.append("}>;")
         definitions.append("")
 
         // Make the module's own definitions the default export

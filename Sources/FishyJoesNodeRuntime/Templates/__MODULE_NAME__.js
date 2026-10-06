@@ -4,7 +4,22 @@ import { WasmFs } from "@wasmer/wasmfs";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
 
-export const init = async () => {
+const isBufferSource = (source) => source instanceof ArrayBuffer || ArrayBuffer.isView(source);
+
+// Normalizes a caller-supplied source (`Response`, a promise of one, or a `BufferSource`) to bytes,
+// so instantiation does not depend on `instantiateStreaming` support in the runtime
+const bytesOf = async (source) => {
+  const resolved = await source;
+  return isBufferSource(resolved) ? resolved : resolved.arrayBuffer();
+};
+
+/**
+ * Loads the module and its dependencies. Every call creates a fresh NAPI and a fresh instance.
+ * `options.module` instantiates a pre-compiled module, `options.source` compiles a caller-supplied binary;
+ * without either, "__MODULE_NAME__.wasm" is loaded and compiled.
+ * The returned library carries the compiled module as `wasmModule`.
+ */
+export const init = async (options = {}) => {
   let napi = new NAPI(WASI, WasmFs);
   const importObject = {};
   const importsToMerge = [
@@ -22,7 +37,15 @@ export const init = async () => {
   }
 
   let wasmPromise
-  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
+  if (options.module !== undefined) {
+    if (!(options.module instanceof WebAssembly.Module)) {
+      throw new TypeError("init(): `module` must be a WebAssembly.Module");
+    }
+    wasmPromise = WebAssembly.instantiate(options.module, importObject)
+      .then((instance) => ({ module: options.module, instance }));
+  } else if (options.source !== undefined) {
+    wasmPromise = WebAssembly.instantiate(await bytesOf(options.source), importObject);
+  } else if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
     const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
     wasmPromise = WebAssembly.instantiateStreaming(response, importObject);
   } else {
@@ -33,11 +56,11 @@ export const init = async () => {
     const binary = fs.readFileSync(path.join(dirname, '__MODULE_NAME__.wasm'));
     wasmPromise = WebAssembly.instantiate(binary, importObject);
   }
-  const { instance } = await wasmPromise;
-  // console.log(instance);
+  const { module, instance } = await wasmPromise;
   const library = napi.init(instance);
   __MODULE_DEPENDENCY__Extensions.applyExtensions(library, { wasmNapi: napi });
   __MODULE_NAME__Extensions.applyExtensions(library, { wasmNapi: napi });
+  library.wasmModule = module;
   return library;
 };
 
