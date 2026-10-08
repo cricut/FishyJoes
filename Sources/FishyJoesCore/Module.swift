@@ -44,6 +44,12 @@ extension Module {
         name == "FishyJoesRuntime" ? "FishyJoesIotaRuntime" : "\(name)-iota"
     }
 
+    var pythonDependencyNames: [String] {
+        dependencies.map { dependency in
+            PythonNamingConventions.moduleImportName(swift: dependency)
+        }
+    }
+
     static var runtime: Module {
         Module(
             name: "FishyJoesRuntime",

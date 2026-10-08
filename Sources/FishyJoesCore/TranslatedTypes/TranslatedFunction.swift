@@ -35,7 +35,10 @@ struct TranslatedFunction: TranslatedType {
             args: parameters.map(\.dartType),
             return: isAsync ? .future(returnType.dartType) : returnType.dartType
         )
-        self.pythonType = .callable(args: parameters.map(\.pythonType.static), return: returnType.pythonType.static)
+        self.pythonType = .callable(
+            args: parameters.map(\.pythonType.static),
+            return: isAsync ? .awaitable(returnType.pythonType.static) : returnType.pythonType.static
+        )
     }
 
     var cSharpType: CSharpClass.CSType {

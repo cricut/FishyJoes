@@ -8,18 +8,18 @@ class DeprecationTests(unittest.TestCase):
     def test_deprecated_static_method_warns(self) -> None:
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
-            self.assertEqual(testapi.Deprecations.deprecated_method(), "Hello")
+            self.assertEqual(testapi.deprecations.deprecated_method(), "Hello")
 
-        self.assertEqual(len(caught), 1)
+        self.assertEqual(len(caught or []), 1)
         self.assertTrue(issubclass(caught[0].category, DeprecationWarning))
         self.assertEqual(str(caught[0].message), "don't use this")
 
     def test_deprecated_static_property_warns(self) -> None:
         with warnings.catch_warnings(record=True) as caught:
             warnings.simplefilter("always")
-            self.assertEqual(testapi.Deprecations.deprecated_variable, 42)
+            self.assertEqual(testapi.deprecations.get_deprecated_variable(), 42)
 
-        self.assertEqual(len(caught), 1)
+        self.assertEqual(len(caught or []), 1)
         self.assertTrue(issubclass(caught[0].category, DeprecationWarning))
         self.assertEqual(
             str(caught[0].message),

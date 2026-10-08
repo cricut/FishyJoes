@@ -32,7 +32,15 @@ final class PythonTranslator2: Translator {
         cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / 'lib\(context.module)-iota.dylib'))")
         cAPIFragment.output("__all__ = [ '_\(context.module.pythonPackageName)_lib' ]")
 
-        let fragment = context.pythonFragment("fishyjoes_type_setup.py", additionalImports: ["from ._c_api import \(libVar)"])
+        let fragment = context.pythonFragment(
+            "fishyjoes_type_setup.py",
+            additionalImports: [
+                "from ._c_api import \(libVar)",
+                "import fishyjoes_runtime.fishyjoes_type_setup",
+            ] + context.module.pythonDependencyNames.map { dependency in
+                "import \(dependency).fishyjoes_type_setup"
+            }
+        )
 
         let moduleRegisterTypesFn = self.moduleRegisterTypesFn(context: context)
         var externDeclarations: [(SourceFragment) -> Void] = []
@@ -65,7 +73,8 @@ final class PythonTranslator2: Translator {
             }
 
             initializerWriters.append {
-                fragment.output("@fishyjoes_runtime.eval_once_now('setup_\(resolved.converterType.name)')")
+                // TODO: figure out why `Swift.Int` and `Int` are causing (harmless) duplicates here requiring the redefinition ignore
+                fragment.output("@fishyjoes_runtime.eval_once_now('setup_\(resolved.converterType.name)') # type: ignore[unused-ignore,no-redef]")
                 fragment.outputBlock("def setup_\(resolved.converterType.name.mangled)() -> None:") {
                     fragment.output("print(f\"setting up \(type.name)\")")
                     let setupName = "\(resolved.definingModule.pythonPackageName).fishyjoes_type_setup.\(resolved.iotaSetupName)"
@@ -110,8 +119,7 @@ final class PythonTranslator2: Translator {
         fragment.blankLine()
         fragment.output("@fishyjoes_runtime.lazy_once(\"\(context.module.pythonPackageName)_setup\")")
         fragment.outputBlock("def ensure_loaded() -> None:") {
-            fragment.output("fishyjoes_runtime.ensure_loaded()")
-            for dependency in context.module.dependencies {
+            for dependency in ["fishyjoes_runtime"] + context.module.pythonDependencyNames {
                 fragment.output("\(dependency).fishyjoes_type_setup.ensure_loaded()")
             }
 
@@ -132,15 +140,18 @@ final class PythonTranslator2: Translator {
         var initFragments: [[String]: SourceFragment] = [:]
 
         // mapping from nested namespaces to the exported, unqualified names in the namespace
-        var exportedNamesByNamespace: [[String]: [(unqualifiedName: String, importLocation: String)]] = [:]
+        var exportedNamesByNamespace: [[String]: [(unqualifiedName: String, importLocation: String?)]] = [:]
         exportedNamesByNamespace[[]] = [(unqualifiedName: "fishyjoes_type_setup", importLocation: ".")]
 
         for cls in context.pythonClasses {
             if let namespace = cls.associatedNamespace {
-                exportedNamesByNamespace[cls.namespaces, default: []].append((namespace, "."))
+                exportedNamesByNamespace[cls.namespaces, default: []]
+                    .append((namespace.name, importLocation: "."))
+                exportedNamesByNamespace[cls.namespaces + [namespace.name], default: []]
+                    .append(contentsOf: namespace.additionalExports)
             }
             exportedNamesByNamespace[cls.namespaces, default: []]
-                .append((cls.unqualifiedName, ".\(cls.typeDefinitionModuleName)"))
+                .append((cls.unqualifiedName, importLocation: ".\(cls.typeDefinitionModuleName)"))
         }
 
         for (namespace, names) in exportedNamesByNamespace {
@@ -149,7 +160,9 @@ final class PythonTranslator2: Translator {
             initFragments[namespace] = namespaceInitFragment
 
             for (name, importLocation) in names {
-                context.addHeader(to: namespaceInitFragment, "from \(importLocation) import \(name)")
+                if let importLocation = importLocation {
+                    context.addHeader(to: namespaceInitFragment, "from \(importLocation) import \(name)")
+                }
             }
             namespaceInitFragment.outputBlock("__all__: list[str] = [") {
                 for (name, _) in names {
@@ -190,7 +203,7 @@ final class PythonTranslator2: Translator {
                     context.warnMissingDefault(parameter: parameter, in: method)
                 }
             }
-            parameters.append((label, parameter.name, resolved.pythonType, defaultValue))
+            parameters.append((label, snakify(parameter.name), resolved.pythonType, defaultValue))
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).pythonType
@@ -199,10 +212,10 @@ final class PythonTranslator2: Translator {
             PythonClass2.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
-                name: exportAnnotation.name,
+                name: exportAnnotation.pythonName ?? PythonClass2.deforbidify(snakify(exportAnnotation.name), localVar: true),
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
-                returnType: method.isAsync ? .future(returnType) : returnType,
+                returnType: method.isAsync ? .future(returnType.static) : returnType,
                 deprecation: method.deprecation,
                 body: nil,
                 isDefaultImplementation: method.isDefaultImplementation
@@ -218,13 +231,13 @@ final class PythonTranslator2: Translator {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
             }
-            pythonName = PythonClass2.deforbidify(field.name, localVar: false)
+            pythonName = PythonClass2.deforbidify(snakify(field.name), localVar: false)
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
             asMethod = exportAnnotation.kind == .asMethod
-            pythonName = exportAnnotation.name
+            pythonName = exportAnnotation.pythonName ?? PythonClass2.deforbidify(snakify(exportAnnotation.name), localVar: false)
         }
         let resolved = context.resolve(type: field.type)
         return .variable(

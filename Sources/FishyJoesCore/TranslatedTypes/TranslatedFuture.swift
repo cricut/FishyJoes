@@ -19,7 +19,7 @@ struct TranslatedFuture: TranslatedType {
         self.containedNamedTypes = [output]
         self.cSharpType = .task(output.cSharpType)
         self.dartType = .future(output.dartType)
-        self.pythonType = .future(output.pythonType)
+        self.pythonType = .future(output.pythonType.static)
     }
 
     var sourceType: BetterType {

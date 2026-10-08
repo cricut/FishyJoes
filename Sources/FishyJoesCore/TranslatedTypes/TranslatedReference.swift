@@ -671,17 +671,16 @@ struct TranslatedReference: TranslatedType {
         }
         if hashable {
             fieldsAndMethods.append(
-                .variable(
-                    PythonClass2.Variable(
+                .method(
+                    PythonClass2.Method(
                         documentation: [],
                         isStatic: false,
-                        isMutable: false,
-                        isPubliclyWritable: false,
-                        asMethod: false,
-                        name: "hashCode",
+                        name: "__hash__",
                         mangledName: "\(sourceType.name.mangled)_hash",
-                        type: .int,
+                        parameters: [],
+                        returnType: .int,
                         deprecation: nil,
+                        body: nil,
                         isDefaultImplementation: false
                     )
                 )

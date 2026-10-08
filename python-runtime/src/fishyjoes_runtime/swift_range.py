@@ -7,14 +7,10 @@ from .runtime import catch_by_out_ref, create_consumed_ref, create_ref, peek_ref
 
 
 class Comparable(Protocol):
-    def __lt__(self, other: Self) -> bool: ...
-
-    def __gt__(self, other: Self) -> bool: ...
-
-    def __le__(self, other: Self) -> bool: ...
-
-    def __ge__(self, other: Self) -> bool: ...
-
+    def __lt__(self, other: Self, /) -> bool: ...
+    def __gt__(self, other: Self, /) -> bool: ...
+    def __le__(self, other: Self, /) -> bool: ...
+    def __ge__(self, other: Self, /) -> bool: ...
 
 @dataclass(frozen=True)
 class SwiftRange[Bound: Comparable]:
@@ -25,7 +21,6 @@ class SwiftRange[Bound: Comparable]:
 
     def __contains__(self, item: Bound) -> bool:
         return self.lower_bound <= item < self.upper_bound
-
 
 @dataclass(frozen=True)
 class SwiftClosedRange[Bound: Comparable]:

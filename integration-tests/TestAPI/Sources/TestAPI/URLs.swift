@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// <!-- FishyJoes.export(URLs) -->
+/// <!-- FishyJoes.export(URLs, python: Urls) -->
 public enum URLs {
     /// <!-- FishyJoes.export(simple) -->
     public static let simple: URL = { URL(string: "https://www.google.com")! }()

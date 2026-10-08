@@ -139,6 +139,14 @@ public class SourceFragment {
             return (path: destination, contents: combinedContents, createIntermediateDirectories: createIntermediateDirectories)
         }.sorted { $0.path ?? "" < $1.path ?? "" }
     }
+
+    public func conditionalWrap(if condition: Bool, wrapper: (_ inner: () -> Void) -> Void, body: @escaping () -> Void) {
+        if condition {
+            wrapper(body)
+        } else {
+            body()
+        }
+    }
 }
 
 extension SourceFragment: Comparable {

@@ -20,7 +20,7 @@ public enum DefaultArguments {
     }
 
     /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
-    public static func echoDefaultIntLimits(minValue: Int = .min, maxValue: Int = .max) -> String {
+    public static func echoDefaultIntLimits(minValue: Int = Int.min, maxValue: Int = Int.max) -> String {
         "\(minValue) \(maxValue)"
     }
 }

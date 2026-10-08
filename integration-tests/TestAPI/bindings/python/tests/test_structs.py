@@ -1,8 +1,7 @@
-# type: ignore
-import importlib
 import unittest
 
 import testapi
+from testapi import reference_only_types, structs
 
 
 class StructTests(unittest.TestCase):
@@ -25,9 +24,9 @@ class StructTests(unittest.TestCase):
         self.assertEqual(b1.zxccxz(), "Cambridge University (England)2")
 
     def test_reference_only_type_is_generated_when_used_by_api(self) -> None:
-        marker = testapi.ReferenceOnlyTypes.marker()
+        marker = reference_only_types.marker()
 
-        self.assertIsInstance(marker, testapi.ReferenceOnlyTypes_Marker)
+        self.assertIsInstance(marker, reference_only_types.Marker)
         self.assertEqual(marker, marker)
         self.assertIsInstance(hash(marker), int)
 
@@ -37,8 +36,8 @@ class StructTests(unittest.TestCase):
         # so they must compare equal by value (matching Swift and the C#/Dart/Kotlin
         # targets) — not by Python object identity. A member-less Equatable reference
         # type whose __eq__/__hash__ wiring is skipped would fail here.
-        first = testapi.ReferenceOnlyTypes.marker()
-        second = testapi.ReferenceOnlyTypes.marker()
+        first = reference_only_types.marker()
+        second = reference_only_types.marker()
 
         self.assertIsNot(first, second)
         self.assertEqual(first, second)
@@ -46,9 +45,9 @@ class StructTests(unittest.TestCase):
         self.assertNotEqual(first, object())
 
     def test_hashable_value_structs_are_hashable_in_python(self) -> None:
-        first = testapi.Structs_MemberwiseStruct("Eternal", "Fickle")
-        second = testapi.Structs_MemberwiseStruct("Eternal", "Fickle")
-        different = testapi.Structs_MemberwiseStruct("Eternal", "Changed")
+        first = structs.MemberwiseStruct("Eternal", "Fickle")
+        second = structs.MemberwiseStruct("Eternal", "Fickle")
+        different = structs.MemberwiseStruct("Eternal", "Changed")
 
         self.assertEqual(first, second)
         self.assertEqual(hash(first), hash(second))

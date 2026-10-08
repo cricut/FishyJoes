@@ -1,2 +1,3 @@
 - Extract "PythonClass" and similar into multiple, focused files.
 - Add helper method "outputWrappedBlockIf" that conditionally indents/wraps based on a boolean
+- per-file separation of generated public methods from private internals for cleaner PRs

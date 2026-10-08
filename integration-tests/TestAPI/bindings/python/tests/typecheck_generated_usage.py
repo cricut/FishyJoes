@@ -1,31 +1,21 @@
-# type: ignore
 from __future__ import annotations
 
 from typing import Any
 
-from testapi import (
-    AssociatedDataEnum,
-    AsyncFunctions,
-    Functions,
-    ReferenceOnlyTypes,
-    ReferenceOnlyTypes_Marker,
-    SimpleEnum,
-    diagnostics,
-)
+from testapi import associated_data_enum, async_functions, functions, reference_only_types, simple_enum
 
 
 def uses_generated_sync_api() -> None:
-    color = SimpleEnum.green
-    associated = AssociatedDataEnum.thing(value=1)
-    no_value = AssociatedDataEnum.no_value()
-    marker: ReferenceOnlyTypes_Marker = ReferenceOnlyTypes.marker()
-    exercised = Functions.exercise0(lambda: 42)
-    diagnostics_report = diagnostics()
+    color = simple_enum.green
+    associated = associated_data_enum.Thing(value=1)
+    no_value = associated_data_enum.NoValue()
+    marker: reference_only_types.Marker = reference_only_types.marker()
+    exercised = functions.exercise0(lambda: 42)
 
-    _: tuple[Any, ...] = (color, associated, no_value, marker, exercised, diagnostics_report)
+    _: tuple[Any, ...] = (color, associated, no_value, marker, exercised)
 
 
 async def uses_generated_async_api() -> None:
-    delayed = await AsyncFunctions.delayed_const(nanoseconds=1)
+    delayed = await async_functions.delayed_const(nanoseconds=1)
 
     _: Any = delayed

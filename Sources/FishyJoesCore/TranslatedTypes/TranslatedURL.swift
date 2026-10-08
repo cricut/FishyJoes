@@ -8,10 +8,7 @@ struct TranslatedURL: TranslatedType {
     let jniType = JNIType.object("java/net/URI")
     let cSharpType: CSharpClass.CSType = .named(package: "System", name: "Uri")
     let dartType: DartClass.DartType = .named(package: nil, name: "Uri")
-    let pythonType: PythonClass2.PythonType = .init(
-        static: .named(module: "fishyjoes_runtime", namespaces: [], name: "URI"),
-        dynamics: [.init(module: nil, namespaces: [], name: "str")]
-    )
+    let pythonType: PythonClass2.PythonType = .str
     let containedNamedTypes: [TranslatedType] = []
     let definingModule = Module.runtime
 

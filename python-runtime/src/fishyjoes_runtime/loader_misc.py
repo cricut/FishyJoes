@@ -1,8 +1,11 @@
+from typing import NewType
 from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
 from fishyjoes_runtime.runtime import Runtime, create_ref, peek_ref, catch_by_out_ref
+
+URI = NewType("URI", str)
 
 # MARK: C APIs
 

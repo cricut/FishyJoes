@@ -13,35 +13,35 @@ public enum Primitives {
     public static let falseBool = false
     /// <!-- FishyJoes.export(trueBool) -->
     public static let trueBool = true
-    /// <!-- FishyJoes.export(zeroUInt8) -->
+    /// <!-- FishyJoes.export(zeroUInt8, python: zero_uint8) -->
     public static let zeroUInt8: UInt8 = 0
-    /// <!-- FishyJoes.export(minUInt8) -->
+    /// <!-- FishyJoes.export(minUInt8, python: min_uint8) -->
     public static let minUInt8: UInt8 = .min
-    /// <!-- FishyJoes.export(maxUInt8) -->
+    /// <!-- FishyJoes.export(maxUInt8, python: max_uint8) -->
     public static let maxUInt8: UInt8 = .max
-    /// <!-- FishyJoes.export(zeroUInt16) -->
+    /// <!-- FishyJoes.export(zeroUInt16, python: zero_uint16) -->
     public static let zeroUInt16: UInt16 = 0
-    /// <!-- FishyJoes.export(minUInt16) -->
+    /// <!-- FishyJoes.export(minUInt16, python: min_uint16) -->
     public static let minUInt16: UInt16 = .min
-    /// <!-- FishyJoes.export(maxUInt16) -->
+    /// <!-- FishyJoes.export(maxUInt16, python: max_uint16) -->
     public static let maxUInt16: UInt16 = .max
-    /// <!-- FishyJoes.export(zeroUInt32) -->
+    /// <!-- FishyJoes.export(zeroUInt32, python: zero_uint32) -->
     public static let zeroUInt32: UInt32 = 0
-    /// <!-- FishyJoes.export(minUInt32) -->
+    /// <!-- FishyJoes.export(minUInt32, python: min_uint32) -->
     public static let minUInt32: UInt32 = .min
-    /// <!-- FishyJoes.export(maxUInt32) -->
+    /// <!-- FishyJoes.export(maxUInt32, python: max_uint32) -->
     public static let maxUInt32: UInt32 = .max
-    /// <!-- FishyJoes.export(zeroUInt64) -->
+    /// <!-- FishyJoes.export(zeroUInt64, python: zero_uint64) -->
     public static let zeroUInt64: UInt64 = 0
-    /// <!-- FishyJoes.export(minUInt64) -->
+    /// <!-- FishyJoes.export(minUInt64, python: min_uint64) -->
     public static let minUInt64: UInt64 = .min
-    /// <!-- FishyJoes.export(maxUInt64) -->
+    /// <!-- FishyJoes.export(maxUInt64, python: max_uint64) -->
     public static let maxUInt64: UInt64 = .max
-    /// <!-- FishyJoes.export(zeroUInt) -->
+    /// <!-- FishyJoes.export(zeroUInt, python: zero_uint) -->
     public static let zeroUInt: UInt = 0
-    /// <!-- FishyJoes.export(minUInt) -->
+    /// <!-- FishyJoes.export(minUInt, python: min_uint) -->
     public static let minUInt: UInt = .min
-    /// <!-- FishyJoes.export(maxUInt) -->
+    /// <!-- FishyJoes.export(maxUInt, python: max_uint) -->
     public static let maxUInt: UInt = .max
     /// <!-- FishyJoes.export(zeroInt8) -->
     public static let zeroInt8: Int8 = 0
@@ -98,15 +98,15 @@ public enum Primitives {
 
     /// <!-- FishyJoes.export(manyBool) -->
     public static let manyBool: [Bool] = [false, true]
-    /// <!-- FishyJoes.export(manyUInt8) -->
+    /// <!-- FishyJoes.export(manyUInt8, python: many_uint8) -->
     public static let manyUInt8: [UInt8] = [0, .min, .max]
-    /// <!-- FishyJoes.export(manyUInt16) -->
+    /// <!-- FishyJoes.export(manyUInt16, python: many_uint16) -->
     public static let manyUInt16: [UInt16] = [0, .min, .max]
-    /// <!-- FishyJoes.export(manyUInt32) -->
+    /// <!-- FishyJoes.export(manyUInt32, python: many_uint32) -->
     public static let manyUInt32: [UInt32] = [0, .min, .max]
-    /// <!-- FishyJoes.export(manyUInt64) -->
+    /// <!-- FishyJoes.export(manyUInt64, python: many_uint64) -->
     public static let manyUInt64: [UInt64] = [0, .min, .max]
-    /// <!-- FishyJoes.export(manyUInt) -->
+    /// <!-- FishyJoes.export(manyUInt, python: many_uint) -->
     public static let manyUInt: [UInt] = [0, .min, .max]
     /// <!-- FishyJoes.export(manyInt8) -->
     public static let manyInt8: [Int8] = [0, .min, .max]
@@ -127,15 +127,15 @@ public enum Primitives {
 
     /// <!-- FishyJoes.export(manyMaybeBool) -->
     public static let manyMaybeBool: [Bool?] = [nil, false, true]
-    /// <!-- FishyJoes.export(manyMaybeUInt8) -->
+    /// <!-- FishyJoes.export(manyMaybeUInt8, python: many_maybe_uint8) -->
     public static let manyMaybeUInt8: [UInt8?] = [nil, 0, .min, .max]
-    /// <!-- FishyJoes.export(manyMaybeUInt16) -->
+    /// <!-- FishyJoes.export(manyMaybeUInt16, python: many_maybe_uint16) -->
     public static let manyMaybeUInt16: [UInt16?] = [nil, 0, .min, .max]
-    /// <!-- FishyJoes.export(manyMaybeUInt32) -->
+    /// <!-- FishyJoes.export(manyMaybeUInt32, python: many_maybe_uint32) -->
     public static let manyMaybeUInt32: [UInt32?] = [nil, 0, .min, .max]
-    /// <!-- FishyJoes.export(manyMaybeUInt64) -->
+    /// <!-- FishyJoes.export(manyMaybeUInt64, python: many_maybe_uint64) -->
     public static let manyMaybeUInt64: [UInt64?] = [nil, 0, .min, .max]
-    /// <!-- FishyJoes.export(manyMaybeUInt) -->
+    /// <!-- FishyJoes.export(manyMaybeUInt, python: many_maybe_uint) -->
     public static let manyMaybeUInt: [UInt?] = [nil, 0, .min, .max]
     /// <!-- FishyJoes.export(manyMaybeInt8) -->
     public static let manyMaybeInt8: [Int8?] = [nil, 0, .min, .max]
@@ -156,15 +156,15 @@ public enum Primitives {
 
     /// <!-- FishyJoes.export(echoBool) -->
     public static func echoBool(value: Bool) -> Bool { return value }
-    /// <!-- FishyJoes.export(echoUInt8) -->
+    /// <!-- FishyJoes.export(echoUInt8, python: echo_uint8) -->
     public static func echoUInt8(value: UInt8) -> UInt8 { return value }
-    /// <!-- FishyJoes.export(echoUInt16) -->
+    /// <!-- FishyJoes.export(echoUInt16, python: echo_uint16) -->
     public static func echoUInt16(value: UInt16) -> UInt16 { return value }
-    /// <!-- FishyJoes.export(echoUInt32) -->
+    /// <!-- FishyJoes.export(echoUInt32, python: echo_uint32) -->
     public static func echoUInt32(value: UInt32) -> UInt32 { return value }
-    /// <!-- FishyJoes.export(echoUInt64) -->
+    /// <!-- FishyJoes.export(echoUInt64, python: echo_uint64) -->
     public static func echoUInt64(value: UInt64) -> UInt64 { return value }
-    /// <!-- FishyJoes.export(echoUInt) -->
+    /// <!-- FishyJoes.export(echoUInt, python: echo_uint) -->
     public static func echoUInt(value: UInt) -> UInt { return value }
     /// <!-- FishyJoes.export(echoInt8) -->
     public static func echoInt8(value: Int8) -> Int8 { return value }
@@ -185,15 +185,15 @@ public enum Primitives {
 
     /// <!-- FishyJoes.export(maybeEchoBool) -->
     public static func maybeEchoBool(value: Bool?) -> Bool? { return value }
-    /// <!-- FishyJoes.export(maybeEchoUInt8) -->
+    /// <!-- FishyJoes.export(maybeEchoUInt8, python: maybe_echo_uint8) -->
     public static func maybeEchoUInt8(value: UInt8?) -> UInt8? { return value }
-    /// <!-- FishyJoes.export(maybeEchoUInt16) -->
+    /// <!-- FishyJoes.export(maybeEchoUInt16, python: maybe_echo_uint16) -->
     public static func maybeEchoUInt16(value: UInt16?) -> UInt16? { return value }
-    /// <!-- FishyJoes.export(maybeEchoUInt32) -->
+    /// <!-- FishyJoes.export(maybeEchoUInt32, python: maybe_echo_uint32) -->
     public static func maybeEchoUInt32(value: UInt32?) -> UInt32? { return value }
-    /// <!-- FishyJoes.export(maybeEchoUInt64) -->
+    /// <!-- FishyJoes.export(maybeEchoUInt64, python: maybe_echo_uint64) -->
     public static func maybeEchoUInt64(value: UInt64?) -> UInt64? { return value }
-    /// <!-- FishyJoes.export(maybeEchoUInt) -->
+    /// <!-- FishyJoes.export(maybeEchoUInt, python: maybe_echo_uint) -->
     public static func maybeEchoUInt(value: UInt?) -> UInt? { return value }
     /// <!-- FishyJoes.export(maybeEchoInt8) -->
     public static func maybeEchoInt8(value: Int8?) -> Int8? { return value }

@@ -5,11 +5,11 @@ class PythonProtocolClass: PythonClass2 {
             additionalImports: ["import abc"]
         )
 
-        // let normalFields = fields.filter { !$0.isDefaultImplementation }
-        // let defaultFields = fields.filter { $0.isDefaultImplementation }
+        let normalFields = fields.filter { !$0.isDefaultImplementation }
+        let defaultFields = fields.filter { $0.isDefaultImplementation }
 
-        // let normalMethods = methods.filter { !$0.isDefaultImplementation }
-        // let defaultMethods = methods.filter { $0.isDefaultImplementation }
+        let normalMethods = methods.filter { !$0.isDefaultImplementation }
+        let defaultMethods = methods.filter { $0.isDefaultImplementation }
 
         fragment.outputBlock("class \(unqualifiedName)(abc.ABC):") {
             document(documentation, fragment: fragment)

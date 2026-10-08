@@ -34,20 +34,37 @@ class PythonEnumClass: PythonClass2 {
         )
     }
 
-    override var associatedNamespace: String {
-        PythonNamingConventions.namespaceFor(typeName: unqualifiedName)
+    override var associatedNamespace: (name: String, additionalExports: [(unqualifiedName: String, importLocation: String?)]) {
+        let name = PythonNamingConventions.namespaceFor(typeName: unqualifiedName)
+        var additionalExports: [(unqualifiedName: String, importLocation: String?)] = cases.map {
+            (unqualifiedName: $0.pythonName, importLocation: ".\(snakify($0.pythonName))")
+        }
+        for field in fields where field.isStatic {
+            additionalExports.append((unqualifiedName: "get_\(field.name)", importLocation: nil))
+            if field.isPubliclyWritable {
+                additionalExports.append((unqualifiedName: "set_\(field.name)", importLocation: nil))
+            }
+        }
+        for method in methods where method.isStatic {
+            additionalExports.append((unqualifiedName: method.name, importLocation: nil))
+        }
+        return (name, additionalExports)
     }
 
     override func publicFragments(context: FishyJoesContext) -> [SourceFragment] {
-        let associatedNamespace = associatedNamespace
         let baseFragment = context.pythonFragment(
             typeDefinitionModulePath,
             additionalImports: [
-                "from . import \(associatedNamespace)",
+                "from . import \(associatedNamespace.name)",
                 "from . import \(implementationModuleName) as _impl",
             ]
         )
-        let namespaceFragment = context.pythonFragment("\(associatedNamespace)/__init__.py")
+        let namespaceFragment = context.pythonFragment(
+            "\(associatedNamespace.name)/__init__.py",
+            additionalImports: [
+                "from .. import \(implementationModuleName) as _impl",
+            ]
+        )
         var fragments = [baseFragment, namespaceFragment]
 
         var conformancesPart = ""
@@ -60,9 +77,21 @@ class PythonEnumClass: PythonClass2 {
                 document(documentation, fragment: baseFragment)
                 baseFragment.blankLine()
 
-                fields.forEach { output(field: $0, to: baseFragment) }
-                methods.forEach { output(method: $0, to: baseFragment) }
+                // Static fields/methods are declared in the associated namespace, not the base class for enums
+                for field in fields where !field.isStatic {
+                    output(field: field, to: baseFragment)
+                }
+                for method in methods where !method.isStatic {
+                    output(method: method, to: baseFragment)
+                }
             }
+        }
+
+        for field in fields where field.isStatic {
+            output(field: field, to: namespaceFragment, inClass: false)
+        }
+        for method in methods where method.isStatic {
+            output(method: method, to: namespaceFragment, inClass: false)
         }
 
         baseFragment.output("\(PythonClass2.deforbidify(unqualifiedName, localVar: true)): typing.TypeAlias = ", newLineTerminated: false)
@@ -71,14 +100,14 @@ class PythonEnumClass: PythonClass2 {
         } else {
             baseFragment.outputBlock("typing.Union[") {
                 for enumCase in cases {
-                    baseFragment.output("\(associatedNamespace).\(enumCase.pythonName),")
+                    baseFragment.output("\(associatedNamespace.name).\(enumCase.pythonName),")
                 }
             }
         }
 
         for enumCase in cases {
             let fragment = context.pythonFragment(
-                "\(associatedNamespace)/\(snakify(enumCase.pythonName)).py",
+                "\(associatedNamespace.name)/\(snakify(enumCase.pythonName)).py",
                 additionalImports: [
                     "import dataclasses",
                     "from ..\(typeDefinitionModuleName) import _Base\(unqualifiedName)",
@@ -99,12 +128,6 @@ class PythonEnumClass: PythonClass2 {
             }
 
         }
-        namespaceFragment.outputBlock("__all__: list[str] = [") {
-            for enumCase in cases {
-                context.addHeader(to: namespaceFragment, "from .\(snakify(enumCase.pythonName)) import \(enumCase.pythonName)")
-                namespaceFragment.output("\"\(enumCase.pythonName)\",")
-            }
-        }
 
         return fragments
     }
@@ -113,11 +136,18 @@ class PythonEnumClass: PythonClass2 {
     override func outputCCallbackImplementations(to fragment: SourceFragment, context: FishyJoesContext) {
         let namespaceName = PythonNamingConventions.namespaceFor(typeName: unqualifiedName)
         context.addHeader(to: fragment, "from . import \(namespaceName)")
+        let baseDynType: String
+        if !cases.isEmpty {
+            context.addHeader(to: fragment, "from .\(typeDefinitionModuleName) import _Base\(unqualifiedName)")
+            baseDynType = "_Base\(unqualifiedName)"
+        } else {
+            baseDynType = "object"
+        }
 
         fragment.output("@fishyjoes_runtime.callback(\"EnumDiscriminator\")")
         fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=0)")
         fragment.outputBlock("def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:") {
-            fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(unqualifiedName)):") {
+            fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(baseDynType)):") {
                 for (enumIndex, enumCase) in cases.enumerated() {
                     fragment.output("case \(namespaceName).\(enumCase.pythonName): return \(enumIndex)")
                 }
@@ -141,7 +171,7 @@ class PythonEnumClass: PythonClass2 {
                         if value.type.static.isPrimitive {
                             fragment.output("_\(value.name),")
                         } else {
-                            fragment.output("fishyjoes_runtime.consume_ref(\(value.name), \(value.type.dynamicsString)), # type: ignore[arg-type]")
+                            fragment.output("fishyjoes_runtime.consume_ref(\(value.name), \(value.type.dynamicsString)),")
                         }
                     }
                 }

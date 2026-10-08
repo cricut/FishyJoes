@@ -1,4 +1,3 @@
-# type: ignore
 import math
 import unittest
 
@@ -16,7 +15,7 @@ class ProtocolTests(unittest.TestCase):
             def baz(self) -> bool:
                 return True
 
-            def bar(self, x: int, y: int):
+            def bar(self, x: int, y: int) -> testapi.AProtocol:
                 return testapi.AProtocolImplementation(foo=f"python bar {x + y}", baz=False)
 
             def has_a_default_implementation(self, x: int, y: float) -> str:

@@ -1,17 +1,14 @@
 import unittest
 
-import testapi
+from testapi import String_PuttingTypesIntoQuestionablePlaces, Structs_PuttingTypesIntoQuestionablePlaces, \
+    unicode_scalar__putting_types_into_questionable_places
 
 
 class ExtensionTests(unittest.TestCase):
     def test_extension_declared_exported_types(self) -> None:
-        string_extension_type = testapi.String_PuttingTypesIntoQuestionablePlaces
-        structs_extension_type = testapi.Structs_PuttingTypesIntoQuestionablePlaces
-        scalar_extension_type = testapi.UnicodeScalar_PuttingTypesIntoQuestionablePlaces
-
-        self.assertEqual(string_extension_type("hello").test_call(), 42)
-        self.assertEqual(structs_extension_type.create().test_call(), 43)
-        self.assertEqual(scalar_extension_type.thing.test_call(), 44)
+        self.assertEqual(String_PuttingTypesIntoQuestionablePlaces("hello").test_call(), 42)
+        self.assertEqual(Structs_PuttingTypesIntoQuestionablePlaces.create().test_call(), 43)
+        self.assertEqual(unicode_scalar__putting_types_into_questionable_places.Thing().test_call(), 44)
 
 
 if __name__ == "__main__":

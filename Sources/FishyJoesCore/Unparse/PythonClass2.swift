@@ -78,7 +78,7 @@ class PythonClass2 {
     let methods: [Method]
     let conformances: [PythonType]
 
-    var associatedNamespace: String? { nil }
+    var associatedNamespace: (name: String, additionalExports: [(unqualifiedName: String, importLocation: String?)])? { nil }
 
     init(
         module: Module,
@@ -209,16 +209,17 @@ class PythonClass2 {
                 }
             }
             fragment.outputBlock(", \(returnType.static.ffiCreatedType.name())] = \\", closeWith: "") {
-                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, \"TODO\"))")
+                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, \"\(name)\"))")
             }
         }
     }
 
-    func outputPublic(instanceField field: Variable, to fragment: SourceFragment) {
+    func outputPublic(classField field: Variable, to fragment: SourceFragment) {
         precondition(!field.isStatic)
         let name = PythonClass2.deforbidify(field.name, localVar: false)
+        fragment.blankLine()
         if let deprecation = field.deprecation {
-            fragment.output("@Deprecated(\"\(deprecation.quotedMessage)\")")
+            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
         }
         fragment.output("@property")
         fragment.outputBlock("def \(name)(self) -> \(field.type.static.name(in: self)):") {
@@ -253,19 +254,61 @@ class PythonClass2 {
         }
     }
 
-    func output(field: Variable, to fragment: SourceFragment) {
-        if field.isStatic {
-            fragment.output("# TODO: static field \(field.name)")
-        } else {
-            outputPublic(instanceField: field, to: fragment)
+    func outputPublic(getterSetterFor field: Variable, to fragment: SourceFragment, inClass: Bool) {
+        precondition(field.isStatic || inClass)
+        fragment.blankLine()
+        let (selfParam, selfHandleParam) = field.isStatic ? ("", "") : ("self", ", self_handle")
+        if let deprecation = field.deprecation {
+            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
+        }
+        if inClass && field.isStatic {
+            fragment.output("@staticmethod")
+        }
+        let type = field.type.static.name(in: inClass ? self : nil)
+        fragment.outputBlock("def get_\(field.name)(\(selfParam)) -> \(type):") {
+            document(field.documentation, fragment: fragment)
+            let functionCall = "_impl.iota_get_\(field.mangledName)(fishyjoes_runtime.Runtime.shared.env_ref\(selfHandleParam))"
+            fragment.conditionalWrap(if: !field.isStatic) { inner in
+                fragment.outputBlock("with fishyjoes_runtime.local_handles(self) as (self_handle,):", inner)
+            } body: {
+                if field.type.static.isPrimitive {
+                    fragment.output("return \(functionCall)")
+                } else if field.type.dynamics == [] {
+                    fragment.output(functionCall)
+                    fragment.output(#"raise AssertionError("Return type is uninhabited. Expected code to be unreachable")"#)
+                } else {
+                    fragment.output("return fishyjoes_runtime.consume_created_ref(\(functionCall), \(field.type.dynamicsString))")
+                }
+            }
+        }
+        if field.isPubliclyWritable {
+            fragment.blankLine()
+            if let deprecation = field.deprecation {
+                fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
+            }
+            if inClass {
+                fragment.output("@staticmethod")
+            }
+            // TODO: implement this
+            fragment.output("def set_\(field.name)(new_value: \(type)) -> None: ...")
         }
     }
 
-    func output(method: Method, to fragment: SourceFragment) {
+    func output(field: Variable, to fragment: SourceFragment, inClass: Bool = true) {
+        if field.isStatic || field.asMethod {
+            outputPublic(getterSetterFor: field, to: fragment, inClass: inClass)
+        } else {
+            precondition(inClass, "instance variables must be defined in a class")
+            outputPublic(classField: field, to: fragment)
+        }
+    }
+
+    func output(method: Method, to fragment: SourceFragment, inClass: Bool = true) {
+        fragment.blankLine()
         if let deprecation = method.deprecation {
             fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
         }
-        if method.isStatic {
+        if method.isStatic && inClass {
             fragment.output("@staticmethod")
         }
         fragment.outputBlock("def \(method.name)(", newLineTerminated: false) {
@@ -274,7 +317,7 @@ class PythonClass2 {
             }
             func outputParameter(parameter: Method.Parameter) {
                 let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                fragment.output("\(PythonClass2.deforbidify(parameter.name, localVar: true)): \(parameter.type.static.name(in: self))\(defaultValue),")
+                fragment.output("\(PythonClass2.deforbidify(parameter.name, localVar: true)): \(parameter.type.static.name(in: inClass ? self : nil))\(defaultValue),")
             }
 
             // put all optional parameters at the end, or python gets unhappy
@@ -287,7 +330,7 @@ class PythonClass2 {
                 optionalParams.forEach(outputParameter)
             }
         }
-        fragment.outputBlock(" -> \(method.returnType.static.name(in: self)):") {
+        fragment.outputBlock(" -> \(method.returnType.static.name(in: inClass ? self : nil)):") {
             document(method.documentation, fragment: fragment)
             if let body = method.body {
                 body.forEach { fragment.output($0) }
@@ -325,6 +368,15 @@ class PythonClass2 {
                             fragment.output("return ", newLineTerminated: false)
                             innerWriter()
                             fragment.output()
+                        }
+                    }
+                } else if method.returnType.dynamics == [] {
+                    let outerWrap = wrap
+                    wrap = { innerWriter in
+                        outerWrap {
+                            innerWriter()
+                            fragment.output()
+                            fragment.output(#"raise AssertionError("Return type is uninhabited. Expected code to be unreachable")"#)
                         }
                     }
                 } else {
@@ -421,10 +473,6 @@ extension PythonClass2.PythonType: CustomStringConvertible {
         .class(module: nil, qualifiedName: "TODO")
     }
 
-    static func future(_ inner: Self) -> Self {
-        .class(module: "fishyjoes_runtime", qualifiedName: "Future", genericArgs: [inner.static])
-    }
-
     static func result(_ success: Self, _ failure: Self) -> Self {
         .init(
             static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Result", genericArgs: [success.static, failure.static]),
@@ -440,6 +488,10 @@ extension PythonClass2.PythonType: CustomStringConvertible {
             static: .callable(args: args, return: `return`),
             dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
         )
+    }
+
+    static func future(_ inner: Static) -> Self {
+        .class(module: "fishyjoes_runtime", namespaces: [], name: "Future", genericArgs: [inner])
     }
 
     var description: String {
@@ -553,6 +605,10 @@ extension PythonClass2.PythonType.Static {
 
     static var none: Self { .named(module: nil, namespaces: [], name: "None") }
 
+    static func awaitable(_ inner: Self) -> Self {
+        return .named(module: "typing", namespaces: [], name: "Awaitable", genericArgs: [inner])
+    }
+
     // NOTE: these are a bit weird types, since they're not user-visible. Only useful in limited internal places.
     static var unownedHostRef: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "UnownedRef")
@@ -612,7 +668,7 @@ extension PythonClass2 {
                 fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
                 let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
                     "newValue: \(field.type.static.ffiConsumedType.name())"
-                fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)):") {
+                fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)) -> None:") {
                     if field.isStatic {
                         fragment.output("\(unqualifiedName).\(fieldName) = ", newLineTerminated: false)
                     } else {
@@ -844,6 +900,7 @@ extension PythonClass2 {
         // imported modules used by runtime
         "types",
         "typing",
+        "deprecated",
     ]
 
     static func deforbidify(_ name: String, localVar: Bool) -> String {

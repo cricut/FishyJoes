@@ -1,4 +1,3 @@
-# type: ignore
 import unittest
 
 import testapi
@@ -10,15 +9,14 @@ class MethodTests(unittest.TestCase):
 
         self.assertEqual(methods.instance_get, 1234)
         self.assertEqual(methods.garply, 42901)
-        self.assertTrue(callable(methods.instance_get_method))
-        self.assertEqual(methods.instance_get_method(), 2345)
+        self.assertEqual(methods.get_instance_get_method(), 2345)
         self.assertEqual(methods.instance_modifiable, 3456)
         self.assertEqual(methods.instance_stored, 5678)
         self.assertEqual(methods.double_plus_good(21, 20.6), 84)
 
     def test_reference_static_export_as_method_is_callable(self) -> None:
-        self.assertTrue(callable(testapi.Methods.static_get_method))
-        self.assertEqual(testapi.Methods.static_get_method(), 234)
+        self.assertTrue(callable(testapi.Methods.get_static_get_method()))
+        self.assertEqual(testapi.Methods.get_static_get_method(), 234)
 
     def test_reference_instance_property_setters(self) -> None:
         methods = testapi.Methods.create()
@@ -34,16 +32,16 @@ class MethodTests(unittest.TestCase):
         # highest-risk settable-static shape. A getter-only regression, or a setter that
         # silently rebinds the class attribute instead of calling native, fails here.
         methods = testapi.Methods
-        original_modifiable = methods.static_modifiable
-        original_stored = methods.static_stored
+        original_modifiable = methods.get_static_modifiable()
+        original_stored = methods.get_static_stored()
         try:
-            methods.static_modifiable = 9001
-            self.assertEqual(methods.static_modifiable, 9001)
-            methods.static_stored = 6002
-            self.assertEqual(methods.static_stored, 6002)
+            methods.set_static_modifiable(9001)
+            self.assertEqual(methods.get_static_modifiable(), 9001)
+            methods.set_static_stored(6002)
+            self.assertEqual(methods.get_static_stored(), 6002)
         finally:
-            methods.static_modifiable = original_modifiable
-            methods.static_stored = original_stored
+            methods.set_static_modifiable(original_modifiable)
+            methods.set_static_stored(original_stored)
 
 
 if __name__ == "__main__":
