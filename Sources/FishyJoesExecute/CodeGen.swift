@@ -313,13 +313,21 @@ extension CodeGen {
                     for module in config.requiredModules {
                         fragment.output(#"packageDep("\#(module)-bindings", bindings: true),"#)
                     }
+                    for module in config.requiredModules {
+                        fragment.output(#"packageDep("\#(module)"),"#)
+                    }
                     fragment.output(#"packageDep("\#(config.module)"),"#)
                     fragment.output(#"packageDep("FishyJoes"),"#)
                 }
                 fragment.outputBlock(#"targets: ["#, newLineTerminated: false) {
                     fragment.outputBlock(".target(", closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
-                        fragment.output(#"dependencies: [.product(name: "\#(config.module)", package: "\#(config.module)")],"#)
+                        fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                            for module in config.requiredModules {
+                                fragment.output(#".product(name: "\#(module)", package: "\#(module)"),"#)
+                            }
+                            fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                        }
                         fragment.output(#"path: "Sources/CommonInterface","#)
                         fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
                     }

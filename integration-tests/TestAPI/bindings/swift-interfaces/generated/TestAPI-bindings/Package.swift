@@ -60,7 +60,9 @@ var package = Package(
     targets: [
         .target(
             name: "TestAPI_CommonInterface",
-            dependencies: [.product(name: "TestAPI", package: "TestAPI")],
+            dependencies: [
+                .product(name: "TestAPI", package: "TestAPI"),
+            ],
             path: "Sources/CommonInterface",
             swiftSettings: strictConcurrencyFlags
         ),
