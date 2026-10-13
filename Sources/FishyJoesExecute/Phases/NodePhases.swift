@@ -235,11 +235,15 @@ class NodePhases: BasePhases, Phases {
             // Create the required Javascript files for loading the module's native library from node
             var moduleDotJS: [String] = []
             for dependency in nodeDependencies {
+                // Import and re-export the dependency exports
+                moduleDotJS.append("import { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                 moduleDotJS.append("export { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
             }
             moduleDotJS.append("import { createRequire } from 'module';")
             moduleDotJS.append("const require = createRequire(import.meta.url);")
             moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
+            moduleDotJS.append("export const protoLibrary = async () => ({});")
+            moduleDotJS.append("export const init = async () => ({ \(nodeModules.flatMap(\.jsExports).joined(separator: ", ")) });")
             moduleDotJS.append("export default \(nodeModule.name);")
             try cmd("cat")
                 .input(moduleDotJS.joined(separator: "\n"))
@@ -301,35 +305,19 @@ class NodePhases: BasePhases, Phases {
             definitions.append("")
         }
 
-        // Export a function that can be used to load the module and its dependencies using a promise
-        if platform == .wasm {
-            // Wasm builds accept a pre-compiled module or a caller-supplied binary, and expose the compiled module,
-            // so one compile can be shared across threads. Native builds keep the zero-argument form.
-            definitions.append("export interface \(nodeModule.name)InitOptions {")
-            definitions.append("    /** Pre-compiled \(nodeModule.name).wasm, instantiated as is. Nothing is fetched or compiled. */")
-            definitions.append("    module?: WebAssembly.Module;")
-            definitions.append("    /** Binary to compile instead of fetching \"\(nodeModule.name).wasm\". Ignored when `module` is set. */")
-            definitions.append("    source?: Response | PromiseLike<Response> | BufferSource;")
-            definitions.append("}")
-            definitions.append("")
-            definitions.append("export interface \(nodeModule.name)Library {")
-            for dependency in nodeDependencies {
-                definitions.append("    \(dependency.name): typeof \(dependency.name);")
-            }
-            definitions.append("    \(nodeModule.name): typeof \(nodeModule.name);")
-            definitions.append("    /** The compiled \(nodeModule.name).wasm this library was instantiated from. */")
-            definitions.append("    wasmModule: WebAssembly.Module;")
-            definitions.append("}")
-            definitions.append("")
-            definitions.append("export declare function init(options?: \(nodeModule.name)InitOptions): Promise<\(nodeModule.name)Library>;")
-        } else {
-            definitions.append("export declare function init(): Promise<{")
-            for dependency in nodeDependencies {
-                definitions.append("    \(dependency.name): typeof \(dependency.name),")
-            }
-            definitions.append("    \(nodeModule.name): typeof \(nodeModule.name),")
-            definitions.append("}>;")
+        // Export the functions that load the module and its dependencies using a promise
+        definitions.append("declare const protoLibraryBrand: unique symbol;")
+        definitions.append("/** Opaque, structured-cloneable handle from protoLibrary(); pass it to init() in any thread. */")
+        definitions.append("export interface ProtoLibrary {")
+        definitions.append("    readonly [protoLibraryBrand]: \"\(nodeModule.name)\";")
+        definitions.append("}")
+        definitions.append("export declare function protoLibrary(): Promise<ProtoLibrary>;")
+        definitions.append("export declare function init(compiled?: ProtoLibrary): Promise<{")
+        for dependency in nodeDependencies {
+            definitions.append("    \(dependency.name): typeof \(dependency.name),")
         }
+        definitions.append("    \(nodeModule.name): typeof \(nodeModule.name),")
+        definitions.append("}>;")
         definitions.append("")
 
         // Make the module's own definitions the default export
