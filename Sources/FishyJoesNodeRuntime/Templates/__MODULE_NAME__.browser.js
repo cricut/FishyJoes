@@ -18,9 +18,6 @@ const protoLibrary = async () => ({
 
 const init = async (compiled) => {
   const { module } = compiled ?? await protoLibrary();
-  if (!(module instanceof WebAssembly.Module)) {
-    throw new TypeError("init(): `compiled` must come from protoLibrary()");
-  }
   let napi = new NAPI(WASI, WasmFs);
   const importObject = {};
   const importsToMerge = [
