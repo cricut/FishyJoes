@@ -41,15 +41,7 @@ public struct Env {
     }
 
     public func RegisterNatives(_ clazz: jclass?, _ methods: JNINativeMethod ...) throws {
-        // change to true to debug UnsatisfiedLinkErrors
-        #if false
-        for method in methods {
-            print("registering to class at \(String(describing: clazz)): \(String(cString: method.name, encoding: .utf8)!)")
-            try javaOk(RegisterNatives(clazz, methods: [method]))
-        }
-        #else
-        try javaOk(RegisterNatives(clazz, methods: methods))
-        #endif
+        try RegisterNatives(clazz, methods: methods)
     }
 }
 
@@ -636,8 +628,16 @@ extension Env {
         try check(fns.SetDoubleArrayRegion(env, array, start, len, buf))
     }
 
-    public func RegisterNatives(_ clazz: jclass?, methods: [JNINativeMethod]) throws -> jint {
-        try check(fns.RegisterNatives(env, clazz, methods, jint(methods.count)))
+    public func RegisterNatives(_ clazz: jclass?, methods: [JNINativeMethod]) throws {
+        // change to true to debug UnsatisfiedLinkErrors
+        #if false
+        for method in methods {
+            print("registering to class at \(String(describing: clazz)): \(String(cString: method.name, encoding: .utf8)!)")
+            try javaOk(check(fns.RegisterNatives(clazz, methods: [method], 1)))
+        }
+        #else
+        try javaOk(check(fns.RegisterNatives(env, clazz, methods, jint(methods.count))))
+        #endif
     }
     public func UnregisterNatives(_ clazz: jclass?) -> jint {
         fns.UnregisterNatives(env, clazz)
