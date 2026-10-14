@@ -706,9 +706,8 @@ struct TranslatedStruct: TranslatedType {
                     }
                 ),
                 fields: fields,
-                methods: methods,
-                conformances: Set(exportedConformances(in: context).map { $0.pythonType })
-            )
+                methods: methods
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
     }
 }

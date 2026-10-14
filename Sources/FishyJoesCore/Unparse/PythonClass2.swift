@@ -29,23 +29,40 @@ class PythonClass2 {
         case variable(Variable)
     }
 
-    struct Method {
-        typealias Parameter = (labelComment: String?, name: String, type: PythonType, defaultValue: String?)
+    struct Method: Decorable {
+        struct Parameter {
+            let labelComment: String?
+            let name: String
+            let type: PythonType
+            let defaultValue: String?
+
+            init(labelComment: String? = nil, name: String, type: PythonClass2.PythonType, defaultValue: String? = nil) {
+                self.labelComment = labelComment
+                self.name = name
+                self.type = type
+                self.defaultValue = defaultValue
+            }
+
+            var pythonName: String {
+                PythonClass2.deforbidify(snakify(name), localVar: true)
+            }
+        }
 
         let documentation: [String]
         let isStatic: Bool
+        var isOverride: Bool
         let name: String
         let mangledName: String
-        let parameters: [Parameter]
+        var parameters: [Parameter]
         let returnType: PythonType
         let deprecation: Deprecation?
-        let body: [String]?
-        let isDefaultImplementation: Bool
+        var implementationKind: MemberImplementationKind
     }
 
-    struct Variable: Equatable {
+    struct Variable: Decorable, Equatable {
         let documentation: [String]
         let isStatic: Bool
+        var isOverride: Bool
         let isMutable: Bool
         let isPubliclyWritable: Bool
         let asMethod: Bool
@@ -53,14 +70,18 @@ class PythonClass2 {
         let mangledName: String
         let type: PythonType
         let deprecation: Deprecation?
-        let isDefaultImplementation: Bool
+        var implementationKind: MemberImplementationKind
 
         var hiddenStorage: Bool {
             isMutable && !isPubliclyWritable
         }
 
         var storedName: String {
-            "\(hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(name, localVar: false))"
+            "\(hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(snakify(name), localVar: false))"
+        }
+
+        var pythonName: String {
+            PythonClass2.deforbidify(snakify(name), localVar: false)
         }
     }
 
@@ -69,14 +90,23 @@ class PythonClass2 {
         let setupArguments: [(PythonType, String)]
     }
 
+    enum MemberImplementationKind: Equatable {
+        /// Body implemented in python
+        case explicitBody(lines: [String])
+        /// Regular function with a body, if isDefault then it's a default implementation for a protocol
+        case implementationInSwift(isDefault: Bool)
+        /// Protocol requirement, no implementation
+        case abstract
+    }
+
     let module: Module
     let documentation: [String]
     let namespaces: [String]
     let name: String
     let setupTypes: SetupTypes?
-    let fields: [Variable]
-    let methods: [Method]
-    let conformances: [PythonType]
+    var fields: [Variable]
+    var methods: [Method]
+    var conformances: Set<PythonType>
 
     var associatedNamespace: (name: String, additionalExports: [(unqualifiedName: String, importLocation: String?)])? { nil }
 
@@ -88,7 +118,7 @@ class PythonClass2 {
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<PythonType>
+        conformances: Set<PythonType> = []
     ) {
         self.module = module
         self.documentation = documentation
@@ -97,7 +127,7 @@ class PythonClass2 {
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
-        self.conformances = Array(conformances).sorted(by: { $0.static.name() < $1.static.name() })
+        self.conformances = conformances
     }
 
     func publicFragments(context: FishyJoesContext) -> [SourceFragment] { [] }
@@ -169,23 +199,29 @@ class PythonClass2 {
         (namespaces + ["\(typeDefinitionModuleName).py"]).joined(separator: "/")
     }
 
-    var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)] {
-        var result: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)] = [:]
+    var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)] {
+        var result: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)] = [:]
 
         let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: name))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
-
-            let resultName = field.isDefaultImplementation ? "iota__default_\(field.mangledName)" : "iota_get_\(field.mangledName)"
-            result[resultName] = (args: baseArgs, return: field.type, isDefaultImplementation: field.isDefaultImplementation, isProtocol: false)
-            if field.isPubliclyWritable {
-                result["iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .none, isDefaultImplementation: false, isProtocol: false)
+            switch field.implementationKind {
+            case .abstract:
+                continue
+            case .explicitBody:
+                fatalErr("Internal error: .explicitBody not supported on fields")
+            case .implementationInSwift(let isDefault):
+                let resultName = isDefault ? "iota__default_\(field.mangledName)" : "iota_get_\(field.mangledName)"
+                result[resultName] = (args: baseArgs, return: field.type, implementationKind: field.implementationKind)
+                if field.isPubliclyWritable {
+                    result["iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .none, .implementationInSwift(isDefault: false))
+                }
             }
         }
 
         for method in methods {
-            if method.body != nil { continue }
+            guard case .implementationInSwift = method.implementationKind else { continue }
 
             var params = method.isStatic ? [] : [thisArg]
 
@@ -194,14 +230,14 @@ class PythonClass2 {
                 params.append((PythonClass2.deforbidify(param.name, localVar: true), param.type))
             }
 
-            result["iota_\(method.mangledName)"] = (args: params, return: method.returnType, isDefaultImplementation: method.isDefaultImplementation, isProtocol: false)
+            result["iota_\(method.mangledName)"] = (args: params, return: method.returnType, method.implementationKind)
         }
 
         return result
     }
 
-    func outputNativeMethodDeclarations(methods: [String: (args: [(String, PythonType)], return: PythonType, isDefaultImplementation: Bool, isProtocol: Bool)], fragment: SourceFragment) {
-        for (name, (args, returnType, _, _)) in methods.sorted(by: { $0.key < $1.key}) {
+    func outputNativeMethodDeclarations(methods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)], fragment: SourceFragment) {
+        for (name, (args, returnType, _)) in methods.sorted(by: { $0.key < $1.key}) {
             fragment.outputBlock("\(name): typing.Callable[[", newLineTerminated: false) {
                 fragment.output("fishyjoes_runtime.EnvRef,")
                 for (_, argType) in args {
@@ -209,7 +245,7 @@ class PythonClass2 {
                 }
             }
             fragment.outputBlock(", \(returnType.static.ffiCreatedType.name())] = \\", closeWith: "") {
-                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, \"\(name)\"))")
+                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, '__\(name)'))")
             }
         }
     }
@@ -218,26 +254,34 @@ class PythonClass2 {
         precondition(!field.isStatic)
         let name = PythonClass2.deforbidify(field.name, localVar: false)
         fragment.blankLine()
-        if let deprecation = field.deprecation {
-            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
-        }
         fragment.output("@property")
+        outputDecorators(for: field, to: fragment)
         fragment.outputBlock("def \(name)(self) -> \(field.type.static.name(in: self)):") {
             document(field.documentation, fragment: fragment)
-            let fieldFuncName = field.isDefaultImplementation ? "_impl.iota__default_\(field.mangledName)" : "_impl.iota_get_\(field.mangledName)"
-            let functionCall = "\(fieldFuncName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)"
-            fragment.outputBlock("\(PythonClass2.withLocalHandles([("self", "self_handle")])):") {
-                if field.type.static.isPrimitive {
-                    fragment.output("return \(functionCall)")
-                } else {
-                    fragment.output("return fishyjoes_runtime.consume_created_ref(\(functionCall), \(field.type.dynamicsString))")
+            switch field.implementationKind {
+            case .explicitBody(let lines):
+                lines.forEach { fragment.output($0) }
+            case .abstract:
+                fragment.output("...")
+            case .implementationInSwift(let isDefault):
+                let fieldFuncName = isDefault ? "_impl.iota__default_\(field.mangledName)" : "_impl.iota_get_\(field.mangledName)"
+                let functionCall = "\(fieldFuncName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)"
+                fragment.outputBlock("\(PythonClass2.withLocalHandles([("self", "self_handle")])):") {
+                    if field.type.static.isPrimitive {
+                        fragment.output("return \(functionCall)")
+                    } else {
+                        fragment.output("return fishyjoes_runtime.consume_created_ref(\(functionCall), \(field.type.dynamicsString))")
+                    }
                 }
             }
         }
         fragment.blankLine()
 
         if field.isPubliclyWritable {
+            // TODO: delete this misleading comment
+            // Decorators not output on setters. I think that's right because they actually end up stored inside the property, which is decorated.
             fragment.output("@\(name).setter")
+            outputDecorators(for: field, to: fragment)
             fragment.outputBlock("def \(name)(self, new_value: \(field.type.static.name(in: self))) -> None:") {
                 var localHandles = [(expression: "self", bindTo: "self_handle")]
                 let value: String
@@ -258,12 +302,10 @@ class PythonClass2 {
         precondition(field.isStatic || inClass)
         fragment.blankLine()
         let (selfParam, selfHandleParam) = field.isStatic ? ("", "") : ("self", ", self_handle")
-        if let deprecation = field.deprecation {
-            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
-        }
         if inClass && field.isStatic {
             fragment.output("@staticmethod")
         }
+        outputDecorators(for: field, to: fragment)
         let type = field.type.static.name(in: inClass ? self : nil)
         fragment.outputBlock("def get_\(field.name)(\(selfParam)) -> \(type):") {
             document(field.documentation, fragment: fragment)
@@ -283,18 +325,16 @@ class PythonClass2 {
         }
         if field.isPubliclyWritable {
             fragment.blankLine()
-            if let deprecation = field.deprecation {
-                fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
-            }
             if inClass {
                 fragment.output("@staticmethod")
             }
+            outputDecorators(for: field, to: fragment)
             // TODO: implement this
             fragment.output("def set_\(field.name)(new_value: \(type)) -> None: ...")
         }
     }
 
-    func output(field: Variable, to fragment: SourceFragment, inClass: Bool = true) {
+    func output(field: Variable, to fragment: SourceFragment, inClass: Bool = true, isAbstract: Bool = false) {
         if field.isStatic || field.asMethod {
             outputPublic(getterSetterFor: field, to: fragment, inClass: inClass)
         } else {
@@ -303,14 +343,12 @@ class PythonClass2 {
         }
     }
 
-    func output(method: Method, to fragment: SourceFragment, inClass: Bool = true) {
+    func output(method: Method, to fragment: SourceFragment, inClass: Bool = true, isAbstract: Bool = false) {
         fragment.blankLine()
-        if let deprecation = method.deprecation {
-            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
-        }
         if method.isStatic && inClass {
             fragment.output("@staticmethod")
         }
+        outputDecorators(for: method, to: fragment)
         fragment.outputBlock("def \(method.name)(", newLineTerminated: false) {
             if !method.isStatic {
                 fragment.output("self,")
@@ -332,9 +370,12 @@ class PythonClass2 {
         }
         fragment.outputBlock(" -> \(method.returnType.static.name(in: inClass ? self : nil)):") {
             document(method.documentation, fragment: fragment)
-            if let body = method.body {
-                body.forEach { fragment.output($0) }
-            } else {
+            switch method.implementationKind {
+            case .explicitBody(let lines):
+                lines.forEach { fragment.output($0) }
+            case .abstract:
+                fragment.output("...")
+            case .implementationInSwift:
                 var localHandles: [(expression: String, bindTo: String)] = []
                 var paramStrings: [String] = []
                 if !method.isStatic {
@@ -922,5 +963,39 @@ extension PythonClass2 {
         // trailing comma is sometimes important for python tuples, so always add it
         let bindings = localHandles.map { "\($0.bindTo)," }.joined(separator: " ")
         return "with fishyjoes_runtime.local_handles(\(expressions)) as (\(bindings))"
+    }
+
+    func outputDecorators(for decorable: PythonClass2.Decorable, to fragment: SourceFragment) {
+        if let deprecation = decorable.deprecation {
+            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
+        }
+        if decorable.isOverride {
+            fragment.output("@typing.override")
+        }
+    }
+}
+
+extension PythonClass2 {
+    protocol Decorable {
+        var deprecation: Deprecation? { get }
+        var isOverride: Bool { get }
+    }
+}
+
+extension PythonClass2.MemberImplementationKind: Comparable {
+    static func < (lhs: PythonClass2.MemberImplementationKind, rhs: PythonClass2.MemberImplementationKind) -> Bool {
+        // Why does swift make Comparable so difficult?
+        switch (lhs, rhs) {
+        case (.explicitBody(let lLines), .explicitBody(let rLines)):
+            return lLines.lexicographicallyPrecedes(rLines)
+        case (.explicitBody, _): return true
+
+        case (.implementationInSwift, .explicitBody): return false
+        case (.implementationInSwift(let lIsDefault), .implementationInSwift(let rIsDefault)):
+            return (lIsDefault ? 1 : 0) < (rIsDefault ? 1 : 0)
+        case (.implementationInSwift, .abstract): return true
+
+        case (.abstract, _): return false
+        }
     }
 }

@@ -631,22 +631,24 @@ struct TranslatedReference: TranslatedType {
                     PythonClass2.Method(
                         documentation: [],
                         isStatic: false,
+                        isOverride: false,
                         name: "__eq__",
                         mangledName: "",
                         parameters: [
-                            (labelComment: nil, name: "other", type: .object, defaultValue: nil),
+                            .init(name: "other", type: .object),
                         ],
                         returnType: .bool,
                         deprecation: nil,
-                        body: [
-                            "if self is other: return True",
-                            "if not isinstance(other, \(pythonType.dynamicsString)): return False",
-                            "\(PythonClass2.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
-                            "    return _impl.iota_\(sourceType.name.mangled)_equals(",
-                            "        fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle",
-                            "    )",
-                        ],
-                        isDefaultImplementation: false
+                        implementationKind: .explicitBody(
+                            lines: [
+                                "if self is other: return True",
+                                "if not isinstance(other, \(pythonType.dynamicsString)): return False",
+                                "\(PythonClass2.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
+                                "    return _impl.iota_\(sourceType.name.mangled)_equals(",
+                                "        fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle",
+                                "    )",
+                            ]
+                        )
                     )
                 )
             )
@@ -655,16 +657,16 @@ struct TranslatedReference: TranslatedType {
                     PythonClass2.Method(
                         documentation: [],
                         isStatic: true,
+                        isOverride: false,
                         name: "_equals",
                         mangledName: "\(sourceType.name.mangled)_equals",
                         parameters: [
-                            (labelComment: nil, name: "lhs", type: pythonType, nil),
-                            (labelComment: nil, name: "rhs", type: .optional(pythonType), nil),
+                            .init(name: "lhs", type: pythonType),
+                            .init(name: "rhs", type: .optional(pythonType)),
                         ],
                         returnType: .bool,
                         deprecation: nil,
-                        body: nil,
-                        isDefaultImplementation: false
+                        implementationKind: .implementationInSwift(isDefault: false)
                     )
                 )
             )
@@ -675,13 +677,13 @@ struct TranslatedReference: TranslatedType {
                     PythonClass2.Method(
                         documentation: [],
                         isStatic: false,
+                        isOverride: false,
                         name: "__hash__",
                         mangledName: "\(sourceType.name.mangled)_hash",
                         parameters: [],
                         returnType: .int,
                         deprecation: nil,
-                        body: nil,
-                        isDefaultImplementation: false
+                        implementationKind: .implementationInSwift(isDefault: false)
                     )
                 )
             )
@@ -695,9 +697,8 @@ struct TranslatedReference: TranslatedType {
             name: pythonType.static.name(),
             constructor: .reference,
             fields: fields,
-            methods: methods,
-            conformances: Set(exportedConformances(in: context).map { $0.pythonType})
-        )
+            methods: methods
+        ).conforming(to: exportedConformances(in: context), context: context)
         context.add(pythonClass: pythonProduct)
     }
 

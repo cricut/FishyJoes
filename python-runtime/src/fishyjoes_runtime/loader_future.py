@@ -38,16 +38,16 @@ _FutureResolveRejectMethod: TypeAlias = Callable[[UnownedRef, ConsumedRef, Consu
 _FishyJoesCommonRuntime_FutureConverter_setup: \
     Callable[[EnvRef, UTF16CString, _FutureCreateFn, _FutureSinkMethod, _FutureResolveRejectMethod,
               _FutureResolveRejectMethod, ConsumedRef], None] = \
-    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "_FishyJoesCommonRuntime_FutureConverter_setup"))
+    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_FutureConverter_setup"))
 
 _FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler: \
     Callable[[EnvRef, ConsumedSwiftRef, int, ConsumedRef], None] = \
-    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "_FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler"))
+    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler"))
 
 
 # MARK: C callback implementations
 
-@callback("FutureCreateFn")
+@callback("FishyJoes_FutureConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _future_create(context: UnownedRef, out_promise: OutCreatedRef) -> CreatedRef:
     future: Future[Any] = Future(asyncio.get_running_loop())
@@ -55,7 +55,7 @@ def _future_create(context: UnownedRef, out_promise: OutCreatedRef) -> CreatedRe
     return create_ref(future)
 
 
-@callback("FutureSinkFn")
+@callback("FishyJoes_FutureSinkFn")
 @catch_by_out_ref(default=None)
 def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: ConsumedSwiftRef) -> None:
     future = peek_ref(future_ref, Future)
@@ -73,7 +73,7 @@ def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: Cons
     future._future.add_done_callback(callback)
 
 
-@callback("FutureResolveRejectFn")
+@callback("FishyJoes_FutureResolveRejectFn")
 @catch_by_out_ref(default=None)
 def _future_resolve(context: UnownedRef, future_ref: ConsumedRef, result_ref: ConsumedRef) -> None:
     dyn_types = peek_ref(context, tuple)
@@ -82,7 +82,7 @@ def _future_resolve(context: UnownedRef, future_ref: ConsumedRef, result_ref: Co
     future.resolve(result)
 
 
-@callback("FutureResolveRejectFn")
+@callback("FishyJoes_FutureResolveRejectFn")
 @catch_by_out_ref(default=None)
 def _future_reject(context: UnownedRef, future_ref: ConsumedRef, failure_ref: ConsumedRef) -> None:
     future = consume_ref(future_ref, Future)

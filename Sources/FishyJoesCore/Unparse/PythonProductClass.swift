@@ -9,7 +9,7 @@ class PythonProductClass: PythonClass2 {
         case reference
     }
 
-    let constructor: Constructor
+    var constructor: Constructor
     let isExternalWitness: Bool
 
     init(
@@ -20,7 +20,7 @@ class PythonProductClass: PythonClass2 {
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<PythonType>,
+        conformances: Set<PythonType> = [],
         isExternalWitness: Bool = false
     ) {
         self.constructor = constructor
@@ -41,7 +41,7 @@ class PythonProductClass: PythonClass2 {
             typeDefinitionModulePath,
             additionalImports: ["from . import \(implementationModuleName) as _impl"]
         )
-        var conformances = conformances.map { $0.static.name(in: self) }
+        var conformances = conformances.map { $0.static.name(in: self) }.sorted()
         if case .reference = constructor {
             conformances = ["fishyjoes_runtime.SwiftReference"] + conformances
         }
@@ -55,6 +55,9 @@ class PythonProductClass: PythonClass2 {
                     let type = field.type.static.name(in: self)
                     if field.hiddenStorage {
                         fragment.output("\(field.storedName): \(type)")
+                        if field.isOverride {
+                            fragment.output("@typing.override")
+                        }
                         fragment.output("@property")
                         fragment.outputBlock("def \(field.name)(self) -> \(type):") {
                             fragment.output("return self.\(field.storedName)")

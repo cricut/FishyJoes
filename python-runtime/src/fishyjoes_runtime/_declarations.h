@@ -89,9 +89,9 @@ typedef unowned_swift_ref (*FishyJoes_ReferencePointerGetterFn)(unowned_host_ref
 
 // SECTION: Swift.String
 // Intro/elim callbacks for host-side strings
-typedef created_host_ref (*FishyJoes_StringConstructorFn)(const char_16t *code_units, intptr_t length, out_created_exception exn);
-typedef intptr_t (*FishyJoes_StringGetLengthFn)(unowned_host_ref object, out_created_exception exn);
-typedef void (*FishyJoes_StringGetCodeUnitsFn)(unowned_host_ref object, char *outBytes, out_created_exception exn);
+typedef created_host_ref (*FishyJoes_StringConstructorFn)(const char16_t *code_units, intptr_t length, out_created_exception exn);
+typedef intptr_t (*FishyJoes_StringLengthFn)(unowned_host_ref object, out_created_exception exn);
+typedef void (*FishyJoes_StringCodeUnitsFn)(unowned_host_ref object, char *outBytes, out_created_exception exn);
 
 // SECTION: Foundation.Data
 // Intro/elim callbacks for host-side data
@@ -162,11 +162,11 @@ void Swift_Bool_setup(
     unowned_host_ref iotaFalse,
     FishyJoes_BoolValueFn valueMethod
 );
-void Swift_String_utf8_setup(
+void Swift_String_setup(
     fishyjoes_env envRef,
-    FishyJoes_StringUtf8LengthFn getLengthMethod,
-    FishyJoes_StringGetUtf8Fn getUtf8Method,
-    FishyJoes_StringUtf8ConstructorFn constructor
+    FishyJoes_StringLengthFn getLengthMethod,
+    FishyJoes_StringCodeUnitsFn getUtf8Method,
+    FishyJoes_StringConstructorFn constructor
 );
 void Foundation_Data_setup(
     fishyjoes_env envRef,

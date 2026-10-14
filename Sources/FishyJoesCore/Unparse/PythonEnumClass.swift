@@ -20,7 +20,7 @@ class PythonEnumClass: PythonClass2 {
         cases: [Case],
         fields: [Variable],
         methods: [Method],
-        conformances: Set<PythonType>
+        conformances: Set<PythonType> = []
     ) {
         self.cases = cases
         super.init(
@@ -69,7 +69,8 @@ class PythonEnumClass: PythonClass2 {
 
         var conformancesPart = ""
         if !conformances.isEmpty {
-            conformancesPart = "(\(conformances.map { $0.static.name(in: self) }.joined(separator: ", ")))"
+            let conformances = conformances.map { $0.static.name(in: self) }.sorted()
+            conformancesPart = "(\(conformances.joined(separator: ", ")))"
         }
 
         if !cases.isEmpty {
@@ -94,13 +95,14 @@ class PythonEnumClass: PythonClass2 {
             output(method: method, to: namespaceFragment, inClass: false)
         }
 
-        baseFragment.output("\(PythonClass2.deforbidify(unqualifiedName, localVar: true)): typing.TypeAlias = ", newLineTerminated: false)
+        let name = PythonClass2.deforbidify(unqualifiedName, localVar: true)
         if cases.isEmpty {
-            baseFragment.output("typing.Never")
+            baseFragment.output("\(name): typing.TypeAlias = typing.Never")
         } else {
-            baseFragment.outputBlock("typing.Union[") {
+            baseFragment.output("# String type syntax used to avoid circular import problems at runtime")
+            baseFragment.outputBlock("\(name): typing.TypeAlias = typing.Union[") {
                 for enumCase in cases {
-                    baseFragment.output("\(associatedNamespace.name).\(enumCase.pythonName),")
+                    baseFragment.output("'\(associatedNamespace.name).\(enumCase.pythonName)',")
                 }
             }
         }

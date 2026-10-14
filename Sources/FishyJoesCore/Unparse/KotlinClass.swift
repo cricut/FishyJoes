@@ -53,7 +53,7 @@ class KotlinClass: NestedClass {
         name: String,
         fields: [Variable],
         methods: [Method],
-        conformances: Set<KType>
+        conformances: Set<KType> = []
     ) {
         self.name = name
         self.documentation = documentation

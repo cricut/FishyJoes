@@ -11,7 +11,7 @@ final class PythonTranslator2: Translator {
     struct NativeMethod {
         var name: String
         var definingPythonClass: String
-        var args: [(name: String, type: PythonClass2.PythonType)]
+        var args: [(name: String, typenType: PythonClass2.PythonType)]
         var returnType: PythonClass2.PythonType
         var doDefaultImplementationsSuffix: Bool
     }
@@ -88,28 +88,28 @@ final class PythonTranslator2: Translator {
             }
         }
 
-        for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
-            let definingPythonClass = nativeMethod.definingPythonClass + (nativeMethod.doDefaultImplementationsSuffix ? "_DefaultImplementations" : "")
-            externDeclarations.append { fragment in
-                fragment.outputBlock("\(definingPythonClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
-                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(", closeWith: "),") {
-                        fragment.output("Env env,")
-                        for (argName, argType) in nativeMethod.args {
-                            fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
-                        }
-                        fragment.output("OutCreatedRef _exn")
-                    }
-                    fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(") {
-                        fragment.output("Env env,")
-                        for (argName, argType) in nativeMethod.args {
-                            fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
-                        }
-                        fragment.output("OutCreatedRef _exn")
-                    }
-                }
-                fragment.output("(\"\(nativeMethod.name)\")")
-            }
-        }
+        // for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
+        //     let definingPythonClass = nativeMethod.definingPythonClass + (nativeMethod.doDefaultImplementationsSuffix ? "_DefaultImplementations" : "")
+        //     externDeclarations.append { fragment in
+        //         fragment.outputBlock("\(definingPythonClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
+        //             fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(", closeWith: "),") {
+        //                 fragment.output("Env env,")
+        //                 for (argName, argType) in nativeMethod.args {
+        //                     fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
+        //                 }
+        //                 fragment.output("OutCreatedRef _exn")
+        //             }
+        //             fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(") {
+        //                 fragment.output("Env env,")
+        //                 for (argName, argType) in nativeMethod.args {
+        //                     fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
+        //                 }
+        //                 fragment.output("OutCreatedRef _exn")
+        //             }
+        //         }
+        //         fragment.output("(\"\(nativeMethod.name)\")")
+        //     }
+        // }
 
         fragment.blankLine()
         for externDeclaration in externDeclarations {
@@ -177,13 +177,22 @@ final class PythonTranslator2: Translator {
             to: "\(pythonRootDir)/\(internalExportedName).py"
         )
 
-        return [fragment, cAPIFragment, internalExportedFragment] + initFragments.values
+        let declarationsFragment = SourceFragment(destinationPath: "python/generated/src/\(context.module.pythonPackageName)/_declarations.h")
+        declarationsFragment.output("/* \(CommonStrings.autogenWarning) */")
+        declarationsFragment.blankLine()
+        declarationsFragment.output("void FishyJoes_\(context.module.name.mangled)_registerTypes(void);")
+        declarationsFragment.blankLine()
+        for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
+            fragment.output("\(nativeMethod.returnType) __\(nativeMethod.name)(...);")
+        }
+
+        return [fragment, cAPIFragment, internalExportedFragment, declarationsFragment] + initFragments.values
     }
 
     func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass2.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [(labelComment: String?, name: String, type: PythonClass2.PythonType, defaultValue: String?)] = []
+        var parameters: [PythonClass2.Method.Parameter] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -203,7 +212,7 @@ final class PythonTranslator2: Translator {
                     context.warnMissingDefault(parameter: parameter, in: method)
                 }
             }
-            parameters.append((label, snakify(parameter.name), resolved.pythonType, defaultValue))
+            parameters.append(.init(labelComment: label, name: snakify(parameter.name), type: resolved.pythonType, defaultValue: defaultValue))
         }
 
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).pythonType
@@ -212,13 +221,13 @@ final class PythonTranslator2: Translator {
             PythonClass2.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
+                isOverride: method.exportAnnotation.isOverride,
                 name: exportAnnotation.pythonName ?? PythonClass2.deforbidify(snakify(exportAnnotation.name), localVar: true),
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
                 returnType: method.isAsync ? .future(returnType.static) : returnType,
                 deprecation: method.deprecation,
-                body: nil,
-                isDefaultImplementation: method.isDefaultImplementation
+                implementationKind: .implementationInSwift(isDefault: method.isDefaultImplementation)
             )
         )
     }
@@ -244,6 +253,7 @@ final class PythonTranslator2: Translator {
             PythonClass2.Variable(
                 documentation: field.documentation,
                 isStatic: field.isStatic,
+                isOverride: field.exportAnnotation?.isOverride ?? false,
                 isMutable: field.isMutable,
                 isPubliclyWritable: field.isPubliclyWritable,
                 asMethod: asMethod,
@@ -251,9 +261,64 @@ final class PythonTranslator2: Translator {
                 mangledName: "\(type.mangledName)_\(pythonName.mangled)",
                 type: resolved.pythonType,
                 deprecation: field.deprecation,
-                isDefaultImplementation: field.isDefaultImplementation
+                implementationKind: .implementationInSwift(isDefault: field.isDefaultImplementation)
             )
         )
+    }
+
+    func conform(_ pythonClass: PythonClass2, to translatedProtocol: TranslatedProtocol, context: FishyJoesContext) {
+        pythonClass.conformances.insert(translatedProtocol.pythonType)
+
+        var protoDefs: [OverrideSignature: PythonClass2.MethodOrVariable] = [:]
+        for method in translatedProtocol.methods {
+            if let pythonMethod = context.python(method: method, of: translatedProtocol) {
+                protoDefs[OverrideSignature(pythonMethod)] = pythonMethod
+            }
+        }
+        for field in translatedProtocol.fields {
+            if let pythonField = context.python(field: field, of: translatedProtocol) {
+                protoDefs[OverrideSignature(pythonField)] = pythonField
+            }
+        }
+
+        pythonClass.methods = pythonClass.methods.map { method in
+            var modified = method
+            if let pythonMethod = protoDefs[OverrideSignature(.method(method))] {
+                modified.isOverride = true
+                if case .method(let method) = pythonMethod {
+                    // Argument labels are an important part of the type in python that will cause types to break if mismatched. Copy them over exactly from the protocol.
+                    modified.parameters = method.parameters
+                }
+            }
+            return modified
+        }
+        pythonClass.fields = pythonClass.fields.map { field in
+            var modified = field
+            if protoDefs.keys.contains(OverrideSignature(.variable(field))) {
+                modified.isOverride = true
+            }
+            return modified
+        }
+        if let product = pythonClass as? PythonProductClass {
+            product.fields = product.fields.map { field in
+                var modified = field
+                if protoDefs.keys.contains(OverrideSignature(.variable(field))) {
+                    modified.isOverride = true
+                }
+                return modified
+            }
+            if case let .`public`(constructorFields) = product.constructor {
+                let overriddenConstructorFields = constructorFields.map { field in
+                    var modified = field
+                    if protoDefs.keys.contains(OverrideSignature(.variable(field))) {
+                        modified.isOverride = true
+                    }
+                    return modified
+                }
+
+                product.constructor = .public(fields: overriddenConstructorFields)
+            }
+        }
     }
 
     func python(value: String) -> String? {
@@ -274,6 +339,35 @@ final class PythonTranslator2: Translator {
             return expression.swiftFloatingPointConstantLiteral
         case .implicitMember:
             return nil
+        }
+    }
+}
+
+extension PythonClass2 {
+    func conforming(to protocols: [TranslatedProtocol], context: FishyJoesContext) -> PythonClass2 {
+        protocols.reduce(into: self) { pyClass, proto in
+            context.pythonTranslator.conform(pyClass, to: proto, context: context)
+        }
+    }
+}
+
+private struct OverrideSignature: Hashable {
+    let isStatic: Bool
+    let name: String
+    let parameters: [PythonClass2.PythonType]?
+    let returnType: PythonClass2.PythonType
+    init(_ methodOrVar: PythonClass2.MethodOrVariable) {
+        switch methodOrVar {
+        case .method(let method):
+            isStatic = method.isStatic
+            name = method.name
+            parameters = method.parameters.map(\.type)
+            returnType = method.returnType
+        case .variable(let variable):
+            isStatic = variable.isStatic
+            name = variable.name
+            parameters = nil
+            returnType = variable.type
         }
     }
 }

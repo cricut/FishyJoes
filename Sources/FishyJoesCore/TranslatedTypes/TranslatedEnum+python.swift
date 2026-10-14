@@ -65,7 +65,7 @@ extension TranslatedEnum {
         return parameters
     }
 
-    func pythonClass(context: FishyJoesContext) -> PythonEnumClass {
+    func pythonClass(context: FishyJoesContext) -> PythonClass2 {
         let (fields, methods) = PythonClass2.separate(
             fieldsAndMethods:
                 fields.compactMap {
@@ -90,9 +90,8 @@ extension TranslatedEnum {
                 )
             },
             fields: fields,
-            methods: methods,
-            conformances: Set(exportedConformances(in: context).map { $0.pythonType})
-        )
+            methods: methods
+        ).conforming(to: exportedConformances(in: context), context: context)
     }
 }
 

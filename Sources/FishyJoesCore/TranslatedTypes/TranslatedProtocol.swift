@@ -944,8 +944,7 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 name: kotlinName,
                 fields: interfaceFields,
-                methods: interfaceMethods,
-                conformances: Set(exportedConformances(in: context).map { $0.kotlinType})
+                methods: interfaceMethods
             ).conforming(to: exportedConformances(in: context), context: context)
         )
 
@@ -1077,9 +1076,8 @@ struct TranslatedProtocol: TranslatedType {
                 namespaces: pythonType.static.namespaces,
                 name: pythonType.static.name(),
                 fields: protocolFields,
-                methods: protocolMethods,
-                conformances: Set(exportedConformances(in: context).map { $0.pythonType})
-            )
+                methods: protocolMethods
+            ).conforming(to: exportedConformances(in: context), context: context)
         )
 
         let (externalWitnessFields, externalWitnessMethods) = PythonClass2.separate(
@@ -1099,8 +1097,7 @@ struct TranslatedProtocol: TranslatedType {
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,
-                conformances: [pythonType]
-            )
+            ).conforming(to: [self] + exportedConformances(in: context), context: context)
         )
     }
 }

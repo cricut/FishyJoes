@@ -153,6 +153,7 @@ public class FishyJoesContext {
 
     func pythonFragment(_ name: String, additionalImports: [String] = []) -> PythonFragment {
         let fragment = PythonFragment(packageRoot: "python/generated/src/\(module.pythonPackageName)", name: name, createIntermediateDirectories: true)
+        addHeader(to: fragment, priority: 1, "from __future__ import annotations")
         addHeader(to: fragment, "import fishyjoes_runtime")
         // These imports are also tracked in PythonClass.forbiddenVarNames to avoid conflicts
         addHeader(to: fragment, "import typing")
@@ -172,11 +173,11 @@ public class FishyJoesContext {
         return fragment
     }
 
-    func addHeader(to fragment: SourceFragment, _ additionalImport: String) {
+    func addHeader(to fragment: SourceFragment, priority: Int = 0, _ additionalImport: String) {
         guard let fileName = fragment.destinationPath else {
             fatalErr("Can't add imports to anonymous fragments")
         }
-        addHeader(file: fileName, additionalImport)
+        addHeader(file: fileName, priority: priority, additionalImport)
     }
 
     func duplicate(fragment: SourceFragment, to newDestinationPath: String) -> SourceFragment {
@@ -681,6 +682,18 @@ public class FishyJoesContext {
 
     func add(pythonClass: PythonClass2) {
         pythonClasses.append(pythonClass)
+
+        for (name, (args, returnType, implementationKind)) in pythonClass.nativeMethods {
+            pythonTranslator.nativeMethods.append(
+                PythonTranslator2.NativeMethod(
+                    name: name,
+                    definingPythonClass: pythonClass.name,
+                    args: args,
+                    returnType: returnType,
+                    doDefaultImplementationsSuffix: implementationKind == .implementationInSwift(isDefault: true)
+                )
+            )
+        }
     }
 
     struct FileHeader: Hashable, Comparable {

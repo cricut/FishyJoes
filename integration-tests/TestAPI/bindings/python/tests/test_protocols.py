@@ -2,6 +2,7 @@ import math
 import unittest
 
 import testapi
+from testapi import protocol_fixtures, test_protocol_enum
 
 
 class ProtocolTests(unittest.TestCase):
@@ -28,11 +29,11 @@ class ProtocolTests(unittest.TestCase):
         value = PythonAProtocol()
 
         self.assertEqual(
-            testapi.ProtocolFixtures.describe_a_protocol(value, x=4, y=9),
+            protocol_fixtures.describe_a_protocol(value, x=4, y=9),
             "python foo|true|python bar 13|false|python bar 32 notBazzed",
         )
 
-        returned = testapi.ProtocolFixtures.return_a_protocol(value)
+        returned = protocol_fixtures.return_a_protocol(value)
         self.assertEqual(returned.foo, "python foo")
         self.assertTrue(returned.baz)
         self.assertEqual(returned.bar(x=7, y=8).foo, "python bar 15")
@@ -54,7 +55,7 @@ class ProtocolTests(unittest.TestCase):
         )
 
     def test_protocol_enum_struct_and_class_members(self) -> None:
-        enum_value = testapi.TestProtocolEnum.qux
+        enum_value = test_protocol_enum.Qux()
         self.assertTrue(enum_value.bar())
         enum_value.baz(True)
         self.assertEqual(enum_value.garply("Navigate a nostril!"), "garply Navigate a nostril! garpity garp")

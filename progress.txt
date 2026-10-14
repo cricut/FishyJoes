@@ -30,7 +30,7 @@
    - [C] memberwise struct
    - [C] references
    - [C] enums
-   - [ ] protocols
+   - [C] protocols
  - [C] methods
  - [C] async methods
  - [C] runtime setup method
