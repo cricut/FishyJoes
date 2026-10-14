@@ -235,11 +235,15 @@ class NodePhases: BasePhases, Phases {
             // Create the required Javascript files for loading the module's native library from node
             var moduleDotJS: [String] = []
             for dependency in nodeDependencies {
+                // Import and re-export the dependency exports
+                moduleDotJS.append("import { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
                 moduleDotJS.append("export { \(dependency.jsExports.joined(separator: ", ")) } from '@cricut/\(dependency.npmPackageName)';")
             }
             moduleDotJS.append("import { createRequire } from 'module';")
             moduleDotJS.append("const require = createRequire(import.meta.url);")
             moduleDotJS.append("export const { \(nodeModule.name) } = require('./\(nodeModule.name).cjs');")
+            moduleDotJS.append("export const protoLibrary = async () => ({});")
+            moduleDotJS.append("export const init = async () => ({ \(nodeModules.flatMap(\.jsExports).joined(separator: ", ")) });")
             moduleDotJS.append("export default \(nodeModule.name);")
             try cmd("cat")
                 .input(moduleDotJS.joined(separator: "\n"))
@@ -301,8 +305,14 @@ class NodePhases: BasePhases, Phases {
             definitions.append("")
         }
 
-        // Export a function that can be used to load the module and its dependencies using a promise
-        definitions.append("export declare function init(): Promise<{")
+        // Export the functions that load the module and its dependencies using a promise
+        definitions.append("declare const protoLibraryBrand: unique symbol;")
+        definitions.append("/** Opaque, structured-cloneable handle from protoLibrary(); pass it to init() in any thread. */")
+        definitions.append("export interface ProtoLibrary {")
+        definitions.append("    readonly [protoLibraryBrand]: \"\(nodeModule.name)\";")
+        definitions.append("}")
+        definitions.append("export declare function protoLibrary(): Promise<ProtoLibrary>;")
+        definitions.append("export declare function init(compiled?: ProtoLibrary): Promise<{")
         for dependency in nodeDependencies {
             definitions.append("    \(dependency.name): typeof \(dependency.name),")
         }
