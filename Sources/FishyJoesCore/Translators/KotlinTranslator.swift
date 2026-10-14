@@ -295,30 +295,24 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
-    /// Most native methods registered by one generated `env.RegisterNatives` call. The type
-    /// checker's memory for a call grows much faster than its argument count, so a class with
-    /// hundreds of natives is registered over several calls; JNI adds methods on each call.
-    static let maxNativeMethodsPerRegistration = 50
-
-    /// Writes `try env.RegisterNatives(javaClass, ...)` calls registering `methods`, in chunks of
-    /// at most ``maxNativeMethodsPerRegistration``, and a single call when `methods` is empty.
+    /// Writes one `env.registerNatives(javaClass, [...])` call registering `methods`.
+    ///
+    /// Each list entry is plain `(name, signature, fnPtr)` values. The `unsafeBitCast` of each
+    /// function pointer gets its own `let` before the call, because generic calls inside an
+    /// array literal of hundreds of entries are what make it expensive to type-check.
     func outputRegisterNatives(to fragment: SourceFragment, javaClass: String, methods: [MethodInfo]) {
-        let chunkSize = Self.maxNativeMethodsPerRegistration
-        let chunks = methods.isEmpty
-            ? [[]]
-            : stride(from: 0, to: methods.count, by: chunkSize).map { Array(methods[$0..<min($0 + chunkSize, methods.count)]) }
-        for chunk in chunks {
-            fragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
-                fragment.output(javaClass, newLineTerminated: false)
-                for methodInfo in chunk {
-                    fragment.output(",")
-                    fragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
-                        fragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
-                        fragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
-                        fragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
-                    }
+        guard !methods.isEmpty else {
+            fragment.output("try env.registerNatives(\(javaClass), [])")
+            return
+        }
+        fragment.outputBlock("do {") {
+            for (index, methodInfo) in methods.enumerated() {
+                fragment.output("let fnPtr\(index) = unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
+            }
+            fragment.outputBlock("try env.registerNatives(\(javaClass), [", closeWith: "])") {
+                for (index, methodInfo) in methods.enumerated() {
+                    fragment.output("(\"\(methodInfo.javaName)\", \"\(methodInfo.signature)\", fnPtr\(index)),")
                 }
-                fragment.output()
             }
         }
     }
@@ -338,7 +332,6 @@ final class KotlinTranslator: Translator {
         // modules with thousands of setup statements that peaked above 14 GB.
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.outputBlock("private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {") {
-            typeSetupFragment.output("let bag = CStringBag()")
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
                 typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")

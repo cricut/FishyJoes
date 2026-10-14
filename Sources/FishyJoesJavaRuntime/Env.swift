@@ -51,6 +51,19 @@ public struct Env {
         try javaOk(RegisterNatives(clazz, methods: methods))
         #endif
     }
+
+    /// Registers native methods with `clazz`, one `(name, signature, fnPtr)` entry per method.
+    ///
+    /// Generated `JNI_OnLoad` code calls this with one array literal per class. Unlike the variadic
+    /// `RegisterNatives`, a list of plain values stays cheap to type-check when a class has
+    /// hundreds of natives. The C strings JNI needs live for the duration of the call.
+    public func registerNatives(_ clazz: jclass?, _ methods: [(name: String, signature: String, fnPtr: UnsafeMutableRawPointer)]) throws {
+        let bag = CStringBag()
+        let nativeMethods = methods.map {
+            JNINativeMethod(name: bag.add($0.name), signature: bag.add($0.signature), fnPtr: $0.fnPtr)
+        }
+        try javaOk(RegisterNatives(clazz, methods: nativeMethods))
+    }
 }
 
 extension Env {
