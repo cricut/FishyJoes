@@ -295,6 +295,34 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
+    /// Most native methods registered by one generated `env.RegisterNatives` call. The type
+    /// checker's memory for a call grows much faster than its argument count, so a class with
+    /// hundreds of natives is registered over several calls; JNI adds methods on each call.
+    static let maxNativeMethodsPerRegistration = 50
+
+    /// Writes `try env.RegisterNatives(javaClass, ...)` calls registering `methods`, in chunks of
+    /// at most ``maxNativeMethodsPerRegistration``, and a single call when `methods` is empty.
+    func outputRegisterNatives(to fragment: SourceFragment, javaClass: String, methods: [MethodInfo]) {
+        let chunkSize = Self.maxNativeMethodsPerRegistration
+        let chunks = methods.isEmpty
+            ? [[]]
+            : stride(from: 0, to: methods.count, by: chunkSize).map { Array(methods[$0..<min($0 + chunkSize, methods.count)]) }
+        for chunk in chunks {
+            fragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
+                fragment.output(javaClass, newLineTerminated: false)
+                for methodInfo in chunk {
+                    fragment.output(",")
+                    fragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
+                        fragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
+                        fragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
+                        fragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
+                    }
+                }
+                fragment.output()
+            }
+        }
+    }
+
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
         let typeSetupFragment = context.swiftFragment(
             "JavaInterface/TypeSetup.swift",
@@ -304,6 +332,46 @@ final class KotlinTranslator: Translator {
 
         var usedMethods: Set<String> = []
 
+        // The setup statements go in a plain function rather than in the closure passed to
+        // `callbackBody`: the type checker solves a multi-statement closure together with the
+        // call it is passed to, and holds the memory for every statement until the end. For
+        // modules with thousands of setup statements that peaked above 14 GB.
+        typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
+        typeSetupFragment.outputBlock("private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {") {
+            typeSetupFragment.output("let bag = CStringBag()")
+            for type in generatedTypes {
+                let resolved = context.resolve(type: type)
+                typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
+                typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
+                if case .named = type {
+                    if let nativeMethods = allMethods[resolved.sourceType.name]?.sorted(by: { $0.javaName < $1.javaName }) {
+                        // check for defaults here
+                        let protocolDefaultMethodInfos = nativeMethods.filter { $0.isProtocolDefault }
+                        let normalMethodInfos = nativeMethods.filter { !$0.isProtocolDefault }
+
+                        if resolved is TranslatedProtocol,
+                           !protocolDefaultMethodInfos.isEmpty {
+                            outputRegisterNatives(
+                                to: typeSetupFragment,
+                                javaClass: "\(resolved.converterType.name).externalCompanionClass",
+                                methods: protocolDefaultMethodInfos
+                            )
+                        }
+                        let doExternalWitness = resolved is TranslatedProtocol
+                        outputRegisterNatives(
+                            to: typeSetupFragment,
+                            javaClass: doExternalWitness
+                                ? "\(resolved.converterType.name).externalWitnessClass!"
+                                : "\(resolved.converterType.name).javaClass",
+                            methods: doExternalWitness ? normalMethodInfos : normalMethodInfos + protocolDefaultMethodInfos
+                        )
+
+                        usedMethods.insert(resolved.sourceType.name)
+                    }
+                }
+            }
+        }
+        typeSetupFragment.blankLine()
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.output("@_cdecl(\"JNI_OnLoad\")")
         typeSetupFragment.outputBlock("public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutableRawPointer) -> jint {") {
@@ -313,65 +381,7 @@ final class KotlinTranslator: Translator {
             }
             typeSetupFragment.output("let env = UnsafeMutablePointer<JNIEnv?>(OpaquePointer(envRaw))")
             typeSetupFragment.outputBlock("let result = FishyJoesJavaRuntime.callbackBody(env!) { (env) -> jint? in", closeWith: "}") {
-                typeSetupFragment.output("let bag = CStringBag()")
-                for type in generatedTypes {
-                    let resolved = context.resolve(type: type)
-                    typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
-                    typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
-                    if case .named = type {
-                        if let nativeMethods = allMethods[resolved.sourceType.name]?.sorted(by: { $0.javaName < $1.javaName }) {
-                            // check for defaults here
-                            let protocolDefaultMethodInfos = nativeMethods.filter { $0.isProtocolDefault }
-                            let normalMethodInfos = nativeMethods.filter { !$0.isProtocolDefault }
-
-                            if resolved is TranslatedProtocol,
-                               !protocolDefaultMethodInfos.isEmpty {
-                                typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
-                                    typeSetupFragment.output("\(resolved.converterType.name).externalCompanionClass", newLineTerminated: false)
-                                    for methodInfo in protocolDefaultMethodInfos {
-                                            typeSetupFragment.output(",")
-                                            typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
-                                                typeSetupFragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
-                                                typeSetupFragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
-                                                typeSetupFragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
-                                            }
-                                    }
-                                    typeSetupFragment.output()
-                                }
-                            }
-                            typeSetupFragment.outputBlock("try env.RegisterNatives(", closeWith: ")") {
-                                let doExternalWitness = resolved is TranslatedProtocol
-                                if doExternalWitness {
-                                    typeSetupFragment.output("\(resolved.converterType.name).externalWitnessClass!", newLineTerminated: false)
-                                } else {
-                                    typeSetupFragment.output("\(resolved.converterType.name).javaClass", newLineTerminated: false)
-                                }
-
-                                for methodInfo in normalMethodInfos {
-                                    typeSetupFragment.output(",")
-                                    typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
-                                        typeSetupFragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
-                                        typeSetupFragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
-                                        typeSetupFragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
-                                    }
-                                }
-                                if !doExternalWitness {
-                                    for methodInfo in protocolDefaultMethodInfos {
-                                        typeSetupFragment.output(",")
-                                        typeSetupFragment.outputBlock("JNINativeMethod(", newLineTerminated: false) {
-                                            typeSetupFragment.output("name: bag.add(\"\(methodInfo.javaName)\"),")
-                                            typeSetupFragment.output("signature: bag.add(\"\(methodInfo.signature)\"),")
-                                            typeSetupFragment.output("fnPtr: unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
-                                        }
-                                    }
-                                }
-                                typeSetupFragment.output()
-                            }
-
-                            usedMethods.insert(resolved.sourceType.name)
-                        }
-                    }
-                }
+                typeSetupFragment.output("try jniTypeSetup(env: env)")
                 typeSetupFragment.output("return JNI_VERSION_1_4")
             }
             typeSetupFragment.output("return result ?? JNI_VERSION_1_4")
