@@ -628,7 +628,8 @@ extension Env {
         try check(fns.SetDoubleArrayRegion(env, array, start, len, buf))
     }
 
-    public func RegisterNatives(_ clazz: jclass?, methods: [JNINativeMethod]) throws {
+    @discardableResult
+    public func RegisterNatives(_ clazz: jclass?, methods: [JNINativeMethod]) throws -> jint {
         // change to true to debug UnsatisfiedLinkErrors
         #if false
         for method in methods {
@@ -638,6 +639,7 @@ extension Env {
         #else
         try javaOk(check(fns.RegisterNatives(env, clazz, methods, jint(methods.count))))
         #endif
+        return JNI_OK
     }
     public func UnregisterNatives(_ clazz: jclass?) -> jint {
         fns.UnregisterNatives(env, clazz)
