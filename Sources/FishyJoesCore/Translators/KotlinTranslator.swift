@@ -295,26 +295,16 @@ final class KotlinTranslator: Translator {
         return [fragment]
     }
 
-    /// Writes one `env.registerNatives(javaClass, [...])` call registering `methods`.
-    ///
-    /// Each list entry is plain `(name, signature, fnPtr)` values. The `unsafeBitCast` of each
-    /// function pointer gets its own `let` before the call, because generic calls inside an
-    /// array literal of hundreds of entries are what make it expensive to type-check.
     func outputRegisterNatives(to fragment: SourceFragment, javaClass: String, methods: [MethodInfo]) {
-        guard !methods.isEmpty else {
-            fragment.output("try env.registerNatives(\(javaClass), [])")
-            return
-        }
-        fragment.outputBlock("do {") {
-            for (index, methodInfo) in methods.enumerated() {
-                fragment.output("let fnPtr\(index) = unsafeBitCast(\(methodInfo.cName), to: UnsafeMutableRawPointer.self)")
-            }
-            fragment.outputBlock("try env.registerNatives(\(javaClass), [", closeWith: "])") {
-                for (index, methodInfo) in methods.enumerated() {
-                    fragment.output("(\"\(methodInfo.javaName)\", \"\(methodInfo.signature)\", fnPtr\(index)),")
-                }
+        fragment.output("nativeMethods = []")
+        for method in methods {
+            fragment.outputBlock("nativeMethods.append(JNINativeMethod(", closeWith: "))") {
+                fragment.output("name: bag.add(\"\(method.javaName)\"),")
+                fragment.output("signature: bag.add(\"\(method.signature)\"),")
+                fragment.output("fnPtr: unsafeBitCast(\(method.cName), to: UnsafeMutableRawPointer.self)")
             }
         }
+        fragment.output("try env.RegisterNatives(\(javaClass), methods: nativeMethods)")
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
@@ -326,14 +316,14 @@ final class KotlinTranslator: Translator {
 
         var usedMethods: Set<String> = []
 
-        // The setup statements go in a plain function rather than in the closure passed to
-        // `callbackBody`: the type checker solves a multi-statement closure together with the
-        // call it is passed to, and holds the memory for every statement until the end. For
-        // modules with thousands of setup statements that peaked above 14 GB.
+        // Actual setup is performed in a top-level function to reduce memory pressure while type checking
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.outputBlock("private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {") {
+            typeSetupFragment.output("let bag = CStringBag()")
+            typeSetupFragment.output("var nativeMethods: [JNINativeMethod] = []")
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
+                typeSetupFragment.output()
                 typeSetupFragment.output("// print(\"setting up \(resolved.converterType.name)...\")")
                 typeSetupFragment.output("try \(resolved.converterType.name).javaSetup(env: env)")
                 if case .named = type {
