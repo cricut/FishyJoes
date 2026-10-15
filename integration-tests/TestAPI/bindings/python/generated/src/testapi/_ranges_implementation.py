@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import ranges
 from ._c_api import _testapi_lib
-from ._ranges_type import Ranges
 from warnings import deprecated
 import fishyjoes_runtime
 import types

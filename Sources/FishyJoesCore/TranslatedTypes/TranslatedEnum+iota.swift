@@ -59,7 +59,7 @@ extension TranslatedEnum {
         var cInterfaceArgs: [(name: String, type: String)] = []
         var typedefs: [String] = []
         for method in setupMethods {
-            let typedefName = "\(sourceType.name)_\(upperCaseFirst(method.name))".mangled
+            let typedefName = "\(sourceType.name)_\(upperCaseFirst(method.name))Fn".mangled
             let params = method.args.map { "\($0.cType) \($0.name)" }
             typedefs.append("typedef \(method.cReturnType) (*\(typedefName))(\(params.joined(separator: ", ")));")
             cInterfaceArgs.append((name: method.name, type: typedefName));

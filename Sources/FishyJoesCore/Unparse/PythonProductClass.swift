@@ -115,10 +115,9 @@ class PythonProductClass: PythonClass {
 
     // output to _type_name_implementation.py
     override func outputCCallbackImplementations(to fragment: SourceFragment, context: FishyJoesContext) {
-        context.addHeader(to: fragment, "from .\(typeDefinitionModuleName) import \(unqualifiedName)")
         switch constructor {
         case .public(let fields):
-            fragment.output("@fishyjoes_runtime.callback('TODO[ffi_constructor]')")
+            fragment.output("@fishyjoes_runtime.callback('\(mangledName)_constructorFn')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def ffi_constructor(", newLineTerminated: false) {
                 fragment.outputMap(fields, separator: ",") { field in
@@ -126,7 +125,7 @@ class PythonProductClass: PythonClass {
                 }
             }
             fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
-                fragment.outputBlock("return fishyjoes_runtime.create_ref(\(unqualifiedName)(", closeWith: "))") {
+                fragment.outputBlock("return fishyjoes_runtime.create_ref(\(name)(", closeWith: "))") {
                     for field in fields {
                         if field.type.static.isPrimitive {
                             fragment.output("\(field.name) = \(field.name),")
@@ -141,12 +140,55 @@ class PythonProductClass: PythonClass {
                 ffiFor(fields: fields, fragment: fragment)
             }
         case .reference:
-            fragment.output("@fishyjoes_runtime.callback('TODO[ffi_new]')")
+            fragment.output("@fishyjoes_runtime.callback('FishyJoes_ReferenceConstructorFn')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:") {
-                fragment.output("return fishyjoes_runtime.create_ref(\(unqualifiedName)(ref))")
+                fragment.output("return fishyjoes_runtime.create_ref(\(name)(ref))")
             }
             fragment.blankLine()
+        }
+    }
+
+    func ffiFor(fields: [Variable], fragment: SourceFragment) {
+        for field in fields {
+            let isPrimitive = field.type.static.isPrimitive
+            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass.deforbidify(field.name, localVar: false))"
+
+            fragment.output("@fishyjoes_runtime.callback('\(field.mangledName)GetterFn')")
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
+            let getParameters = field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef"
+            fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
+                let body: String
+                    if field.isStatic {
+                        body = "\(name).\(fieldName)"
+                    } else {
+                        body = "fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName)"
+                    }
+                if isPrimitive {
+                    fragment.output("return \(body)")
+                } else {
+                    fragment.output("return fishyjoes_runtime.create_ref(\(body))")
+                }
+            }
+            if field.isMutable {
+                fragment.output("@fishyjoes_runtime.callback('\(field.mangledName)SetterFn')")
+                fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
+                let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
+                    "newValue: \(field.type.static.ffiConsumedType.name())"
+                fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)) -> None:") {
+                    if field.isStatic {
+                        fragment.output("\(name).\(fieldName) = ", newLineTerminated: false)
+                    } else {
+                        fragment.output("fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName) = ", newLineTerminated: false)
+                    }
+                    if isPrimitive {
+                        fragment.output("newValue")
+                    } else {
+                        fragment.output("fishyjoes_runtime.consume_ref(newValue, \(field.type.dynamicsString))")
+                    }
+                }
+                fragment.blankLine()
+            }
         }
     }
 

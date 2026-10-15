@@ -29,23 +29,27 @@ public func __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlace
 @_cdecl("Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup")
 public func Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
-    _ xGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    constructor: @escaping Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._ConstructorFn,
+    xGetter: @escaping Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._XGetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
-    Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
+    if Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._constructor.isInitialized(env) { return }
+    Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._constructor[env] = constructor
     Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
 }
 
 extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _XGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _xGetter = Env.CallbackMap<_XGetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -58,7 +62,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.x, env: env),
                 exn
             )
@@ -93,23 +97,27 @@ public func __iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall(
 @_cdecl("Swift_String_PuttingTypesIntoQuestionablePlaces_setup")
 public func Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping Swift.String.PuttingTypesIntoQuestionablePlaces._ConstructorMethod,
-    _ xGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    constructor: @escaping Swift.String.PuttingTypesIntoQuestionablePlaces._ConstructorFn,
+    xGetter: @escaping Swift.String.PuttingTypesIntoQuestionablePlaces._XGetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod.isInitialized(env) { return }
-    Swift.String.PuttingTypesIntoQuestionablePlaces._constructorMethod[env] = constructorMethod
+    if Swift.String.PuttingTypesIntoQuestionablePlaces._constructor.isInitialized(env) { return }
+    Swift.String.PuttingTypesIntoQuestionablePlaces._constructor[env] = constructor
     Swift.String.PuttingTypesIntoQuestionablePlaces._xGetter[env] = xGetter
 }
 
 extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _xGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _XGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _xGetter = Env.CallbackMap<_XGetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -122,7 +130,7 @@ extension Swift.String.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.x, env: env),
                 exn
             )
@@ -529,16 +537,16 @@ public func __iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
 @_cdecl("TestAPI_AProtocolImplementation_setup")
 public func TestAPI_AProtocolImplementation_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.AProtocolImplementation._ConstructorMethod,
-    _ fooGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ fooSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ bazGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
-    _ bazSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.AProtocolImplementation._ConstructorFn,
+    fooGetter: @escaping TestAPI.AProtocolImplementation._FooGetterFn,
+    fooSetter: @escaping TestAPI.AProtocolImplementation._FooSetterFn,
+    bazGetter: @escaping TestAPI.AProtocolImplementation._BazGetterFn,
+    bazSetter: @escaping TestAPI.AProtocolImplementation._BazSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.AProtocolImplementation._constructorMethod.isInitialized(env) { return }
-    TestAPI.AProtocolImplementation._constructorMethod[env] = constructorMethod
+    if TestAPI.AProtocolImplementation._constructor.isInitialized(env) { return }
+    TestAPI.AProtocolImplementation._constructor[env] = constructor
     TestAPI.AProtocolImplementation._fooGetter[env] = fooGetter
     TestAPI.AProtocolImplementation._fooSetter[env] = fooSetter
     TestAPI.AProtocolImplementation._bazGetter[env] = bazGetter
@@ -546,16 +554,34 @@ public func TestAPI_AProtocolImplementation_setup(
 }
 
 extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _fooGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _fooSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _bazGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
-    fileprivate static let _bazSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
         Swift.Bool.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _FooGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _fooGetter = Env.CallbackMap<_FooGetterFn>()
+    public typealias _FooSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _fooSetter = Env.CallbackMap<_FooSetterFn>()
+    public typealias _BazGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Bool.CType
+    fileprivate static let _bazGetter = Env.CallbackMap<_BazGetterFn>()
+    public typealias _BazSetterFn = @convention(c) (
+        HostObject,
+        Swift.Bool.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _bazSetter = Env.CallbackMap<_BazSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -572,7 +598,7 @@ extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.foo, env: env),
                 try Swift.Bool.toIota(value.baz, env: env),
                 exn
@@ -2266,30 +2292,30 @@ public func __iota_get_TestAPI_Collections_CollectionHolder_staticProperty(
 @_cdecl("TestAPI_Collections_CollectionHolder_setup")
 public func TestAPI_Collections_CollectionHolder_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Collections.CollectionHolder._ConstructorMethod,
-    _ boolArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Bool>.CType,
-    _ boolArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
-    _ boolSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Bool>.CType,
-    _ boolSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
-    _ boolDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType,
-    _ boolDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: OutHostException) -> Void,
-    _ integerArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType,
-    _ integerArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
-    _ integerSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Int>.CType,
-    _ integerSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
-    _ integerDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Int, Swift.Int>.CType,
-    _ integerDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: OutHostException) -> Void,
-    _ stringArrayGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.String>.CType,
-    _ stringArraySetter: @escaping @convention(c) (HostObject, ArrayConverter<Swift.String>.CType, _ exn: OutHostException) -> Void,
-    _ stringSetGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.String>.CType,
-    _ stringSetSetter: @escaping @convention(c) (HostObject, SetConverter<Swift.String>.CType, _ exn: OutHostException) -> Void,
-    _ stringDictionaryGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.String, Swift.String>.CType,
-    _ stringDictionarySetter: @escaping @convention(c) (HostObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Collections.CollectionHolder._ConstructorFn,
+    boolArrayGetter: @escaping TestAPI.Collections.CollectionHolder._BoolArrayGetterFn,
+    boolArraySetter: @escaping TestAPI.Collections.CollectionHolder._BoolArraySetterFn,
+    boolSetGetter: @escaping TestAPI.Collections.CollectionHolder._BoolSetGetterFn,
+    boolSetSetter: @escaping TestAPI.Collections.CollectionHolder._BoolSetSetterFn,
+    boolDictionaryGetter: @escaping TestAPI.Collections.CollectionHolder._BoolDictionaryGetterFn,
+    boolDictionarySetter: @escaping TestAPI.Collections.CollectionHolder._BoolDictionarySetterFn,
+    integerArrayGetter: @escaping TestAPI.Collections.CollectionHolder._IntegerArrayGetterFn,
+    integerArraySetter: @escaping TestAPI.Collections.CollectionHolder._IntegerArraySetterFn,
+    integerSetGetter: @escaping TestAPI.Collections.CollectionHolder._IntegerSetGetterFn,
+    integerSetSetter: @escaping TestAPI.Collections.CollectionHolder._IntegerSetSetterFn,
+    integerDictionaryGetter: @escaping TestAPI.Collections.CollectionHolder._IntegerDictionaryGetterFn,
+    integerDictionarySetter: @escaping TestAPI.Collections.CollectionHolder._IntegerDictionarySetterFn,
+    stringArrayGetter: @escaping TestAPI.Collections.CollectionHolder._StringArrayGetterFn,
+    stringArraySetter: @escaping TestAPI.Collections.CollectionHolder._StringArraySetterFn,
+    stringSetGetter: @escaping TestAPI.Collections.CollectionHolder._StringSetGetterFn,
+    stringSetSetter: @escaping TestAPI.Collections.CollectionHolder._StringSetSetterFn,
+    stringDictionaryGetter: @escaping TestAPI.Collections.CollectionHolder._StringDictionaryGetterFn,
+    stringDictionarySetter: @escaping TestAPI.Collections.CollectionHolder._StringDictionarySetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Collections.CollectionHolder._constructorMethod.isInitialized(env) { return }
-    TestAPI.Collections.CollectionHolder._constructorMethod[env] = constructorMethod
+    if TestAPI.Collections.CollectionHolder._constructor.isInitialized(env) { return }
+    TestAPI.Collections.CollectionHolder._constructor[env] = constructor
     TestAPI.Collections.CollectionHolder._boolArrayGetter[env] = boolArrayGetter
     TestAPI.Collections.CollectionHolder._boolArraySetter[env] = boolArraySetter
     TestAPI.Collections.CollectionHolder._boolSetGetter[env] = boolSetGetter
@@ -2311,25 +2337,7 @@ public func TestAPI_Collections_CollectionHolder_setup(
 }
 
 extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _boolArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Bool>.CType>()
-    fileprivate static let _boolArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _boolSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Bool>.CType>()
-    fileprivate static let _boolSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType>()
-    fileprivate static let _boolDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.Bool, Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _integerArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType>()
-    fileprivate static let _integerArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _integerSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.Int>.CType>()
-    fileprivate static let _integerSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _integerDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.Int, Swift.Int>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _stringArrayGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.String>.CType>()
-    fileprivate static let _stringArraySetter = Env.CallbackMap<@convention(c) (HostObject, ArrayConverter<Swift.String>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _stringSetGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> SetConverter<Swift.String>.CType>()
-    fileprivate static let _stringSetSetter = Env.CallbackMap<@convention(c) (HostObject, SetConverter<Swift.String>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> DictionaryConverter<Swift.String, Swift.String>.CType>()
-    fileprivate static let _stringDictionarySetter = Env.CallbackMap<@convention(c) (HostObject, DictionaryConverter<Swift.String, Swift.String>.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         ArrayConverter<Swift.Bool>.CType,
         SetConverter<Swift.Bool>.CType,
         DictionaryConverter<Swift.Bool, Swift.Bool>.CType,
@@ -2339,9 +2347,108 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator
         ArrayConverter<Swift.String>.CType,
         SetConverter<Swift.String>.CType,
         DictionaryConverter<Swift.String, Swift.String>.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _BoolArrayGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> ArrayConverter<Swift.Bool>.CType
+    fileprivate static let _boolArrayGetter = Env.CallbackMap<_BoolArrayGetterFn>()
+    public typealias _BoolArraySetterFn = @convention(c) (
+        HostObject,
+        ArrayConverter<Swift.Bool>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _boolArraySetter = Env.CallbackMap<_BoolArraySetterFn>()
+    public typealias _BoolSetGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> SetConverter<Swift.Bool>.CType
+    fileprivate static let _boolSetGetter = Env.CallbackMap<_BoolSetGetterFn>()
+    public typealias _BoolSetSetterFn = @convention(c) (
+        HostObject,
+        SetConverter<Swift.Bool>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _boolSetSetter = Env.CallbackMap<_BoolSetSetterFn>()
+    public typealias _BoolDictionaryGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> DictionaryConverter<Swift.Bool, Swift.Bool>.CType
+    fileprivate static let _boolDictionaryGetter = Env.CallbackMap<_BoolDictionaryGetterFn>()
+    public typealias _BoolDictionarySetterFn = @convention(c) (
+        HostObject,
+        DictionaryConverter<Swift.Bool, Swift.Bool>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _boolDictionarySetter = Env.CallbackMap<_BoolDictionarySetterFn>()
+    public typealias _IntegerArrayGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> ArrayConverter<Swift.Int>.CType
+    fileprivate static let _integerArrayGetter = Env.CallbackMap<_IntegerArrayGetterFn>()
+    public typealias _IntegerArraySetterFn = @convention(c) (
+        HostObject,
+        ArrayConverter<Swift.Int>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _integerArraySetter = Env.CallbackMap<_IntegerArraySetterFn>()
+    public typealias _IntegerSetGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> SetConverter<Swift.Int>.CType
+    fileprivate static let _integerSetGetter = Env.CallbackMap<_IntegerSetGetterFn>()
+    public typealias _IntegerSetSetterFn = @convention(c) (
+        HostObject,
+        SetConverter<Swift.Int>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _integerSetSetter = Env.CallbackMap<_IntegerSetSetterFn>()
+    public typealias _IntegerDictionaryGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> DictionaryConverter<Swift.Int, Swift.Int>.CType
+    fileprivate static let _integerDictionaryGetter = Env.CallbackMap<_IntegerDictionaryGetterFn>()
+    public typealias _IntegerDictionarySetterFn = @convention(c) (
+        HostObject,
+        DictionaryConverter<Swift.Int, Swift.Int>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _integerDictionarySetter = Env.CallbackMap<_IntegerDictionarySetterFn>()
+    public typealias _StringArrayGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> ArrayConverter<Swift.String>.CType
+    fileprivate static let _stringArrayGetter = Env.CallbackMap<_StringArrayGetterFn>()
+    public typealias _StringArraySetterFn = @convention(c) (
+        HostObject,
+        ArrayConverter<Swift.String>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _stringArraySetter = Env.CallbackMap<_StringArraySetterFn>()
+    public typealias _StringSetGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> SetConverter<Swift.String>.CType
+    fileprivate static let _stringSetGetter = Env.CallbackMap<_StringSetGetterFn>()
+    public typealias _StringSetSetterFn = @convention(c) (
+        HostObject,
+        SetConverter<Swift.String>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _stringSetSetter = Env.CallbackMap<_StringSetSetterFn>()
+    public typealias _StringDictionaryGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> DictionaryConverter<Swift.String, Swift.String>.CType
+    fileprivate static let _stringDictionaryGetter = Env.CallbackMap<_StringDictionaryGetterFn>()
+    public typealias _StringDictionarySetterFn = @convention(c) (
+        HostObject,
+        DictionaryConverter<Swift.String, Swift.String>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _stringDictionarySetter = Env.CallbackMap<_StringDictionarySetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -2386,7 +2493,7 @@ extension TestAPI.Collections.CollectionHolder: FishyJoesIotaRuntime.IotaMutator
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try ArrayConverter<Swift.Bool>.toIota(value.boolArray, env: env),
                 try SetConverter<Swift.Bool>.toIota(value.boolSet, env: env),
                 try DictionaryConverter<Swift.Bool, Swift.Bool>.toIota(value.boolDictionary, env: env),
@@ -3027,19 +3134,19 @@ public func __iota_TestAPI_EmptyStruct_zxccxz(
 @_cdecl("TestAPI_EmptyStruct_setup")
 public func TestAPI_EmptyStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.EmptyStruct._ConstructorMethod,
+    constructor: @escaping TestAPI.EmptyStruct._ConstructorFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.EmptyStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.EmptyStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.EmptyStruct._constructor.isInitialized(env) { return }
+    TestAPI.EmptyStruct._constructor[env] = constructor
 }
 
 extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
-    public typealias _ConstructorMethod = @convention(c) (
-        _ exn: OutHostException
+    public typealias _ConstructorFn = @convention(c) (
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -3048,7 +3155,7 @@ extension TestAPI.EmptyStruct: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 exn
             )
         }
@@ -3149,19 +3256,19 @@ public func __iota_TestAPI_EmptyStruct2_zxccxz(
 @_cdecl("TestAPI_EmptyStruct2_setup")
 public func TestAPI_EmptyStruct2_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.EmptyStruct2._ConstructorMethod,
+    constructor: @escaping TestAPI.EmptyStruct2._ConstructorFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.EmptyStruct2._constructorMethod.isInitialized(env) { return }
-    TestAPI.EmptyStruct2._constructorMethod[env] = constructorMethod
+    if TestAPI.EmptyStruct2._constructor.isInitialized(env) { return }
+    TestAPI.EmptyStruct2._constructor[env] = constructor
 }
 
 extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
-    public typealias _ConstructorMethod = @convention(c) (
-        _ exn: OutHostException
+    public typealias _ConstructorFn = @convention(c) (
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -3170,7 +3277,7 @@ extension TestAPI.EmptyStruct2: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 exn
             )
         }
@@ -5686,64 +5793,64 @@ public func __iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(
 @_cdecl("TestAPI_Primitives_PrimitiveHolder_setup")
 public func TestAPI_Primitives_PrimitiveHolder_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Primitives.PrimitiveHolder._ConstructorMethod,
-    _ bGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
-    _ bSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
-    _ bqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Bool>.CType,
-    _ bqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void,
-    _ ui8Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt8.CType,
-    _ ui8Setter: @escaping @convention(c) (HostObject, Swift.UInt8.CType, _ exn: OutHostException) -> Void,
-    _ ui8qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt8>.CType,
-    _ ui8qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt8>.CType, _ exn: OutHostException) -> Void,
-    _ ui16Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt16.CType,
-    _ ui16Setter: @escaping @convention(c) (HostObject, Swift.UInt16.CType, _ exn: OutHostException) -> Void,
-    _ ui16qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt16>.CType,
-    _ ui16qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt16>.CType, _ exn: OutHostException) -> Void,
-    _ ui32Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt32.CType,
-    _ ui32Setter: @escaping @convention(c) (HostObject, Swift.UInt32.CType, _ exn: OutHostException) -> Void,
-    _ ui32qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt32>.CType,
-    _ ui32qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt32>.CType, _ exn: OutHostException) -> Void,
-    _ ui64Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt64.CType,
-    _ ui64Setter: @escaping @convention(c) (HostObject, Swift.UInt64.CType, _ exn: OutHostException) -> Void,
-    _ ui64qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt64>.CType,
-    _ ui64qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt64>.CType, _ exn: OutHostException) -> Void,
-    _ uiGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt.CType,
-    _ uiSetter: @escaping @convention(c) (HostObject, Swift.UInt.CType, _ exn: OutHostException) -> Void,
-    _ uiqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt>.CType,
-    _ uiqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.UInt>.CType, _ exn: OutHostException) -> Void,
-    _ i8Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int8.CType,
-    _ i8Setter: @escaping @convention(c) (HostObject, Swift.Int8.CType, _ exn: OutHostException) -> Void,
-    _ i8qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int8>.CType,
-    _ i8qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int8>.CType, _ exn: OutHostException) -> Void,
-    _ i16Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int16.CType,
-    _ i16Setter: @escaping @convention(c) (HostObject, Swift.Int16.CType, _ exn: OutHostException) -> Void,
-    _ i16qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int16>.CType,
-    _ i16qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int16>.CType, _ exn: OutHostException) -> Void,
-    _ i32Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int32.CType,
-    _ i32Setter: @escaping @convention(c) (HostObject, Swift.Int32.CType, _ exn: OutHostException) -> Void,
-    _ i32qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int32>.CType,
-    _ i32qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int32>.CType, _ exn: OutHostException) -> Void,
-    _ i64Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int64.CType,
-    _ i64Setter: @escaping @convention(c) (HostObject, Swift.Int64.CType, _ exn: OutHostException) -> Void,
-    _ i64qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int64>.CType,
-    _ i64qSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int64>.CType, _ exn: OutHostException) -> Void,
-    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ iSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
-    _ iqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int>.CType,
-    _ iqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void,
-    _ fGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Float.CType,
-    _ fSetter: @escaping @convention(c) (HostObject, Swift.Float.CType, _ exn: OutHostException) -> Void,
-    _ fqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Float>.CType,
-    _ fqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Float>.CType, _ exn: OutHostException) -> Void,
-    _ dGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType,
-    _ dSetter: @escaping @convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void,
-    _ dqGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Double>.CType,
-    _ dqSetter: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Double>.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Primitives.PrimitiveHolder._ConstructorFn,
+    bGetter: @escaping TestAPI.Primitives.PrimitiveHolder._BGetterFn,
+    bSetter: @escaping TestAPI.Primitives.PrimitiveHolder._BSetterFn,
+    bqGetter: @escaping TestAPI.Primitives.PrimitiveHolder._BqGetterFn,
+    bqSetter: @escaping TestAPI.Primitives.PrimitiveHolder._BqSetterFn,
+    ui8Getter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui8GetterFn,
+    ui8Setter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui8SetterFn,
+    ui8qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui8qGetterFn,
+    ui8qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui8qSetterFn,
+    ui16Getter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui16GetterFn,
+    ui16Setter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui16SetterFn,
+    ui16qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui16qGetterFn,
+    ui16qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui16qSetterFn,
+    ui32Getter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui32GetterFn,
+    ui32Setter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui32SetterFn,
+    ui32qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui32qGetterFn,
+    ui32qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui32qSetterFn,
+    ui64Getter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui64GetterFn,
+    ui64Setter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui64SetterFn,
+    ui64qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui64qGetterFn,
+    ui64qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._Ui64qSetterFn,
+    uiGetter: @escaping TestAPI.Primitives.PrimitiveHolder._UiGetterFn,
+    uiSetter: @escaping TestAPI.Primitives.PrimitiveHolder._UiSetterFn,
+    uiqGetter: @escaping TestAPI.Primitives.PrimitiveHolder._UiqGetterFn,
+    uiqSetter: @escaping TestAPI.Primitives.PrimitiveHolder._UiqSetterFn,
+    i8Getter: @escaping TestAPI.Primitives.PrimitiveHolder._I8GetterFn,
+    i8Setter: @escaping TestAPI.Primitives.PrimitiveHolder._I8SetterFn,
+    i8qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._I8qGetterFn,
+    i8qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._I8qSetterFn,
+    i16Getter: @escaping TestAPI.Primitives.PrimitiveHolder._I16GetterFn,
+    i16Setter: @escaping TestAPI.Primitives.PrimitiveHolder._I16SetterFn,
+    i16qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._I16qGetterFn,
+    i16qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._I16qSetterFn,
+    i32Getter: @escaping TestAPI.Primitives.PrimitiveHolder._I32GetterFn,
+    i32Setter: @escaping TestAPI.Primitives.PrimitiveHolder._I32SetterFn,
+    i32qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._I32qGetterFn,
+    i32qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._I32qSetterFn,
+    i64Getter: @escaping TestAPI.Primitives.PrimitiveHolder._I64GetterFn,
+    i64Setter: @escaping TestAPI.Primitives.PrimitiveHolder._I64SetterFn,
+    i64qGetter: @escaping TestAPI.Primitives.PrimitiveHolder._I64qGetterFn,
+    i64qSetter: @escaping TestAPI.Primitives.PrimitiveHolder._I64qSetterFn,
+    iGetter: @escaping TestAPI.Primitives.PrimitiveHolder._IGetterFn,
+    iSetter: @escaping TestAPI.Primitives.PrimitiveHolder._ISetterFn,
+    iqGetter: @escaping TestAPI.Primitives.PrimitiveHolder._IqGetterFn,
+    iqSetter: @escaping TestAPI.Primitives.PrimitiveHolder._IqSetterFn,
+    fGetter: @escaping TestAPI.Primitives.PrimitiveHolder._FGetterFn,
+    fSetter: @escaping TestAPI.Primitives.PrimitiveHolder._FSetterFn,
+    fqGetter: @escaping TestAPI.Primitives.PrimitiveHolder._FqGetterFn,
+    fqSetter: @escaping TestAPI.Primitives.PrimitiveHolder._FqSetterFn,
+    dGetter: @escaping TestAPI.Primitives.PrimitiveHolder._DGetterFn,
+    dSetter: @escaping TestAPI.Primitives.PrimitiveHolder._DSetterFn,
+    dqGetter: @escaping TestAPI.Primitives.PrimitiveHolder._DqGetterFn,
+    dqSetter: @escaping TestAPI.Primitives.PrimitiveHolder._DqSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Primitives.PrimitiveHolder._constructorMethod.isInitialized(env) { return }
-    TestAPI.Primitives.PrimitiveHolder._constructorMethod[env] = constructorMethod
+    if TestAPI.Primitives.PrimitiveHolder._constructor.isInitialized(env) { return }
+    TestAPI.Primitives.PrimitiveHolder._constructor[env] = constructor
     TestAPI.Primitives.PrimitiveHolder._bGetter[env] = bGetter
     TestAPI.Primitives.PrimitiveHolder._bSetter[env] = bSetter
     TestAPI.Primitives.PrimitiveHolder._bqGetter[env] = bqGetter
@@ -5799,59 +5906,7 @@ public func TestAPI_Primitives_PrimitiveHolder_setup(
 }
 
 extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
-    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _bqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Bool>.CType>()
-    fileprivate static let _bqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Bool>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui8Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt8.CType>()
-    fileprivate static let _ui8Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt8.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui8qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt8>.CType>()
-    fileprivate static let _ui8qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt8>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui16Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt16.CType>()
-    fileprivate static let _ui16Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt16.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui16qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt16>.CType>()
-    fileprivate static let _ui16qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt16>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui32Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt32.CType>()
-    fileprivate static let _ui32Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt32.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui32qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt32>.CType>()
-    fileprivate static let _ui32qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt32>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui64Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt64.CType>()
-    fileprivate static let _ui64Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt64.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _ui64qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt64>.CType>()
-    fileprivate static let _ui64qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt64>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _uiGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.UInt.CType>()
-    fileprivate static let _uiSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.UInt.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _uiqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.UInt>.CType>()
-    fileprivate static let _uiqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.UInt>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i8Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int8.CType>()
-    fileprivate static let _i8Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int8.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i8qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int8>.CType>()
-    fileprivate static let _i8qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int8>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i16Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int16.CType>()
-    fileprivate static let _i16Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int16.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i16qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int16>.CType>()
-    fileprivate static let _i16qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int16>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i32Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int32.CType>()
-    fileprivate static let _i32Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int32.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i32qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int32>.CType>()
-    fileprivate static let _i32qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int32>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i64Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int64.CType>()
-    fileprivate static let _i64Setter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int64.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _i64qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int64>.CType>()
-    fileprivate static let _i64qSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int64>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _iqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Int>.CType>()
-    fileprivate static let _iqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Int>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Float.CType>()
-    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Float.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _fqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Float>.CType>()
-    fileprivate static let _fqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Float>.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType>()
-    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _dqGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.Double>.CType>()
-    fileprivate static let _dqSetter = Env.CallbackMap<@convention(c) (HostObject, OptionalConverter<Swift.Double>.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Bool.CType,
         OptionalConverter<Swift.Bool>.CType,
         Swift.UInt8.CType,
@@ -5878,9 +5933,295 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
         OptionalConverter<Swift.Float>.CType,
         Swift.Double.CType,
         OptionalConverter<Swift.Double>.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _BGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Bool.CType
+    fileprivate static let _bGetter = Env.CallbackMap<_BGetterFn>()
+    public typealias _BSetterFn = @convention(c) (
+        HostObject,
+        Swift.Bool.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _bSetter = Env.CallbackMap<_BSetterFn>()
+    public typealias _BqGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Bool>.CType
+    fileprivate static let _bqGetter = Env.CallbackMap<_BqGetterFn>()
+    public typealias _BqSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Bool>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _bqSetter = Env.CallbackMap<_BqSetterFn>()
+    public typealias _Ui8GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.UInt8.CType
+    fileprivate static let _ui8Getter = Env.CallbackMap<_Ui8GetterFn>()
+    public typealias _Ui8SetterFn = @convention(c) (
+        HostObject,
+        Swift.UInt8.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui8Setter = Env.CallbackMap<_Ui8SetterFn>()
+    public typealias _Ui8qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.UInt8>.CType
+    fileprivate static let _ui8qGetter = Env.CallbackMap<_Ui8qGetterFn>()
+    public typealias _Ui8qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.UInt8>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui8qSetter = Env.CallbackMap<_Ui8qSetterFn>()
+    public typealias _Ui16GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.UInt16.CType
+    fileprivate static let _ui16Getter = Env.CallbackMap<_Ui16GetterFn>()
+    public typealias _Ui16SetterFn = @convention(c) (
+        HostObject,
+        Swift.UInt16.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui16Setter = Env.CallbackMap<_Ui16SetterFn>()
+    public typealias _Ui16qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.UInt16>.CType
+    fileprivate static let _ui16qGetter = Env.CallbackMap<_Ui16qGetterFn>()
+    public typealias _Ui16qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.UInt16>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui16qSetter = Env.CallbackMap<_Ui16qSetterFn>()
+    public typealias _Ui32GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.UInt32.CType
+    fileprivate static let _ui32Getter = Env.CallbackMap<_Ui32GetterFn>()
+    public typealias _Ui32SetterFn = @convention(c) (
+        HostObject,
+        Swift.UInt32.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui32Setter = Env.CallbackMap<_Ui32SetterFn>()
+    public typealias _Ui32qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.UInt32>.CType
+    fileprivate static let _ui32qGetter = Env.CallbackMap<_Ui32qGetterFn>()
+    public typealias _Ui32qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.UInt32>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui32qSetter = Env.CallbackMap<_Ui32qSetterFn>()
+    public typealias _Ui64GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.UInt64.CType
+    fileprivate static let _ui64Getter = Env.CallbackMap<_Ui64GetterFn>()
+    public typealias _Ui64SetterFn = @convention(c) (
+        HostObject,
+        Swift.UInt64.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui64Setter = Env.CallbackMap<_Ui64SetterFn>()
+    public typealias _Ui64qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.UInt64>.CType
+    fileprivate static let _ui64qGetter = Env.CallbackMap<_Ui64qGetterFn>()
+    public typealias _Ui64qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.UInt64>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _ui64qSetter = Env.CallbackMap<_Ui64qSetterFn>()
+    public typealias _UiGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.UInt.CType
+    fileprivate static let _uiGetter = Env.CallbackMap<_UiGetterFn>()
+    public typealias _UiSetterFn = @convention(c) (
+        HostObject,
+        Swift.UInt.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _uiSetter = Env.CallbackMap<_UiSetterFn>()
+    public typealias _UiqGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.UInt>.CType
+    fileprivate static let _uiqGetter = Env.CallbackMap<_UiqGetterFn>()
+    public typealias _UiqSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.UInt>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _uiqSetter = Env.CallbackMap<_UiqSetterFn>()
+    public typealias _I8GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int8.CType
+    fileprivate static let _i8Getter = Env.CallbackMap<_I8GetterFn>()
+    public typealias _I8SetterFn = @convention(c) (
+        HostObject,
+        Swift.Int8.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i8Setter = Env.CallbackMap<_I8SetterFn>()
+    public typealias _I8qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Int8>.CType
+    fileprivate static let _i8qGetter = Env.CallbackMap<_I8qGetterFn>()
+    public typealias _I8qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Int8>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i8qSetter = Env.CallbackMap<_I8qSetterFn>()
+    public typealias _I16GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int16.CType
+    fileprivate static let _i16Getter = Env.CallbackMap<_I16GetterFn>()
+    public typealias _I16SetterFn = @convention(c) (
+        HostObject,
+        Swift.Int16.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i16Setter = Env.CallbackMap<_I16SetterFn>()
+    public typealias _I16qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Int16>.CType
+    fileprivate static let _i16qGetter = Env.CallbackMap<_I16qGetterFn>()
+    public typealias _I16qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Int16>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i16qSetter = Env.CallbackMap<_I16qSetterFn>()
+    public typealias _I32GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int32.CType
+    fileprivate static let _i32Getter = Env.CallbackMap<_I32GetterFn>()
+    public typealias _I32SetterFn = @convention(c) (
+        HostObject,
+        Swift.Int32.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i32Setter = Env.CallbackMap<_I32SetterFn>()
+    public typealias _I32qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Int32>.CType
+    fileprivate static let _i32qGetter = Env.CallbackMap<_I32qGetterFn>()
+    public typealias _I32qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Int32>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i32qSetter = Env.CallbackMap<_I32qSetterFn>()
+    public typealias _I64GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int64.CType
+    fileprivate static let _i64Getter = Env.CallbackMap<_I64GetterFn>()
+    public typealias _I64SetterFn = @convention(c) (
+        HostObject,
+        Swift.Int64.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i64Setter = Env.CallbackMap<_I64SetterFn>()
+    public typealias _I64qGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Int64>.CType
+    fileprivate static let _i64qGetter = Env.CallbackMap<_I64qGetterFn>()
+    public typealias _I64qSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Int64>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _i64qSetter = Env.CallbackMap<_I64qSetterFn>()
+    public typealias _IGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int.CType
+    fileprivate static let _iGetter = Env.CallbackMap<_IGetterFn>()
+    public typealias _ISetterFn = @convention(c) (
+        HostObject,
+        Swift.Int.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _iSetter = Env.CallbackMap<_ISetterFn>()
+    public typealias _IqGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Int>.CType
+    fileprivate static let _iqGetter = Env.CallbackMap<_IqGetterFn>()
+    public typealias _IqSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Int>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _iqSetter = Env.CallbackMap<_IqSetterFn>()
+    public typealias _FGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Float.CType
+    fileprivate static let _fGetter = Env.CallbackMap<_FGetterFn>()
+    public typealias _FSetterFn = @convention(c) (
+        HostObject,
+        Swift.Float.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _fSetter = Env.CallbackMap<_FSetterFn>()
+    public typealias _FqGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Float>.CType
+    fileprivate static let _fqGetter = Env.CallbackMap<_FqGetterFn>()
+    public typealias _FqSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Float>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _fqSetter = Env.CallbackMap<_FqSetterFn>()
+    public typealias _DGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Double.CType
+    fileprivate static let _dGetter = Env.CallbackMap<_DGetterFn>()
+    public typealias _DSetterFn = @convention(c) (
+        HostObject,
+        Swift.Double.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _dSetter = Env.CallbackMap<_DSetterFn>()
+    public typealias _DqGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> OptionalConverter<Swift.Double>.CType
+    fileprivate static let _dqGetter = Env.CallbackMap<_DqGetterFn>()
+    public typealias _DqSetterFn = @convention(c) (
+        HostObject,
+        OptionalConverter<Swift.Double>.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _dqSetter = Env.CallbackMap<_DqSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -5993,7 +6334,7 @@ extension TestAPI.Primitives.PrimitiveHolder: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Bool.toIota(value.b, env: env),
                 try OptionalConverter<Swift.Bool>.toIota(value.bq, env: env),
                 try Swift.UInt8.toIota(value.ui8, env: env),
@@ -7095,23 +7436,27 @@ extension TestAPI.Results: FishyJoesIotaRuntime.IotaConverter {
 @_cdecl("TestAPI_Results_Error_setup")
 public func TestAPI_Results_Error_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Results.Error._ConstructorMethod,
-    _ messageGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    constructor: @escaping TestAPI.Results.Error._ConstructorFn,
+    messageGetter: @escaping TestAPI.Results.Error._MessageGetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Results.Error._constructorMethod.isInitialized(env) { return }
-    TestAPI.Results.Error._constructorMethod[env] = constructorMethod
+    if TestAPI.Results.Error._constructor.isInitialized(env) { return }
+    TestAPI.Results.Error._constructor[env] = constructor
     TestAPI.Results.Error._messageGetter[env] = messageGetter
 }
 
 extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _messageGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _MessageGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _messageGetter = Env.CallbackMap<_MessageGetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -7124,7 +7469,7 @@ extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.message, env: env),
                 exn
             )
@@ -7140,26 +7485,35 @@ extension TestAPI.Results.Error: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("TestAPI_Shade_setup")
 public func TestAPI_Shade_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Shade._ConstructorMethod,
-    _ darknessGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType,
-    _ darknessSetter: @escaping @convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Shade._ConstructorFn,
+    darknessGetter: @escaping TestAPI.Shade._DarknessGetterFn,
+    darknessSetter: @escaping TestAPI.Shade._DarknessSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Shade._constructorMethod.isInitialized(env) { return }
-    TestAPI.Shade._constructorMethod[env] = constructorMethod
+    if TestAPI.Shade._constructor.isInitialized(env) { return }
+    TestAPI.Shade._constructor[env] = constructor
     TestAPI.Shade._darknessGetter[env] = darknessGetter
     TestAPI.Shade._darknessSetter[env] = darknessSetter
 }
 
 extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _darknessGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Double.CType>()
-    fileprivate static let _darknessSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Double.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Double.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _DarknessGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Double.CType
+    fileprivate static let _darknessGetter = Env.CallbackMap<_DarknessGetterFn>()
+    public typealias _DarknessSetterFn = @convention(c) (
+        HostObject,
+        Swift.Double.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _darknessSetter = Env.CallbackMap<_DarknessSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -7172,7 +7526,7 @@ extension TestAPI.Shade: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Double.toIota(value.darkness, env: env),
                 exn
             )
@@ -7732,16 +8086,16 @@ public func __iota_TestAPI_Structs_MemberwiseStruct_create(
 @_cdecl("TestAPI_Structs_MemberwiseStruct_setup")
 public func TestAPI_Structs_MemberwiseStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Structs.MemberwiseStruct._ConstructorMethod,
-    _ immutableGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ immutableSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ mutableGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ mutableSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Structs.MemberwiseStruct._ConstructorFn,
+    immutableGetter: @escaping TestAPI.Structs.MemberwiseStruct._ImmutableGetterFn,
+    immutableSetter: @escaping TestAPI.Structs.MemberwiseStruct._ImmutableSetterFn,
+    mutableGetter: @escaping TestAPI.Structs.MemberwiseStruct._MutableGetterFn,
+    mutableSetter: @escaping TestAPI.Structs.MemberwiseStruct._MutableSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Structs.MemberwiseStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.Structs.MemberwiseStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.Structs.MemberwiseStruct._constructor.isInitialized(env) { return }
+    TestAPI.Structs.MemberwiseStruct._constructor[env] = constructor
     TestAPI.Structs.MemberwiseStruct._immutableGetter[env] = immutableGetter
     TestAPI.Structs.MemberwiseStruct._immutableSetter[env] = immutableSetter
     TestAPI.Structs.MemberwiseStruct._mutableGetter[env] = mutableGetter
@@ -7749,16 +8103,34 @@ public func TestAPI_Structs_MemberwiseStruct_setup(
 }
 
 extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _immutableGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _immutableSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _mutableGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _mutableSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _ImmutableGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _immutableGetter = Env.CallbackMap<_ImmutableGetterFn>()
+    public typealias _ImmutableSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _immutableSetter = Env.CallbackMap<_ImmutableSetterFn>()
+    public typealias _MutableGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _mutableGetter = Env.CallbackMap<_MutableGetterFn>()
+    public typealias _MutableSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _mutableSetter = Env.CallbackMap<_MutableSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -7775,7 +8147,7 @@ extension TestAPI.Structs.MemberwiseStruct: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.immutable, env: env),
                 try Swift.String.toIota(value.mutable, env: env),
                 exn
@@ -7892,26 +8264,35 @@ public func __iota_TestAPI_Structs_MutableStruct_create(
 @_cdecl("TestAPI_Structs_MutableStruct_setup")
 public func TestAPI_Structs_MutableStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Structs.MutableStruct._ConstructorMethod,
-    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ iSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Structs.MutableStruct._ConstructorFn,
+    iGetter: @escaping TestAPI.Structs.MutableStruct._IGetterFn,
+    iSetter: @escaping TestAPI.Structs.MutableStruct._ISetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Structs.MutableStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.Structs.MutableStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.Structs.MutableStruct._constructor.isInitialized(env) { return }
+    TestAPI.Structs.MutableStruct._constructor[env] = constructor
     TestAPI.Structs.MutableStruct._iGetter[env] = iGetter
     TestAPI.Structs.MutableStruct._iSetter[env] = iSetter
 }
 
 extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Int.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _IGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int.CType
+    fileprivate static let _iGetter = Env.CallbackMap<_IGetterFn>()
+    public typealias _ISetterFn = @convention(c) (
+        HostObject,
+        Swift.Int.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _iSetter = Env.CallbackMap<_ISetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -7924,7 +8305,7 @@ extension TestAPI.Structs.MutableStruct: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Int.toIota(value.i, env: env),
                 exn
             )
@@ -8136,54 +8517,54 @@ public func TestAPI_Structs_ReferenceStruct_iotaHash(envRef: EnvRef, this: HostO
 @_cdecl("TestAPI_Structs_TwentyOneItemStruct_setup")
 public func TestAPI_Structs_TwentyOneItemStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Structs.TwentyOneItemStruct._ConstructorMethod,
-    _ aGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ aSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ bGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ bSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ cGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ cSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ dGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ dSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ eGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ eSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ fGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ fSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ gGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ gSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ hGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ hSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ iGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ iSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ jGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ jSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ kGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ kSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ lGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ lSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ mGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ mSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ nGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ nSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ oGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ oSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ pGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ pSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ qGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ qSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ rGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ rSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ sGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ sSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ tGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ tSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
-    _ uGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ uSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.Structs.TwentyOneItemStruct._ConstructorFn,
+    aGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._AGetterFn,
+    aSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._ASetterFn,
+    bGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._BGetterFn,
+    bSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._BSetterFn,
+    cGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._CGetterFn,
+    cSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._CSetterFn,
+    dGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._DGetterFn,
+    dSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._DSetterFn,
+    eGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._EGetterFn,
+    eSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._ESetterFn,
+    fGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._FGetterFn,
+    fSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._FSetterFn,
+    gGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._GGetterFn,
+    gSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._GSetterFn,
+    hGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._HGetterFn,
+    hSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._HSetterFn,
+    iGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._IGetterFn,
+    iSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._ISetterFn,
+    jGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._JGetterFn,
+    jSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._JSetterFn,
+    kGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._KGetterFn,
+    kSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._KSetterFn,
+    lGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._LGetterFn,
+    lSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._LSetterFn,
+    mGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._MGetterFn,
+    mSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._MSetterFn,
+    nGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._NGetterFn,
+    nSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._NSetterFn,
+    oGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._OGetterFn,
+    oSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._OSetterFn,
+    pGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._PGetterFn,
+    pSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._PSetterFn,
+    qGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._QGetterFn,
+    qSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._QSetterFn,
+    rGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._RGetterFn,
+    rSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._RSetterFn,
+    sGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._SGetterFn,
+    sSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._SSetterFn,
+    tGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._TGetterFn,
+    tSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._TSetterFn,
+    uGetter: @escaping TestAPI.Structs.TwentyOneItemStruct._UGetterFn,
+    uSetter: @escaping TestAPI.Structs.TwentyOneItemStruct._USetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Structs.TwentyOneItemStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.Structs.TwentyOneItemStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.Structs.TwentyOneItemStruct._constructor.isInitialized(env) { return }
+    TestAPI.Structs.TwentyOneItemStruct._constructor[env] = constructor
     TestAPI.Structs.TwentyOneItemStruct._aGetter[env] = aGetter
     TestAPI.Structs.TwentyOneItemStruct._aSetter[env] = aSetter
     TestAPI.Structs.TwentyOneItemStruct._bGetter[env] = bGetter
@@ -8229,49 +8610,7 @@ public func TestAPI_Structs_TwentyOneItemStruct_setup(
 }
 
 extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _aGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _aSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _bGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _bSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _cGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _cSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _dGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _dSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _eGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _eSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _fGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _fSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _gGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _gSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _hGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _hSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _iGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _iSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _jGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _jSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _kGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _kSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _lGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _lSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _mGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _mSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _nGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _nSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _oGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _oSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _pGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _pSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _qGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _qSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _rGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _rSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _sGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _sSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _tGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _tSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _uGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _uSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
         Swift.String.CType,
         Swift.String.CType,
@@ -8293,9 +8632,240 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
         Swift.String.CType,
         Swift.String.CType,
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _AGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _aGetter = Env.CallbackMap<_AGetterFn>()
+    public typealias _ASetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _aSetter = Env.CallbackMap<_ASetterFn>()
+    public typealias _BGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _bGetter = Env.CallbackMap<_BGetterFn>()
+    public typealias _BSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _bSetter = Env.CallbackMap<_BSetterFn>()
+    public typealias _CGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _cGetter = Env.CallbackMap<_CGetterFn>()
+    public typealias _CSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _cSetter = Env.CallbackMap<_CSetterFn>()
+    public typealias _DGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _dGetter = Env.CallbackMap<_DGetterFn>()
+    public typealias _DSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _dSetter = Env.CallbackMap<_DSetterFn>()
+    public typealias _EGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _eGetter = Env.CallbackMap<_EGetterFn>()
+    public typealias _ESetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _eSetter = Env.CallbackMap<_ESetterFn>()
+    public typealias _FGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _fGetter = Env.CallbackMap<_FGetterFn>()
+    public typealias _FSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _fSetter = Env.CallbackMap<_FSetterFn>()
+    public typealias _GGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _gGetter = Env.CallbackMap<_GGetterFn>()
+    public typealias _GSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _gSetter = Env.CallbackMap<_GSetterFn>()
+    public typealias _HGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _hGetter = Env.CallbackMap<_HGetterFn>()
+    public typealias _HSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _hSetter = Env.CallbackMap<_HSetterFn>()
+    public typealias _IGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _iGetter = Env.CallbackMap<_IGetterFn>()
+    public typealias _ISetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _iSetter = Env.CallbackMap<_ISetterFn>()
+    public typealias _JGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _jGetter = Env.CallbackMap<_JGetterFn>()
+    public typealias _JSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _jSetter = Env.CallbackMap<_JSetterFn>()
+    public typealias _KGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _kGetter = Env.CallbackMap<_KGetterFn>()
+    public typealias _KSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _kSetter = Env.CallbackMap<_KSetterFn>()
+    public typealias _LGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _lGetter = Env.CallbackMap<_LGetterFn>()
+    public typealias _LSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _lSetter = Env.CallbackMap<_LSetterFn>()
+    public typealias _MGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _mGetter = Env.CallbackMap<_MGetterFn>()
+    public typealias _MSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _mSetter = Env.CallbackMap<_MSetterFn>()
+    public typealias _NGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _nGetter = Env.CallbackMap<_NGetterFn>()
+    public typealias _NSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _nSetter = Env.CallbackMap<_NSetterFn>()
+    public typealias _OGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _oGetter = Env.CallbackMap<_OGetterFn>()
+    public typealias _OSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _oSetter = Env.CallbackMap<_OSetterFn>()
+    public typealias _PGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _pGetter = Env.CallbackMap<_PGetterFn>()
+    public typealias _PSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _pSetter = Env.CallbackMap<_PSetterFn>()
+    public typealias _QGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _qGetter = Env.CallbackMap<_QGetterFn>()
+    public typealias _QSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _qSetter = Env.CallbackMap<_QSetterFn>()
+    public typealias _RGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _rGetter = Env.CallbackMap<_RGetterFn>()
+    public typealias _RSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _rSetter = Env.CallbackMap<_RSetterFn>()
+    public typealias _SGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _sGetter = Env.CallbackMap<_SGetterFn>()
+    public typealias _SSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _sSetter = Env.CallbackMap<_SSetterFn>()
+    public typealias _TGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _tGetter = Env.CallbackMap<_TGetterFn>()
+    public typealias _TSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _tSetter = Env.CallbackMap<_TSetterFn>()
+    public typealias _UGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _uGetter = Env.CallbackMap<_UGetterFn>()
+    public typealias _USetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _uSetter = Env.CallbackMap<_USetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -8388,7 +8958,7 @@ extension TestAPI.Structs.TwentyOneItemStruct: FishyJoesIotaRuntime.IotaMutator 
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.a, env: env),
                 try Swift.String.toIota(value.b, env: env),
                 try Swift.String.toIota(value.c, env: env),
@@ -8753,28 +9323,28 @@ public func __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness(
 @_cdecl("TestAPI_TestAsyncForeignSideFunctionsStruct_setup")
 public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._ConstructorMethod,
-    _ const42Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ iabsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _ intComposeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _ add3ThingsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _ makeListGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _ fifthThingGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _ sixGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _ willThrowGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ exercise0FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType,
-    _ exercise1FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType,
-    _ exercise2FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType,
-    _ exercise3FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType,
-    _ exercise4FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType,
-    _ exercise5FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
-    _ exercise6FunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
-    _ thunkTwiceMakerFunGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
+    constructor: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._ConstructorFn,
+    const42Getter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Const42GetterFn,
+    iabsGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._IabsGetterFn,
+    intComposeGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._IntComposeGetterFn,
+    add3ThingsGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Add3ThingsGetterFn,
+    makeListGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._MakeListGetterFn,
+    fifthThingGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._FifthThingGetterFn,
+    sixGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._SixGetterFn,
+    willThrowGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._WillThrowGetterFn,
+    exercise0FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise0FunGetterFn,
+    exercise1FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise1FunGetterFn,
+    exercise2FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise2FunGetterFn,
+    exercise3FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise3FunGetterFn,
+    exercise4FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise4FunGetterFn,
+    exercise5FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise5FunGetterFn,
+    exercise6FunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._Exercise6FunGetterFn,
+    thunkTwiceMakerFunGetter: @escaping TestAPI.TestAsyncForeignSideFunctionsStruct._ThunkTwiceMakerFunGetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.TestAsyncForeignSideFunctionsStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestAsyncForeignSideFunctionsStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.TestAsyncForeignSideFunctionsStruct._constructor.isInitialized(env) { return }
+    TestAPI.TestAsyncForeignSideFunctionsStruct._constructor[env] = constructor
     TestAPI.TestAsyncForeignSideFunctionsStruct._const42Getter[env] = const42Getter
     TestAPI.TestAsyncForeignSideFunctionsStruct._iabsGetter[env] = iabsGetter
     TestAPI.TestAsyncForeignSideFunctionsStruct._intComposeGetter[env] = intComposeGetter
@@ -8794,23 +9364,7 @@ public func TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
 }
 
 extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _const42Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
-    fileprivate static let _iabsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _intComposeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType>()
-    fileprivate static let _add3ThingsGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType>()
-    fileprivate static let _makeListGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType>()
-    fileprivate static let _fifthThingGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType>()
-    fileprivate static let _sixGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType>()
-    fileprivate static let _willThrowGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType>()
-    fileprivate static let _exercise0FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _exercise1FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _exercise2FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType>()
-    fileprivate static let _exercise3FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType>()
-    fileprivate static let _exercise4FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType>()
-    fileprivate static let _exercise5FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType>()
-    fileprivate static let _exercise6FunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType>()
-    fileprivate static let _thunkTwiceMakerFunGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         AsyncFunction0Converter<Swift.Int>.CType,
         AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
         Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
@@ -8827,9 +9381,89 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
         AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType,
         AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType,
         Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _Const42GetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction0Converter<Swift.Int>.CType
+    fileprivate static let _const42Getter = Env.CallbackMap<_Const42GetterFn>()
+    public typealias _IabsGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType
+    fileprivate static let _iabsGetter = Env.CallbackMap<_IabsGetterFn>()
+    public typealias _IntComposeGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType
+    fileprivate static let _intComposeGetter = Env.CallbackMap<_IntComposeGetterFn>()
+    public typealias _Add3ThingsGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType
+    fileprivate static let _add3ThingsGetter = Env.CallbackMap<_Add3ThingsGetterFn>()
+    public typealias _MakeListGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType
+    fileprivate static let _makeListGetter = Env.CallbackMap<_MakeListGetterFn>()
+    public typealias _FifthThingGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType
+    fileprivate static let _fifthThingGetter = Env.CallbackMap<_FifthThingGetterFn>()
+    public typealias _SixGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType
+    fileprivate static let _sixGetter = Env.CallbackMap<_SixGetterFn>()
+    public typealias _WillThrowGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction0Converter<Swift.Int>.CType
+    fileprivate static let _willThrowGetter = Env.CallbackMap<_WillThrowGetterFn>()
+    public typealias _Exercise0FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>.CType
+    fileprivate static let _exercise0FunGetter = Env.CallbackMap<_Exercise0FunGetterFn>()
+    public typealias _Exercise1FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>.CType
+    fileprivate static let _exercise1FunGetter = Env.CallbackMap<_Exercise1FunGetterFn>()
+    public typealias _Exercise2FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>.CType
+    fileprivate static let _exercise2FunGetter = Env.CallbackMap<_Exercise2FunGetterFn>()
+    public typealias _Exercise3FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>.CType
+    fileprivate static let _exercise3FunGetter = Env.CallbackMap<_Exercise3FunGetterFn>()
+    public typealias _Exercise4FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, Swift.String>.CType
+    fileprivate static let _exercise4FunGetter = Env.CallbackMap<_Exercise4FunGetterFn>()
+    public typealias _Exercise5FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, Swift.String>.CType
+    fileprivate static let _exercise5FunGetter = Env.CallbackMap<_Exercise5FunGetterFn>()
+    public typealias _Exercise6FunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> AsyncFunction1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, Swift.String>.CType
+    fileprivate static let _exercise6FunGetter = Env.CallbackMap<_Exercise6FunGetterFn>()
+    public typealias _ThunkTwiceMakerFunGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>.CType
+    fileprivate static let _thunkTwiceMakerFunGetter = Env.CallbackMap<_ThunkTwiceMakerFunGetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -8902,7 +9536,7 @@ extension TestAPI.TestAsyncForeignSideFunctionsStruct: FishyJoesIotaRuntime.Iota
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try AsyncFunction0Converter<Swift.Int>.toIota(value.const42, env: env),
                 try AsyncFunction1Converter<Swift.Int, Swift.Int>.toIota(value.iabs, env: env),
                 try Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.toIota(value.intCompose, env: env),
@@ -10358,16 +10992,16 @@ public func __iota__default_TestAPI_TestDefaultComputedPropertiesStruct_plutonic
 @_cdecl("TestAPI_TestDefaultComputedPropertiesStruct_setup")
 public func TestAPI_TestDefaultComputedPropertiesStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestDefaultComputedPropertiesStruct._ConstructorMethod,
-    _ spamGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
-    _ spamSetter: @escaping @convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void,
-    _ nootGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ nootSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.TestDefaultComputedPropertiesStruct._ConstructorFn,
+    spamGetter: @escaping TestAPI.TestDefaultComputedPropertiesStruct._SpamGetterFn,
+    spamSetter: @escaping TestAPI.TestDefaultComputedPropertiesStruct._SpamSetterFn,
+    nootGetter: @escaping TestAPI.TestDefaultComputedPropertiesStruct._NootGetterFn,
+    nootSetter: @escaping TestAPI.TestDefaultComputedPropertiesStruct._NootSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.TestDefaultComputedPropertiesStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestDefaultComputedPropertiesStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.TestDefaultComputedPropertiesStruct._constructor.isInitialized(env) { return }
+    TestAPI.TestDefaultComputedPropertiesStruct._constructor[env] = constructor
     TestAPI.TestDefaultComputedPropertiesStruct._spamGetter[env] = spamGetter
     TestAPI.TestDefaultComputedPropertiesStruct._spamSetter[env] = spamSetter
     TestAPI.TestDefaultComputedPropertiesStruct._nootGetter[env] = nootGetter
@@ -10375,16 +11009,34 @@ public func TestAPI_TestDefaultComputedPropertiesStruct_setup(
 }
 
 extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _spamGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType>()
-    fileprivate static let _spamSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Bool.CType, _ exn: OutHostException) -> Void>()
-    fileprivate static let _nootGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
-    fileprivate static let _nootSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Bool.CType,
         Swift.Int.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _SpamGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Bool.CType
+    fileprivate static let _spamGetter = Env.CallbackMap<_SpamGetterFn>()
+    public typealias _SpamSetterFn = @convention(c) (
+        HostObject,
+        Swift.Bool.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _spamSetter = Env.CallbackMap<_SpamSetterFn>()
+    public typealias _NootGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int.CType
+    fileprivate static let _nootGetter = Env.CallbackMap<_NootGetterFn>()
+    public typealias _NootSetterFn = @convention(c) (
+        HostObject,
+        Swift.Int.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _nootSetter = Env.CallbackMap<_NootSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -10401,7 +11053,7 @@ extension TestAPI.TestDefaultComputedPropertiesStruct: FishyJoesIotaRuntime.Iota
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Bool.toIota(value.spam, env: env),
                 try Swift.Int.toIota(value.noot, env: env),
                 exn
@@ -10502,26 +11154,35 @@ extension TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter: Fis
 @_cdecl("TestAPI_TestDifferingExportNameStruct_setup")
 public func TestAPI_TestDifferingExportNameStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestDifferingExportNameStruct._ConstructorMethod,
-    _ tataGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ tataSetter: @escaping @convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.TestDifferingExportNameStruct._ConstructorFn,
+    tataGetter: @escaping TestAPI.TestDifferingExportNameStruct._TataGetterFn,
+    tataSetter: @escaping TestAPI.TestDifferingExportNameStruct._TataSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.TestDifferingExportNameStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestDifferingExportNameStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.TestDifferingExportNameStruct._constructor.isInitialized(env) { return }
+    TestAPI.TestDifferingExportNameStruct._constructor[env] = constructor
     TestAPI.TestDifferingExportNameStruct._tataGetter[env] = tataGetter
     TestAPI.TestDifferingExportNameStruct._tataSetter[env] = tataSetter
 }
 
 extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _tataGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
-    fileprivate static let _tataSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.Int.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Int.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _TataGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int.CType
+    fileprivate static let _tataGetter = Env.CallbackMap<_TataGetterFn>()
+    public typealias _TataSetterFn = @convention(c) (
+        HostObject,
+        Swift.Int.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _tataSetter = Env.CallbackMap<_TataSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -10534,7 +11195,7 @@ extension TestAPI.TestDifferingExportNameStruct: FishyJoesIotaRuntime.IotaMutato
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Int.toIota(value.tata, env: env),
                 exn
             )
@@ -10629,26 +11290,35 @@ extension TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter: FishyJoe
 @_cdecl("TestAPI_TestLeadingUnderscoredPropStruct_setup")
 public func TestAPI_TestLeadingUnderscoredPropStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestLeadingUnderscoredPropStruct._ConstructorMethod,
-    _ _leadingUnderscorePropGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ _leadingUnderscorePropSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.TestLeadingUnderscoredPropStruct._ConstructorFn,
+    _leadingUnderscorePropGetter: @escaping TestAPI.TestLeadingUnderscoredPropStruct.__leadingUnderscorePropGetterFn,
+    _leadingUnderscorePropSetter: @escaping TestAPI.TestLeadingUnderscoredPropStruct.__leadingUnderscorePropSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.TestLeadingUnderscoredPropStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestLeadingUnderscoredPropStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.TestLeadingUnderscoredPropStruct._constructor.isInitialized(env) { return }
+    TestAPI.TestLeadingUnderscoredPropStruct._constructor[env] = constructor
     TestAPI.TestLeadingUnderscoredPropStruct.__leadingUnderscorePropGetter[env] = _leadingUnderscorePropGetter
     TestAPI.TestLeadingUnderscoredPropStruct.__leadingUnderscorePropSetter[env] = _leadingUnderscorePropSetter
 }
 
 extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let __leadingUnderscorePropSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias __leadingUnderscorePropGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let __leadingUnderscorePropGetter = Env.CallbackMap<__leadingUnderscorePropGetterFn>()
+    public typealias __leadingUnderscorePropSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let __leadingUnderscorePropSetter = Env.CallbackMap<__leadingUnderscorePropSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -10661,7 +11331,7 @@ extension TestAPI.TestLeadingUnderscoredPropStruct: FishyJoesIotaRuntime.IotaMut
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value._leadingUnderscoreProp, env: env),
                 exn
             )
@@ -11938,26 +12608,35 @@ public func __iota_TestAPI_TestProtocolStruct_xyzzy(
 @_cdecl("TestAPI_TestProtocolStruct_setup")
 public func TestAPI_TestProtocolStruct_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.TestProtocolStruct._ConstructorMethod,
-    _ corgeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ corgeSetter: @escaping @convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void,
+    constructor: @escaping TestAPI.TestProtocolStruct._ConstructorFn,
+    corgeGetter: @escaping TestAPI.TestProtocolStruct._CorgeGetterFn,
+    corgeSetter: @escaping TestAPI.TestProtocolStruct._CorgeSetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.TestProtocolStruct._constructorMethod.isInitialized(env) { return }
-    TestAPI.TestProtocolStruct._constructorMethod[env] = constructorMethod
+    if TestAPI.TestProtocolStruct._constructor.isInitialized(env) { return }
+    TestAPI.TestProtocolStruct._constructor[env] = constructor
     TestAPI.TestProtocolStruct._corgeGetter[env] = corgeGetter
     TestAPI.TestProtocolStruct._corgeSetter[env] = corgeSetter
 }
 
 extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _corgeGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType>()
-    fileprivate static let _corgeSetter = Env.CallbackMap<@convention(c) (HostObject, Swift.String.CType, _ exn: OutHostException) -> Void>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.String.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _CorgeGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.String.CType
+    fileprivate static let _corgeGetter = Env.CallbackMap<_CorgeGetterFn>()
+    public typealias _CorgeSetterFn = @convention(c) (
+        HostObject,
+        Swift.String.CType,
+        OutHostException
+    ) -> Void
+    fileprivate static let _corgeSetter = Env.CallbackMap<_CorgeSetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -11970,7 +12649,7 @@ extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.String.toIota(value.corge, env: env),
                 exn
             )
@@ -11991,27 +12670,35 @@ extension TestAPI.TestProtocolStruct: FishyJoesIotaRuntime.IotaMutator {
 @_cdecl("TestAPI_Tree_setup")
 public func TestAPI_Tree_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI.Tree._ConstructorMethod,
-    _ valueGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ childrenGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<TestAPI.Tree>.CType,
+    constructor: @escaping TestAPI.Tree._ConstructorFn,
+    valueGetter: @escaping TestAPI.Tree._ValueGetterFn,
+    childrenGetter: @escaping TestAPI.Tree._ChildrenGetterFn,
     _ exn: OutHostException
 ) {
     let env = Env(envRef)
-    if TestAPI.Tree._constructorMethod.isInitialized(env) { return }
-    TestAPI.Tree._constructorMethod[env] = constructorMethod
+    if TestAPI.Tree._constructor.isInitialized(env) { return }
+    TestAPI.Tree._constructor[env] = constructor
     TestAPI.Tree._valueGetter[env] = valueGetter
     TestAPI.Tree._childrenGetter[env] = childrenGetter
 }
 
 extension TestAPI.Tree: FishyJoesIotaRuntime.IotaMutator {
-    fileprivate static let _valueGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType>()
-    fileprivate static let _childrenGetter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<TestAPI.Tree>.CType>()
-    public typealias _ConstructorMethod = @convention(c) (
+    public typealias _ConstructorFn = @convention(c) (
         Swift.Int.CType,
         ArrayConverter<TestAPI.Tree>.CType,
-        _ exn: OutHostException
+        OutHostException
     ) -> HostObject
-    fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()
+    fileprivate static let _constructor = Env.CallbackMap<_ConstructorFn>()
+    public typealias _ValueGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> Swift.Int.CType
+    fileprivate static let _valueGetter = Env.CallbackMap<_ValueGetterFn>()
+    public typealias _ChildrenGetterFn = @convention(c) (
+        HostObject,
+        OutHostException
+    ) -> ArrayConverter<TestAPI.Tree>.CType
+    fileprivate static let _childrenGetter = Env.CallbackMap<_ChildrenGetterFn>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         Self(
@@ -12028,7 +12715,7 @@ extension TestAPI.Tree: FishyJoesIotaRuntime.IotaMutator {
 
     public static func toIota(_ value: Self, env: Env) throws -> HostObject {
         try env.check { exn in
-            _constructorMethod[env](
+            _constructor[env](
                 try Swift.Int.toIota(value.value, env: env),
                 try ArrayConverter<TestAPI.Tree>.toIota(value.children, env: env),
                 exn

@@ -128,12 +128,7 @@ class PythonClass {
 
     func fragments(context: FishyJoesContext) -> [SourceFragment] {
         let publicFragments = publicFragments(context: context)
-        let implementationFragment = context.pythonFragment(
-            implementationModulePath,
-            additionalImports: [
-                "from .\(typeDefinitionModuleName) import \(unqualifiedName)",
-            ]
-        )
+        let implementationFragment = context.pythonFragment(implementationModulePath)
         let rootImportPath = implementationFragment.rootImportName
 
         context.addHeader(to: implementationFragment, "from \(rootImportPath)_c_api import _\(context.module.pythonPackageName)_lib")
@@ -445,117 +440,6 @@ class PythonClass {
     }
 }
 extension PythonClass {
-    func ffiFor(fields: [Variable], fragment: SourceFragment) {
-        for field in fields {
-            let isPrimitive = field.type.static.isPrimitive
-            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass.deforbidify(field.name, localVar: false))"
-
-            fragment.output("@fishyjoes_runtime.callback('TODO[getter_type]')")
-            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
-            let getParameters = field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef"
-            fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
-                let body: String
-                    if field.isStatic {
-                        body = "\(unqualifiedName).\(fieldName)"
-                    } else {
-                        body = "fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(fieldName)"
-                    }
-                if isPrimitive {
-                    fragment.output("return \(body)")
-                } else {
-                    fragment.output("return fishyjoes_runtime.create_ref(\(body))")
-                }
-            }
-            if field.isMutable {
-                fragment.output("@fishyjoes_runtime.callback('TODO[setter_type]')")
-                fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
-                let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
-                    "newValue: \(field.type.static.ffiConsumedType.name())"
-                fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)) -> None:") {
-                    if field.isStatic {
-                        fragment.output("\(unqualifiedName).\(fieldName) = ", newLineTerminated: false)
-                    } else {
-                        fragment.output("fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(fieldName) = ", newLineTerminated: false)
-                    }
-                    if isPrimitive {
-                        fragment.output("newValue")
-                    } else {
-                        fragment.output("fishyjoes_runtime.consume_ref(newValue, \(field.type.dynamicsString))")
-                    }
-                }
-                fragment.blankLine()
-            }
-        }
-    }
-
-    func ffiFor(methods: [Method], fragment: SourceFragment) {
-        for method in methods {
-            if method.isStatic {
-                continue
-            }
-            fragment.outputBlock("static \(method.returnType.static.ffiCreatedType.name()) ffi_\(method.name)(", newLineTerminated: false) {
-                fragment.output("UnownedRef obj,")
-                for param in method.parameters {
-                    fragment.output("\(param.type.static.ffiUnownedType.name()) \(PythonClass.deforbidify(param.name, localVar: true)),")
-                }
-                fragment.output("fishyjoes_runtime.OutCreatedRef exn")
-            }
-            var wrapper: (() -> Void) -> Void
-            if method.returnType.static.isPrimitive {
-                wrapper = { body in
-                    let defaultValue = method.returnType.static.ffiDefault.map { " ?? \($0)" }
-                    fragment.outputBlock("catching(exn, () =>", closeWith: ")\(defaultValue)") {
-                        body()
-                    }
-                }
-            } else {
-                wrapper = { body in
-                    fragment.outputBlock("catchingRef(exn, () =>", closeWith: ")") {
-                        fragment.outputBlock("createRef(") {
-                            body()
-                        }
-                    }
-                }
-            }
-
-            fragment.output(" => ", newLineTerminated: false)
-            wrapper {
-                let methodCall: String
-                if method.isStatic {
-                    methodCall = "\(unqualifiedName).\(method.name)"
-                } else {
-                    methodCall = "fishyjoes_runtime.peek_ref(obj, \(unqualifiedName)).\(method.name)"
-                }
-                fragment.outputBlock("\(methodCall)(", closeWith: ")") {
-                    // put all optional parameters at the end, or python gets unhappy
-                    let requiredParams = method.parameters.filter { $0.defaultValue == nil }
-                    let optionalParams = method.parameters.filter { $0.defaultValue != nil }
-                    fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
-                        if $0.type.static.isPrimitive {
-                            return PythonClass.deforbidify($0.name, localVar: true)
-                        } else {
-                            return "fishyjoes_runtime.peek_ref(\(PythonClass.deforbidify($0.name, localVar: true)))"
-                        }
-                    }
-                    if !optionalParams.isEmpty {
-                        if !requiredParams.isEmpty {
-                            fragment.output(",")
-                        }
-                        fragment.outputMap(optionalParams, separator: ",") {
-                            if $0.type.static.isPrimitive {
-                                return "\(PythonClass.deforbidify($0.name, localVar: true)): \(PythonClass.deforbidify($0.name, localVar: true))"
-                            } else {
-                                return "\(PythonClass.deforbidify($0.name, localVar: true)): fishyjoes_runtime.consume_ref(\(PythonClass.deforbidify($0.name, localVar: true)), \($0.type.dynamicsString))"
-                            }
-                        }
-                    } else {
-                        fragment.blankLine()
-                    }
-                }
-            }
-            fragment.blankLine()
-        }
-    }
 
     func declareSupers(_ superclasses: [String]) -> String {
         if superclasses.isEmpty {

@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._test_protocol_struct_type import TestProtocolStruct
 from warnings import deprecated
 import fishyjoes_runtime
 import types
@@ -58,24 +57,24 @@ iota_TestAPI_TestProtocolStruct_plugh: typing.Callable[[
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_constructor]')
+@fishyjoes_runtime.callback('TestAPI_TestProtocolStruct_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
     corge: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(TestProtocolStruct(
+    return fishyjoes_runtime.create_ref(testapi.TestProtocolStruct(
         corge = fishyjoes_runtime.consume_ref(corge, str),
     ))
 
-@fishyjoes_runtime.callback('TODO[getter_type]')
+@fishyjoes_runtime.callback('TestAPI_TestProtocolStruct_corgeGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def _ffi_get_corge(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, TestProtocolStruct).corge)
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestProtocolStruct).corge)
 
-@fishyjoes_runtime.callback('TODO[setter_type]')
+@fishyjoes_runtime.callback('TestAPI_TestProtocolStruct_corgeSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def _ffi_set_corge(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, TestProtocolStruct).corge = fishyjoes_runtime.consume_ref(newValue, str)
+    fishyjoes_runtime.peek_ref(obj, testapi.TestProtocolStruct).corge = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup
 

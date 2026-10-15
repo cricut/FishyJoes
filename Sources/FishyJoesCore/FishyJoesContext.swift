@@ -461,7 +461,7 @@ public class FishyJoesContext {
         }
 
         let primitiveTypeMap: [String: TypeNames] = [
-            "Bool": (c: "bool", ts: "boolean", jni: JNIType.boolean, cSharp: "bool", dart: "bool", dartFFI: "Bool", python: "bool"),
+            "Bool": (c: "uint8_t", ts: "boolean", jni: JNIType.boolean, cSharp: "bool", dart: "bool", dartFFI: "Bool", python: "bool"),
             "Int8": (c: "int8_t", ts: "number", jni: JNIType.byte, cSharp: "sbyte", dart: "int", dartFFI: "Int8", python: "int"),
             "Int16": (c: "int16_t", ts: "number", jni: JNIType.short, cSharp: "short", dart: "int", dartFFI: "Int16", python: "int"),
             "Int32": (c: "int32_t", ts: "number", jni: JNIType.int, cSharp: "int", dart: "int", dartFFI: "Int32", python: "int"),

@@ -3,46 +3,78 @@
 void FishyJoes_TestAPI_registerTypes(
     void
 );
-typedef intptr_t (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructor)(created_host_ref * _outExn);
-typedef void (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_constructorFn)(consumed_host_ref x, created_host_ref * outExn);
+typedef created_host_ref (*Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+    fishyjoes_env envRef,
+    Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_constructorFn constructor,
+    Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetterFn xGetter
+);
+typedef created_host_ref (*Swift_String_PuttingTypesIntoQuestionablePlaces_constructorFn)(consumed_host_ref x, created_host_ref * outExn);
+typedef created_host_ref (*Swift_String_PuttingTypesIntoQuestionablePlaces_xGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+void Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
+    fishyjoes_env envRef,
+    Swift_String_PuttingTypesIntoQuestionablePlaces_constructorFn constructor,
+    Swift_String_PuttingTypesIntoQuestionablePlaces_xGetterFn xGetter
+);
+typedef intptr_t (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructorFn)(created_host_ref * _outExn);
+typedef void (*Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
     fishyjoes_env envRef,
-    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Discriminator discriminator,
-    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructor thingConstructor,
-    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingExtractor thingExtractor
+    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_DiscriminatorFn discriminator,
+    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructorFn thingConstructor,
+    Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingExtractorFn thingExtractor
+);
+typedef created_host_ref (*TestAPI_AProtocolImplementation_constructorFn)(consumed_host_ref foo, uint8_t baz, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_AProtocolImplementation_fooGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_AProtocolImplementation_fooSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uint8_t (*TestAPI_AProtocolImplementation_bazGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_AProtocolImplementation_bazSetterFn)(unowned_host_ref obj, uint8_t newValue, created_host_ref * outExn);
+void TestAPI_AProtocolImplementation_setup(
+    fishyjoes_env envRef,
+    TestAPI_AProtocolImplementation_constructorFn constructor,
+    TestAPI_AProtocolImplementation_fooGetterFn fooGetter,
+    TestAPI_AProtocolImplementation_fooSetterFn fooSetter,
+    TestAPI_AProtocolImplementation_bazGetterFn bazGetter,
+    TestAPI_AProtocolImplementation_bazSetterFn bazSetter
+);
+void TestAPI_Actors_TemperatureLogger_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
 );
 void TestAPI_Actors_setup(
     fishyjoes_env envRef
 );
-typedef intptr_t (*TestAPI_AssociatedDataEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_ThingConstructor)(intptr_t _field_value, created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_ThingExtractor)(unowned_host_ref obj, intptr_t * _out_field_value, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_OtherConstructor)(consumed_host_ref _field_0, intptr_t _field_1, created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_OtherExtractor)(unowned_host_ref obj, created_host_ref * _out_field_0, intptr_t * _out_field_1, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_BarConstructor)(consumed_host_ref _field_named, consumed_host_ref _field_1, bool _field_toggled, created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_BarExtractor)(unowned_host_ref obj, created_host_ref * _out_field_named, created_host_ref * _out_field_1, bool * _out_field_toggled, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_NoValueConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_NoValueExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_NoneConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_NoneExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_AssociatedDataEnum_SimpleEnumConstructor)(consumed_host_ref _field_value, created_host_ref * _outExn);
-typedef void (*TestAPI_AssociatedDataEnum_SimpleEnumExtractor)(unowned_host_ref obj, created_host_ref * _out_field_value, created_host_ref * _outExn);
+typedef intptr_t (*TestAPI_AssociatedDataEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_ThingConstructorFn)(intptr_t _field_value, created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_ThingExtractorFn)(unowned_host_ref obj, intptr_t * _out_field_value, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_OtherConstructorFn)(consumed_host_ref _field_0, intptr_t _field_1, created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_OtherExtractorFn)(unowned_host_ref obj, created_host_ref * _out_field_0, intptr_t * _out_field_1, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_BarConstructorFn)(consumed_host_ref _field_named, consumed_host_ref _field_1, uint8_t _field_toggled, created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_BarExtractorFn)(unowned_host_ref obj, created_host_ref * _out_field_named, created_host_ref * _out_field_1, uint8_t * _out_field_toggled, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_NoValueConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_NoValueExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_NoneConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_NoneExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_AssociatedDataEnum_SimpleEnumConstructorFn)(consumed_host_ref _field_value, created_host_ref * _outExn);
+typedef void (*TestAPI_AssociatedDataEnum_SimpleEnumExtractorFn)(unowned_host_ref obj, created_host_ref * _out_field_value, created_host_ref * _outExn);
 void TestAPI_AssociatedDataEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_AssociatedDataEnum_Discriminator discriminator,
-    TestAPI_AssociatedDataEnum_ThingConstructor thingConstructor,
-    TestAPI_AssociatedDataEnum_ThingExtractor thingExtractor,
-    TestAPI_AssociatedDataEnum_OtherConstructor otherConstructor,
-    TestAPI_AssociatedDataEnum_OtherExtractor otherExtractor,
-    TestAPI_AssociatedDataEnum_BarConstructor barConstructor,
-    TestAPI_AssociatedDataEnum_BarExtractor barExtractor,
-    TestAPI_AssociatedDataEnum_NoValueConstructor noValueConstructor,
-    TestAPI_AssociatedDataEnum_NoValueExtractor noValueExtractor,
-    TestAPI_AssociatedDataEnum_NoneConstructor noneConstructor,
-    TestAPI_AssociatedDataEnum_NoneExtractor noneExtractor,
-    TestAPI_AssociatedDataEnum_SimpleEnumConstructor simpleEnumConstructor,
-    TestAPI_AssociatedDataEnum_SimpleEnumExtractor simpleEnumExtractor
+    TestAPI_AssociatedDataEnum_DiscriminatorFn discriminator,
+    TestAPI_AssociatedDataEnum_ThingConstructorFn thingConstructor,
+    TestAPI_AssociatedDataEnum_ThingExtractorFn thingExtractor,
+    TestAPI_AssociatedDataEnum_OtherConstructorFn otherConstructor,
+    TestAPI_AssociatedDataEnum_OtherExtractorFn otherExtractor,
+    TestAPI_AssociatedDataEnum_BarConstructorFn barConstructor,
+    TestAPI_AssociatedDataEnum_BarExtractorFn barExtractor,
+    TestAPI_AssociatedDataEnum_NoValueConstructorFn noValueConstructor,
+    TestAPI_AssociatedDataEnum_NoValueExtractorFn noValueExtractor,
+    TestAPI_AssociatedDataEnum_NoneConstructorFn noneConstructor,
+    TestAPI_AssociatedDataEnum_NoneExtractorFn noneExtractor,
+    TestAPI_AssociatedDataEnum_SimpleEnumConstructorFn simpleEnumConstructor,
+    TestAPI_AssociatedDataEnum_SimpleEnumExtractorFn simpleEnumExtractor
 );
 void TestAPI_AsyncFunctions_setup(
     fishyjoes_env envRef
@@ -53,131 +85,172 @@ void TestAPI_Bytes_setup(
 void TestAPI_ClosedRanges_setup(
     fishyjoes_env envRef
 );
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_constructorFn)(consumed_host_ref boolArray, consumed_host_ref boolSet, consumed_host_ref boolDictionary, consumed_host_ref integerArray, consumed_host_ref integerSet, consumed_host_ref integerDictionary, consumed_host_ref stringArray, consumed_host_ref stringSet, consumed_host_ref stringDictionary, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_boolArrayGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_boolArraySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_boolSetGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_boolSetSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_boolDictionaryGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_boolDictionarySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_integerArrayGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_integerArraySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_integerSetGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_integerSetSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_integerDictionaryGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_integerDictionarySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_stringArrayGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_stringArraySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_stringSetGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_stringSetSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Collections_CollectionHolder_stringDictionaryGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Collections_CollectionHolder_stringDictionarySetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_Collections_CollectionHolder_setup(
+    fishyjoes_env envRef,
+    TestAPI_Collections_CollectionHolder_constructorFn constructor,
+    TestAPI_Collections_CollectionHolder_boolArrayGetterFn boolArrayGetter,
+    TestAPI_Collections_CollectionHolder_boolArraySetterFn boolArraySetter,
+    TestAPI_Collections_CollectionHolder_boolSetGetterFn boolSetGetter,
+    TestAPI_Collections_CollectionHolder_boolSetSetterFn boolSetSetter,
+    TestAPI_Collections_CollectionHolder_boolDictionaryGetterFn boolDictionaryGetter,
+    TestAPI_Collections_CollectionHolder_boolDictionarySetterFn boolDictionarySetter,
+    TestAPI_Collections_CollectionHolder_integerArrayGetterFn integerArrayGetter,
+    TestAPI_Collections_CollectionHolder_integerArraySetterFn integerArraySetter,
+    TestAPI_Collections_CollectionHolder_integerSetGetterFn integerSetGetter,
+    TestAPI_Collections_CollectionHolder_integerSetSetterFn integerSetSetter,
+    TestAPI_Collections_CollectionHolder_integerDictionaryGetterFn integerDictionaryGetter,
+    TestAPI_Collections_CollectionHolder_integerDictionarySetterFn integerDictionarySetter,
+    TestAPI_Collections_CollectionHolder_stringArrayGetterFn stringArrayGetter,
+    TestAPI_Collections_CollectionHolder_stringArraySetterFn stringArraySetter,
+    TestAPI_Collections_CollectionHolder_stringSetGetterFn stringSetGetter,
+    TestAPI_Collections_CollectionHolder_stringSetSetterFn stringSetSetter,
+    TestAPI_Collections_CollectionHolder_stringDictionaryGetterFn stringDictionaryGetter,
+    TestAPI_Collections_CollectionHolder_stringDictionarySetterFn stringDictionarySetter
+);
 void TestAPI_Collections_setup(
     fishyjoes_env envRef
 );
-typedef created_host_ref (*TestAPI_AProtocol_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef bool (*TestAPI_AProtocol_Get_Baz)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_AProtocol_Get_Foo)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_AProtocol_Method_Bar)(unowned_host_ref, intptr_t, intptr_t, created_host_ref *);
-typedef created_host_ref (*TestAPI_AProtocol_Method_HasADefaultImplementation)(unowned_host_ref, intptr_t, double, created_host_ref *);
-typedef created_host_ref (*TestAPI_AProtocol_Method_HasADefaultImplementation2)(unowned_host_ref, consumed_host_ref, bool, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_AProtocol_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef uint8_t (*TestAPI_AProtocol_GetFn_Baz)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_AProtocol_GetFn_Foo)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_AProtocol_MethodFn_Bar)(unowned_host_ref, intptr_t, intptr_t, created_host_ref *);
+typedef created_host_ref (*TestAPI_AProtocol_MethodFn_HasADefaultImplementation)(unowned_host_ref, intptr_t, double, created_host_ref *);
+typedef created_host_ref (*TestAPI_AProtocol_MethodFn_HasADefaultImplementation2)(unowned_host_ref, consumed_host_ref, uint8_t, consumed_host_ref, created_host_ref *);
 void TestAPI_CommonInterface__AProtocolConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_AProtocol_Constructor constructorMethod,
-    TestAPI_AProtocol_Get_Baz bazGetter,
-    TestAPI_AProtocol_Get_Foo fooGetter,
-    TestAPI_AProtocol_Method_Bar bar,
-    TestAPI_AProtocol_Method_HasADefaultImplementation hasADefaultImplementation,
-    TestAPI_AProtocol_Method_HasADefaultImplementation2 hasADefaultImplementation2,
+    TestAPI_AProtocol_ConstructorFn constructorMethod,
+    TestAPI_AProtocol_GetFn_Baz bazGetter,
+    TestAPI_AProtocol_GetFn_Foo fooGetter,
+    TestAPI_AProtocol_MethodFn_Bar bar,
+    TestAPI_AProtocol_MethodFn_HasADefaultImplementation hasADefaultImplementation,
+    TestAPI_AProtocol_MethodFn_HasADefaultImplementation2 hasADefaultImplementation2,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_Add3Things)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_Const42)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_FifthThing)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_Iabs)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_IntCompose)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_MakeList)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_Six)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Get_WillThrow)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise0)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise1)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise2)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise3)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise4)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise5)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Exercise6)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_ThunkTwiceMaker)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_DefaultExercise6)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestAsyncFunctions_Method_Witness)(unowned_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_Add3Things)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_Const42)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_FifthThing)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_Iabs)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_IntCompose)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_MakeList)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_Six)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_GetFn_WillThrow)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise0)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise1)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise2)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise3)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise4)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise5)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Exercise6)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_ThunkTwiceMaker)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_DefaultExercise6)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestAsyncFunctions_MethodFn_Witness)(unowned_host_ref, created_host_ref *);
 void TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestAsyncFunctions_Constructor constructorMethod,
-    TestAPI_TestAsyncFunctions_Get_Add3Things add3ThingsGetter,
-    TestAPI_TestAsyncFunctions_Get_Const42 const42Getter,
-    TestAPI_TestAsyncFunctions_Get_FifthThing fifthThingGetter,
-    TestAPI_TestAsyncFunctions_Get_Iabs iabsGetter,
-    TestAPI_TestAsyncFunctions_Get_IntCompose intComposeGetter,
-    TestAPI_TestAsyncFunctions_Get_MakeList makeListGetter,
-    TestAPI_TestAsyncFunctions_Get_Six sixGetter,
-    TestAPI_TestAsyncFunctions_Get_WillThrow willThrowGetter,
-    TestAPI_TestAsyncFunctions_Method_Exercise0 exercise0,
-    TestAPI_TestAsyncFunctions_Method_Exercise1 exercise1,
-    TestAPI_TestAsyncFunctions_Method_Exercise2 exercise2,
-    TestAPI_TestAsyncFunctions_Method_Exercise3 exercise3,
-    TestAPI_TestAsyncFunctions_Method_Exercise4 exercise4,
-    TestAPI_TestAsyncFunctions_Method_Exercise5 exercise5,
-    TestAPI_TestAsyncFunctions_Method_Exercise6 exercise6,
-    TestAPI_TestAsyncFunctions_Method_ThunkTwiceMaker thunkTwiceMaker,
-    TestAPI_TestAsyncFunctions_Method_DefaultExercise6 defaultExercise6,
-    TestAPI_TestAsyncFunctions_Method_Witness witness,
+    TestAPI_TestAsyncFunctions_ConstructorFn constructorMethod,
+    TestAPI_TestAsyncFunctions_GetFn_Add3Things add3ThingsGetter,
+    TestAPI_TestAsyncFunctions_GetFn_Const42 const42Getter,
+    TestAPI_TestAsyncFunctions_GetFn_FifthThing fifthThingGetter,
+    TestAPI_TestAsyncFunctions_GetFn_Iabs iabsGetter,
+    TestAPI_TestAsyncFunctions_GetFn_IntCompose intComposeGetter,
+    TestAPI_TestAsyncFunctions_GetFn_MakeList makeListGetter,
+    TestAPI_TestAsyncFunctions_GetFn_Six sixGetter,
+    TestAPI_TestAsyncFunctions_GetFn_WillThrow willThrowGetter,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise0 exercise0,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise1 exercise1,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise2 exercise2,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise3 exercise3,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise4 exercise4,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise5 exercise5,
+    TestAPI_TestAsyncFunctions_MethodFn_Exercise6 exercise6,
+    TestAPI_TestAsyncFunctions_MethodFn_ThunkTwiceMaker thunkTwiceMaker,
+    TestAPI_TestAsyncFunctions_MethodFn_DefaultExercise6 defaultExercise6,
+    TestAPI_TestAsyncFunctions_MethodFn_Witness witness,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestDefaultComputedProperties_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef intptr_t (*TestAPI_TestDefaultComputedProperties_Get_Noot)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestDefaultComputedProperties_Get_Pluto)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestDefaultComputedProperties_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef intptr_t (*TestAPI_TestDefaultComputedProperties_GetFn_Noot)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestDefaultComputedProperties_GetFn_Pluto)(unowned_host_ref obj, created_host_ref *out_exn);
 void TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestDefaultComputedProperties_Constructor constructorMethod,
-    TestAPI_TestDefaultComputedProperties_Get_Noot nootGetter,
-    TestAPI_TestDefaultComputedProperties_Get_Pluto plutoGetter,
+    TestAPI_TestDefaultComputedProperties_ConstructorFn constructorMethod,
+    TestAPI_TestDefaultComputedProperties_GetFn_Noot nootGetter,
+    TestAPI_TestDefaultComputedProperties_GetFn_Pluto plutoGetter,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestDifferingExportNameProtocol_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef intptr_t (*TestAPI_TestDifferingExportNameProtocol_Get_Tata)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestDifferingExportNameProtocol_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef intptr_t (*TestAPI_TestDifferingExportNameProtocol_GetFn_Tata)(unowned_host_ref obj, created_host_ref *out_exn);
 void TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestDifferingExportNameProtocol_Constructor constructorMethod,
-    TestAPI_TestDifferingExportNameProtocol_Get_Tata tataGetter,
+    TestAPI_TestDifferingExportNameProtocol_ConstructorFn constructorMethod,
+    TestAPI_TestDifferingExportNameProtocol_GetFn_Tata tataGetter,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestLeadingUnderscoredProp_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef created_host_ref (*TestAPI_TestLeadingUnderscoredProp_Get__leadingUnderscoreProp)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestLeadingUnderscoredProp_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef created_host_ref (*TestAPI_TestLeadingUnderscoredProp_GetFn__leadingUnderscoreProp)(unowned_host_ref obj, created_host_ref *out_exn);
 void TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestLeadingUnderscoredProp_Constructor constructorMethod,
-    TestAPI_TestLeadingUnderscoredProp_Get__leadingUnderscoreProp _leadingUnderscorePropGetter,
+    TestAPI_TestLeadingUnderscoredProp_ConstructorFn constructorMethod,
+    TestAPI_TestLeadingUnderscoredProp_GetFn__leadingUnderscoreProp _leadingUnderscorePropGetter,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestMethodsProtocol_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef void (*TestAPI_TestMethodsProtocol_Method_Foo)(unowned_host_ref, created_host_ref *);
-typedef bool (*TestAPI_TestMethodsProtocol_Method_Bar)(unowned_host_ref, created_host_ref *);
-typedef void (*TestAPI_TestMethodsProtocol_Method_Baz)(unowned_host_ref, bool, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestMethodsProtocol_Method_Garply)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestMethodsProtocol_Method_Xyzzy)(unowned_host_ref, intptr_t, consumed_host_ref, created_host_ref *);
-typedef created_host_ref (*TestAPI_TestMethodsProtocol_Method_Plugh)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestMethodsProtocol_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef void (*TestAPI_TestMethodsProtocol_MethodFn_Foo)(unowned_host_ref, created_host_ref *);
+typedef uint8_t (*TestAPI_TestMethodsProtocol_MethodFn_Bar)(unowned_host_ref, created_host_ref *);
+typedef void (*TestAPI_TestMethodsProtocol_MethodFn_Baz)(unowned_host_ref, uint8_t, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestMethodsProtocol_MethodFn_Garply)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestMethodsProtocol_MethodFn_Xyzzy)(unowned_host_ref, intptr_t, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestMethodsProtocol_MethodFn_Plugh)(unowned_host_ref, consumed_host_ref, created_host_ref *);
 void TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestMethodsProtocol_Constructor constructorMethod,
-    TestAPI_TestMethodsProtocol_Method_Foo foo,
-    TestAPI_TestMethodsProtocol_Method_Bar bar,
-    TestAPI_TestMethodsProtocol_Method_Baz baz,
-    TestAPI_TestMethodsProtocol_Method_Garply garply,
-    TestAPI_TestMethodsProtocol_Method_Xyzzy xyzzy,
-    TestAPI_TestMethodsProtocol_Method_Plugh plugh,
+    TestAPI_TestMethodsProtocol_ConstructorFn constructorMethod,
+    TestAPI_TestMethodsProtocol_MethodFn_Foo foo,
+    TestAPI_TestMethodsProtocol_MethodFn_Bar bar,
+    TestAPI_TestMethodsProtocol_MethodFn_Baz baz,
+    TestAPI_TestMethodsProtocol_MethodFn_Garply garply,
+    TestAPI_TestMethodsProtocol_MethodFn_Xyzzy xyzzy,
+    TestAPI_TestMethodsProtocol_MethodFn_Plugh plugh,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestOptionalsProtocol_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef created_host_ref (*TestAPI_TestOptionalsProtocol_Get_Flarp)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestOptionalsProtocol_Method_Wombat)(unowned_host_ref, consumed_host_ref, created_host_ref *);
-typedef intptr_t (*TestAPI_TestOptionalsProtocol_Method_Spqr)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef created_host_ref (*TestAPI_TestOptionalsProtocol_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef created_host_ref (*TestAPI_TestOptionalsProtocol_GetFn_Flarp)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestOptionalsProtocol_MethodFn_Wombat)(unowned_host_ref, consumed_host_ref, created_host_ref *);
+typedef intptr_t (*TestAPI_TestOptionalsProtocol_MethodFn_Spqr)(unowned_host_ref, consumed_host_ref, created_host_ref *);
 void TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestOptionalsProtocol_Constructor constructorMethod,
-    TestAPI_TestOptionalsProtocol_Get_Flarp flarpGetter,
-    TestAPI_TestOptionalsProtocol_Method_Wombat wombat,
-    TestAPI_TestOptionalsProtocol_Method_Spqr spqr,
+    TestAPI_TestOptionalsProtocol_ConstructorFn constructorMethod,
+    TestAPI_TestOptionalsProtocol_GetFn_Flarp flarpGetter,
+    TestAPI_TestOptionalsProtocol_MethodFn_Wombat wombat,
+    TestAPI_TestOptionalsProtocol_MethodFn_Spqr spqr,
     created_host_ref * exn
 );
-typedef created_host_ref (*TestAPI_TestPropertiesProtocol_Constructor)(consumed_swift_ref ref, created_host_ref* out_exn);
-typedef created_host_ref (*TestAPI_TestPropertiesProtocol_Get_Corge)(unowned_host_ref obj, created_host_ref *out_exn);
-typedef created_host_ref (*TestAPI_TestPropertiesProtocol_Get_Frob)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestPropertiesProtocol_ConstructorFn)(consumed_swift_ref ref, created_host_ref* out_exn);
+typedef created_host_ref (*TestAPI_TestPropertiesProtocol_GetFn_Corge)(unowned_host_ref obj, created_host_ref *out_exn);
+typedef created_host_ref (*TestAPI_TestPropertiesProtocol_GetFn_Frob)(unowned_host_ref obj, created_host_ref *out_exn);
 void TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
     fishyjoes_env envRef,
-    TestAPI_TestPropertiesProtocol_Constructor constructorMethod,
-    TestAPI_TestPropertiesProtocol_Get_Corge corgeGetter,
-    TestAPI_TestPropertiesProtocol_Get_Frob frobGetter,
+    TestAPI_TestPropertiesProtocol_ConstructorFn constructorMethod,
+    TestAPI_TestPropertiesProtocol_GetFn_Corge corgeGetter,
+    TestAPI_TestPropertiesProtocol_GetFn_Frob frobGetter,
     created_host_ref * exn
 );
 void TestAPI_DefaultArguments_setup(
@@ -186,11 +259,150 @@ void TestAPI_DefaultArguments_setup(
 void TestAPI_Deprecations_setup(
     fishyjoes_env envRef
 );
+void TestAPI_EmptyClass2_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+void TestAPI_EmptyClass_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
 void TestAPI_EmptyEnum_setup(
     fishyjoes_env envRef
 );
+typedef created_host_ref (*TestAPI_EmptyStruct2_constructorFn)(created_host_ref * outExn);
+void TestAPI_EmptyStruct2_setup(
+    fishyjoes_env envRef,
+    TestAPI_EmptyStruct2_constructorFn constructor
+);
+typedef created_host_ref (*TestAPI_EmptyStruct_constructorFn)(created_host_ref * outExn);
+void TestAPI_EmptyStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_EmptyStruct_constructorFn constructor
+);
 void TestAPI_Functions_setup(
     fishyjoes_env envRef
+);
+void TestAPI_Methods_TheMethodError_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+void TestAPI_Methods_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_constructorFn)(uint8_t b, consumed_host_ref bq, uint8_t ui8, consumed_host_ref ui8q, uint16_t ui16, consumed_host_ref ui16q, uint32_t ui32, consumed_host_ref ui32q, uint64_t ui64, consumed_host_ref ui64q, uintptr_t ui, consumed_host_ref uiq, int8_t i8, consumed_host_ref i8q, int16_t i16, consumed_host_ref i16q, int32_t i32, consumed_host_ref i32q, int64_t i64, consumed_host_ref i64q, intptr_t i, consumed_host_ref iq, float f, consumed_host_ref fq, double d, consumed_host_ref dq, created_host_ref * outExn);
+typedef uint8_t (*TestAPI_Primitives_PrimitiveHolder_bGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_bSetterFn)(unowned_host_ref obj, uint8_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_bqGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_bqSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uint8_t (*TestAPI_Primitives_PrimitiveHolder_ui8GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui8SetterFn)(unowned_host_ref obj, uint8_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_ui8qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui8qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uint16_t (*TestAPI_Primitives_PrimitiveHolder_ui16GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui16SetterFn)(unowned_host_ref obj, uint16_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_ui16qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui16qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uint32_t (*TestAPI_Primitives_PrimitiveHolder_ui32GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui32SetterFn)(unowned_host_ref obj, uint32_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_ui32qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui32qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uint64_t (*TestAPI_Primitives_PrimitiveHolder_ui64GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui64SetterFn)(unowned_host_ref obj, uint64_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_ui64qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_ui64qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef uintptr_t (*TestAPI_Primitives_PrimitiveHolder_uiGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_uiSetterFn)(unowned_host_ref obj, uintptr_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_uiqGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_uiqSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef int8_t (*TestAPI_Primitives_PrimitiveHolder_i8GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i8SetterFn)(unowned_host_ref obj, int8_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_i8qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i8qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef int16_t (*TestAPI_Primitives_PrimitiveHolder_i16GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i16SetterFn)(unowned_host_ref obj, int16_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_i16qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i16qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef int32_t (*TestAPI_Primitives_PrimitiveHolder_i32GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i32SetterFn)(unowned_host_ref obj, int32_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_i32qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i32qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef int64_t (*TestAPI_Primitives_PrimitiveHolder_i64GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i64SetterFn)(unowned_host_ref obj, int64_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_i64qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_i64qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef intptr_t (*TestAPI_Primitives_PrimitiveHolder_iGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_iSetterFn)(unowned_host_ref obj, intptr_t newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_iqGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_iqSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef float (*TestAPI_Primitives_PrimitiveHolder_fGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_fSetterFn)(unowned_host_ref obj, float newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_fqGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_fqSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef double (*TestAPI_Primitives_PrimitiveHolder_dGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_dSetterFn)(unowned_host_ref obj, double newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Primitives_PrimitiveHolder_dqGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Primitives_PrimitiveHolder_dqSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_Primitives_PrimitiveHolder_setup(
+    fishyjoes_env envRef,
+    TestAPI_Primitives_PrimitiveHolder_constructorFn constructor,
+    TestAPI_Primitives_PrimitiveHolder_bGetterFn bGetter,
+    TestAPI_Primitives_PrimitiveHolder_bSetterFn bSetter,
+    TestAPI_Primitives_PrimitiveHolder_bqGetterFn bqGetter,
+    TestAPI_Primitives_PrimitiveHolder_bqSetterFn bqSetter,
+    TestAPI_Primitives_PrimitiveHolder_ui8GetterFn ui8Getter,
+    TestAPI_Primitives_PrimitiveHolder_ui8SetterFn ui8Setter,
+    TestAPI_Primitives_PrimitiveHolder_ui8qGetterFn ui8qGetter,
+    TestAPI_Primitives_PrimitiveHolder_ui8qSetterFn ui8qSetter,
+    TestAPI_Primitives_PrimitiveHolder_ui16GetterFn ui16Getter,
+    TestAPI_Primitives_PrimitiveHolder_ui16SetterFn ui16Setter,
+    TestAPI_Primitives_PrimitiveHolder_ui16qGetterFn ui16qGetter,
+    TestAPI_Primitives_PrimitiveHolder_ui16qSetterFn ui16qSetter,
+    TestAPI_Primitives_PrimitiveHolder_ui32GetterFn ui32Getter,
+    TestAPI_Primitives_PrimitiveHolder_ui32SetterFn ui32Setter,
+    TestAPI_Primitives_PrimitiveHolder_ui32qGetterFn ui32qGetter,
+    TestAPI_Primitives_PrimitiveHolder_ui32qSetterFn ui32qSetter,
+    TestAPI_Primitives_PrimitiveHolder_ui64GetterFn ui64Getter,
+    TestAPI_Primitives_PrimitiveHolder_ui64SetterFn ui64Setter,
+    TestAPI_Primitives_PrimitiveHolder_ui64qGetterFn ui64qGetter,
+    TestAPI_Primitives_PrimitiveHolder_ui64qSetterFn ui64qSetter,
+    TestAPI_Primitives_PrimitiveHolder_uiGetterFn uiGetter,
+    TestAPI_Primitives_PrimitiveHolder_uiSetterFn uiSetter,
+    TestAPI_Primitives_PrimitiveHolder_uiqGetterFn uiqGetter,
+    TestAPI_Primitives_PrimitiveHolder_uiqSetterFn uiqSetter,
+    TestAPI_Primitives_PrimitiveHolder_i8GetterFn i8Getter,
+    TestAPI_Primitives_PrimitiveHolder_i8SetterFn i8Setter,
+    TestAPI_Primitives_PrimitiveHolder_i8qGetterFn i8qGetter,
+    TestAPI_Primitives_PrimitiveHolder_i8qSetterFn i8qSetter,
+    TestAPI_Primitives_PrimitiveHolder_i16GetterFn i16Getter,
+    TestAPI_Primitives_PrimitiveHolder_i16SetterFn i16Setter,
+    TestAPI_Primitives_PrimitiveHolder_i16qGetterFn i16qGetter,
+    TestAPI_Primitives_PrimitiveHolder_i16qSetterFn i16qSetter,
+    TestAPI_Primitives_PrimitiveHolder_i32GetterFn i32Getter,
+    TestAPI_Primitives_PrimitiveHolder_i32SetterFn i32Setter,
+    TestAPI_Primitives_PrimitiveHolder_i32qGetterFn i32qGetter,
+    TestAPI_Primitives_PrimitiveHolder_i32qSetterFn i32qSetter,
+    TestAPI_Primitives_PrimitiveHolder_i64GetterFn i64Getter,
+    TestAPI_Primitives_PrimitiveHolder_i64SetterFn i64Setter,
+    TestAPI_Primitives_PrimitiveHolder_i64qGetterFn i64qGetter,
+    TestAPI_Primitives_PrimitiveHolder_i64qSetterFn i64qSetter,
+    TestAPI_Primitives_PrimitiveHolder_iGetterFn iGetter,
+    TestAPI_Primitives_PrimitiveHolder_iSetterFn iSetter,
+    TestAPI_Primitives_PrimitiveHolder_iqGetterFn iqGetter,
+    TestAPI_Primitives_PrimitiveHolder_iqSetterFn iqSetter,
+    TestAPI_Primitives_PrimitiveHolder_fGetterFn fGetter,
+    TestAPI_Primitives_PrimitiveHolder_fSetterFn fSetter,
+    TestAPI_Primitives_PrimitiveHolder_fqGetterFn fqGetter,
+    TestAPI_Primitives_PrimitiveHolder_fqSetterFn fqSetter,
+    TestAPI_Primitives_PrimitiveHolder_dGetterFn dGetter,
+    TestAPI_Primitives_PrimitiveHolder_dSetterFn dSetter,
+    TestAPI_Primitives_PrimitiveHolder_dqGetterFn dqGetter,
+    TestAPI_Primitives_PrimitiveHolder_dqSetterFn dqSetter
 );
 void TestAPI_Primitives_setup(
     fishyjoes_env envRef
@@ -204,98 +416,341 @@ void TestAPI_PythonNamingCollisions_setup(
 void TestAPI_Ranges_setup(
     fishyjoes_env envRef
 );
-typedef intptr_t (*TestAPI_ReferenceCaseEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_ReferenceCaseEnum_NorthConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_ReferenceCaseEnum_NorthExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_ReferenceCaseEnum_SouthConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_ReferenceCaseEnum_SouthExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_ReferenceCaseEnum_EastConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_ReferenceCaseEnum_EastExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_ReferenceCaseEnum_WestConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_ReferenceCaseEnum_WestExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef intptr_t (*TestAPI_ReferenceCaseEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_ReferenceCaseEnum_NorthConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_ReferenceCaseEnum_NorthExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_ReferenceCaseEnum_SouthConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_ReferenceCaseEnum_SouthExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_ReferenceCaseEnum_EastConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_ReferenceCaseEnum_EastExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_ReferenceCaseEnum_WestConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_ReferenceCaseEnum_WestExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_ReferenceCaseEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_ReferenceCaseEnum_Discriminator discriminator,
-    TestAPI_ReferenceCaseEnum_NorthConstructor northConstructor,
-    TestAPI_ReferenceCaseEnum_NorthExtractor northExtractor,
-    TestAPI_ReferenceCaseEnum_SouthConstructor southConstructor,
-    TestAPI_ReferenceCaseEnum_SouthExtractor southExtractor,
-    TestAPI_ReferenceCaseEnum_EastConstructor eastConstructor,
-    TestAPI_ReferenceCaseEnum_EastExtractor eastExtractor,
-    TestAPI_ReferenceCaseEnum_WestConstructor westConstructor,
-    TestAPI_ReferenceCaseEnum_WestExtractor westExtractor
+    TestAPI_ReferenceCaseEnum_DiscriminatorFn discriminator,
+    TestAPI_ReferenceCaseEnum_NorthConstructorFn northConstructor,
+    TestAPI_ReferenceCaseEnum_NorthExtractorFn northExtractor,
+    TestAPI_ReferenceCaseEnum_SouthConstructorFn southConstructor,
+    TestAPI_ReferenceCaseEnum_SouthExtractorFn southExtractor,
+    TestAPI_ReferenceCaseEnum_EastConstructorFn eastConstructor,
+    TestAPI_ReferenceCaseEnum_EastExtractorFn eastExtractor,
+    TestAPI_ReferenceCaseEnum_WestConstructorFn westConstructor,
+    TestAPI_ReferenceCaseEnum_WestExtractorFn westExtractor
 );
 void TestAPI_ReferenceEmptyEnum_setup(
     fishyjoes_env envRef
 );
+void TestAPI_ReferenceOnlyTypes_Marker_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
 void TestAPI_ReferenceOnlyTypes_setup(
     fishyjoes_env envRef
+);
+typedef created_host_ref (*TestAPI_Results_Error_constructorFn)(consumed_host_ref message, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Results_Error_messageGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+void TestAPI_Results_Error_setup(
+    fishyjoes_env envRef,
+    TestAPI_Results_Error_constructorFn constructor,
+    TestAPI_Results_Error_messageGetterFn messageGetter
 );
 void TestAPI_Results_setup(
     fishyjoes_env envRef
 );
-typedef intptr_t (*TestAPI_ShadowBox_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_ShadowBox_ShadeConstructor)(consumed_host_ref _field_0, created_host_ref * _outExn);
-typedef void (*TestAPI_ShadowBox_ShadeExtractor)(unowned_host_ref obj, created_host_ref * _out_field_0, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_ShadowBox_EmptyConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_ShadowBox_EmptyExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_Shade_constructorFn)(double darkness, created_host_ref * outExn);
+typedef double (*TestAPI_Shade_darknessGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Shade_darknessSetterFn)(unowned_host_ref obj, double newValue, created_host_ref * outExn);
+void TestAPI_Shade_setup(
+    fishyjoes_env envRef,
+    TestAPI_Shade_constructorFn constructor,
+    TestAPI_Shade_darknessGetterFn darknessGetter,
+    TestAPI_Shade_darknessSetterFn darknessSetter
+);
+typedef intptr_t (*TestAPI_ShadowBox_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_ShadowBox_ShadeConstructorFn)(consumed_host_ref _field_0, created_host_ref * _outExn);
+typedef void (*TestAPI_ShadowBox_ShadeExtractorFn)(unowned_host_ref obj, created_host_ref * _out_field_0, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_ShadowBox_EmptyConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_ShadowBox_EmptyExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_ShadowBox_setup(
     fishyjoes_env envRef,
-    TestAPI_ShadowBox_Discriminator discriminator,
-    TestAPI_ShadowBox_ShadeConstructor shadeConstructor,
-    TestAPI_ShadowBox_ShadeExtractor shadeExtractor,
-    TestAPI_ShadowBox_EmptyConstructor emptyConstructor,
-    TestAPI_ShadowBox_EmptyExtractor emptyExtractor
+    TestAPI_ShadowBox_DiscriminatorFn discriminator,
+    TestAPI_ShadowBox_ShadeConstructorFn shadeConstructor,
+    TestAPI_ShadowBox_ShadeExtractorFn shadeExtractor,
+    TestAPI_ShadowBox_EmptyConstructorFn emptyConstructor,
+    TestAPI_ShadowBox_EmptyExtractorFn emptyExtractor
 );
-typedef intptr_t (*TestAPI_SimpleEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_SimpleEnum_RedConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_SimpleEnum_RedExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_SimpleEnum_GreenConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_SimpleEnum_GreenExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
-typedef created_host_ref (*TestAPI_SimpleEnum_BlueConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_SimpleEnum_BlueExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef intptr_t (*TestAPI_SimpleEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_SimpleEnum_RedConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_SimpleEnum_RedExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_SimpleEnum_GreenConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_SimpleEnum_GreenExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_SimpleEnum_BlueConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_SimpleEnum_BlueExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_SimpleEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_SimpleEnum_Discriminator discriminator,
-    TestAPI_SimpleEnum_RedConstructor redConstructor,
-    TestAPI_SimpleEnum_RedExtractor redExtractor,
-    TestAPI_SimpleEnum_GreenConstructor greenConstructor,
-    TestAPI_SimpleEnum_GreenExtractor greenExtractor,
-    TestAPI_SimpleEnum_BlueConstructor blueConstructor,
-    TestAPI_SimpleEnum_BlueExtractor blueExtractor
+    TestAPI_SimpleEnum_DiscriminatorFn discriminator,
+    TestAPI_SimpleEnum_RedConstructorFn redConstructor,
+    TestAPI_SimpleEnum_RedExtractorFn redExtractor,
+    TestAPI_SimpleEnum_GreenConstructorFn greenConstructor,
+    TestAPI_SimpleEnum_GreenExtractorFn greenExtractor,
+    TestAPI_SimpleEnum_BlueConstructorFn blueConstructor,
+    TestAPI_SimpleEnum_BlueExtractorFn blueExtractor
 );
 void TestAPI_Strings_setup(
     fishyjoes_env envRef
 );
+typedef created_host_ref (*TestAPI_Structs_MemberwiseStruct_constructorFn)(consumed_host_ref immutable, consumed_host_ref mutable, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_MemberwiseStruct_immutableGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_MemberwiseStruct_immutableSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_MemberwiseStruct_mutableGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_MemberwiseStruct_mutableSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_Structs_MemberwiseStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_Structs_MemberwiseStruct_constructorFn constructor,
+    TestAPI_Structs_MemberwiseStruct_immutableGetterFn immutableGetter,
+    TestAPI_Structs_MemberwiseStruct_immutableSetterFn immutableSetter,
+    TestAPI_Structs_MemberwiseStruct_mutableGetterFn mutableGetter,
+    TestAPI_Structs_MemberwiseStruct_mutableSetterFn mutableSetter
+);
+typedef created_host_ref (*TestAPI_Structs_MutableStruct_constructorFn)(intptr_t i, created_host_ref * outExn);
+typedef intptr_t (*TestAPI_Structs_MutableStruct_iGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_MutableStruct_iSetterFn)(unowned_host_ref obj, intptr_t newValue, created_host_ref * outExn);
+void TestAPI_Structs_MutableStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_Structs_MutableStruct_constructorFn constructor,
+    TestAPI_Structs_MutableStruct_iGetterFn iGetter,
+    TestAPI_Structs_MutableStruct_iSetterFn iSetter
+);
+void TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+void TestAPI_Structs_ReferenceStruct_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_constructorFn)(consumed_host_ref a, consumed_host_ref b, consumed_host_ref c, consumed_host_ref d, consumed_host_ref e, consumed_host_ref f, consumed_host_ref g, consumed_host_ref h, consumed_host_ref i, consumed_host_ref j, consumed_host_ref k, consumed_host_ref l, consumed_host_ref m, consumed_host_ref n, consumed_host_ref o, consumed_host_ref p, consumed_host_ref q, consumed_host_ref r, consumed_host_ref s, consumed_host_ref t, consumed_host_ref u, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_aGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_aSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_bGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_bSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_cGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_cSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_dGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_dSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_eGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_eSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_fGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_fSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_gGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_gSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_hGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_hSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_iGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_iSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_jGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_jSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_kGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_kSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_lGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_lSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_mGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_mSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_nGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_nSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_oGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_oSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_pGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_pSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_qGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_qSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_rGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_rSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_sGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_sSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_tGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_tSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Structs_TwentyOneItemStruct_uGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_Structs_TwentyOneItemStruct_uSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_Structs_TwentyOneItemStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_Structs_TwentyOneItemStruct_constructorFn constructor,
+    TestAPI_Structs_TwentyOneItemStruct_aGetterFn aGetter,
+    TestAPI_Structs_TwentyOneItemStruct_aSetterFn aSetter,
+    TestAPI_Structs_TwentyOneItemStruct_bGetterFn bGetter,
+    TestAPI_Structs_TwentyOneItemStruct_bSetterFn bSetter,
+    TestAPI_Structs_TwentyOneItemStruct_cGetterFn cGetter,
+    TestAPI_Structs_TwentyOneItemStruct_cSetterFn cSetter,
+    TestAPI_Structs_TwentyOneItemStruct_dGetterFn dGetter,
+    TestAPI_Structs_TwentyOneItemStruct_dSetterFn dSetter,
+    TestAPI_Structs_TwentyOneItemStruct_eGetterFn eGetter,
+    TestAPI_Structs_TwentyOneItemStruct_eSetterFn eSetter,
+    TestAPI_Structs_TwentyOneItemStruct_fGetterFn fGetter,
+    TestAPI_Structs_TwentyOneItemStruct_fSetterFn fSetter,
+    TestAPI_Structs_TwentyOneItemStruct_gGetterFn gGetter,
+    TestAPI_Structs_TwentyOneItemStruct_gSetterFn gSetter,
+    TestAPI_Structs_TwentyOneItemStruct_hGetterFn hGetter,
+    TestAPI_Structs_TwentyOneItemStruct_hSetterFn hSetter,
+    TestAPI_Structs_TwentyOneItemStruct_iGetterFn iGetter,
+    TestAPI_Structs_TwentyOneItemStruct_iSetterFn iSetter,
+    TestAPI_Structs_TwentyOneItemStruct_jGetterFn jGetter,
+    TestAPI_Structs_TwentyOneItemStruct_jSetterFn jSetter,
+    TestAPI_Structs_TwentyOneItemStruct_kGetterFn kGetter,
+    TestAPI_Structs_TwentyOneItemStruct_kSetterFn kSetter,
+    TestAPI_Structs_TwentyOneItemStruct_lGetterFn lGetter,
+    TestAPI_Structs_TwentyOneItemStruct_lSetterFn lSetter,
+    TestAPI_Structs_TwentyOneItemStruct_mGetterFn mGetter,
+    TestAPI_Structs_TwentyOneItemStruct_mSetterFn mSetter,
+    TestAPI_Structs_TwentyOneItemStruct_nGetterFn nGetter,
+    TestAPI_Structs_TwentyOneItemStruct_nSetterFn nSetter,
+    TestAPI_Structs_TwentyOneItemStruct_oGetterFn oGetter,
+    TestAPI_Structs_TwentyOneItemStruct_oSetterFn oSetter,
+    TestAPI_Structs_TwentyOneItemStruct_pGetterFn pGetter,
+    TestAPI_Structs_TwentyOneItemStruct_pSetterFn pSetter,
+    TestAPI_Structs_TwentyOneItemStruct_qGetterFn qGetter,
+    TestAPI_Structs_TwentyOneItemStruct_qSetterFn qSetter,
+    TestAPI_Structs_TwentyOneItemStruct_rGetterFn rGetter,
+    TestAPI_Structs_TwentyOneItemStruct_rSetterFn rSetter,
+    TestAPI_Structs_TwentyOneItemStruct_sGetterFn sGetter,
+    TestAPI_Structs_TwentyOneItemStruct_sSetterFn sSetter,
+    TestAPI_Structs_TwentyOneItemStruct_tGetterFn tGetter,
+    TestAPI_Structs_TwentyOneItemStruct_tSetterFn tSetter,
+    TestAPI_Structs_TwentyOneItemStruct_uGetterFn uGetter,
+    TestAPI_Structs_TwentyOneItemStruct_uSetterFn uSetter
+);
 void TestAPI_Structs_setup(
     fishyjoes_env envRef
 );
-typedef intptr_t (*TestAPI_TestDefaultComputedPropertiesEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_constructorFn)(consumed_host_ref const42, consumed_host_ref iabs, consumed_host_ref intCompose, consumed_host_ref add3Things, consumed_host_ref makeList, consumed_host_ref fifthThing, consumed_host_ref six, consumed_host_ref willThrow, consumed_host_ref exercise0Fun, consumed_host_ref exercise1Fun, consumed_host_ref exercise2Fun, consumed_host_ref exercise3Fun, consumed_host_ref exercise4Fun, consumed_host_ref exercise5Fun, consumed_host_ref exercise6Fun, consumed_host_ref thunkTwiceMakerFun, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_const42GetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+void TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_constructorFn constructor,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_const42GetterFn const42Getter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetterFn iabsGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetterFn intComposeGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetterFn add3ThingsGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetterFn makeListGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetterFn fifthThingGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetterFn sixGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetterFn willThrowGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetterFn exercise0FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetterFn exercise1FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetterFn exercise2FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetterFn exercise3FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetterFn exercise4FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetterFn exercise5FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetterFn exercise6FunGetter,
+    TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetterFn thunkTwiceMakerFunGetter
+);
+void TestAPI_TestAsyncSwiftSideFunctionsClass_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+void TestAPI_TestDefaultComputedPropertiesClass_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+typedef intptr_t (*TestAPI_TestDefaultComputedPropertiesEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_TestDefaultComputedPropertiesEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_TestDefaultComputedPropertiesEnum_Discriminator discriminator,
-    TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructor quxConstructor,
-    TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractor quxExtractor
+    TestAPI_TestDefaultComputedPropertiesEnum_DiscriminatorFn discriminator,
+    TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructorFn quxConstructor,
+    TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractorFn quxExtractor
 );
-typedef intptr_t (*TestAPI_TestNonExportedProtocolEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_TestNonExportedProtocolEnum_HogehogeConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_TestNonExportedProtocolEnum_HogehogeExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+typedef created_host_ref (*TestAPI_TestDefaultComputedPropertiesStruct_constructorFn)(uint8_t spam, intptr_t noot, created_host_ref * outExn);
+typedef uint8_t (*TestAPI_TestDefaultComputedPropertiesStruct_spamGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_TestDefaultComputedPropertiesStruct_spamSetterFn)(unowned_host_ref obj, uint8_t newValue, created_host_ref * outExn);
+typedef intptr_t (*TestAPI_TestDefaultComputedPropertiesStruct_nootGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_TestDefaultComputedPropertiesStruct_nootSetterFn)(unowned_host_ref obj, intptr_t newValue, created_host_ref * outExn);
+void TestAPI_TestDefaultComputedPropertiesStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_TestDefaultComputedPropertiesStruct_constructorFn constructor,
+    TestAPI_TestDefaultComputedPropertiesStruct_spamGetterFn spamGetter,
+    TestAPI_TestDefaultComputedPropertiesStruct_spamSetterFn spamSetter,
+    TestAPI_TestDefaultComputedPropertiesStruct_nootGetterFn nootGetter,
+    TestAPI_TestDefaultComputedPropertiesStruct_nootSetterFn nootSetter
+);
+typedef created_host_ref (*TestAPI_TestDifferingExportNameStruct_constructorFn)(intptr_t tata, created_host_ref * outExn);
+typedef intptr_t (*TestAPI_TestDifferingExportNameStruct_tataGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_TestDifferingExportNameStruct_tataSetterFn)(unowned_host_ref obj, intptr_t newValue, created_host_ref * outExn);
+void TestAPI_TestDifferingExportNameStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_TestDifferingExportNameStruct_constructorFn constructor,
+    TestAPI_TestDifferingExportNameStruct_tataGetterFn tataGetter,
+    TestAPI_TestDifferingExportNameStruct_tataSetterFn tataSetter
+);
+typedef created_host_ref (*TestAPI_TestLeadingUnderscoredPropStruct_constructorFn)(consumed_host_ref _leadingUnderscoreProp, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_TestLeadingUnderscoredPropStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_TestLeadingUnderscoredPropStruct_constructorFn constructor,
+    TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetterFn _leadingUnderscorePropGetter,
+    TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetterFn _leadingUnderscorePropSetter
+);
+typedef intptr_t (*TestAPI_TestNonExportedProtocolEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestNonExportedProtocolEnum_HogehogeConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_TestNonExportedProtocolEnum_HogehogeExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_TestNonExportedProtocolEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_TestNonExportedProtocolEnum_Discriminator discriminator,
-    TestAPI_TestNonExportedProtocolEnum_HogehogeConstructor hogehogeConstructor,
-    TestAPI_TestNonExportedProtocolEnum_HogehogeExtractor hogehogeExtractor
+    TestAPI_TestNonExportedProtocolEnum_DiscriminatorFn discriminator,
+    TestAPI_TestNonExportedProtocolEnum_HogehogeConstructorFn hogehogeConstructor,
+    TestAPI_TestNonExportedProtocolEnum_HogehogeExtractorFn hogehogeExtractor
 );
-typedef intptr_t (*TestAPI_TestProtocolEnum_Discriminator)(unowned_host_ref obj, created_host_ref * outExn);
-typedef created_host_ref (*TestAPI_TestProtocolEnum_QuxConstructor)(created_host_ref * _outExn);
-typedef void (*TestAPI_TestProtocolEnum_QuxExtractor)(unowned_host_ref obj, created_host_ref * _outExn);
+void TestAPI_TestProtocolClass_setup(
+    fishyjoes_env envRef,
+    FishyJoes_ReferenceConstructorFn constructor,
+    created_host_ref * outExn
+);
+typedef intptr_t (*TestAPI_TestProtocolEnum_DiscriminatorFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestProtocolEnum_QuxConstructorFn)(created_host_ref * _outExn);
+typedef void (*TestAPI_TestProtocolEnum_QuxExtractorFn)(unowned_host_ref obj, created_host_ref * _outExn);
 void TestAPI_TestProtocolEnum_setup(
     fishyjoes_env envRef,
-    TestAPI_TestProtocolEnum_Discriminator discriminator,
-    TestAPI_TestProtocolEnum_QuxConstructor quxConstructor,
-    TestAPI_TestProtocolEnum_QuxExtractor quxExtractor
+    TestAPI_TestProtocolEnum_DiscriminatorFn discriminator,
+    TestAPI_TestProtocolEnum_QuxConstructorFn quxConstructor,
+    TestAPI_TestProtocolEnum_QuxExtractorFn quxExtractor
+);
+typedef created_host_ref (*TestAPI_TestProtocolStruct_constructorFn)(consumed_host_ref corge, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_TestProtocolStruct_corgeGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef void (*TestAPI_TestProtocolStruct_corgeSetterFn)(unowned_host_ref obj, consumed_host_ref newValue, created_host_ref * outExn);
+void TestAPI_TestProtocolStruct_setup(
+    fishyjoes_env envRef,
+    TestAPI_TestProtocolStruct_constructorFn constructor,
+    TestAPI_TestProtocolStruct_corgeGetterFn corgeGetter,
+    TestAPI_TestProtocolStruct_corgeSetterFn corgeSetter
+);
+typedef created_host_ref (*TestAPI_Tree_constructorFn)(intptr_t value, consumed_host_ref children, created_host_ref * outExn);
+typedef intptr_t (*TestAPI_Tree_valueGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+typedef created_host_ref (*TestAPI_Tree_childrenGetterFn)(unowned_host_ref obj, created_host_ref * outExn);
+void TestAPI_Tree_setup(
+    fishyjoes_env envRef,
+    TestAPI_Tree_constructorFn constructor,
+    TestAPI_Tree_valueGetterFn valueGetter,
+    TestAPI_Tree_childrenGetterFn childrenGetter
 );
 void TestAPI_Tuples_setup(
     fishyjoes_env envRef
@@ -336,7 +791,7 @@ created_host_ref __iota_TestAPI_AProtocolImplementation_hasADefaultImplementatio
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     unowned_host_ref a,
-    bool b,
+    uint8_t b,
     unowned_host_ref c,
     created_host_ref * _exn
 );
@@ -358,7 +813,7 @@ created_host_ref __iota_TestAPI_AProtocol_hasADefaultImplementation2(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     unowned_host_ref a,
-    bool b,
+    uint8_t b,
     unowned_host_ref c,
     created_host_ref * _exn
 );
@@ -579,6 +1034,12 @@ created_host_ref __iota_TestAPI_Deprecations_deprecatedMethod(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
+uint8_t __iota_TestAPI_EmptyClass2_equals(
+    fishyjoes_env envRef,
+    unowned_host_ref lhs,
+    unowned_host_ref rhs,
+    created_host_ref * outExn
+);
 created_host_ref __iota_TestAPI_EmptyClass2_gorp(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
@@ -601,6 +1062,12 @@ created_host_ref __iota_TestAPI_EmptyClass_Gorpers(
 created_host_ref __iota_TestAPI_EmptyClass_create(
     fishyjoes_env envRef,
     created_host_ref * _exn
+);
+uint8_t __iota_TestAPI_EmptyClass_equals(
+    fishyjoes_env envRef,
+    unowned_host_ref lhs,
+    unowned_host_ref rhs,
+    created_host_ref * outExn
 );
 created_host_ref __iota_TestAPI_EmptyClass_shme(
     fishyjoes_env envRef,
@@ -785,27 +1252,27 @@ created_host_ref __iota_TestAPI_Methods_staticAsyncYield(
 );
 intptr_t __iota_TestAPI_Primitives_boolOverflow(
     fishyjoes_env envRef,
-    bool b0,
-    bool b1,
-    bool b2,
-    bool b3,
-    bool b4,
-    bool b5,
-    bool b6,
-    bool b7,
-    bool b8,
-    bool b9,
-    bool ba,
-    bool bb,
-    bool bc,
-    bool bd,
-    bool be,
-    bool bf,
+    uint8_t b0,
+    uint8_t b1,
+    uint8_t b2,
+    uint8_t b3,
+    uint8_t b4,
+    uint8_t b5,
+    uint8_t b6,
+    uint8_t b7,
+    uint8_t b8,
+    uint8_t b9,
+    uint8_t ba,
+    uint8_t bb,
+    uint8_t bc,
+    uint8_t bd,
+    uint8_t be,
+    uint8_t bf,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_Primitives_echoBool(
+uint8_t __iota_TestAPI_Primitives_echoBool(
     fishyjoes_env envRef,
-    bool value,
+    uint8_t value,
     created_host_ref * _exn
 );
 double __iota_TestAPI_Primitives_echoDouble(
@@ -1018,6 +1485,12 @@ created_host_ref __iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
+uint8_t __iota_TestAPI_ReferenceOnlyTypes_Marker_equals(
+    fishyjoes_env envRef,
+    unowned_host_ref lhs,
+    unowned_host_ref rhs,
+    created_host_ref * outExn
+);
 created_host_ref __iota_TestAPI_ReferenceOnlyTypes_marker(
     fishyjoes_env envRef,
     created_host_ref * _exn
@@ -1102,6 +1575,12 @@ created_host_ref __iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable(
 created_host_ref __iota_TestAPI_Structs_ReferenceStruct_create(
     fishyjoes_env envRef,
     created_host_ref * _exn
+);
+uint8_t __iota_TestAPI_Structs_ReferenceStruct_equals(
+    fishyjoes_env envRef,
+    unowned_host_ref lhs,
+    unowned_host_ref rhs,
+    created_host_ref * outExn
 );
 created_host_ref __iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6(
     fishyjoes_env envRef,
@@ -1286,11 +1765,11 @@ created_host_ref __iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness(
 );
 created_host_ref __iota_TestAPI_TestDefaultComputedPropertiesClass_init(
     fishyjoes_env envRef,
-    bool spam,
+    uint8_t spam,
     intptr_t noot,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_TestMethodsProtocol_bar(
+uint8_t __iota_TestAPI_TestMethodsProtocol_bar(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -1298,7 +1777,7 @@ bool __iota_TestAPI_TestMethodsProtocol_bar(
 void __iota_TestAPI_TestMethodsProtocol_baz(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
-    bool qux,
+    uint8_t qux,
     created_host_ref * _exn
 );
 void __iota_TestAPI_TestMethodsProtocol_foo(
@@ -1342,7 +1821,7 @@ created_host_ref __iota_TestAPI_TestOptionalsProtocol_wombat(
     unowned_host_ref zxc,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_TestProtocolClass_bar(
+uint8_t __iota_TestAPI_TestProtocolClass_bar(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -1350,8 +1829,14 @@ bool __iota_TestAPI_TestProtocolClass_bar(
 void __iota_TestAPI_TestProtocolClass_baz(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
-    bool qux,
+    uint8_t qux,
     created_host_ref * _exn
+);
+uint8_t __iota_TestAPI_TestProtocolClass_equals(
+    fishyjoes_env envRef,
+    unowned_host_ref lhs,
+    unowned_host_ref rhs,
+    created_host_ref * outExn
 );
 void __iota_TestAPI_TestProtocolClass_foo(
     fishyjoes_env envRef,
@@ -1395,7 +1880,7 @@ created_host_ref __iota_TestAPI_TestProtocolClass_xyzzy(
     unowned_host_ref grault,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_TestProtocolEnum_bar(
+uint8_t __iota_TestAPI_TestProtocolEnum_bar(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -1403,7 +1888,7 @@ bool __iota_TestAPI_TestProtocolEnum_bar(
 void __iota_TestAPI_TestProtocolEnum_baz(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
-    bool qux,
+    uint8_t qux,
     created_host_ref * _exn
 );
 void __iota_TestAPI_TestProtocolEnum_foo(
@@ -1430,7 +1915,7 @@ created_host_ref __iota_TestAPI_TestProtocolEnum_xyzzy(
     unowned_host_ref grault,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_TestProtocolStruct_bar(
+uint8_t __iota_TestAPI_TestProtocolStruct_bar(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -1438,7 +1923,7 @@ bool __iota_TestAPI_TestProtocolStruct_bar(
 void __iota_TestAPI_TestProtocolStruct_baz(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
-    bool qux,
+    uint8_t qux,
     created_host_ref * _exn
 );
 void __iota_TestAPI_TestProtocolStruct_foo(
@@ -1465,7 +1950,7 @@ created_host_ref __iota_TestAPI_TestProtocolStruct_xyzzy(
     unowned_host_ref grault,
     created_host_ref * _exn
 );
-bool __iota_TestAPI_Tuples_checkTuples(
+uint8_t __iota_TestAPI_Tuples_checkTuples(
     fishyjoes_env envRef,
     unowned_host_ref t2,
     unowned_host_ref t3,
@@ -1504,7 +1989,7 @@ created_host_ref __iota__default_TestAPI_TestDefaultComputedProperties_plutonic(
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_AProtocol_baz(
+uint8_t __iota_get_TestAPI_AProtocol_baz(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -1691,6 +2176,11 @@ created_host_ref __iota_get_TestAPI_EmptyClass2_blorg(
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
 );
+int32_t __iota_get_TestAPI_EmptyClass2_hash(
+    fishyjoes_env envRef,
+    unowned_host_ref this,
+    created_host_ref * outExn
+);
 created_host_ref __iota_get_TestAPI_EmptyClass2_wibble(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
@@ -1700,6 +2190,11 @@ created_host_ref __iota_get_TestAPI_EmptyClass_blarg(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
+);
+int32_t __iota_get_TestAPI_EmptyClass_hash(
+    fishyjoes_env envRef,
+    unowned_host_ref this,
+    created_host_ref * outExn
 );
 created_host_ref __iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(
     fishyjoes_env envRef,
@@ -1819,7 +2314,7 @@ created_host_ref __iota_get_TestAPI_Primitives_defaultPrimitiveHolder(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_Primitives_falseBool(
+uint8_t __iota_get_TestAPI_Primitives_falseBool(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
@@ -2023,7 +2518,7 @@ uint8_t __iota_get_TestAPI_Primitives_minUInt8(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_Primitives_trueBool(
+uint8_t __iota_get_TestAPI_Primitives_trueBool(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
@@ -2095,7 +2590,7 @@ intptr_t __iota_get_TestAPI_PythonNamingCollisions_class(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_PythonNamingCollisions_isNaN(
+uint8_t __iota_get_TestAPI_PythonNamingCollisions_isNaN(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
@@ -2156,6 +2651,11 @@ intptr_t __iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );
+int32_t __iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash(
+    fishyjoes_env envRef,
+    unowned_host_ref this,
+    created_host_ref * outExn
+);
 created_host_ref __iota_get_TestAPI_Results_aFailure(
     fishyjoes_env envRef,
     created_host_ref * _exn
@@ -2209,6 +2709,11 @@ created_host_ref __iota_get_TestAPI_Strings_script(
 created_host_ref __iota_get_TestAPI_Strings_simple(
     fishyjoes_env envRef,
     created_host_ref * _exn
+);
+int32_t __iota_get_TestAPI_Structs_ReferenceStruct_hash(
+    fishyjoes_env envRef,
+    unowned_host_ref this,
+    created_host_ref * outExn
 );
 created_host_ref __iota_get_TestAPI_Structs_ReferenceStruct_immutable(
     fishyjoes_env envRef,
@@ -2305,7 +2810,7 @@ intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot(
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(
+uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -2315,7 +2820,7 @@ intptr_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
 );
-bool __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(
+uint8_t __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
@@ -2364,6 +2869,11 @@ created_host_ref __iota_get_TestAPI_TestProtocolClass_frobby(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
     created_host_ref * _exn
+);
+int32_t __iota_get_TestAPI_TestProtocolClass_hash(
+    fishyjoes_env envRef,
+    unowned_host_ref this,
+    created_host_ref * outExn
 );
 created_host_ref __iota_get_TestAPI_TestProtocolStruct_frobby(
     fishyjoes_env envRef,
@@ -2458,7 +2968,7 @@ created_host_ref __iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot(
 created_host_ref __iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam(
     fishyjoes_env envRef,
     unowned_host_ref _iotaThis,
-    bool newValue,
+    uint8_t newValue,
     created_host_ref * _exn
 );
 created_host_ref __iota_set_TestAPI_TestProtocolClass_corge(

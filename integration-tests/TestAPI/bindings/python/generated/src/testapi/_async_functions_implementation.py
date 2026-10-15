@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import async_functions
-from ._async_functions_type import AsyncFunctions
 from ._c_api import _testapi_lib
 from warnings import deprecated
 import fishyjoes_runtime

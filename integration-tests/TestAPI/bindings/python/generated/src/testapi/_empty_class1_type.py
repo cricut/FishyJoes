@@ -88,7 +88,7 @@ class EmptyClass1(fishyjoes_runtime.SwiftReference):
         self,
     ) -> int:
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return _impl.iota_TestAPI_EmptyClass_hash(
+            return _impl.iota_get_TestAPI_EmptyClass_hash(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _selfHandle,
             )

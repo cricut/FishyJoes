@@ -511,23 +511,81 @@ struct TranslatedStruct: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
+        var setupMethods = [
+            (
+                name: "constructor",
+                args: storedVariables.map { storedVar in
+                    let resolved = context.resolve(type: storedVar.type)
+                    return (
+                        name: storedVar.name,
+                        swiftType: "\(resolved.converterType.name).CType",
+                        cType: resolved.iotaCTypes.consumed
+                    )
+                } + [
+                    (name: "outExn", swiftType: "OutHostException", cType: "created_host_ref *")
+                ],
+                swiftReturnType: "HostObject",
+                cReturnType: "created_host_ref"
+            )
+        ]
+        for storedVar in storedVariables {
+            let resolved = context.resolve(type: storedVar.type)
+            // let getterTypedefName = "\(mangledName)_GetFn_\(upperCaseFirst(storedVar.name))"
+            // let setterTypedefName = "\(mangledName)_SetFn_\(upperCaseFirst(storedVar.name))"
+            setupMethods.append(
+                (
+                    name: "\(storedVar.name)Getter",
+                    args: [
+                        (name: "obj", swiftType: "HostObject", cType: "unowned_host_ref"),
+                        (name: "outExn", swiftType: "OutHostException", cType: "created_host_ref *"),
+                    ],
+                    swiftReturnType: "\(resolved.converterType.name).CType",
+                    cReturnType: resolved.iotaCTypes.created
+                )
+            )
+            if storedVar.isMutable {
+                setupMethods.append(
+                    (
+                        name: "\(storedVar.name)Setter",
+                        args: [
+                            (name: "obj", swiftType: "HostObject", cType: "unowned_host_ref"),
+                            (name: "newValue", swiftType: "\(resolved.converterType.name).CType", cType: resolved.iotaCTypes.consumed),
+                            (name: "outExn", swiftType: "OutHostException", cType: "created_host_ref *"),
+                        ],
+                        swiftReturnType: "Void",
+                        cReturnType: "void"
+                    )
+                )
+            }
+        }
+
+        var cInterfaceArgs: [(name: String, type: String)] = []
+        var typedefs: [String] = []
+        for method in setupMethods {
+            let typedefName = "\(sourceType.name)_\(method.name)Fn".mangled
+            let params = method.args.map { "\($0.cType) \($0.name)" }
+            typedefs.append("typedef \(method.cReturnType) (*\(typedefName))(\(params.joined(separator: ", ")));")
+            cInterfaceArgs.append((name: method.name, type: typedefName));
+        }
+        context.iotaTranslator.declareCInterface(
+            preludeLines: typedefs,
+            name: iotaSetupName,
+            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs,
+            returnType: "void"
+        )
+
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
-            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-            for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.type)
-                fragment.output("_ \(storedVar.name)Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType,")
-                if storedVar.isMutable {
-                    fragment.output("_ \(storedVar.name)Setter: @escaping @convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void,")
-                }
+            for method in setupMethods {
+                fragment.output("\(method.name): @escaping \(sourceType.name)._\(upperCaseFirst(method.name))Fn,")
             }
             fragment.output("_ exn: OutHostException")
         }
         fragment.outputBlock(" {") {
             fragment.output("let env = Env(envRef)")
-            fragment.output("if \(converterType.name)._constructorMethod.isInitialized(env) { return }")
-            fragment.output("\(converterType.name)._constructorMethod[env] = constructorMethod")
+            fragment.output("if \(converterType.name)._constructor.isInitialized(env) { return }")
+            fragment.output("\(converterType.name)._constructor[env] = constructor")
             for storedVar in storedVariables {
                 fragment.output("\(converterType.name)._\(storedVar.name)Getter[env] = \(storedVar.name)Getter")
                 if storedVar.isMutable {
@@ -538,21 +596,12 @@ struct TranslatedStruct: TranslatedType {
         fragment.blankLine()
 
         fragment.outputBlock("extension \(converterType.name): FishyJoesIotaRuntime.IotaMutator {") {
-            for storedVar in storedVariables {
-                let resolved = context.resolve(type: storedVar.type)
-                fragment.output("fileprivate static let _\(storedVar.name)Getter = Env.CallbackMap<@convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType>()")
-                if storedVar.isMutable {
-                    fragment.output("fileprivate static let _\(storedVar.name)Setter = Env.CallbackMap<@convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void>()")
+            for method in setupMethods {
+                fragment.outputBlock("public typealias _\(upperCaseFirst(method.name))Fn = @convention(c) (", closeWith: ") -> \(method.swiftReturnType)") {
+                    fragment.outputMap(method.args, separator: ",") { $0.swiftType }
                 }
+                fragment.output("fileprivate static let _\(method.name) = Env.CallbackMap<_\(upperCaseFirst(method.name))Fn>()")
             }
-            fragment.outputBlock("public typealias _ConstructorMethod = @convention(c) (", closeWith: ") -> HostObject") {
-                for storedVar in storedVariables {
-                    let resolved = context.resolve(type: storedVar.type)
-                    fragment.output("\(resolved.converterType.name).CType,")
-                }
-                fragment.output("_ exn: OutHostException")
-            }
-            fragment.output("fileprivate static let _constructorMethod = Env.CallbackMap<_ConstructorMethod>()")
             fragment.blankLine()
 
             fragment.outputBlock("public static func peekIota(_ value: HostObject, env: Env) throws -> Self {") {
@@ -571,7 +620,7 @@ struct TranslatedStruct: TranslatedType {
 
             fragment.outputBlock("public static func toIota(_ value: Self, env: Env) throws -> HostObject {") {
                 fragment.outputBlock("try env.check { exn in", closeWith: "}") {
-                    fragment.outputBlock("_constructorMethod[env](") {
+                    fragment.outputBlock("_constructor[env](") {
                         for storedVar in storedVariables {
                             let resolved = context.resolve(type: storedVar.type)
                             fragment.output("try \(resolved.converterType.name).toIota(value.\(storedVar.name), env: env),")

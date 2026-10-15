@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import reference_only_types
 from ._c_api import _testapi_lib
-from ._reference_only_types_type import ReferenceOnlyTypes
 from warnings import deprecated
 import fishyjoes_runtime
 import types

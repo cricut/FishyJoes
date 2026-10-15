@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import simple_enum
 from ._c_api import _testapi_lib
-from ._simple_enum_type import SimpleEnum
 from ._simple_enum_type import _BaseSimpleEnum
 from warnings import deprecated
 import fishyjoes_runtime
@@ -47,7 +46,7 @@ iota_TestAPI_SimpleEnum_resetFavoriteColor: typing.Callable[[
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_Discriminator")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_DiscriminatorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseSimpleEnum):
@@ -56,42 +55,42 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case simple_enum.Blue: return 2
         case unknown: raise ValueError(f'Unknown SimpleEnum case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedConstructor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_red(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Red(
     ))
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedExtractor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedExtractorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_red(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Red)
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenConstructor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_green(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Green(
     ))
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenExtractor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenExtractorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_green(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Green)
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueConstructor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_blue(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Blue(
     ))
 
-@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueExtractor")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueExtractorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_blue(
     obj: fishyjoes_runtime.UnownedRef,

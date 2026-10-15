@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import test_default_computed_properties_enum
 from ._c_api import _testapi_lib
-from ._test_default_computed_properties_enum_type import TestDefaultComputedPropertiesEnum
 from ._test_default_computed_properties_enum_type import _BaseTestDefaultComputedPropertiesEnum
 from warnings import deprecated
 import fishyjoes_runtime
@@ -31,21 +30,21 @@ iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam: typing.Callable[[
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_Discriminator")
+@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_DiscriminatorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseTestDefaultComputedPropertiesEnum):
         case test_default_computed_properties_enum.Qux: return 0
         case unknown: raise ValueError(f'Unknown TestDefaultComputedPropertiesEnum case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructor")
+@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_qux(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(test_default_computed_properties_enum.Qux(
     ))
 
-@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractor")
+@fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_QuxExtractorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_qux(
     obj: fishyjoes_runtime.UnownedRef,

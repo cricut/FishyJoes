@@ -97,7 +97,7 @@ class PythonPhases: IotaPhases, Phases {
         try withDirectory("bindings/python") {
             // TEMPORARY HACK
             try withDirectory("generated") {
-                try? cmd("uv", "venv", ".venv").run()
+                try? cmd("uv", "venv", ".venv", "--no-clear").run()
                 try cmd("uv", "sync", "--project", ".").run()
             }
 

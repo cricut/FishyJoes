@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._empty_struct_type import EmptyStruct
 from warnings import deprecated
 import fishyjoes_runtime
 import types
@@ -40,11 +39,11 @@ iota_TestAPI_EmptyStruct_zxccxz: typing.Callable[[
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_constructor]')
+@fishyjoes_runtime.callback('TestAPI_EmptyStruct_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
 ) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(EmptyStruct(
+    return fishyjoes_runtime.create_ref(testapi.EmptyStruct(
     ))
 
 # MARK: setup

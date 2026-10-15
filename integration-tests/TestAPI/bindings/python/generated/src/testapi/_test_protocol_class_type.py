@@ -212,7 +212,7 @@ class TestProtocolClass(fishyjoes_runtime.SwiftReference, testapi.TestMethodsPro
         self,
     ) -> int:
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return _impl.iota_TestAPI_TestProtocolClass_hash(
+            return _impl.iota_get_TestAPI_TestProtocolClass_hash(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _selfHandle,
             )

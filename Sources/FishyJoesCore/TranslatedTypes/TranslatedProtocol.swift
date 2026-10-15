@@ -640,7 +640,7 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
-        let constructorTypedefName = "\(sourceType.name)_Constructor".mangled
+        let constructorTypedefName = "\(sourceType.name)_ConstructorFn".mangled
         var typedefs = [
             "typedef created_host_ref (*\(constructorTypedefName))(consumed_swift_ref ref, created_host_ref* out_exn);"
         ]
@@ -654,8 +654,8 @@ struct TranslatedProtocol: TranslatedType {
         ]
         for field in fields {
             let resolved = context.resolve(type: field.type)
-            let getterTypedefName = "\(sourceType.name)_Get_\(upperCaseFirst(field.name))".mangled
-            let setterTypedefName = "\(sourceType.name)_Set_\(upperCaseFirst(field.name))".mangled
+            let getterTypedefName = "\(sourceType.name)_GetFn_\(upperCaseFirst(field.name))".mangled
+            let setterTypedefName = "\(sourceType.name)_SetFn_\(upperCaseFirst(field.name))".mangled
             typedefs.append(
                 "typedef \(resolved.iotaCTypes.created) (*\(getterTypedefName))(unowned_host_ref obj, created_host_ref *out_exn);"
             )
@@ -689,7 +689,7 @@ struct TranslatedProtocol: TranslatedType {
             } + [
                 (swift: "OutHostException", c: "created_host_ref *")
             ]
-            let methodTypedefName = "\(sourceType.name)_Method_\(upperCaseFirst(method.exportAnnotation.name))".mangled
+            let methodTypedefName = "\(sourceType.name)_MethodFn_\(upperCaseFirst(method.exportAnnotation.name))".mangled
             typedefs.append(
                 "typedef \(resolvedReturnType.iotaCTypes.created) (*\(methodTypedefName))" +
                     "(\(paramParts.map(\.c).joined(separator: ", ")));"
@@ -1132,7 +1132,7 @@ struct TranslatedProtocol: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
-                name: iotaExternalWitnessClassName,
+                name: "\(definingModule.pythonPackageName).\(iotaExternalWitnessClassName)",
                 mangledName: iotaExternalWitnessClassName.mangled,
                 constructor: .reference,
                 fields: externalWitnessFields,

@@ -152,7 +152,7 @@ class PythonEnumClass: PythonClass {
         }
 
         if isInhabited {
-            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_Discriminator\")")
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_DiscriminatorFn\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=0)")
             fragment.outputBlock("def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:") {
                 fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(baseDynType)):") {
@@ -167,7 +167,7 @@ class PythonEnumClass: PythonClass {
 
         for enumCase in cases {
             // case constructor
-            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))Constructor\")")
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))ConstructorFn\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def new_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 for value in enumCase.values {
@@ -188,7 +188,7 @@ class PythonEnumClass: PythonClass {
             fragment.blankLine()
 
             // case unpacker
-            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))Extractor\")")
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))ExtractorFn\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
             fragment.outputBlock("def extract_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 fragment.output("obj: fishyjoes_runtime.UnownedRef,")

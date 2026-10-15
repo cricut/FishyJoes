@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._test_methods_protocol_type import TestMethodsProtocol
 from warnings import deprecated
 import fishyjoes_runtime
 import types

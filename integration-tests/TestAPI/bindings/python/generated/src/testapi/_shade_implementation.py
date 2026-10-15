@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._shade_type import Shade
 from warnings import deprecated
 import fishyjoes_runtime
 import types
@@ -11,24 +10,24 @@ import typing
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_constructor]')
+@fishyjoes_runtime.callback('TestAPI_Shade_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
     darkness: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(Shade(
+    return fishyjoes_runtime.create_ref(testapi.Shade(
         darkness = fishyjoes_runtime.consume_ref(darkness, float),
     ))
 
-@fishyjoes_runtime.callback('TODO[getter_type]')
+@fishyjoes_runtime.callback('TestAPI_Shade_darknessGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def _ffi_get_darkness(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, Shade).darkness)
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.Shade).darkness)
 
-@fishyjoes_runtime.callback('TODO[setter_type]')
+@fishyjoes_runtime.callback('TestAPI_Shade_darknessSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def _ffi_set_darkness(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, Shade).darkness = fishyjoes_runtime.consume_ref(newValue, float)
+    fishyjoes_runtime.peek_ref(obj, testapi.Shade).darkness = fishyjoes_runtime.consume_ref(newValue, float)
 
 # MARK: setup
 

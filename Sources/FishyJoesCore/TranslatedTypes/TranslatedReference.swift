@@ -351,6 +351,15 @@ struct TranslatedReference: TranslatedType {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
+        context.iotaTranslator.declareCInterface(
+            name: iotaSetupName,
+            args: [
+                (name: "envRef", type: "fishyjoes_env"),
+                (name: "constructor", type: "FishyJoes_ReferenceConstructorFn"),
+                (name: "outExn", type: "created_host_ref *"),
+            ],
+            returnType: "void"
+        )
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef,")
@@ -389,7 +398,18 @@ struct TranslatedReference: TranslatedType {
         }
 
         if equatable {
-            fragment.output("@_cdecl(\"__iota_\(sourceType.name.mangled)_equals\")")
+            let equalsName = "__iota_\(sourceType.name.mangled)_equals"
+            context.iotaTranslator.declareCInterface(
+                name: equalsName,
+                args: [
+                    (name: "envRef", type: "fishyjoes_env"),
+                    (name: "lhs", type: "unowned_host_ref"),
+                    (name: "rhs", type: "unowned_host_ref"),
+                    (name: "outExn", type: "created_host_ref *"),
+                ],
+                returnType: "uint8_t"
+            )
+            fragment.output("@_cdecl(\"\(equalsName)\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_iotaEquals(envRef: EnvRef, lhs: HostObject, rhs: HostObject, exn: OutHostException) -> Bool.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
@@ -401,7 +421,17 @@ struct TranslatedReference: TranslatedType {
             }
         }
         if hashable {
-            fragment.output("@_cdecl(\"__iota_get_\(sourceType.name.mangled)_hash\")")
+            let hashName = "__iota_get_\(sourceType.name.mangled)_hash"
+            context.iotaTranslator.declareCInterface(
+                name: hashName,
+                args: [
+                    (name: "envRef", type: "fishyjoes_env"),
+                    (name: "this", type: "unowned_host_ref"),
+                    (name: "outExn", type: "created_host_ref *"),
+                ],
+                returnType: "int32_t"
+            )
+            fragment.output("@_cdecl(\"\(hashName)\")")
             fragment.outputBlock("public func \(sourceType.name.mangled)_iotaHash(envRef: EnvRef, this: HostObject, exn: OutHostException) -> Int32.CType {") {
                 fragment.output("let env = Env(envRef)")
                 fragment.outputBlock("return env.catching(to: exn) {") {
@@ -672,7 +702,7 @@ struct TranslatedReference: TranslatedType {
                         isStatic: false,
                         isOverride: false,
                         name: "__hash__",
-                        mangledName: "\(sourceType.name.mangled)_hash",
+                        mangledName: "get_\(sourceType.name.mangled)_hash",
                         parameters: [],
                         returnType: .int,
                         deprecation: nil,

@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._empty_class1_type import EmptyClass1
 from warnings import deprecated
 import fishyjoes_runtime
 import types
@@ -45,18 +44,18 @@ iota_TestAPI_EmptyClass_equals: typing.Callable[[
 ], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_equals'))
 
-iota_TestAPI_EmptyClass_hash: typing.Callable[[
+iota_get_TestAPI_EmptyClass_hash: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], int] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_hash'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyClass_hash'))
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_new]')
+@fishyjoes_runtime.callback('FishyJoes_ReferenceConstructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(EmptyClass1(ref))
+    return fishyjoes_runtime.create_ref(testapi.EmptyClass1(ref))
 
 # MARK: setup
 

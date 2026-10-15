@@ -1,7 +1,6 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
-from ._test_async_swift_side_functions_class_type import TestAsyncSwiftSideFunctionsClass
 from warnings import deprecated
 import fishyjoes_runtime
 import types
@@ -133,10 +132,10 @@ iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6: typing.Callable[
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_new]')
+@fishyjoes_runtime.callback('FishyJoes_ReferenceConstructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(TestAsyncSwiftSideFunctionsClass(ref))
+    return fishyjoes_runtime.create_ref(testapi.TestAsyncSwiftSideFunctionsClass(ref))
 
 # MARK: setup
 

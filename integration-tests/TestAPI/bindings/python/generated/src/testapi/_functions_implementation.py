@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import functions
 from ._c_api import _testapi_lib
-from ._functions_type import Functions
 from warnings import deprecated
 import fishyjoes_runtime
 import types

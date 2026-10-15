@@ -36,7 +36,7 @@ class Marker(fishyjoes_runtime.SwiftReference):
         self,
     ) -> int:
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return _impl.iota_TestAPI_ReferenceOnlyTypes_Marker_hash(
+            return _impl.iota_get_TestAPI_ReferenceOnlyTypes_Marker_hash(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _selfHandle,
             )

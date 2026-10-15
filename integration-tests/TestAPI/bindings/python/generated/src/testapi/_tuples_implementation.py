@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import tuples
 from ._c_api import _testapi_lib
-from ._tuples_type import Tuples
 from warnings import deprecated
 import fishyjoes_runtime
 import types

@@ -1,6 +1,5 @@
 from __future__ import annotations
 from . import _testapi_exported as testapi
-from ._a_protocol_implementation_type import AProtocolImplementation
 from ._c_api import _testapi_lib
 from warnings import deprecated
 import fishyjoes_runtime
@@ -36,36 +35,36 @@ iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2: typing.Callable
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback('TODO[ffi_constructor]')
+@fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
     foo: fishyjoes_runtime.ConsumedRef,
     baz: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(AProtocolImplementation(
+    return fishyjoes_runtime.create_ref(testapi.AProtocolImplementation(
         foo = fishyjoes_runtime.consume_ref(foo, str),
         baz = fishyjoes_runtime.consume_ref(baz, bool),
     ))
 
-@fishyjoes_runtime.callback('TODO[getter_type]')
+@fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_fooGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def _ffi_get_foo(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, AProtocolImplementation).foo)
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).foo)
 
-@fishyjoes_runtime.callback('TODO[setter_type]')
+@fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_fooSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def _ffi_set_foo(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, AProtocolImplementation).foo = fishyjoes_runtime.consume_ref(newValue, str)
+    fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).foo = fishyjoes_runtime.consume_ref(newValue, str)
 
-@fishyjoes_runtime.callback('TODO[getter_type]')
+@fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_bazGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def _ffi_get_baz(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, AProtocolImplementation).baz)
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz)
 
-@fishyjoes_runtime.callback('TODO[setter_type]')
+@fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_bazSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def _ffi_set_baz(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, AProtocolImplementation).baz = fishyjoes_runtime.consume_ref(newValue, bool)
+    fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz = fishyjoes_runtime.consume_ref(newValue, bool)
 
 # MARK: setup
 
