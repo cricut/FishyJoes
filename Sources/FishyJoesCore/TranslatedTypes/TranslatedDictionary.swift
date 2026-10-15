@@ -14,7 +14,7 @@ struct TranslatedDictionary: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let definingModule = Module.runtime
 
     init(key: TranslatedType, value: TranslatedType) {
@@ -57,7 +57,7 @@ struct TranslatedDictionary: TranslatedType {
         ]
     }
 
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
         return [
             .value(name: "typeName", type: .str) { fragment in
                 fragment.output("string_bag.utf16(\"\(converterType.name)\"),")

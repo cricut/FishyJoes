@@ -25,7 +25,7 @@ public class FishyJoesContext {
     private(set) var kotlinClasses: [KotlinClass] = []
     private(set) var cSharpClasses: [CSharpClass] = []
     private(set) var dartClasses: [DartClass] = []
-    private(set) var pythonClasses: [PythonClass2] = []
+    private(set) var pythonClasses: [PythonClass] = []
 
     let nodeTranslator = NodeTranslator()
     let kotlinTranslator = KotlinTranslator()
@@ -33,7 +33,7 @@ public class FishyJoesContext {
     let iotaTranslator = IotaTranslator()
     let cSharpTranslator = CSharpTranslator()
     let dartTranslator = DartTranslator()
-    let pythonTranslator = PythonTranslator2()
+    let pythonTranslator = PythonTranslator()
 
     lazy var translators: [Translator] = [
         nodeTranslator,
@@ -629,11 +629,11 @@ public class FishyJoesContext {
         dartTranslator.dart(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
-    func python(method: Method, of type: TranslatedType) -> PythonClass2.MethodOrVariable? {
+    func python(method: Method, of type: TranslatedType) -> PythonClass.MethodOrVariable? {
         pythonTranslator.python(method: method, of: type, context: self)
     }
 
-    func python(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> PythonClass2.MethodOrVariable? {
+    func python(field: Field, of type: TranslatedType, useNativeName: Bool = false) -> PythonClass.MethodOrVariable? {
         pythonTranslator.python(field: field, of: type, context: self, useNativeName: useNativeName)
     }
 
@@ -680,7 +680,7 @@ public class FishyJoesContext {
         cSharpClasses.append(cSharpClass)
     }
 
-    func add(pythonClass: PythonClass2) {
+    func add(pythonClass: PythonClass) {
         pythonClasses.append(pythonClass)
     }
 

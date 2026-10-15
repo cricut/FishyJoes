@@ -13,7 +13,7 @@ struct TranslatedFunction: TranslatedType {
     let jniType: JNIType
     let iotaCTypes = IotaCTypes.hostRef
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let definingModule = Module.runtime
 
     init(parameters: [TranslatedType], returnType: TranslatedType, isAsync: Bool, isThrowing: Bool) {
@@ -123,7 +123,7 @@ struct TranslatedFunction: TranslatedType {
         ]
     }
 
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
         if isAsync {
             // All of the async setup is done in the translatedFutureFunction's setup
             return []

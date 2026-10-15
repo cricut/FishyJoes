@@ -1,4 +1,4 @@
-class PythonProductClass: PythonClass2 {
+class PythonProductClass: PythonClass {
     struct Typealias {
         let name: String
         let value: PythonType

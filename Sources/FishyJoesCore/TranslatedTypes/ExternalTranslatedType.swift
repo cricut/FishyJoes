@@ -8,7 +8,7 @@ struct ExternalTranslatedType: Codable {
     var iotaCTypes: IotaCTypes
     var cSharpType: CSharpClass.CSType
     var dartType: DartClass.DartType
-    var pythonType: PythonClass2.PythonType
+    var pythonType: PythonType
     var isInhabited: Bool
     var definingModule: Module
 
@@ -22,7 +22,7 @@ struct ExternalTranslatedType: Codable {
         iotaCTypes: IotaCTypes,
         cSharpType: CSharpClass.CSType,
         dartType: DartClass.DartType,
-        pythonType: PythonClass2.PythonType,
+        pythonType: PythonType,
         isInhabited: Bool,
         definingModule: Module
     ) {

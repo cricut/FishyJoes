@@ -46,7 +46,7 @@ struct TranslatedTuple: TranslatedType {
         .named(package: "tuple", name: "Tuple\(elements.count)", genericArgs: elements.map(\.type.dartType))
     }
 
-    var pythonType: PythonClass2.PythonType {
+    var pythonType: PythonType {
         .class(module: nil, qualifiedName: "tuple", genericArgs: elements.map(\.type.pythonType.static))
     }
 
@@ -88,7 +88,7 @@ struct TranslatedTuple: TranslatedType {
         ]
     }
 
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
         return [
             .value(name: "typeName", type: .str) { fragment in
                 fragment.output("string_bag.utf16(\"\(converterType.name)\"),")

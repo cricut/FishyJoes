@@ -10,7 +10,7 @@ struct TranslatedReference: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let methods: [Method]
     let computedVariables: [Field]
     let documentation: [String]
@@ -621,7 +621,7 @@ struct TranslatedReference: TranslatedType {
         if equatable {
             fieldsAndMethods.append(
                 .method(
-                    PythonClass2.Method(
+                    PythonClass.Method(
                         documentation: [],
                         isStatic: false,
                         isOverride: false,
@@ -636,7 +636,7 @@ struct TranslatedReference: TranslatedType {
                             lines: [
                                 "if self is other: return True",
                                 "if not isinstance(other, \(pythonType.dynamicsString)): return False",
-                                "\(PythonClass2.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
+                                "\(PythonClass.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
                                 "    return _impl.iota_\(sourceType.name.mangled)_equals(",
                                 "        fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle",
                                 "    )",
@@ -647,7 +647,7 @@ struct TranslatedReference: TranslatedType {
             )
             fieldsAndMethods.append(
                 .method(
-                    PythonClass2.Method(
+                    PythonClass.Method(
                         documentation: [],
                         isStatic: true,
                         isOverride: false,
@@ -667,7 +667,7 @@ struct TranslatedReference: TranslatedType {
         if hashable {
             fieldsAndMethods.append(
                 .method(
-                    PythonClass2.Method(
+                    PythonClass.Method(
                         documentation: [],
                         isStatic: false,
                         isOverride: false,
@@ -682,7 +682,7 @@ struct TranslatedReference: TranslatedType {
             )
         }
 
-        let (fields, methods) = PythonClass2.separate(fieldsAndMethods: fieldsAndMethods)
+        let (fields, methods) = PythonClass.separate(fieldsAndMethods: fieldsAndMethods)
         let pythonProduct = PythonProductClass(
             module: context.module,
             documentation: documentation,
@@ -696,7 +696,7 @@ struct TranslatedReference: TranslatedType {
         context.add(pythonClass: pythonProduct)
     }
 
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
         let (importLine, implLocalName) = PythonNamingConventions.importImplemenationModule(for: pythonType)
         return [
             .value(

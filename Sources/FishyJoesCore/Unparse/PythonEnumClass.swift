@@ -1,4 +1,4 @@
-class PythonEnumClass: PythonClass2 {
+class PythonEnumClass: PythonClass {
     let isInhabited: Bool
     let cases: [Case]
 
@@ -9,7 +9,7 @@ class PythonEnumClass: PythonClass2 {
         let values: [(name: String, type: PythonType)]
 
         // var pythonName: String {
-        //     PythonClass2.deforbidify(upperCaseFirst(swiftName))
+        //     PythonClass.deforbidify(upperCaseFirst(swiftName))
         // }
     }
 
@@ -100,7 +100,7 @@ class PythonEnumClass: PythonClass2 {
             output(method: method, to: namespaceFragment, inClass: false)
         }
 
-        let name = PythonClass2.deforbidify(unqualifiedName, localVar: true)
+        let name = PythonClass.deforbidify(unqualifiedName, localVar: true)
         if cases.isEmpty {
             baseFragment.output("\(name): typing.TypeAlias = typing.Never")
         } else {
@@ -129,7 +129,7 @@ class PythonEnumClass: PythonClass2 {
                     fragment.output("pass")
                 } else {
                     for value in enumCase.values {
-                        fragment.output("\(PythonClass2.deforbidify(value.name, localVar: true)): \(value.type.static.name(in: self))")
+                        fragment.output("\(PythonClass.deforbidify(value.name, localVar: true)): \(value.type.static.name(in: self))")
                     }
                 }
             }
@@ -199,7 +199,7 @@ class PythonEnumClass: PythonClass2 {
             fragment.outputBlock(" -> None:") {
                 fragment.output("self = fishyjoes_runtime.peek_ref(obj, \(namespaceName).\(enumCase.pythonName))")
                 for value in enumCase.values {
-                    let memberName = PythonClass2.deforbidify(value.name, localVar: false)
+                    let memberName = PythonClass.deforbidify(value.name, localVar: false)
                     if value.type.static.isPrimitive {
                         fragment.output("out_\(value.name)[0] = self.\(memberName)")
                     } else {

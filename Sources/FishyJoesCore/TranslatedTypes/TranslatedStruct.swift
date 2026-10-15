@@ -9,7 +9,7 @@ struct TranslatedStruct: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let storedVariables: [Field]
     let computedVariables: [Field]
     let methods: [Method]
@@ -671,7 +671,7 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func registerPythonClass(context: FishyJoesContext) {
-        let (fields, methods) = PythonClass2.separate(
+        let (fields, methods) = PythonClass.separate(
             fieldsAndMethods:
                 computedVariables.compactMap {
                     context.python(field: $0, of: self, useNativeName: false)

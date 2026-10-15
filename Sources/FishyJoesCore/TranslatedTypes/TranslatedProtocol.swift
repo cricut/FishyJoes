@@ -10,7 +10,7 @@ struct TranslatedProtocol: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let definingModule: Module
     let definingTSNamespace: String?
     let isInhabited: Bool
@@ -1098,7 +1098,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func registerPythonClass(context: FishyJoesContext) {
-        let (protocolFields, protocolMethods) = PythonClass2.separate(
+        let (protocolFields, protocolMethods) = PythonClass.separate(
             fieldsAndMethods:
                 fields.compactMap {
                     context.python(field: $0, of: self, useNativeName: false)
@@ -1119,7 +1119,7 @@ struct TranslatedProtocol: TranslatedType {
             ).conforming(to: exportedConformances(in: context), context: context)
         )
 
-        let (externalWitnessFields, externalWitnessMethods) = PythonClass2.separate(
+        let (externalWitnessFields, externalWitnessMethods) = PythonClass.separate(
             fieldsAndMethods:
                 fields.compactMap {
                     context.python(field: $0, of: self, useNativeName: false)

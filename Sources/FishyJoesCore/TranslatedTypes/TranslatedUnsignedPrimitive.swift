@@ -9,7 +9,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     let iotaCTypes: IotaCTypes
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let jniType: JNIType
     var jvmToKotlin: String { ".toU\(jniType.valueType)()" }
     var kotlinToJVM: String { ".to\(jniType.valueType)()" }

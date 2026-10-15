@@ -1,29 +1,7 @@
 /// Print out PythonClasses given inputs from Swift
 ///
-/// The purpose of PythonClass2 is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
-class PythonClass2 {
-    struct PythonType: Hashable, Codable {
-        let `static`: Static
-        let `dynamics`: [Dynamic]
-
-        enum Static: Hashable, Codable {
-            case primitive(name: String)
-            indirect case callable(args: [Static], return: Static)
-            case named(module: String?, namespaces: [String], name: String, genericArgs: [Static]? = nil)
-            indirect case union(_ lhs: Static, _ rhs: Static)
-        }
-
-        struct Dynamic: Hashable, Codable {
-            let module: String?
-            let namespaces: [String]
-            let name: String
-
-            static var object: Dynamic {
-                Dynamic(module: nil, namespaces: [], name: "object")
-            }
-        }
-    }
-
+/// The purpose of PythonClass is to be a pretty printer. Logic that could be extracted elsewhere perhaps should be
+class PythonClass {
     enum MethodOrVariable {
         case method(Method)
         case variable(Variable)
@@ -36,7 +14,7 @@ class PythonClass2 {
             let type: PythonType
             let defaultValue: String?
 
-            init(labelComment: String? = nil, name: String, type: PythonClass2.PythonType, defaultValue: String? = nil) {
+            init(labelComment: String? = nil, name: String, type: PythonType, defaultValue: String? = nil) {
                 self.labelComment = labelComment
                 self.name = name
                 self.type = type
@@ -44,7 +22,7 @@ class PythonClass2 {
             }
 
             var pythonName: String {
-                PythonClass2.deforbidify(snakify(name), localVar: true)
+                PythonClass.deforbidify(snakify(name), localVar: true)
             }
         }
 
@@ -77,11 +55,11 @@ class PythonClass2 {
         }
 
         var storedName: String {
-            "\(hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(snakify(name), localVar: false))"
+            "\(hiddenStorage ? "_" : "")\(PythonClass.deforbidify(snakify(name), localVar: false))"
         }
 
         var pythonName: String {
-            PythonClass2.deforbidify(snakify(name), localVar: false)
+            PythonClass.deforbidify(snakify(name), localVar: false)
         }
     }
 
@@ -241,7 +219,7 @@ class PythonClass2 {
 
             // Keep the parameters in original order here, because the swift-side expects them in that order
             for param in method.parameters {
-                params.append((PythonClass2.deforbidify(param.name, localVar: true), param.type))
+                params.append((PythonClass.deforbidify(param.name, localVar: true), param.type))
             }
 
             result.append(
@@ -272,7 +250,7 @@ class PythonClass2 {
 
     func outputPublic(classField field: Variable, to fragment: SourceFragment) {
         precondition(!field.isStatic)
-        let name = PythonClass2.deforbidify(field.name, localVar: false)
+        let name = PythonClass.deforbidify(field.name, localVar: false)
         fragment.blankLine()
         fragment.output("@property")
         outputDecorators(for: field, to: fragment)
@@ -286,7 +264,7 @@ class PythonClass2 {
             case .implementationInSwift(let isDefault):
                 let fieldFuncName = isDefault ? "_impl.iota__default_\(field.mangledName)" : "_impl.iota_get_\(field.mangledName)"
                 let functionCall = "\(fieldFuncName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)"
-                fragment.outputBlock("\(PythonClass2.withLocalHandles([("self", "self_handle")])):") {
+                fragment.outputBlock("\(PythonClass.withLocalHandles([("self", "self_handle")])):") {
                     if field.type.static.isPrimitive {
                         fragment.output("return \(functionCall)")
                     } else {
@@ -311,7 +289,7 @@ class PythonClass2 {
                     localHandles.append((expression: "new_value", bindTo: "new_value_handle"))
                     value = "new_value_handle"
                 }
-                fragment.outputBlock("\(PythonClass2.withLocalHandles(localHandles)):") {
+                fragment.outputBlock("\(PythonClass.withLocalHandles(localHandles)):") {
                     fragment.output("_impl.iota_set_\(field.mangledName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, \(value))")
                 }
             }
@@ -375,7 +353,7 @@ class PythonClass2 {
             }
             func outputParameter(parameter: Method.Parameter) {
                 let defaultValue = parameter.defaultValue.map { " = \($0)" } ?? ""
-                fragment.output("\(PythonClass2.deforbidify(parameter.name, localVar: true)): \(parameter.type.static.name(in: inClass ? self : nil))\(defaultValue),")
+                fragment.output("\(PythonClass.deforbidify(parameter.name, localVar: true)): \(parameter.type.static.name(in: inClass ? self : nil))\(defaultValue),")
             }
 
             // put all optional parameters at the end, or python gets unhappy
@@ -406,9 +384,9 @@ class PythonClass2 {
                 // Keep the parameters in original order here, because the swift-side expects them in that order
                 for param in method.parameters {
                     if param.type.static.isPrimitive {
-                        paramStrings.append("\(PythonClass2.deforbidify(param.name, localVar: true))")
+                        paramStrings.append("\(PythonClass.deforbidify(param.name, localVar: true))")
                     } else {
-                        localHandles.append((PythonClass2.deforbidify(param.name, localVar: true), "_\(param.name)Handle"))
+                        localHandles.append((PythonClass.deforbidify(param.name, localVar: true), "_\(param.name)Handle"))
                         paramStrings.append("_\(param.name)Handle")
                     }
                 }
@@ -416,7 +394,7 @@ class PythonClass2 {
                 var wrap: (() -> Void) -> Void = { $0() }
                 if !localHandles.isEmpty {
                     wrap = { innerWriter in
-                        fragment.outputBlock("\(PythonClass2.withLocalHandles(localHandles)):") {
+                        fragment.outputBlock("\(PythonClass.withLocalHandles(localHandles)):") {
                             innerWriter()
                         }
                     }
@@ -466,247 +444,11 @@ class PythonClass2 {
         fragment.blankLine()
     }
 }
-
-extension PythonClass2.PythonType: CustomStringConvertible {
-    static func `class`(module: String?, qualifiedName: String, genericArgs: [Static]? = nil) -> Self {
-        let (namespaces, name) = PythonNamingConventions.splitIntoNamespaces(qualifiedName)
-        return .class(module: module, namespaces: namespaces, name: name, genericArgs: genericArgs)
-    }
-
-    static func `class`(module: String?, namespaces: [String], name: String, genericArgs: [Static]? = nil) -> Self {
-        return .init(
-            static: .named(module: module, namespaces: namespaces, name: name, genericArgs: genericArgs),
-            dynamics: [.init(module: module, namespaces: namespaces, name: name)]
-        )
-    }
-
-    static func union(_ lhs: Self, _ rhs: Self) -> Self {
-        .init(
-            static: .union(lhs.static, rhs.static),
-            dynamics: (lhs.dynamics + rhs.dynamics).deduplicated()
-        )
-    }
-
-    static var none: Self {
-        .init(
-            static: .none,
-            dynamics: [.init(module: "types", namespaces: [], name: "NoneType")]
-        )
-    }
-
-    static var int: Self {
-        .init(
-            static: .primitive(name: "int"),
-            dynamics: [.init(module: nil, namespaces: [], name: "int")]
-        )
-    }
-
-    static var bool: Self {
-        .init(
-            static: .primitive(name: "bool"),
-            dynamics: [.init(module: nil, namespaces: [], name: "bool")]
-        )
-    }
-
-    static var str: Self {
-        .init(
-            static: .primitive(name: "str"),
-            dynamics: [.init(module: nil, namespaces: [], name: "str")]
-        )
-    }
-
-    static var object: Self {
-        .class(module: nil, qualifiedName: "object")
-    }
-
-    static func optional(_ wrapped: Self) -> Self {
-        .union(wrapped, .none)
-    }
-
-    static func tuple(_ elements: [Self]) -> Self {
-        .init(
-            static: .named(module: nil, namespaces: [], name: "tuple", genericArgs: elements.map(\.static)),
-            dynamics: [.init(module: nil, namespaces: [], name: "tuple")]
-        )
-    }
-
-    static var TODO: Self {
-        .class(module: nil, qualifiedName: "TODO")
-    }
-
-    static func result(_ success: Self, _ failure: Self) -> Self {
-        .init(
-            static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Result", genericArgs: [success.static, failure.static]),
-            dynamics: [
-                .init(module: "fishyjoes_runtime", namespaces: ["result"], name: "Success"),
-                .init(module: "fishyjoes_runtime", namespaces: ["result"], name: "Failure"),
-            ]
-        )
-    }
-
-    static func callable(args: [Static], return: Static) -> Self {
-        .init(
-            static: .callable(args: args, return: `return`),
-            dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
-        )
-    }
-
-    static func future(_ inner: Static) -> Self {
-        .class(module: "fishyjoes_runtime", namespaces: [], name: "Future", genericArgs: [inner])
-    }
-
-    var description: String {
-        "FIXME: You should not use this, you should use one of the representations below. \(self.static.name())"
-    }
-
-    var dynamicsString: String {
-        let options = dynamics.map { dyn in
-            (dyn.module.asArray + dyn.namespaces + [dyn.name]).joined(separator: ".")
-        }
-        return options.joined(separator: ", ")
-    }
-
-    var dynamicsStringAsTuple: String {
-        dynamics.count == 1 ? "(\(dynamicsString),)" : "(\(dynamicsString))"
-    }
-
-    var metaTypeTuple: Self {
-        let typeOfSelf = Static.named(module: nil, namespaces: [], name: "type", genericArgs: [self.static])
-        // I don't think this is technically a type, but this works
-        let dots = Static.named(module: nil, namespaces: [], name: "...")
-        return .init(
-            static: .named(module: nil, namespaces: [], name: "tuple", genericArgs: [typeOfSelf, dots]),
-            dynamics: [.init(module: nil, namespaces: [], name: "tuple")]
-        )
-    }
-}
-
-extension PythonClass2.PythonType.Static {
-    var namespaces: [String] {
-        switch self {
-        case .primitive, .callable, .union:
-            return []
-        case .named(_, let namespaces, _, _):
-            return namespaces
-        }
-    }
-
-    func name(in pythonClass: PythonClass2? = nil) -> String {
-        switch self {
-        case .primitive(let name):
-            return name
-        case .callable(let args, let ret):
-            let argNames = args.map { $0.name(in: pythonClass) }
-            let retName = ret.name(in: pythonClass)
-            return "typing.Callable[[\(argNames.joined(separator: ", "))], \(retName)]"
-        case .named(let module, let namespaces, let name, let genericArgs):
-            var result = (module.asArray + namespaces + [name]).joined(separator: ".")
-            if let genericArgs = genericArgs {
-                result.append("[\(genericArgs.map { $0.name(in: pythonClass) }.joined(separator: ","))]")
-            }
-            return result
-        case .union(let lhs, let rhs):
-            return "\(lhs.name(in: pythonClass)) | \(rhs.name(in: pythonClass))"
-        }
-    }
-
-    var ffiOutCreatedType: Self {
-        isPrimitive ? .opaquePointer : .outCreatedHostRef
-    }
-
-    var ffiConsumedType: Self {
-        isPrimitive ? self : .consumedHostRef
-    }
-
-    var ffiCreatedType: Self {
-        isPrimitive ? self : .createdHostRef
-    }
-
-    var ffiUnownedType: Self {
-        isPrimitive ? self : .unownedHostRef
-    }
-
-    var ffiDefault: String {
-        switch self {
-        case .primitive("bool"): return "false"
-        case .primitive("int"): return "0"
-        case .primitive("float"): return "0.0"
-        default: return "fishyjoes_runtime.CREATED_REF_NULL"
-        }
-    }
-
-    var package: String? {
-        switch self {
-        case .named(let package, _, _, _):
-            return package
-        default:
-            return nil
-        }
-    }
-
-    var baseName: String {
-        switch self {
-        case .primitive(let name): return name
-        case .named(_, _, let name, _): return name
-        case .callable: return "Callable"
-        case .union: return "Union"
-        }
-    }
-
-    func modifyingBaseName(with modify: (String) throws -> String) rethrows -> Self {
-        switch self {
-        case .primitive(let name):
-            return .primitive(name: try modify(name))
-        case .named(let module, let namespaces, let name, let genericArgs):
-            return .named(module: module, namespaces: namespaces, name: try modify(name), genericArgs: genericArgs)
-        case .callable: fatalErr("internal error: invalid type modification")
-        case .union: fatalErr("internal error: invalid type modification")
-        }
-    }
-
-    static var none: Self { .named(module: nil, namespaces: [], name: "None") }
-
-    static func awaitable(_ inner: Self) -> Self {
-        return .named(module: "typing", namespaces: [], name: "Awaitable", genericArgs: [inner])
-    }
-
-    // NOTE: these are a bit weird types, since they're not user-visible. Only useful in limited internal places.
-    static var unownedHostRef: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "UnownedRef")
-    }
-    static var createdHostRef: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "CreatedRef")
-    }
-    static var consumedHostRef: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "ConsumedRef")
-    }
-    static var outCreatedHostRef: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "OutCreatedRef")
-    }
-    static var consumedSwiftRef: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "ConsumedSwiftRef")
-    }
-    static var opaquePointer: Self {
-        .named(module: "fishyjoes_runtime", namespaces: [], name: "Pointer" )
-    }
-
-    static var TODO: Self {
-        .named(module: nil, namespaces: [], name: "TODO")
-    }
-
-    var isPrimitive: Bool {
-        switch self {
-        case .primitive: return true
-        default: return false
-        }
-    }
-}
-
-extension PythonClass2 {
+extension PythonClass {
     func ffiFor(fields: [Variable], fragment: SourceFragment) {
         for field in fields {
             let isPrimitive = field.type.static.isPrimitive
-            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass2.deforbidify(field.name, localVar: false))"
+            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass.deforbidify(field.name, localVar: false))"
 
             fragment.output("@fishyjoes_runtime.callback('TODO[getter_type]')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
@@ -754,7 +496,7 @@ extension PythonClass2 {
             fragment.outputBlock("static \(method.returnType.static.ffiCreatedType.name()) ffi_\(method.name)(", newLineTerminated: false) {
                 fragment.output("UnownedRef obj,")
                 for param in method.parameters {
-                    fragment.output("\(param.type.static.ffiUnownedType.name()) \(PythonClass2.deforbidify(param.name, localVar: true)),")
+                    fragment.output("\(param.type.static.ffiUnownedType.name()) \(PythonClass.deforbidify(param.name, localVar: true)),")
                 }
                 fragment.output("fishyjoes_runtime.OutCreatedRef exn")
             }
@@ -790,9 +532,9 @@ extension PythonClass2 {
                     let optionalParams = method.parameters.filter { $0.defaultValue != nil }
                     fragment.outputMap(requiredParams, separator: ",", newLineTerminated: false) {
                         if $0.type.static.isPrimitive {
-                            return PythonClass2.deforbidify($0.name, localVar: true)
+                            return PythonClass.deforbidify($0.name, localVar: true)
                         } else {
-                            return "fishyjoes_runtime.peek_ref(\(PythonClass2.deforbidify($0.name, localVar: true)))"
+                            return "fishyjoes_runtime.peek_ref(\(PythonClass.deforbidify($0.name, localVar: true)))"
                         }
                     }
                     if !optionalParams.isEmpty {
@@ -801,9 +543,9 @@ extension PythonClass2 {
                         }
                         fragment.outputMap(optionalParams, separator: ",") {
                             if $0.type.static.isPrimitive {
-                                return "\(PythonClass2.deforbidify($0.name, localVar: true)): \(PythonClass2.deforbidify($0.name, localVar: true))"
+                                return "\(PythonClass.deforbidify($0.name, localVar: true)): \(PythonClass.deforbidify($0.name, localVar: true))"
                             } else {
-                                return "\(PythonClass2.deforbidify($0.name, localVar: true)): fishyjoes_runtime.consume_ref(\(PythonClass2.deforbidify($0.name, localVar: true)), \($0.type.dynamicsString))"
+                                return "\(PythonClass.deforbidify($0.name, localVar: true)): fishyjoes_runtime.consume_ref(\(PythonClass.deforbidify($0.name, localVar: true)), \($0.type.dynamicsString))"
                             }
                         }
                     } else {
@@ -823,7 +565,7 @@ extension PythonClass2 {
         }
     }
 
-    static func separate(fieldsAndMethods: [PythonClass2.MethodOrVariable]) -> ([PythonClass2.Variable], [PythonClass2.Method]) {
+    static func separate(fieldsAndMethods: [PythonClass.MethodOrVariable]) -> ([PythonClass.Variable], [PythonClass.Method]) {
         let fields: [Variable] = fieldsAndMethods.compactMap {
             guard case let .variable(field) = $0 else {
                 return nil
@@ -985,7 +727,7 @@ extension PythonClass2 {
         return "with fishyjoes_runtime.local_handles(\(expressions)) as (\(bindings))"
     }
 
-    func outputDecorators(for decorable: PythonClass2.Decorable, to fragment: SourceFragment) {
+    func outputDecorators(for decorable: PythonClass.Decorable, to fragment: SourceFragment) {
         if let deprecation = decorable.deprecation {
             fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
         }
@@ -995,15 +737,15 @@ extension PythonClass2 {
     }
 }
 
-extension PythonClass2 {
+extension PythonClass {
     protocol Decorable {
         var deprecation: Deprecation? { get }
         var isOverride: Bool { get }
     }
 }
 
-extension PythonClass2.MemberImplementationKind: Comparable {
-    static func < (lhs: PythonClass2.MemberImplementationKind, rhs: PythonClass2.MemberImplementationKind) -> Bool {
+extension PythonClass.MemberImplementationKind: Comparable {
+    static func < (lhs: PythonClass.MemberImplementationKind, rhs: PythonClass.MemberImplementationKind) -> Bool {
         // Why does swift make Comparable so difficult?
         switch (lhs, rhs) {
         case (.explicitBody(let lLines), .explicitBody(let rLines)):

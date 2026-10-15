@@ -11,6 +11,6 @@ struct TranslatedVoid: TranslatedType {
     let iotaCTypes = IotaCTypes(created: "void", consumed: "void", unowned: "void")
     var cSharpType: CSharpClass.CSType = .unit
     var dartType: DartClass.DartType = .void
-    let pythonType: PythonClass2.PythonType = .none
+    let pythonType: PythonType = .none
     let definingModule = Module.runtime
 }

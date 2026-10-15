@@ -21,11 +21,11 @@ extension TranslatedEnum {
         return lines
     }
 
-    static let enumDiscriminatorTagType: PythonClass2.PythonType =
+    static let enumDiscriminatorTagType: PythonType =
         .callable(args: [.unownedHostRef, .outCreatedHostRef], return: .primitive(name: "int"))
 
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] {
-        var parameters: [ForeignSetupParameter<PythonClass2.PythonType>] = []
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
+        var parameters: [ForeignSetupParameter<PythonType>] = []
 
         let (importLine, implLocalName) = PythonNamingConventions.importImplemenationModule(for: pythonType)
 
@@ -65,8 +65,8 @@ extension TranslatedEnum {
         return parameters
     }
 
-    func pythonClass(context: FishyJoesContext) -> PythonClass2 {
-        let (fields, methods) = PythonClass2.separate(
+    func pythonClass(context: FishyJoesContext) -> PythonClass {
+        let (fields, methods) = PythonClass.separate(
             fieldsAndMethods:
                 fields.compactMap {
                     context.python(field: $0, of: self, useNativeName: false)
@@ -99,10 +99,10 @@ extension TranslatedEnum {
 
 extension TranslatedEnum.Case {
     var pythonUnqualifiedName: String {
-        PythonClass2.deforbidify(upperCaseFirst(name), localVar: false)
+        PythonClass.deforbidify(upperCaseFirst(name), localVar: false)
     }
 
-    func pythonType(inModule module: String, enumNamespace: [String], enumName: String) -> PythonClass2.PythonType {
+    func pythonType(inModule module: String, enumNamespace: [String], enumName: String) -> PythonType {
         .class(
             module: module,
             namespaces: enumNamespace + [snakify(enumName)],

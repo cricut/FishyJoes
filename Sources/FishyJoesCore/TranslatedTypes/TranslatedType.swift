@@ -24,7 +24,7 @@ protocol TranslatedType {
     var iotaCTypes: IotaCTypes { get }
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
-    var pythonType: PythonClass2.PythonType { get }
+    var pythonType: PythonType { get }
     var definingModule: Module { get }
     var definingTSNamespace: String? { get }
     var isInhabited: Bool { get }
@@ -34,7 +34,7 @@ protocol TranslatedType {
     func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String]
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>]
     func dartSetupTypeAliases(in context: FishyJoesContext) -> [String]
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>]
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>]
     func pythonSetupTypeAliases(in context: FishyJoesContext) -> [String]
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
@@ -99,7 +99,7 @@ extension TranslatedType {
     func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] { [] }
     func dartSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
-    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>] { [] }
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] { [] }
     func pythonSetupTypeAliases(in context: FishyJoesContext) -> [String] { [] }
 
     var iotaSetupName: String {

@@ -9,7 +9,7 @@ struct TranslatedURL: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType = .named(package: "System", name: "Uri")
     let dartType: DartClass.DartType = .named(package: nil, name: "Uri")
-    let pythonType: PythonClass2.PythonType = .str
+    let pythonType: PythonType = .str
     let containedNamedTypes: [TranslatedType] = []
     let definingModule = Module.runtime
 }

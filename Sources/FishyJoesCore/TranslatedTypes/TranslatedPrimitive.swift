@@ -10,7 +10,7 @@ struct TranslatedPrimitive: TranslatedType {
     let iotaCTypes: IotaCTypes
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
-    let pythonType: PythonClass2.PythonType
+    let pythonType: PythonType
     let definingModule = Module.runtime
 
     init(

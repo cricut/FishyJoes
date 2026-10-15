@@ -1,7 +1,7 @@
 import Foundation
 import SourceryDataModel
 
-final class PythonTranslator2: Translator {
+final class PythonTranslator: Translator {
     required init() {}
 
     func moduleRegisterTypesFn(context: FishyJoesContext) -> String {
@@ -177,10 +177,10 @@ final class PythonTranslator2: Translator {
         return [typeSetupFragment, cAPIFragment, internalExportedFragment, cDeclarationsFragment] + initFragments.values
     }
 
-    func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass2.MethodOrVariable? {
+    func python(method: Method, of type: TranslatedType, context: FishyJoesContext) -> PythonClass.MethodOrVariable? {
         let exportAnnotation = method.exportAnnotation
         var omitParameters = Set(exportAnnotation.omitParameters)
-        var parameters: [PythonClass2.Method.Parameter] = []
+        var parameters: [PythonClass.Method.Parameter] = []
         for parameter in method.parameters {
             if omitParameters.contains(parameter.name) {
                 precondition(parameter.defaultValue != nil, "Can't omit non-default parameter")
@@ -206,11 +206,11 @@ final class PythonTranslator2: Translator {
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides).pythonType
 
         return .method(
-            PythonClass2.Method(
+            PythonClass.Method(
                 documentation: method.documentation,
                 isStatic: method.isStatic,
                 isOverride: method.exportAnnotation.isOverride,
-                name: exportAnnotation.pythonName ?? PythonClass2.deforbidify(snakify(exportAnnotation.name), localVar: true),
+                name: exportAnnotation.pythonName ?? PythonClass.deforbidify(snakify(exportAnnotation.name), localVar: true),
                 mangledName: "\(type.mangledName)_\(exportAnnotation.name.mangled)",
                 parameters: parameters,
                 returnType: method.isAsync ? .future(returnType.static) : returnType,
@@ -220,7 +220,7 @@ final class PythonTranslator2: Translator {
         )
     }
 
-    func python(field: Field, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> PythonClass2.MethodOrVariable? {
+    func python(field: Field, of type: TranslatedType, context: FishyJoesContext, useNativeName: Bool = false) -> PythonClass.MethodOrVariable? {
         let pythonName: String
         let mangledName: String
         var asMethod = false
@@ -229,19 +229,19 @@ final class PythonTranslator2: Translator {
             guard field.exportAnnotation == nil else {
                 fatalErr("field \(field.name) should not be annotated, as it's in a type being exported memberwise")
             }
-            pythonName = PythonClass2.deforbidify(snakify(field.name), localVar: false)
+            pythonName = PythonClass.deforbidify(snakify(field.name), localVar: false)
             mangledName = field.name.mangled
         } else {
             guard let exportAnnotation = field.exportAnnotation else {
                 return nil
             }
             asMethod = exportAnnotation.kind == .asMethod
-            pythonName = exportAnnotation.pythonName ?? PythonClass2.deforbidify(snakify(exportAnnotation.name), localVar: false)
+            pythonName = exportAnnotation.pythonName ?? PythonClass.deforbidify(snakify(exportAnnotation.name), localVar: false)
             mangledName = exportAnnotation.name.mangled
         }
         let resolved = context.resolve(type: field.type)
         return .variable(
-            PythonClass2.Variable(
+            PythonClass.Variable(
                 documentation: field.documentation,
                 isStatic: field.isStatic,
                 isOverride: field.exportAnnotation?.isOverride ?? false,
@@ -257,10 +257,10 @@ final class PythonTranslator2: Translator {
         )
     }
 
-    func conform(_ pythonClass: PythonClass2, to translatedProtocol: TranslatedProtocol, context: FishyJoesContext) {
+    func conform(_ pythonClass: PythonClass, to translatedProtocol: TranslatedProtocol, context: FishyJoesContext) {
         pythonClass.conformances.insert(translatedProtocol.pythonType)
 
-        var protoDefs: [OverrideSignature: PythonClass2.MethodOrVariable] = [:]
+        var protoDefs: [OverrideSignature: PythonClass.MethodOrVariable] = [:]
         for method in translatedProtocol.methods {
             if let pythonMethod = context.python(method: method, of: translatedProtocol) {
                 protoDefs[OverrideSignature(pythonMethod)] = pythonMethod
@@ -334,8 +334,8 @@ final class PythonTranslator2: Translator {
     }
 }
 
-extension PythonClass2 {
-    func conforming(to protocols: [TranslatedProtocol], context: FishyJoesContext) -> PythonClass2 {
+extension PythonClass {
+    func conforming(to protocols: [TranslatedProtocol], context: FishyJoesContext) -> PythonClass {
         protocols.reduce(into: self) { pyClass, proto in
             context.pythonTranslator.conform(pyClass, to: proto, context: context)
         }
@@ -345,9 +345,9 @@ extension PythonClass2 {
 private struct OverrideSignature: Hashable {
     let isStatic: Bool
     let name: String
-    let parameters: [PythonClass2.PythonType]?
-    let returnType: PythonClass2.PythonType
-    init(_ methodOrVar: PythonClass2.MethodOrVariable) {
+    let parameters: [PythonType]?
+    let returnType: PythonType
+    init(_ methodOrVar: PythonClass.MethodOrVariable) {
         switch methodOrVar {
         case .method(let method):
             isStatic = method.isStatic

@@ -1,4 +1,4 @@
-class PythonProtocolClass: PythonClass2 {
+class PythonProtocolClass: PythonClass {
     override func publicFragments(context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.pythonFragment(
             typeDefinitionModulePath,
@@ -110,7 +110,7 @@ class PythonProtocolClass: PythonClass2 {
         //         fragment.outputBlock("\(method.returnType.name(in: self)) \(method.name)(", closeWith: ")", newLineTerminated: false) {
         //             func argumentString(parameter: Method.Parameter) -> String {
         //                 let labelComment = parameter.labelComment.map { "/* \($0) */ " } ?? ""
-        //                 return "\(parameter.type.name(in: self)) \(labelComment)\(PythonClass2.deforbidify(parameter.name))"
+        //                 return "\(parameter.type.name(in: self)) \(labelComment)\(PythonClass.deforbidify(parameter.name))"
         //             }
 
         //             // put all optional parameters at the end, or python gets unhappy
@@ -145,12 +145,12 @@ class PythonProtocolClass: PythonClass2 {
         //                     let oldWrap = wrap
         //                     wrap = { body in
         //                         oldWrap {
-        //                             fragment.outputBlock("GCRef.using(\(PythonClass2.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
+        //                             fragment.outputBlock("GCRef.using(\(PythonClass.deforbidify(param.name)), (_\(param.name)Handle) =>", closeWith: ")", body)
         //                         }
         //                     }
         //                     paramStrings.append("_\(param.name)Handle.ptr")
         //                 } else {
-        //                     paramStrings.append("\(PythonClass2.deforbidify(param.name))")
+        //                     paramStrings.append("\(PythonClass.deforbidify(param.name))")
         //                 }
         //             }
         //             paramStrings.append("_exn")
@@ -223,8 +223,8 @@ class PythonProtocolClass: PythonClass2 {
         return [fragment]
     }
 
-    // override var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: PythonClass2.MemberImplementationKind)] {
-        // let result: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: PythonClass2.MemberImplementationKind)] = [:]
+    // override var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: PythonClass.MemberImplementationKind)] {
+        // let result: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: PythonClass.MemberImplementationKind)] = [:]
 
         // let thisArg = ("_this", PythonType.named(package: module.pythonNamespace, name: name))
 

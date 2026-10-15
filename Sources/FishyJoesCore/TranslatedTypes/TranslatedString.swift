@@ -10,6 +10,6 @@ struct TranslatedString: TranslatedType {
     let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType = .named(package: nil, name: "string")
     let dartType: DartClass.DartType = .named(package: nil, name: "String")
-    let pythonType: PythonClass2.PythonType = .class(module: nil, qualifiedName: "str")
+    let pythonType: PythonType = .class(module: nil, qualifiedName: "str")
     let definingModule = Module.runtime
 }

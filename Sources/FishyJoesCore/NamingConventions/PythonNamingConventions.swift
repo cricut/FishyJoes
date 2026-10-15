@@ -32,7 +32,7 @@ public enum PythonNamingConventions {
 
     /// Generate an import line like `from .name.spaced import the_type_implementation as _name_spaced_the_type_impl`
     static func importImplemenationModule(
-        for pythonType: PythonClass2.PythonType
+        for pythonType: PythonType
     ) -> (importLine: String, localName: String) {
         let implImportPath = "." + pythonType.static.namespaces.joined(separator: ".")
         let localName = "_\(pythonType.static.name().replacingOccurrences(of: ".", with: "_"))_impl"
