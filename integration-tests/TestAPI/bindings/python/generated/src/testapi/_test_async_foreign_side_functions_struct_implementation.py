@@ -9,13 +9,6 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6'))
-
 iota_TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -77,6 +70,13 @@ iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_witness'))
+
+iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncForeignSideFunctionsStruct_defaultExercise6'))
 
 # MARK: C callback implementations
 

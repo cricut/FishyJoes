@@ -17,6 +17,7 @@ class PythonProductClass: PythonClass2 {
         documentation: [String],
         namespaces: [String],
         name: String,
+        mangledName: String,
         constructor: Constructor,
         fields: [Variable],
         methods: [Method],
@@ -30,6 +31,7 @@ class PythonProductClass: PythonClass2 {
             documentation: documentation,
             namespaces: namespaces,
             name: name,
+            mangledName: mangledName,
             fields: fields,
             methods: methods,
             conformances: conformances

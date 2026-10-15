@@ -9,23 +9,6 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_EmptyStruct_aap: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_aap'))
-
-iota_TestAPI_EmptyStruct_create: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_create'))
-
-iota_TestAPI_EmptyStruct_zxccxz: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_zxccxz'))
-
 iota_get_TestAPI_EmptyStruct_tatiana: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -37,6 +20,23 @@ iota_get_TestAPI_EmptyStruct_tutu: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyStruct_tutu'))
+
+iota_TestAPI_EmptyStruct_create: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_create'))
+
+iota_TestAPI_EmptyStruct_aap: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_aap'))
+
+iota_TestAPI_EmptyStruct_zxccxz: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyStruct_zxccxz'))
 
 # MARK: C callback implementations
 

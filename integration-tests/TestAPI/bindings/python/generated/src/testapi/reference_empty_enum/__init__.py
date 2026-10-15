@@ -14,7 +14,7 @@ __all__: list[str] = [
 
 def get_a_static_property() -> int:
     """<!-- FishyJoes.export(aStaticProperty) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ReferenceEmptyEnum_a_static_property(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ReferenceEmptyEnum_aStaticProperty(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def not_going_to_happen(
 ) -> testapi.ReferenceEmptyEnum:

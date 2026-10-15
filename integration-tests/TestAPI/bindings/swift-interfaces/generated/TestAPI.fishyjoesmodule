@@ -33,6 +33,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -106,6 +111,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -181,6 +191,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -248,6 +263,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -322,6 +342,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -432,6 +457,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -499,6 +529,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : false,
       "jniType" : {
@@ -568,6 +603,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -636,6 +676,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -703,6 +748,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -778,6 +828,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -846,6 +901,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -913,6 +973,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -988,6 +1053,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -1062,6 +1132,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -1129,6 +1204,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -1204,6 +1284,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -1277,6 +1362,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -1352,6 +1442,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -1419,6 +1514,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -1494,6 +1594,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -1568,6 +1673,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -1635,6 +1745,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -1710,6 +1825,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -1777,6 +1897,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : false,
       "jniType" : {
@@ -1846,6 +1971,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -1913,6 +2043,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2009,6 +2144,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -2077,6 +2217,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -2144,6 +2289,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2219,6 +2369,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -2286,6 +2441,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2361,6 +2521,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -2434,6 +2599,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2515,6 +2685,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2604,6 +2779,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -2672,6 +2852,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -2739,6 +2924,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2814,6 +3004,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -2887,6 +3082,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -2962,6 +3162,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3035,6 +3240,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3110,6 +3320,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3183,6 +3398,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3258,6 +3478,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3331,6 +3556,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3406,6 +3636,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3479,6 +3714,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3554,6 +3794,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3627,6 +3872,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3702,6 +3952,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3775,6 +4030,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3850,6 +4110,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -3923,6 +4188,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -3998,6 +4268,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -4071,6 +4346,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -4146,6 +4426,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -4219,6 +4504,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -4294,6 +4584,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -4367,6 +4662,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -4442,6 +4742,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : true,
       "jniType" : {
         "object" : {
@@ -4515,6 +4820,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {
@@ -4590,6 +4900,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -4658,6 +4973,11 @@
         ],
         "name" : "TestAPI"
       },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
       "isInhabited" : false,
       "jniType" : {
         "object" : {
@@ -4725,6 +5045,11 @@
 
         ],
         "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
       },
       "isInhabited" : true,
       "jniType" : {

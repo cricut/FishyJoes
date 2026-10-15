@@ -47,7 +47,7 @@ class CollectionHolder:
     @staticmethod
     def get_static_mutable_property() -> list[int | None]:
         """<!-- FishyJoes.export(staticMutableProperty) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_CollectionHolder_static_mutable_property(fishyjoes_runtime.Runtime.shared.env_ref), list)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
     @staticmethod
     def set_static_mutable_property(new_value: list[int | None]) -> None: ...
@@ -55,4 +55,4 @@ class CollectionHolder:
     @staticmethod
     def get_static_property() -> list[int | None]:
         """<!-- FishyJoes.export(staticProperty) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_CollectionHolder_static_property(fishyjoes_runtime.Runtime.shared.env_ref), list)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_CollectionHolder_staticProperty(fishyjoes_runtime.Runtime.shared.env_ref), list)

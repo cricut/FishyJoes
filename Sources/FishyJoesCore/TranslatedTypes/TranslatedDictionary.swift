@@ -11,6 +11,7 @@ struct TranslatedDictionary: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Map")
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -68,19 +69,5 @@ struct TranslatedDictionary: TranslatedType {
                 fragment.output("\(valueType.pythonType.dynamicsStringAsTuple),")
             },
         ]
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let key = keyType.pythonRepresentation(in: context.recursingIntoChild()),
-              let value = valueType.pythonRepresentation(in: context.recursingIntoChild()),
-              let keyConversion = key.conversionDescriptor,
-              let valueConversion = value.conversionDescriptor else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: .container("dict", [key.annotation, value.annotation]),
-            cType: "HostObject",
-            conversion: "_native.Dictionary(\"\(converterType.name)\", \(keyConversion), \(valueConversion))"
-        )
     }
 }

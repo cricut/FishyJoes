@@ -9,7 +9,7 @@ import typing
 @deprecated("replace with `deprecatedMethod` (This is the swift name of the replacement function, due to technical limitations)")
 def get_deprecated_variable() -> int:
     """<!-- FishyJoes.export(deprecatedVariable) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Deprecations_deprecated_variable(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Deprecations_deprecatedVariable(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 @deprecated("don't use this")
 def deprecated_method(

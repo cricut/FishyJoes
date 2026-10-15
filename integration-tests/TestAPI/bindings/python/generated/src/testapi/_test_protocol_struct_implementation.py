@@ -9,6 +9,18 @@ import typing
 
 # MARK: C APIs
 
+iota_get_TestAPI_TestProtocolStruct_frobby: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestProtocolStruct_frobby'))
+
+iota_TestAPI_TestProtocolStruct_foo: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_foo'))
+
 iota_TestAPI_TestProtocolStruct_bar: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -22,25 +34,12 @@ iota_TestAPI_TestProtocolStruct_baz: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_baz'))
 
-iota_TestAPI_TestProtocolStruct_foo: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_foo'))
-
 iota_TestAPI_TestProtocolStruct_garply: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_garply'))
-
-iota_TestAPI_TestProtocolStruct_plugh: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_plugh'))
 
 iota_TestAPI_TestProtocolStruct_xyzzy: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -50,11 +49,12 @@ iota_TestAPI_TestProtocolStruct_xyzzy: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_xyzzy'))
 
-iota_get_TestAPI_TestProtocolStruct_frobby: typing.Callable[[
+iota_TestAPI_TestProtocolStruct_plugh: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestProtocolStruct_frobby'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolStruct_plugh'))
 
 # MARK: C callback implementations
 

@@ -14,7 +14,7 @@ class TestAsyncSwiftSideFunctionsClass(fishyjoes_runtime.SwiftReference, testapi
     def add3_things(self) -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
         """<!-- FishyJoes.export(add3Things) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3_things(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     @typing.override
@@ -28,7 +28,7 @@ class TestAsyncSwiftSideFunctionsClass(fishyjoes_runtime.SwiftReference, testapi
     def fifth_thing(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
         """<!-- FishyJoes.export(fifthThing) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifth_thing(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     @typing.override
@@ -42,14 +42,14 @@ class TestAsyncSwiftSideFunctionsClass(fishyjoes_runtime.SwiftReference, testapi
     def int_compose(self) -> typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]:
         """<!-- FishyJoes.export(intCompose) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_int_compose(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     @typing.override
     def make_list(self) -> typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]:
         """<!-- FishyJoes.export(makeList) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_make_list(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     @typing.override
@@ -63,7 +63,7 @@ class TestAsyncSwiftSideFunctionsClass(fishyjoes_runtime.SwiftReference, testapi
     def will_throw(self) -> typing.Callable[[], typing.Awaitable[int]]:
         """<!-- FishyJoes.export(willThrow) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_will_throw(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @typing.override
     def exercise0(

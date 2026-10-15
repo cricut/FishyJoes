@@ -10,16 +10,6 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_Tuples_checkTuples: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Tuples_checkTuples'))
-
 iota_get_TestAPI_Tuples_tuple2: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
@@ -45,13 +35,17 @@ iota_get_TestAPI_Tuples_tuple6: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Tuples_tuple6'))
 
-# MARK: C callback implementations
+iota_TestAPI_Tuples_checkTuples: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Tuples_checkTuples'))
 
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown Tuples case "{unknown})". Enums are not meant to be extended.')
+# MARK: C callback implementations
 
 # MARK: setup
 

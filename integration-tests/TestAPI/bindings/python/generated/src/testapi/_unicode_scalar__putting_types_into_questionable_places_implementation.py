@@ -19,21 +19,21 @@ iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall: typing.Cal
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("EnumDiscriminator")
+@fishyjoes_runtime.callback("Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_Discriminator")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces):
         case unicode_scalar__putting_types_into_questionable_places.Thing: return 0
         case unknown: raise ValueError(f'Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_thing(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(unicode_scalar__putting_types_into_questionable_places.Thing(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_thing(
     obj: fishyjoes_runtime.UnownedRef,

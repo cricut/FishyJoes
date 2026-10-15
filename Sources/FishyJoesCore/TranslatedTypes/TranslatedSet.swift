@@ -10,6 +10,7 @@ struct TranslatedSet: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlin.collections"
     let jniType = JNIType.object("java/util/Set")
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -57,17 +58,5 @@ struct TranslatedSet: TranslatedType {
                 fragment.output("\(elementType.pythonType.dynamicsStringAsTuple),")
             },
         ]
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let element = elementType.pythonRepresentation(in: context.recursingIntoChild()),
-              let elementConversion = element.conversionDescriptor else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: .container("set", [element.annotation]),
-            cType: "HostObject",
-            conversion: "_native.Set(\"\(converterType.name)\", \(elementConversion))"
-        )
     }
 }

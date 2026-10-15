@@ -10,6 +10,46 @@ import typing
 
 # MARK: C APIs
 
+iota_get_TestAPI_AsyncFunctions_add3Things: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_add3Things'))
+
+iota_get_TestAPI_AsyncFunctions_const42: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_const42'))
+
+iota_get_TestAPI_AsyncFunctions_fifthThing: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_fifthThing'))
+
+iota_get_TestAPI_AsyncFunctions_abs: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_abs'))
+
+iota_get_TestAPI_AsyncFunctions_intCompose: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_intCompose'))
+
+iota_get_TestAPI_AsyncFunctions_makeList: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_makeList'))
+
+iota_get_TestAPI_AsyncFunctions_sixthThing: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_sixthThing'))
+
+iota_get_TestAPI_AsyncFunctions_willThrow: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_willThrow'))
+
 iota_TestAPI_AsyncFunctions_delayedConst: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -64,53 +104,7 @@ iota_TestAPI_AsyncFunctions_thunkTwiceMaker: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AsyncFunctions_thunkTwiceMaker'))
 
-iota_get_TestAPI_AsyncFunctions_abs: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_abs'))
-
-iota_get_TestAPI_AsyncFunctions_add3_things: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_add3_things'))
-
-iota_get_TestAPI_AsyncFunctions_const42: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_const42'))
-
-iota_get_TestAPI_AsyncFunctions_fifth_thing: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_fifth_thing'))
-
-iota_get_TestAPI_AsyncFunctions_int_compose: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_int_compose'))
-
-iota_get_TestAPI_AsyncFunctions_make_list: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_make_list'))
-
-iota_get_TestAPI_AsyncFunctions_sixth_thing: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_sixth_thing'))
-
-iota_get_TestAPI_AsyncFunctions_will_throw: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AsyncFunctions_will_throw'))
-
 # MARK: C callback implementations
-
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown AsyncFunctions case "{unknown})". Enums are not meant to be extended.')
 
 # MARK: setup
 

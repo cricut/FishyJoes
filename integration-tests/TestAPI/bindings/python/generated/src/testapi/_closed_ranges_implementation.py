@@ -10,53 +10,76 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_ClosedRanges_echoDoubleRange: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_doubleRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoDoubleRange'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_doubleRange'))
 
-iota_TestAPI_ClosedRanges_echoFloatRange: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_floatRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoFloatRange'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_floatRange'))
 
-iota_TestAPI_ClosedRanges_echoInt16Range: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_int16Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt16Range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int16Range'))
 
-iota_TestAPI_ClosedRanges_echoInt32Range: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_int32Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt32Range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int32Range'))
 
-iota_TestAPI_ClosedRanges_echoInt64Range: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_int64Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt64Range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int64Range'))
 
-iota_TestAPI_ClosedRanges_echoInt8Range: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_int8Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt8Range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int8Range'))
 
-iota_TestAPI_ClosedRanges_echoIntRange: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_intRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoIntRange'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_intRange'))
 
-iota_TestAPI_ClosedRanges_echoStringRange: typing.Callable[[
+iota_get_TestAPI_ClosedRanges_stringRange: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_stringRange'))
+
+iota_get_TestAPI_ClosedRanges_uInt16Range: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uInt16Range'))
+
+iota_get_TestAPI_ClosedRanges_uInt32Range: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uInt32Range'))
+
+iota_get_TestAPI_ClosedRanges_uInt64Range: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uInt64Range'))
+
+iota_get_TestAPI_ClosedRanges_uInt8Range: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uInt8Range'))
+
+iota_get_TestAPI_ClosedRanges_uIntRange: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uIntRange'))
+
+iota_TestAPI_ClosedRanges_echoUInt8Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoStringRange'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoUInt8Range'))
 
 iota_TestAPI_ClosedRanges_echoUInt16Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -76,90 +99,61 @@ iota_TestAPI_ClosedRanges_echoUInt64Range: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoUInt64Range'))
 
-iota_TestAPI_ClosedRanges_echoUInt8Range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoUInt8Range'))
-
 iota_TestAPI_ClosedRanges_echoUIntRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoUIntRange'))
 
-iota_get_TestAPI_ClosedRanges_double_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoInt8Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_double_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt8Range'))
 
-iota_get_TestAPI_ClosedRanges_float_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoInt16Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_float_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt16Range'))
 
-iota_get_TestAPI_ClosedRanges_int16_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoInt32Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int16_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt32Range'))
 
-iota_get_TestAPI_ClosedRanges_int32_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoInt64Range: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int32_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoInt64Range'))
 
-iota_get_TestAPI_ClosedRanges_int64_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoIntRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int64_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoIntRange'))
 
-iota_get_TestAPI_ClosedRanges_int8_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoFloatRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int8_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoFloatRange'))
 
-iota_get_TestAPI_ClosedRanges_int_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoDoubleRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_int_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoDoubleRange'))
 
-iota_get_TestAPI_ClosedRanges_string_range: typing.Callable[[
+iota_TestAPI_ClosedRanges_echoStringRange: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_string_range'))
-
-iota_get_TestAPI_ClosedRanges_uint16_range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uint16_range'))
-
-iota_get_TestAPI_ClosedRanges_uint32_range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uint32_range'))
-
-iota_get_TestAPI_ClosedRanges_uint64_range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uint64_range'))
-
-iota_get_TestAPI_ClosedRanges_uint8_range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uint8_range'))
-
-iota_get_TestAPI_ClosedRanges_uint_range: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ClosedRanges_uint_range'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ClosedRanges_echoStringRange'))
 
 # MARK: C callback implementations
-
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown ClosedRanges case "{unknown})". Enums are not meant to be extended.')
 
 # MARK: setup
 

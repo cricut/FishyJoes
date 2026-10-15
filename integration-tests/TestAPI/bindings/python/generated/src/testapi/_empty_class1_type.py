@@ -21,7 +21,7 @@ class EmptyClass1(fishyjoes_runtime.SwiftReference):
     def wibbledy_wobbledy_timey_whimey(self) -> str:
         """<!-- FishyJoes.export(wibbledyWobbledyTimeyWhimey) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_EmptyClass_wibbledy_wobbledy_timey_whimey(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
 
     @staticmethod
     def create(

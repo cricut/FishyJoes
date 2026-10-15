@@ -6,6 +6,7 @@ struct TranslatedStruct: TranslatedType {
     let kotlinName: String
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -44,17 +45,6 @@ struct TranslatedStruct: TranslatedType {
 
         self.conformances = Set(type.implements.map(\.better))
         self.hashable = type.hashable
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard context.canGenerateValueType(self) else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "HostObject",
-            conversion: context.pythonValueTypeDescriptor(for: self)
-        )
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -696,6 +686,7 @@ struct TranslatedStruct: TranslatedType {
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
                 name: pythonType.static.name(),
+                mangledName: sourceType.name.mangled,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {
                         switch context.python(field: $0, of: self, useNativeName: true) {

@@ -11,27 +11,16 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_SimpleEnum_hexMethod: typing.Callable[[
+iota_get_TestAPI_SimpleEnum_favoriteColor: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_SimpleEnum_favoriteColor'))
+
+iota_set_TestAPI_SimpleEnum_favoriteColor: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_hexMethod'))
-
-iota_TestAPI_SimpleEnum_pickAColor: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_pickAColor'))
-
-iota_TestAPI_SimpleEnum_resetFavoriteColor: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_resetFavoriteColor'))
-
-iota_get_TestAPI_SimpleEnum_favorite_color: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_SimpleEnum_favorite_color'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_SimpleEnum_favoriteColor'))
 
 iota_get_TestAPI_SimpleEnum_hex: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -39,15 +28,26 @@ iota_get_TestAPI_SimpleEnum_hex: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_SimpleEnum_hex'))
 
-iota_set_TestAPI_SimpleEnum_favorite_color: typing.Callable[[
+iota_TestAPI_SimpleEnum_pickAColor: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_SimpleEnum_favorite_color'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_pickAColor'))
+
+iota_TestAPI_SimpleEnum_hexMethod: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_hexMethod'))
+
+iota_TestAPI_SimpleEnum_resetFavoriteColor: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_resetFavoriteColor'))
 
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("EnumDiscriminator")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_Discriminator")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseSimpleEnum):
@@ -56,42 +56,42 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case simple_enum.Blue: return 2
         case unknown: raise ValueError(f'Unknown SimpleEnum case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_red(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Red(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_red(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Red)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_green(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Green(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_GreenExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_green(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Green)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_blue(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(simple_enum.Blue(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_SimpleEnum_BlueExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_blue(
     obj: fishyjoes_runtime.UnownedRef,

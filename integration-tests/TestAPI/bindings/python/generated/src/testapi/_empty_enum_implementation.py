@@ -10,28 +10,22 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_EmptyEnum_aStaticMethod: typing.Callable[[
+iota_get_TestAPI_EmptyEnum_aStaticProperty: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyEnum_aStaticMethod'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyEnum_aStaticProperty'))
 
 iota_TestAPI_EmptyEnum_notGoingToHappen: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyEnum_notGoingToHappen'))
 
-iota_get_TestAPI_EmptyEnum_a_static_property: typing.Callable[[
+iota_TestAPI_EmptyEnum_aStaticMethod: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyEnum_a_static_property'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyEnum_aStaticMethod'))
 
 # MARK: C callback implementations
-
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown EmptyEnum case "{unknown})". Enums are not meant to be extended.')
 
 # MARK: setup
 

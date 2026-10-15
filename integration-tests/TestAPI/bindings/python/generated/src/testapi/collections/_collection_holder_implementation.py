@@ -9,21 +9,21 @@ import typing
 
 # MARK: C APIs
 
-iota_get_TestAPI_Collections_CollectionHolder_static_mutable_property: typing.Callable[[
+iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Collections_CollectionHolder_static_mutable_property'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Collections_CollectionHolder_staticMutableProperty'))
 
-iota_get_TestAPI_Collections_CollectionHolder_static_property: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Collections_CollectionHolder_static_property'))
-
-iota_set_TestAPI_Collections_CollectionHolder_static_mutable_property: typing.Callable[[
+iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Collections_CollectionHolder_static_mutable_property'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Collections_CollectionHolder_staticMutableProperty'))
+
+iota_get_TestAPI_Collections_CollectionHolder_staticProperty: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Collections_CollectionHolder_staticProperty'))
 
 # MARK: C callback implementations
 

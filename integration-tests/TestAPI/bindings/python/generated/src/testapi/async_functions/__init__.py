@@ -28,7 +28,7 @@ __all__: list[str] = [
 
 def get_add3_things() -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
     """<!-- FishyJoes.export(add3Things) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_add3_things(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_add3Things(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def get_const42() -> typing.Callable[[], typing.Awaitable[int]]:
     """<!-- FishyJoes.export(const42) -->"""
@@ -36,7 +36,7 @@ def get_const42() -> typing.Callable[[], typing.Awaitable[int]]:
 
 def get_fifth_thing() -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
     """<!-- FishyJoes.export(fifthThing) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_fifth_thing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def get_abs() -> typing.Callable[[int], typing.Awaitable[int]]:
     """<!-- FishyJoes.export(abs) -->"""
@@ -44,19 +44,19 @@ def get_abs() -> typing.Callable[[int], typing.Awaitable[int]]:
 
 def get_int_compose() -> typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]:
     """<!-- FishyJoes.export(intCompose) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_int_compose(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_intCompose(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def get_make_list() -> typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]:
     """<!-- FishyJoes.export(makeList) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_make_list(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_makeList(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def get_sixth_thing() -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
     """<!-- FishyJoes.export(sixthThing) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_sixth_thing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_sixthThing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def get_will_throw() -> typing.Callable[[], typing.Awaitable[int]]:
     """<!-- FishyJoes.export(willThrow) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_will_throw(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AsyncFunctions_willThrow(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
 
 def delayed_const(
     nanoseconds: int,

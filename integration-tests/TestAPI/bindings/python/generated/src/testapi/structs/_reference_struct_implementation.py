@@ -9,30 +9,6 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable'))
-
-iota_TestAPI_Structs_ReferenceStruct_create: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_create'))
-
-iota_TestAPI_Structs_ReferenceStruct_equals: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], bool] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_equals'))
-
-iota_TestAPI_Structs_ReferenceStruct_hash: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], int] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_hash'))
-
 iota_get_TestAPI_Structs_ReferenceStruct_immutable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -51,6 +27,30 @@ iota_set_TestAPI_Structs_ReferenceStruct_mutable: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Structs_ReferenceStruct_mutable'))
+
+iota_TestAPI_Structs_ReferenceStruct_create: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_create'))
+
+iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_asyncGetMutable'))
+
+iota_TestAPI_Structs_ReferenceStruct_equals: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], bool] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_equals'))
+
+iota_TestAPI_Structs_ReferenceStruct_hash: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], int] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_ReferenceStruct_hash'))
 
 # MARK: C callback implementations
 

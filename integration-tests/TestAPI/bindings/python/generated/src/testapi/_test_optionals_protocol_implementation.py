@@ -9,12 +9,11 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_TestOptionalsProtocol_spqr: typing.Callable[[
+iota_get_TestAPI_TestOptionalsProtocol_flarp: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestOptionalsProtocol_spqr'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestOptionalsProtocol_flarp'))
 
 iota_TestAPI_TestOptionalsProtocol_wombat: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -23,11 +22,12 @@ iota_TestAPI_TestOptionalsProtocol_wombat: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestOptionalsProtocol_wombat'))
 
-iota_get_TestAPI_TestOptionalsProtocol_flarp: typing.Callable[[
+iota_TestAPI_TestOptionalsProtocol_spqr: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestOptionalsProtocol_flarp'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestOptionalsProtocol_spqr'))
 
 # MARK: C callback implementations
 

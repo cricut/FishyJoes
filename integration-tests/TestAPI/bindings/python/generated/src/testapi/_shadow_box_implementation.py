@@ -11,21 +11,21 @@ import typing
 
 # MARK: C APIs
 
+iota_get_TestAPI_ShadowBox_allShades: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ShadowBox_allShades'))
+
 iota_TestAPI_ShadowBox_darkest: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ShadowBox_darkest'))
 
-iota_get_TestAPI_ShadowBox_all_shades: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ShadowBox_all_shades'))
-
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("EnumDiscriminator")
+@fishyjoes_runtime.callback("TestAPI_ShadowBox_Discriminator")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseShadowBox):
@@ -33,7 +33,7 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case shadow_box.Empty: return 1
         case unknown: raise ValueError(f'Unknown ShadowBox case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ShadowBox_ShadeConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_shade(
     _0: fishyjoes_runtime.ConsumedRef,
@@ -42,7 +42,7 @@ def new_shade(
         fishyjoes_runtime.consume_ref(_0, testapi.Shade),
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ShadowBox_ShadeExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_shade(
     obj: fishyjoes_runtime.UnownedRef,
@@ -51,14 +51,14 @@ def extract_shade(
     self = fishyjoes_runtime.peek_ref(obj, shadow_box.Shade)
     out__0[0] = fishyjoes_runtime.create_ref(self._0)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ShadowBox_EmptyConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_empty(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(shadow_box.Empty(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ShadowBox_EmptyExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_empty(
     obj: fishyjoes_runtime.UnownedRef,

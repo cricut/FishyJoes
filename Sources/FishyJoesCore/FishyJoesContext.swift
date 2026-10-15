@@ -682,18 +682,6 @@ public class FishyJoesContext {
 
     func add(pythonClass: PythonClass2) {
         pythonClasses.append(pythonClass)
-
-        for (name, (args, returnType, implementationKind)) in pythonClass.nativeMethods {
-            pythonTranslator.nativeMethods.append(
-                PythonTranslator2.NativeMethod(
-                    name: name,
-                    definingPythonClass: pythonClass.name,
-                    args: args,
-                    returnType: returnType,
-                    doDefaultImplementationsSuffix: implementationKind == .implementationInSwift(isDefault: true)
-                )
-            )
-        }
     }
 
     struct FileHeader: Hashable, Comparable {

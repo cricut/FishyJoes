@@ -9,30 +9,11 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_TestDefaultComputedPropertiesClass_init: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestDefaultComputedPropertiesClass_init'))
-
-iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic'))
-
 iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot'))
-
-iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam'))
 
 iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -41,12 +22,31 @@ iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot'))
 
+iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic'))
+
+iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam'))
+
 iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam'))
+
+iota_TestAPI_TestDefaultComputedPropertiesClass_init: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestDefaultComputedPropertiesClass_init'))
 
 # MARK: C callback implementations
 

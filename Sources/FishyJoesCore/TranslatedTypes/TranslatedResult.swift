@@ -5,6 +5,7 @@ struct TranslatedResult: TranslatedType {
     let kotlinName: String
     let kotlinPackage: String? = "com.cricut.fishyjoes.runtime"
     let containedNamedTypes: [TranslatedType]
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -74,21 +75,4 @@ struct TranslatedResult: TranslatedType {
     }
 
     var isInhabited: Bool { success.isInhabited || failure.isInhabited }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let successRepresentation = success.pythonRepresentation(in: context.recursingIntoChild()),
-              let failureRepresentation = failure.pythonRepresentation(in: context.recursingIntoChild()),
-              let successConversion = successRepresentation.conversionDescriptor,
-              let failureConversion = failureRepresentation.conversionDescriptor else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: context.pythonResultType(
-                success: successRepresentation.annotation,
-                failure: failureRepresentation.annotation
-            ),
-            cType: "HostObject",
-            conversion: "_native.Result(\"\(converterType.name)\", \(successConversion), \(failureConversion))"
-        )
-    }
 }

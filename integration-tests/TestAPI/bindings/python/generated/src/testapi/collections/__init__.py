@@ -31,47 +31,47 @@ __all__: list[str] = [
 
 def get_array_of_big_tuples() -> list[tuple[int,int,int,int]]:
     """<!-- FishyJoes.export(arrayOfBigTuples) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_array_of_big_tuples(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_arrayOfBigTuples(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_array_of_int() -> list[int]:
     """<!-- FishyJoes.export(arrayOfInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_array_of_int(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_arrayOfInt(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_default_collection_holder() -> testapi.collections.CollectionHolder:
     """<!-- FishyJoes.export(defaultCollectionHolder) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_default_collection_holder(fishyjoes_runtime.Runtime.shared.env_ref), testapi.collections.CollectionHolder)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_defaultCollectionHolder(fishyjoes_runtime.Runtime.shared.env_ref), testapi.collections.CollectionHolder)
 
 def get_dictionary_of_int_to_int() -> dict[int,int]:
     """<!-- FishyJoes.export(dictionaryOfIntToInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_dictionary_of_int_to_int(fishyjoes_runtime.Runtime.shared.env_ref), dict)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_dictionaryOfIntToInt(fishyjoes_runtime.Runtime.shared.env_ref), dict)
 
 def get_maybe_array_of_int() -> list[int] | None:
     """<!-- FishyJoes.export(maybeArrayOfInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_array_of_int(fishyjoes_runtime.Runtime.shared.env_ref), list, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeArrayOfInt(fishyjoes_runtime.Runtime.shared.env_ref), list, types.NoneType)
 
 def get_maybe_array_of_maybe_int() -> list[int | None] | None:
     """<!-- FishyJoes.export(maybeArrayOfMaybeInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_array_of_maybe_int(fishyjoes_runtime.Runtime.shared.env_ref), list, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeArrayOfMaybeInt(fishyjoes_runtime.Runtime.shared.env_ref), list, types.NoneType)
 
 def get_maybe_dictionary_of_int_to_int() -> dict[int,int] | None:
     """<!-- FishyJoes.export(maybeDictionaryOfIntToInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_dictionary_of_int_to_int(fishyjoes_runtime.Runtime.shared.env_ref), dict, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeDictionaryOfIntToInt(fishyjoes_runtime.Runtime.shared.env_ref), dict, types.NoneType)
 
 def get_maybe_dictionary_of_int_to_maybe_int() -> dict[int,int | None] | None:
     """<!-- FishyJoes.export(maybeDictionaryOfIntToMaybeInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_dictionary_of_int_to_maybe_int(fishyjoes_runtime.Runtime.shared.env_ref), dict, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeDictionaryOfIntToMaybeInt(fishyjoes_runtime.Runtime.shared.env_ref), dict, types.NoneType)
 
 def get_maybe_set_of_int() -> set[int] | None:
     """<!-- FishyJoes.export(maybeSetOfInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_set_of_int(fishyjoes_runtime.Runtime.shared.env_ref), set, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeSetOfInt(fishyjoes_runtime.Runtime.shared.env_ref), set, types.NoneType)
 
 def get_maybe_set_of_maybe_int() -> set[int | None] | None:
     """<!-- FishyJoes.export(maybeSetOfMaybeInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybe_set_of_maybe_int(fishyjoes_runtime.Runtime.shared.env_ref), set, types.NoneType)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_maybeSetOfMaybeInt(fishyjoes_runtime.Runtime.shared.env_ref), set, types.NoneType)
 
 def get_set_of_int() -> set[int]:
     """<!-- FishyJoes.export(setOfInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_set_of_int(fishyjoes_runtime.Runtime.shared.env_ref), set)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Collections_setOfInt(fishyjoes_runtime.Runtime.shared.env_ref), set)
 
 def echo_array_of_int(
     array_of_int: list[int],

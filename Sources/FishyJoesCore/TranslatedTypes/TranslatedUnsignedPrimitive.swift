@@ -2,11 +2,11 @@ import SourceryDataModel
 
 struct TranslatedUnsignedPrimitive: TranslatedType {
     let sourceType: BetterType
-    let cName: String
     let nodeName: String
     let kotlinName: String
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
+    let iotaCTypes: IotaCTypes
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -40,11 +40,11 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         dartFFI dartFFIName: String
     ) {
         self.sourceType = .named(.swift(swiftName))
-        self.cName = cName
         self.nodeName = nodeName
         self.kotlinName = "U" + jniType.valueType
         self.containedNamedTypes = []
         self.kotlinPackage = nil
+        self.iotaCTypes = .init(created: cName, consumed: cName, unowned: cName)
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
         self.pythonType = .class(module: nil, qualifiedName: "int")
@@ -52,19 +52,4 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        // R5: conversion stays `nil` (C scalar passes through). B1: an unlisted
-        // unsigned primitive returns `nil` rather than degrading to `Any`.
-        switch sourceType.name {
-        case "Swift.UInt", "Swift.UInt8", "Swift.UInt16", "Swift.UInt32", "Swift.UInt64":
-            return PythonRepresentation(
-                annotation: PythonType(annotation: "int"),
-                cType: cName,
-                conversion: nil
-            )
-        default:
-            return nil
-        }
-    }
 }

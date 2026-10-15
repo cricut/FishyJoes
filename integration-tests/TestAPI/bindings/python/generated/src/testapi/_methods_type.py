@@ -19,49 +19,49 @@ class Methods(fishyjoes_runtime.SwiftReference):
     def instance_get(self) -> int:
         """<!-- FishyJoes.export(instanceGet) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instance_get(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceGet(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
 
     def get_instance_get_method(self) -> int:
         """<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instance_get_method(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceGetMethod(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
 
     @property
     def instance_modifiable(self) -> int:
         """<!-- FishyJoes.export(instanceModifiable) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instance_modifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
 
     @instance_modifiable.setter
     def instance_modifiable(self, new_value: int) -> None:
         with fishyjoes_runtime.local_handles(self, new_value) as (self_handle, new_value_handle,):
-            _impl.iota_set_TestAPI_Methods_instance_modifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
+            _impl.iota_set_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
 
     @property
     def instance_stored(self) -> int:
         """<!-- FishyJoes.export(instanceStored) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instance_stored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
 
     @instance_stored.setter
     def instance_stored(self, new_value: int) -> None:
         with fishyjoes_runtime.local_handles(self, new_value) as (self_handle, new_value_handle,):
-            _impl.iota_set_TestAPI_Methods_instance_stored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
+            _impl.iota_set_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
 
     @staticmethod
     def get_static_get() -> int:
         """<!-- FishyJoes.export(staticGet) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_static_get(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticGet(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
     @staticmethod
     def get_static_get_method() -> int:
         """<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_static_get_method(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticGetMethod(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
     @staticmethod
     def get_static_modifiable() -> int:
         """<!-- FishyJoes.export(staticModifiable) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_static_modifiable(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticModifiable(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
     @staticmethod
     def set_static_modifiable(new_value: int) -> None: ...
@@ -69,7 +69,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
     @staticmethod
     def get_static_stored() -> int:
         """<!-- FishyJoes.export(staticStored) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_static_stored(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticStored(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
     @staticmethod
     def set_static_stored(new_value: int) -> None: ...

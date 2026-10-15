@@ -9,16 +9,16 @@ import typing
 
 # MARK: C APIs
 
+iota_TestAPI_Structs_MemberwiseStruct_create: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_MemberwiseStruct_create'))
+
 iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_MemberwiseStruct_asyncGetMutable'))
-
-iota_TestAPI_Structs_MemberwiseStruct_create: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_MemberwiseStruct_create'))
 
 # MARK: C callback implementations
 

@@ -16,15 +16,15 @@ __all__: list[str] = [
 
 def get_data_image() -> str:
     """<!-- FishyJoes.export(dataImage) -->"""
-    return _impl.iota_get_TestAPI_URLs_data_image(fishyjoes_runtime.Runtime.shared.env_ref)
+    return _impl.iota_get_TestAPI_URLs_dataImage(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_local_file() -> str:
     """<!-- FishyJoes.export(localFile) -->"""
-    return _impl.iota_get_TestAPI_URLs_local_file(fishyjoes_runtime.Runtime.shared.env_ref)
+    return _impl.iota_get_TestAPI_URLs_localFile(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_remote_file() -> str:
     """<!-- FishyJoes.export(remoteFile) -->"""
-    return _impl.iota_get_TestAPI_URLs_remote_file(fishyjoes_runtime.Runtime.shared.env_ref)
+    return _impl.iota_get_TestAPI_URLs_remoteFile(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_simple() -> str:
     """<!-- FishyJoes.export(simple) -->"""

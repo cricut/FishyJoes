@@ -9,6 +9,7 @@ struct TranslatedRange: TranslatedType {
     let kotlinPackage: String?
     let kotlinName: String
     let jniType: JNIType
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -65,18 +66,5 @@ struct TranslatedRange: TranslatedType {
                 fragment.output("\(bound.pythonType.dynamicsStringAsTuple),")
             },
         ]
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let boundRepresentation = bound.pythonRepresentation(in: context.recursingIntoChild()),
-              let boundConversion = boundRepresentation.conversionDescriptor else {
-            return nil
-        }
-        let constructor = isClosedRange ? "_native.ClosedRange" : "_native.Range"
-        return PythonRepresentation(
-            annotation: context.pythonRangeType(isClosedRange: isClosedRange, bound: boundRepresentation.annotation),
-            cType: "HostObject",
-            conversion: "\(constructor)(\"\(converterType.name)\", \(boundConversion))"
-        )
     }
 }

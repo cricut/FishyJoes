@@ -5,16 +5,71 @@ extension TranslatedEnum {
             additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
         )
 
-        var setupMethods = isInhabited ? [(name: "discriminator", args: ["HostObject", "OutHostException"], returns: "Int")] : []
-
-        for enumCase in cases {
-            let args = enumCase.associatedValues.map { value in
-                "\(context.resolve(type: value.type).converterType.name).CType"
-            }
-            setupMethods.append((name: "\(enumCase.name)_constructor", args: args + ["OutHostException"], returns: "HostObject"))
-            setupMethods.append((name: "\(enumCase.name)_extractor", args: ["HostObject"] + args.map { "UnsafePointer<\($0)>" } + ["OutHostException"], returns: "Void"))
+        var setupMethods: [(name: String, args: [(name: String, swiftType: String, cType: String)], swiftReturnType: String, cReturnType: String)] = []
+        if isInhabited  {
+            setupMethods.append(
+                (
+                    name: "discriminator",
+                    args: [
+                        (name: "obj", swiftType: "HostObject", cType: "unowned_host_ref"),
+                        (name: "outExn", swiftType: "OutHostException", cType: "created_host_ref *")
+                    ],
+                    swiftReturnType: "Int",
+                    cReturnType: "intptr_t"
+                )
+            )
         }
 
+        for enumCase in cases {
+            var constructArgs: [(name: String, swiftType: String, cType: String)] = []
+            var extractArgs: [(name: String, swiftType: String, cType: String)] = [
+                (name: "obj", swiftType: "HostObject", cType: "unowned_host_ref")
+            ]
+
+            for value in enumCase.associatedValues {
+                let resolved = context.resolve(type: value.type)
+                let constructSwiftType = "\(resolved.converterType.name).CType"
+                let constructCType = resolved.iotaCTypes.consumed
+                let extractSwiftType = "UnsafePointer<\(resolved.converterType.name).CType>"
+                let extractCType = "\(resolved.iotaCTypes.created) *"
+                constructArgs.append((name: value.fieldVar, swiftType: constructSwiftType, cType: constructCType))
+                extractArgs.append((name: "_out\(value.fieldVar)", swiftType: extractSwiftType, cType: extractCType))
+            }
+            constructArgs.append((name: "_outExn", swiftType: "OutHostException", cType: "created_host_ref *"))
+            extractArgs.append((name: "_outExn", swiftType: "OutHostException", cType: "created_host_ref *"))
+
+            setupMethods.append(
+                (
+                    name: "\(enumCase.name)Constructor",
+                    args: constructArgs,
+                    swiftReturnType: "HostObject",
+                    cReturnType: "created_host_ref"
+                )
+            )
+            setupMethods.append(
+                (
+                    name: "\(enumCase.name)Extractor",
+                    args: extractArgs,
+                    swiftReturnType: "Void",
+                    cReturnType: "void"
+                )
+            )
+        }
+
+        var cInterfaceArgs: [(name: String, type: String)] = []
+        var typedefs: [String] = []
+        for method in setupMethods {
+            let typedefName = "\(sourceType.name)_\(upperCaseFirst(method.name))".mangled
+            let params = method.args.map { "\($0.cType) \($0.name)" }
+            typedefs.append("typedef \(method.cReturnType) (*\(typedefName))(\(params.joined(separator: ", ")));")
+            cInterfaceArgs.append((name: method.name, type: typedefName));
+        }
+        context.iotaTranslator.declareCInterface(
+            preludeLines: typedefs,
+            name: iotaSetupName,
+            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs,
+            returnType: "void"
+        )
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
             fragment.output("envRef: EnvRef" + (setupMethods.isEmpty ? "" : ","))
@@ -34,8 +89,8 @@ extension TranslatedEnum {
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesIotaRuntime.IotaConverter {") {
             for method in setupMethods {
-                fragment.outputBlock("public typealias \(upperCaseFirst(method.name)) = @convention(c) (", closeWith: ") -> \(method.returns)") {
-                    fragment.outputMap(method.args, separator: ",") { $0 }
+                fragment.outputBlock("public typealias \(upperCaseFirst(method.name)) = @convention(c) (", closeWith: ") -> \(method.swiftReturnType)") {
+                    fragment.outputMap(method.args, separator: ",") { $0.swiftType }
                 }
                 fragment.output("fileprivate static let \(method.name) = Env.CallbackMap<\(upperCaseFirst(method.name))>()")
             }
@@ -58,7 +113,7 @@ extension TranslatedEnum {
                                     cleanup.append("env.deleteRef(_\(value.bindingName))")
                                 }
                             }
-                            fragment.output("try env.check { exn in \(enumCase.name)_extractor[env](\(args)exn) }")
+                            fragment.output("try env.check { exn in \(enumCase.name)Extractor[env](\(args)exn) }")
                             if enumCase.associatedValues.isEmpty {
                                 fragment.output("return Self.\(enumCase.name)")
                             } else {
@@ -98,7 +153,7 @@ extension TranslatedEnum {
                         }
                         fragment.outputBlock(":", closeWith: "", newLineTerminated: false) {
                             fragment.outputBlock("return try env.check { exn in", closeWith: "}") {
-                                fragment.outputBlock("return \(enumCase.name)_constructor[env](") {
+                                fragment.outputBlock("return \(enumCase.name)Constructor[env](") {
                                     for value in enumCase.associatedValues {
                                         let resolved = context.resolve(type: value.type)
                                         fragment.output("try \(resolved.converterType.name).toIota(\(value.bindingName), env: env),")

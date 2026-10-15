@@ -103,6 +103,7 @@ class PythonClass2 {
     let documentation: [String]
     let namespaces: [String]
     let name: String
+    let mangledName: String
     let setupTypes: SetupTypes?
     var fields: [Variable]
     var methods: [Method]
@@ -115,6 +116,7 @@ class PythonClass2 {
         documentation: [String],
         namespaces: [String],
         name: String,
+        mangledName: String,
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
         methods: [Method],
@@ -124,6 +126,7 @@ class PythonClass2 {
         self.documentation = documentation
         self.namespaces = namespaces
         self.name = name
+        self.mangledName = mangledName
         self.setupTypes = setupTypes
         self.fields = fields
         self.methods = methods
@@ -199,8 +202,8 @@ class PythonClass2 {
         (namespaces + ["\(typeDefinitionModuleName).py"]).joined(separator: "/")
     }
 
-    var nativeMethods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)] {
-        var result: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)] = [:]
+    var nativeMethods: [IotaTranslator.NativeMethod<PythonType>] {
+        var result: [IotaTranslator.NativeMethod<PythonType>] = []
 
         let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: name))
 
@@ -212,10 +215,21 @@ class PythonClass2 {
             case .explicitBody:
                 fatalErr("Internal error: .explicitBody not supported on fields")
             case .implementationInSwift(let isDefault):
-                let resultName = isDefault ? "iota__default_\(field.mangledName)" : "iota_get_\(field.mangledName)"
-                result[resultName] = (args: baseArgs, return: field.type, implementationKind: field.implementationKind)
+                result.append(
+                    IotaTranslator.NativeMethod(
+                        name: isDefault ? "iota__default_\(field.mangledName)" : "iota_get_\(field.mangledName)",
+                        args: baseArgs,
+                        returnType: field.type
+                    )
+                )
                 if field.isPubliclyWritable {
-                    result["iota_set_\(field.mangledName)"] = (args: baseArgs + [(field.name, field.type)], return: .none, .implementationInSwift(isDefault: false))
+                    result.append(
+                        IotaTranslator.NativeMethod(
+                            name: "iota_set_\(field.mangledName)",
+                            args: baseArgs + [(field.name, field.type)],
+                            returnType: .none,
+                        )
+                    )
                 }
             }
         }
@@ -230,22 +244,28 @@ class PythonClass2 {
                 params.append((PythonClass2.deforbidify(param.name, localVar: true), param.type))
             }
 
-            result["iota_\(method.mangledName)"] = (args: params, return: method.returnType, method.implementationKind)
+            result.append(
+                IotaTranslator.NativeMethod(
+                    name: "iota_\(method.mangledName)",
+                    args: params,
+                    returnType: method.returnType
+                )
+            )
         }
 
         return result
     }
 
-    func outputNativeMethodDeclarations(methods: [String: (args: [(String, PythonType)], return: PythonType, implementationKind: MemberImplementationKind)], fragment: SourceFragment) {
-        for (name, (args, returnType, _)) in methods.sorted(by: { $0.key < $1.key}) {
-            fragment.outputBlock("\(name): typing.Callable[[", newLineTerminated: false) {
+    func outputNativeMethodDeclarations(methods: [IotaTranslator.NativeMethod<PythonType>], fragment: SourceFragment) {
+        for method in methods {
+            fragment.outputBlock("\(method.name): typing.Callable[[", newLineTerminated: false) {
                 fragment.output("fishyjoes_runtime.EnvRef,")
-                for (_, argType) in args {
+                for (_, argType) in method.args {
                     fragment.output("\(argType.static.ffiUnownedType.name()),")
                 }
             }
-            fragment.outputBlock(", \(returnType.static.ffiCreatedType.name())] = \\", closeWith: "") {
-                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, '__\(name)'))")
+            fragment.outputBlock(", \(method.returnType.static.ffiCreatedType.name())] = \\", closeWith: "") {
+                fragment.output("fishyjoes_runtime.raise_by_out_ref(getattr(_\(module.pythonPackageName)_lib, '__\(method.name)'))")
             }
         }
     }

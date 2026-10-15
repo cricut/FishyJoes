@@ -11,16 +11,10 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_ReferenceCaseEnum_rotate180: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ReferenceCaseEnum_rotate180'))
-
-iota_get_TestAPI_ReferenceCaseEnum_default_direction: typing.Callable[[
+iota_get_TestAPI_ReferenceCaseEnum_defaultDirection: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ReferenceCaseEnum_default_direction'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ReferenceCaseEnum_defaultDirection'))
 
 iota_get_TestAPI_ReferenceCaseEnum_opposite: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -28,9 +22,15 @@ iota_get_TestAPI_ReferenceCaseEnum_opposite: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_ReferenceCaseEnum_opposite'))
 
+iota_TestAPI_ReferenceCaseEnum_rotate180: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ReferenceCaseEnum_rotate180'))
+
 # MARK: C callback implementations
 
-@fishyjoes_runtime.callback("EnumDiscriminator")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_Discriminator")
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseReferenceCaseEnum):
@@ -40,56 +40,56 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case reference_case_enum.West: return 3
         case unknown: raise ValueError(f'Unknown ReferenceCaseEnum case "{unknown})". Enums are not meant to be extended.')
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_NorthConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_north(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(reference_case_enum.North(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_NorthExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_north(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, reference_case_enum.North)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_SouthConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_south(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(reference_case_enum.South(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_SouthExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_south(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, reference_case_enum.South)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_EastConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_east(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(reference_case_enum.East(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_EastExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_east(
     obj: fishyjoes_runtime.UnownedRef,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, reference_case_enum.East)
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_WestConstructor")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_west(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(reference_case_enum.West(
     ))
 
-@fishyjoes_runtime.callback("TODO")
+@fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_WestExtractor")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_west(
     obj: fishyjoes_runtime.UnownedRef,

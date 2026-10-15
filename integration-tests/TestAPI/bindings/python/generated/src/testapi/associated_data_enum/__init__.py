@@ -24,4 +24,4 @@ __all__: list[str] = [
 
 def get_static_thing() -> testapi.AssociatedDataEnum:
     """<!-- FishyJoes.export(staticThing) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AssociatedDataEnum_static_thing(fishyjoes_runtime.Runtime.shared.env_ref), testapi.associated_data_enum.Thing, testapi.associated_data_enum.Other, testapi.associated_data_enum.Bar, testapi.associated_data_enum.NoValue, testapi.associated_data_enum.None_, testapi.associated_data_enum.SimpleEnum)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AssociatedDataEnum_staticThing(fishyjoes_runtime.Runtime.shared.env_ref), testapi.associated_data_enum.Thing, testapi.associated_data_enum.Other, testapi.associated_data_enum.Bar, testapi.associated_data_enum.NoValue, testapi.associated_data_enum.None_, testapi.associated_data_enum.SimpleEnum)

@@ -9,16 +9,34 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_EmptyClass_Gorpers: typing.Callable[[
+iota_get_TestAPI_EmptyClass_blarg: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_Gorpers'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyClass_blarg'))
+
+iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyClass_wibbledyWobbledyTimeyWhimey'))
 
 iota_TestAPI_EmptyClass_create: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_create'))
+
+iota_TestAPI_EmptyClass_shme: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_shme'))
+
+iota_TestAPI_EmptyClass_Gorpers: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_Gorpers'))
 
 iota_TestAPI_EmptyClass_equals: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -32,24 +50,6 @@ iota_TestAPI_EmptyClass_hash: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
 ], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_hash'))
-
-iota_TestAPI_EmptyClass_shme: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyClass_shme'))
-
-iota_get_TestAPI_EmptyClass_blarg: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyClass_blarg'))
-
-iota_get_TestAPI_EmptyClass_wibbledy_wobbledy_timey_whimey: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyClass_wibbledy_wobbledy_timey_whimey'))
 
 # MARK: C callback implementations
 

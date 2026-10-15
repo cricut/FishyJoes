@@ -29,11 +29,11 @@ def get_chinese() -> str:
 
 def get_chinese_bmp() -> str:
     """<!-- FishyJoes.export(chineseBMP) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_chinese_bmp(fishyjoes_runtime.Runtime.shared.env_ref), str)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_chineseBMP(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def get_chinese_sip() -> str:
     """<!-- FishyJoes.export(chineseSIP) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_chinese_sip(fishyjoes_runtime.Runtime.shared.env_ref), str)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_chineseSIP(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def get_emoji() -> str:
     """<!-- FishyJoes.export(emoji) -->"""
@@ -41,7 +41,7 @@ def get_emoji() -> str:
 
 def get_emoji_multi() -> str:
     """<!-- FishyJoes.export(emojiMulti) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_emoji_multi(fishyjoes_runtime.Runtime.shared.env_ref), str)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_emojiMulti(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def get_script() -> str:
     """<!-- FishyJoes.export(script) -->"""

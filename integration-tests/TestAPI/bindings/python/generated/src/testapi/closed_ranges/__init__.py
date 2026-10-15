@@ -37,55 +37,55 @@ __all__: list[str] = [
 
 def get_double_range() -> fishyjoes_runtime.SwiftClosedRange[float]:
     """<!-- FishyJoes.export(doubleRange) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_double_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_doubleRange(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_float_range() -> fishyjoes_runtime.SwiftClosedRange[float]:
     """<!-- FishyJoes.export(floatRange) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_float_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_floatRange(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_int16_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(int16Range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int16_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int16Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_int32_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(int32Range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int32_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int32Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_int64_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(int64Range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int64_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int64Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_int8_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(int8Range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int8_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int8Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_int_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(intRange) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_int_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_intRange(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_string_range() -> fishyjoes_runtime.SwiftClosedRange[str]:
     """<!-- FishyJoes.export(stringRange) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_string_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_stringRange(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_uint16_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(uInt16Range, python: uint16_range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uint16_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uInt16Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_uint32_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(uInt32Range, python: uint32_range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uint32_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uInt32Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_uint64_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(uInt64Range, python: uint64_range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uint64_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uInt64Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_uint8_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(uInt8Range, python: uint8_range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uint8_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uInt8Range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def get_uint_range() -> fishyjoes_runtime.SwiftClosedRange[int]:
     """<!-- FishyJoes.export(uIntRange, python: uint_range) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uint_range(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ClosedRanges_uIntRange(fishyjoes_runtime.Runtime.shared.env_ref), fishyjoes_runtime.SwiftClosedRange)
 
 def echo_uint8_range(
     range_: fishyjoes_runtime.SwiftClosedRange[int],

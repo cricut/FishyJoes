@@ -9,12 +9,53 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6: typing.Callable[[
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3Things'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifthThing'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_intCompose'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_makeList'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six'))
+
+iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_willThrow'))
 
 iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise0: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -65,11 +106,6 @@ iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_exercise6'))
 
-iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init'))
-
 iota_TestAPI_TestAsyncSwiftSideFunctionsClass_thunkTwiceMaker: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -83,53 +119,17 @@ iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_witness'))
 
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3_things: typing.Callable[[
+iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_add3_things'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_init'))
 
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42: typing.Callable[[
+iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_const42'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifth_thing: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_fifth_thing'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_iabs'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_int_compose: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_int_compose'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_make_list: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_make_list'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_six'))
-
-iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_will_throw: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestAsyncSwiftSideFunctionsClass_will_throw'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestAsyncSwiftSideFunctionsClass_defaultExercise6'))
 
 # MARK: C callback implementations
 

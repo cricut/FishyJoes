@@ -7,6 +7,7 @@ struct TranslatedProtocol: TranslatedType {
     let kotlinPackage: String?
     let kotlinName: String
     let jniType: JNIType
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -61,20 +62,6 @@ struct TranslatedProtocol: TranslatedType {
         enforceNoProtocolSetters()
         enforceNoProtocolStatics()
         enforceNoProtocolMutatingFunctions()
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        // A protocol already being visited in this recursion is treated as
-        // generatable (matching the old `visitedProtocols.contains` short-circuit
-        // in the three switches), otherwise probe its members.
-        guard context.visitedProtocols.contains(nodeName) || context.canGenerateProtocolType(self) else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "HostObject",
-            conversion: context.pythonProtocolTypeDescriptor(for: self)
-        )
     }
 
     func enforceProtocolThrows() {
@@ -653,29 +640,80 @@ struct TranslatedProtocol: TranslatedType {
 
         fragment.blankLine()
 
+        let constructorTypedefName = "\(sourceType.name)_Constructor".mangled
+        var typedefs = [
+            "typedef created_host_ref (*\(constructorTypedefName))(consumed_swift_ref ref, created_host_ref* out_exn);"
+        ]
+        var setupArgs = [
+            (name: "envRef", swiftType: "EnvRef", cType: "fishyjoes_env"),
+            (
+                name: "constructorMethod",
+                swiftType: "\(converterType.name)._ConstructorMethod",
+                cType: constructorTypedefName
+            ),
+        ]
+        for field in fields {
+            let resolved = context.resolve(type: field.type)
+            let getterTypedefName = "\(sourceType.name)_Get_\(upperCaseFirst(field.name))".mangled
+            let setterTypedefName = "\(sourceType.name)_Set_\(upperCaseFirst(field.name))".mangled
+            typedefs.append(
+                "typedef \(resolved.iotaCTypes.created) (*\(getterTypedefName))(unowned_host_ref obj, created_host_ref *out_exn);"
+            )
+            setupArgs.append(
+                (
+                    name: "\(field.name)Getter",
+                    swiftType: "@escaping @convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType",
+                    cType: getterTypedefName
+                )
+            )
+            if field.isMutable {
+                typedefs.append(
+                    "typedef void (*\(setterTypedefName))(unowned_host_ref obj, \(resolved.iotaCTypes.unowned) new_value, created_host_ref *out_exn);"
+                )
+                setupArgs.append(
+                    (
+                        name: "\(field.name)Setter",
+                        swiftType: "@escaping @convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void",
+                        cType: setterTypedefName
+                    )
+                )
+            }
+        }
+        for method in methods {
+            let resolvedReturnType = context.resolve(type: method.returnType)
+            let paramParts = [
+                (swift: "HostObject", c: "unowned_host_ref")
+            ] + method.parameters.map { param in
+                    let resolvedParam = context.resolve(type: param.type)
+                    return (swift: "\(resolvedParam.converterType.name).CType", c: resolvedParam.iotaCTypes.consumed)
+            } + [
+                (swift: "OutHostException", c: "created_host_ref *")
+            ]
+            let methodTypedefName = "\(sourceType.name)_Method_\(upperCaseFirst(method.exportAnnotation.name))".mangled
+            typedefs.append(
+                "typedef \(resolvedReturnType.iotaCTypes.created) (*\(methodTypedefName))" +
+                    "(\(paramParts.map(\.c).joined(separator: ", ")));"
+            )
+            setupArgs.append(
+                (
+                    name: method.callName,
+                    swiftType: "@escaping @convention(c) (\(paramParts.map(\.swift).joined(separator: ", "))) -> \(resolvedReturnType.converterType.name).CType",
+                    cType: methodTypedefName
+                )
+            )
+        }
+        setupArgs.append((name: "exn", swiftType: "OutHostException", cType: "created_host_ref *"))
+
+        context.iotaTranslator.declareCInterface(
+            preludeLines: typedefs,
+            name: iotaSetupName,
+            args: setupArgs.map { ($0.name, $0.cType) },
+            returnType: "void"
+        )
+
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
-            fragment.output("envRef: EnvRef,")
-            fragment.output("constructorMethod: @escaping \(converterType.name)._ConstructorMethod,")
-            for field in fields {
-                let resolved = context.resolve(type: field.type)
-                fragment.output("_ \(field.name)Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> \(resolved.converterType.name).CType,")
-                if field.isMutable {
-                    fragment.output("_ \(field.name)Setter: @escaping @convention(c) (HostObject, \(resolved.converterType.name).CType, _ exn: OutHostException) -> Void,")
-                }
-            }
-            for method in methods {
-                let resolvedReturnType = context.resolve(type: method.returnType)
-                fragment.outputBlock("_ \(method.callName): @escaping @convention(c) (", closeWith: ") -> \(resolvedReturnType.converterType.name).CType,") {
-                    fragment.output("HostObject,")
-                    for param in method.parameters {
-                        let resolvedParam = context.resolve(type: param.type)
-                        fragment.output("\(resolvedParam.converterType.name).CType,")
-                    }
-                    fragment.output("_ exn: OutHostException")
-                }
-            }
-            fragment.output("_ exn: OutHostException")
+            fragment.outputMap(setupArgs, separator: ",") { "\($0.name): \($0.swiftType)" }
         }
         fragment.outputBlock(" {") {
             fragment.output("let env = Env(envRef)")
@@ -1075,6 +1113,7 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
                 name: pythonType.static.name(),
+                mangledName: sourceType.name.mangled,
                 fields: protocolFields,
                 methods: protocolMethods
             ).conforming(to: exportedConformances(in: context), context: context)
@@ -1094,6 +1133,7 @@ struct TranslatedProtocol: TranslatedType {
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
                 name: iotaExternalWitnessClassName,
+                mangledName: iotaExternalWitnessClassName.mangled,
                 constructor: .reference,
                 fields: externalWitnessFields,
                 methods: externalWitnessMethods,

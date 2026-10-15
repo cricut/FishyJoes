@@ -36,6 +36,8 @@ struct TranslatedTuple: TranslatedType {
         }
     }
 
+    let iotaCTypes = IotaCTypes.hostRef
+
     var cSharpType: CSharpClass.CSType {
         .named(package: "System", name: "Tuple<\(elements.lazy.map(\.type.cSharpType.name).joined(separator: ", "))>")
     }
@@ -96,21 +98,5 @@ struct TranslatedTuple: TranslatedType {
                 fragment.output("\(element.type.pythonType.dynamicsStringAsTuple),")
             }
         }
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        let representations = elements.compactMap { $0.type.pythonRepresentation(in: context.recursingIntoChild()) }
-        guard representations.count == elements.count else {
-            return nil
-        }
-        let elementConversions = representations.compactMap(\.conversionDescriptor)
-        guard elementConversions.count == elements.count else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: .container("tuple", representations.map(\.annotation)),
-            cType: "HostObject",
-            conversion: "_native.Tuple(\"\(converterType.name)\", [\(elementConversions.joined(separator: ", "))])"
-        )
     }
 }

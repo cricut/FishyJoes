@@ -23,7 +23,7 @@ def get_default_direction() -> testapi.ReferenceCaseEnum:
     """Mirrors `Image.kind`: a value-returning accessor whose result must be"""
     """comparable to a known case from Python."""
     """<!-- FishyJoes.export(defaultDirection) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ReferenceCaseEnum_default_direction(fishyjoes_runtime.Runtime.shared.env_ref), testapi.reference_case_enum.North, testapi.reference_case_enum.South, testapi.reference_case_enum.East, testapi.reference_case_enum.West)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_ReferenceCaseEnum_defaultDirection(fishyjoes_runtime.Runtime.shared.env_ref), testapi.reference_case_enum.North, testapi.reference_case_enum.South, testapi.reference_case_enum.East, testapi.reference_case_enum.West)
 
 def rotate180(
     direction: testapi.ReferenceCaseEnum,

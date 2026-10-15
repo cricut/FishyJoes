@@ -14,4 +14,4 @@ class ExternalWitness_TestLeadingUnderscoredProp(fishyjoes_runtime.SwiftReferenc
     def leading_underscore_prop_(self) -> str:
         """<!-- FishyJoes.export(_leadingUnderscoreProp) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestLeadingUnderscoredProp_leading_underscore_prop_(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)

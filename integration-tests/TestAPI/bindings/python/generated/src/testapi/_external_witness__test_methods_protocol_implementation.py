@@ -9,6 +9,12 @@ import typing
 
 # MARK: C APIs
 
+iota_TestAPI_TestMethodsProtocol_foo: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_foo'))
+
 iota_TestAPI_TestMethodsProtocol_bar: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
@@ -22,25 +28,12 @@ iota_TestAPI_TestMethodsProtocol_baz: typing.Callable[[
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_baz'))
 
-iota_TestAPI_TestMethodsProtocol_foo: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_foo'))
-
 iota_TestAPI_TestMethodsProtocol_garply: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_garply'))
-
-iota_TestAPI_TestMethodsProtocol_plugh: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_plugh'))
 
 iota_TestAPI_TestMethodsProtocol_xyzzy: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -49,6 +42,13 @@ iota_TestAPI_TestMethodsProtocol_xyzzy: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_xyzzy'))
+
+iota_TestAPI_TestMethodsProtocol_plugh: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestMethodsProtocol_plugh'))
 
 # MARK: C callback implementations
 

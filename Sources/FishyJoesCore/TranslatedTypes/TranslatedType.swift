@@ -1,5 +1,19 @@
 import SourceryDataModel
 
+struct IotaCTypes: Hashable, Codable {
+    let created: String
+    let consumed: String
+    let unowned: String
+
+    static var hostRef: Self {
+        return .init(
+            created: "created_host_ref",
+            consumed: "consumed_host_ref",
+            unowned: "unowned_host_ref"
+        )
+    }
+}
+
 protocol TranslatedType {
     var sourceType: BetterType { get }
     var converterType: BetterType { get }
@@ -7,6 +21,7 @@ protocol TranslatedType {
     var kotlinPackage: String? { get }
     var kotlinName: String { get }
     var jniType: JNIType { get }
+    var iotaCTypes: IotaCTypes { get }
     var cSharpType: CSharpClass.CSType { get }
     var dartType: DartClass.DartType { get }
     var pythonType: PythonClass2.PythonType { get }
@@ -21,9 +36,6 @@ protocol TranslatedType {
     func dartSetupTypeAliases(in context: FishyJoesContext) -> [String]
     func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonClass2.PythonType>]
     func pythonSetupTypeAliases(in context: FishyJoesContext) -> [String]
-
-    // TODO: delete
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation?
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment]
 }

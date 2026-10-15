@@ -158,13 +158,13 @@ public func __iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCa
 public func Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
     discriminator: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.Discriminator,
-    thing_constructor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.Thing_constructor,
-    thing_extractor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.Thing_extractor
+    thingConstructor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.ThingConstructor,
+    thingExtractor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.ThingExtractor
 ) {
     let env = Env(envRef)
     Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.discriminator[env] = discriminator
-    Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thing_constructor[env] = thing_constructor
-    Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thing_extractor[env] = thing_extractor
+    Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thingConstructor[env] = thingConstructor
+    Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thingExtractor[env] = thingExtractor
 }
 
 extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaConverter {
@@ -173,20 +173,20 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaR
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Thing_constructor = @convention(c) (
+    public typealias ThingConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
-    public typealias Thing_extractor = @convention(c) (
+    fileprivate static let thingConstructor = Env.CallbackMap<ThingConstructor>()
+    public typealias ThingExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
+    fileprivate static let thingExtractor = Env.CallbackMap<ThingExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in thing_extractor[env](value, exn) }
+            try env.check { exn in thingExtractor[env](value, exn) }
             return Self.thing
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -197,7 +197,7 @@ extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaR
         switch value {
         case thing:
             return try env.check { exn in
-                return thing_constructor[env](
+                return thingConstructor[env](
                     exn
                 )
             }
@@ -386,29 +386,13 @@ struct _IotaAProtocol: TestAPI.AProtocol {
 @_cdecl("TestAPI_CommonInterface__AProtocolConverter_setup")
 public func TestAPI_CommonInterface__AProtocolConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
-    _ bazGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
-    _ fooGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ bar: @escaping @convention(c) (
-        HostObject,
-        Swift.Int.CType,
-        Swift.Int.CType,
-        _ exn: OutHostException
-    ) -> TestAPI_CommonInterface._AProtocolConverter.CType,
-    _ hasADefaultImplementation: @escaping @convention(c) (
-        HostObject,
-        Swift.Int.CType,
-        Swift.Double.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ hasADefaultImplementation2: @escaping @convention(c) (
-        HostObject,
-        Swift.String.CType,
-        Swift.Bool.CType,
-        Swift.String.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._AProtocolConverter._ConstructorMethod,
+    bazGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Bool.CType,
+    fooGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    bar: @escaping @convention(c) (HostObject, Swift.Int.CType, Swift.Int.CType, OutHostException) -> TestAPI_CommonInterface._AProtocolConverter.CType,
+    hasADefaultImplementation: @escaping @convention(c) (HostObject, Swift.Int.CType, Swift.Double.CType, OutHostException) -> Swift.String.CType,
+    hasADefaultImplementation2: @escaping @convention(c) (HostObject, Swift.String.CType, Swift.Bool.CType, Swift.String.CType, OutHostException) -> Swift.String.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._AProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -858,33 +842,33 @@ public func __iota_get_TestAPI_AssociatedDataEnum_staticThing(
 public func TestAPI_AssociatedDataEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.AssociatedDataEnum.Discriminator,
-    thing_constructor: @escaping TestAPI.AssociatedDataEnum.Thing_constructor,
-    thing_extractor: @escaping TestAPI.AssociatedDataEnum.Thing_extractor,
-    other_constructor: @escaping TestAPI.AssociatedDataEnum.Other_constructor,
-    other_extractor: @escaping TestAPI.AssociatedDataEnum.Other_extractor,
-    bar_constructor: @escaping TestAPI.AssociatedDataEnum.Bar_constructor,
-    bar_extractor: @escaping TestAPI.AssociatedDataEnum.Bar_extractor,
-    noValue_constructor: @escaping TestAPI.AssociatedDataEnum.NoValue_constructor,
-    noValue_extractor: @escaping TestAPI.AssociatedDataEnum.NoValue_extractor,
-    none_constructor: @escaping TestAPI.AssociatedDataEnum.None_constructor,
-    none_extractor: @escaping TestAPI.AssociatedDataEnum.None_extractor,
-    simpleEnum_constructor: @escaping TestAPI.AssociatedDataEnum.SimpleEnum_constructor,
-    simpleEnum_extractor: @escaping TestAPI.AssociatedDataEnum.SimpleEnum_extractor
+    thingConstructor: @escaping TestAPI.AssociatedDataEnum.ThingConstructor,
+    thingExtractor: @escaping TestAPI.AssociatedDataEnum.ThingExtractor,
+    otherConstructor: @escaping TestAPI.AssociatedDataEnum.OtherConstructor,
+    otherExtractor: @escaping TestAPI.AssociatedDataEnum.OtherExtractor,
+    barConstructor: @escaping TestAPI.AssociatedDataEnum.BarConstructor,
+    barExtractor: @escaping TestAPI.AssociatedDataEnum.BarExtractor,
+    noValueConstructor: @escaping TestAPI.AssociatedDataEnum.NoValueConstructor,
+    noValueExtractor: @escaping TestAPI.AssociatedDataEnum.NoValueExtractor,
+    noneConstructor: @escaping TestAPI.AssociatedDataEnum.NoneConstructor,
+    noneExtractor: @escaping TestAPI.AssociatedDataEnum.NoneExtractor,
+    simpleEnumConstructor: @escaping TestAPI.AssociatedDataEnum.SimpleEnumConstructor,
+    simpleEnumExtractor: @escaping TestAPI.AssociatedDataEnum.SimpleEnumExtractor
 ) {
     let env = Env(envRef)
     TestAPI.AssociatedDataEnum.discriminator[env] = discriminator
-    TestAPI.AssociatedDataEnum.thing_constructor[env] = thing_constructor
-    TestAPI.AssociatedDataEnum.thing_extractor[env] = thing_extractor
-    TestAPI.AssociatedDataEnum.other_constructor[env] = other_constructor
-    TestAPI.AssociatedDataEnum.other_extractor[env] = other_extractor
-    TestAPI.AssociatedDataEnum.bar_constructor[env] = bar_constructor
-    TestAPI.AssociatedDataEnum.bar_extractor[env] = bar_extractor
-    TestAPI.AssociatedDataEnum.noValue_constructor[env] = noValue_constructor
-    TestAPI.AssociatedDataEnum.noValue_extractor[env] = noValue_extractor
-    TestAPI.AssociatedDataEnum.none_constructor[env] = none_constructor
-    TestAPI.AssociatedDataEnum.none_extractor[env] = none_extractor
-    TestAPI.AssociatedDataEnum.simpleEnum_constructor[env] = simpleEnum_constructor
-    TestAPI.AssociatedDataEnum.simpleEnum_extractor[env] = simpleEnum_extractor
+    TestAPI.AssociatedDataEnum.thingConstructor[env] = thingConstructor
+    TestAPI.AssociatedDataEnum.thingExtractor[env] = thingExtractor
+    TestAPI.AssociatedDataEnum.otherConstructor[env] = otherConstructor
+    TestAPI.AssociatedDataEnum.otherExtractor[env] = otherExtractor
+    TestAPI.AssociatedDataEnum.barConstructor[env] = barConstructor
+    TestAPI.AssociatedDataEnum.barExtractor[env] = barExtractor
+    TestAPI.AssociatedDataEnum.noValueConstructor[env] = noValueConstructor
+    TestAPI.AssociatedDataEnum.noValueExtractor[env] = noValueExtractor
+    TestAPI.AssociatedDataEnum.noneConstructor[env] = noneConstructor
+    TestAPI.AssociatedDataEnum.noneExtractor[env] = noneExtractor
+    TestAPI.AssociatedDataEnum.simpleEnumConstructor[env] = simpleEnumConstructor
+    TestAPI.AssociatedDataEnum.simpleEnumExtractor[env] = simpleEnumExtractor
 }
 
 extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -893,87 +877,87 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Thing_constructor = @convention(c) (
+    public typealias ThingConstructor = @convention(c) (
         Swift.Int.CType,
         OutHostException
     ) -> HostObject
-    fileprivate static let thing_constructor = Env.CallbackMap<Thing_constructor>()
-    public typealias Thing_extractor = @convention(c) (
+    fileprivate static let thingConstructor = Env.CallbackMap<ThingConstructor>()
+    public typealias ThingExtractor = @convention(c) (
         HostObject,
         UnsafePointer<Swift.Int.CType>,
         OutHostException
     ) -> Void
-    fileprivate static let thing_extractor = Env.CallbackMap<Thing_extractor>()
-    public typealias Other_constructor = @convention(c) (
+    fileprivate static let thingExtractor = Env.CallbackMap<ThingExtractor>()
+    public typealias OtherConstructor = @convention(c) (
         Swift.String.CType,
         Swift.Int.CType,
         OutHostException
     ) -> HostObject
-    fileprivate static let other_constructor = Env.CallbackMap<Other_constructor>()
-    public typealias Other_extractor = @convention(c) (
+    fileprivate static let otherConstructor = Env.CallbackMap<OtherConstructor>()
+    public typealias OtherExtractor = @convention(c) (
         HostObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<Swift.Int.CType>,
         OutHostException
     ) -> Void
-    fileprivate static let other_extractor = Env.CallbackMap<Other_extractor>()
-    public typealias Bar_constructor = @convention(c) (
+    fileprivate static let otherExtractor = Env.CallbackMap<OtherExtractor>()
+    public typealias BarConstructor = @convention(c) (
         Swift.String.CType,
         TestAPI.AssociatedDataEnum.CType,
         Swift.Bool.CType,
         OutHostException
     ) -> HostObject
-    fileprivate static let bar_constructor = Env.CallbackMap<Bar_constructor>()
-    public typealias Bar_extractor = @convention(c) (
+    fileprivate static let barConstructor = Env.CallbackMap<BarConstructor>()
+    public typealias BarExtractor = @convention(c) (
         HostObject,
         UnsafePointer<Swift.String.CType>,
         UnsafePointer<TestAPI.AssociatedDataEnum.CType>,
         UnsafePointer<Swift.Bool.CType>,
         OutHostException
     ) -> Void
-    fileprivate static let bar_extractor = Env.CallbackMap<Bar_extractor>()
-    public typealias NoValue_constructor = @convention(c) (
+    fileprivate static let barExtractor = Env.CallbackMap<BarExtractor>()
+    public typealias NoValueConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let noValue_constructor = Env.CallbackMap<NoValue_constructor>()
-    public typealias NoValue_extractor = @convention(c) (
+    fileprivate static let noValueConstructor = Env.CallbackMap<NoValueConstructor>()
+    public typealias NoValueExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let noValue_extractor = Env.CallbackMap<NoValue_extractor>()
-    public typealias None_constructor = @convention(c) (
+    fileprivate static let noValueExtractor = Env.CallbackMap<NoValueExtractor>()
+    public typealias NoneConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let none_constructor = Env.CallbackMap<None_constructor>()
-    public typealias None_extractor = @convention(c) (
+    fileprivate static let noneConstructor = Env.CallbackMap<NoneConstructor>()
+    public typealias NoneExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let none_extractor = Env.CallbackMap<None_extractor>()
-    public typealias SimpleEnum_constructor = @convention(c) (
+    fileprivate static let noneExtractor = Env.CallbackMap<NoneExtractor>()
+    public typealias SimpleEnumConstructor = @convention(c) (
         TestAPI.SimpleEnum.CType,
         OutHostException
     ) -> HostObject
-    fileprivate static let simpleEnum_constructor = Env.CallbackMap<SimpleEnum_constructor>()
-    public typealias SimpleEnum_extractor = @convention(c) (
+    fileprivate static let simpleEnumConstructor = Env.CallbackMap<SimpleEnumConstructor>()
+    public typealias SimpleEnumExtractor = @convention(c) (
         HostObject,
         UnsafePointer<TestAPI.SimpleEnum.CType>,
         OutHostException
     ) -> Void
-    fileprivate static let simpleEnum_extractor = Env.CallbackMap<SimpleEnum_extractor>()
+    fileprivate static let simpleEnumExtractor = Env.CallbackMap<SimpleEnumExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             var _value = Swift.Int.CType.default
-            try env.check { exn in thing_extractor[env](value, &_value, exn) }
+            try env.check { exn in thingExtractor[env](value, &_value, exn) }
             return Self.thing(
                 value: try Swift.Int.peekIota(_value, env: env)
             )
         case 1:
             var _unnamed = Swift.String.CType.default
             var __1 = Swift.Int.CType.default
-            try env.check { exn in other_extractor[env](value, &_unnamed, &__1, exn) }
+            try env.check { exn in otherExtractor[env](value, &_unnamed, &__1, exn) }
             defer {
                 env.deleteRef(_unnamed)
             }
@@ -985,7 +969,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
             var _named = Swift.String.CType.default
             var __1 = TestAPI.AssociatedDataEnum.CType.default
             var _toggled = Swift.Bool.CType.default
-            try env.check { exn in bar_extractor[env](value, &_named, &__1, &_toggled, exn) }
+            try env.check { exn in barExtractor[env](value, &_named, &__1, &_toggled, exn) }
             defer {
                 env.deleteRef(_named)
                 env.deleteRef(__1)
@@ -996,14 +980,14 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
                 toggled: try Swift.Bool.peekIota(_toggled, env: env)
             )
         case 3:
-            try env.check { exn in noValue_extractor[env](value, exn) }
+            try env.check { exn in noValueExtractor[env](value, exn) }
             return Self.noValue
         case 4:
-            try env.check { exn in none_extractor[env](value, exn) }
+            try env.check { exn in noneExtractor[env](value, exn) }
             return Self.none
         case 5:
             var _value = TestAPI.SimpleEnum.CType.default
-            try env.check { exn in simpleEnum_extractor[env](value, &_value, exn) }
+            try env.check { exn in simpleEnumExtractor[env](value, &_value, exn) }
             defer {
                 env.deleteRef(_value)
             }
@@ -1019,14 +1003,14 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
         switch value {
         case let thing(value):
             return try env.check { exn in
-                return thing_constructor[env](
+                return thingConstructor[env](
                     try Swift.Int.toIota(value, env: env),
                     exn
                 )
             }
         case let other(unnamed, _1):
             return try env.check { exn in
-                return other_constructor[env](
+                return otherConstructor[env](
                     try Swift.String.toIota(unnamed, env: env),
                     try Swift.Int.toIota(_1, env: env),
                     exn
@@ -1034,7 +1018,7 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
             }
         case let bar(named, _1, toggled):
             return try env.check { exn in
-                return bar_constructor[env](
+                return barConstructor[env](
                     try Swift.String.toIota(named, env: env),
                     try TestAPI.AssociatedDataEnum.toIota(_1, env: env),
                     try Swift.Bool.toIota(toggled, env: env),
@@ -1043,19 +1027,19 @@ extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
             }
         case noValue:
             return try env.check { exn in
-                return noValue_constructor[env](
+                return noValueConstructor[env](
                     exn
                 )
             }
         case none:
             return try env.check { exn in
-                return none_constructor[env](
+                return noneConstructor[env](
                     exn
                 )
             }
         case let simpleEnum(value):
             return try env.check { exn in
-                return simpleEnum_constructor[env](
+                return simpleEnumConstructor[env](
                     try TestAPI.SimpleEnum.toIota(value, env: env),
                     exn
                 )
@@ -6781,25 +6765,25 @@ public func __iota_TestAPI_ReferenceCaseEnum_rotate180(
 public func TestAPI_ReferenceCaseEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.ReferenceCaseEnum.Discriminator,
-    north_constructor: @escaping TestAPI.ReferenceCaseEnum.North_constructor,
-    north_extractor: @escaping TestAPI.ReferenceCaseEnum.North_extractor,
-    south_constructor: @escaping TestAPI.ReferenceCaseEnum.South_constructor,
-    south_extractor: @escaping TestAPI.ReferenceCaseEnum.South_extractor,
-    east_constructor: @escaping TestAPI.ReferenceCaseEnum.East_constructor,
-    east_extractor: @escaping TestAPI.ReferenceCaseEnum.East_extractor,
-    west_constructor: @escaping TestAPI.ReferenceCaseEnum.West_constructor,
-    west_extractor: @escaping TestAPI.ReferenceCaseEnum.West_extractor
+    northConstructor: @escaping TestAPI.ReferenceCaseEnum.NorthConstructor,
+    northExtractor: @escaping TestAPI.ReferenceCaseEnum.NorthExtractor,
+    southConstructor: @escaping TestAPI.ReferenceCaseEnum.SouthConstructor,
+    southExtractor: @escaping TestAPI.ReferenceCaseEnum.SouthExtractor,
+    eastConstructor: @escaping TestAPI.ReferenceCaseEnum.EastConstructor,
+    eastExtractor: @escaping TestAPI.ReferenceCaseEnum.EastExtractor,
+    westConstructor: @escaping TestAPI.ReferenceCaseEnum.WestConstructor,
+    westExtractor: @escaping TestAPI.ReferenceCaseEnum.WestExtractor
 ) {
     let env = Env(envRef)
     TestAPI.ReferenceCaseEnum.discriminator[env] = discriminator
-    TestAPI.ReferenceCaseEnum.north_constructor[env] = north_constructor
-    TestAPI.ReferenceCaseEnum.north_extractor[env] = north_extractor
-    TestAPI.ReferenceCaseEnum.south_constructor[env] = south_constructor
-    TestAPI.ReferenceCaseEnum.south_extractor[env] = south_extractor
-    TestAPI.ReferenceCaseEnum.east_constructor[env] = east_constructor
-    TestAPI.ReferenceCaseEnum.east_extractor[env] = east_extractor
-    TestAPI.ReferenceCaseEnum.west_constructor[env] = west_constructor
-    TestAPI.ReferenceCaseEnum.west_extractor[env] = west_extractor
+    TestAPI.ReferenceCaseEnum.northConstructor[env] = northConstructor
+    TestAPI.ReferenceCaseEnum.northExtractor[env] = northExtractor
+    TestAPI.ReferenceCaseEnum.southConstructor[env] = southConstructor
+    TestAPI.ReferenceCaseEnum.southExtractor[env] = southExtractor
+    TestAPI.ReferenceCaseEnum.eastConstructor[env] = eastConstructor
+    TestAPI.ReferenceCaseEnum.eastExtractor[env] = eastExtractor
+    TestAPI.ReferenceCaseEnum.westConstructor[env] = westConstructor
+    TestAPI.ReferenceCaseEnum.westExtractor[env] = westExtractor
 }
 
 extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -6808,56 +6792,56 @@ extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias North_constructor = @convention(c) (
+    public typealias NorthConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let north_constructor = Env.CallbackMap<North_constructor>()
-    public typealias North_extractor = @convention(c) (
+    fileprivate static let northConstructor = Env.CallbackMap<NorthConstructor>()
+    public typealias NorthExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let north_extractor = Env.CallbackMap<North_extractor>()
-    public typealias South_constructor = @convention(c) (
+    fileprivate static let northExtractor = Env.CallbackMap<NorthExtractor>()
+    public typealias SouthConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let south_constructor = Env.CallbackMap<South_constructor>()
-    public typealias South_extractor = @convention(c) (
+    fileprivate static let southConstructor = Env.CallbackMap<SouthConstructor>()
+    public typealias SouthExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let south_extractor = Env.CallbackMap<South_extractor>()
-    public typealias East_constructor = @convention(c) (
+    fileprivate static let southExtractor = Env.CallbackMap<SouthExtractor>()
+    public typealias EastConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let east_constructor = Env.CallbackMap<East_constructor>()
-    public typealias East_extractor = @convention(c) (
+    fileprivate static let eastConstructor = Env.CallbackMap<EastConstructor>()
+    public typealias EastExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let east_extractor = Env.CallbackMap<East_extractor>()
-    public typealias West_constructor = @convention(c) (
+    fileprivate static let eastExtractor = Env.CallbackMap<EastExtractor>()
+    public typealias WestConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let west_constructor = Env.CallbackMap<West_constructor>()
-    public typealias West_extractor = @convention(c) (
+    fileprivate static let westConstructor = Env.CallbackMap<WestConstructor>()
+    public typealias WestExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let west_extractor = Env.CallbackMap<West_extractor>()
+    fileprivate static let westExtractor = Env.CallbackMap<WestExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in north_extractor[env](value, exn) }
+            try env.check { exn in northExtractor[env](value, exn) }
             return Self.north
         case 1:
-            try env.check { exn in south_extractor[env](value, exn) }
+            try env.check { exn in southExtractor[env](value, exn) }
             return Self.south
         case 2:
-            try env.check { exn in east_extractor[env](value, exn) }
+            try env.check { exn in eastExtractor[env](value, exn) }
             return Self.east
         case 3:
-            try env.check { exn in west_extractor[env](value, exn) }
+            try env.check { exn in westExtractor[env](value, exn) }
             return Self.west
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -6868,25 +6852,25 @@ extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
         switch value {
         case north:
             return try env.check { exn in
-                return north_constructor[env](
+                return northConstructor[env](
                     exn
                 )
             }
         case south:
             return try env.check { exn in
-                return south_constructor[env](
+                return southConstructor[env](
                     exn
                 )
             }
         case east:
             return try env.check { exn in
-                return east_constructor[env](
+                return eastConstructor[env](
                     exn
                 )
             }
         case west:
             return try env.check { exn in
-                return west_constructor[env](
+                return westConstructor[env](
                     exn
                 )
             }
@@ -7245,17 +7229,17 @@ public func __iota_TestAPI_ShadowBox_darkest(
 public func TestAPI_ShadowBox_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.ShadowBox.Discriminator,
-    shade_constructor: @escaping TestAPI.ShadowBox.Shade_constructor,
-    shade_extractor: @escaping TestAPI.ShadowBox.Shade_extractor,
-    empty_constructor: @escaping TestAPI.ShadowBox.Empty_constructor,
-    empty_extractor: @escaping TestAPI.ShadowBox.Empty_extractor
+    shadeConstructor: @escaping TestAPI.ShadowBox.ShadeConstructor,
+    shadeExtractor: @escaping TestAPI.ShadowBox.ShadeExtractor,
+    emptyConstructor: @escaping TestAPI.ShadowBox.EmptyConstructor,
+    emptyExtractor: @escaping TestAPI.ShadowBox.EmptyExtractor
 ) {
     let env = Env(envRef)
     TestAPI.ShadowBox.discriminator[env] = discriminator
-    TestAPI.ShadowBox.shade_constructor[env] = shade_constructor
-    TestAPI.ShadowBox.shade_extractor[env] = shade_extractor
-    TestAPI.ShadowBox.empty_constructor[env] = empty_constructor
-    TestAPI.ShadowBox.empty_extractor[env] = empty_extractor
+    TestAPI.ShadowBox.shadeConstructor[env] = shadeConstructor
+    TestAPI.ShadowBox.shadeExtractor[env] = shadeExtractor
+    TestAPI.ShadowBox.emptyConstructor[env] = emptyConstructor
+    TestAPI.ShadowBox.emptyExtractor[env] = emptyExtractor
 }
 
 extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
@@ -7264,32 +7248,32 @@ extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Shade_constructor = @convention(c) (
+    public typealias ShadeConstructor = @convention(c) (
         TestAPI.Shade.CType,
         OutHostException
     ) -> HostObject
-    fileprivate static let shade_constructor = Env.CallbackMap<Shade_constructor>()
-    public typealias Shade_extractor = @convention(c) (
+    fileprivate static let shadeConstructor = Env.CallbackMap<ShadeConstructor>()
+    public typealias ShadeExtractor = @convention(c) (
         HostObject,
         UnsafePointer<TestAPI.Shade.CType>,
         OutHostException
     ) -> Void
-    fileprivate static let shade_extractor = Env.CallbackMap<Shade_extractor>()
-    public typealias Empty_constructor = @convention(c) (
+    fileprivate static let shadeExtractor = Env.CallbackMap<ShadeExtractor>()
+    public typealias EmptyConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let empty_constructor = Env.CallbackMap<Empty_constructor>()
-    public typealias Empty_extractor = @convention(c) (
+    fileprivate static let emptyConstructor = Env.CallbackMap<EmptyConstructor>()
+    public typealias EmptyExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let empty_extractor = Env.CallbackMap<Empty_extractor>()
+    fileprivate static let emptyExtractor = Env.CallbackMap<EmptyExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
             var __0 = TestAPI.Shade.CType.default
-            try env.check { exn in shade_extractor[env](value, &__0, exn) }
+            try env.check { exn in shadeExtractor[env](value, &__0, exn) }
             defer {
                 env.deleteRef(__0)
             }
@@ -7297,7 +7281,7 @@ extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
                 try TestAPI.Shade.peekIota(__0, env: env)
             )
         case 1:
-            try env.check { exn in empty_extractor[env](value, exn) }
+            try env.check { exn in emptyExtractor[env](value, exn) }
             return Self.empty
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -7308,14 +7292,14 @@ extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
         switch value {
         case let shade(_0):
             return try env.check { exn in
-                return shade_constructor[env](
+                return shadeConstructor[env](
                     try TestAPI.Shade.toIota(_0, env: env),
                     exn
                 )
             }
         case empty:
             return try env.check { exn in
-                return empty_constructor[env](
+                return emptyConstructor[env](
                     exn
                 )
             }
@@ -7426,21 +7410,21 @@ public func __iota_TestAPI_SimpleEnum_resetFavoriteColor(
 public func TestAPI_SimpleEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.SimpleEnum.Discriminator,
-    red_constructor: @escaping TestAPI.SimpleEnum.Red_constructor,
-    red_extractor: @escaping TestAPI.SimpleEnum.Red_extractor,
-    green_constructor: @escaping TestAPI.SimpleEnum.Green_constructor,
-    green_extractor: @escaping TestAPI.SimpleEnum.Green_extractor,
-    blue_constructor: @escaping TestAPI.SimpleEnum.Blue_constructor,
-    blue_extractor: @escaping TestAPI.SimpleEnum.Blue_extractor
+    redConstructor: @escaping TestAPI.SimpleEnum.RedConstructor,
+    redExtractor: @escaping TestAPI.SimpleEnum.RedExtractor,
+    greenConstructor: @escaping TestAPI.SimpleEnum.GreenConstructor,
+    greenExtractor: @escaping TestAPI.SimpleEnum.GreenExtractor,
+    blueConstructor: @escaping TestAPI.SimpleEnum.BlueConstructor,
+    blueExtractor: @escaping TestAPI.SimpleEnum.BlueExtractor
 ) {
     let env = Env(envRef)
     TestAPI.SimpleEnum.discriminator[env] = discriminator
-    TestAPI.SimpleEnum.red_constructor[env] = red_constructor
-    TestAPI.SimpleEnum.red_extractor[env] = red_extractor
-    TestAPI.SimpleEnum.green_constructor[env] = green_constructor
-    TestAPI.SimpleEnum.green_extractor[env] = green_extractor
-    TestAPI.SimpleEnum.blue_constructor[env] = blue_constructor
-    TestAPI.SimpleEnum.blue_extractor[env] = blue_extractor
+    TestAPI.SimpleEnum.redConstructor[env] = redConstructor
+    TestAPI.SimpleEnum.redExtractor[env] = redExtractor
+    TestAPI.SimpleEnum.greenConstructor[env] = greenConstructor
+    TestAPI.SimpleEnum.greenExtractor[env] = greenExtractor
+    TestAPI.SimpleEnum.blueConstructor[env] = blueConstructor
+    TestAPI.SimpleEnum.blueExtractor[env] = blueExtractor
 }
 
 extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -7449,44 +7433,44 @@ extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Red_constructor = @convention(c) (
+    public typealias RedConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let red_constructor = Env.CallbackMap<Red_constructor>()
-    public typealias Red_extractor = @convention(c) (
+    fileprivate static let redConstructor = Env.CallbackMap<RedConstructor>()
+    public typealias RedExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let red_extractor = Env.CallbackMap<Red_extractor>()
-    public typealias Green_constructor = @convention(c) (
+    fileprivate static let redExtractor = Env.CallbackMap<RedExtractor>()
+    public typealias GreenConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let green_constructor = Env.CallbackMap<Green_constructor>()
-    public typealias Green_extractor = @convention(c) (
+    fileprivate static let greenConstructor = Env.CallbackMap<GreenConstructor>()
+    public typealias GreenExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let green_extractor = Env.CallbackMap<Green_extractor>()
-    public typealias Blue_constructor = @convention(c) (
+    fileprivate static let greenExtractor = Env.CallbackMap<GreenExtractor>()
+    public typealias BlueConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let blue_constructor = Env.CallbackMap<Blue_constructor>()
-    public typealias Blue_extractor = @convention(c) (
+    fileprivate static let blueConstructor = Env.CallbackMap<BlueConstructor>()
+    public typealias BlueExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let blue_extractor = Env.CallbackMap<Blue_extractor>()
+    fileprivate static let blueExtractor = Env.CallbackMap<BlueExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in red_extractor[env](value, exn) }
+            try env.check { exn in redExtractor[env](value, exn) }
             return Self.red
         case 1:
-            try env.check { exn in green_extractor[env](value, exn) }
+            try env.check { exn in greenExtractor[env](value, exn) }
             return Self.green
         case 2:
-            try env.check { exn in blue_extractor[env](value, exn) }
+            try env.check { exn in blueExtractor[env](value, exn) }
             return Self.blue
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -7497,19 +7481,19 @@ extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
         switch value {
         case red:
             return try env.check { exn in
-                return red_constructor[env](
+                return redConstructor[env](
                     exn
                 )
             }
         case green:
             return try env.check { exn in
-                return green_constructor[env](
+                return greenConstructor[env](
                     exn
                 )
             }
         case blue:
             return try env.check { exn in
-                return blue_constructor[env](
+                return blueConstructor[env](
                     exn
                 )
             }
@@ -9515,65 +9499,26 @@ struct _IotaTestAsyncFunctions: TestAPI.TestAsyncFunctions {
 @_cdecl("TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup")
 public func TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestAsyncFunctionsConverter._ConstructorMethod,
-    _ add3ThingsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-    _ const42Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ fifthThingGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-    _ iabsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-    _ intComposeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-    _ makeListGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-    _ sixGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-    _ willThrowGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
-    _ exercise0: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction0Converter<Swift.Int>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise1: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise2: @escaping @convention(c) (
-        HostObject,
-        Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise3: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise4: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise5: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ exercise6: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ thunkTwiceMaker: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-        _ exn: OutHostException
-    ) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
-    _ defaultExercise6: @escaping @convention(c) (
-        HostObject,
-        AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ witness: @escaping @convention(c) (
-        HostObject,
-        _ exn: OutHostException
-    ) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestAsyncFunctionsConverter._ConstructorMethod,
+    add3ThingsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType,
+    const42Getter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
+    fifthThingGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType,
+    iabsGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction1Converter<Swift.Int, Swift.Int>.CType,
+    intComposeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType,
+    makeListGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType,
+    sixGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType,
+    willThrowGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> AsyncFunction0Converter<Swift.Int>.CType,
+    exercise0: @escaping @convention(c) (HostObject, AsyncFunction0Converter<Swift.Int>.CType, OutHostException) -> Swift.String.CType,
+    exercise1: @escaping @convention(c) (HostObject, AsyncFunction1Converter<Swift.Int, Swift.Int>.CType, OutHostException) -> Swift.String.CType,
+    exercise2: @escaping @convention(c) (HostObject, Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>.CType, OutHostException) -> Swift.String.CType,
+    exercise3: @escaping @convention(c) (HostObject, AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.CType, OutHostException) -> Swift.String.CType,
+    exercise4: @escaping @convention(c) (HostObject, AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.CType, OutHostException) -> Swift.String.CType,
+    exercise5: @escaping @convention(c) (HostObject, AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>.CType, OutHostException) -> Swift.String.CType,
+    exercise6: @escaping @convention(c) (HostObject, AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType, OutHostException) -> Swift.String.CType,
+    thunkTwiceMaker: @escaping @convention(c) (HostObject, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType, OutHostException) -> AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>.CType,
+    defaultExercise6: @escaping @convention(c) (HostObject, AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>.CType, OutHostException) -> Swift.String.CType,
+    witness: @escaping @convention(c) (HostObject, OutHostException) -> TestAPI_CommonInterface._TestAsyncFunctionsConverter.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestAsyncFunctionsConverter._constructorMethod.isInitialized(env) { return }
@@ -10132,10 +10077,10 @@ struct _IotaTestDefaultComputedProperties: TestAPI.TestDefaultComputedProperties
 @_cdecl("TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup")
 public func TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._ConstructorMethod,
-    _ nootGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ plutoGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._ConstructorMethod,
+    nootGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    plutoGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestDefaultComputedPropertiesConverter._constructorMethod.isInitialized(env) { return }
@@ -10346,13 +10291,13 @@ public func __iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(
 public func TestAPI_TestDefaultComputedPropertiesEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestDefaultComputedPropertiesEnum.Discriminator,
-    qux_constructor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.Qux_constructor,
-    qux_extractor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.Qux_extractor
+    quxConstructor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.QuxConstructor,
+    quxExtractor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.QuxExtractor
 ) {
     let env = Env(envRef)
     TestAPI.TestDefaultComputedPropertiesEnum.discriminator[env] = discriminator
-    TestAPI.TestDefaultComputedPropertiesEnum.qux_constructor[env] = qux_constructor
-    TestAPI.TestDefaultComputedPropertiesEnum.qux_extractor[env] = qux_extractor
+    TestAPI.TestDefaultComputedPropertiesEnum.quxConstructor[env] = quxConstructor
+    TestAPI.TestDefaultComputedPropertiesEnum.quxExtractor[env] = quxExtractor
 }
 
 extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -10361,20 +10306,20 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaCo
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Qux_constructor = @convention(c) (
+    public typealias QuxConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let qux_constructor = Env.CallbackMap<Qux_constructor>()
-    public typealias Qux_extractor = @convention(c) (
+    fileprivate static let quxConstructor = Env.CallbackMap<QuxConstructor>()
+    public typealias QuxExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let qux_extractor = Env.CallbackMap<Qux_extractor>()
+    fileprivate static let quxExtractor = Env.CallbackMap<QuxExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in qux_extractor[env](value, exn) }
+            try env.check { exn in quxExtractor[env](value, exn) }
             return Self.qux
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -10385,7 +10330,7 @@ extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaCo
         switch value {
         case qux:
             return try env.check { exn in
-                return qux_constructor[env](
+                return quxConstructor[env](
                     exn
                 )
             }
@@ -10513,9 +10458,9 @@ struct _IotaTestDifferingExportNameProtocol: TestAPI.TestDifferingExportNameProt
 @_cdecl("TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup")
 public func TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._ConstructorMethod,
-    _ tataGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._ConstructorMethod,
+    tataGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.Int.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -10640,9 +10585,9 @@ struct _IotaTestLeadingUnderscoredProp: TestAPI.TestLeadingUnderscoredProp {
 @_cdecl("TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup")
 public func TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter._ConstructorMethod,
-    _ _leadingUnderscorePropGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter._ConstructorMethod,
+    _leadingUnderscorePropGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter._constructorMethod.isInitialized(env) { return }
@@ -10942,37 +10887,14 @@ struct _IotaTestMethodsProtocol: TestAPI.TestMethodsProtocol {
 @_cdecl("TestAPI_CommonInterface__TestMethodsProtocolConverter_setup")
 public func TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestMethodsProtocolConverter._ConstructorMethod,
-    _ foo: @escaping @convention(c) (
-        HostObject,
-        _ exn: OutHostException
-    ) -> FishyJoesCommonRuntime.VoidConverter.CType,
-    _ bar: @escaping @convention(c) (
-        HostObject,
-        _ exn: OutHostException
-    ) -> Swift.Bool.CType,
-    _ baz: @escaping @convention(c) (
-        HostObject,
-        Swift.Bool.CType,
-        _ exn: OutHostException
-    ) -> FishyJoesCommonRuntime.VoidConverter.CType,
-    _ garply: @escaping @convention(c) (
-        HostObject,
-        Swift.String.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ xyzzy: @escaping @convention(c) (
-        HostObject,
-        Swift.Int.CType,
-        ArrayConverter<Swift.Double>.CType,
-        _ exn: OutHostException
-    ) -> Swift.String.CType,
-    _ plugh: @escaping @convention(c) (
-        HostObject,
-        Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType,
-        _ exn: OutHostException
-    ) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestMethodsProtocolConverter._ConstructorMethod,
+    foo: @escaping @convention(c) (HostObject, OutHostException) -> FishyJoesCommonRuntime.VoidConverter.CType,
+    bar: @escaping @convention(c) (HostObject, OutHostException) -> Swift.Bool.CType,
+    baz: @escaping @convention(c) (HostObject, Swift.Bool.CType, OutHostException) -> FishyJoesCommonRuntime.VoidConverter.CType,
+    garply: @escaping @convention(c) (HostObject, Swift.String.CType, OutHostException) -> Swift.String.CType,
+    xyzzy: @escaping @convention(c) (HostObject, Swift.Int.CType, ArrayConverter<Swift.Double>.CType, OutHostException) -> Swift.String.CType,
+    plugh: @escaping @convention(c) (HostObject, Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.CType, OutHostException) -> Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestMethodsProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11082,13 +11004,13 @@ public func __iota_TestAPI_TestNonExportedProtocolEnum_hoge(
 public func TestAPI_TestNonExportedProtocolEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestNonExportedProtocolEnum.Discriminator,
-    hogehoge_constructor: @escaping TestAPI.TestNonExportedProtocolEnum.Hogehoge_constructor,
-    hogehoge_extractor: @escaping TestAPI.TestNonExportedProtocolEnum.Hogehoge_extractor
+    hogehogeConstructor: @escaping TestAPI.TestNonExportedProtocolEnum.HogehogeConstructor,
+    hogehogeExtractor: @escaping TestAPI.TestNonExportedProtocolEnum.HogehogeExtractor
 ) {
     let env = Env(envRef)
     TestAPI.TestNonExportedProtocolEnum.discriminator[env] = discriminator
-    TestAPI.TestNonExportedProtocolEnum.hogehoge_constructor[env] = hogehoge_constructor
-    TestAPI.TestNonExportedProtocolEnum.hogehoge_extractor[env] = hogehoge_extractor
+    TestAPI.TestNonExportedProtocolEnum.hogehogeConstructor[env] = hogehogeConstructor
+    TestAPI.TestNonExportedProtocolEnum.hogehogeExtractor[env] = hogehogeExtractor
 }
 
 extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -11097,20 +11019,20 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverte
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Hogehoge_constructor = @convention(c) (
+    public typealias HogehogeConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let hogehoge_constructor = Env.CallbackMap<Hogehoge_constructor>()
-    public typealias Hogehoge_extractor = @convention(c) (
+    fileprivate static let hogehogeConstructor = Env.CallbackMap<HogehogeConstructor>()
+    public typealias HogehogeExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let hogehoge_extractor = Env.CallbackMap<Hogehoge_extractor>()
+    fileprivate static let hogehogeExtractor = Env.CallbackMap<HogehogeExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in hogehoge_extractor[env](value, exn) }
+            try env.check { exn in hogehogeExtractor[env](value, exn) }
             return Self.hogehoge
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -11121,7 +11043,7 @@ extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverte
         switch value {
         case hogehoge:
             return try env.check { exn in
-                return hogehoge_constructor[env](
+                return hogehogeConstructor[env](
                     exn
                 )
             }
@@ -11232,19 +11154,11 @@ struct _IotaTestOptionalsProtocol: TestAPI.TestOptionalsProtocol {
 @_cdecl("TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup")
 public func TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestOptionalsProtocolConverter._ConstructorMethod,
-    _ flarpGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.String>.CType,
-    _ wombat: @escaping @convention(c) (
-        HostObject,
-        OptionalConverter<Swift.Int>.CType,
-        _ exn: OutHostException
-    ) -> OptionalConverter<Swift.Double>.CType,
-    _ spqr: @escaping @convention(c) (
-        HostObject,
-        TestAPI.AssociatedDataEnum.CType,
-        _ exn: OutHostException
-    ) -> Swift.Int.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestOptionalsProtocolConverter._ConstructorMethod,
+    flarpGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> OptionalConverter<Swift.String>.CType,
+    wombat: @escaping @convention(c) (HostObject, OptionalConverter<Swift.Int>.CType, OutHostException) -> OptionalConverter<Swift.Double>.CType,
+    spqr: @escaping @convention(c) (HostObject, TestAPI.AssociatedDataEnum.CType, OutHostException) -> Swift.Int.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestOptionalsProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11354,10 +11268,10 @@ struct _IotaTestPropertiesProtocol: TestAPI.TestPropertiesProtocol {
 @_cdecl("TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup")
 public func TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
     envRef: EnvRef,
-    constructorMethod: @escaping TestAPI_CommonInterface._TestPropertiesProtocolConverter._ConstructorMethod,
-    _ corgeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
-    _ frobGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType,
-    _ exn: OutHostException
+    constructorMethod: TestAPI_CommonInterface._TestPropertiesProtocolConverter._ConstructorMethod,
+    corgeGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> Swift.String.CType,
+    frobGetter: @escaping @convention(c) (HostObject, _ exn: OutHostException) -> ArrayConverter<Swift.Int>.CType,
+    exn: OutHostException
 ) {
     let env = Env(envRef)
     if TestAPI_CommonInterface._TestPropertiesProtocolConverter._constructorMethod.isInitialized(env) { return }
@@ -11833,13 +11747,13 @@ public func __iota_TestAPI_TestProtocolEnum_xyzzy(
 public func TestAPI_TestProtocolEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestProtocolEnum.Discriminator,
-    qux_constructor: @escaping TestAPI.TestProtocolEnum.Qux_constructor,
-    qux_extractor: @escaping TestAPI.TestProtocolEnum.Qux_extractor
+    quxConstructor: @escaping TestAPI.TestProtocolEnum.QuxConstructor,
+    quxExtractor: @escaping TestAPI.TestProtocolEnum.QuxExtractor
 ) {
     let env = Env(envRef)
     TestAPI.TestProtocolEnum.discriminator[env] = discriminator
-    TestAPI.TestProtocolEnum.qux_constructor[env] = qux_constructor
-    TestAPI.TestProtocolEnum.qux_extractor[env] = qux_extractor
+    TestAPI.TestProtocolEnum.quxConstructor[env] = quxConstructor
+    TestAPI.TestProtocolEnum.quxExtractor[env] = quxExtractor
 }
 
 extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -11848,20 +11762,20 @@ extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
         OutHostException
     ) -> Int
     fileprivate static let discriminator = Env.CallbackMap<Discriminator>()
-    public typealias Qux_constructor = @convention(c) (
+    public typealias QuxConstructor = @convention(c) (
         OutHostException
     ) -> HostObject
-    fileprivate static let qux_constructor = Env.CallbackMap<Qux_constructor>()
-    public typealias Qux_extractor = @convention(c) (
+    fileprivate static let quxConstructor = Env.CallbackMap<QuxConstructor>()
+    public typealias QuxExtractor = @convention(c) (
         HostObject,
         OutHostException
     ) -> Void
-    fileprivate static let qux_extractor = Env.CallbackMap<Qux_extractor>()
+    fileprivate static let quxExtractor = Env.CallbackMap<QuxExtractor>()
 
     public static func peekIota(_ value: HostObject, env: Env) throws -> Self {
         switch try env.check({ exn in discriminator[env](value, exn) }) {
         case 0:
-            try env.check { exn in qux_extractor[env](value, exn) }
+            try env.check { exn in quxExtractor[env](value, exn) }
             return Self.qux
         case let disc:
             fatalError("bad discriminator value \(disc) encountered for type \(self)")
@@ -11872,7 +11786,7 @@ extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
         switch value {
         case qux:
             return try env.check { exn in
-                return qux_constructor[env](
+                return quxConstructor[env](
                     exn
                 )
             }

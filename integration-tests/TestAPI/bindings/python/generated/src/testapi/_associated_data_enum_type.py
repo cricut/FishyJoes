@@ -14,7 +14,7 @@ class _BaseAssociatedDataEnum:
     def int_value(self) -> int:
         """<!-- FishyJoes.export(intValue) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AssociatedDataEnum_int_value(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AssociatedDataEnum_intValue(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
 
     def plus(
         self,

@@ -21,7 +21,7 @@ __all__: list[str] = [
 
 def get_favorite_color() -> testapi.SimpleEnum:
     """<!-- FishyJoes.export(favoriteColor) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_SimpleEnum_favorite_color(fishyjoes_runtime.Runtime.shared.env_ref), testapi.simple_enum.Red, testapi.simple_enum.Green, testapi.simple_enum.Blue)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_SimpleEnum_favoriteColor(fishyjoes_runtime.Runtime.shared.env_ref), testapi.simple_enum.Red, testapi.simple_enum.Green, testapi.simple_enum.Blue)
 
 def set_favorite_color(new_value: testapi.SimpleEnum) -> None: ...
 

@@ -5,6 +5,7 @@ struct TranslatedOptional: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String?
     let jniType: JNIType
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -27,17 +28,5 @@ struct TranslatedOptional: TranslatedType {
     }
     var converterType: BetterType {
         .generic(base: .runtime("OptionalConverter"), args: [wrapped.converterType])
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let wrappedRepresentation = wrapped.pythonRepresentation(in: context.recursingIntoChild()),
-              let wrappedConversion = wrappedRepresentation.conversionDescriptor else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: wrappedRepresentation.annotation.optional(),
-            cType: "HostObject",
-            conversion: "_native.Optional(\(wrappedConversion))"
-        )
     }
 }

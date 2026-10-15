@@ -8,6 +8,7 @@ struct TranslatedEnum: TranslatedType {
     var containedNamedTypes: [TranslatedType] { [self] }
     let kotlinPackage: String?
     let jniType: JNIType
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -102,17 +103,6 @@ struct TranslatedEnum: TranslatedType {
         self.definingModule = context.module
 
         self.conformances = Set(type.implements.map(\.better))
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard isInhabited else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: context.pythonClassType(context.pythonClassName(nodeName)),
-            cType: "HostObject",
-            conversion: context.pythonValueTypeDescriptor(for: self)
-        )
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {

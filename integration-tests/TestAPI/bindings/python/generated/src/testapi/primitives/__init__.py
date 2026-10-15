@@ -108,271 +108,271 @@ __all__: list[str] = [
 
 def get_bit_count_int() -> int:
     """<!-- FishyJoes.export(bitCountInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_bit_count_int(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_bitCountInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_bit_count_u_int() -> int:
     """<!-- FishyJoes.export(bitCountUInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_bit_count_u_int(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_bitCountUInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_default_primitive_holder() -> testapi.primitives.PrimitiveHolder:
     """<!-- FishyJoes.export(defaultPrimitiveHolder) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_default_primitive_holder(fishyjoes_runtime.Runtime.shared.env_ref), testapi.primitives.PrimitiveHolder)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_defaultPrimitiveHolder(fishyjoes_runtime.Runtime.shared.env_ref), testapi.primitives.PrimitiveHolder)
 
 def get_false_bool() -> bool:
     """<!-- FishyJoes.export(falseBool) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_false_bool(fishyjoes_runtime.Runtime.shared.env_ref), bool)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_falseBool(fishyjoes_runtime.Runtime.shared.env_ref), bool)
 
 def get_many_bool() -> list[bool]:
     """<!-- FishyJoes.export(manyBool) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_bool(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyBool(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_double() -> list[float]:
     """<!-- FishyJoes.export(manyDouble) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_double(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyDouble(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_float() -> list[float]:
     """<!-- FishyJoes.export(manyFloat) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_float(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyFloat(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_int() -> list[int]:
     """<!-- FishyJoes.export(manyInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_int(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyInt(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_int16() -> list[int]:
     """<!-- FishyJoes.export(manyInt16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_int16(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyInt16(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_int32() -> list[int]:
     """<!-- FishyJoes.export(manyInt32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_int32(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyInt32(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_int64() -> list[int]:
     """<!-- FishyJoes.export(manyInt64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_int64(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyInt64(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_int8() -> list[int]:
     """<!-- FishyJoes.export(manyInt8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_int8(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyInt8(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_bool() -> list[bool | None]:
     """<!-- FishyJoes.export(manyMaybeBool) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_bool(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeBool(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_double() -> list[float | None]:
     """<!-- FishyJoes.export(manyMaybeDouble) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_double(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeDouble(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_float() -> list[float | None]:
     """<!-- FishyJoes.export(manyMaybeFloat) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_float(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeFloat(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_int() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_int(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeInt(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_int16() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeInt16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_int16(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeInt16(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_int32() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeInt32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_int32(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeInt32(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_int64() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeInt64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_int64(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeInt64(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_int8() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeInt8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_int8(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeInt8(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_uint() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeUInt, python: many_maybe_uint) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_uint(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeUInt(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_uint16() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeUInt16, python: many_maybe_uint16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_uint16(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeUInt16(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_uint32() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeUInt32, python: many_maybe_uint32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_uint32(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeUInt32(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_uint64() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeUInt64, python: many_maybe_uint64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_uint64(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeUInt64(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_maybe_uint8() -> list[int | None]:
     """<!-- FishyJoes.export(manyMaybeUInt8, python: many_maybe_uint8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_maybe_uint8(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyMaybeUInt8(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_uint() -> list[int]:
     """<!-- FishyJoes.export(manyUInt, python: many_uint) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_uint(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyUInt(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_uint16() -> list[int]:
     """<!-- FishyJoes.export(manyUInt16, python: many_uint16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_uint16(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyUInt16(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_uint32() -> list[int]:
     """<!-- FishyJoes.export(manyUInt32, python: many_uint32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_uint32(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyUInt32(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_uint64() -> list[int]:
     """<!-- FishyJoes.export(manyUInt64, python: many_uint64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_uint64(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyUInt64(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_many_uint8() -> list[int]:
     """<!-- FishyJoes.export(manyUInt8, python: many_uint8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_many_uint8(fishyjoes_runtime.Runtime.shared.env_ref), list)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_manyUInt8(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
 def get_max_double() -> float:
     """<!-- FishyJoes.export(maxDouble) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_double(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxDouble(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_max_float() -> float:
     """<!-- FishyJoes.export(maxFloat) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_float(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxFloat(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_max_int() -> int:
     """<!-- FishyJoes.export(maxInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_int(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_int16() -> int:
     """<!-- FishyJoes.export(maxInt16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_int16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_int32() -> int:
     """<!-- FishyJoes.export(maxInt32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_int32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_int64() -> int:
     """<!-- FishyJoes.export(maxInt64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_int64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_int8() -> int:
     """<!-- FishyJoes.export(maxInt8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_int8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_uint() -> int:
     """<!-- FishyJoes.export(maxUInt, python: max_uint) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_uint(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxUInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_uint16() -> int:
     """<!-- FishyJoes.export(maxUInt16, python: max_uint16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_uint16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxUInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_uint32() -> int:
     """<!-- FishyJoes.export(maxUInt32, python: max_uint32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_uint32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxUInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_uint64() -> int:
     """<!-- FishyJoes.export(maxUInt64, python: max_uint64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_uint64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxUInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_max_uint8() -> int:
     """<!-- FishyJoes.export(maxUInt8, python: max_uint8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_max_uint8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_maxUInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_double() -> float:
     """<!-- FishyJoes.export(minDouble) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_double(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minDouble(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_min_float() -> float:
     """<!-- FishyJoes.export(minFloat) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_float(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minFloat(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_min_int() -> int:
     """<!-- FishyJoes.export(minInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_int(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_int16() -> int:
     """<!-- FishyJoes.export(minInt16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_int16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_int32() -> int:
     """<!-- FishyJoes.export(minInt32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_int32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_int64() -> int:
     """<!-- FishyJoes.export(minInt64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_int64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_int8() -> int:
     """<!-- FishyJoes.export(minInt8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_int8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_uint() -> int:
     """<!-- FishyJoes.export(minUInt, python: min_uint) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_uint(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minUInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_uint16() -> int:
     """<!-- FishyJoes.export(minUInt16, python: min_uint16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_uint16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minUInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_uint32() -> int:
     """<!-- FishyJoes.export(minUInt32, python: min_uint32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_uint32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minUInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_uint64() -> int:
     """<!-- FishyJoes.export(minUInt64, python: min_uint64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_uint64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minUInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_min_uint8() -> int:
     """<!-- FishyJoes.export(minUInt8, python: min_uint8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_min_uint8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_minUInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_true_bool() -> bool:
     """<!-- FishyJoes.export(trueBool) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_true_bool(fishyjoes_runtime.Runtime.shared.env_ref), bool)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_trueBool(fishyjoes_runtime.Runtime.shared.env_ref), bool)
 
 def get_zero_double() -> float:
     """<!-- FishyJoes.export(zeroDouble) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_double(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroDouble(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_zero_float() -> float:
     """<!-- FishyJoes.export(zeroFloat) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_float(fishyjoes_runtime.Runtime.shared.env_ref), float)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroFloat(fishyjoes_runtime.Runtime.shared.env_ref), float)
 
 def get_zero_int() -> int:
     """<!-- FishyJoes.export(zeroInt) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_int(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_int16() -> int:
     """<!-- FishyJoes.export(zeroInt16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_int16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_int32() -> int:
     """<!-- FishyJoes.export(zeroInt32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_int32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_int64() -> int:
     """<!-- FishyJoes.export(zeroInt64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_int64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_int8() -> int:
     """<!-- FishyJoes.export(zeroInt8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_int8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_uint() -> int:
     """<!-- FishyJoes.export(zeroUInt, python: zero_uint) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_uint(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroUInt(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_uint16() -> int:
     """<!-- FishyJoes.export(zeroUInt16, python: zero_uint16) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_uint16(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroUInt16(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_uint32() -> int:
     """<!-- FishyJoes.export(zeroUInt32, python: zero_uint32) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_uint32(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroUInt32(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_uint64() -> int:
     """<!-- FishyJoes.export(zeroUInt64, python: zero_uint64) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_uint64(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroUInt64(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def get_zero_uint8() -> int:
     """<!-- FishyJoes.export(zeroUInt8, python: zero_uint8) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zero_uint8(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_zeroUInt8(fishyjoes_runtime.Runtime.shared.env_ref), int)
 
 def echo_bool(
     value: bool,

@@ -1,4 +1,5 @@
 class PythonEnumClass: PythonClass2 {
+    let isInhabited: Bool
     let cases: [Case]
 
     struct Case {
@@ -17,17 +18,21 @@ class PythonEnumClass: PythonClass2 {
         documentation: [String],
         namespaces: [String],
         name: String,
+        mangledName: String,
+        isInhabited: Bool,
         cases: [Case],
         fields: [Variable],
         methods: [Method],
         conformances: Set<PythonType> = []
     ) {
+        self.isInhabited = isInhabited
         self.cases = cases
         super.init(
             module: module,
             documentation: documentation,
             namespaces: namespaces,
             name: name,
+            mangledName: mangledName,
             fields: fields,
             methods: methods,
             conformances: conformances
@@ -146,21 +151,23 @@ class PythonEnumClass: PythonClass2 {
             baseDynType = "object"
         }
 
-        fragment.output("@fishyjoes_runtime.callback(\"EnumDiscriminator\")")
-        fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=0)")
-        fragment.outputBlock("def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:") {
-            fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(baseDynType)):") {
-                for (enumIndex, enumCase) in cases.enumerated() {
-                    fragment.output("case \(namespaceName).\(enumCase.pythonName): return \(enumIndex)")
+        if isInhabited {
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_Discriminator\")")
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=0)")
+            fragment.outputBlock("def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:") {
+                fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(baseDynType)):") {
+                    for (enumIndex, enumCase) in cases.enumerated() {
+                        fragment.output("case \(namespaceName).\(enumCase.pythonName): return \(enumIndex)")
+                    }
+                    fragment.output("case unknown: raise ValueError(f'Unknown \(unqualifiedName) case \"{unknown})\". Enums are not meant to be extended.')")
                 }
-                fragment.output("case unknown: raise ValueError(f'Unknown \(unqualifiedName) case \"{unknown})\". Enums are not meant to be extended.')")
             }
+            fragment.blankLine()
         }
-        fragment.blankLine()
 
         for enumCase in cases {
             // case constructor
-            fragment.output("@fishyjoes_runtime.callback(\"TODO\")")
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))Constructor\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def new_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 for value in enumCase.values {
@@ -181,7 +188,7 @@ class PythonEnumClass: PythonClass2 {
             fragment.blankLine()
 
             // case unpacker
-            fragment.output("@fishyjoes_runtime.callback(\"TODO\")")
+            fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))Extractor\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
             fragment.outputBlock("def extract_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 fragment.output("obj: fishyjoes_runtime.UnownedRef,")

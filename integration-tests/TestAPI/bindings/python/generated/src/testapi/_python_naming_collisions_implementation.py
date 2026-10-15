@@ -10,53 +10,47 @@ import typing
 
 # MARK: C APIs
 
-iota_TestAPI_PythonNamingCollisions_from: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions_class: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_PythonNamingCollisions_from'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_class'))
 
-iota_get_TestAPI_PythonNamingCollisions_class_: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions___dunder__: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_class_'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions___dunder__'))
 
-iota_get_TestAPI_PythonNamingCollisions_dunder____: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions_isNaN: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_dunder____'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_isNaN'))
 
-iota_get_TestAPI_PythonNamingCollisions_is_na_n: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_is_na_n'))
-
-iota_get_TestAPI_PythonNamingCollisions_leading_underscore_: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_leading_underscore_'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore'))
 
 iota_get_TestAPI_PythonNamingCollisions_list: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_list'))
 
-iota_get_TestAPI_PythonNamingCollisions_title_url: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions_Url: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_title_url'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_Url'))
 
-iota_get_TestAPI_PythonNamingCollisions_url: typing.Callable[[
+iota_get_TestAPI_PythonNamingCollisions_URL: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_url'))
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_PythonNamingCollisions_URL'))
+
+iota_TestAPI_PythonNamingCollisions_from: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_PythonNamingCollisions_from'))
 
 # MARK: C callback implementations
-
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown PythonNamingCollisions case "{unknown})". Enums are not meant to be extended.')
 
 # MARK: setup
 

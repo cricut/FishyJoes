@@ -7,6 +7,7 @@ struct TranslatedFuture: TranslatedType {
     let containedNamedTypes: [TranslatedType]
     let kotlinPackage: String? = "kotlinx.coroutines"
     let jniType = JNIType.object("kotlinx/coroutines/Deferred")
+    let iotaCTypes = IotaCTypes.hostRef
     let cSharpType: CSharpClass.CSType
     let dartType: DartClass.DartType
     let pythonType: PythonClass2.PythonType
@@ -60,17 +61,5 @@ struct TranslatedFuture: TranslatedType {
                 fragment.output("\(output.pythonType.dynamicsStringAsTuple),")
             },
         ]
-    }
-
-    func pythonRepresentation(in context: PythonTranslationContext) -> PythonRepresentation? {
-        guard let outputRepresentation = output.pythonRepresentation(in: context.recursingIntoChild()),
-              let outputConversion = outputRepresentation.conversionDescriptor else {
-            return nil
-        }
-        return PythonRepresentation(
-            annotation: .awaitable(outputRepresentation.annotation),
-            cType: "HostObject",
-            conversion: "_native.Future(\"\(converterType.name)\", \(outputConversion))"
-        )
     }
 }

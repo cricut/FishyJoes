@@ -10,23 +10,17 @@ import typing
 
 # MARK: C APIs
 
+iota_get_TestAPI_Deprecations_deprecatedVariable: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Deprecations_deprecatedVariable'))
+
 iota_TestAPI_Deprecations_deprecatedMethod: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Deprecations_deprecatedMethod'))
 
-iota_get_TestAPI_Deprecations_deprecated_variable: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Deprecations_deprecated_variable'))
-
 # MARK: C callback implementations
-
-@fishyjoes_runtime.callback("EnumDiscriminator")
-@fishyjoes_runtime.catch_by_out_ref(default=0)
-def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
-    match fishyjoes_runtime.peek_ref(obj_ref, object):
-        case unknown: raise ValueError(f'Unknown Deprecations case "{unknown})". Enums are not meant to be extended.')
 
 # MARK: setup
 

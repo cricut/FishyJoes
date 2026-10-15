@@ -13,13 +13,13 @@ class TemperatureLogger(fishyjoes_runtime.SwiftReference):
     def backwards_label(self) -> str:
         """<!-- FishyJoes.export(backwardsLabel) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Actors_TemperatureLogger_backwards_label(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
 
     @property
     def extension_nonisolated_var_label(self) -> str:
         """<!-- FishyJoes.export(extensionNonisolatedVarLabel) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Actors_TemperatureLogger_extension_nonisolated_var_label(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
 
     @property
     def label(self) -> str:

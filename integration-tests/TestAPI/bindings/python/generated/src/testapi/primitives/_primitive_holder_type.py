@@ -98,7 +98,7 @@ class PrimitiveHolder:
     @staticmethod
     def get_static_mutable_property() -> list[int | None]:
         """<!-- FishyJoes.export(staticMutableProperty) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_PrimitiveHolder_static_mutable_property(fishyjoes_runtime.Runtime.shared.env_ref), list)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty(fishyjoes_runtime.Runtime.shared.env_ref), list)
 
     @staticmethod
     def set_static_mutable_property(new_value: list[int | None]) -> None: ...
@@ -106,4 +106,4 @@ class PrimitiveHolder:
     @staticmethod
     def get_static_property() -> list[int | None]:
         """<!-- FishyJoes.export(staticProperty) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_PrimitiveHolder_static_property(fishyjoes_runtime.Runtime.shared.env_ref), list)
+        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty(fishyjoes_runtime.Runtime.shared.env_ref), list)

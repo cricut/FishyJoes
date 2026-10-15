@@ -9,12 +9,43 @@ import typing
 
 # MARK: C APIs
 
+iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_backwardsLabel'))
+
+iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_extensionNonisolatedVarLabel'))
+
+iota_get_TestAPI_Actors_TemperatureLogger_label: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_label'))
+
 iota_TestAPI_Actors_TemperatureLogger_create: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_create'))
+
+iota_TestAPI_Actors_TemperatureLogger_update: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_update'))
+
+iota_TestAPI_Actors_TemperatureLogger_min: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
+    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_min'))
 
 iota_TestAPI_Actors_TemperatureLogger_extensionIsolatedGetLabel: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -27,37 +58,6 @@ iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel: typing.Calla
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_extensionNonisolatedGetLabel'))
-
-iota_TestAPI_Actors_TemperatureLogger_min: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_min'))
-
-iota_TestAPI_Actors_TemperatureLogger_update: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Actors_TemperatureLogger_update'))
-
-iota_get_TestAPI_Actors_TemperatureLogger_backwards_label: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_backwards_label'))
-
-iota_get_TestAPI_Actors_TemperatureLogger_extension_nonisolated_var_label: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_extension_nonisolated_var_label'))
-
-iota_get_TestAPI_Actors_TemperatureLogger_label: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Actors_TemperatureLogger_label'))
 
 # MARK: C callback implementations
 
