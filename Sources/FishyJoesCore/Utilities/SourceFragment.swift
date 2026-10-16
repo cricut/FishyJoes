@@ -1,12 +1,24 @@
 import Foundation
 
+public protocol SourceFragmentHeader {
+    func combine(with other: any SourceFragmentHeader) -> any SourceFragmentHeader
+    func renderLines() -> [String]
+}
+
 public class SourceFragment {
+    public struct NoHeader: SourceFragmentHeader {
+        public func combine(with other: any SourceFragmentHeader) -> any SourceFragmentHeader { other }
+        public func renderLines() -> [String] { [] }
+    }
+
     private let spacesPerIndent = 4
     public var destinationPath: String?
     public var createIntermediateDirectories: Bool
     public var stringBuilder: [String] = []
     private var isFreshLine = true
     private var currentIndent = 0
+
+    public var header: some SourceFragmentHeader { NoHeader() }
 
     // Creating directories defaults to false to help avoid writing files into non-agreeing directories
     public init(destinationPath: String?, createIntermediateDirectories: Bool = false) {
@@ -126,16 +138,24 @@ public class SourceFragment {
         return try body()
     }
 
+    private static func combine(headers: [any SourceFragmentHeader]) -> any SourceFragmentHeader {
+        headers.reduce(NoHeader()) {
+            $0.combine(with: $1)
+        }
+    }
+
     // Concatenate SourceFragments and group by destination
     public static func combine(fragments: [SourceFragment]) -> [(path: String?, contents: String, createIntermediateDirectories: Bool)] {
-        var collated: [String?: [(contents: String, createIntermediateDirectories: Bool)]] = [:]
+        var collated: [String?: [SourceFragment]] = [:]
         for fragment in fragments {
-            collated[fragment.destinationPath, default: []].append((fragment.contents, fragment.createIntermediateDirectories))
+            collated[fragment.destinationPath, default: []].append(fragment)
         }
         return collated.map {
-            let (destination, contentFragments) = $0
-            let combinedContents = contentFragments.map(\.contents).joined(separator: "\n")
-            let createIntermediateDirectories = contentFragments.contains(where: \.createIntermediateDirectories)
+            let (destination, fragments) = $0
+
+            let header = combine(headers: fragments.map { $0.header })
+            let combinedContents = fragments.map(\.contents).joined(separator: "\n")
+            let createIntermediateDirectories = fragments.contains(where: \.createIntermediateDirectories)
             return (path: destination, contents: combinedContents, createIntermediateDirectories: createIntermediateDirectories)
         }.sorted { $0.path ?? "" < $1.path ?? "" }
     }

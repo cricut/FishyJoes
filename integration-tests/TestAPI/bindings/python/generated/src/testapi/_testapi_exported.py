@@ -74,6 +74,7 @@ from ._test_async_swift_side_functions_class_type import TestAsyncSwiftSideFunct
 from ._test_default_computed_properties_enum_type import TestDefaultComputedPropertiesEnum
 from ._test_default_computed_properties_reference_type import TestDefaultComputedPropertiesReference
 from ._test_default_computed_properties_struct_type import TestDefaultComputedPropertiesStruct
+from ._test_default_computed_properties_type import TestDefaultComputedProperties
 from ._test_differing_export_name_protocol_diffy_type import TestDifferingExportNameProtocolDiffy
 from ._test_differing_export_name_struct_type import TestDifferingExportNameStruct
 from ._test_leading_underscored_prop_struct_type import TestLeadingUnderscoredPropStruct
@@ -90,8 +91,6 @@ from ._tree_type import Tree
 from ._tuples_type import Tuples
 from ._unicode_scalar__putting_types_into_questionable_places_type import UnicodeScalar_PuttingTypesIntoQuestionablePlaces
 from ._urls_type import Urls
-
-from ._test_default_computed_properties_type import TestDefaultComputedProperties
 
 __all__: list[str] = [
     "fishyjoes_type_setup",
