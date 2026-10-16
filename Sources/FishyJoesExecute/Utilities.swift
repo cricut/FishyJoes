@@ -277,6 +277,17 @@ func relativePath(of targetPath: String, relativeTo sourcePath: String) -> Strin
     return (sourceComponents.map { _ in ".." } + targetComponents).joined(separator: "/")
 }
 
+/// Strips the common leading whitespace from every non-empty line and drops
+/// leading and trailing empty lines.
+func dedent(lines: [String]) -> [String] {
+    let nonEmpty = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+    let indent = nonEmpty.map { $0.prefix(while: { $0 == " " }).count }.min() ?? 0
+    var result = lines.map { $0.trimmingCharacters(in: .whitespaces).isEmpty ? "" : String($0.dropFirst(indent)) }
+    while result.first?.isEmpty == true { result.removeFirst() }
+    while result.last?.isEmpty == true { result.removeLast() }
+    return result
+}
+
 func join(lines: [String], indent: Int) -> String {
     lines.map { "\n\($0.isEmpty ? "" : String(repeating: " ", count: indent))\($0)" }.joined()
 }
