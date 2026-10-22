@@ -74,34 +74,34 @@ function isPromise(value) {
     );
 }
 
-const NAPI_AUTO_LENGTH = -1 >>> 0;
-
 // String.fromCharCode takes its code units as arguments, so decode in chunks that stay under the argument limit.
 const CODE_UNITS_PER_CHUNK = 8192;
 
 // TextDecoder('latin1') decodes windows-1252, which maps bytes 0x80-0x9F to other characters.
 function decodeLatin1(bytes) {
-  let result = '';
-  for (let start = 0; start < bytes.length; start += CODE_UNITS_PER_CHUNK) {
-    result += String.fromCharCode.apply(null, bytes.subarray(start, start + CODE_UNITS_PER_CHUNK));
-  }
-  return result;
+    let result = '';
+    for (let start = 0; start < bytes.length; start += CODE_UNITS_PER_CHUNK) {
+        result += String.fromCharCode.apply(null, bytes.subarray(start, start + CODE_UNITS_PER_CHUNK));
+    }
+    return result;
 }
 
 // Keeps unpaired surrogates, which TextDecoder would replace with U+FFFD.
 function decodeUTF16LE(bytes) {
-  const codeUnitCount = bytes.length >>> 1;
-  const codeUnits = new Uint16Array(Math.min(codeUnitCount, CODE_UNITS_PER_CHUNK));
-  let result = '';
-  for (let start = 0; start < codeUnitCount; start += codeUnits.length) {
-    const count = Math.min(codeUnits.length, codeUnitCount - start);
-    for (let i = 0; i < count; i++) {
-      codeUnits[i] = bytes[2 * (start + i)] | (bytes[2 * (start + i) + 1] << 8);
+    const codeUnitCount = bytes.length >>> 1;
+    const codeUnits = new Uint16Array(Math.min(codeUnitCount, CODE_UNITS_PER_CHUNK));
+    let result = '';
+    for (let start = 0; start < codeUnitCount; start += codeUnits.length) {
+        const count = Math.min(codeUnits.length, codeUnitCount - start);
+        for (let i = 0; i < count; i++) {
+            codeUnits[i] = bytes[2 * (start + i)] | (bytes[2 * (start + i) + 1] << 8);
+        }
+        result += String.fromCharCode.apply(null, codeUnits.subarray(0, count));
     }
-    result += String.fromCharCode.apply(null, codeUnits.subarray(0, count));
-  }
-  return result;
+    return result;
 }
+
+const NAPI_AUTO_LENGTH = -1 >>> 0;
 
 const NAPI_OK = 0;
 const NAPI_INVALID_ARG = 1;
@@ -968,6 +968,7 @@ export class NAPI {
           }
           this.writeU32(resultPtr, s.length)
         } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
           this.writeU32(resultPtr, 0);
         } else {
           const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
@@ -997,6 +998,7 @@ export class NAPI {
           const length = (new TextEncoder()).encode(s).length;
           this.writeU32(resultPtr, length);
         } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
           this.writeU32(resultPtr, 0);
         } else {
           const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
@@ -1022,6 +1024,7 @@ export class NAPI {
           }
           this.writeU32(resultPtr, s.length)
         } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
           this.writeU32(resultPtr, 0);
         } else {
           const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize * 2);
