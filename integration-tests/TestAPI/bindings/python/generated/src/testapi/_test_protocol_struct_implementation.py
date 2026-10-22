@@ -68,12 +68,12 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_TestProtocolStruct_corgeGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_corge(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_corge(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestProtocolStruct).corge)
 
 @fishyjoes_runtime.callback('TestAPI_TestProtocolStruct_corgeSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_corge(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_corge(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestProtocolStruct).corge = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup

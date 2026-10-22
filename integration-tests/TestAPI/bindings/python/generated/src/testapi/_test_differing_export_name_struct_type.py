@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_differing_export_name_protocol_diffy_type import TestDifferingExportNameProtocolDiffy # early import to make cycles work correctly
 from . import _test_differing_export_name_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +7,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class TestDifferingExportNameStruct(testapi.TestDifferingExportNameProtocolDiffy):
+class TestDifferingExportNameStruct(TestDifferingExportNameProtocolDiffy):
     """<!-- FishyJoes.export(TestDifferingExportNameStruct) -->"""
 
     tata: int

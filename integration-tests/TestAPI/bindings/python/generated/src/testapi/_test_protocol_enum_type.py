@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from . import _test_protocol_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_protocol_enum
@@ -7,7 +8,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class _BaseTestProtocolEnum(testapi.TestMethodsProtocol):
+class _BaseTestProtocolEnum(TestMethodsProtocol):
     """<!-- FishyJoes.export(TestProtocolEnum) -->"""
 
     @typing.override

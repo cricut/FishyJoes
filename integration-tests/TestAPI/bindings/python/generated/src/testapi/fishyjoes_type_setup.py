@@ -1,25 +1,43 @@
 from __future__ import annotations
+from . import _a_protocol_implementation_implementation as _testapi_AProtocolImplementation_impl
 from . import _associated_data_enum_implementation as _testapi_AssociatedDataEnum_impl
+from . import _attributed_string__putting_types_into_questionable_places_implementation as _testapi_AttributedString_PuttingTypesIntoQuestionablePlaces_impl
 from . import _empty_class1_implementation as _testapi_EmptyClass1_impl
 from . import _empty_class2_implementation as _testapi_EmptyClass2_impl
+from . import _empty_struct2_implementation as _testapi_EmptyStruct2_impl
+from . import _empty_struct_implementation as _testapi_EmptyStruct_impl
 from . import _methods_implementation as _testapi_Methods_impl
 from . import _reference_case_enum_implementation as _testapi_ReferenceCaseEnum_impl
+from . import _shade_implementation as _testapi_Shade_impl
 from . import _shadow_box_implementation as _testapi_ShadowBox_impl
 from . import _simple_enum_implementation as _testapi_SimpleEnum_impl
+from . import _string__putting_types_into_questionable_places_implementation as _testapi_String_PuttingTypesIntoQuestionablePlaces_impl
 from . import _structs__putting_types_into_questionable_places_implementation as _testapi_Structs_PuttingTypesIntoQuestionablePlaces_impl
+from . import _test_async_foreign_side_functions_struct_implementation as _testapi_TestAsyncForeignSideFunctionsStruct_impl
 from . import _test_async_swift_side_functions_class_implementation as _testapi_TestAsyncSwiftSideFunctionsClass_impl
 from . import _test_default_computed_properties_enum_implementation as _testapi_TestDefaultComputedPropertiesEnum_impl
 from . import _test_default_computed_properties_reference_implementation as _testapi_TestDefaultComputedPropertiesReference_impl
+from . import _test_default_computed_properties_struct_implementation as _testapi_TestDefaultComputedPropertiesStruct_impl
+from . import _test_differing_export_name_struct_implementation as _testapi_TestDifferingExportNameStruct_impl
+from . import _test_leading_underscored_prop_struct_implementation as _testapi_TestLeadingUnderscoredPropStruct_impl
 from . import _test_non_exported_protocol_enum_implementation as _testapi_TestNonExportedProtocolEnum_impl
 from . import _test_protocol_class_implementation as _testapi_TestProtocolClass_impl
 from . import _test_protocol_enum_implementation as _testapi_TestProtocolEnum_impl
+from . import _test_protocol_struct_implementation as _testapi_TestProtocolStruct_impl
 from . import _testapi_exported as testapi
 from . import _the_method_error_implementation as _testapi_TheMethodError_impl
+from . import _tree_implementation as _testapi_Tree_impl
 from . import _unicode_scalar__putting_types_into_questionable_places_implementation as _testapi_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_impl
 from ._c_api import _testapi_lib
 from .actors import _temperature_logger_implementation as _testapi_actors_TemperatureLogger_impl
+from .collections import _collection_holder_implementation as _testapi_collections_CollectionHolder_impl
+from .primitives import _primitive_holder_implementation as _testapi_primitives_PrimitiveHolder_impl
 from .reference_only_types import _marker_implementation as _testapi_reference_only_types_Marker_impl
+from .results import _error_implementation as _testapi_results_Error_impl
+from .structs import _memberwise_struct_implementation as _testapi_structs_MemberwiseStruct_impl
+from .structs import _mutable_struct_implementation as _testapi_structs_MutableStruct_impl
 from .structs import _reference_struct_implementation as _testapi_structs_ReferenceStruct_impl
+from .structs import _twenty_one_item_struct_implementation as _testapi_structs_TwentyOneItemStruct_impl
 from warnings import deprecated
 import fishyjoes_runtime
 import fishyjoes_runtime.fishyjoes_type_setup
@@ -178,9 +196,13 @@ _testapi_TestProtocolEnum_extract_qux: typing.TypeAlias = typing.Callable[[
 
 Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup'))
 Swift_String_PuttingTypesIntoQuestionablePlaces_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'Swift_String_PuttingTypesIntoQuestionablePlaces_setup'))
 Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -194,6 +216,25 @@ TestAPI_Actors_TemperatureLogger_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Actors_TemperatureLogger_setup'))
 TestAPI_Collections_CollectionHolder_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Collections_CollectionHolder_setup'))
 TestAPI_Methods_TheMethodError_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -201,6 +242,59 @@ TestAPI_Methods_TheMethodError_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Methods_TheMethodError_setup'))
 TestAPI_Primitives_PrimitiveHolder_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Primitives_PrimitiveHolder_setup'))
 TestAPI_ReferenceOnlyTypes_Marker_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -208,12 +302,22 @@ TestAPI_ReferenceOnlyTypes_Marker_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_ReferenceOnlyTypes_Marker_setup'))
 TestAPI_Results_Error_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Results_Error_setup'))
 TestAPI_Structs_MemberwiseStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_MemberwiseStruct_setup'))
 TestAPI_Structs_MutableStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_MutableStruct_setup'))
 TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -225,12 +329,60 @@ TestAPI_Structs_ReferenceStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_ReferenceStruct_setup'))
 TestAPI_Structs_TwentyOneItemStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_TwentyOneItemStruct_setup'))
 TestAPI_CommonInterface__AProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__AProtocolConverter_setup'))
 TestAPI_AProtocolImplementation_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_AProtocolImplementation_setup'))
 TestAPI_Actors_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -282,9 +434,11 @@ TestAPI_EmptyEnum_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_EmptyEnum_setup'))
 TestAPI_EmptyStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_EmptyStruct_setup'))
 TestAPI_EmptyStruct2_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_EmptyStruct2_setup'))
 TestAPI_Functions_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -328,6 +482,9 @@ TestAPI_Results_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Results_setup'))
 TestAPI_Shade_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Shade_setup'))
 TestAPI_ShadowBox_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -355,6 +512,23 @@ TestAPI_Structs_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_setup'))
 TestAPI_TestAsyncForeignSideFunctionsStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestAsyncForeignSideFunctionsStruct_setup'))
 TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -378,18 +552,29 @@ TestAPI_TestDefaultComputedPropertiesEnum_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDefaultComputedPropertiesEnum_setup'))
 TestAPI_TestDefaultComputedPropertiesStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDefaultComputedPropertiesStruct_setup'))
 TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup'))
 TestAPI_TestDifferingExportNameStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDifferingExportNameStruct_setup'))
 TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup'))
 TestAPI_TestLeadingUnderscoredPropStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestLeadingUnderscoredPropStruct_setup'))
 TestAPI_CommonInterface__TestMethodsProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -418,9 +603,15 @@ TestAPI_TestProtocolEnum_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestProtocolEnum_setup'))
 TestAPI_TestProtocolStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestProtocolStruct_setup'))
 TestAPI_Tree_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Tree_setup'))
 TestAPI_Tuples_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -1885,6 +2076,8 @@ def ensure_loaded() -> None:
             print(f"setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces")
             testapi.fishyjoes_type_setup.Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_AttributedString_PuttingTypesIntoQuestionablePlaces_impl.ffi_constructor,
+                _testapi_AttributedString_PuttingTypesIntoQuestionablePlaces_impl.ffi_get_x,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Swift.String.PuttingTypesIntoQuestionablePlaces') # type: ignore[unused-ignore,no-redef]
@@ -1892,6 +2085,8 @@ def ensure_loaded() -> None:
             print(f"setting up Swift.String.PuttingTypesIntoQuestionablePlaces")
             testapi.fishyjoes_type_setup.Swift_String_PuttingTypesIntoQuestionablePlaces_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_String_PuttingTypesIntoQuestionablePlaces_impl.ffi_constructor,
+                _testapi_String_PuttingTypesIntoQuestionablePlaces_impl.ffi_get_x,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces') # type: ignore[unused-ignore,no-redef]
@@ -1917,6 +2112,25 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Collections.CollectionHolder")
             testapi.fishyjoes_type_setup.TestAPI_Collections_CollectionHolder_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_collections_CollectionHolder_impl.ffi_constructor,
+                _testapi_collections_CollectionHolder_impl.ffi_get_bool_array,
+                _testapi_collections_CollectionHolder_impl.ffi_set_bool_array,
+                _testapi_collections_CollectionHolder_impl.ffi_get_bool_set,
+                _testapi_collections_CollectionHolder_impl.ffi_set_bool_set,
+                _testapi_collections_CollectionHolder_impl.ffi_get_bool_dictionary,
+                _testapi_collections_CollectionHolder_impl.ffi_set_bool_dictionary,
+                _testapi_collections_CollectionHolder_impl.ffi_get_integer_array,
+                _testapi_collections_CollectionHolder_impl.ffi_set_integer_array,
+                _testapi_collections_CollectionHolder_impl.ffi_get_integer_set,
+                _testapi_collections_CollectionHolder_impl.ffi_set_integer_set,
+                _testapi_collections_CollectionHolder_impl.ffi_get_integer_dictionary,
+                _testapi_collections_CollectionHolder_impl.ffi_set_integer_dictionary,
+                _testapi_collections_CollectionHolder_impl.ffi_get_string_array,
+                _testapi_collections_CollectionHolder_impl.ffi_set_string_array,
+                _testapi_collections_CollectionHolder_impl.ffi_get_string_set,
+                _testapi_collections_CollectionHolder_impl.ffi_set_string_set,
+                _testapi_collections_CollectionHolder_impl.ffi_get_string_dictionary,
+                _testapi_collections_CollectionHolder_impl.ffi_set_string_dictionary,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Methods.TheMethodError') # type: ignore[unused-ignore,no-redef]
@@ -1932,6 +2146,59 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Primitives.PrimitiveHolder")
             testapi.fishyjoes_type_setup.TestAPI_Primitives_PrimitiveHolder_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_constructor,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_b,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_b,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_bq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_bq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui8,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui8,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui8q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui8q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui16,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui16,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui16q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui16q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui32,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui32,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui32q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui32q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui64,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui64,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui64q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui64q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_ui,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_ui,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_uiq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_uiq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i8,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i8,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i8q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i8q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i16,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i16,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i16q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i16q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i32,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i32,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i32q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i32q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i64,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i64,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i64q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i64q,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_i,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_i,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_iq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_iq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_f,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_f,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_fq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_fq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_d,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_d,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_get_dq,
+                _testapi_primitives_PrimitiveHolder_impl.ffi_set_dq,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.ReferenceOnlyTypes.Marker') # type: ignore[unused-ignore,no-redef]
@@ -1947,6 +2214,8 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Results.Error")
             testapi.fishyjoes_type_setup.TestAPI_Results_Error_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_results_Error_impl.ffi_constructor,
+                _testapi_results_Error_impl.ffi_get_message,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Structs.MemberwiseStruct') # type: ignore[unused-ignore,no-redef]
@@ -1954,6 +2223,11 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Structs.MemberwiseStruct")
             testapi.fishyjoes_type_setup.TestAPI_Structs_MemberwiseStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_structs_MemberwiseStruct_impl.ffi_constructor,
+                _testapi_structs_MemberwiseStruct_impl.ffi_get_immutable,
+                _testapi_structs_MemberwiseStruct_impl.ffi_set_immutable,
+                _testapi_structs_MemberwiseStruct_impl.ffi_get_mutable,
+                _testapi_structs_MemberwiseStruct_impl.ffi_set_mutable,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Structs.MutableStruct') # type: ignore[unused-ignore,no-redef]
@@ -1961,6 +2235,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Structs.MutableStruct")
             testapi.fishyjoes_type_setup.TestAPI_Structs_MutableStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_structs_MutableStruct_impl.ffi_constructor,
+                _testapi_structs_MutableStruct_impl.ffi_get_i,
+                _testapi_structs_MutableStruct_impl.ffi_set_i,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Structs.PuttingTypesIntoQuestionablePlaces') # type: ignore[unused-ignore,no-redef]
@@ -1984,6 +2261,49 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Structs.TwentyOneItemStruct")
             testapi.fishyjoes_type_setup.TestAPI_Structs_TwentyOneItemStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_constructor,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_a,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_a,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_b,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_b,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_c,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_c,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_d,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_d,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_e,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_e,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_f,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_f,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_g,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_g,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_h,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_h,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_i,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_i,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_j,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_j,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_k,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_k,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_l,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_l,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_m,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_m,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_n,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_n,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_o,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_o,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_p,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_p,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_q,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_q,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_r,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_r,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_s,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_s,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_t,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_t,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_get_u,
+                _testapi_structs_TwentyOneItemStruct_impl.ffi_set_u,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._AProtocolConverter') # type: ignore[unused-ignore,no-redef]
@@ -1998,6 +2318,11 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.AProtocolImplementation")
             testapi.fishyjoes_type_setup.TestAPI_AProtocolImplementation_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_AProtocolImplementation_impl.ffi_constructor,
+                _testapi_AProtocolImplementation_impl.ffi_get_foo,
+                _testapi_AProtocolImplementation_impl.ffi_set_foo,
+                _testapi_AProtocolImplementation_impl.ffi_get_baz,
+                _testapi_AProtocolImplementation_impl.ffi_set_baz,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Actors') # type: ignore[unused-ignore,no-redef]
@@ -2097,6 +2422,7 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.EmptyStruct")
             testapi.fishyjoes_type_setup.TestAPI_EmptyStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_EmptyStruct_impl.ffi_constructor,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.EmptyStruct2') # type: ignore[unused-ignore,no-redef]
@@ -2104,6 +2430,7 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.EmptyStruct2")
             testapi.fishyjoes_type_setup.TestAPI_EmptyStruct2_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_EmptyStruct2_impl.ffi_constructor,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Functions') # type: ignore[unused-ignore,no-redef]
@@ -2191,6 +2518,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Shade")
             testapi.fishyjoes_type_setup.TestAPI_Shade_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_Shade_impl.ffi_constructor,
+                _testapi_Shade_impl.ffi_get_darkness,
+                _testapi_Shade_impl.ffi_set_darkness,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.ShadowBox') # type: ignore[unused-ignore,no-redef]
@@ -2238,6 +2568,23 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestAsyncForeignSideFunctionsStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_constructor,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_const42,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_iabs,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_int_compose,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_add3_things,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_make_list,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_fifth_thing,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_six,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_will_throw,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise0_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise1_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise2_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise3_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise4_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise5_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise6_fun,
+                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_thunk_twice_maker_fun,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter') # type: ignore[unused-ignore,no-redef]
@@ -2285,6 +2632,11 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestDefaultComputedPropertiesStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestDefaultComputedPropertiesStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_TestDefaultComputedPropertiesStruct_impl.ffi_constructor,
+                _testapi_TestDefaultComputedPropertiesStruct_impl.ffi_get_spam,
+                _testapi_TestDefaultComputedPropertiesStruct_impl.ffi_set_spam,
+                _testapi_TestDefaultComputedPropertiesStruct_impl.ffi_get_noot,
+                _testapi_TestDefaultComputedPropertiesStruct_impl.ffi_set_noot,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestDifferingExportNameProtocolConverter') # type: ignore[unused-ignore,no-redef]
@@ -2299,6 +2651,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestDifferingExportNameStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestDifferingExportNameStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_TestDifferingExportNameStruct_impl.ffi_constructor,
+                _testapi_TestDifferingExportNameStruct_impl.ffi_get_tata,
+                _testapi_TestDifferingExportNameStruct_impl.ffi_set_tata,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestLeadingUnderscoredPropConverter') # type: ignore[unused-ignore,no-redef]
@@ -2313,6 +2668,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestLeadingUnderscoredPropStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestLeadingUnderscoredPropStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_TestLeadingUnderscoredPropStruct_impl.ffi_constructor,
+                _testapi_TestLeadingUnderscoredPropStruct_impl.ffi_get_leading_underscore_prop_,
+                _testapi_TestLeadingUnderscoredPropStruct_impl.ffi_set_leading_underscore_prop_,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestMethodsProtocolConverter') # type: ignore[unused-ignore,no-redef]
@@ -2369,6 +2727,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestProtocolStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestProtocolStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_TestProtocolStruct_impl.ffi_constructor,
+                _testapi_TestProtocolStruct_impl.ffi_get_corge,
+                _testapi_TestProtocolStruct_impl.ffi_set_corge,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Tree') # type: ignore[unused-ignore,no-redef]
@@ -2376,6 +2737,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.Tree")
             testapi.fishyjoes_type_setup.TestAPI_Tree_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_Tree_impl.ffi_constructor,
+                _testapi_Tree_impl.ffi_get_value,
+                _testapi_Tree_impl.ffi_get_children,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.Tuples') # type: ignore[unused-ignore,no-redef]

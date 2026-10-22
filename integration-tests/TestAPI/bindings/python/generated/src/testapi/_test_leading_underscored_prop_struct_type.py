@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_leading_underscored_prop_type import TestLeadingUnderscoredProp # early import to make cycles work correctly
 from . import _test_leading_underscored_prop_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +7,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class TestLeadingUnderscoredPropStruct(testapi.TestLeadingUnderscoredProp):
+class TestLeadingUnderscoredPropStruct(TestLeadingUnderscoredProp):
     """<!-- FishyJoes.export(TestLeadingUnderscoredPropStruct) -->"""
 
     leading_underscore_prop_: str

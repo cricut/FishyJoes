@@ -49,7 +49,7 @@ typedef struct fishyjoes_env_impl *fishyjoes_env;
 // Core callbacks needed by the runtime environment
 typedef created_host_ref (*FishyJoes_NewRefFn)(unowned_host_ref object);
 typedef void (*FishyJoes_DeleteRefFn)(consumed_host_ref object);
-typedef created_host_ref (*FishyJoes_NewErrorFn)(const uint16_t *message);
+typedef created_host_ref (*FishyJoes_NewErrorFn)(const char16_t *message);
 /// caller must free result
 typedef char *(*FishyJoes_DescribeFn)(unowned_host_ref object);
 typedef void (*FishyJoes_ScheduleThreadWorkFn)(fishyjoes_env envRef, consumed_swift_ref context);
@@ -241,7 +241,7 @@ void Swift_Double_setup(
 );
 void FishyJoesCommonRuntime_collection_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_CollectionLengthFn lengthMethod,
     FishyJoes_CollectionValuesFn valuesMethod,
     FishyJoes_CollectionConstructorFn constructor,
@@ -250,7 +250,7 @@ void FishyJoesCommonRuntime_collection_setup(
 );
 void FishyJoesCommonRuntime_RangeConverter_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_RangeGetBoundFn getLowerBoundMethod,
     FishyJoes_RangeGetBoundFn getUpperBoundMethod,
     FishyJoes_RangeConstructorFn constructor,
@@ -258,7 +258,7 @@ void FishyJoesCommonRuntime_RangeConverter_setup(
 );
 void FishyJoesCommonRuntime_TupleConverter_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_TupleGetFn get0Method,
     FishyJoes_TupleGetFn get1Method,
     FishyJoes_TupleGetFn get2Method,
@@ -270,14 +270,14 @@ void FishyJoesCommonRuntime_TupleConverter_setup(
 );
 void FishyJoesCommonRuntime_ResultConverter_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_ResultGetContentsFn getContentsMethod,
     FishyJoes_ResultConstructorFn constructor,
     consumed_host_ref callbackContext
 );
 void FishyJoesCommonRuntime_FunctionConverter_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_FunctionConstructorFn constructor,
     FishyJoes_FunctionInvokeFn invoke,
     consumed_host_ref callbackContext,
@@ -285,7 +285,7 @@ void FishyJoesCommonRuntime_FunctionConverter_setup(
 );
 void FishyJoesCommonRuntime_FutureConverter_setup(
     fishyjoes_env envRef,
-    const uint16_t *name,
+    const char16_t *name,
     FishyJoes_FutureConstructorFn constructor,
     FishyJoes_FutureSinkFn sinkFuture,
     FishyJoes_FutureResolveRejectFn resolve,

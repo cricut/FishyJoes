@@ -8,7 +8,7 @@ class PythonProtocolClass: PythonClass {
             ]
         )
 
-        fragment.outputBlock("class \(unqualifiedName)(abc.ABC):") {
+        fragment.outputBlock("class \(unqualifiedName)\(declareSupers(context: context, extraSuperclasses: ["abc.ABC"])):") {
             document(documentation, fragment: fragment)
 
             for method in methods {

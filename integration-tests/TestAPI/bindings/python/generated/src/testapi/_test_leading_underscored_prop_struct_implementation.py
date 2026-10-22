@@ -21,12 +21,12 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestLeadingUnderscoredPropStruct).leading_underscore_prop_)
 
 @fishyjoes_runtime.callback('TestAPI_TestLeadingUnderscoredPropStruct__leadingUnderscorePropSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestLeadingUnderscoredPropStruct).leading_underscore_prop_ = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup

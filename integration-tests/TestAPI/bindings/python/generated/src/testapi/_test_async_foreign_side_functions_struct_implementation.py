@@ -120,82 +120,82 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_const42GetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_const42(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_const42(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).const42)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_iabsGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_iabs(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_iabs(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).iabs)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_intComposeGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_int_compose(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_int_compose(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).int_compose)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_add3ThingsGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_add3_things(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_add3_things(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).add3_things)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_makeListGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_make_list(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_make_list(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).make_list)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_fifthThingGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_fifth_thing(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_fifth_thing(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).fifth_thing)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_sixGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_six(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_six(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).six)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_willThrowGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_will_throw(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_will_throw(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).will_throw)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise0FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise0_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise0_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise0_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise1FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise1_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise1_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise1_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise2FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise2_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise2_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise2_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise3FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise3_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise3_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise3_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise4FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise4_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise4_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise4_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise5FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise5_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise5_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise5_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_exercise6FunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_exercise6_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_exercise6_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).exercise6_fun)
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_thunkTwiceMakerFunGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_thunk_twice_maker_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_thunk_twice_maker_fun(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncForeignSideFunctionsStruct).thunk_twice_maker_fun)
 
 # MARK: setup

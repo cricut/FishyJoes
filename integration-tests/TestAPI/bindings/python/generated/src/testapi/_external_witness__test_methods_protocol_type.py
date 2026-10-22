@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from . import _external_witness__test_methods_protocol_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +7,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class ExternalWitness_TestMethodsProtocol(fishyjoes_runtime.SwiftReference, testapi.TestMethodsProtocol):
+class ExternalWitness_TestMethodsProtocol(fishyjoes_runtime.SwiftReference, TestMethodsProtocol):
     """<!-- FishyJoes.export(TestMethodsProtocol) -->"""
 
     @typing.override

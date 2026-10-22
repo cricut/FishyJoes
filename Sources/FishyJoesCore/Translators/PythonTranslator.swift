@@ -2,6 +2,9 @@ import Foundation
 import SourceryDataModel
 
 final class PythonTranslator: Translator {
+    // Graph where the keys are subclasses, and the values are superclasses. Used to order circular imports
+    var superclassGraph: [PythonType: Set<PythonType>] = [:]
+
     required init() {}
 
     func moduleRegisterTypesFn(context: FishyJoesContext) -> String {
@@ -330,6 +333,69 @@ final class PythonTranslator: Translator {
             return expression.swiftFloatingPointConstantLiteral
         case .implicitMember:
             return nil
+        }
+    }
+
+
+    func markSuperclassDependency(_ type: PythonType, superclasses: Set<PythonType>) {
+        if superclasses.isEmpty { return }
+        superclassGraph[type, default: []].formUnion(superclasses)
+    }
+
+    func generateSuperclassImports(context: FishyJoesContext) {
+        var visitingStarted: Set<PythonType> = []
+        var visitingFinished: Set<PythonType> = []
+
+        print("=== GRAPH ===")
+        for (k, vs) in superclassGraph {
+            print("\(k.dynamicsString) -> [\(vs.map(\.dynamicsString).joined(separator: ", "))]")
+        }
+        print()
+        print()
+
+        func definitionPath(of type: PythonType) -> [String]? {
+            precondition(type.dynamics.count == 1, "class must have exactly 1 dynamic type")
+            guard type.dynamics[0].module == context.module.pythonPackageName else { return nil }
+
+            // Should match PythonClass.typeDefinitionModulePath
+            return type.dynamics[0].namespaces + ["_\(snakify(type.dynamics[0].name))_type"]
+        }
+
+        // DFS and post-order generate import statements to that root dependencies are imported first
+        func visit(type: PythonType) {
+            if visitingFinished.contains(type) {
+                // Already processed completely, nothing left to do
+                return
+            }
+            if visitingStarted.contains(type) {
+                fatalErr("Cycle detecting in superclass graph involving type \(type.static.name())\n\(superclassGraph)")
+            }
+            visitingStarted.insert(type)
+            defer { visitingFinished.insert(type) }
+
+            guard let typeDefPath = definitionPath(of: type) else {
+                // Cycles can't cross module boundaries, no early import needed
+                return
+            }
+            let fragment = context.pythonFragment(typeDefPath.joined(separator: "/") + ".py")
+
+            var imports: [String] = []
+            for superclass in superclassGraph[type] ?? [] {
+                let importType = superclass.dynamics[0]
+                let importModule: String
+                if let modulePath = definitionPath(of: superclass) {
+                    importModule = ".\(modulePath.joined(separator: "."))"
+                } else {
+                    importModule = (importType.module.asArray + importType.namespaces).joined(separator: ".")
+                }
+                imports.append("from \(importModule) import \(importType.name) # early import to make cycles work correctly")
+                visit(type: superclass)
+            }
+            context.addHeader(to: fragment, priority: 1, imports.joined(separator: "\n"))
+        }
+
+        for type in superclassGraph.keys {
+            visit(type: type)
         }
     }
 }

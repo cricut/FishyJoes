@@ -21,7 +21,7 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_Results_Error_messageGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_message(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_message(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.results.Error).message)
 
 # MARK: setup

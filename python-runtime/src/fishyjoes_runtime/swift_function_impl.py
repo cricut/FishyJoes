@@ -14,7 +14,7 @@ _FunctionConstructorFn: TypeAlias = Callable[[UnownedRef, ConsumedSwiftRef, OutC
 
 _FishyJoesCommonRuntime_FunctionConverter_setup: \
     Callable[[EnvRef, UTF16CString, _FunctionConstructorFn, _FunctionInvokeFn, ConsumedRef], None] = \
-    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, 'FishyJoesCommonRuntime_RangeConverter_setup'))
+    raise_by_out_ref(getattr(_fishyjoes_runtime_lib, 'FishyJoesCommonRuntime_FunctionConverter_setup'))
 
 _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0: \
     Callable[[EnvRef, UnownedSwiftRef], CreatedRef] = \

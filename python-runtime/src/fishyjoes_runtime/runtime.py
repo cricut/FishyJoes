@@ -32,7 +32,7 @@ def catch_by_out_ref[*Args, Ret](*, default: Ret) -> Callable[
 def call_with_raise_by_out_ref[Ret](inner: Callable[[OutCreatedRef], Ret]) -> Ret:
     """ call `inner`, which takes in an out-exception-parameter, and convert any passed exceptions to a python `raise`
     """
-    with ffi.new("foreignObject *") as out_exn_ptr:
+    with ffi.new("created_host_ref *") as out_exn_ptr:
         out_exn = OutCreatedRef(out_exn_ptr)
         result = inner(out_exn)
         if out_exn[0] != ffi.NULL:
@@ -120,8 +120,7 @@ class CStringBag(AbstractContextManager["CStringBag"]):
         self._refs = []
 
     def utf16(self, string: str) -> UTF16CString:
-        code_units = string.encode('utf16') + b'\0\0'
-        ref = UTF16CString(ffi.new("uint8_t[]", code_units))
+        ref = UTF16CString(ffi.new("char16_t[]", string))
         # as long as ref remains referenced, the memory won't be freed
         self._refs.append(ref)
         return ref

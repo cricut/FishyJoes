@@ -440,8 +440,11 @@ class PythonClass {
     }
 }
 extension PythonClass {
+    func declareSupers(context: FishyJoesContext, extraSuperclasses: [String] = []) -> String {
+        let selfType = PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: unqualifiedName)
+        context.pythonTranslator.markSuperclassDependency(selfType, superclasses: conformances)
 
-    func declareSupers(_ superclasses: [String]) -> String {
+        let superclasses = extraSuperclasses + conformances.map(\.static.baseName)
         if superclasses.isEmpty {
             return ""
         } else {

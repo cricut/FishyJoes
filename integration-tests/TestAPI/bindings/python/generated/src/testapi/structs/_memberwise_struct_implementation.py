@@ -34,22 +34,22 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MemberwiseStruct_immutableGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_immutable(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_immutable(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.structs.MemberwiseStruct)._immutable)
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MemberwiseStruct_immutableSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_immutable(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_immutable(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.structs.MemberwiseStruct)._immutable = fishyjoes_runtime.consume_ref(newValue, str)
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MemberwiseStruct_mutableGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_mutable(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_mutable(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.structs.MemberwiseStruct).mutable)
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MemberwiseStruct_mutableSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_mutable(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_mutable(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.structs.MemberwiseStruct).mutable = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup

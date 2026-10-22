@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_default_computed_properties_type import TestDefaultComputedProperties # early import to make cycles work correctly
 from . import _test_default_computed_properties_reference_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +7,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class TestDefaultComputedPropertiesReference(fishyjoes_runtime.SwiftReference, testapi.TestDefaultComputedProperties):
+class TestDefaultComputedPropertiesReference(fishyjoes_runtime.SwiftReference, TestDefaultComputedProperties):
     """<!-- FishyJoes.exportReference(TestDefaultComputedPropertiesReference) -->"""
 
     @property

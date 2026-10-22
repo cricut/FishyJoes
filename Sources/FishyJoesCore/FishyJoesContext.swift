@@ -153,7 +153,7 @@ public class FishyJoesContext {
 
     func pythonFragment(_ name: String, additionalImports: [String] = []) -> PythonFragment {
         let fragment = PythonFragment(packageRoot: "python/generated/src/\(module.pythonPackageName)", name: name, createIntermediateDirectories: true)
-        addHeader(to: fragment, priority: 1, "from __future__ import annotations")
+        addHeader(to: fragment, priority: 10, "from __future__ import annotations")
         addHeader(to: fragment, "import fishyjoes_runtime")
         // These imports are also tracked in PythonClass.forbiddenVarNames to avoid conflicts
         addHeader(to: fragment, "import typing")
@@ -310,6 +310,8 @@ public class FishyJoesContext {
         collectedFragments.append(
             contentsOf: pythonClasses.flatMap { $0.fragments(context: self) }
         )
+        // This step needs to be aware of complete graph, so run after fragments are generated
+        pythonTranslator.generateSuperclassImports(context: self)
 
         // Output moduleInfo for FishyJoes packages that depend on this one
         let moduleInfoFragment = SourceFragment(destinationPath: "swift-interfaces/generated/\(module).fishyjoesmodule")

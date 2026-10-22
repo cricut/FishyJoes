@@ -29,22 +29,22 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('TestAPI_TestDefaultComputedPropertiesStruct_spamGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_spam(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_spam(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestDefaultComputedPropertiesStruct).spam)
 
 @fishyjoes_runtime.callback('TestAPI_TestDefaultComputedPropertiesStruct_spamSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_spam(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_spam(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestDefaultComputedPropertiesStruct).spam = fishyjoes_runtime.consume_ref(newValue, bool)
 
 @fishyjoes_runtime.callback('TestAPI_TestDefaultComputedPropertiesStruct_nootGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_noot(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_noot(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestDefaultComputedPropertiesStruct).noot)
 
 @fishyjoes_runtime.callback('TestAPI_TestDefaultComputedPropertiesStruct_nootSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def _ffi_set_noot(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
+def ffi_set_noot(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestDefaultComputedPropertiesStruct).noot = fishyjoes_runtime.consume_ref(newValue, int)
 
 # MARK: setup

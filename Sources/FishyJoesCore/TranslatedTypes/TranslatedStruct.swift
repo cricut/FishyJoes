@@ -505,6 +505,53 @@ struct TranslatedStruct: TranslatedType {
         return setupParams
     }
 
+    func pythonSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<PythonType>] {
+        var setupParams = [ForeignSetupParameter<PythonType>]()
+
+        let (importLine, implLocalName) = PythonNamingConventions.importImplemenationModule(for: pythonType)
+
+        setupParams.append(
+            .value(
+                name: "constructor",
+                type: .callable(
+                    args: storedVariables.map {
+                        context.resolve(type: $0.type).pythonType.static.ffiConsumedType
+                    } + [.outCreatedHostRef],
+                    return: .createdHostRef
+                )
+            ) { fragment in
+                context.addHeader(to: fragment, importLine)
+                fragment.output("\(implLocalName).ffi_constructor,")
+            }
+        )
+
+        for storedVar in storedVariables {
+            let staticType = context.resolve(type: storedVar.type).pythonType.static
+            let pyName = PythonClass.deforbidify(snakify(storedVar.name), localVar: false)
+            setupParams.append(
+                .value(
+                    name: "get_\(pyName)",
+                    type: .callable(args: [.unownedHostRef, .outCreatedHostRef], return: staticType.ffiCreatedType)
+                ) { fragment in
+                    fragment.output("\(implLocalName).ffi_get_\(pyName),")
+                }
+            )
+            if storedVar.isMutable {
+                setupParams.append(
+                    .value(
+                        name: "set_\(storedVar.name)",
+                        type: .callable(args: [.unownedHostRef, staticType.ffiConsumedType, .outCreatedHostRef], return: .none)
+                    ) { fragment in
+                        fragment.output("\(implLocalName).ffi_set_\(pyName),")
+                    }
+                )
+            }
+        }
+
+        return setupParams
+    }
+
+
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
@@ -570,7 +617,7 @@ struct TranslatedStruct: TranslatedType {
         context.iotaTranslator.declareCInterface(
             preludeLines: typedefs,
             name: iotaSetupName,
-            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs,
+            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs + [("outExn", "created_host_ref *")],
             returnType: "void"
         )
 

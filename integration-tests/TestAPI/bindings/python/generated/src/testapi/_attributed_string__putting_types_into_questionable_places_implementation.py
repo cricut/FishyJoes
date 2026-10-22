@@ -27,7 +27,7 @@ def ffi_constructor(
 
 @fishyjoes_runtime.callback('Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def _ffi_get_x(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+def ffi_get_x(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.AttributedString_PuttingTypesIntoQuestionablePlaces).x)
 
 # MARK: setup

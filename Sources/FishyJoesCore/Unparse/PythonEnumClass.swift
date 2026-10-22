@@ -72,14 +72,8 @@ class PythonEnumClass: PythonClass {
         )
         var fragments = [baseFragment, namespaceFragment]
 
-        var conformancesPart = ""
-        if !conformances.isEmpty {
-            let conformances = conformances.map { $0.static.name(in: self) }.sorted()
-            conformancesPart = "(\(conformances.joined(separator: ", ")))"
-        }
-
         if !cases.isEmpty {
-            baseFragment.outputBlock("class _Base\(unqualifiedName)\(conformancesPart):") {
+            baseFragment.outputBlock("class _Base\(unqualifiedName)\(declareSupers(context: context)):") {
                 document(documentation, fragment: baseFragment)
                 baseFragment.blankLine()
 

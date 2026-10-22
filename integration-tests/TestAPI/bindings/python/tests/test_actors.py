@@ -5,6 +5,8 @@ import testapi.actors
 
 class ActorTests(unittest.IsolatedAsyncioTestCase):
     async def test_temperature_logger_actor(self) -> None:
+        testapi.fishyjoes_type_setup.ensure_loaded()
+
         logger = testapi.actors.TemperatureLogger.create(label="log", measurement=3)
 
         await logger.update(7)

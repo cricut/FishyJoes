@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from . import _a_protocol_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated

@@ -43,12 +43,14 @@ class PythonProductClass: PythonClass {
             typeDefinitionModulePath,
             additionalImports: ["from . import \(implementationModuleName) as _impl"]
         )
-        var conformances = conformances.map { $0.static.name(in: self) }.sorted()
-        if case .reference = constructor {
-            conformances = ["fishyjoes_runtime.SwiftReference"] + conformances
-        }
 
-        fragment.outputBlock("class \(unqualifiedName)\(declareSupers(conformances)):") {
+        let supersString: String
+        if case .reference = constructor {
+            supersString = declareSupers(context: context, extraSuperclasses: ["fishyjoes_runtime.SwiftReference"])
+        } else {
+            supersString = declareSupers(context: context)
+        }
+        fragment.outputBlock("class \(unqualifiedName)\(supersString):") {
             document(documentation, fragment: fragment)
             fragment.blankLine()
 
@@ -157,7 +159,7 @@ class PythonProductClass: PythonClass {
             fragment.output("@fishyjoes_runtime.callback('\(field.mangledName)GetterFn')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
             let getParameters = field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef"
-            fragment.outputBlock("def _ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
+            fragment.outputBlock("def ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
                 let body: String
                     if field.isStatic {
                         body = "\(name).\(fieldName)"
@@ -175,7 +177,7 @@ class PythonProductClass: PythonClass {
                 fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=None)")
                 let setParameters = (field.isStatic ? "" : "obj: fishyjoes_runtime.UnownedRef, ") +
                     "newValue: \(field.type.static.ffiConsumedType.name())"
-                fragment.outputBlock("def _ffi_set_\(field.name)(\(setParameters)) -> None:") {
+                fragment.outputBlock("def ffi_set_\(field.name)(\(setParameters)) -> None:") {
                     if field.isStatic {
                         fragment.output("\(name).\(fieldName) = ", newLineTerminated: false)
                     } else {

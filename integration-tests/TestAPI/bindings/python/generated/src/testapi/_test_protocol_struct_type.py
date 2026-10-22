@@ -1,4 +1,6 @@
 from __future__ import annotations
+from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
+from ._test_properties_protocol_type import TestPropertiesProtocol # early import to make cycles work correctly
 from . import _test_protocol_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +8,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class TestProtocolStruct(testapi.TestMethodsProtocol, testapi.TestPropertiesProtocol):
+class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
     """<!-- FishyJoes.export(TestProtocolStruct) -->"""
 
     corge: str

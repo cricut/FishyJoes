@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ._test_async_functions_type import TestAsyncFunctions # early import to make cycles work correctly
 from . import _test_async_foreign_side_functions_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
@@ -6,7 +7,7 @@ import fishyjoes_runtime
 import types
 import typing
 
-class TestAsyncForeignSideFunctionsStruct(testapi.TestAsyncFunctions):
+class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
     """<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"""
 
     const42: typing.Final[typing.Callable[[], typing.Awaitable[int]]]
