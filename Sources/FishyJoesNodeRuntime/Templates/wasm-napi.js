@@ -76,6 +76,33 @@ function isPromise(value) {
 
 const NAPI_AUTO_LENGTH = -1 >>> 0;
 
+// String.fromCharCode takes its code units as arguments, so decode in chunks that stay under the argument limit.
+const CODE_UNITS_PER_CHUNK = 8192;
+
+// TextDecoder('latin1') decodes windows-1252, which maps bytes 0x80-0x9F to other characters.
+function decodeLatin1(bytes) {
+  let result = '';
+  for (let start = 0; start < bytes.length; start += CODE_UNITS_PER_CHUNK) {
+    result += String.fromCharCode.apply(null, bytes.subarray(start, start + CODE_UNITS_PER_CHUNK));
+  }
+  return result;
+}
+
+// Keeps unpaired surrogates, which TextDecoder would replace with U+FFFD.
+function decodeUTF16LE(bytes) {
+  const codeUnitCount = bytes.length >>> 1;
+  const codeUnits = new Uint16Array(Math.min(codeUnitCount, CODE_UNITS_PER_CHUNK));
+  let result = '';
+  for (let start = 0; start < codeUnitCount; start += codeUnits.length) {
+    const count = Math.min(codeUnits.length, codeUnitCount - start);
+    for (let i = 0; i < count; i++) {
+      codeUnits[i] = bytes[2 * (start + i)] | (bytes[2 * (start + i) + 1] << 8);
+    }
+    result += String.fromCharCode.apply(null, codeUnits.subarray(0, count));
+  }
+  return result;
+}
+
 const NAPI_OK = 0;
 const NAPI_INVALID_ARG = 1;
 const NAPI_OBJECT_EXPECTED = 2;
@@ -940,9 +967,15 @@ export class NAPI {
             return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
+        } else if (bufSize === 0) {
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, bufSize - 1, 'latin1');
-          this.writeU8(bufPtr + written, 0);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
+          const written = Math.min(s.length, bufSize - 1);
+          for (let i = 0; i < written; i++) {
+            bytes[i] = s.charCodeAt(i);
+          }
+          bytes[written] = 0;
           this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
@@ -963,9 +996,12 @@ export class NAPI {
           }
           const length = (new TextEncoder()).encode(s).length;
           this.writeU32(resultPtr, length);
+        } else if (bufSize === 0) {
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, bufSize - 1, 'utf8');
-          this.writeU8(bufPtr + written, 0);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
+          const { written } = (new TextEncoder()).encodeInto(s, bytes.subarray(0, bufSize - 1));
+          bytes[written] = 0;
           this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
@@ -985,11 +1021,19 @@ export class NAPI {
             return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
+        } else if (bufSize === 0) {
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, (bufSize - 1) * 2, 'utf16le');
-          this.writeU8(bufPtr + written, 0);
-          this.writeU8(bufPtr + written + 1, 0);
-          this.writeU32(resultPtr, written / 2);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize * 2);
+          const written = Math.min(s.length, bufSize - 1);
+          for (let i = 0; i < written; i++) {
+            const codeUnit = s.charCodeAt(i);
+            bytes[2 * i] = codeUnit;
+            bytes[2 * i + 1] = codeUnit >>> 8;
+          }
+          bytes[2 * written] = 0;
+          bytes[2 * written + 1] = 0;
+          this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
       }),
@@ -1878,8 +1922,15 @@ export class NAPI {
     if (encoding === 'utf16le') {
       length *= 2;
     }
-    let ret = Buffer.from(this.memory.buffer, index, length).toString(encoding);
-    return ret;
+    const bytes = new Uint8Array(this.memory.buffer, index, length);
+    switch (encoding) {
+      case 'latin1':
+        return decodeLatin1(bytes);
+      case 'utf16le':
+        return decodeUTF16LE(bytes);
+      default:
+        return new TextDecoder('utf-8', { ignoreBOM: true }).decode(bytes);
+    }
   }
 
   createReference(value, refCount) {
