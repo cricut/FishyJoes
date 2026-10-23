@@ -41,7 +41,7 @@ static napi_value TestLatin1AutoLength(napi_env env, napi_callback_info info) {
   NODE_API_CALL(env, napi_typeof(env, args[0], &valuetype));
 
   NODE_API_ASSERT(env, valuetype == napi_string,
-      "Wrong type of argment. Expects a string.");
+      "Wrong type of argument. Expects a string.");
 
   char buffer[128];
   size_t buffer_size = 128;
