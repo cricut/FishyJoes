@@ -74,33 +74,6 @@ function isPromise(value) {
     );
 }
 
-// String.fromCharCode takes its code units as arguments, so decode in chunks that stay under the argument limit.
-const CODE_UNITS_PER_CHUNK = 8192;
-
-// TextDecoder('latin1') decodes windows-1252, which maps bytes 0x80-0x9F to other characters.
-function decodeLatin1(bytes) {
-    let result = '';
-    for (let start = 0; start < bytes.length; start += CODE_UNITS_PER_CHUNK) {
-        result += String.fromCharCode.apply(null, bytes.subarray(start, start + CODE_UNITS_PER_CHUNK));
-    }
-    return result;
-}
-
-// Keeps unpaired surrogates, which TextDecoder would replace with U+FFFD.
-function decodeUTF16LE(bytes) {
-    const codeUnitCount = bytes.length >>> 1;
-    const codeUnits = new Uint16Array(Math.min(codeUnitCount, CODE_UNITS_PER_CHUNK));
-    let result = '';
-    for (let start = 0; start < codeUnitCount; start += codeUnits.length) {
-        const count = Math.min(codeUnits.length, codeUnitCount - start);
-        for (let i = 0; i < count; i++) {
-            codeUnits[i] = bytes[2 * (start + i)] | (bytes[2 * (start + i) + 1] << 8);
-        }
-        result += String.fromCharCode.apply(null, codeUnits.subarray(0, count));
-    }
-    return result;
-}
-
 const NAPI_AUTO_LENGTH = -1 >>> 0;
 
 const NAPI_OK = 0;
@@ -1925,15 +1898,8 @@ export class NAPI {
     if (encoding === 'utf16le') {
       length *= 2;
     }
-    const bytes = new Uint8Array(this.memory.buffer, index, length);
-    switch (encoding) {
-      case 'latin1':
-        return decodeLatin1(bytes);
-      case 'utf16le':
-        return decodeUTF16LE(bytes);
-      default:
-        return new TextDecoder('utf-8', { ignoreBOM: true }).decode(bytes);
-    }
+    const label = encoding === 'utf16le' ? 'utf-16le' : encoding;
+    return new TextDecoder(label, { ignoreBOM: true }).decode(new Uint8Array(this.memory.buffer, index, length));
   }
 
   createReference(value, refCount) {
