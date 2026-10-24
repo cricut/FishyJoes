@@ -1891,14 +1891,14 @@ export class NAPI {
     this.wasi.view.setFloat64(ptr, f64, true);
   }
 
-  readCStringFrom(ptr) {
+  readCStringFrom(ptr, encoding = 'utf8') {
     ptr >>>= 0;
     if (ptr === 0) {
       return "<NULL DEREFERENCE!>"
     }
     const u8 = new Uint8Array(this.memory.buffer);
     const end = u8.indexOf(0, ptr);
-    return this.readString(ptr, end - ptr);
+    return this.readString(ptr, end - ptr, encoding);
   }
 
   readUTF16StringFrom(ptr) {
@@ -1911,14 +1911,14 @@ export class NAPI {
     }
     const u16 = new Uint16Array(this.memory.buffer);
     const end = u16.indexOf(0, ptr / 2);
-    return this.readString(ptr, end * 2 - ptr);
+    return this.readString(ptr, end - ptr / 2, 'utf16le');
   }
 
   readString(index, length, encoding = 'utf8') {
     index >>>= 0;
     length >>>= 0;
     if (length === NAPI_AUTO_LENGTH) {
-      return encoding === 'utf16le' ? this.readUTF16StringFrom(index): this.readCStringFrom(index);
+      return encoding === 'utf16le' ? this.readUTF16StringFrom(index): this.readCStringFrom(index, encoding);
     } else if (length >= 2 ** 31) {
       throw NAPI_INVALID_ARG;
     }
