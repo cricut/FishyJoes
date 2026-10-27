@@ -146,7 +146,7 @@ public class FishyJoesContext {
         var moduleDefinedTypes: [ExternalTranslatedType] = []
 
         // Import any required FishyJoes modules
-        for path in requiredModulePaths.values {
+        for (moduleName, path) in requiredModulePaths {
             let moduleInfo = Result {
                 try JSONDecoder().decode(ModuleInfo.self, from: Data(contentsOf: URL(fileURLWithPath: path)))
             }.mapError { error in
@@ -158,6 +158,11 @@ public class FishyJoesContext {
                 typeCache[name] = .type(translatedType, usedLocally: false)
                 // Allow referring to it both as `SomeType` and `SomeDependency.SomeType`
                 typeCache[name.withoutModule] = .alias(name)
+            }
+
+            for alias in moduleInfo.typealiases ?? [] {
+                typeCache[.named(.init(name: alias.name, module: nil))] = .alias(alias.type)
+                typeCache[.named(.init(name: alias.name, module: moduleName))] = .alias(alias.type)
             }
         }
 
@@ -265,9 +270,14 @@ public class FishyJoesContext {
 
         // Output moduleInfo for FishyJoes packages that depend on this one
         let moduleInfoFragment = SourceFragment(destinationPath: "swift-interfaces/generated/\(module).fishyjoesmodule")
+        let exportedTypealiases = templateContext.typealiases
+            .filter { $0.exportAnnotation != nil }
+            .map { ExternalTypealias(name: $0.name, type: $0.typeName.better) }
+            .sorted { $0.name < $1.name }
         let moduleInfo = ModuleInfo(
             types: moduleDefinedTypes,
-            typeScriptAnnotations: tsAnnotations
+            typeScriptAnnotations: tsAnnotations,
+            typealiases: exportedTypealiases.isEmpty ? nil : exportedTypealiases
         )
         collectedFragments.append(moduleInfoFragment)
         let encoder = JSONEncoder()

@@ -15,6 +15,13 @@ public protocol Documented {
 public struct SourceryTemplateContext: Hashable, Codable {
     public let types: [SourceryType]
     public let functions: [SourceryMethod]
+    public let typealiases: [SourceryTypealias]
+}
+
+public struct SourceryTypealias: Documented, Hashable, Codable {
+    public let documentation: [String]
+    public let name: String
+    public let typeName: SourceryTypeName
 }
 
 // MARK: Types
@@ -213,6 +220,7 @@ extension SourceryTemplateContext {
     init(_ context: SourceryRuntime.TemplateContext) {
         self.types = context.types.types.map(SourceryType.init)
         self.functions = context.functions.map(SourceryMethod.init)
+        self.typealiases = context.types.typealiases.map(SourceryTypealias.init)
     }
 
     func dump() throws {
@@ -221,6 +229,14 @@ extension SourceryTemplateContext {
         print("// sourcery:file:sourcery-dump.json")
         print(String(data: try encoder.encode(self), encoding: .utf8)!)
         print("// sourcery:end")
+    }
+}
+
+extension SourceryTypealias {
+    init(_ alias: SourceryRuntime.Typealias) {
+        self.documentation = alias.documentation
+        self.name = alias.name
+        self.typeName = SourceryTypeName(alias.typeName)
     }
 }
 
