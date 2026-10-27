@@ -82,6 +82,8 @@ public struct PackageInit: ParsableCommand {
         let config = ProjectConfig(
             module: module,
             publishRepository: publishRepository,
+            packagePath: nil,
+            tagPrefix: "",
             requiredModules: requiredModules.split(separator: " ").map(String.init),
             extraDynamicLibraries: extraDynamicLibraries.split(separator: " ").map(String.init),
             excludeSources: excludeSources.split(separator: " ").map(String.init),

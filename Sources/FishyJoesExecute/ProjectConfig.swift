@@ -6,6 +6,10 @@ import Yams
 struct ProjectConfig: Codable {
     let module: String
     let publishRepository: String?
+    // Directory of this package inside `publishRepository`, set when the repository publishes several packages.
+    let packagePath: String?
+    // Prefix of this package's release tags, e.g. `eros/` for a release tagged `eros/1.2.0`.
+    let tagPrefix: String
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
@@ -81,6 +85,18 @@ struct ProjectConfig: Codable {
             }
             return str
         }
+        let packagePath = try configDictionary["packagePath"].map { obj -> String in
+            guard let str = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `packagePath` is not a string")
+            }
+            return str
+        }
+        let tagPrefix = try configDictionary["tagPrefix"].map { obj -> String in
+            guard let str = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `tagPrefix` is not a string")
+            }
+            return str
+        }
         let requiredModules = try configDictionary["requiredModules"].map { obj -> [String] in
             guard let list = obj as? [String] else {
                 throw ValidationError("fishy-joes.yaml value for key `requiredModules` is not an array of module names")
@@ -147,6 +163,8 @@ struct ProjectConfig: Codable {
         return ProjectConfig(
             module: module,
             publishRepository: publishRepository,
+            packagePath: packagePath,
+            tagPrefix: tagPrefix ?? "",
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],

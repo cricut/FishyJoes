@@ -5,6 +5,7 @@ enum PackageDotSwiftDependency {
     enum Dependency: Hashable, Codable {
         case local(path: String)
         case remote(url: String, _ refSpec: RefSpec)
+        case registry(id: String, lowerBound: String, upperBound: String)
         enum RefSpec: Hashable, Codable {
             case branch(name: String)
             case revision(name: String)
@@ -48,6 +49,15 @@ extension PackageDotSwiftDependency.Dependency {
             )
         case let .fileSystem(_, path):
             self = .local(path: path)
+        case let .registry(identity, requirement, _):
+            self = .init(registry: identity, requirement)
+        case let .sibling(identity, _, published):
+            self = .init(registry: identity, published.requirement)
         }
+    }
+
+    private init(registry id: String, _ requirement: SwiftPackage.Dependency.Requirement) {
+        let (lowerBound, upperBound) = requirement.versionRange
+        self = .registry(id: id, lowerBound: lowerBound.versionString, upperBound: upperBound.versionString)
     }
 }

@@ -80,6 +80,36 @@ public struct FileTemplater {
             "GRADLE_OPTS": "-Dorg.gradle.daemon=false",
         ]
 
+        // MARK: Package in a subdirectory of a repository publishing several packages
+        // Each replacement is empty, or the unchanged text, for a package at the repository root.
+        if let packagePath = config.packagePath {
+            let releaseOfThisPackage = "github.event_name == 'release' && startsWith(github.event.release.tag_name, '\(config.tagPrefix)')"
+            let watchedPaths = [packagePath] + config.requiredModules.compactMap { module in
+                swiftPackage?.dependencyMap[module].flatMap { try? ProjectConfig.readFromFile(basePath: $0.localPath).packagePath }
+            }
+            replacements["__WORKFLOW_NAME_PREFIX__"] = "\(config.module) "
+            replacements["__WORKFLOW_DEFAULTS__"] = "defaults:\n  run:\n    working-directory: \(packagePath)\n\n"
+            replacements["__PULL_REQUEST_PATHS__"] = "\n    paths:" + watchedPaths.map { "\n      - '\($0)/**'" }.joined()
+            replacements["__RELEASE_CONDITION__"] = releaseOfThisPackage
+            replacements["__RELEASE_TAG_SHELL_CONDITION__"] = " && \"$RELEASE_TAG\" == \(config.tagPrefix)*"
+            replacements["__STRIP_TAG_PREFIX__"] = "; VERSION=${VERSION#\(config.tagPrefix)}"
+            replacements["__TAG_PREFIX__"] = config.tagPrefix
+            replacements["__PACKAGE_DIR__"] = "\(packagePath)/"
+            replacements["__DOWNLOAD_ARTIFACT_PATH__"] = "\n        with:\n          path: \(packagePath)"
+            // A release builds against the published packages of this repository; anything else against the checkout.
+            ciEnv["BIFROST_LOCAL"] = "${{ \(releaseOfThisPackage) && '' || 'all' }}"
+        } else {
+            replacements["__WORKFLOW_NAME_PREFIX__"] = ""
+            replacements["__WORKFLOW_DEFAULTS__"] = ""
+            replacements["__PULL_REQUEST_PATHS__"] = ""
+            replacements["__RELEASE_CONDITION__"] = "github.event_name == 'release'"
+            replacements["__RELEASE_TAG_SHELL_CONDITION__"] = ""
+            replacements["__STRIP_TAG_PREFIX__"] = ""
+            replacements["__TAG_PREFIX__"] = ""
+            replacements["__PACKAGE_DIR__"] = ""
+            replacements["__DOWNLOAD_ARTIFACT_PATH__"] = ""
+        }
+
         if let token = config.ciDependencyAuth?.token {
             credentialToken = token
             ciEnv["GITHUB_TOKEN"] = token
@@ -117,7 +147,7 @@ public struct FileTemplater {
         replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
         replacements["__CI_DEPENDENCY_AUTH_TOKEN__"] = credentialToken
-        let envLines = ciEnv.sorted { $0.key < $1.key }.map { "\($0.key): '\($0.value)'" }
+        let envLines = ciEnv.sorted { $0.key < $1.key }.map { "\($0.key): '\($0.value.replacingOccurrences(of: "'", with: "''"))'" }
         replacements["__CI_SHARED_ENV_YAML__"] = join(lines: envLines, indent: 2).trimmed()
 
         self.templateReplacements = replacements

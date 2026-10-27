@@ -28,22 +28,28 @@ class DartPhases: IotaPhases, Phases {
                     "  path: DEPENDENCY_NOT_FOUND",
                 ]
             }
+            var gitURL = "https://github.com/cricut/\(depNames.swift).git"
+            var gitPath = depNames.path
+            if case let .sibling(_, _, published) = dependency {
+                gitURL = "\(published.repository.absoluteString).git"
+                gitPath = "\(published.packagePath)/\(depNames.path)"
+            }
             if options.config.flexibleVersions,
                let tagPattern = dependency.tagPatternAndVersionConstraint() {
                 return lines + [
                     #"  git:"#,
-                    #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,
+                    #"    url: "\#(gitURL)""#,
                     #"    tag_pattern: "\#(tagPattern.tagPattern)""#,
-                    #"    path: "\#(depNames.path)""#,
+                    #"    path: "\#(gitPath)""#,
                     #"  version: "\#(tagPattern.versionConstraint)""#,
                 ]
             }
             if let version = dependency.versionInPubspecFormat(flexibleVersions: false) {
                 return lines + [
                     #"  git:"#,
-                    #"    url: "https://github.com/cricut/\#(depNames.swift).git""#,
+                    #"    url: "\#(gitURL)""#,
                     #"    ref: "\#(version)""#,
-                    #"    path: "\#(depNames.path)""#,
+                    #"    path: "\#(gitPath)""#,
                 ]
             } else {
                 let dependencyPath = relativePath(of: dependency.localPath, relativeTo: "bindings/dart/generated")

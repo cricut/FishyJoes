@@ -1,17 +1,17 @@
 ---
 # __AUTOGEN_WARNING__
 
-name: "Dart"
+name: "__WORKFLOW_NAME_PREFIX__Dart"
 
 "on":
   workflow_dispatch:
   label:
     types: [created]
-  pull_request:
+  pull_request:__PULL_REQUEST_PATHS__
   release:
     types: [published]
 
-concurrency:
+__WORKFLOW_DEFAULTS__concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: mac_lib
-          path: bindings/dart/generated/macos/native/
+          path: __PACKAGE_DIR__bindings/dart/generated/macos/native/
           if-no-files-found: error
 
   build-test-dart-linux:
@@ -132,7 +132,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ubuntu_lib
-          path: bindings/dart/generated/linux/native/
+          path: __PACKAGE_DIR__bindings/dart/generated/linux/native/
           if-no-files-found: error
 
   build-test-dart-windows:
@@ -200,7 +200,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: windows_lib
-          path: bindings/dart/generated/windows/native/
+          path: __PACKAGE_DIR__bindings/dart/generated/windows/native/
           if-no-files-found: error
 
   dart-publish:
@@ -235,7 +235,7 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4__DOWNLOAD_ARTIFACT_PATH__
 
       - name: Install artifacts
         shell: zsh {0}
@@ -257,14 +257,14 @@ jobs:
 
           SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
 
-          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
-              VERSION="$RELEASE_TAG"
+          if [[ "$GITHUB_EVENT_NAME" == "release"__RELEASE_TAG_SHELL_CONDITION__ ]]; then
+              VERSION="$RELEASE_TAG"__STRIP_TAG_PREFIX__
           else
-              VERSION=${GITHUB_REF#refs/*/}
+              VERSION=${GITHUB_REF#refs/*/}__STRIP_TAG_PREFIX__
           fi
 
           if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
-            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "release"__RELEASE_TAG_SHELL_CONDITION__ ]]; then
               echo "Unsupported release tag '$VERSION'" >&2
               exit 1
             fi
@@ -274,7 +274,7 @@ jobs:
 
           echo "Detected Version is '$VERSION'"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "PUBLISH_TAG=$VERSION-dart-publish" >> $GITHUB_ENV
+          echo "PUBLISH_TAG=__TAG_PREFIX__$VERSION-dart-publish" >> $GITHUB_ENV
 
       - name: Pack
         shell: zsh {0}
@@ -286,7 +286,7 @@ jobs:
           tar -tf bindings/packed-npm-packages/cricut-flutter-*.tgz
 
       - name: Checkout with release token
-        if: github.event_name == 'release'
+        if: __RELEASE_CONDITION__
         uses: actions/checkout@v6
         with:
           token: ${{ github.token }}
@@ -294,7 +294,7 @@ jobs:
           clean: false
 
       - name: Prepare Dart publish tag
-        if: github.event_name == 'release'
+        if: __RELEASE_CONDITION__
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -318,7 +318,7 @@ jobs:
           echo "Publish tag '$PUBLISH_TAG' prepared locally"
 
       - name: Push Dart publish tag
-        if: github.event_name == 'release'
+        if: __RELEASE_CONDITION__
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -334,12 +334,12 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: __MODULE_NAME__-dart-binaries.tgz
-          path: bindings/dart/generated/packages/__MODULE_NAME__-dart-binaries.tgz
+          path: __PACKAGE_DIR__bindings/dart/generated/packages/__MODULE_NAME__-dart-binaries.tgz
           if-no-files-found: error
 
       - name: Publish
         shell: zsh {0}
-        if: github.event_name == 'release'
+        if: __RELEASE_CONDITION__
         env:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}

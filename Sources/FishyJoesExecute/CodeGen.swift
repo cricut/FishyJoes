@@ -152,6 +152,7 @@ extension CodeGen {
             Log.error("Couldn't parse swift package: \(error)")
             fatalError()
         }
+        packageInfo = try packageInfo.resolvingRegistryDependencies()
 
         if wasm {
             platforms.append(.wasm)
@@ -266,6 +267,7 @@ extension CodeGen {
             fragment.outputBlock(#"enum Dependency: Codable {"#) {
                 fragment.output(#"case local(path: String)"#)
                 fragment.output(#"case remote(url: String, _ refSpec: RefSpec)"#)
+                fragment.output(#"case registry(id: String, lowerBound: String, upperBound: String)"#)
                 fragment.outputBlock(#"enum RefSpec: Codable {"#) {
                     fragment.output(#"case branch(name: String)"#)
                     fragment.output(#"case revision(name: String)"#)
@@ -292,6 +294,9 @@ extension CodeGen {
                         fragment.dedentedOutput(#"case let .remote(url, .range(lowerBound, upperBound)):"#)
                         fragment.output(#"if bindings { fatalError("not supported") }"#)
                         fragment.output(#"return .package(url: url, Version(lowerBound)!..<Version(upperBound)!)"#)
+                        fragment.dedentedOutput(#"case let .registry(id, lowerBound, upperBound):"#)
+                        fragment.output(#"if bindings { fatalError("not supported") }"#)
+                        fragment.output(#"return .package(id: id, Version(lowerBound)!..<Version(upperBound)!)"#)
                     }
                 }
             }
@@ -479,15 +484,27 @@ extension CodeGen {
                 includeFilesNotMarkedAsGenerated: false
             )
             try packageInit.installTemplate()
-            try cmd("mkdir", "-p", ".github/workflows").run()
-            for workflow in try FileManager.default.contentsOfDirectory(atPath: ".github/workflows") {
-                if workflow.hasPrefix("GENERATED-") {
-                    try cmd("rm", ".github/workflows/\(workflow)").run()
+
+            // A package in a subdirectory installs its workflows, prefixed with its module name, at the repository root.
+            let workflowsPath: String
+            let workflowPrefix: String
+            if let packagePath = config.packagePath {
+                let repositoryRoot = packagePath.split(separator: "/").map { _ in ".." }.joined(separator: "/")
+                workflowsPath = "\(repositoryRoot)/.github/workflows"
+                workflowPrefix = "\(config.module)-"
+            } else {
+                workflowsPath = ".github/workflows"
+                workflowPrefix = ""
+            }
+            try cmd("mkdir", "-p", workflowsPath).run()
+            for workflow in try FileManager.default.contentsOfDirectory(atPath: workflowsPath) {
+                if workflow.hasPrefix("\(workflowPrefix)GENERATED-") {
+                    try cmd("rm", "\(workflowsPath)/\(workflow)").run()
                 }
             }
             for workflow in try FileManager.default.contentsOfDirectory(atPath: "bindings/workflows") {
                 if workflow.hasPrefix("GENERATED-"), workflow.hasSuffix(".yaml") {
-                    try cmd("cp", "bindings/workflows/\(workflow)", ".github/workflows/\(workflow)").run()
+                    try cmd("cp", "bindings/workflows/\(workflow)", "\(workflowsPath)/\(workflowPrefix)\(workflow)").run()
                 }
             }
         }

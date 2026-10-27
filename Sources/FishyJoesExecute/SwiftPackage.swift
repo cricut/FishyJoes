@@ -4,6 +4,16 @@ struct SwiftPackage: Decodable {
     enum Dependency {
         case sourceControl(identity: String, location: URL, requirement: Requirement)
         case fileSystem(identity: String, path: String)
+        // `path` is the downloaded release, known once the package is resolved.
+        case registry(identity: String, requirement: Requirement, path: String?)
+        // A registry package published from a directory of a repository that publishes several packages.
+        case sibling(identity: String, path: String, published: Published)
+        struct Published {
+            let repository: URL
+            let packagePath: String
+            let tagPrefix: String
+            let requirement: Requirement
+        }
         struct Remote: Decodable {
             let urlString: URL
         }
@@ -31,11 +41,18 @@ extension SwiftPackage.Dependency: Decodable {
 
         // Swift 5.6 -> 5.10
         case sourceControl, fileSystem
+
+        // Swift 5.7+
+        case registry
     }
 
     // Swift 5.5 -> 5.10
     private enum SourceControlCodingKeys: String, CodingKey {
         case identity, location, requirement
+    }
+
+    private enum RegistryCodingKeys: String, CodingKey {
+        case identity, requirement
     }
 
     // Swift 5.5 -> 5.10
@@ -51,7 +68,14 @@ extension SwiftPackage.Dependency: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        if var sourceControlListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
+        if var registryListContainer = try? container.nestedUnkeyedContainer(forKey: .registry) {
+            let registryContainer = try registryListContainer.nestedContainer(keyedBy: RegistryCodingKeys.self)
+            self = .registry(
+                identity: try registryContainer.decode(String.self, forKey: .identity),
+                requirement: try registryContainer.decode(Requirement.self, forKey: .requirement),
+                path: nil
+            )
+        } else if var sourceControlListContainer = try? container.nestedUnkeyedContainer(forKey: .sourceControl) {
             // Swift 5.6 -> 5.10
             let sourceControlContainer = try sourceControlListContainer.nestedContainer(keyedBy: SourceControlCodingKeys.self)
             let identity = try sourceControlContainer.decode(String.self, forKey: .identity)
@@ -89,18 +113,36 @@ extension SwiftPackage.Dependency {
         switch self {
         case .sourceControl(let identity, _, _): return identity
         case .fileSystem(let identity, _): return identity
+        case .registry(let identity, _, _): return identity
+        case .sibling(let identity, _, _): return identity
         }
     }
 
     var url: URL {
         switch self {
         case .sourceControl(_, let url, _): return url
-        case .fileSystem(_, let path): return URL(fileURLWithPath: path)
+        case .fileSystem(_, let path), .sibling(_, let path, _): return URL(fileURLWithPath: path)
+        case .registry(let identity, _, let path):
+            return URL(fileURLWithPath: path ?? ".build/registry/downloads/\(identity.replacingOccurrences(of: ".", with: "/"))")
         }
     }
 
     var localPath: String {
         return url.scheme == "file" || url.scheme == nil ? url.path : ".build/checkouts/\(url.lastPathComponent)"
+    }
+
+    // For a registry dependency, the equivalent source control dependency, which determines how generated
+    // packages refer to it.
+    private var asSourceControl: Self? {
+        switch self {
+        case let .registry(identity, requirement, _):
+            let name = identity.split(separator: ".").last.map(String.init) ?? identity
+            return .sourceControl(identity: identity, location: URL(string: "https://github.com/cricut/\(name)")!, requirement: requirement)
+        case let .sibling(identity, _, published):
+            return .sourceControl(identity: identity, location: published.repository, requirement: published.requirement)
+        case .sourceControl, .fileSystem:
+            return nil
+        }
     }
 
     enum GradleVersion: Equatable {
@@ -176,6 +218,8 @@ extension SwiftPackage.Dependency {
             }
         case .fileSystem:
             return .inline("local")
+        case .registry, .sibling:
+            return asSourceControl!.versionInGradleFormat(flexibleVersions: flexibleVersions)
         }
     }
 
@@ -207,6 +251,8 @@ extension SwiftPackage.Dependency {
             return "[\(version)]"
         case .fileSystem:
             return nil
+        case .registry, .sibling:
+            return asSourceControl!.versionInNugetFormat(flexibleVersions: flexibleVersions)
         }
     }
 
@@ -243,6 +289,12 @@ extension SwiftPackage.Dependency {
         case .fileSystem(_, let absolutePath):
             let localPath = relativeTo.map { relativePath(of: absolutePath, relativeTo: $0) } ?? absolutePath
             return "file:\(localPath)/\(addIfLocalPath)"
+        case .registry, .sibling:
+            return asSourceControl!.versionInNpmFormat(
+                relativeTo: relativeTo,
+                addIfLocalPath: addIfLocalPath,
+                flexibleVersions: flexibleVersions
+            )
         }
     }
 
@@ -278,6 +330,8 @@ extension SwiftPackage.Dependency {
             return version.versionString
         case .fileSystem:
             return nil
+        case .registry, .sibling:
+            return asSourceControl!.versionInPubspecFormat(flexibleVersions: flexibleVersions)
         }
     }
 
@@ -294,6 +348,26 @@ extension SwiftPackage.Dependency {
              .sourceControl(_, _, .exact):
             guard let constraint = versionInPubspecFormat(flexibleVersions: true) else { return nil }
             return (tagPattern: "{{version}}-dart-publish", versionConstraint: constraint)
+        case .registry:
+            return asSourceControl!.tagPatternAndVersionConstraint()
+        case .sibling(_, _, let published):
+            guard let constraint = versionInPubspecFormat(flexibleVersions: true) else { return nil }
+            return (tagPattern: "\(published.tagPrefix){{version}}-dart-publish", versionConstraint: constraint)
+        }
+    }
+}
+
+extension SwiftPackage.Dependency.Requirement {
+    // The half-open version range, for the requirements a registry dependency can have.
+    var versionRange: (lowerBound: SemanticVersion, upperBound: SemanticVersion) {
+        switch self {
+        case .upToNextMajor(let baseVersion): return (baseVersion, baseVersion.nextMajor)
+        case .upToNextMinor(let baseVersion): return (baseVersion, baseVersion.nextMinor)
+        case .range(let lowerBound, let upperBound): return (lowerBound, upperBound)
+        case .exact(let version):
+            return (version, SemanticVersion(major: version.major, minor: version.minor, patch: version.patch + 1))
+        case .branch, .revision:
+            fatalError("A registry dependency can't require a branch or a revision")
         }
     }
 }
@@ -353,10 +427,57 @@ extension SwiftPackage.Dependency.Requirement: Decodable {
 }
 
 extension SwiftPackage {
+    /// Locates the downloaded release of each registry dependency, and recognizes the ones published from a directory
+    /// of a repository that publishes several packages by the `packagePath` key in their `fishy-joes.yaml`.
+    func resolvingRegistryDependencies() throws -> SwiftPackage {
+        struct Resolved: Decodable {
+            struct Pin: Decodable {
+                struct State: Decodable { let version: String? }
+                let identity: String
+                let kind: String
+                let state: State
+            }
+            let pins: [Pin]
+        }
+        let pins = FileManager.default.contents(atPath: "Package.resolved")
+            .flatMap { try? JSONDecoder().decode(Resolved.self, from: $0) }?.pins ?? []
+        return SwiftPackage(
+            dependencies: dependencies.map { dependency in
+                guard
+                    case let .registry(identity, requirement, _) = dependency,
+                    let version = pins.first(where: { $0.kind == "registry" && $0.identity == identity })?.state.version
+                else {
+                    return dependency
+                }
+                let path = ".build/registry/downloads/\(identity.replacingOccurrences(of: ".", with: "/"))/\(version)"
+                guard
+                    FileManager.default.fileExists(atPath: "\(path)/bindings/fishy-joes.yaml"),
+                    let config = try? ProjectConfig.readFromFile(basePath: path),
+                    let packagePath = config.packagePath,
+                    let publishRepository = config.publishRepository
+                else {
+                    return .registry(identity: identity, requirement: requirement, path: path)
+                }
+                return .sibling(
+                    identity: identity,
+                    path: path,
+                    published: .init(
+                        repository: URL(string: "https://\(publishRepository)")!,
+                        packagePath: packagePath,
+                        tagPrefix: config.tagPrefix,
+                        requirement: requirement
+                    )
+                )
+            },
+            targets: targets
+        )
+    }
+
     struct DependencyMap {
         var entries: [String: Dependency]
+        // Registry identities are `scope.name`; a module is looked up by name.
         subscript(key: String) -> Dependency? {
-            entries[key.lowercased()]
+            entries[key.lowercased()] ?? entries.first { $0.key.split(separator: ".").last.map(String.init) == key.lowercased() }?.value
         }
     }
 

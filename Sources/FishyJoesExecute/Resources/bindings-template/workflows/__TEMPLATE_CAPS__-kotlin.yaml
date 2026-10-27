@@ -1,17 +1,17 @@
 ---
 # __AUTOGEN_WARNING__
 
-name: "Kotlin"
+name: "__WORKFLOW_NAME_PREFIX__Kotlin"
 
 "on":
   workflow_dispatch:
   label:
     types: [created]
-  pull_request:
+  pull_request:__PULL_REQUEST_PATHS__
   release:
     types: [published]
 
-concurrency:
+__WORKFLOW_DEFAULTS__concurrency:
   group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: mac_libs
-          path: bindings/kotlin/generated/src/main/resources
+          path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
   build-test-kotlin-linux:
@@ -143,7 +143,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ubuntu_libs
-          path: bindings/kotlin/generated/src/main/resources
+          path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
   build-test-kotlin-windows:
@@ -213,7 +213,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: windows_libs
-          path: bindings/kotlin/generated/src/main/resources
+          path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
   kotlin-publish:
@@ -243,7 +243,7 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4__DOWNLOAD_ARTIFACT_PATH__
 
       - name: Install artifacts
         shell: zsh {0}
@@ -269,11 +269,11 @@ jobs:
 
       - name: Publish
         shell: zsh {0}
-        if: github.event_name == 'release'
+        if: __RELEASE_CONDITION__
         run: |
           set -euxo pipefail
 
-          VERSION=${GITHUB_REF#refs/*/}
+          VERSION=${GITHUB_REF#refs/*/}__STRIP_TAG_PREFIX__
           if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
