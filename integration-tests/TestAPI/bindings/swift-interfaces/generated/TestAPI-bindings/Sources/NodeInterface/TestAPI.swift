@@ -1,7 +1,11 @@
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesNodeRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+import FishyJoesNodeRuntime
 import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface

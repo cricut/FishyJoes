@@ -1,4 +1,8 @@
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public struct UninhabitedTypeCreationError: CustomStringConvertible, Error {
     public let description: String

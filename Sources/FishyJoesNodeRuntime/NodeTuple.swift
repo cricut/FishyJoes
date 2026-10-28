@@ -1,5 +1,9 @@
 import FishyJoesCommonRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import NodeAPI
 
 extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {

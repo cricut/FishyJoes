@@ -1,5 +1,9 @@
 import FishyJoesCommonRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import NodeAPI
 
 private enum NodeFutureImpl {

@@ -1,4 +1,9 @@
+#if os(WASI)
+import FoundationEssentials
+import WASILibc
+#else
 import Foundation
+#endif
 import NodeAPI
 
 public struct JSException: Error {
@@ -23,6 +28,15 @@ public struct JSExceptionPending: Error {}
 func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
     let message = "\(file):\(line): " + msgs.map { "\($0 ?? "<null>")" }.joined(separator: " ") + "\n" + "\n"
     _ = message.withCString { fputs($0, stderr) }
+}
+
+// `localizedDescription` comes from full Foundation, which WASI builds don't link
+func errorMessage(_ error: any Error) -> String {
+    #if os(WASI)
+    (error as? LocalizedError)?.errorDescription ?? String(describing: error)
+    #else
+    error.localizedDescription
+    #endif
 }
 
 public func callbackBody(
@@ -116,7 +130,7 @@ public func asyncRethrowToNode(env: NAPI.Env, _ body: @escaping () async throws 
         }
         return promise.ptr
     } catch {
-        try? env.throw(String.toNode(error.localizedDescription, env: env))
+        try? env.throw(String.toNode(errorMessage(error), env: env))
         return nil
     }
 }
@@ -177,7 +191,7 @@ public func nodeError(_ error: Error, env: NAPI.Env) throws -> NAPI.Value {
         // TODO: store a napi_reference inside JSException and pass without stringifying
         message = error.message
     } else {
-        message = error.localizedDescription
+        message = errorMessage(error)
     }
     return try env.createError(NAPI.Value(ptr: nil), String.toNode(message, env: env))
 }
