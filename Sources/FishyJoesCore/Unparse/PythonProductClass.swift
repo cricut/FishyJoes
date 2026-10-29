@@ -73,6 +73,12 @@ class PythonProductClass: PythonClass {
                     }
                 }
 
+                fragment.outputBlock("__slots__: list[str] = [") {
+                    for field in fields {
+                        fragment.output("'\(field.storedName)',")
+                    }
+                }
+
                 fragment.blankLine()
                 fragment.outputBlock("def __init__(", newLineTerminated: false) {
                     fragment.output("self,")
@@ -92,10 +98,13 @@ class PythonProductClass: PythonClass {
 
                 fragment.blankLine()
                 fragment.outputBlock("def __repr__(self) -> str:") {
-                    let reprParts = fields.map { field in
-                        "\(field.name)={self.\(field.storedName)!r}"
-                    }.joined(separator: ", ")
-                    fragment.output("return f'\(name)(\(reprParts))'", newLineTerminated: false)
+                    // TODO: figure out how to be informative without causing the debugger to infinite loop
+                    // let reprParts = fields.map { field in
+                    //     "\(field.name)={self.\(field.storedName)!r}"
+                    // }.joined(separator: ", ")
+                    // fragment.output("return f'\(name)(\(reprParts))'", newLineTerminated: false)
+
+                    fragment.output("return f'\(name)(...)'")
                 }
             }
 

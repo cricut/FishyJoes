@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -100,22 +101,22 @@ def ffi_constructor(
     thunk_twice_maker_fun: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(testapi.TestAsyncForeignSideFunctionsStruct(
-        const42 = fishyjoes_runtime.consume_ref(const42, "Callable"),
-        iabs = fishyjoes_runtime.consume_ref(iabs, "Callable"),
-        int_compose = fishyjoes_runtime.consume_ref(int_compose, "Callable"),
-        add3_things = fishyjoes_runtime.consume_ref(add3_things, "Callable"),
-        make_list = fishyjoes_runtime.consume_ref(make_list, "Callable"),
-        fifth_thing = fishyjoes_runtime.consume_ref(fifth_thing, "Callable"),
-        six = fishyjoes_runtime.consume_ref(six, "Callable"),
-        will_throw = fishyjoes_runtime.consume_ref(will_throw, "Callable"),
-        exercise0_fun = fishyjoes_runtime.consume_ref(exercise0_fun, "Callable"),
-        exercise1_fun = fishyjoes_runtime.consume_ref(exercise1_fun, "Callable"),
-        exercise2_fun = fishyjoes_runtime.consume_ref(exercise2_fun, "Callable"),
-        exercise3_fun = fishyjoes_runtime.consume_ref(exercise3_fun, "Callable"),
-        exercise4_fun = fishyjoes_runtime.consume_ref(exercise4_fun, "Callable"),
-        exercise5_fun = fishyjoes_runtime.consume_ref(exercise5_fun, "Callable"),
-        exercise6_fun = fishyjoes_runtime.consume_ref(exercise6_fun, "Callable"),
-        thunk_twice_maker_fun = fishyjoes_runtime.consume_ref(thunk_twice_maker_fun, "Callable"),
+        const42 = fishyjoes_runtime.consume_ref(const42, collections.abc.Callable),
+        iabs = fishyjoes_runtime.consume_ref(iabs, collections.abc.Callable),
+        int_compose = fishyjoes_runtime.consume_ref(int_compose, collections.abc.Callable),
+        add3_things = fishyjoes_runtime.consume_ref(add3_things, collections.abc.Callable),
+        make_list = fishyjoes_runtime.consume_ref(make_list, collections.abc.Callable),
+        fifth_thing = fishyjoes_runtime.consume_ref(fifth_thing, collections.abc.Callable),
+        six = fishyjoes_runtime.consume_ref(six, collections.abc.Callable),
+        will_throw = fishyjoes_runtime.consume_ref(will_throw, collections.abc.Callable),
+        exercise0_fun = fishyjoes_runtime.consume_ref(exercise0_fun, collections.abc.Callable),
+        exercise1_fun = fishyjoes_runtime.consume_ref(exercise1_fun, collections.abc.Callable),
+        exercise2_fun = fishyjoes_runtime.consume_ref(exercise2_fun, collections.abc.Callable),
+        exercise3_fun = fishyjoes_runtime.consume_ref(exercise3_fun, collections.abc.Callable),
+        exercise4_fun = fishyjoes_runtime.consume_ref(exercise4_fun, collections.abc.Callable),
+        exercise5_fun = fishyjoes_runtime.consume_ref(exercise5_fun, collections.abc.Callable),
+        exercise6_fun = fishyjoes_runtime.consume_ref(exercise6_fun, collections.abc.Callable),
+        thunk_twice_maker_fun = fishyjoes_runtime.consume_ref(thunk_twice_maker_fun, collections.abc.Callable),
     ))
 
 @fishyjoes_runtime.callback('TestAPI_TestAsyncForeignSideFunctionsStruct_const42GetterFn')

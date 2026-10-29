@@ -48,7 +48,7 @@ struct TranslatedPrimitive: TranslatedType {
         self.iotaCTypes = .init(created: cName, consumed: cName, unowned: cName)
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
-        self.pythonType = .class(module: nil, qualifiedName: pythonName)
+        self.pythonType = .primitive(pythonName)
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] { [] }

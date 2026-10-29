@@ -67,15 +67,16 @@ extension TranslatedEnum {
         context.iotaTranslator.declareCInterface(
             preludeLines: typedefs,
             name: iotaSetupName,
-            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs,
+            args: [("envRef", "fishyjoes_env")] + cInterfaceArgs + [("outExn", "created_host_ref *")],
             returnType: "void"
         )
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")
         fragment.outputBlock("public func \(iotaSetupName)(", newLineTerminated: false) {
-            fragment.output("envRef: EnvRef" + (setupMethods.isEmpty ? "" : ","))
-            fragment.outputMap(setupMethods, separator: ",") { method in
-                "\(method.name): @escaping \(sourceType.name).\(upperCaseFirst(method.name))"
+            fragment.output("envRef: EnvRef,")
+            for method in setupMethods {
+                fragment.output("\(method.name): @escaping \(sourceType.name).\(upperCaseFirst(method.name)),")
             }
+            fragment.output("outExn: OutHostException")
         }
         fragment.outputBlock(" {") {
             if !setupMethods.isEmpty {
@@ -84,6 +85,7 @@ extension TranslatedEnum {
             for method in setupMethods {
                 fragment.output("\(sourceType.name).\(method.name)[env] = \(method.name)")
             }
+            fragment.output("outExn.pointee = nil")
         }
         fragment.blankLine()
 

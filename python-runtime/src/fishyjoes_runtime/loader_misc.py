@@ -39,21 +39,22 @@ _Foundation_URL_setup: \
 @catch_by_out_ref(default=0)
 def _string_length(string_ref: UnownedRef) -> int:
     string = peek_ref(string_ref, str)
-    return len(string.encode("utf-16"))
+    string_bytes = string.encode("utf-16-le")
+    return len(string_bytes) // 2
 
 
 @callback("FishyJoes_StringCodeUnitsFn")
 @catch_by_out_ref(default=None)
 def _string_code_units(string_ref: UnownedRef, out_code_units: Pointer) -> None:
     string = peek_ref(string_ref, str)
-    string_bytes = string.encode("utf-16")
+    string_bytes = string.encode("utf-16-le")
     ffi.memmove(out_code_units, string_bytes, len(string_bytes))
 
 
 @callback("FishyJoes_StringConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _string_constructor(code_units: Pointer, code_unit_count: int) -> CreatedRef:
-    string = ffi.unpack(code_units, code_unit_count)
+    string = ffi.unpack(code_units, code_unit_count // 2)
     return create_ref(string)
 
 

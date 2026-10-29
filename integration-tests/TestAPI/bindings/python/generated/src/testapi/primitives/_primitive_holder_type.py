@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _primitive_holder_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -35,6 +36,34 @@ class PrimitiveHolder:
     fq: float | None
     d: float
     dq: float | None
+    __slots__: list[str] = [
+        'b',
+        'bq',
+        'ui8',
+        'ui8q',
+        'ui16',
+        'ui16q',
+        'ui32',
+        'ui32q',
+        'ui64',
+        'ui64q',
+        'ui',
+        'uiq',
+        'i8',
+        'i8q',
+        'i16',
+        'i16q',
+        'i32',
+        'i32q',
+        'i64',
+        'i64q',
+        'i',
+        'iq',
+        'f',
+        'fq',
+        'd',
+        'dq',
+    ]
 
     def __init__(
         self,
@@ -93,7 +122,7 @@ class PrimitiveHolder:
         self.dq = dq
 
     def __repr__(self) -> str:
-        return f'testapi.primitives.PrimitiveHolder(b={self.b!r}, bq={self.bq!r}, ui8={self.ui8!r}, ui8q={self.ui8q!r}, ui16={self.ui16!r}, ui16q={self.ui16q!r}, ui32={self.ui32!r}, ui32q={self.ui32q!r}, ui64={self.ui64!r}, ui64q={self.ui64q!r}, ui={self.ui!r}, uiq={self.uiq!r}, i8={self.i8!r}, i8q={self.i8q!r}, i16={self.i16!r}, i16q={self.i16q!r}, i32={self.i32!r}, i32q={self.i32q!r}, i64={self.i64!r}, i64q={self.i64q!r}, i={self.i!r}, iq={self.iq!r}, f={self.f!r}, fq={self.fq!r}, d={self.d!r}, dq={self.dq!r})'
+        return f'testapi.primitives.PrimitiveHolder(...)'
 
     @staticmethod
     def get_static_mutable_property() -> list[int | None]:

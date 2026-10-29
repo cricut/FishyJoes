@@ -13,6 +13,10 @@ ABI pointer conventions:
 - nullability: fishyjoes_env is nonnull; out_created_exception is nonnull; foreignObject values are nonnull unless named optional or documented otherwise.
 */
 
+// libc functions
+
+char *strdup(const char *);
+
 // References to host-side objects. While these 3 types are convertible, distinct and opaque types help document memory management contracts.
 struct created_host_ref_impl;
 struct unowned_host_ref_impl;

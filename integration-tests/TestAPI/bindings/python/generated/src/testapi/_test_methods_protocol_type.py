@@ -4,6 +4,7 @@ from . import _test_methods_protocol_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
 import abc
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,12 +17,9 @@ class TestMethodsProtocol(abc.ABC):
     ) -> None:
         """<!-- FishyJoes.export(foo) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestMethodsProtocol_foo(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                ),
-                types.NoneType
+            return _impl.iota_TestAPI_TestMethodsProtocol_foo(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
             )
 
     def bar(
@@ -29,12 +27,9 @@ class TestMethodsProtocol(abc.ABC):
     ) -> bool:
         """<!-- FishyJoes.export(bar) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestMethodsProtocol_bar(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                ),
-                bool
+            return _impl.iota_TestAPI_TestMethodsProtocol_bar(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
             )
 
     def baz(
@@ -42,14 +37,11 @@ class TestMethodsProtocol(abc.ABC):
         qux: bool,
     ) -> None:
         """<!-- FishyJoes.export(baz) -->"""
-        with fishyjoes_runtime.local_handles(self, qux) as (_selfHandle, _quxHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestMethodsProtocol_baz(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                    _quxHandle,
-                ),
-                types.NoneType
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
+            return _impl.iota_TestAPI_TestMethodsProtocol_baz(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
+                qux,
             )
 
     def garply(
@@ -73,12 +65,12 @@ class TestMethodsProtocol(abc.ABC):
         grault: list[float],
     ) -> str:
         """<!-- FishyJoes.export(xyzzy) -->"""
-        with fishyjoes_runtime.local_handles(self, thud, grault) as (_selfHandle, _thudHandle, _graultHandle,):
+        with fishyjoes_runtime.local_handles(self, grault) as (_selfHandle, _graultHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_TestMethodsProtocol_xyzzy(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _thudHandle,
+                    thud,
                     _graultHandle,
                 ),
                 str

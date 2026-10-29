@@ -30,6 +30,8 @@ UTF16CString = NewType("UTF16CString", Pointer)
 # Specific pointers
 CREATED_REF_NULL = CreatedRef(FFI.NULL)
 
+# workaround for https://github.com/python/mypy/issues/11070
+DynTypeMarker: TypeAlias = Literal["Callable"] | Literal["Awaitable"]
 DynTypes: TypeAlias = tuple[type, ...] | tuple[Literal["Callable"]]
 
 __all__ = [

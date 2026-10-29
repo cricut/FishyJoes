@@ -4,6 +4,7 @@ from . import shadow_box
 from ._c_api import _testapi_lib
 from ._shadow_box_type import _BaseShadowBox
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing

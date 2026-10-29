@@ -3,6 +3,7 @@ from . import _associated_data_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import associated_data_enum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -14,7 +15,7 @@ class _BaseAssociatedDataEnum:
     def int_value(self) -> int:
         """<!-- FishyJoes.export(intValue) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AssociatedDataEnum_intValue(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_AssociatedDataEnum_intValue(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     def plus(
         self,

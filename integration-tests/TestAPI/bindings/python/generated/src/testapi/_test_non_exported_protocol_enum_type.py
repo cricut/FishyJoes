@@ -3,6 +3,7 @@ from . import _test_non_exported_protocol_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_non_exported_protocol_enum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -14,19 +15,16 @@ class _BaseTestNonExportedProtocolEnum:
     def fuga(self) -> float:
         """<!-- FishyJoes.export(fuga) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), float)
+            return _impl.iota_get_TestAPI_TestNonExportedProtocolEnum_fuga(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     def hoge(
         self,
     ) -> float:
         """<!-- FishyJoes.export(hoge) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestNonExportedProtocolEnum_hoge(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                ),
-                float
+            return _impl.iota_TestAPI_TestNonExportedProtocolEnum_hoge(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
             )
 
 # String type syntax used to avoid circular import problems at runtime

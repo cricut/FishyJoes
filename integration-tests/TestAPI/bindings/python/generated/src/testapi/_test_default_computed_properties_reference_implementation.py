@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,14 +12,14 @@ import typing
 iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesClass_noot'))
 
 iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_TestDefaultComputedPropertiesClass_noot'))
 
 iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic: typing.Callable[[
@@ -30,20 +31,20 @@ iota__default_TestAPI_TestDefaultComputedPropertiesClass_plutonic: typing.Callab
 iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesClass_spam'))
 
 iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    bool,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_TestDefaultComputedPropertiesClass_spam'))
 
 iota_TestAPI_TestDefaultComputedPropertiesClass_init: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    bool,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestDefaultComputedPropertiesClass_init'))
 

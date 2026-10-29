@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,7 +12,7 @@ import typing
 iota_get_TestAPI_AProtocol_baz: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AProtocol_baz'))
 
 iota_get_TestAPI_AProtocol_foo: typing.Callable[[
@@ -23,8 +24,8 @@ iota_get_TestAPI_AProtocol_foo: typing.Callable[[
 iota_TestAPI_AProtocol_bar: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AProtocol_bar'))
 

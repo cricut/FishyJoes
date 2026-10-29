@@ -264,12 +264,61 @@ class PythonProtocolClass: PythonClass {
 
     // output to _type_name_implementation.py
     override func outputCAPIs(to fragment: SourceFragment, context: FishyJoesContext) {
+        super.outputCAPIs(to: fragment, context: context)
         outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
         fragment.blankLine()
     }
 
     // output to _type_name_implementation.py
-    override func outputSetup(to fragment: SourceFragment, context: FishyJoesContext) {
-        fragment.output("# TODO: setup for \(name)")
+    override func outputCCallbackImplementations(to fragment: SourceFragment, context: FishyJoesContext) {
+        super.outputCCallbackImplementations(to: fragment, context: context)
+
+        for field in fields where !field.isStatic {
+            let isPrimitive = field.type.static.isPrimitive
+            let fieldName = "\(field.hiddenStorage ? "_" : "")\(PythonClass.deforbidify(field.name, localVar: false))"
+
+            fragment.output("@fishyjoes_runtime.callback('\(field.mangledName)_getFn')")
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
+            fragment.outputBlock("def ffi_get_\(field.name)(obj: fishyjoes_runtime.UnownedRef) -> \(field.type.static.ffiCreatedType.name()):") {
+                let body = "fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName)"
+                if isPrimitive {
+                    fragment.output("return \(body)")
+                } else {
+                    fragment.output("return fishyjoes_runtime.create_ref(\(body))")
+                }
+            }
+        }
+
+        for method in methods where !method.isStatic {
+            fragment.output("@fishyjoes_runtime.callback('\(method.mangledName)_methodFn')")
+            fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(method.returnType.static.ffiDefault))")
+            fragment.outputBlock("def ffi_method_\(method.name)(", newLineTerminated: false) {
+                fragment.output("obj: fishyjoes_runtime.UnownedRef,")
+                for parameter in method.parameters {
+                    fragment.output("\(parameter.pythonName): \(parameter.type.static.ffiUnownedType.name()),")
+                }
+            }
+            fragment.outputBlock(" -> \(method.returnType.static.ffiCreatedType.name()):") {
+                func outputBody() {
+                    fragment.outputBlock("fishyjoes_runtime.peek_ref(obj, \(name)).\(method.name)(") {
+                        for parameter in method.parameters {
+                            if parameter.type.static.isPrimitive {
+                                fragment.output("\(parameter.pythonName),")
+                            } else {
+                                fragment.output("fishyjoes_runtime.peek_ref(\(parameter.pythonName), \(parameter.type.dynamicsString)),")
+                            }
+                        }
+                    }
+                }
+                if method.returnType.static.isPrimitive {
+                    fragment.output("return ", newLineTerminated: false)
+                    outputBody()
+                } else {
+                    fragment.outputBlock("return fishyjoes_runtime.create_ref(") {
+                        outputBody()
+                    }
+                }
+            }
+        }
     }
 }

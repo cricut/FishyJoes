@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _testapi_exported as testapi
 from .._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,7 +17,7 @@ iota_get_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty: typing.Callab
 iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Primitives_PrimitiveHolder_staticMutableProperty'))
 
 iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty: typing.Callable[[
@@ -29,71 +30,71 @@ iota_get_TestAPI_Primitives_PrimitiveHolder_staticProperty: typing.Callable[[
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
-    b: fishyjoes_runtime.ConsumedRef,
+    b: bool,
     bq: fishyjoes_runtime.ConsumedRef,
-    ui8: fishyjoes_runtime.ConsumedRef,
+    ui8: int,
     ui8q: fishyjoes_runtime.ConsumedRef,
-    ui16: fishyjoes_runtime.ConsumedRef,
+    ui16: int,
     ui16q: fishyjoes_runtime.ConsumedRef,
-    ui32: fishyjoes_runtime.ConsumedRef,
+    ui32: int,
     ui32q: fishyjoes_runtime.ConsumedRef,
-    ui64: fishyjoes_runtime.ConsumedRef,
+    ui64: int,
     ui64q: fishyjoes_runtime.ConsumedRef,
-    ui: fishyjoes_runtime.ConsumedRef,
+    ui: int,
     uiq: fishyjoes_runtime.ConsumedRef,
-    i8: fishyjoes_runtime.ConsumedRef,
+    i8: int,
     i8q: fishyjoes_runtime.ConsumedRef,
-    i16: fishyjoes_runtime.ConsumedRef,
+    i16: int,
     i16q: fishyjoes_runtime.ConsumedRef,
-    i32: fishyjoes_runtime.ConsumedRef,
+    i32: int,
     i32q: fishyjoes_runtime.ConsumedRef,
-    i64: fishyjoes_runtime.ConsumedRef,
+    i64: int,
     i64q: fishyjoes_runtime.ConsumedRef,
-    i: fishyjoes_runtime.ConsumedRef,
+    i: int,
     iq: fishyjoes_runtime.ConsumedRef,
-    f: fishyjoes_runtime.ConsumedRef,
+    f: float,
     fq: fishyjoes_runtime.ConsumedRef,
-    d: fishyjoes_runtime.ConsumedRef,
+    d: float,
     dq: fishyjoes_runtime.ConsumedRef
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(testapi.primitives.PrimitiveHolder(
-        b = fishyjoes_runtime.consume_ref(b, bool),
+        b = b,
         bq = fishyjoes_runtime.consume_ref(bq, bool, types.NoneType),
-        ui8 = fishyjoes_runtime.consume_ref(ui8, int),
+        ui8 = ui8,
         ui8q = fishyjoes_runtime.consume_ref(ui8q, int, types.NoneType),
-        ui16 = fishyjoes_runtime.consume_ref(ui16, int),
+        ui16 = ui16,
         ui16q = fishyjoes_runtime.consume_ref(ui16q, int, types.NoneType),
-        ui32 = fishyjoes_runtime.consume_ref(ui32, int),
+        ui32 = ui32,
         ui32q = fishyjoes_runtime.consume_ref(ui32q, int, types.NoneType),
-        ui64 = fishyjoes_runtime.consume_ref(ui64, int),
+        ui64 = ui64,
         ui64q = fishyjoes_runtime.consume_ref(ui64q, int, types.NoneType),
-        ui = fishyjoes_runtime.consume_ref(ui, int),
+        ui = ui,
         uiq = fishyjoes_runtime.consume_ref(uiq, int, types.NoneType),
-        i8 = fishyjoes_runtime.consume_ref(i8, int),
+        i8 = i8,
         i8q = fishyjoes_runtime.consume_ref(i8q, int, types.NoneType),
-        i16 = fishyjoes_runtime.consume_ref(i16, int),
+        i16 = i16,
         i16q = fishyjoes_runtime.consume_ref(i16q, int, types.NoneType),
-        i32 = fishyjoes_runtime.consume_ref(i32, int),
+        i32 = i32,
         i32q = fishyjoes_runtime.consume_ref(i32q, int, types.NoneType),
-        i64 = fishyjoes_runtime.consume_ref(i64, int),
+        i64 = i64,
         i64q = fishyjoes_runtime.consume_ref(i64q, int, types.NoneType),
-        i = fishyjoes_runtime.consume_ref(i, int),
+        i = i,
         iq = fishyjoes_runtime.consume_ref(iq, int, types.NoneType),
-        f = fishyjoes_runtime.consume_ref(f, float),
+        f = f,
         fq = fishyjoes_runtime.consume_ref(fq, float, types.NoneType),
-        d = fishyjoes_runtime.consume_ref(d, float),
+        d = d,
         dq = fishyjoes_runtime.consume_ref(dq, float, types.NoneType),
     ))
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_bGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_b(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).b)
+@fishyjoes_runtime.catch_by_out_ref(default=False)
+def ffi_get_b(obj: fishyjoes_runtime.UnownedRef) -> bool:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).b
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_bSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_b(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).b = fishyjoes_runtime.consume_ref(newValue, bool)
+def ffi_set_b(obj: fishyjoes_runtime.UnownedRef, newValue: bool) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).b = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_bqGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -106,14 +107,14 @@ def ffi_set_bq(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.Co
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).bq = fishyjoes_runtime.consume_ref(newValue, bool, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui8GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_ui8(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui8)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_ui8(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui8
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui8SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_ui8(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui8 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_ui8(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui8 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui8qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -126,14 +127,14 @@ def ffi_set_ui8q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui8q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui16GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_ui16(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui16)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_ui16(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui16
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui16SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_ui16(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui16 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_ui16(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui16 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui16qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -146,14 +147,14 @@ def ffi_set_ui16q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui16q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui32GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_ui32(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui32)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_ui32(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui32
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui32SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_ui32(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui32 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_ui32(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui32 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui32qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -166,14 +167,14 @@ def ffi_set_ui32q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui32q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui64GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_ui64(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui64)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_ui64(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui64
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui64SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_ui64(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui64 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_ui64(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui64 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_ui64qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -186,14 +187,14 @@ def ffi_set_ui64q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui64q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_uiGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_ui(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_ui(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_uiSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_ui(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_ui(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).ui = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_uiqGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -206,14 +207,14 @@ def ffi_set_uiq(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.C
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).uiq = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i8GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i8(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i8)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i8(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i8
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i8SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i8(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i8 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i8(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i8 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i8qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -226,14 +227,14 @@ def ffi_set_i8q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.C
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i8q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i16GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i16(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i16)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i16(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i16
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i16SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i16(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i16 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i16(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i16 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i16qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -246,14 +247,14 @@ def ffi_set_i16q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i16q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i32GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i32(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i32)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i32(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i32
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i32SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i32(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i32 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i32(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i32 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i32qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -266,14 +267,14 @@ def ffi_set_i32q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i32q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i64GetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i64(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i64)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i64(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i64
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i64SetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i64(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i64 = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i64(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i64 = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_i64qGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -286,14 +287,14 @@ def ffi_set_i64q(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i64q = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_iGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_iSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).i = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_iqGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -306,14 +307,14 @@ def ffi_set_iq(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.Co
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).iq = fishyjoes_runtime.consume_ref(newValue, int, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_fGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_f(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).f)
+@fishyjoes_runtime.catch_by_out_ref(default=0.0)
+def ffi_get_f(obj: fishyjoes_runtime.UnownedRef) -> float:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).f
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_fSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_f(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).f = fishyjoes_runtime.consume_ref(newValue, float)
+def ffi_set_f(obj: fishyjoes_runtime.UnownedRef, newValue: float) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).f = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_fqGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
@@ -326,14 +327,14 @@ def ffi_set_fq(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.Co
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).fq = fishyjoes_runtime.consume_ref(newValue, float, types.NoneType)
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_dGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_d(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).d)
+@fishyjoes_runtime.catch_by_out_ref(default=0.0)
+def ffi_get_d(obj: fishyjoes_runtime.UnownedRef) -> float:
+    return fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).d
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_dSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_d(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).d = fishyjoes_runtime.consume_ref(newValue, float)
+def ffi_set_d(obj: fishyjoes_runtime.UnownedRef, newValue: float) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).d = newValue
 
 @fishyjoes_runtime.callback('TestAPI_Primitives_PrimitiveHolder_dqGetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

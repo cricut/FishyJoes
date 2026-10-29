@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,16 +12,16 @@ import typing
 iota_TestAPI_AProtocolImplementation_bar: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AProtocolImplementation_bar'))
 
 iota_TestAPI_AProtocolImplementation_hasADefaultImplementation: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
+    float,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation'))
 
@@ -28,7 +29,7 @@ iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2: typing.Callable
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    bool,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2'))
@@ -39,11 +40,11 @@ iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2: typing.Callable
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
     foo: fishyjoes_runtime.ConsumedRef,
-    baz: fishyjoes_runtime.ConsumedRef
+    baz: bool
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(testapi.AProtocolImplementation(
         foo = fishyjoes_runtime.consume_ref(foo, str),
-        baz = fishyjoes_runtime.consume_ref(baz, bool),
+        baz = baz,
     ))
 
 @fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_fooGetterFn')
@@ -57,14 +58,14 @@ def ffi_set_foo(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.C
     fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).foo = fishyjoes_runtime.consume_ref(newValue, str)
 
 @fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_bazGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_baz(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz)
+@fishyjoes_runtime.catch_by_out_ref(default=False)
+def ffi_get_baz(obj: fishyjoes_runtime.UnownedRef) -> bool:
+    return fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz
 
 @fishyjoes_runtime.callback('TestAPI_AProtocolImplementation_bazSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_baz(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz = fishyjoes_runtime.consume_ref(newValue, bool)
+def ffi_set_baz(obj: fishyjoes_runtime.UnownedRef, newValue: bool) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz = newValue
 
 # MARK: setup
 

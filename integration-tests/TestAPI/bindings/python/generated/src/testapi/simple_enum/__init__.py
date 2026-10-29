@@ -5,6 +5,7 @@ from .blue import Blue
 from .green import Green
 from .red import Red
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -29,21 +30,17 @@ def pick_a_color(
     raw_value: int,
 ) -> testapi.SimpleEnum | None:
     """<!-- FishyJoes.export(pickAColor) -->"""
-    with fishyjoes_runtime.local_handles(raw_value) as (_raw_valueHandle,):
-        return fishyjoes_runtime.consume_created_ref(
-            _impl.iota_TestAPI_SimpleEnum_pickAColor(
-                fishyjoes_runtime.Runtime.shared.env_ref,
-                _raw_valueHandle,
-            ),
-            testapi.simple_enum.Red, testapi.simple_enum.Green, testapi.simple_enum.Blue, types.NoneType
-        )
+    return fishyjoes_runtime.consume_created_ref(
+        _impl.iota_TestAPI_SimpleEnum_pickAColor(
+            fishyjoes_runtime.Runtime.shared.env_ref,
+            raw_value,
+        ),
+        testapi.simple_enum.Red, testapi.simple_enum.Green, testapi.simple_enum.Blue, types.NoneType
+    )
 
 def reset_favorite_color(
 ) -> None:
     """<!-- FishyJoes.export(resetFavoriteColor) -->"""
-    return fishyjoes_runtime.consume_created_ref(
-        _impl.iota_TestAPI_SimpleEnum_resetFavoriteColor(
-            fishyjoes_runtime.Runtime.shared.env_ref,
-        ),
-        types.NoneType
+    return _impl.iota_TestAPI_SimpleEnum_resetFavoriteColor(
+        fishyjoes_runtime.Runtime.shared.env_ref,
     )

@@ -13,16 +13,16 @@ class SwiftReference:
         self._reference = reference
 
     def internal_ref(self) -> UnownedSwiftRef:
-        return UnownedSwiftRef(self._reference)
+        return UnownedSwiftRef(ffi.cast("unowned_swift_ref", self._reference))
 
     def __repr__(self) -> str:
-        str_ref = FishyJoesCommonRuntime_AnyBox_toString(Runtime.shared.env_ref, UnownedSwiftRef(self._reference))
+        str_ref = FishyJoesCommonRuntime_AnyBox_toString(Runtime.shared.env_ref, self.internal_ref())
         return consume_ref(ConsumedRef(str_ref), str)
 
     def __del__(self) -> None:
         if self._reference == ffi.NULL:
             return
-        FishyJoesCommonRuntime_AnyBox_releaseRef(Runtime.shared.env_ref, ConsumedSwiftRef(self._reference))
+        FishyJoesCommonRuntime_AnyBox_releaseRef(Runtime.shared.env_ref, ConsumedSwiftRef(ffi.cast("consumed_swift_ref", self._reference)))
         self._reference = ffi.NULL
 
 

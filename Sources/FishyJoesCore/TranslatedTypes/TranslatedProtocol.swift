@@ -66,210 +66,33 @@ struct TranslatedProtocol: TranslatedType {
 
     func enforceProtocolThrows() {
         if let method = methods.first(where: { !$0.isThrowing }) {
-            fatalErr("☠️ Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("Error on \(sourceType.name).\(method.name): All Protocol methods exported through FishyJoes must be throwing.")
         }
 
         if let field = fields.first(where: { !$0.isThrowing }) {
-            fatalErr("☠️ Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing, it's the law 👮!")
+            fatalErr("Error on \(sourceType.name).\(field.name): All Protocol properties exported through FishyJoes must be throwing.")
         }
     }
 
     func enforceNoProtocolSetters() {
         if let field = fields.first(where: { $0.isMutable }) {
-            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw, it's the law 👮! Use a function instead.")
+            fatalErr("Error on \(sourceType.name).\(field.name): No setters allowed in protocols because the Swift language does not allow them to throw. Use a function instead.")
         }
     }
 
     func enforceNoProtocolStatics() {
         if let field = fields.first(where: { $0.isStatic }) {
-            fatalErr("☠️ Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("Error on \(sourceType.name).\(field.name): No static properties allowed in protocols because other languages do not generally support them.")
         }
         if let method = methods.first(where: { $0.isStatic }) {
-            fatalErr("☠️ Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them, it's the law 👮!")
+            fatalErr("Error on \(sourceType.name).\(method.name): No static methods allowed in protocols because other languages do not generally support them.")
         }
     }
 
     func enforceNoProtocolMutatingFunctions() {
         if let method = methods.first(where: { $0.isMutating }) {
-            fatalErr("☠️ Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support, it's the law 👮!")
+            fatalErr("Error on \(sourceType).\(method.name): No mutating functions on protocols because there are some edge cases that we don't want to support.")
         }
-    }
-
-    func dartSetupTypeAliases(in context: FishyJoesContext) -> [String] {
-        var lines: [String] = []
-        lines.append("typedef _\(sourceType.genericBaseName.mangledName)Constructor = \(dartType.ffiCreatedName) Function(")
-        lines.append("    ffi.Pointer ref,")
-        lines.append("    OutCreatedRef exn")
-        lines.append(");")
-        for field in fields {
-            let resolved = context.resolve(type: field.type)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
-            lines.append("typedef \(commonName)Getter = \(resolved.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, OutCreatedRef exn);")
-            if field.isMutable {
-                lines.append("typedef \(commonName)Setter = ffi.Void Function(\(dartType.ffiUnownedTag) obj, \(resolved.dartType.ffiConsumedTag) newValue, OutCreatedRef exn);")
-            }
-        }
-        for method in methods {
-            let returnType = context.resolve(type: method.returnType)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
-            let params = method.parameters.map {
-                let resolved = context.resolve(type: $0.type)
-                return "\(resolved.dartType.ffiUnownedTag) \($0.name)"
-            }
-            let paramsStr = params.isEmpty ? "" : "\(params.joined(separator: ", ")),"
-            lines.append("typedef \(commonName) = \(returnType.dartType.ffiCreatedTag) Function(\(dartType.ffiUnownedTag) obj, \(paramsStr) OutCreatedRef exn);")
-        }
-        return lines
-    }
-
-    func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
-        var setupParams = [ForeignSetupParameter<DartClass.DartType>]()
-
-        let constructorType = "_\(sourceType.genericBaseName.mangledName)Constructor"
-
-        setupParams.append(
-            .value(
-                name: "constructor",
-                type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(constructorType)>>")
-            ) { fragment in
-                // only the ffi_new is in the ExternalWitness. The rest of the ffis are in the AProtocol_FfiHooks extension to AProtocol
-                fragment.output("ffi.Pointer.fromFunction(\(context.module.name).\(iotaExternalWitnessClassName).ffi_new),")
-            }
-        )
-
-        for field in fields {
-            let resolved = context.resolve(type: field.type)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(field.name)"
-            let getType = "\(commonName)Getter"
-
-            setupParams.append(
-                .value(
-                    name: "get_\(field.name)",
-                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(getType)>>")
-                ) { fragment in
-                    let defaultValue = resolved.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_get_\(field.exportAnnotation?.name ?? field.name)\(defaultValue)),")
-                }
-            )
-        }
-
-        for method in methods {
-            let resolvedReturn = context.resolve(type: method.returnType)
-            let commonName = "_\(sourceType.genericBaseName.mangledName)_\(method.callName)"
-
-            setupParams.append(
-                .value(
-                    name: method.callName,
-                    type: .named(package: nil, name: "ffi.Pointer<ffi.NativeFunction<\(commonName)>>")
-                ) { fragment in
-                    let defaultValue = resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? ""
-                    if method.isDefaultImplementation {
-                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_DefaultImplementations.ffi_\(method.callName)\(resolvedReturn.dartType.defaultReturnValue.map { ", \($0)" } ?? "")),")
-                    } else {
-                        fragment.output("ffi.Pointer.fromFunction(\(dartType.name())_FfiHooks.ffi_\(method.callName)\(defaultValue)),")
-                    }
-                }
-            )
-        }
-
-        return setupParams
-    }
-
-    func cSharpSetupTypeAliases(in context: FishyJoesContext) -> [String] {
-        var lines: [String] = []
-        let created = cSharpType.pInvokeCreatedName
-        lines += created.returnMark
-        lines.append("delegate \(created.name) _\(converterType.genericBaseName.mangledName)Constructor(")
-        lines.append("    ConsumedRef ptr,")
-        lines.append("    out CreatedRef exn")
-        lines.append(");")
-        // All fields in protocols treated as methods with "Get" prefix because of C# tradition; and we can only do `get throws` for computed properties in Swift because there's no `set throws`.
-        for field in fields {
-            let resolved = context.resolve(type: field.type)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
-            let created = resolved.cSharpType.pInvokeCreatedName
-            lines += created.returnMark
-            lines.append("delegate \(created.name) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn);")
-        }
-        for method in methods {
-            let resolvedReturnType = context.resolve(type: method.returnType)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
-            let created = resolvedReturnType.cSharpType.pInvokeCreatedName
-            lines += created.returnMark
-            var line = "delegate \(created.name) \(commonName)(\(cSharpType.pInvokeUnownedName) obj, "
-            for parameter in method.parameters {
-                let resolved = context.resolve(type: parameter.type)
-                line.append("\(resolved.cSharpType.name) \(parameter.name), ")
-            }
-            line.append("out CreatedRef exn);")
-            lines.append(line)
-        }
-        return lines
-    }
-
-    func cSharpSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<String>] {
-        let constructorType = "_\(converterType.genericBaseName.mangledName)Constructor"
-        var foreignSetupParameters = [ForeignSetupParameter<String>]()
-
-        foreignSetupParameters.append(
-            .value(
-                name: "constructor",
-                type: constructorType
-            ) { fragment in
-                fragment.outputBlock("bag<\(constructorType)>((ConsumedRef ptr, out CreatedRef exn) => Catching(out exn, () => {", closeWith: "})),") {
-                    fragment.output("return new CreatedRef(new \(cSharpType.package ?? context.module.name).ExternalWitness_\(cSharpType.unqualifiedName)(ptr));")
-                }
-            }
-        )
-
-        let fieldsParameters = fields.map { field -> ForeignSetupParameter in
-            let resolved = context.resolve(type: field.type)
-            let commonName = "_\(converterType.genericBaseName.mangledName)_Get\(field.name)"
-            return
-                .value(
-                    name: "Get\(field.name)",
-                    type: commonName
-                ) { fragment in
-                    // All fields in protocols are asMethod Get only
-                    fragment.outputBlock("bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, out CreatedRef exn) => Catching(out exn, () =>", closeWith: ")),") {
-                        let grab = "obj.Peek<\(cSharpType.name)>().Get\(CSharpClass.deforbidify(upperCaseFirst(field.exportAnnotation?.name ?? field.name)))()"
-                        if resolved.cSharpType.isObject {
-                            fragment.output("new CreatedRef(\(grab))")
-                        } else {
-                            fragment.output("\(grab)")
-                        }
-                    }
-                }
-        }
-        foreignSetupParameters.append(contentsOf: fieldsParameters)
-
-        let methodsParameters = methods.map { method -> ForeignSetupParameter in
-            let commonName = "_\(converterType.genericBaseName.mangledName)_\(method.callName)"
-            return .value(
-                name: method.callName,
-                type: commonName
-            ) { fragment in
-                let resolvedReturnType = context.resolve(type: method.returnType)
-                var line = "bag<\(commonName)>((\(cSharpType.pInvokeUnownedName) obj, "
-                for parameter in method.parameters {
-                    let resolved = context.resolve(type: parameter.type)
-                    line.append("\(resolved.cSharpType.name) \(parameter.name), ")
-                }
-                line.append("out CreatedRef exn) => Catching(out exn, () => ")
-                fragment.outputBlock(line, closeWith: ")),") {
-                    let grab = "obj.Peek<\(cSharpType.name)>().\(CSharpClass.deforbidify(upperCaseFirst(method.callName)))(\(method.parameters.map { $0.name }.joined(separator: ", ")))"
-                    if resolvedReturnType.cSharpType.isObject {
-                        fragment.output("new CreatedRef(\(grab))")
-                    } else {
-                        fragment.output("\(grab)")
-                    }
-                    fragment.blankLine()
-                }
-            }
-        }
-        foreignSetupParameters.append(contentsOf: methodsParameters)
-
-        return foreignSetupParameters
     }
 
     func definitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
@@ -654,8 +477,8 @@ struct TranslatedProtocol: TranslatedType {
         ]
         for field in fields {
             let resolved = context.resolve(type: field.type)
-            let getterTypedefName = "\(sourceType.name)_GetFn_\(upperCaseFirst(field.name))".mangled
-            let setterTypedefName = "\(sourceType.name)_SetFn_\(upperCaseFirst(field.name))".mangled
+            let getterTypedefName = "\(sourceType.name)_\(field.exportAnnotation?.name ?? field.name)_getFn".mangled
+            let setterTypedefName = "\(sourceType.name)_\(field.exportAnnotation?.name ?? field.name)_setFn".mangled
             typedefs.append(
                 "typedef \(resolved.iotaCTypes.created) (*\(getterTypedefName))(unowned_host_ref obj, created_host_ref *out_exn);"
             )
@@ -689,7 +512,7 @@ struct TranslatedProtocol: TranslatedType {
             } + [
                 (swift: "OutHostException", c: "created_host_ref *")
             ]
-            let methodTypedefName = "\(sourceType.name)_MethodFn_\(upperCaseFirst(method.exportAnnotation.name))".mangled
+            let methodTypedefName = "\(sourceType.name)_\(method.exportAnnotation.name)_methodFn".mangled
             typedefs.append(
                 "typedef \(resolvedReturnType.iotaCTypes.created) (*\(methodTypedefName))" +
                     "(\(paramParts.map(\.c).joined(separator: ", ")));"
@@ -1009,135 +832,5 @@ struct TranslatedProtocol: TranslatedType {
         )
 
         return [fragment]
-    }
-
-    func registerCSharpClass(context: FishyJoesContext) {
-        let (protocolFields, protocolMethods) = CSharpClass.separate(
-            fieldsAndMethods:
-                fields.flatMap {
-                    context.cSharp(field: $0, of: self, useNativeName: false)
-                } + methods.compactMap {
-                    context.cSharp(method: $0, of: self)
-                }
-        )
-
-        context.add(
-            cSharpClass: CSharpProtocolClass(
-                module: context.module,
-                documentation: documentation,
-                name: cSharpType.name,
-                fields: protocolFields,
-                methods: protocolMethods,
-                conformances: Set(exportedConformances(in: context).map { $0.cSharpType})
-            )
-        )
-
-        let (externalWitnessFields, externalWitnessMethods) = CSharpClass.separate(
-            fieldsAndMethods:
-                fields.flatMap {
-                    context.cSharp(field: $0, of: self, useNativeName: false)
-                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
-                    context.cSharp(method: $0, of: self)
-                }
-        )
-
-        context.add(
-            cSharpClass: CSharpProductClass(
-                module: context.module,
-                documentation: documentation,
-                name: "\(cSharpType.package ?? "Cricut.\(context.module.name)").\(iotaExternalWitnessClassName)",
-                constructor: .reference,
-                fields: externalWitnessFields,
-                methods: externalWitnessMethods,
-                conformances: [context.resolve(type: sourceType).cSharpType]
-                // [CSharpClass.CSType.named(package: sourceType.module, name: sourceType.unqualifiedName)]
-            )
-        )
-    }
-
-    func registerDartClass(context: FishyJoesContext) {
-        let (protocolFields, protocolMethods) = DartClass.separate(
-            fieldsAndMethods:
-                fields.compactMap {
-                    context.dart(field: $0, of: self, useNativeName: false)
-                } + methods.compactMap {
-                    context.dart(method: $0, of: self)
-                }
-        )
-
-        context.add(
-            dartClass: DartProtocolClass(
-                module: context.module,
-                documentation: documentation,
-                name: dartType.name(),
-                fields: protocolFields,
-                methods: protocolMethods,
-                conformances: Set(exportedConformances(in: context).map { $0.dartType})
-            )
-        )
-
-        let (externalWitnessFields, externalWitnessMethods) = DartClass.separate(
-            fieldsAndMethods:
-                fields.compactMap {
-                    context.dart(field: $0, of: self, useNativeName: false)
-                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
-                    context.dart(method: $0, of: self)
-                }
-        )
-        context.add(
-            dartClass: DartProductClass(
-                module: context.module,
-                documentation: documentation,
-                name: "\(context.module.name).\(iotaExternalWitnessClassName)",
-                constructor: .reference,
-                fields: externalWitnessFields,
-                methods: externalWitnessMethods,
-                conformances: [dartType]
-            )
-        )
-    }
-
-    func registerPythonClass(context: FishyJoesContext) {
-        let (protocolFields, protocolMethods) = PythonClass.separate(
-            fieldsAndMethods:
-                fields.compactMap {
-                    context.python(field: $0, of: self, useNativeName: false)
-                } + methods.compactMap {
-                    context.python(method: $0, of: self)
-                }
-        )
-
-        context.add(
-            pythonClass: PythonProtocolClass(
-                module: context.module,
-                documentation: documentation,
-                namespaces: pythonType.static.namespaces,
-                name: pythonType.static.name(),
-                mangledName: sourceType.name.mangled,
-                fields: protocolFields,
-                methods: protocolMethods
-            ).conforming(to: exportedConformances(in: context), context: context)
-        )
-
-        let (externalWitnessFields, externalWitnessMethods) = PythonClass.separate(
-            fieldsAndMethods:
-                fields.compactMap {
-                    context.python(field: $0, of: self, useNativeName: false)
-                } + methods.filter { !$0.isDefaultImplementation }.compactMap {
-                    context.python(method: $0, of: self)
-                }
-        )
-        context.add(
-            pythonClass: PythonProductClass(
-                module: context.module,
-                documentation: documentation,
-                namespaces: pythonType.static.namespaces,
-                name: "\(definingModule.pythonPackageName).\(iotaExternalWitnessClassName)",
-                mangledName: iotaExternalWitnessClassName.mangled,
-                constructor: .reference,
-                fields: externalWitnessFields,
-                methods: externalWitnessMethods,
-            ).conforming(to: [self] + exportedConformances(in: context), context: context)
-        )
     }
 }

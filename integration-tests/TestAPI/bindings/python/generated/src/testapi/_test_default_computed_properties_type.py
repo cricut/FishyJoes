@@ -4,6 +4,7 @@ from . import _test_default_computed_properties_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
 import abc
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -15,7 +16,7 @@ class TestDefaultComputedProperties(abc.ABC):
     def noot(self) -> int:
         """<!-- FishyJoes.export(noot) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota__default_TestAPI_TestDefaultComputedProperties_noot(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota__default_TestAPI_TestDefaultComputedProperties_noot(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @property
     def plutonic(self) -> str:

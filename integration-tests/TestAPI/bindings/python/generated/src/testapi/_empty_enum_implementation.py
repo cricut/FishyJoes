@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import empty_enum
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,7 +12,7 @@ import typing
 
 iota_get_TestAPI_EmptyEnum_aStaticProperty: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_EmptyEnum_aStaticProperty'))
 
 iota_TestAPI_EmptyEnum_notGoingToHappen: typing.Callable[[
@@ -21,7 +22,7 @@ iota_TestAPI_EmptyEnum_notGoingToHappen: typing.Callable[[
 
 iota_TestAPI_EmptyEnum_aStaticMethod: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_EmptyEnum_aStaticMethod'))
 
 # MARK: C callback implementations

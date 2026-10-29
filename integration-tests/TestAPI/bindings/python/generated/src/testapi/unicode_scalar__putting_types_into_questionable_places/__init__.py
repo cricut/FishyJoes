@@ -3,6 +3,7 @@ from .. import _testapi_exported as testapi
 from .. import _unicode_scalar__putting_types_into_questionable_places_implementation as _impl
 from .thing import Thing
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing

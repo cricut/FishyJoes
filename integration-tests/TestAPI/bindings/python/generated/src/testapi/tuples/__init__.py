@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _testapi_exported as testapi
 from .. import _tuples_implementation as _impl
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -44,14 +45,11 @@ def check_tuples(
 ) -> bool:
     """<!-- FishyJoes.export(checkTuples) -->"""
     with fishyjoes_runtime.local_handles(t2, t3, t4, t5, t6) as (_t2Handle, _t3Handle, _t4Handle, _t5Handle, _t6Handle,):
-        return fishyjoes_runtime.consume_created_ref(
-            _impl.iota_TestAPI_Tuples_checkTuples(
-                fishyjoes_runtime.Runtime.shared.env_ref,
-                _t2Handle,
-                _t3Handle,
-                _t4Handle,
-                _t5Handle,
-                _t6Handle,
-            ),
-            bool
+        return _impl.iota_TestAPI_Tuples_checkTuples(
+            fishyjoes_runtime.Runtime.shared.env_ref,
+            _t2Handle,
+            _t3Handle,
+            _t4Handle,
+            _t5Handle,
+            _t6Handle,
         )

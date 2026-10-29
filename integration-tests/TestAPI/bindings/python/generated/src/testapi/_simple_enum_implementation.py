@@ -4,6 +4,7 @@ from . import simple_enum
 from ._c_api import _testapi_lib
 from ._simple_enum_type import _BaseSimpleEnum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -18,18 +19,18 @@ iota_get_TestAPI_SimpleEnum_favoriteColor: typing.Callable[[
 iota_set_TestAPI_SimpleEnum_favoriteColor: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_SimpleEnum_favoriteColor'))
 
 iota_get_TestAPI_SimpleEnum_hex: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_SimpleEnum_hex'))
 
 iota_TestAPI_SimpleEnum_pickAColor: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_pickAColor'))
 
@@ -41,7 +42,7 @@ iota_TestAPI_SimpleEnum_hexMethod: typing.Callable[[
 
 iota_TestAPI_SimpleEnum_resetFavoriteColor: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_SimpleEnum_resetFavoriteColor'))
 
 # MARK: C callback implementations

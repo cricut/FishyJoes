@@ -4,6 +4,7 @@ from ._test_properties_protocol_type import TestPropertiesProtocol # early impor
 from . import _test_protocol_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -12,6 +13,9 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
     """<!-- FishyJoes.export(TestProtocolStruct) -->"""
 
     corge: str
+    __slots__: list[str] = [
+        'corge',
+    ]
 
     def __init__(
         self,
@@ -20,7 +24,7 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
         self.corge = corge
 
     def __repr__(self) -> str:
-        return f'testapi.TestProtocolStruct(corge={self.corge!r})'
+        return f'testapi.TestProtocolStruct(...)'
 
     @property
     @typing.override
@@ -35,12 +39,9 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
     ) -> None:
         """<!-- FishyJoes.export(foo) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestProtocolStruct_foo(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                ),
-                types.NoneType
+            return _impl.iota_TestAPI_TestProtocolStruct_foo(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
             )
 
     @typing.override
@@ -49,12 +50,9 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
     ) -> bool:
         """<!-- FishyJoes.export(bar) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestProtocolStruct_bar(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                ),
-                bool
+            return _impl.iota_TestAPI_TestProtocolStruct_bar(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
             )
 
     @typing.override
@@ -63,14 +61,11 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
         qux: bool,
     ) -> None:
         """<!-- FishyJoes.export(baz) -->"""
-        with fishyjoes_runtime.local_handles(self, qux) as (_selfHandle, _quxHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_TestProtocolStruct_baz(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                    _quxHandle,
-                ),
-                types.NoneType
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
+            return _impl.iota_TestAPI_TestProtocolStruct_baz(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
+                qux,
             )
 
     @typing.override
@@ -96,12 +91,12 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
         grault: list[float],
     ) -> str:
         """<!-- FishyJoes.export(xyzzy) -->"""
-        with fishyjoes_runtime.local_handles(self, thud, grault) as (_selfHandle, _thudHandle, _graultHandle,):
+        with fishyjoes_runtime.local_handles(self, grault) as (_selfHandle, _graultHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_TestProtocolStruct_xyzzy(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _thudHandle,
+                    thud,
                     _graultHandle,
                 ),
                 str

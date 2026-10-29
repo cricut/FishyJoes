@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _collection_holder_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -18,6 +19,17 @@ class CollectionHolder:
     string_array: list[str]
     string_set: set[str]
     string_dictionary: dict[str,str]
+    __slots__: list[str] = [
+        'bool_array',
+        'bool_set',
+        'bool_dictionary',
+        'integer_array',
+        'integer_set',
+        'integer_dictionary',
+        'string_array',
+        'string_set',
+        'string_dictionary',
+    ]
 
     def __init__(
         self,
@@ -42,7 +54,7 @@ class CollectionHolder:
         self.string_dictionary = string_dictionary
 
     def __repr__(self) -> str:
-        return f'testapi.collections.CollectionHolder(bool_array={self.bool_array!r}, bool_set={self.bool_set!r}, bool_dictionary={self.bool_dictionary!r}, integer_array={self.integer_array!r}, integer_set={self.integer_set!r}, integer_dictionary={self.integer_dictionary!r}, string_array={self.string_array!r}, string_set={self.string_set!r}, string_dictionary={self.string_dictionary!r})'
+        return f'testapi.collections.CollectionHolder(...)'
 
     @staticmethod
     def get_static_mutable_property() -> list[int | None]:

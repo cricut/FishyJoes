@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _methods_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,55 +14,55 @@ class Methods(fishyjoes_runtime.SwiftReference):
     def garply(self) -> int:
         """<!-- FishyJoes.export(garply) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_garply(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_Methods_garply(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @property
     def instance_get(self) -> int:
         """<!-- FishyJoes.export(instanceGet) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceGet(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_Methods_instanceGet(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     def get_instance_get_method(self) -> int:
         """<!-- FishyJoes.exportAsMethod(instanceGetMethod) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceGetMethod(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_Methods_instanceGetMethod(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @property
     def instance_modifiable(self) -> int:
         """<!-- FishyJoes.export(instanceModifiable) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @instance_modifiable.setter
     def instance_modifiable(self, new_value: int) -> None:
-        with fishyjoes_runtime.local_handles(self, new_value) as (self_handle, new_value_handle,):
-            _impl.iota_set_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
+        with fishyjoes_runtime.local_handles(self) as (self_handle,):
+            _impl.iota_set_TestAPI_Methods_instanceModifiable(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value)
 
     @property
     def instance_stored(self) -> int:
         """<!-- FishyJoes.export(instanceStored) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @instance_stored.setter
     def instance_stored(self, new_value: int) -> None:
-        with fishyjoes_runtime.local_handles(self, new_value) as (self_handle, new_value_handle,):
-            _impl.iota_set_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value_handle)
+        with fishyjoes_runtime.local_handles(self) as (self_handle,):
+            _impl.iota_set_TestAPI_Methods_instanceStored(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, new_value)
 
     @staticmethod
     def get_static_get() -> int:
         """<!-- FishyJoes.export(staticGet) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticGet(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return _impl.iota_get_TestAPI_Methods_staticGet(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
     def get_static_get_method() -> int:
         """<!-- FishyJoes.exportAsMethod(staticGetMethod) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticGetMethod(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return _impl.iota_get_TestAPI_Methods_staticGetMethod(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
     def get_static_modifiable() -> int:
         """<!-- FishyJoes.export(staticModifiable) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticModifiable(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return _impl.iota_get_TestAPI_Methods_staticModifiable(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
     def set_static_modifiable(new_value: int) -> None: ...
@@ -69,7 +70,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
     @staticmethod
     def get_static_stored() -> int:
         """<!-- FishyJoes.export(staticStored) -->"""
-        return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Methods_staticStored(fishyjoes_runtime.Runtime.shared.env_ref), int)
+        return _impl.iota_get_TestAPI_Methods_staticStored(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
     def set_static_stored(new_value: int) -> None: ...
@@ -91,20 +92,17 @@ class Methods(fishyjoes_runtime.SwiftReference):
         b: float,
     ) -> int:
         """<!-- FishyJoes.export(doublePlusGood) -->"""
-        with fishyjoes_runtime.local_handles(self, a, b) as (_selfHandle, _aHandle, _bHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_Methods_doublePlusGood(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _selfHandle,
-                    _aHandle,
-                    _bHandle,
-                ),
-                int
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
+            return _impl.iota_TestAPI_Methods_doublePlusGood(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _selfHandle,
+                a,
+                b,
             )
 
     def async42(
         self,
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(async42) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -112,12 +110,12 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_yield(
         self,
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(asyncYield) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -125,12 +123,12 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_sleep(
         self,
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(asyncSleep) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -138,12 +136,12 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_void(
         self,
-    ) -> fishyjoes_runtime.Future[None]:
+    ) -> typing.Awaitable[None]:
         """<!-- FishyJoes.export(asyncVoid) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -151,44 +149,44 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_double(
         self,
         d: float,
-    ) -> fishyjoes_runtime.Future[float]:
+    ) -> typing.Awaitable[float]:
         """<!-- FishyJoes.export(asyncDouble) -->"""
-        with fishyjoes_runtime.local_handles(self, d) as (_selfHandle, _dHandle,):
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_Methods_asyncDouble(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _dHandle,
+                    d,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_multiple_args(
         self,
         i: int,
         j: typing.Callable[[], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(asyncMultipleArgs) -->"""
-        with fishyjoes_runtime.local_handles(self, i, j) as (_selfHandle, _iHandle, _jHandle,):
+        with fishyjoes_runtime.local_handles(self, j) as (_selfHandle, _jHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_Methods_asyncMultipleArgs(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _iHandle,
+                    i,
                     _jHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_throwing(
         self,
-    ) -> fishyjoes_runtime.Future[None]:
+    ) -> typing.Awaitable[None]:
         """<!-- FishyJoes.export(asyncThrowing) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -196,13 +194,13 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def async_callback_func0(
         self,
         callback: typing.Callable[[], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(asyncCallbackFunc0) -->"""
         with fishyjoes_runtime.local_handles(self, callback) as (_selfHandle, _callbackHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -211,98 +209,97 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     _selfHandle,
                     _callbackHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @staticmethod
     def static_async42(
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(staticAsync42) -->"""
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Methods_staticAsync42(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            fishyjoes_runtime.Future
+            typing.Awaitable
         )
 
     @staticmethod
     def static_async_yield(
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(staticAsyncYield) -->"""
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Methods_staticAsyncYield(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            fishyjoes_runtime.Future
+            typing.Awaitable
         )
 
     @staticmethod
     def static_async_sleep(
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(staticAsyncSleep) -->"""
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Methods_staticAsyncSleep(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            fishyjoes_runtime.Future
+            typing.Awaitable
         )
 
     @staticmethod
     def static_async_void(
-    ) -> fishyjoes_runtime.Future[None]:
+    ) -> typing.Awaitable[None]:
         """<!-- FishyJoes.export(staticAsyncVoid) -->"""
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Methods_staticAsyncVoid(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            fishyjoes_runtime.Future
+            typing.Awaitable
         )
 
     @staticmethod
     def static_async_double(
         d: float,
-    ) -> fishyjoes_runtime.Future[float]:
+    ) -> typing.Awaitable[float]:
         """<!-- FishyJoes.export(staticAsyncDouble) -->"""
-        with fishyjoes_runtime.local_handles(d) as (_dHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_Methods_staticAsyncDouble(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _dHandle,
-                ),
-                fishyjoes_runtime.Future
-            )
+        return fishyjoes_runtime.consume_created_ref(
+            _impl.iota_TestAPI_Methods_staticAsyncDouble(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                d,
+            ),
+            typing.Awaitable
+        )
 
     @staticmethod
     def static_async_multiple_args(
         i: int,
         j: typing.Callable[[], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(staticAsyncMultipleArgs) -->"""
-        with fishyjoes_runtime.local_handles(i, j) as (_iHandle, _jHandle,):
+        with fishyjoes_runtime.local_handles(j) as (_jHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_Methods_staticAsyncMultipleArgs(
                     fishyjoes_runtime.Runtime.shared.env_ref,
-                    _iHandle,
+                    i,
                     _jHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @staticmethod
     def static_async_throwing(
-    ) -> fishyjoes_runtime.Future[None]:
+    ) -> typing.Awaitable[None]:
         """<!-- FishyJoes.export(staticAsyncThrowing) -->"""
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Methods_staticAsyncThrowing(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            fishyjoes_runtime.Future
+            typing.Awaitable
         )
 
     @staticmethod
     def static_async_callback_func0(
         callback: typing.Callable[[], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[int]:
+    ) -> typing.Awaitable[int]:
         """<!-- FishyJoes.export(staticAsyncCallbackFunc0) -->"""
         with fishyjoes_runtime.local_handles(callback) as (_callbackHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -310,7 +307,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _callbackHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @staticmethod
@@ -319,10 +316,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
     ) -> None:
         """<!-- FishyJoes.export(methodWithNewlinesInTypes) -->"""
         with fishyjoes_runtime.local_handles(thing) as (_thingHandle,):
-            return fishyjoes_runtime.consume_created_ref(
-                _impl.iota_TestAPI_Methods_methodWithNewlinesInTypes(
-                    fishyjoes_runtime.Runtime.shared.env_ref,
-                    _thingHandle,
-                ),
-                types.NoneType
+            return _impl.iota_TestAPI_Methods_methodWithNewlinesInTypes(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                _thingHandle,
             )

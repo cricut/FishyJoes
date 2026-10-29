@@ -4,6 +4,7 @@ from . import associated_data_enum
 from ._associated_data_enum_type import _BaseAssociatedDataEnum
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,7 +14,7 @@ import typing
 iota_get_TestAPI_AssociatedDataEnum_intValue: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_AssociatedDataEnum_intValue'))
 
 iota_get_TestAPI_AssociatedDataEnum_staticThing: typing.Callable[[
@@ -45,30 +46,30 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_ThingConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_thing(
-    value: fishyjoes_runtime.ConsumedRef,
+    value: int,
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(associated_data_enum.Thing(
-        fishyjoes_runtime.consume_ref(value, int),
+        value,
     ))
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_ThingExtractorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=None)
 def extract_thing(
     obj: fishyjoes_runtime.UnownedRef,
-    out_value: fishyjoes_runtime.OutCreatedRef,
+    out_value: fishyjoes_runtime.Pointer,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, associated_data_enum.Thing)
-    out_value[0] = fishyjoes_runtime.create_ref(self.value)
+    out_value[0] = self.value
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_OtherConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_other(
     unnamed: fishyjoes_runtime.ConsumedRef,
-    _1: fishyjoes_runtime.ConsumedRef,
+    _1: int,
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(associated_data_enum.Other(
         fishyjoes_runtime.consume_ref(unnamed, str),
-        fishyjoes_runtime.consume_ref(_1, int),
+        _1,
     ))
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_OtherExtractorFn")
@@ -76,23 +77,23 @@ def new_other(
 def extract_other(
     obj: fishyjoes_runtime.UnownedRef,
     out_unnamed: fishyjoes_runtime.OutCreatedRef,
-    out__1: fishyjoes_runtime.OutCreatedRef,
+    out__1: fishyjoes_runtime.Pointer,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, associated_data_enum.Other)
     out_unnamed[0] = fishyjoes_runtime.create_ref(self.unnamed)
-    out__1[0] = fishyjoes_runtime.create_ref(self._1)
+    out__1[0] = self._1
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_BarConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def new_bar(
     named: fishyjoes_runtime.ConsumedRef,
     _1: fishyjoes_runtime.ConsumedRef,
-    toggled: fishyjoes_runtime.ConsumedRef,
+    toggled: bool,
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(associated_data_enum.Bar(
         fishyjoes_runtime.consume_ref(named, str),
         fishyjoes_runtime.consume_ref(_1, testapi.associated_data_enum.Thing, testapi.associated_data_enum.Other, testapi.associated_data_enum.Bar, testapi.associated_data_enum.NoValue, testapi.associated_data_enum.None_, testapi.associated_data_enum.SimpleEnum),
-        fishyjoes_runtime.consume_ref(toggled, bool),
+        toggled,
     ))
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_BarExtractorFn")
@@ -101,12 +102,12 @@ def extract_bar(
     obj: fishyjoes_runtime.UnownedRef,
     out_named: fishyjoes_runtime.OutCreatedRef,
     out__1: fishyjoes_runtime.OutCreatedRef,
-    out_toggled: fishyjoes_runtime.OutCreatedRef,
+    out_toggled: fishyjoes_runtime.Pointer,
 ) -> None:
     self = fishyjoes_runtime.peek_ref(obj, associated_data_enum.Bar)
     out_named[0] = fishyjoes_runtime.create_ref(self.named)
     out__1[0] = fishyjoes_runtime.create_ref(self._1)
-    out_toggled[0] = fishyjoes_runtime.create_ref(self.toggled)
+    out_toggled[0] = self.toggled
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_NoValueConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

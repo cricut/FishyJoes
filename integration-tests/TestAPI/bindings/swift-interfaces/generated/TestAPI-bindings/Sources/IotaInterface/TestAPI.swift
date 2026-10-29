@@ -167,12 +167,14 @@ public func Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_setup(
     envRef: EnvRef,
     discriminator: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.Discriminator,
     thingConstructor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.ThingConstructor,
-    thingExtractor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.ThingExtractor
+    thingExtractor: @escaping Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.ThingExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.discriminator[env] = discriminator
     Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thingConstructor[env] = thingConstructor
     Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.thingExtractor[env] = thingExtractor
+    outExn.pointee = nil
 }
 
 extension Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces: FishyJoesIotaRuntime.IotaConverter {
@@ -624,8 +626,10 @@ extension TestAPI.AProtocolImplementation: FishyJoesIotaRuntime.IotaMutator {
 
 @_cdecl("TestAPI_Actors_setup")
 public func TestAPI_Actors_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Actors: FishyJoesIotaRuntime.IotaConverter {
@@ -879,7 +883,8 @@ public func TestAPI_AssociatedDataEnum_setup(
     noneConstructor: @escaping TestAPI.AssociatedDataEnum.NoneConstructor,
     noneExtractor: @escaping TestAPI.AssociatedDataEnum.NoneExtractor,
     simpleEnumConstructor: @escaping TestAPI.AssociatedDataEnum.SimpleEnumConstructor,
-    simpleEnumExtractor: @escaping TestAPI.AssociatedDataEnum.SimpleEnumExtractor
+    simpleEnumExtractor: @escaping TestAPI.AssociatedDataEnum.SimpleEnumExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.AssociatedDataEnum.discriminator[env] = discriminator
@@ -895,6 +900,7 @@ public func TestAPI_AssociatedDataEnum_setup(
     TestAPI.AssociatedDataEnum.noneExtractor[env] = noneExtractor
     TestAPI.AssociatedDataEnum.simpleEnumConstructor[env] = simpleEnumConstructor
     TestAPI.AssociatedDataEnum.simpleEnumExtractor[env] = simpleEnumExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.AssociatedDataEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -1378,8 +1384,10 @@ public func __iota_get_TestAPI_AsyncFunctions_willThrow(
 
 @_cdecl("TestAPI_AsyncFunctions_setup")
 public func TestAPI_AsyncFunctions_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.AsyncFunctions: FishyJoesIotaRuntime.IotaConverter {
@@ -1463,8 +1471,10 @@ public func __iota_TestAPI_Bytes_echoData(
 
 @_cdecl("TestAPI_Bytes_setup")
 public func TestAPI_Bytes_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Bytes: FishyJoesIotaRuntime.IotaConverter {
@@ -1922,8 +1932,10 @@ public func __iota_get_TestAPI_ClosedRanges_uIntRange(
 
 @_cdecl("TestAPI_ClosedRanges_setup")
 public func TestAPI_ClosedRanges_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.ClosedRanges: FishyJoesIotaRuntime.IotaConverter {
@@ -2235,8 +2247,10 @@ public func __iota_get_TestAPI_Collections_setOfInt(
 
 @_cdecl("TestAPI_Collections_setup")
 public func TestAPI_Collections_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Collections: FishyJoesIotaRuntime.IotaConverter {
@@ -2649,8 +2663,10 @@ public func __iota_TestAPI_DefaultArguments_echoDefaults(
 
 @_cdecl("TestAPI_DefaultArguments_setup")
 public func TestAPI_DefaultArguments_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.DefaultArguments: FishyJoesIotaRuntime.IotaConverter {
@@ -2700,8 +2716,10 @@ public func __iota_get_TestAPI_Deprecations_deprecatedVariable(
 
 @_cdecl("TestAPI_Deprecations_setup")
 public func TestAPI_Deprecations_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Deprecations: FishyJoesIotaRuntime.IotaConverter {
@@ -3030,8 +3048,10 @@ public func __iota_TestAPI_EmptyEnum_notGoingToHappen(
 
 @_cdecl("TestAPI_EmptyEnum_setup")
 public func TestAPI_EmptyEnum_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.EmptyEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -3567,8 +3587,10 @@ public func __iota_TestAPI_Functions_willThrow(
 
 @_cdecl("TestAPI_Functions_setup")
 public func TestAPI_Functions_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Functions: FishyJoesIotaRuntime.IotaConverter {
@@ -5736,8 +5758,10 @@ public func __iota_get_TestAPI_Primitives_zeroUInt(
 
 @_cdecl("TestAPI_Primitives_setup")
 public func TestAPI_Primitives_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Primitives: FishyJoesIotaRuntime.IotaConverter {
@@ -6548,8 +6572,10 @@ public func __iota_TestAPI_ProtocolFixtures_returnAProtocol(
 
 @_cdecl("TestAPI_ProtocolFixtures_setup")
 public func TestAPI_ProtocolFixtures_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.ProtocolFixtures: FishyJoesIotaRuntime.IotaConverter {
@@ -6681,8 +6707,10 @@ public func __iota_get_TestAPI_PythonNamingCollisions_URL(
 
 @_cdecl("TestAPI_PythonNamingCollisions_setup")
 public func TestAPI_PythonNamingCollisions_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.PythonNamingCollisions: FishyJoesIotaRuntime.IotaConverter {
@@ -7038,8 +7066,10 @@ public func __iota_get_TestAPI_Ranges_uIntRange(
 
 @_cdecl("TestAPI_Ranges_setup")
 public func TestAPI_Ranges_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Ranges: FishyJoesIotaRuntime.IotaConverter {
@@ -7113,7 +7143,8 @@ public func TestAPI_ReferenceCaseEnum_setup(
     eastConstructor: @escaping TestAPI.ReferenceCaseEnum.EastConstructor,
     eastExtractor: @escaping TestAPI.ReferenceCaseEnum.EastExtractor,
     westConstructor: @escaping TestAPI.ReferenceCaseEnum.WestConstructor,
-    westExtractor: @escaping TestAPI.ReferenceCaseEnum.WestExtractor
+    westExtractor: @escaping TestAPI.ReferenceCaseEnum.WestExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.ReferenceCaseEnum.discriminator[env] = discriminator
@@ -7125,6 +7156,7 @@ public func TestAPI_ReferenceCaseEnum_setup(
     TestAPI.ReferenceCaseEnum.eastExtractor[env] = eastExtractor
     TestAPI.ReferenceCaseEnum.westConstructor[env] = westConstructor
     TestAPI.ReferenceCaseEnum.westExtractor[env] = westExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.ReferenceCaseEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -7272,8 +7304,10 @@ public func __iota_TestAPI_ReferenceEmptyEnum_notGoingToHappen(
 
 @_cdecl("TestAPI_ReferenceEmptyEnum_setup")
 public func TestAPI_ReferenceEmptyEnum_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.ReferenceEmptyEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -7307,8 +7341,10 @@ public func __iota_TestAPI_ReferenceOnlyTypes_marker(
 
 @_cdecl("TestAPI_ReferenceOnlyTypes_setup")
 public func TestAPI_ReferenceOnlyTypes_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.ReferenceOnlyTypes: FishyJoesIotaRuntime.IotaConverter {
@@ -7418,8 +7454,10 @@ public func __iota_TestAPI_Results_processResult(
 
 @_cdecl("TestAPI_Results_setup")
 public func TestAPI_Results_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Results: FishyJoesIotaRuntime.IotaConverter {
@@ -7586,7 +7624,8 @@ public func TestAPI_ShadowBox_setup(
     shadeConstructor: @escaping TestAPI.ShadowBox.ShadeConstructor,
     shadeExtractor: @escaping TestAPI.ShadowBox.ShadeExtractor,
     emptyConstructor: @escaping TestAPI.ShadowBox.EmptyConstructor,
-    emptyExtractor: @escaping TestAPI.ShadowBox.EmptyExtractor
+    emptyExtractor: @escaping TestAPI.ShadowBox.EmptyExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.ShadowBox.discriminator[env] = discriminator
@@ -7594,6 +7633,7 @@ public func TestAPI_ShadowBox_setup(
     TestAPI.ShadowBox.shadeExtractor[env] = shadeExtractor
     TestAPI.ShadowBox.emptyConstructor[env] = emptyConstructor
     TestAPI.ShadowBox.emptyExtractor[env] = emptyExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.ShadowBox: FishyJoesIotaRuntime.IotaConverter {
@@ -7769,7 +7809,8 @@ public func TestAPI_SimpleEnum_setup(
     greenConstructor: @escaping TestAPI.SimpleEnum.GreenConstructor,
     greenExtractor: @escaping TestAPI.SimpleEnum.GreenExtractor,
     blueConstructor: @escaping TestAPI.SimpleEnum.BlueConstructor,
-    blueExtractor: @escaping TestAPI.SimpleEnum.BlueExtractor
+    blueExtractor: @escaping TestAPI.SimpleEnum.BlueExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.SimpleEnum.discriminator[env] = discriminator
@@ -7779,6 +7820,7 @@ public func TestAPI_SimpleEnum_setup(
     TestAPI.SimpleEnum.greenExtractor[env] = greenExtractor
     TestAPI.SimpleEnum.blueConstructor[env] = blueConstructor
     TestAPI.SimpleEnum.blueExtractor[env] = blueExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.SimpleEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -8013,8 +8055,10 @@ public func __iota_TestAPI_Strings_split(
 
 @_cdecl("TestAPI_Strings_setup")
 public func TestAPI_Strings_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Strings: FishyJoesIotaRuntime.IotaConverter {
@@ -8030,8 +8074,10 @@ extension TestAPI.Strings: FishyJoesIotaRuntime.IotaConverter {
 
 @_cdecl("TestAPI_Structs_setup")
 public func TestAPI_Structs_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Structs: FishyJoesIotaRuntime.IotaConverter {
@@ -10926,12 +10972,14 @@ public func TestAPI_TestDefaultComputedPropertiesEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestDefaultComputedPropertiesEnum.Discriminator,
     quxConstructor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.QuxConstructor,
-    quxExtractor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.QuxExtractor
+    quxExtractor: @escaping TestAPI.TestDefaultComputedPropertiesEnum.QuxExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.TestDefaultComputedPropertiesEnum.discriminator[env] = discriminator
     TestAPI.TestDefaultComputedPropertiesEnum.quxConstructor[env] = quxConstructor
     TestAPI.TestDefaultComputedPropertiesEnum.quxExtractor[env] = quxExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.TestDefaultComputedPropertiesEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -11675,12 +11723,14 @@ public func TestAPI_TestNonExportedProtocolEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestNonExportedProtocolEnum.Discriminator,
     hogehogeConstructor: @escaping TestAPI.TestNonExportedProtocolEnum.HogehogeConstructor,
-    hogehogeExtractor: @escaping TestAPI.TestNonExportedProtocolEnum.HogehogeExtractor
+    hogehogeExtractor: @escaping TestAPI.TestNonExportedProtocolEnum.HogehogeExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.TestNonExportedProtocolEnum.discriminator[env] = discriminator
     TestAPI.TestNonExportedProtocolEnum.hogehogeConstructor[env] = hogehogeConstructor
     TestAPI.TestNonExportedProtocolEnum.hogehogeExtractor[env] = hogehogeExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.TestNonExportedProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -12418,12 +12468,14 @@ public func TestAPI_TestProtocolEnum_setup(
     envRef: EnvRef,
     discriminator: @escaping TestAPI.TestProtocolEnum.Discriminator,
     quxConstructor: @escaping TestAPI.TestProtocolEnum.QuxConstructor,
-    quxExtractor: @escaping TestAPI.TestProtocolEnum.QuxExtractor
+    quxExtractor: @escaping TestAPI.TestProtocolEnum.QuxExtractor,
+    outExn: OutHostException
 ) {
     let env = Env(envRef)
     TestAPI.TestProtocolEnum.discriminator[env] = discriminator
     TestAPI.TestProtocolEnum.quxConstructor[env] = quxConstructor
     TestAPI.TestProtocolEnum.quxExtractor[env] = quxExtractor
+    outExn.pointee = nil
 }
 
 extension TestAPI.TestProtocolEnum: FishyJoesIotaRuntime.IotaConverter {
@@ -12829,8 +12881,10 @@ public func __iota_get_TestAPI_Tuples_tuple6(
 
 @_cdecl("TestAPI_Tuples_setup")
 public func TestAPI_Tuples_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.Tuples: FishyJoesIotaRuntime.IotaConverter {
@@ -12922,8 +12976,10 @@ public func __iota_get_TestAPI_URLs_simple(
 
 @_cdecl("TestAPI_URLs_setup")
 public func TestAPI_URLs_setup(
-    envRef: EnvRef
+    envRef: EnvRef,
+    outExn: OutHostException
 ) {
+    outExn.pointee = nil
 }
 
 extension TestAPI.URLs: FishyJoesIotaRuntime.IotaConverter {

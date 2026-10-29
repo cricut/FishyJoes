@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _empty_struct2_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -9,13 +10,16 @@ import typing
 class EmptyStruct2:
     """<!-- FishyJoes.export(EmptyStruct2) -->"""
 
+    __slots__: list[str] = [
+    ]
+
     def __init__(
         self,
     ) -> None:
         pass
 
     def __repr__(self) -> str:
-        return f'testapi.EmptyStruct2()'
+        return f'testapi.EmptyStruct2(...)'
 
     @property
     def tatiana(self) -> str:
@@ -27,7 +31,7 @@ class EmptyStruct2:
     def tutu(self) -> int:
         """<!-- FishyJoes.export(tutu) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_EmptyStruct2_tutu(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_EmptyStruct2_tutu(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @staticmethod
     def create(

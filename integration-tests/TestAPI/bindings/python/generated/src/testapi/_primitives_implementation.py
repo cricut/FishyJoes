@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import primitives
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,12 +12,12 @@ import typing
 
 iota_get_TestAPI_Primitives_bitCountInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_bitCountInt'))
 
 iota_get_TestAPI_Primitives_bitCountUInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_bitCountUInt'))
 
 iota_get_TestAPI_Primitives_defaultPrimitiveHolder: typing.Callable[[
@@ -26,7 +27,7 @@ iota_get_TestAPI_Primitives_defaultPrimitiveHolder: typing.Callable[[
 
 iota_get_TestAPI_Primitives_falseBool: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_falseBool'))
 
 iota_get_TestAPI_Primitives_manyBool: typing.Callable[[
@@ -161,265 +162,265 @@ iota_get_TestAPI_Primitives_manyUInt8: typing.Callable[[
 
 iota_get_TestAPI_Primitives_maxDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxDouble'))
 
 iota_get_TestAPI_Primitives_maxFloat: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxFloat'))
 
 iota_get_TestAPI_Primitives_maxInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxInt'))
 
 iota_get_TestAPI_Primitives_maxInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxInt16'))
 
 iota_get_TestAPI_Primitives_maxInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxInt32'))
 
 iota_get_TestAPI_Primitives_maxInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxInt64'))
 
 iota_get_TestAPI_Primitives_maxInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxInt8'))
 
 iota_get_TestAPI_Primitives_maxUInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxUInt'))
 
 iota_get_TestAPI_Primitives_maxUInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxUInt16'))
 
 iota_get_TestAPI_Primitives_maxUInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxUInt32'))
 
 iota_get_TestAPI_Primitives_maxUInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxUInt64'))
 
 iota_get_TestAPI_Primitives_maxUInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_maxUInt8'))
 
 iota_get_TestAPI_Primitives_minDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minDouble'))
 
 iota_get_TestAPI_Primitives_minFloat: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minFloat'))
 
 iota_get_TestAPI_Primitives_minInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minInt'))
 
 iota_get_TestAPI_Primitives_minInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minInt16'))
 
 iota_get_TestAPI_Primitives_minInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minInt32'))
 
 iota_get_TestAPI_Primitives_minInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minInt64'))
 
 iota_get_TestAPI_Primitives_minInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minInt8'))
 
 iota_get_TestAPI_Primitives_minUInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minUInt'))
 
 iota_get_TestAPI_Primitives_minUInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minUInt16'))
 
 iota_get_TestAPI_Primitives_minUInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minUInt32'))
 
 iota_get_TestAPI_Primitives_minUInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minUInt64'))
 
 iota_get_TestAPI_Primitives_minUInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_minUInt8'))
 
 iota_get_TestAPI_Primitives_trueBool: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_trueBool'))
 
 iota_get_TestAPI_Primitives_zeroDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroDouble'))
 
 iota_get_TestAPI_Primitives_zeroFloat: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroFloat'))
 
 iota_get_TestAPI_Primitives_zeroInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroInt'))
 
 iota_get_TestAPI_Primitives_zeroInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroInt16'))
 
 iota_get_TestAPI_Primitives_zeroInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroInt32'))
 
 iota_get_TestAPI_Primitives_zeroInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroInt64'))
 
 iota_get_TestAPI_Primitives_zeroInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroInt8'))
 
 iota_get_TestAPI_Primitives_zeroUInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroUInt'))
 
 iota_get_TestAPI_Primitives_zeroUInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroUInt16'))
 
 iota_get_TestAPI_Primitives_zeroUInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroUInt32'))
 
 iota_get_TestAPI_Primitives_zeroUInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroUInt64'))
 
 iota_get_TestAPI_Primitives_zeroUInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Primitives_zeroUInt8'))
 
 iota_TestAPI_Primitives_echoBool: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    bool,
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoBool'))
 
 iota_TestAPI_Primitives_echoUInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoUInt8'))
 
 iota_TestAPI_Primitives_echoUInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoUInt16'))
 
 iota_TestAPI_Primitives_echoUInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoUInt32'))
 
 iota_TestAPI_Primitives_echoUInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoUInt64'))
 
 iota_TestAPI_Primitives_echoUInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoUInt'))
 
 iota_TestAPI_Primitives_echoInt8: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoInt8'))
 
 iota_TestAPI_Primitives_echoInt16: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoInt16'))
 
 iota_TestAPI_Primitives_echoInt32: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoInt32'))
 
 iota_TestAPI_Primitives_echoInt64: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoInt64'))
 
 iota_TestAPI_Primitives_echoInt: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoInt'))
 
 iota_TestAPI_Primitives_echoFloat: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    float,
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoFloat'))
 
 iota_TestAPI_Primitives_echoDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    float,
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_echoDouble'))
 
 iota_TestAPI_Primitives_maybeEchoBool: typing.Callable[[
@@ -502,23 +503,23 @@ iota_TestAPI_Primitives_maybeEchoDouble: typing.Callable[[
 
 iota_TestAPI_Primitives_boolOverflow: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+    bool,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Primitives_boolOverflow'))
 
 iota_TestAPI_Primitives_valueMapper: typing.Callable[[

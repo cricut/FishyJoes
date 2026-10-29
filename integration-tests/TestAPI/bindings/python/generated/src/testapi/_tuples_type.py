@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import _tuples_implementation as _impl
 from . import tuples
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing

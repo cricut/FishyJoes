@@ -302,7 +302,7 @@ def FishyJoesCommonRuntime_Function0Converter_setup[R](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function0,
         (),
         ret_dyn_types,
     )
@@ -315,7 +315,7 @@ def FishyJoesCommonRuntime_Function1Converter_setup[R, P0](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function1,
         (arg0_dyn_types,),
         ret_dyn_types,
     )
@@ -329,7 +329,7 @@ def FishyJoesCommonRuntime_Function2Converter_setup[R, P0, P1](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function2,
         (arg0_dyn_types, arg1_dyn_types),
         ret_dyn_types,
     )
@@ -344,7 +344,7 @@ def FishyJoesCommonRuntime_Function3Converter_setup[R, P0, P1, P2](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function3,
         (arg0_dyn_types, arg1_dyn_types, arg2_dyn_types),
         ret_dyn_types,
     )
@@ -360,7 +360,7 @@ def FishyJoesCommonRuntime_Function4Converter_setup[R, P0, P1, P2, P3](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function4,
         (arg0_dyn_types, arg1_dyn_types, arg2_dyn_types, arg3_dyn_types),
         ret_dyn_types,
     )
@@ -377,7 +377,7 @@ def FishyJoesCommonRuntime_Function5Converter_setup[R, P0, P1, P2, P3, P4](
 ) -> None:
     _generic_setup(
         env_ref, name,
-        _construct_function6,
+        _construct_function5,
         (arg0_dyn_types, arg1_dyn_types, arg2_dyn_types, arg3_dyn_types, arg4_dyn_types),
         ret_dyn_types,
     )

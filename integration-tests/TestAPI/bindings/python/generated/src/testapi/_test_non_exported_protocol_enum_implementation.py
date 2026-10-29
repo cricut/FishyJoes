@@ -4,6 +4,7 @@ from . import test_non_exported_protocol_enum
 from ._c_api import _testapi_lib
 from ._test_non_exported_protocol_enum_type import _BaseTestNonExportedProtocolEnum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,13 +14,13 @@ import typing
 iota_get_TestAPI_TestNonExportedProtocolEnum_fuga: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestNonExportedProtocolEnum_fuga'))
 
 iota_TestAPI_TestNonExportedProtocolEnum_hoge: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestNonExportedProtocolEnum_hoge'))
 
 # MARK: C callback implementations

@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _memberwise_struct_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,6 +17,10 @@ class MemberwiseStruct:
         return self._immutable
 
     mutable: str
+    __slots__: list[str] = [
+        '_immutable',
+        'mutable',
+    ]
 
     def __init__(
         self,
@@ -26,7 +31,7 @@ class MemberwiseStruct:
         self.mutable = mutable
 
     def __repr__(self) -> str:
-        return f'testapi.structs.MemberwiseStruct(immutable={self._immutable!r}, mutable={self.mutable!r})'
+        return f'testapi.structs.MemberwiseStruct(...)'
 
     @staticmethod
     def create(
@@ -41,7 +46,7 @@ class MemberwiseStruct:
 
     def async_get_mutable(
         self,
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(asyncGetMutable) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -49,5 +54,5 @@ class MemberwiseStruct:
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )

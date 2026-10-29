@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import async_functions
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -51,7 +52,7 @@ iota_get_TestAPI_AsyncFunctions_willThrow: typing.Callable[[
 
 iota_TestAPI_AsyncFunctions_delayedConst: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_AsyncFunctions_delayedConst'))
 

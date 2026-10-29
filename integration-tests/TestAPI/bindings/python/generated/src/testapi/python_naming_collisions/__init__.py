@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _python_naming_collisions_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -19,23 +20,23 @@ __all__: list[str] = [
 
 def get_class_() -> int:
     """<!-- FishyJoes.export(class) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions_class(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return _impl.iota_get_TestAPI_PythonNamingCollisions_class(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_dunder____() -> int:
     """<!-- FishyJoes.export(__dunder__) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions___dunder__(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return _impl.iota_get_TestAPI_PythonNamingCollisions___dunder__(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_is_na_n() -> bool:
     """<!-- FishyJoes.export(isNaN) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions_isNaN(fishyjoes_runtime.Runtime.shared.env_ref), bool)
+    return _impl.iota_get_TestAPI_PythonNamingCollisions_isNaN(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_leading_underscore_() -> int:
     """<!-- FishyJoes.export(_leadingUnderscore) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return _impl.iota_get_TestAPI_PythonNamingCollisions__leadingUnderscore(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_list() -> int:
     """<!-- FishyJoes.export(list) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions_list(fishyjoes_runtime.Runtime.shared.env_ref), int)
+    return _impl.iota_get_TestAPI_PythonNamingCollisions_list(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_title_url() -> str:
     """`URL` and `Url` both snake-case to `url`; sibling collisions are a"""

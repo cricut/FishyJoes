@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _functions_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -27,31 +28,31 @@ __all__: list[str] = [
 
 def get_add3_things() -> typing.Callable[[float, float, int], float]:
     """<!-- FishyJoes.export(add3Things) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_add3Things(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_add3Things(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_const42() -> typing.Callable[[], int]:
     """<!-- FishyJoes.export(const42) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_const42(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_const42(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_fifth_thing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int]], typing.Callable[[], int]]:
     """<!-- FishyJoes.export(fifthThing) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_abs() -> typing.Callable[[int], int]:
     """<!-- FishyJoes.export(abs) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_abs(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_abs(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_int_compose() -> typing.Callable[[typing.Callable[[int], int], typing.Callable[[int], int]], typing.Callable[[int], int]]:
     """<!-- FishyJoes.export(intCompose) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_intCompose(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_intCompose(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_make_list() -> typing.Callable[[str, str, str, str], list[str]]:
     """<!-- FishyJoes.export(makeList) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_makeList(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_makeList(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def get_sixth_thing() -> typing.Callable[[str, int, float, str, typing.Callable[[], int], int], int]:
     """<!-- FishyJoes.export(sixthThing) -->"""
-    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_sixthThing(fishyjoes_runtime.Runtime.shared.env_ref), "Callable")
+    return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Functions_sixthThing(fishyjoes_runtime.Runtime.shared.env_ref), collections.abc.Callable)
 
 def exercise0(
     fn: typing.Callable[[], int],
@@ -164,5 +165,5 @@ def thunk_twice_maker(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _thunkHandle,
             ),
-            "Callable"
+            collections.abc.Callable
         )

@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,77 +12,77 @@ import typing
 iota_get_TestAPI_Methods_garply: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_garply'))
 
 iota_get_TestAPI_Methods_instanceGet: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_instanceGet'))
 
 iota_get_TestAPI_Methods_instanceGetMethod: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_instanceGetMethod'))
 
 iota_get_TestAPI_Methods_instanceModifiable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_instanceModifiable'))
 
 iota_set_TestAPI_Methods_instanceModifiable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Methods_instanceModifiable'))
 
 iota_get_TestAPI_Methods_instanceStored: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_instanceStored'))
 
 iota_set_TestAPI_Methods_instanceStored: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Methods_instanceStored'))
 
 iota_get_TestAPI_Methods_staticGet: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_staticGet'))
 
 iota_get_TestAPI_Methods_staticGetMethod: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_staticGetMethod'))
 
 iota_get_TestAPI_Methods_staticModifiable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_staticModifiable'))
 
 iota_set_TestAPI_Methods_staticModifiable: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Methods_staticModifiable'))
 
 iota_get_TestAPI_Methods_staticStored: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_Methods_staticStored'))
 
 iota_set_TestAPI_Methods_staticStored: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_set_TestAPI_Methods_staticStored'))
 
 iota_TestAPI_Methods_create: typing.Callable[[
@@ -92,9 +93,9 @@ iota_TestAPI_Methods_create: typing.Callable[[
 iota_TestAPI_Methods_doublePlusGood: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    int,
+    float,
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_doublePlusGood'))
 
 iota_TestAPI_Methods_async42: typing.Callable[[
@@ -124,14 +125,14 @@ iota_TestAPI_Methods_asyncVoid: typing.Callable[[
 iota_TestAPI_Methods_asyncDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    float,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_asyncDouble'))
 
 iota_TestAPI_Methods_asyncMultipleArgs: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_asyncMultipleArgs'))
@@ -171,13 +172,13 @@ iota_TestAPI_Methods_staticAsyncVoid: typing.Callable[[
 
 iota_TestAPI_Methods_staticAsyncDouble: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
+    float,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_staticAsyncDouble'))
 
 iota_TestAPI_Methods_staticAsyncMultipleArgs: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_staticAsyncMultipleArgs'))
@@ -196,7 +197,7 @@ iota_TestAPI_Methods_staticAsyncCallbackFunc0: typing.Callable[[
 iota_TestAPI_Methods_methodWithNewlinesInTypes: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Methods_methodWithNewlinesInTypes'))
 
 # MARK: C callback implementations

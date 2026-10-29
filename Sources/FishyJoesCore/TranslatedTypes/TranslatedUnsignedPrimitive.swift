@@ -26,7 +26,8 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
             jni: typeNames.jni,
             cSharp: typeNames.cSharp,
             dart: typeNames.dart,
-            dartFFI: typeNames.dartFFI
+            dartFFI: typeNames.dartFFI,
+            python: typeNames.python
         )
     }
 
@@ -37,7 +38,8 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         jni jniType: JNIType,
         cSharp cSharpName: String,
         dart dartName: String,
-        dartFFI dartFFIName: String
+        dartFFI dartFFIName: String,
+        python pythonName: String
     ) {
         self.sourceType = .named(.swift(swiftName))
         self.nodeName = nodeName
@@ -47,7 +49,7 @@ struct TranslatedUnsignedPrimitive: TranslatedType {
         self.iotaCTypes = .init(created: cName, consumed: cName, unowned: cName)
         self.cSharpType = .primitive(cSharpName)
         self.dartType = .primitive(dartName, ffiName: dartFFIName)
-        self.pythonType = .class(module: nil, qualifiedName: "int")
+        self.pythonType = .primitive(pythonName)
         self.jniType = jniType
     }
 

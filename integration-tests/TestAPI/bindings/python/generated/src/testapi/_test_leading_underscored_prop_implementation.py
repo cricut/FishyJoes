@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,6 +17,9 @@ iota_get_TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp: typing.Calla
 
 # MARK: C callback implementations
 
-# MARK: setup
+@fishyjoes_runtime.callback('TestAPI_TestLeadingUnderscoredProp__leadingUnderscoreProp_getFn')
+@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
+def ffi_get_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestLeadingUnderscoredProp).leading_underscore_prop_)
 
-# TODO: setup for testapi.TestLeadingUnderscoredProp
+# MARK: setup

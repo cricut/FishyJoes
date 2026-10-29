@@ -4,6 +4,7 @@ from . import reference_case_enum
 from ._c_api import _testapi_lib
 from ._reference_case_enum_type import _BaseReferenceCaseEnum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing

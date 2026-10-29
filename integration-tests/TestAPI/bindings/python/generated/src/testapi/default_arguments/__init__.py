@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _default_arguments_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -20,13 +21,13 @@ def echo_defaults(
     z: float = 3.14,
 ) -> str:
     """<!-- FishyJoes.export(echoDefaults, compatibilityOrder: [z, y]) -->"""
-    with fishyjoes_runtime.local_handles(y, x, z) as (_yHandle, _xHandle, _zHandle,):
+    with fishyjoes_runtime.local_handles(y, x) as (_yHandle, _xHandle,):
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_DefaultArguments_echoDefaults(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _yHandle,
                 _xHandle,
-                _zHandle,
+                z,
             ),
             str
         )
@@ -36,11 +37,11 @@ def describe_enum_default(
     color: testapi.SimpleEnum,
 ) -> str:
     """<!-- FishyJoes.export(describeEnumDefault) -->"""
-    with fishyjoes_runtime.local_handles(value, color) as (_valueHandle, _colorHandle,):
+    with fishyjoes_runtime.local_handles(color) as (_colorHandle,):
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_DefaultArguments_describeEnumDefault(
                 fishyjoes_runtime.Runtime.shared.env_ref,
-                _valueHandle,
+                value,
                 _colorHandle,
             ),
             str
@@ -51,14 +52,10 @@ def echo_default_tolerance(
     tolerance: float = 1.4901161193847656E-8,
 ) -> float:
     """<!-- FishyJoes.export(echoDefaultTolerance) -->"""
-    with fishyjoes_runtime.local_handles(tolerance) as (_toleranceHandle,):
-        return fishyjoes_runtime.consume_created_ref(
-            _impl.iota_TestAPI_DefaultArguments_echoDefaultTolerance(
-                fishyjoes_runtime.Runtime.shared.env_ref,
-                _toleranceHandle,
-            ),
-            float
-        )
+    return _impl.iota_TestAPI_DefaultArguments_echoDefaultTolerance(
+        fishyjoes_runtime.Runtime.shared.env_ref,
+        tolerance,
+    )
 
 def echo_default_int_limits(
     *,
@@ -66,12 +63,11 @@ def echo_default_int_limits(
     max_value: int = 9223372036854775807,
 ) -> str:
     """<!-- FishyJoes.export(echoDefaultIntLimits) -->"""
-    with fishyjoes_runtime.local_handles(min_value, max_value) as (_min_valueHandle, _max_valueHandle,):
-        return fishyjoes_runtime.consume_created_ref(
-            _impl.iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
-                fishyjoes_runtime.Runtime.shared.env_ref,
-                _min_valueHandle,
-                _max_valueHandle,
-            ),
-            str
-        )
+    return fishyjoes_runtime.consume_created_ref(
+        _impl.iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
+            fishyjoes_runtime.Runtime.shared.env_ref,
+            min_value,
+            max_value,
+        ),
+        str
+    )

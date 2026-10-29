@@ -172,7 +172,7 @@ class PythonEnumClass: PythonClass {
                 fragment.outputBlock("return fishyjoes_runtime.create_ref(\(namespaceName).\(enumCase.pythonName)(", closeWith: "))") {
                     for value in enumCase.values {
                         if value.type.static.isPrimitive {
-                            fragment.output("_\(value.name),")
+                            fragment.output("\(value.name),")
                         } else {
                             fragment.output("fishyjoes_runtime.consume_ref(\(value.name), \(value.type.dynamicsString)),")
                         }

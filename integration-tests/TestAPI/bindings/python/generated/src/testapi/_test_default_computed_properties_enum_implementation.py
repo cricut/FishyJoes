@@ -4,6 +4,7 @@ from . import test_default_computed_properties_enum
 from ._c_api import _testapi_lib
 from ._test_default_computed_properties_enum_type import _BaseTestDefaultComputedPropertiesEnum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,7 +14,7 @@ import typing
 iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot'))
 
 iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic: typing.Callable[[
@@ -25,7 +26,7 @@ iota__default_TestAPI_TestDefaultComputedPropertiesEnum_plutonic: typing.Callabl
 iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam'))
 
 # MARK: C callback implementations

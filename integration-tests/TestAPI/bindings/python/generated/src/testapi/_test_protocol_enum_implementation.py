@@ -4,6 +4,7 @@ from . import test_protocol_enum
 from ._c_api import _testapi_lib
 from ._test_protocol_enum_type import _BaseTestProtocolEnum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,20 +14,20 @@ import typing
 iota_TestAPI_TestProtocolEnum_foo: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolEnum_foo'))
 
 iota_TestAPI_TestProtocolEnum_bar: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolEnum_bar'))
 
 iota_TestAPI_TestProtocolEnum_baz: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+    bool,
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolEnum_baz'))
 
 iota_TestAPI_TestProtocolEnum_garply: typing.Callable[[
@@ -39,7 +40,7 @@ iota_TestAPI_TestProtocolEnum_garply: typing.Callable[[
 iota_TestAPI_TestProtocolEnum_xyzzy: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
     fishyjoes_runtime.UnownedRef,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_TestProtocolEnum_xyzzy'))

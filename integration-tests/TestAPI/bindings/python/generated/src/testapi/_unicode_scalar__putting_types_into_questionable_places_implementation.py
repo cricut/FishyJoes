@@ -4,6 +4,7 @@ from . import unicode_scalar__putting_types_into_questionable_places
 from ._c_api import _testapi_lib
 from ._unicode_scalar__putting_types_into_questionable_places_type import _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -13,7 +14,7 @@ import typing
 iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], int] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall'))
 
 # MARK: C callback implementations

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from . import _a_protocol_implementation as _testapi_AProtocol_impl
 from . import _a_protocol_implementation_implementation as _testapi_AProtocolImplementation_impl
 from . import _associated_data_enum_implementation as _testapi_AssociatedDataEnum_impl
 from . import _attributed_string__putting_types_into_questionable_places_implementation as _testapi_AttributedString_PuttingTypesIntoQuestionablePlaces_impl
@@ -6,6 +7,14 @@ from . import _empty_class1_implementation as _testapi_EmptyClass1_impl
 from . import _empty_class2_implementation as _testapi_EmptyClass2_impl
 from . import _empty_struct2_implementation as _testapi_EmptyStruct2_impl
 from . import _empty_struct_implementation as _testapi_EmptyStruct_impl
+from . import _external_witness__test_async_functions_implementation as _testapi_ExternalWitness_TestAsyncFunctions_impl
+from . import _external_witness__test_default_computed_properties_implementation as _testapi_ExternalWitness_TestDefaultComputedProperties_impl
+from . import _external_witness__test_differing_export_name_protocol_diffy_implementation as _testapi_ExternalWitness_TestDifferingExportNameProtocolDiffy_impl
+from . import _external_witness__test_leading_underscored_prop_implementation as _testapi_ExternalWitness_TestLeadingUnderscoredProp_impl
+from . import _external_witness__test_methods_protocol_implementation as _testapi_ExternalWitness_TestMethodsProtocol_impl
+from . import _external_witness__test_optionals_protocol_implementation as _testapi_ExternalWitness_TestOptionalsProtocol_impl
+from . import _external_witness__test_properties_protocol_implementation as _testapi_ExternalWitness_TestPropertiesProtocol_impl
+from . import _external_witness_a_protocol_implementation as _testapi_ExternalWitness_AProtocol_impl
 from . import _methods_implementation as _testapi_Methods_impl
 from . import _reference_case_enum_implementation as _testapi_ReferenceCaseEnum_impl
 from . import _shade_implementation as _testapi_Shade_impl
@@ -14,13 +23,20 @@ from . import _simple_enum_implementation as _testapi_SimpleEnum_impl
 from . import _string__putting_types_into_questionable_places_implementation as _testapi_String_PuttingTypesIntoQuestionablePlaces_impl
 from . import _structs__putting_types_into_questionable_places_implementation as _testapi_Structs_PuttingTypesIntoQuestionablePlaces_impl
 from . import _test_async_foreign_side_functions_struct_implementation as _testapi_TestAsyncForeignSideFunctionsStruct_impl
+from . import _test_async_functions_implementation as _testapi_TestAsyncFunctions_impl
 from . import _test_async_swift_side_functions_class_implementation as _testapi_TestAsyncSwiftSideFunctionsClass_impl
 from . import _test_default_computed_properties_enum_implementation as _testapi_TestDefaultComputedPropertiesEnum_impl
+from . import _test_default_computed_properties_implementation as _testapi_TestDefaultComputedProperties_impl
 from . import _test_default_computed_properties_reference_implementation as _testapi_TestDefaultComputedPropertiesReference_impl
 from . import _test_default_computed_properties_struct_implementation as _testapi_TestDefaultComputedPropertiesStruct_impl
+from . import _test_differing_export_name_protocol_diffy_implementation as _testapi_TestDifferingExportNameProtocolDiffy_impl
 from . import _test_differing_export_name_struct_implementation as _testapi_TestDifferingExportNameStruct_impl
+from . import _test_leading_underscored_prop_implementation as _testapi_TestLeadingUnderscoredProp_impl
 from . import _test_leading_underscored_prop_struct_implementation as _testapi_TestLeadingUnderscoredPropStruct_impl
+from . import _test_methods_protocol_implementation as _testapi_TestMethodsProtocol_impl
 from . import _test_non_exported_protocol_enum_implementation as _testapi_TestNonExportedProtocolEnum_impl
+from . import _test_optionals_protocol_implementation as _testapi_TestOptionalsProtocol_impl
+from . import _test_properties_protocol_implementation as _testapi_TestPropertiesProtocol_impl
 from . import _test_protocol_class_implementation as _testapi_TestProtocolClass_impl
 from . import _test_protocol_enum_implementation as _testapi_TestProtocolEnum_impl
 from . import _test_protocol_struct_implementation as _testapi_TestProtocolStruct_impl
@@ -39,6 +55,7 @@ from .structs import _mutable_struct_implementation as _testapi_structs_MutableS
 from .structs import _reference_struct_implementation as _testapi_structs_ReferenceStruct_impl
 from .structs import _twenty_one_item_struct_implementation as _testapi_structs_TwentyOneItemStruct_impl
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import fishyjoes_runtime.fishyjoes_type_setup
 import types
@@ -52,36 +69,36 @@ _testapi_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_extract_thing: typing.
     fishyjoes_runtime.OutCreatedRef
 ], None]
 _testapi_AssociatedDataEnum_new_thing: typing.TypeAlias = typing.Callable[[
-    fishyjoes_runtime.ConsumedRef,
+    int,
     fishyjoes_runtime.OutCreatedRef
 ], fishyjoes_runtime.CreatedRef]
 _testapi_AssociatedDataEnum_extract_thing: typing.TypeAlias = typing.Callable[[
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.OutCreatedRef,
+    fishyjoes_runtime.Pointer,
     fishyjoes_runtime.OutCreatedRef
 ], None]
 _testapi_AssociatedDataEnum_new_other: typing.TypeAlias = typing.Callable[[
     fishyjoes_runtime.ConsumedRef,
-    fishyjoes_runtime.ConsumedRef,
+    int,
     fishyjoes_runtime.OutCreatedRef
 ], fishyjoes_runtime.CreatedRef]
 _testapi_AssociatedDataEnum_extract_other: typing.TypeAlias = typing.Callable[[
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.OutCreatedRef,
-    fishyjoes_runtime.OutCreatedRef,
+    fishyjoes_runtime.Pointer,
     fishyjoes_runtime.OutCreatedRef
 ], None]
 _testapi_AssociatedDataEnum_new_bar: typing.TypeAlias = typing.Callable[[
     fishyjoes_runtime.ConsumedRef,
     fishyjoes_runtime.ConsumedRef,
-    fishyjoes_runtime.ConsumedRef,
+    bool,
     fishyjoes_runtime.OutCreatedRef
 ], fishyjoes_runtime.CreatedRef]
 _testapi_AssociatedDataEnum_extract_bar: typing.TypeAlias = typing.Callable[[
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.OutCreatedRef,
     fishyjoes_runtime.OutCreatedRef,
-    fishyjoes_runtime.OutCreatedRef,
+    fishyjoes_runtime.Pointer,
     fishyjoes_runtime.OutCreatedRef
 ], None]
 _testapi_AssociatedDataEnum_new_noValue: typing.TypeAlias = typing.Callable[[
@@ -242,57 +259,57 @@ TestAPI_Methods_TheMethodError_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Methods_TheMethodError_setup'))
 TestAPI_Primitives_PrimitiveHolder_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[bool, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.ConsumedRef, float, fishyjoes_runtime.ConsumedRef, float, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], bool],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, bool, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], float],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, float, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], float],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, float, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Primitives_PrimitiveHolder_setup'))
@@ -315,9 +332,9 @@ TestAPI_Structs_MemberwiseStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_MemberwiseStruct_setup'))
 TestAPI_Structs_MutableStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_MutableStruct_setup'))
 TestAPI_Structs_PuttingTypesIntoQuestionablePlaces_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -375,14 +392,20 @@ TestAPI_Structs_TwentyOneItemStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Structs_TwentyOneItemStruct_setup'))
 TestAPI_CommonInterface__AProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], bool],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, float, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, bool, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__AProtocolConverter_setup'))
 TestAPI_AProtocolImplementation_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, bool, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], bool],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, bool, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_AProtocolImplementation_setup'))
 TestAPI_Actors_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -390,12 +413,12 @@ TestAPI_Actors_setup: typing.Callable[[
 TestAPI_AssociatedDataEnum_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.Pointer, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.Pointer, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, bool, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.OutCreatedRef, fishyjoes_runtime.Pointer, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], None],
     typing.Callable[[fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
@@ -482,9 +505,9 @@ TestAPI_Results_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Results_setup'))
 TestAPI_Shade_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[float, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], float],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, float, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Shade_setup'))
 TestAPI_ShadowBox_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -532,6 +555,25 @@ TestAPI_TestAsyncForeignSideFunctionsStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestAsyncForeignSideFunctionsStruct_setup'))
 TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup'))
 TestAPI_TestAsyncSwiftSideFunctionsClass_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -539,6 +581,9 @@ TestAPI_TestAsyncSwiftSideFunctionsClass_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestAsyncSwiftSideFunctionsClass_setup'))
 TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup'))
 TestAPI_TestDefaultComputedPropertiesClass_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -552,23 +597,27 @@ TestAPI_TestDefaultComputedPropertiesEnum_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDefaultComputedPropertiesEnum_setup'))
 TestAPI_TestDefaultComputedPropertiesStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[bool, int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], bool],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, bool, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDefaultComputedPropertiesStruct_setup'))
 TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup'))
 TestAPI_TestDifferingExportNameStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[int, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.OutCreatedRef], None],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestDifferingExportNameStruct_setup'))
 TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup'))
 TestAPI_TestLeadingUnderscoredPropStruct_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -578,6 +627,13 @@ TestAPI_TestLeadingUnderscoredPropStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestLeadingUnderscoredPropStruct_setup'))
 TestAPI_CommonInterface__TestMethodsProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], bool],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, bool, fishyjoes_runtime.OutCreatedRef], None],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, int, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestMethodsProtocolConverter_setup'))
 TestAPI_TestNonExportedProtocolEnum_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -587,9 +643,16 @@ TestAPI_TestNonExportedProtocolEnum_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestNonExportedProtocolEnum_setup'))
 TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup'))
 TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
+    typing.Callable[[fishyjoes_runtime.ConsumedSwiftRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup'))
 TestAPI_TestProtocolClass_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
@@ -609,8 +672,8 @@ TestAPI_TestProtocolStruct_setup: typing.Callable[[
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_TestProtocolStruct_setup'))
 TestAPI_Tree_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    typing.Callable[[fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
-    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[int, fishyjoes_runtime.ConsumedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
+    typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], int],
     typing.Callable[[fishyjoes_runtime.UnownedRef, fishyjoes_runtime.OutCreatedRef], fishyjoes_runtime.CreatedRef],
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Tree_setup'))
 TestAPI_Tuples_setup: typing.Callable[[
@@ -633,8 +696,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -650,8 +713,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -660,9 +723,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -671,9 +734,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -682,8 +745,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -692,8 +755,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -702,8 +765,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -712,8 +775,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -729,9 +792,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -740,9 +803,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -779,8 +842,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>"),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -796,8 +859,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>"),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>') # type: ignore[unused-ignore,no-redef]
@@ -849,7 +912,7 @@ def ensure_loaded() -> None:
                 (float,),
                 (float,),
                 (int,),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>') # type: ignore[unused-ignore,no-redef]
@@ -873,7 +936,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (bytes,),
                 (bool,),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -883,7 +946,7 @@ def ensure_loaded() -> None:
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<Swift.Int, FutureConverter<Swift.Int>>"),
                 (int,),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<Swift.Int, Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -906,7 +969,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
+                (collections.abc.Callable,),
                 (int,),
                 (int,),
             )
@@ -921,8 +984,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -935,9 +998,9 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
+                (collections.abc.Callable,),
                 (int,),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>') # type: ignore[unused-ignore,no-redef]
@@ -950,8 +1013,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
-                (fishyjoes_runtime.Future,),
+                (collections.abc.Callable,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>') # type: ignore[unused-ignore,no-redef]
@@ -964,7 +1027,7 @@ def ensure_loaded() -> None:
                 (str,),
                 (str,),
                 (str,),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -1033,7 +1096,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
+                (collections.abc.Callable,),
                 (int,),
                 (int,),
             )
@@ -1048,8 +1111,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                ("Callable",),
-                ("Callable",),
+                (collections.abc.Callable,),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -1092,7 +1155,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function0Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function0Converter<FutureConverter<Swift.Int>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1101,7 +1164,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function0Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function0Converter<Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -1151,7 +1214,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<Function1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1160,7 +1223,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                ("Callable",),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<Function0Converter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1169,7 +1232,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<Function0Converter<Swift.Int>>"),
-                ("Callable",),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction0Converter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1178,7 +1241,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction0Converter<Swift.Int>>"),
-                ("Callable",),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1187,7 +1250,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>"),
-                ("Callable",),
+                (collections.abc.Callable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>') # type: ignore[unused-ignore,no-redef]
@@ -1196,7 +1259,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>') # type: ignore[unused-ignore,no-redef]
@@ -1205,7 +1268,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>') # type: ignore[unused-ignore,no-redef]
@@ -1214,7 +1277,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.Double>>') # type: ignore[unused-ignore,no-redef]
@@ -1223,7 +1286,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.Double>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1232,7 +1295,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.Int>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -1241,7 +1304,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.String>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1250,7 +1313,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (fishyjoes_runtime.Future,),
+                (typing.Awaitable,),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<ArrayConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -2311,6 +2374,12 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.AProtocol")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__AProtocolConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_AProtocol_impl.ffi_new,
+                _testapi_AProtocol_impl.ffi_get_baz,
+                _testapi_AProtocol_impl.ffi_get_foo,
+                _testapi_AProtocol_impl.ffi_method_bar,
+                _testapi_AProtocol_impl.ffi_method_has_a_default_implementation,
+                _testapi_AProtocol_impl.ffi_method_has_a_default_implementation2,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.AProtocolImplementation') # type: ignore[unused-ignore,no-redef]
@@ -2592,6 +2661,25 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestAsyncFunctions")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestAsyncFunctionsConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestAsyncFunctions_impl.ffi_new,
+                _testapi_TestAsyncFunctions_impl.ffi_get_add3_things,
+                _testapi_TestAsyncFunctions_impl.ffi_get_const42,
+                _testapi_TestAsyncFunctions_impl.ffi_get_fifth_thing,
+                _testapi_TestAsyncFunctions_impl.ffi_get_iabs,
+                _testapi_TestAsyncFunctions_impl.ffi_get_int_compose,
+                _testapi_TestAsyncFunctions_impl.ffi_get_make_list,
+                _testapi_TestAsyncFunctions_impl.ffi_get_six,
+                _testapi_TestAsyncFunctions_impl.ffi_get_will_throw,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise0,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise1,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise2,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise3,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise4,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise5,
+                _testapi_TestAsyncFunctions_impl.ffi_method_exercise6,
+                _testapi_TestAsyncFunctions_impl.ffi_method_thunk_twice_maker,
+                _testapi_TestAsyncFunctions_impl.ffi_method_default_exercise6,
+                _testapi_TestAsyncFunctions_impl.ffi_method_witness,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestAsyncSwiftSideFunctionsClass') # type: ignore[unused-ignore,no-redef]
@@ -2607,6 +2695,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestDefaultComputedProperties")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestDefaultComputedPropertiesConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestDefaultComputedProperties_impl.ffi_new,
+                _testapi_TestDefaultComputedProperties_impl.ffi_get_noot,
+                _testapi_TestDefaultComputedProperties_impl.ffi_get_plutonic,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestDefaultComputedPropertiesClass') # type: ignore[unused-ignore,no-redef]
@@ -2644,6 +2735,8 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestDifferingExportNameProtocol")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestDifferingExportNameProtocolConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestDifferingExportNameProtocolDiffy_impl.ffi_new,
+                _testapi_TestDifferingExportNameProtocolDiffy_impl.ffi_get_tata,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestDifferingExportNameStruct') # type: ignore[unused-ignore,no-redef]
@@ -2661,6 +2754,8 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestLeadingUnderscoredProp")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestLeadingUnderscoredPropConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestLeadingUnderscoredProp_impl.ffi_new,
+                _testapi_TestLeadingUnderscoredProp_impl.ffi_get_leading_underscore_prop_,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestLeadingUnderscoredPropStruct') # type: ignore[unused-ignore,no-redef]
@@ -2678,6 +2773,13 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestMethodsProtocol")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestMethodsProtocolConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestMethodsProtocol_impl.ffi_new,
+                _testapi_TestMethodsProtocol_impl.ffi_method_foo,
+                _testapi_TestMethodsProtocol_impl.ffi_method_bar,
+                _testapi_TestMethodsProtocol_impl.ffi_method_baz,
+                _testapi_TestMethodsProtocol_impl.ffi_method_garply,
+                _testapi_TestMethodsProtocol_impl.ffi_method_xyzzy,
+                _testapi_TestMethodsProtocol_impl.ffi_method_plugh,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestNonExportedProtocolEnum') # type: ignore[unused-ignore,no-redef]
@@ -2695,6 +2797,10 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestOptionalsProtocol")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestOptionalsProtocolConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestOptionalsProtocol_impl.ffi_new,
+                _testapi_TestOptionalsProtocol_impl.ffi_get_flarp,
+                _testapi_TestOptionalsProtocol_impl.ffi_method_wombat,
+                _testapi_TestOptionalsProtocol_impl.ffi_method_spqr,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestPropertiesProtocolConverter') # type: ignore[unused-ignore,no-redef]
@@ -2702,6 +2808,9 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestPropertiesProtocol")
             testapi.fishyjoes_type_setup.TestAPI_CommonInterface__TestPropertiesProtocolConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
+                _testapi_ExternalWitness_TestPropertiesProtocol_impl.ffi_new,
+                _testapi_TestPropertiesProtocol_impl.ffi_get_corge,
+                _testapi_TestPropertiesProtocol_impl.ffi_get_frobby,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI.TestProtocolClass') # type: ignore[unused-ignore,no-redef]

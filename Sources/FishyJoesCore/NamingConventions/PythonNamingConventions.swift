@@ -23,9 +23,6 @@ public enum PythonNamingConventions {
     }
 
     public static func splitIntoNamespaces(_ name: String) -> (namespaces: [String], name: String) {
-        if name.contains("ssociated") {
-            print("break here")
-        }
         let parts = name.split(separator: ".").map(String.init)
         return (parts.dropLast().map(namespaceFor(typeName:)), parts.last!)
     }

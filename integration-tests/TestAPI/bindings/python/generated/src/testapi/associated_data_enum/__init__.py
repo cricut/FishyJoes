@@ -8,6 +8,7 @@ from .other import Other
 from .simple_enum import SimpleEnum
 from .thing import Thing
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing

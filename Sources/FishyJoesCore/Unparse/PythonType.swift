@@ -21,6 +21,13 @@ struct PythonType: Hashable, Codable {
 }
 
 extension PythonType: CustomStringConvertible {
+    static func primitive(_ name: String) -> Self {
+        .init(
+            static: .primitive(name: name),
+            dynamics: [.init(module: nil, namespaces: [], name: name)]
+        )
+    }
+
     static func `class`(module: String?, qualifiedName: String, genericArgs: [Static]? = nil) -> Self {
         let (namespaces, name) = PythonNamingConventions.splitIntoNamespaces(qualifiedName)
         return .class(module: module, namespaces: namespaces, name: name, genericArgs: genericArgs)
@@ -100,12 +107,18 @@ extension PythonType: CustomStringConvertible {
     static func callable(args: [Static], return: Static) -> Self {
         .init(
             static: .callable(args: args, return: `return`),
-            dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
+            // dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
+            dynamics: [.init(module: "collections", namespaces: ["abc"], name: "Callable")] // workaround for https://github.com/python/mypy/issues/11071
         )
     }
 
     static func future(_ inner: Static) -> Self {
-        .class(module: "fishyjoes_runtime", namespaces: [], name: "Future", genericArgs: [inner])
+        .init(
+            // static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Future", genericArgs: [inner]),
+            static: .named(module: "typing", namespaces: [], name: "Awaitable", genericArgs: [inner]),
+            // dynamics: [.init(module: nil, namespaces: [], name: "\"Awaitable\"")] // workaround for https://github.com/python/mypy/issues/11071
+            dynamics: [.init(module: "typing", namespaces: [], name: "Awaitable")]
+        )
     }
 
     var description: String {
@@ -181,9 +194,10 @@ extension PythonType.Static {
 
     var ffiDefault: String {
         switch self {
-        case .primitive("bool"): return "false"
+        case .primitive("bool"): return "False"
         case .primitive("int"): return "0"
         case .primitive("float"): return "0.0"
+        case .primitive("None"): return "None"
         default: return "fishyjoes_runtime.CREATED_REF_NULL"
         }
     }
@@ -217,7 +231,7 @@ extension PythonType.Static {
         }
     }
 
-    static var none: Self { .named(module: nil, namespaces: [], name: "None") }
+    static var none: Self { .primitive(name: "None") }
 
     static func awaitable(_ inner: Self) -> Self {
         return .named(module: "typing", namespaces: [], name: "Awaitable", genericArgs: [inner])

@@ -3,6 +3,7 @@ from ._a_protocol_type import AProtocol # early import to make cycles work corre
 from . import _external_witness_a_protocol_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -15,7 +16,7 @@ class ExternalWitness_AProtocol(fishyjoes_runtime.SwiftReference, AProtocol):
     def baz(self) -> bool:
         """<!-- FishyJoes.export(baz) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_AProtocol_baz(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), bool)
+            return _impl.iota_get_TestAPI_AProtocol_baz(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @property
     @typing.override
@@ -31,13 +32,13 @@ class ExternalWitness_AProtocol(fishyjoes_runtime.SwiftReference, AProtocol):
         y: int,
     ) -> testapi.AProtocol:
         """<!-- FishyJoes.export(bar) -->"""
-        with fishyjoes_runtime.local_handles(self, x, y) as (_selfHandle, _xHandle, _yHandle,):
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_AProtocol_bar(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _xHandle,
-                    _yHandle,
+                    x,
+                    y,
                 ),
                 testapi.AProtocol
             )

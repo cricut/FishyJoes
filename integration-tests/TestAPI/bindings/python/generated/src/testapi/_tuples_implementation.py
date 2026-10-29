@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import tuples
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -41,7 +42,7 @@ iota_TestAPI_Tuples_checkTuples: typing.Callable[[
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], bool] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Tuples_checkTuples'))
 
 # MARK: C callback implementations

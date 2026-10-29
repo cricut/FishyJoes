@@ -3,6 +3,7 @@ from . import _simple_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import simple_enum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -15,7 +16,7 @@ class _BaseSimpleEnum:
     def hex(self) -> int:
         """<!-- FishyJoes.export(hex) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_SimpleEnum_hex(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_SimpleEnum_hex(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     def hex_method(
         self,

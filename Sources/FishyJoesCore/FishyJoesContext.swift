@@ -158,6 +158,7 @@ public class FishyJoesContext {
         // These imports are also tracked in PythonClass.forbiddenVarNames to avoid conflicts
         addHeader(to: fragment, "import typing")
         addHeader(to: fragment, "import types")
+        addHeader(to: fragment, "import collections.abc")
         addHeader(to: fragment, "from warnings import deprecated")
         for dependency in module.dependencies {
             // TODO: get correct package name here

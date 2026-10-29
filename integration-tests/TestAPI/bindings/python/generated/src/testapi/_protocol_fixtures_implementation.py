@@ -3,6 +3,7 @@ from . import _testapi_exported as testapi
 from . import protocol_fixtures
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -12,8 +13,8 @@ import typing
 iota_TestAPI_ProtocolFixtures_describeAProtocol: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
-    fishyjoes_runtime.UnownedRef,
+    int,
+    int,
 ], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_ProtocolFixtures_describeAProtocol'))
 

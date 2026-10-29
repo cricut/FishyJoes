@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -22,6 +23,14 @@ iota_get_TestAPI_TestPropertiesProtocol_frobby: typing.Callable[[
 
 # MARK: C callback implementations
 
-# MARK: setup
+@fishyjoes_runtime.callback('TestAPI_TestPropertiesProtocol_corge_getFn')
+@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
+def ffi_get_corge(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestPropertiesProtocol).corge)
 
-# TODO: setup for testapi.TestPropertiesProtocol
+@fishyjoes_runtime.callback('TestAPI_TestPropertiesProtocol_frobby_getFn')
+@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
+def ffi_get_frobby(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
+    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.TestPropertiesProtocol).frobby)
+
+# MARK: setup

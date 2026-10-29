@@ -4,6 +4,7 @@ from . import _test_default_computed_properties_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_default_computed_properties_enum
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,7 +17,7 @@ class _BaseTestDefaultComputedPropertiesEnum(TestDefaultComputedProperties):
     def noot(self) -> int:
         """<!-- FishyJoes.export(noot) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), int)
+            return _impl.iota_get_TestAPI_TestDefaultComputedPropertiesEnum_noot(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
     @property
     @typing.override
@@ -29,7 +30,7 @@ class _BaseTestDefaultComputedPropertiesEnum(TestDefaultComputedProperties):
     def spam(self) -> bool:
         """<!-- FishyJoes.export(spam) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), bool)
+            return _impl.iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)
 
 # String type syntax used to avoid circular import problems at runtime
 TestDefaultComputedPropertiesEnum: typing.TypeAlias = typing.Union[

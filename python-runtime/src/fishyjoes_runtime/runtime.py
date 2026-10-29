@@ -98,7 +98,8 @@ def _peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
 # def consume_ref[*Ts](ref: ConsumedRef, *types: *type[Ts]) -> Union[*Ts]
 def _consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> T:
     obj = _peek_ref(UnownedRef(ref), *types)
-    _python_handles_referenced_by_swift.remove(CreatedRef(ref))
+    if ref != ffi.NULL:
+        _python_handles_referenced_by_swift.remove(CreatedRef(ref))
     return obj
 
 # Overloads are later used to approximate ideal signature:
@@ -161,8 +162,22 @@ def peek_ref[T0](ref: UnownedRef, type0: type[T0], /) -> T0: ...
 def peek_ref[T0, T1](ref: UnownedRef, type0: type[T0], type1: type[T1], /) -> T0 | T1: ...
 @overload
 def peek_ref[T0, T1, T2](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], /) -> T0 | T1 | T2: ...
+@overload
+def peek_ref[T0, T1, T2, T3](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], /) -> T0 | T1 | T2 | T3: ...
+@overload
+def peek_ref[T0, T1, T2, T3, T4](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], /) -> T0 | T1 | T2 | T3 | T4: ...
+@overload
+def peek_ref[T0, T1, T2, T3, T4, T5](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], /) -> T0 | T1 | T2 | T3 | T4 | T5: ...
+@overload
+def peek_ref[T](ref: UnownedRef, *types: type[T]) -> T: ...
+
+# HACK: stop type checking after too many parameters (mypy workaround)
+@overload
+def peek_ref[T0, T1, T2, T3, T4, T5, T6](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
+
 def peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
     return _peek_ref(ref, *types)
+
 
 @overload
 def consume_ref(ref: ConsumedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...

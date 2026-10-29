@@ -2,6 +2,7 @@ from __future__ import annotations
 from .. import _testapi_exported as testapi
 from .._c_api import _testapi_lib
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -16,7 +17,7 @@ iota_TestAPI_Structs_MutableStruct_create: typing.Callable[[
 iota_TestAPI_Structs_MutableStruct_increment: typing.Callable[[
     fishyjoes_runtime.EnvRef,
     fishyjoes_runtime.UnownedRef,
-], fishyjoes_runtime.CreatedRef] = \
+], None] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_Structs_MutableStruct_increment'))
 
 iota_TestAPI_Structs_MutableStruct_incrementAsync: typing.Callable[[
@@ -36,21 +37,21 @@ iota_TestAPI_Structs_MutableStruct_asyncGetI: typing.Callable[[
 @fishyjoes_runtime.callback('TestAPI_Structs_MutableStruct_constructorFn')
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
 def ffi_constructor(
-    i: fishyjoes_runtime.ConsumedRef
+    i: int
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(testapi.structs.MutableStruct(
-        i = fishyjoes_runtime.consume_ref(i, int),
+        i = i,
     ))
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MutableStruct_iGetterFn')
-@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)
-def ffi_get_i(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef:
-    return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.structs.MutableStruct).i)
+@fishyjoes_runtime.catch_by_out_ref(default=0)
+def ffi_get_i(obj: fishyjoes_runtime.UnownedRef) -> int:
+    return fishyjoes_runtime.peek_ref(obj, testapi.structs.MutableStruct).i
 
 @fishyjoes_runtime.callback('TestAPI_Structs_MutableStruct_iSetterFn')
 @fishyjoes_runtime.catch_by_out_ref(default=None)
-def ffi_set_i(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.ConsumedRef) -> None:
-    fishyjoes_runtime.peek_ref(obj, testapi.structs.MutableStruct).i = fishyjoes_runtime.consume_ref(newValue, int)
+def ffi_set_i(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
+    fishyjoes_runtime.peek_ref(obj, testapi.structs.MutableStruct).i = newValue
 
 # MARK: setup
 

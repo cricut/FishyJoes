@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import _tree_implementation as _impl
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -11,6 +12,10 @@ class Tree:
 
     value: typing.Final[int]
     children: typing.Final[list[testapi.Tree]]
+    __slots__: list[str] = [
+        'value',
+        'children',
+    ]
 
     def __init__(
         self,
@@ -21,4 +26,4 @@ class Tree:
         self.children = children
 
     def __repr__(self) -> str:
-        return f'testapi.Tree(value={self.value!r}, children={self.children!r})'
+        return f'testapi.Tree(...)'

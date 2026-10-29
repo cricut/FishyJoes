@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _twenty_one_item_struct_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -30,6 +31,29 @@ class TwentyOneItemStruct:
     s: str
     t: str
     u: str
+    __slots__: list[str] = [
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l',
+        'm',
+        'n',
+        'o',
+        'p',
+        'q',
+        'r',
+        's',
+        't',
+        'u',
+    ]
 
     def __init__(
         self,
@@ -78,4 +102,4 @@ class TwentyOneItemStruct:
         self.u = u
 
     def __repr__(self) -> str:
-        return f'testapi.structs.TwentyOneItemStruct(a={self.a!r}, b={self.b!r}, c={self.c!r}, d={self.d!r}, e={self.e!r}, f={self.f!r}, g={self.g!r}, h={self.h!r}, i={self.i!r}, j={self.j!r}, k={self.k!r}, l={self.l!r}, m={self.m!r}, n={self.n!r}, o={self.o!r}, p={self.p!r}, q={self.q!r}, r={self.r!r}, s={self.s!r}, t={self.t!r}, u={self.u!r})'
+        return f'testapi.structs.TwentyOneItemStruct(...)'

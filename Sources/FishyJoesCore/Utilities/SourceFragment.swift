@@ -160,11 +160,11 @@ public class SourceFragment {
         }.sorted { $0.path ?? "" < $1.path ?? "" }
     }
 
-    public func conditionalWrap(if condition: Bool, wrapper: (_ inner: () -> Void) -> Void, body: @escaping () -> Void) {
+    public func conditionalWrap(if condition: Bool, wrapper: (_ inner: () -> Void) -> Void, elseWrapper: (_ inner: () -> Void) -> Void = { $0() }, body: @escaping () -> Void) {
         if condition {
             wrapper(body)
         } else {
-            body()
+            elseWrapper(body)
         }
     }
 }

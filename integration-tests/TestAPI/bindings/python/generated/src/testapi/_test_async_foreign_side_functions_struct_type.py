@@ -3,6 +3,7 @@ from ._test_async_functions_type import TestAsyncFunctions # early import to mak
 from . import _test_async_foreign_side_functions_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -26,6 +27,24 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
     exercise5_fun: typing.Final[typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]], typing.Awaitable[str]]]
     exercise6_fun: typing.Final[typing.Callable[[typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]], typing.Awaitable[str]]]
     thunk_twice_maker_fun: typing.Final[typing.Callable[[typing.Callable[[], typing.Awaitable[None]]], typing.Callable[[], typing.Awaitable[None]]]]
+    __slots__: list[str] = [
+        'const42',
+        'iabs',
+        'int_compose',
+        'add3_things',
+        'make_list',
+        'fifth_thing',
+        'six',
+        'will_throw',
+        'exercise0_fun',
+        'exercise1_fun',
+        'exercise2_fun',
+        'exercise3_fun',
+        'exercise4_fun',
+        'exercise5_fun',
+        'exercise6_fun',
+        'thunk_twice_maker_fun',
+    ]
 
     def __init__(
         self,
@@ -64,13 +83,13 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
         self.thunk_twice_maker_fun = thunk_twice_maker_fun
 
     def __repr__(self) -> str:
-        return f'testapi.TestAsyncForeignSideFunctionsStruct(const42={self.const42!r}, iabs={self.iabs!r}, int_compose={self.int_compose!r}, add3_things={self.add3_things!r}, make_list={self.make_list!r}, fifth_thing={self.fifth_thing!r}, six={self.six!r}, will_throw={self.will_throw!r}, exercise0_fun={self.exercise0_fun!r}, exercise1_fun={self.exercise1_fun!r}, exercise2_fun={self.exercise2_fun!r}, exercise3_fun={self.exercise3_fun!r}, exercise4_fun={self.exercise4_fun!r}, exercise5_fun={self.exercise5_fun!r}, exercise6_fun={self.exercise6_fun!r}, thunk_twice_maker_fun={self.thunk_twice_maker_fun!r})'
+        return f'testapi.TestAsyncForeignSideFunctionsStruct(...)'
 
     @typing.override
     def exercise0(
         self,
         fn: typing.Callable[[], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise0) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -79,14 +98,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise1(
         self,
         fn: typing.Callable[[int], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise1) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -95,14 +114,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise2(
         self,
         fn: typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise2) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -111,14 +130,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise3(
         self,
         fn: typing.Callable[[float, float, int], typing.Awaitable[float]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise3) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -127,14 +146,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise4(
         self,
         fn: typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise4) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -143,14 +162,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise5(
         self,
         fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise5) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -159,14 +178,14 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
     def exercise6(
         self,
         fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(exercise6) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -175,7 +194,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     @typing.override
@@ -191,7 +210,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _thunkHandle,
                 ),
-                "Callable"
+                collections.abc.Callable
             )
 
     @typing.override
@@ -212,7 +231,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
     def default_exercise6(
         self,
         fn: typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]],
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(defaultExercise6) -->"""
         with fishyjoes_runtime.local_handles(self, fn) as (_selfHandle, _fnHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -221,5 +240,5 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )

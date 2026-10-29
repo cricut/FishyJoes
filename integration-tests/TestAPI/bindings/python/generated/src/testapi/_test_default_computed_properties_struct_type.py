@@ -3,6 +3,7 @@ from ._test_default_computed_properties_type import TestDefaultComputedPropertie
 from . import _test_default_computed_properties_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -12,6 +13,10 @@ class TestDefaultComputedPropertiesStruct(TestDefaultComputedProperties):
 
     spam: bool
     noot: int
+    __slots__: list[str] = [
+        'spam',
+        'noot',
+    ]
 
     def __init__(
         self,
@@ -22,7 +27,7 @@ class TestDefaultComputedPropertiesStruct(TestDefaultComputedProperties):
         self.noot = noot
 
     def __repr__(self) -> str:
-        return f'testapi.TestDefaultComputedPropertiesStruct(spam={self.spam!r}, noot={self.noot!r})'
+        return f'testapi.TestDefaultComputedPropertiesStruct(...)'
 
     @property
     @typing.override

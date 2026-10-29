@@ -3,6 +3,7 @@ from ._a_protocol_type import AProtocol # early import to make cycles work corre
 from . import _a_protocol_implementation_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -12,6 +13,10 @@ class AProtocolImplementation(AProtocol):
 
     foo: str
     baz: bool
+    __slots__: list[str] = [
+        'foo',
+        'baz',
+    ]
 
     def __init__(
         self,
@@ -22,7 +27,7 @@ class AProtocolImplementation(AProtocol):
         self.baz = baz
 
     def __repr__(self) -> str:
-        return f'testapi.AProtocolImplementation(foo={self.foo!r}, baz={self.baz!r})'
+        return f'testapi.AProtocolImplementation(...)'
 
     @typing.override
     def bar(
@@ -31,13 +36,13 @@ class AProtocolImplementation(AProtocol):
         y: int,
     ) -> testapi.AProtocol:
         """<!-- FishyJoes.export(bar) -->"""
-        with fishyjoes_runtime.local_handles(self, x, y) as (_selfHandle, _xHandle, _yHandle,):
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_AProtocolImplementation_bar(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _xHandle,
-                    _yHandle,
+                    x,
+                    y,
                 ),
                 testapi.AProtocol
             )
@@ -49,13 +54,13 @@ class AProtocolImplementation(AProtocol):
         y: float,
     ) -> str:
         """<!-- FishyJoes.export(hasADefaultImplementation) -->"""
-        with fishyjoes_runtime.local_handles(self, x, y) as (_selfHandle, _xHandle, _yHandle,):
+        with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_AProtocolImplementation_hasADefaultImplementation(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
-                    _xHandle,
-                    _yHandle,
+                    x,
+                    y,
                 ),
                 str
             )
@@ -68,13 +73,13 @@ class AProtocolImplementation(AProtocol):
         c: str,
     ) -> str:
         """<!-- FishyJoes.export(hasADefaultImplementation2) -->"""
-        with fishyjoes_runtime.local_handles(self, a, b, c) as (_selfHandle, _aHandle, _bHandle, _cHandle,):
+        with fishyjoes_runtime.local_handles(self, a, c) as (_selfHandle, _aHandle, _cHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_AProtocolImplementation_hasADefaultImplementation2(
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                     _aHandle,
-                    _bHandle,
+                    b,
                     _cHandle,
                 ),
                 str

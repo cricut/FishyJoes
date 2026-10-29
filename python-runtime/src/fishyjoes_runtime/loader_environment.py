@@ -1,3 +1,4 @@
+from fishyjoes_runtime._fishyjoesruntime_c_api import _current_process_lib
 from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
@@ -19,6 +20,8 @@ FishyJoesCommonRuntime_Env_setup: \
 FishyJoesCommonRuntime_runScheduledWork: \
     Callable[[EnvRef, Pointer], None] = \
     raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_runScheduledWork"))
+
+strdup: Callable[[UTF8CString], UTF8CString] = getattr(_current_process_lib, "strdup")
 
 
 # MARK: C callback implementations
@@ -44,7 +47,7 @@ def _env_describe(ref: UnownedRef) -> UTF8CString:
         text = "<null>"
     else:
         text = str(peek_ref(ref, object))
-    return UTF8CString(ffi.new("char[]", text.encode("utf-8")))
+    return strdup(UTF8CString(ffi.new("char[]", text.encode("utf-8"))))
 
 
 @callback("FishyJoes_ScheduleThreadWorkFn")

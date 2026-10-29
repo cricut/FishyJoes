@@ -2,6 +2,7 @@ from __future__ import annotations
 from . import _reference_struct_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
+import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -39,7 +40,7 @@ class ReferenceStruct(fishyjoes_runtime.SwiftReference):
 
     def async_get_mutable(
         self,
-    ) -> fishyjoes_runtime.Future[str]:
+    ) -> typing.Awaitable[str]:
         """<!-- FishyJoes.export(asyncGetMutable) -->"""
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
@@ -47,7 +48,7 @@ class ReferenceStruct(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                fishyjoes_runtime.Future
+                typing.Awaitable
             )
 
     def __eq__(
