@@ -23,6 +23,12 @@ jobs:
     name: "macOS: regenerate check"
     runs-on: macos-26
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:

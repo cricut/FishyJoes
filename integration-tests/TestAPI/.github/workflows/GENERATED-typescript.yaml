@@ -27,6 +27,12 @@ jobs:
     name: "macOS: Build and test typescript bindings"
     runs-on: macos-26
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -103,6 +109,12 @@ jobs:
     name: "Ubuntu: Build and test typescript bindings"
     runs-on: ubuntu-22.04
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -193,6 +205,12 @@ jobs:
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
+
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
 
       - name: Checkout
         uses: actions/checkout@v6
