@@ -102,6 +102,19 @@ public struct FileTemplater {
                 "",
             ]
         }
+
+        if let ciPreCheckoutHook = config.ciPreCheckoutHook {
+            let preCheckoutHookLines = ciPreCheckoutHook.split(separator: "\n").map(String.init)
+            credentialStepLines.append(
+                contentsOf: [
+                    "- name: Pre-checkout hook",
+                    "  shell: bash",
+                    "  run: |" + join(lines: preCheckoutHookLines, indent: 10),
+                    "",
+                ]
+            )
+        }
+
         credentialStepLines.append(
             contentsOf: [
                 "- name: Checkout",
