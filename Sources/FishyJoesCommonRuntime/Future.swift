@@ -1,4 +1,9 @@
+#if os(WASI)
+import FoundationEssentials
+import Synchronization
+#else
 import Foundation
+#endif
 
 // Based on https://cs3110.github.io/textbook/chapters/ds/promises.html#the-full-implementation
 public final class Future<Output: Sendable>: Sendable {
@@ -7,7 +12,12 @@ public final class Future<Output: Sendable>: Sendable {
     // read or write access to state/handlers must be synchronized by lock
     private nonisolated(unsafe) var state: Result<Output, any Error>?
     private nonisolated(unsafe) var handlers: [Handler] = []
+    #if os(WASI)
+    // NSLock is not in FoundationEssentials
+    private let lock = Mutex(())
+    #else
     private let lock = NSLock()
+    #endif
 
     public struct Promise: Sendable {
         fileprivate let future: Future<Output>
@@ -45,9 +55,13 @@ extension Future: CustomStringConvertible {
 
 extension Future {
     func withLock<T>(_ operation: () throws -> T) rethrows -> T {
+        #if os(WASI)
+        return try lock.withLock { _ in try operation() }
+        #else
         lock.lock()
         defer { lock.unlock() }
         return try operation()
+        #endif
     }
 
     public static func make() -> (Future, Promise) {

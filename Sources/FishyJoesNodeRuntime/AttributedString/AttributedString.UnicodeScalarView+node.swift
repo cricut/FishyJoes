@@ -1,4 +1,8 @@
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension AttributedString.UnicodeScalarView: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> AttributedString.UnicodeScalarView {
