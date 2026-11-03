@@ -26,7 +26,6 @@
 // IN THE SOFTWARE.
 
 // const vm = require('vm');
-import { Buffer } from 'buffer';
 
 // mostly borrowed from https://github.com/browserify/node-util
 // borrowing removed deps on Node polyfills util/process
@@ -767,10 +766,10 @@ export class NAPI {
 
       napi_get_buffer_info: this.wrap((envPtr, bufferIdx, dataPtrPtr, lengthPtr) => {
         const buffer = this.load(bufferIdx);
-        if (!Buffer.isBuffer(buffer)) {
+        if (!(buffer instanceof Uint8Array)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
-        this.writeU32(lengthPtr, buffer.length);
+        this.writeU32(lengthPtr, buffer.byteLength);
         // Limitation in wasm implementation of NAPI
         this.writeU32(dataPtrPtr, 0);
         return NAPI_OK;
@@ -1133,7 +1132,7 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_buffer: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, Buffer.isBuffer(this.load(valueIdx)));
+        this.writeU8(resultPtr, this.load(valueIdx) instanceof Uint8Array);
         return NAPI_OK;
       }),
       napi_is_date: this.wrap((envPtr, valueIdx, resultPtr) => {
@@ -1916,9 +1915,9 @@ export class NAPI {
       if (error_messages[i] !== undefined) {
         const utf8 = (new TextEncoder()).encode(error_messages[i]);
         stringPtr = this.malloc(utf8.length + 1);
-        const buffer = Buffer.from(this.memory.buffer)
-        buffer.set(utf8, stringPtr)
-        buffer[stringPtr + utf8.length] = 0
+        const bytes = new Uint8Array(this.memory.buffer)
+        bytes.set(utf8, stringPtr)
+        bytes[stringPtr + utf8.length] = 0
       }
       this.wasi.refreshMemory();
       this.writeU32(tablePtr + 4 * i, stringPtr);
