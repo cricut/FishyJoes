@@ -255,11 +255,11 @@ class PythonClass {
             case .explicitBody(let lines):
                 lines.forEach { fragment.output($0) }
             case .abstract:
-                fragment.output("...")
+                fragment.output("raise NotImplementedError")
             case .implementationInSwift(let isDefault):
                 let fieldFuncName = isDefault ? "_impl.iota__default_\(field.mangledName)" : "_impl.iota_get_\(field.mangledName)"
                 let functionCall = "\(fieldFuncName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle)"
-                fragment.outputBlock("\(PythonClass.withLocalHandles([("self", "self_handle")])):") {
+                PythonClass.outputWithLocalHandlesBlock(fragment, [("self", "self_handle")]) {
                     if field.type.static.isPrimitive {
                         fragment.output("return \(functionCall)")
                     } else {
@@ -271,8 +271,6 @@ class PythonClass {
         fragment.blankLine()
 
         if field.isPubliclyWritable {
-            // TODO: delete this misleading comment
-            // Decorators not output on setters. I think that's right because they actually end up stored inside the property, which is decorated.
             fragment.output("@\(name).setter")
             outputDecorators(for: field, to: fragment)
             fragment.outputBlock("def \(name)(self, new_value: \(field.type.static.name(in: self))) -> None:") {
@@ -284,7 +282,7 @@ class PythonClass {
                     localHandles.append((expression: "new_value", bindTo: "new_value_handle"))
                     value = "new_value_handle"
                 }
-                fragment.outputBlock("\(PythonClass.withLocalHandles(localHandles)):") {
+                PythonClass.outputWithLocalHandlesBlock(fragment, localHandles) {
                     fragment.output("_impl.iota_set_\(field.mangledName)(fishyjoes_runtime.Runtime.shared.env_ref, self_handle, \(value))")
                 }
             }
@@ -294,18 +292,23 @@ class PythonClass {
     func outputPublic(getterSetterFor field: Variable, to fragment: SourceFragment, inClass: Bool) {
         precondition(field.isStatic || inClass)
         fragment.blankLine()
-        let (selfParam, selfHandleParam) = field.isStatic ? ("", "") : ("self", ", self_handle")
+        var parameters: [String] = []
+        var handles: [(expression: String, bindTo: String)] = []
+        var ffiParameters: [String] = ["fishyjoes_runtime.Runtime.shared.env_ref"]
+        if !field.isStatic {
+            parameters.append("self")
+            handles.append(("self", "self_handle"))
+            ffiParameters.append("self_handle")
+        }
         if inClass && field.isStatic {
             fragment.output("@staticmethod")
         }
         outputDecorators(for: field, to: fragment)
-        let type = field.type.static.name(in: inClass ? self : nil)
-        fragment.outputBlock("def get_\(field.name)(\(selfParam)) -> \(type):") {
+        let typeName = field.type.static.name(in: inClass ? self : nil)
+        fragment.outputBlock("def get_\(field.name)(\(parameters.joined(separator: ", "))) -> \(typeName):") {
             document(field.documentation, fragment: fragment)
-            let functionCall = "_impl.iota_get_\(field.mangledName)(fishyjoes_runtime.Runtime.shared.env_ref\(selfHandleParam))"
-            fragment.conditionalWrap(if: !field.isStatic) { inner in
-                fragment.outputBlock("with fishyjoes_runtime.local_handles(self) as (self_handle,):", inner)
-            } body: {
+            let functionCall = "_impl.iota_get_\(field.mangledName)(\(ffiParameters.joined(separator: ", ")))"
+            PythonClass.outputWithLocalHandlesBlock(fragment, handles) {
                 if field.type.static.isPrimitive {
                     fragment.output("return \(functionCall)")
                 } else if field.type.dynamics == [] {
@@ -317,13 +320,24 @@ class PythonClass {
             }
         }
         if field.isPubliclyWritable {
+            parameters.append("new_value: \(typeName)")
+            if field.type.static.isPrimitive {
+                ffiParameters.append("new_value")
+            } else {
+                handles.append(("new_value", "new_value_handle"))
+                ffiParameters.append("new_value_handle")
+            }
+
             fragment.blankLine()
             if inClass {
                 fragment.output("@staticmethod")
             }
             outputDecorators(for: field, to: fragment)
-            // TODO: implement this
-            fragment.output("def set_\(field.name)(new_value: \(type)) -> None: ...")
+            fragment.outputBlock("def set_\(field.name)(\(parameters.joined(separator: ", "))) -> None:") {
+                PythonClass.outputWithLocalHandlesBlock(fragment, handles) {
+                    fragment.output("_impl.iota_set_\(field.mangledName)(\(ffiParameters.joined(separator: ", ")))")
+                }
+            }
         }
     }
 
@@ -367,7 +381,7 @@ class PythonClass {
             case .explicitBody(let lines):
                 lines.forEach { fragment.output($0) }
             case .abstract:
-                fragment.output("...")
+                fragment.output("raise NotImplementedError")
             case .implementationInSwift:
                 var localHandles: [(expression: String, bindTo: String)] = []
                 var paramStrings: [String] = []
@@ -386,13 +400,8 @@ class PythonClass {
                     }
                 }
 
-                var wrap: (() -> Void) -> Void = { $0() }
-                if !localHandles.isEmpty {
-                    wrap = { innerWriter in
-                        fragment.outputBlock("\(PythonClass.withLocalHandles(localHandles)):") {
-                            innerWriter()
-                        }
-                    }
+                var wrap: (() -> Void) -> Void = { innerWriter in
+                    PythonClass.outputWithLocalHandlesBlock(fragment, localHandles, body: innerWriter)
                 }
 
                 if method.returnType.static.isPrimitive {
@@ -605,13 +614,19 @@ extension PythonClass {
         return underscorePostfixName.first?.isNumber == true ? name : underscorePostfixName
     }
 
-    static func withLocalHandles(
+    static func outputWithLocalHandlesBlock(
+        _ fragment: SourceFragment,
         _ localHandles: [(expression: String, bindTo: String)],
-    ) -> String {
-        let expressions = localHandles.map(\.expression).joined(separator: ", ")
-        // trailing comma is sometimes important for python tuples, so always add it
-        let bindings = localHandles.map { "\($0.bindTo)," }.joined(separator: " ")
-        return "with fishyjoes_runtime.local_handles(\(expressions)) as (\(bindings))"
+        body: () -> Void
+    ) {
+        if localHandles.isEmpty {
+            body()
+        } else {
+            let expressions = localHandles.map(\.expression).joined(separator: ", ")
+            // trailing comma is sometimes important for python tuples, so always add it
+            let bindings = localHandles.map { "\($0.bindTo)," }.joined(separator: " ")
+            fragment.outputBlock("with fishyjoes_runtime.local_handles(\(expressions)) as (\(bindings)):", body)
+        }
     }
 
     func outputDecorators(for decorable: PythonClass.Decorable, to fragment: SourceFragment) {

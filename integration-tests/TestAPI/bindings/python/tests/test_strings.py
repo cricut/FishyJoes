@@ -6,13 +6,13 @@ from testapi import strings
 class StringTests(unittest.TestCase):
     def test_string_values(self) -> None:
         self.assertEqual(strings.get_simple(), "Hello")
-        self.assertEqual(strings.get_accent, "Olá")
-        self.assertEqual(strings.get_script, "こんにちは")
-        self.assertEqual(strings.get_chinese, "你好")
-        self.assertEqual(strings.get_chinese_bmp, "豈更車賈滑")
-        self.assertEqual(strings.get_chinese_sip, "\U00020001\U00020002\U00020003\U00020004")
-        self.assertEqual(strings.get_emoji, "🤯🐶🍓")
-        self.assertEqual(strings.get_emoji_multi, "👨‍👩‍👧‍👦👍🏿🇺🇸")
+        self.assertEqual(strings.get_accent(), "Olá")
+        self.assertEqual(strings.get_script(), "こんにちは")
+        self.assertEqual(strings.get_chinese(), "你好")
+        self.assertEqual(strings.get_chinese_bmp(), "豈更車賈滑")
+        self.assertEqual(strings.get_chinese_sip(), "\U00020001\U00020002\U00020003\U00020004")
+        self.assertEqual(strings.get_emoji(), "🤯🐶🍓")
+        self.assertEqual(strings.get_emoji_multi(), "👨‍👩‍👧‍👦👍🏿🇺🇸")
 
     def test_string_echo(self) -> None:
         self.assertEqual(strings.echo(strings.get_simple()), strings.get_simple())

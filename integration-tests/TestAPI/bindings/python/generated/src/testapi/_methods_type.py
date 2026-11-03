@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _methods_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -65,7 +64,8 @@ class Methods(fishyjoes_runtime.SwiftReference):
         return _impl.iota_get_TestAPI_Methods_staticModifiable(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
-    def set_static_modifiable(new_value: int) -> None: ...
+    def set_static_modifiable(new_value: int) -> None:
+        _impl.iota_set_TestAPI_Methods_staticModifiable(fishyjoes_runtime.Runtime.shared.env_ref, new_value)
 
     @staticmethod
     def get_static_stored() -> int:
@@ -73,7 +73,8 @@ class Methods(fishyjoes_runtime.SwiftReference):
         return _impl.iota_get_TestAPI_Methods_staticStored(fishyjoes_runtime.Runtime.shared.env_ref)
 
     @staticmethod
-    def set_static_stored(new_value: int) -> None: ...
+    def set_static_stored(new_value: int) -> None:
+        _impl.iota_set_TestAPI_Methods_staticStored(fishyjoes_runtime.Runtime.shared.env_ref, new_value)
 
     @staticmethod
     def create(
@@ -110,7 +111,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_yield(
@@ -123,7 +124,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_sleep(
@@ -136,7 +137,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_void(
@@ -149,7 +150,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_double(
@@ -164,7 +165,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     _selfHandle,
                     d,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_multiple_args(
@@ -181,7 +182,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     i,
                     _jHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_throwing(
@@ -194,7 +195,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_callback_func0(
@@ -209,7 +210,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     _selfHandle,
                     _callbackHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @staticmethod
@@ -220,7 +221,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
             _impl.iota_TestAPI_Methods_staticAsync42(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -231,7 +232,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
             _impl.iota_TestAPI_Methods_staticAsyncYield(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -242,7 +243,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
             _impl.iota_TestAPI_Methods_staticAsyncSleep(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -253,7 +254,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
             _impl.iota_TestAPI_Methods_staticAsyncVoid(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -266,7 +267,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 d,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -282,7 +283,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     i,
                     _jHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @staticmethod
@@ -293,7 +294,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
             _impl.iota_TestAPI_Methods_staticAsyncThrowing(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             ),
-            typing.Awaitable
+            "Awaitable"
         )
 
     @staticmethod
@@ -307,7 +308,7 @@ class Methods(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _callbackHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @staticmethod

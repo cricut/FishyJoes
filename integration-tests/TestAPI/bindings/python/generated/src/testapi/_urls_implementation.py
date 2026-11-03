@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import urls
 from ._c_api import _testapi_lib
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -12,28 +11,28 @@ import typing
 
 iota_get_TestAPI_URLs_dataImage: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], str] = \
+], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_URLs_dataImage'))
 
 iota_get_TestAPI_URLs_localFile: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], str] = \
+], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_URLs_localFile'))
 
 iota_get_TestAPI_URLs_remoteFile: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], str] = \
+], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_URLs_remoteFile'))
 
 iota_get_TestAPI_URLs_simple: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-], str] = \
+], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_get_TestAPI_URLs_simple'))
 
 iota_TestAPI_URLs_echo: typing.Callable[[
     fishyjoes_runtime.EnvRef,
-    str,
-], str] = \
+    fishyjoes_runtime.UnownedRef,
+], fishyjoes_runtime.CreatedRef] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_URLs_echo'))
 
 # MARK: C callback implementations

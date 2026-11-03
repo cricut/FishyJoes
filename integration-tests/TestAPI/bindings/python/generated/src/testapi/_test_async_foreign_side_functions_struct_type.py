@@ -3,7 +3,6 @@ from ._test_async_functions_type import TestAsyncFunctions # early import to mak
 from . import _test_async_foreign_side_functions_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -98,7 +97,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -114,7 +113,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -130,7 +129,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -146,7 +145,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -162,7 +161,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -178,7 +177,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -194,7 +193,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     @typing.override
@@ -210,7 +209,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _thunkHandle,
                 ),
-                collections.abc.Callable
+                "Callable"
             )
 
     @typing.override
@@ -240,5 +239,29 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, TestAsyncForeignSideFunctionsStruct) and \
+            self.const42 == other.const42 and \
+            self.iabs == other.iabs and \
+            self.int_compose == other.int_compose and \
+            self.add3_things == other.add3_things and \
+            self.make_list == other.make_list and \
+            self.fifth_thing == other.fifth_thing and \
+            self.six == other.six and \
+            self.will_throw == other.will_throw and \
+            self.exercise0_fun == other.exercise0_fun and \
+            self.exercise1_fun == other.exercise1_fun and \
+            self.exercise2_fun == other.exercise2_fun and \
+            self.exercise3_fun == other.exercise3_fun and \
+            self.exercise4_fun == other.exercise4_fun and \
+            self.exercise5_fun == other.exercise5_fun and \
+            self.exercise6_fun == other.exercise6_fun and \
+            self.thunk_twice_maker_fun == other.thunk_twice_maker_fun and \
+            True

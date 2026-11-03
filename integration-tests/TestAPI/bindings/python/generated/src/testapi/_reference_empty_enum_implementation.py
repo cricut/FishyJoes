@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import reference_empty_enum
 from ._c_api import _testapi_lib
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

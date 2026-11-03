@@ -6,7 +6,6 @@ from .north import North
 from .south import South
 from .west import West
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

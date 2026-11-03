@@ -4,7 +4,6 @@ from . import associated_data_enum
 from ._associated_data_enum_type import _BaseAssociatedDataEnum
 from ._c_api import _testapi_lib
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -35,12 +34,12 @@ iota_TestAPI_AssociatedDataEnum_plus: typing.Callable[[
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseAssociatedDataEnum):
-        case associated_data_enum.Thing: return 0
-        case associated_data_enum.Other: return 1
-        case associated_data_enum.Bar: return 2
-        case associated_data_enum.NoValue: return 3
-        case associated_data_enum.None_: return 4
-        case associated_data_enum.SimpleEnum: return 5
+        case associated_data_enum.Thing(): return 0
+        case associated_data_enum.Other(): return 1
+        case associated_data_enum.Bar(): return 2
+        case associated_data_enum.NoValue(): return 3
+        case associated_data_enum.None_(): return 4
+        case associated_data_enum.SimpleEnum(): return 5
         case unknown: raise ValueError(f'Unknown AssociatedDataEnum case "{unknown})". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_ThingConstructorFn")

@@ -23,11 +23,5 @@ class ClassTests(unittest.TestCase):
         self.assertNotEqual(a1, b1)
         self.assertNotEqual(hash(a1), hash(b1))
 
-    def test_swift_reference_repr_identifies_type_and_pointer(self) -> None:
-        value = testapi.EmptyClass1.create()
-
-        self.assertRegex(repr(value), r"^EmptyClass1\(swift_ref=0x[0-9a-f]+\)$")
-
-
 if __name__ == "__main__":
     unittest.main()

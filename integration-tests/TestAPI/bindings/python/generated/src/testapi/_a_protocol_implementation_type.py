@@ -3,7 +3,6 @@ from ._a_protocol_type import AProtocol # early import to make cycles work corre
 from . import _a_protocol_implementation_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -84,3 +83,13 @@ class AProtocolImplementation(AProtocol):
                 ),
                 str
             )
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, AProtocolImplementation) and \
+            self.foo == other.foo and \
+            self.baz == other.baz and \
+            True

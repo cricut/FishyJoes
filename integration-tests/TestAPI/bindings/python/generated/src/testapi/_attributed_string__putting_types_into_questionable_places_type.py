@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _attributed_string__putting_types_into_questionable_places_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -33,3 +32,12 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces:
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 _selfHandle,
             )
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, AttributedString_PuttingTypesIntoQuestionablePlaces) and \
+            self.x == other.x and \
+            True

@@ -4,7 +4,6 @@ from . import test_default_computed_properties_enum
 from ._c_api import _testapi_lib
 from ._test_default_computed_properties_enum_type import _BaseTestDefaultComputedPropertiesEnum
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -35,7 +34,7 @@ iota_get_TestAPI_TestDefaultComputedPropertiesEnum_spam: typing.Callable[[
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseTestDefaultComputedPropertiesEnum):
-        case test_default_computed_properties_enum.Qux: return 0
+        case test_default_computed_properties_enum.Qux(): return 0
         case unknown: raise ValueError(f'Unknown TestDefaultComputedPropertiesEnum case "{unknown})". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_TestDefaultComputedPropertiesEnum_QuxConstructorFn")

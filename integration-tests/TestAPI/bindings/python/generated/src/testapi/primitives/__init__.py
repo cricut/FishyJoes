@@ -3,7 +3,6 @@ from .. import _primitives_implementation as _impl
 from .. import _testapi_exported as testapi
 from ._primitive_holder_type import PrimitiveHolder
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

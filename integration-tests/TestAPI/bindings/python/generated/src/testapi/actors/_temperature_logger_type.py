@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _temperature_logger_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -56,7 +55,7 @@ class TemperatureLogger(fishyjoes_runtime.SwiftReference):
                     _selfHandle,
                     measurement,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def min_(
@@ -69,7 +68,7 @@ class TemperatureLogger(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def extension_isolated_get_label(
@@ -82,7 +81,7 @@ class TemperatureLogger(fishyjoes_runtime.SwiftReference):
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def extension_nonisolated_get_label(

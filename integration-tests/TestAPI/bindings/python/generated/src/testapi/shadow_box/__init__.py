@@ -4,7 +4,6 @@ from .. import _testapi_exported as testapi
 from .empty import Empty
 from .shade import Shade
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

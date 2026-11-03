@@ -3,7 +3,6 @@ from ._test_methods_protocol_type import TestMethodsProtocol # early import to m
 from . import _external_witness__test_methods_protocol_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

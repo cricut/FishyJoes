@@ -12,7 +12,7 @@ from .ffi_types import CREATED_REF_NULL, ConsumedRef, ConsumedRefArray, Consumed
 from .loader_future import Future
 from .loader_misc import URI
 from .result import Result, ResultFailure, ResultSuccess, SwiftException
-from .runtime import CStringBag, Runtime, assert_type, call_with_raise_by_out_ref, catch_by_out_ref, \
+from .runtime import CStringBag, Runtime, assert_type, catch_by_out_ref, \
     consume_created_ref, consume_ref, create_consumed_ref, create_ref, local_handles, peek_ref, raise_by_out_ref
 from .swift_range import Comparable, SwiftClosedRange, SwiftRange
 from .swift_reference import SwiftReference
@@ -30,7 +30,7 @@ __all__ = [
 
     "local_handles",
 
-    "catch_by_out_ref", "call_with_raise_by_out_ref", "raise_by_out_ref",
+    "catch_by_out_ref", "raise_by_out_ref",
     "create_ref", "create_consumed_ref", "assert_type", "peek_ref", "consume_ref", "consume_created_ref",
 
     "URI",

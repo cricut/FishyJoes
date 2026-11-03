@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from ._c_api import _testapi_lib
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -176,7 +175,7 @@ def ffi_method_exercise0(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise0(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -188,7 +187,7 @@ def ffi_method_exercise1(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise1(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -200,7 +199,7 @@ def ffi_method_exercise2(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise2(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -212,7 +211,7 @@ def ffi_method_exercise3(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise3(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -224,7 +223,7 @@ def ffi_method_exercise4(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise4(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -236,7 +235,7 @@ def ffi_method_exercise5(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise5(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -248,7 +247,7 @@ def ffi_method_exercise6(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).exercise6(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 
@@ -260,7 +259,7 @@ def ffi_method_thunk_twice_maker(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).thunk_twice_maker(
-            fishyjoes_runtime.peek_ref(thunk, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(thunk, "Callable"),
         )
     )
 
@@ -272,7 +271,7 @@ def ffi_method_default_exercise6(
 ) -> fishyjoes_runtime.CreatedRef:
     return fishyjoes_runtime.create_ref(
         fishyjoes_runtime.peek_ref(obj, testapi.TestAsyncFunctions).default_exercise6(
-            fishyjoes_runtime.peek_ref(fn, collections.abc.Callable),
+            fishyjoes_runtime.peek_ref(fn, "Callable"),
         )
     )
 

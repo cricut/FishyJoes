@@ -4,7 +4,6 @@ from . import _test_async_functions_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
 import abc
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -24,7 +23,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise1(
@@ -39,7 +38,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise2(
@@ -54,7 +53,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise3(
@@ -69,7 +68,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise4(
@@ -84,7 +83,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise5(
@@ -99,7 +98,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def exercise6(
@@ -114,7 +113,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def thunk_twice_maker(
@@ -129,7 +128,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _thunkHandle,
                 ),
-                collections.abc.Callable
+                "Callable"
             )
 
     def default_exercise6(
@@ -144,7 +143,7 @@ class TestAsyncFunctions(abc.ABC):
                     _selfHandle,
                     _fnHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def witness(
@@ -164,46 +163,46 @@ class TestAsyncFunctions(abc.ABC):
     def add3_things(self) -> typing.Callable[[float, float, int], typing.Awaitable[float]]:
         """<!-- FishyJoes.export(add3Things) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_add3Things(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_add3Things(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def const42(self) -> typing.Callable[[], typing.Awaitable[int]]:
         """<!-- FishyJoes.export(const42) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_const42(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_const42(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def fifth_thing(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]]], typing.Awaitable[typing.Callable[[], typing.Awaitable[int]]]]:
         """<!-- FishyJoes.export(fifthThing) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_fifthThing(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def iabs(self) -> typing.Callable[[int], typing.Awaitable[int]]:
         """<!-- FishyJoes.export(iabs) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_iabs(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_iabs(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def int_compose(self) -> typing.Callable[[typing.Callable[[int], typing.Awaitable[int]], typing.Callable[[int], typing.Awaitable[int]]], typing.Callable[[int], typing.Awaitable[int]]]:
         """<!-- FishyJoes.export(intCompose) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_intCompose(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_intCompose(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def make_list(self) -> typing.Callable[[str, str, str, str], typing.Awaitable[list[str]]]:
         """<!-- FishyJoes.export(makeList) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_makeList(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_makeList(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def six(self) -> typing.Callable[[str, int, float, str, typing.Callable[[], typing.Awaitable[int]], int], typing.Awaitable[int]]:
         """<!-- FishyJoes.export(six) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_six(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_six(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")
 
     @property
     def will_throw(self) -> typing.Callable[[], typing.Awaitable[int]]:
         """<!-- FishyJoes.export(willThrow) -->"""
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
-            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_willThrow(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), collections.abc.Callable)
+            return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_TestAsyncFunctions_willThrow(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), "Callable")

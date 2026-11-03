@@ -1,4 +1,4 @@
-from fishyjoes_runtime._fishyjoesruntime_c_api import callback
+from fishyjoes_runtime._fishyjoesruntime_c_api import callback, ffi
 from fishyjoes_runtime.ffi_types import CreatedRef
 from typing import Callable, TypeAlias
 
@@ -80,62 +80,90 @@ def _bool_value_extract(obj: UnownedRef) -> bool:
 @callback("FishyJoes_Int8ValueFn")
 @catch_by_out_ref(default=0)
 def _int8_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not -0x80 <= res < 0x80:
+        raise ValueError(f"${res} out of Int8 range")
+    return res
 
 
 @callback("FishyJoes_Int16ValueFn")
 @catch_by_out_ref(default=0)
 def _int16_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not -0x8000 <= res < 0x8000:
+        raise ValueError(f"${res} out of Int16 range")
+    return res
 
 
 @callback("FishyJoes_Int32ValueFn")
 @catch_by_out_ref(default=0)
 def _int32_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not -0x8000_0000 <= res < 0x8000_0000:
+        raise ValueError(f"${res} out of Int32 range")
+    return res
 
 
 @callback("FishyJoes_Int64ValueFn")
 @catch_by_out_ref(default=0)
 def _int64_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
-
+    res = peek_ref(obj, int)
+    if not -0x8000_0000_0000_0000 <= res < 0x8000_0000_0000_0000:
+        raise ValueError(f"${res} out of Int64 range")
+    return res
 
 @callback("FishyJoes_IntValueFn")
 @catch_by_out_ref(default=0)
 def _int_value_extract(obj: UnownedRef) -> int:
+    res = peek_ref(obj, int)
+    limit = 1 << 8 * ffi.sizeof("uintptr_t") - 1
+    if not -limit <= res < limit:
+        raise ValueError(f"${res} out of UInt range")
     return peek_ref(obj, int)
-
 
 @callback("FishyJoes_UInt8ValueFn")
 @catch_by_out_ref(default=0)
 def _uint8_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not 0 <= res < 0x100:
+        raise ValueError(f"${res} out of UInt8 range")
+    return res
 
 
 @callback("FishyJoes_UInt16ValueFn")
 @catch_by_out_ref(default=0)
 def _uint16_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not 0 <= res < 0x1_0000:
+        raise ValueError(f"${res} out of UInt16 range")
+    return res
 
 
 @callback("FishyJoes_UInt32ValueFn")
 @catch_by_out_ref(default=0)
 def _uint32_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
+    res = peek_ref(obj, int)
+    if not 0 <= res < 0x1_0000_0000:
+        raise ValueError(f"${res} out of UInt32 range")
+    return res
+
 
 
 @callback("FishyJoes_UInt64ValueFn")
 @catch_by_out_ref(default=0)
 def _uint64_value_extract(obj: UnownedRef) -> int:
-    return peek_ref(obj, int)
-
+    res = peek_ref(obj, int)
+    if not 0 <= res < 0x1_0000_0000_0000_0000:
+        raise ValueError(f"${res} out of UInt64 range")
+    return res
 
 @callback("FishyJoes_UIntValueFn")
 @catch_by_out_ref(default=0)
 def _uint_value_extract(obj: UnownedRef) -> int:
+    res = peek_ref(obj, int)
+    if not 0 <= res < (1 << 8 * ffi.sizeof("uintptr_t")):
+        raise ValueError(f"${res} out of UInt range")
     return peek_ref(obj, int)
-
 
 @callback("FishyJoes_FloatValueFn")
 @catch_by_out_ref(default=0.0)

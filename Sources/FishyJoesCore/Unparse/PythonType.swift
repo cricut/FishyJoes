@@ -69,10 +69,7 @@ extension PythonType: CustomStringConvertible {
     }
 
     static var str: Self {
-        .init(
-            static: .primitive(name: "str"),
-            dynamics: [.init(module: nil, namespaces: [], name: "str")]
-        )
+        .class(module: nil, qualifiedName: "str")
     }
 
     static var object: Self {
@@ -90,10 +87,6 @@ extension PythonType: CustomStringConvertible {
         )
     }
 
-    static var TODO: Self {
-        .class(module: nil, qualifiedName: "TODO")
-    }
-
     static func result(_ success: Self, _ failure: Self) -> Self {
         .init(
             static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Result", genericArgs: [success.static, failure.static]),
@@ -107,17 +100,14 @@ extension PythonType: CustomStringConvertible {
     static func callable(args: [Static], return: Static) -> Self {
         .init(
             static: .callable(args: args, return: `return`),
-            // dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
-            dynamics: [.init(module: "collections", namespaces: ["abc"], name: "Callable")] // workaround for https://github.com/python/mypy/issues/11071
+            dynamics: [.init(module: nil, namespaces: [], name: "\"Callable\"")] // workaround for https://github.com/python/mypy/issues/11071
         )
     }
 
     static func future(_ inner: Static) -> Self {
         .init(
-            // static: .named(module: "fishyjoes_runtime", namespaces: [], name: "Future", genericArgs: [inner]),
             static: .named(module: "typing", namespaces: [], name: "Awaitable", genericArgs: [inner]),
-            // dynamics: [.init(module: nil, namespaces: [], name: "\"Awaitable\"")] // workaround for https://github.com/python/mypy/issues/11071
-            dynamics: [.init(module: "typing", namespaces: [], name: "Awaitable")]
+            dynamics: [.init(module: nil, namespaces: [], name: "\"Awaitable\"")] // workaround for https://github.com/python/mypy/issues/11071
         )
     }
 
@@ -255,10 +245,6 @@ extension PythonType.Static {
     }
     static var opaquePointer: Self {
         .named(module: "fishyjoes_runtime", namespaces: [], name: "Pointer" )
-    }
-
-    static var TODO: Self {
-        .named(module: nil, namespaces: [], name: "TODO")
     }
 
     var isPrimitive: Bool {

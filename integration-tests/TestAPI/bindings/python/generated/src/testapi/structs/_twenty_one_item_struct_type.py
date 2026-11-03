@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _twenty_one_item_struct_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -103,3 +102,37 @@ class TwentyOneItemStruct:
 
     def __repr__(self) -> str:
         return f'testapi.structs.TwentyOneItemStruct(...)'
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, TwentyOneItemStruct) and \
+            self.a == other.a and \
+            self.b == other.b and \
+            self.c == other.c and \
+            self.d == other.d and \
+            self.e == other.e and \
+            self.f == other.f and \
+            self.g == other.g and \
+            self.h == other.h and \
+            self.i == other.i and \
+            self.j == other.j and \
+            self.k == other.k and \
+            self.l == other.l and \
+            self.m == other.m and \
+            self.n == other.n and \
+            self.o == other.o and \
+            self.p == other.p and \
+            self.q == other.q and \
+            self.r == other.r and \
+            self.s == other.s and \
+            self.t == other.t and \
+            self.u == other.u and \
+            True
+
+    def __hash__(
+        self,
+    ) -> int:
+        return hash((self.a, self.b, self.c, self.d, self.e, self.f, self.g, self.h, self.i, self.j, self.k, self.l, self.m, self.n, self.o, self.p, self.q, self.r, self.s, self.t, self.u))

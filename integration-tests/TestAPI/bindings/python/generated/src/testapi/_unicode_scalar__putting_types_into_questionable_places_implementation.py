@@ -4,7 +4,6 @@ from . import unicode_scalar__putting_types_into_questionable_places
 from ._c_api import _testapi_lib
 from ._unicode_scalar__putting_types_into_questionable_places_type import _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -23,7 +22,7 @@ iota_Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_testCall: typing.Cal
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces):
-        case unicode_scalar__putting_types_into_questionable_places.Thing: return 0
+        case unicode_scalar__putting_types_into_questionable_places.Thing(): return 0
         case unknown: raise ValueError(f'Unknown UnicodeScalar_PuttingTypesIntoQuestionablePlaces case "{unknown})". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("Swift_UnicodeScalar_PuttingTypesIntoQuestionablePlaces_ThingConstructorFn")

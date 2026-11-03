@@ -158,7 +158,7 @@ void FishyJoesCommonRuntime_AnyBox_setup(
     FishyJoes_ReferenceConstructorFn constructor,
     FishyJoes_ReferencePointerGetterFn refGetter
 );
-void FishyJoesCommonRuntime_AnyBox_releaseRef(fishyjoes_env envRef, consumed_host_ref ptr, out_created_exception exn);
+void FishyJoesCommonRuntime_AnyBox_releaseRef(fishyjoes_env envRef, consumed_swift_ref ptr, out_created_exception exn);
 
 void Swift_Bool_setup(
     fishyjoes_env envRef,

@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _error_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -23,3 +22,12 @@ class Error:
 
     def __repr__(self) -> str:
         return f'testapi.results.Error(...)'
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, Error) and \
+            self.message == other.message and \
+            True

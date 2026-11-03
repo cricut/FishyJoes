@@ -2,12 +2,18 @@ import asyncio
 import unittest
 from typing import Awaitable, Callable
 
-from testapi import AsyncFunctions, Methods, TestAsyncForeignSideFunctionsStruct, async_functions
+import fishyjoes_runtime
+import pytest
+
+from testapi import Methods, TestAsyncForeignSideFunctionsStruct, async_functions
+
 
 async def pure[T](x: T) -> T: return x
 
 class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
     async def test_swift_async_functions_are_awaitable(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         self.assertEqual(await async_functions.get_const42()(), 42)
         self.assertEqual(await async_functions.get_abs()(-3), 3)
         self.assertEqual(await async_functions.get_add3_things()(3.0, 4.5, 1), 8.5)
@@ -16,6 +22,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await async_functions.get_sixth_thing()("hi", 1, 1.0, "...", lambda: pure(84), 17), 17)
 
     async def test_nested_async_functions_round_trip(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         async def add1(value: int) -> int: return value + 1
         async def mul3(value: int) -> int: return value * 3
         composed = async_functions.get_int_compose()(add1, mul3)
@@ -24,6 +32,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await composed(2), 7)
 
     async def test_python_callbacks_passed_to_swift_async_methods(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         def compose[X, Y, Z](f: Callable[[Y], Awaitable[Z]], g: Callable[[X], Awaitable[Y]]) -> Callable[[X], Awaitable[Z]]:
             async def composed(value: X) -> Z:
                 return await f(await g(value))
@@ -39,6 +49,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(await async_functions.exercise6(lambda _a, _b, _c, _d, _thunk, value: pure(value)), "42")
 
     async def test_async_protocol_witness_round_trips_python_callbacks(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         def compose[X, Y, Z](f: Callable[[Y], Awaitable[Z]], g: Callable[[X], Awaitable[Y]]) -> Callable[[X], Awaitable[Z]]:
             async def composed(value: X) -> Z:
                 return await f(await g(value))
@@ -109,6 +121,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
             await witness.will_throw()
 
     async def test_swift_async_errors_propagate(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         with self.assertRaises(Exception):
             await async_functions.get_will_throw()()
 
@@ -137,6 +151,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
     #     self.assertEqual([], loop_errors)
 
     async def test_python_async_callback_errors_propagate(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         async def throw_from_python() -> int:
             raise ValueError("python async callback failed")
 
@@ -144,6 +160,8 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
             await async_functions.exercise0(throw_from_python)
 
     async def test_async_method_returning_uint(self) -> None:
+        fishyjoes_runtime.Runtime.shared.fallback_event_loop = asyncio.get_running_loop()
+
         # asyncSleep is exercised in every other language binding but was missing here;
         # it also covers awaiting a Swift async method that returns the UInt width.
         result = await Methods.create().async_sleep()

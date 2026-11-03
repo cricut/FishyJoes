@@ -1,10 +1,9 @@
 from __future__ import annotations
-from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from ._test_properties_protocol_type import TestPropertiesProtocol # early import to make cycles work correctly
+from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from . import _test_protocol_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -117,3 +116,12 @@ class TestProtocolStruct(TestMethodsProtocol, TestPropertiesProtocol):
                 ),
                 tuple
             )
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, TestProtocolStruct) and \
+            self.corge == other.corge and \
+            True

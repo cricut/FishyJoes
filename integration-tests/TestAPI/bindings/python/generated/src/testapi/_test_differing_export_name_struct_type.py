@@ -3,7 +3,6 @@ from ._test_differing_export_name_protocol_diffy_type import TestDifferingExport
 from . import _test_differing_export_name_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -24,3 +23,12 @@ class TestDifferingExportNameStruct(TestDifferingExportNameProtocolDiffy):
 
     def __repr__(self) -> str:
         return f'testapi.TestDifferingExportNameStruct(...)'
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, TestDifferingExportNameStruct) and \
+            self.tata == other.tata and \
+            True

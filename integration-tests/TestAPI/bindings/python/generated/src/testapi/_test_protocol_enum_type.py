@@ -4,7 +4,6 @@ from . import _test_protocol_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_protocol_enum
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

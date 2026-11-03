@@ -4,7 +4,6 @@ from . import test_non_exported_protocol_enum
 from ._c_api import _testapi_lib
 from ._test_non_exported_protocol_enum_type import _BaseTestNonExportedProtocolEnum
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -29,7 +28,7 @@ iota_TestAPI_TestNonExportedProtocolEnum_hoge: typing.Callable[[
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseTestNonExportedProtocolEnum):
-        case test_non_exported_protocol_enum.Hogehoge: return 0
+        case test_non_exported_protocol_enum.Hogehoge(): return 0
         case unknown: raise ValueError(f'Unknown TestNonExportedProtocolEnum case "{unknown})". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_TestNonExportedProtocolEnum_HogehogeConstructorFn")

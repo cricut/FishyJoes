@@ -30,9 +30,9 @@ UTF16CString = NewType("UTF16CString", Pointer)
 # Specific pointers
 CREATED_REF_NULL = CreatedRef(FFI.NULL)
 
-# workaround for https://github.com/python/mypy/issues/11070
-DynTypeMarker: TypeAlias = Literal["Callable"] | Literal["Awaitable"]
-DynTypes: TypeAlias = tuple[type, ...] | tuple[Literal["Callable"]]
+# workaround for https://github.com/python/mypy/issues/11070 and similar
+SpecialDynTypeMarker: TypeAlias = Literal["Callable"] | Literal["Awaitable"]
+DynTypes: TypeAlias = tuple[type, ...] | tuple[SpecialDynTypeMarker]
 
 __all__ = [
     "Pointer",
@@ -41,5 +41,5 @@ __all__ = [
     "OutCreatedRef", "CreatedRefArray", "UnownedRefArray", "ConsumedRefArray",
     "EnvRef", "UTF8CString", "UTF16CString",
     "CREATED_REF_NULL",
-    "DynTypes"
+    "DynTypes", "SpecialDynTypeMarker",
 ]

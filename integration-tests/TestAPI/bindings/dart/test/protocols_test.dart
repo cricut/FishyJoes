@@ -6,7 +6,26 @@ import 'package:tuple/tuple.dart' as tuple;
 
 final debugPrint = false;
 
+class DartAProtocol implements AProtocol {
+  @override
+  String get foo => "dart foo";
+
+  @override
+  bool get baz => true;
+
+  @override
+  AProtocol bar(int x, int y) => AProtocolImplementation(foo: "dart bar ${x + y}", baz: false);
+
+  String hasADefaultImplementation(int x, double y) => "hi";
+  String hasADefaultImplementation2(String a, bool b, String c) => "hi2";
+}
+
 void main() {
+  try {
+    throw "";
+  } catch(error) {
+    print(error);
+  }
   setUp(() {
       if (debugPrint) { print('pid: $pid'); }
       final _ = ensureLoaded;
@@ -30,6 +49,11 @@ void main() {
 
         expect(a.hasADefaultImplementation2("0.9870923", true, "1.123123"), equals("0.9589049888649063"));
         expect(a.hasADefaultImplementation2("0.9870923", false, "1.123123"), equals("1.686253813623996"));
+      });
+
+      test('testDartConformance', () {
+        // TODO: is this right?
+        expect(ProtocolFixtures.describeAProtocol(DartAProtocol(), 1, 2), equals("dart foo|true|dart bar 3|false|dart bar 7 notBazzed"));
       });
 
       test('testProtocolEnum', () {

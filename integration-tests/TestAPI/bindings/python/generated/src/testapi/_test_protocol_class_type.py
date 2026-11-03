@@ -1,11 +1,10 @@
 from __future__ import annotations
-from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from ._test_optionals_protocol_type import TestOptionalsProtocol # early import to make cycles work correctly
 from ._test_properties_protocol_type import TestPropertiesProtocol # early import to make cycles work correctly
+from ._test_methods_protocol_type import TestMethodsProtocol # early import to make cycles work correctly
 from . import _test_protocol_class_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -183,7 +182,7 @@ class TestProtocolClass(fishyjoes_runtime.SwiftReference, TestOptionalsProtocol,
     ) -> bool:
         if self is other: return True
         if not isinstance(other, testapi.TestProtocolClass): return False
-        with fishyjoes_runtime.local_handles(self, other) as (self_handle, other_handle,):
+        with fishyjoes_runtime.local_handles(self, other) as (self_handle, other_handle):
             return _impl.iota_TestAPI_TestProtocolClass_equals(
                 fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle
             )

@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _empty_class2_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -65,7 +64,7 @@ class EmptyClass2(fishyjoes_runtime.SwiftReference):
     ) -> bool:
         if self is other: return True
         if not isinstance(other, testapi.EmptyClass2): return False
-        with fishyjoes_runtime.local_handles(self, other) as (self_handle, other_handle,):
+        with fishyjoes_runtime.local_handles(self, other) as (self_handle, other_handle):
             return _impl.iota_TestAPI_EmptyClass2_equals(
                 fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle
             )

@@ -151,7 +151,7 @@ class PythonEnumClass: PythonClass {
             fragment.outputBlock("def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:") {
                 fragment.outputBlock("match fishyjoes_runtime.peek_ref(obj_ref, \(baseDynType)):") {
                     for (enumIndex, enumCase) in cases.enumerated() {
-                        fragment.output("case \(namespaceName).\(enumCase.pythonName): return \(enumIndex)")
+                        fragment.output("case \(namespaceName).\(enumCase.pythonName)(): return \(enumIndex)")
                     }
                     fragment.output("case unknown: raise ValueError(f'Unknown \(unqualifiedName) case \"{unknown})\". Enums are not meant to be extended.')")
                 }

@@ -1,4 +1,5 @@
 import asyncio
+from asyncio import AbstractEventLoop
 from typing import Any, Awaitable, Callable, ClassVar, Generator, TypeAlias, final, override
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
@@ -12,9 +13,14 @@ class Future[T](Awaitable[T]):
     _future: asyncio.Future[T]
     _loop: asyncio.AbstractEventLoop
 
-    def __init__(self, loop: asyncio.AbstractEventLoop) -> None:
-        self._future = loop.create_future()
+    def __init__(self, loop: asyncio.AbstractEventLoop, wrapped_awaitable: Awaitable[T] | None = None) -> None:
         self._loop = loop
+        if wrapped_awaitable is not None:
+            async def task_body() -> T:
+                return await wrapped_awaitable
+            self._future = asyncio.wrap_future(asyncio.run_coroutine_threadsafe(task_body(), loop), loop=loop)
+        else:
+            self._future = loop.create_future()
 
     @override
     def __await__(self) -> Generator[Any, None, T]:
@@ -50,15 +56,15 @@ _FishyJoesCommonRuntime_FutureConverter_invokeSinkHandler: \
 @callback("FishyJoes_FutureConstructorFn")
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _future_create(context: UnownedRef, out_promise: OutCreatedRef) -> CreatedRef:
-    future: Future[Any] = Future(asyncio.get_running_loop())
+    future: Future[Any] = Future(Runtime.shared.get_event_loop())
     out_promise[0] = create_ref(future)
     return create_ref(future)
 
 
 @callback("FishyJoes_FutureSinkFn")
 @catch_by_out_ref(default=None)
-def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: ConsumedSwiftRef) -> None:
-    future = peek_ref(future_ref, Future)
+def _future_sink(context: UnownedRef, awaitable_ref: UnownedRef, host_context: ConsumedSwiftRef) -> None:
+    awaitable = peek_ref(awaitable_ref, "Awaitable")
 
     def callback(done_future: asyncio.Future[Any]) -> None:
         exception = done_future.exception()
@@ -70,8 +76,11 @@ def _future_sink(context: UnownedRef, future_ref: UnownedRef, host_context: Cons
             create_consumed_ref(done_future.result() if is_success else exception),
         )
 
-    future._future.add_done_callback(callback)
-
+    if isinstance(awaitable, Future):
+        future = awaitable
+    else:
+        future = Future(Runtime.shared.get_event_loop(), awaitable)
+    future._loop.call_soon_threadsafe(lambda: future._future.add_done_callback(callback))
 
 @callback("FishyJoes_FutureResolveRejectFn")
 @catch_by_out_ref(default=None)

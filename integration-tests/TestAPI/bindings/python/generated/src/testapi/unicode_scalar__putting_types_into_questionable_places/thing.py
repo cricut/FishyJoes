@@ -2,7 +2,6 @@ from __future__ import annotations
 from .. import _testapi_exported as testapi
 from .._unicode_scalar__putting_types_into_questionable_places_type import _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces
 from warnings import deprecated
-import collections.abc
 import dataclasses
 import fishyjoes_runtime
 import types

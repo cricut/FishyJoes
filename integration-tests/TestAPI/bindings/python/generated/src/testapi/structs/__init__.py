@@ -6,7 +6,6 @@ from ._mutable_struct_type import MutableStruct
 from ._reference_struct_type import ReferenceStruct
 from ._twenty_one_item_struct_type import TwentyOneItemStruct
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

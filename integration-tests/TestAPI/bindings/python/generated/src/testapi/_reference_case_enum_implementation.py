@@ -4,7 +4,6 @@ from . import reference_case_enum
 from ._c_api import _testapi_lib
 from ._reference_case_enum_type import _BaseReferenceCaseEnum
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -34,10 +33,10 @@ iota_TestAPI_ReferenceCaseEnum_rotate180: typing.Callable[[
 @fishyjoes_runtime.catch_by_out_ref(default=0)
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseReferenceCaseEnum):
-        case reference_case_enum.North: return 0
-        case reference_case_enum.South: return 1
-        case reference_case_enum.East: return 2
-        case reference_case_enum.West: return 3
+        case reference_case_enum.North(): return 0
+        case reference_case_enum.South(): return 1
+        case reference_case_enum.East(): return 2
+        case reference_case_enum.West(): return 3
         case unknown: raise ValueError(f'Unknown ReferenceCaseEnum case "{unknown})". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_NorthConstructorFn")

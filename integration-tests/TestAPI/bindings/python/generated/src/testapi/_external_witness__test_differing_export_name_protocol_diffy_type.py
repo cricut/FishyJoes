@@ -3,7 +3,6 @@ from ._test_differing_export_name_protocol_diffy_type import TestDifferingExport
 from . import _external_witness__test_differing_export_name_protocol_diffy_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

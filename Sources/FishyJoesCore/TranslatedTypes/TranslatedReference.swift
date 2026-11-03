@@ -666,7 +666,7 @@ struct TranslatedReference: TranslatedType {
                             lines: [
                                 "if self is other: return True",
                                 "if not isinstance(other, \(pythonType.dynamicsString)): return False",
-                                "\(PythonClass.withLocalHandles([("self", "self_handle"), ("other", "other_handle")])):",
+                                "with fishyjoes_runtime.local_handles(self, other) as (self_handle, other_handle):",
                                 "    return _impl.iota_\(sourceType.name.mangled)_equals(",
                                 "        fishyjoes_runtime.Runtime.shared.env_ref, self_handle, other_handle",
                                 "    )",

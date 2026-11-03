@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Callable, Literal, TypeAlias
+from typing import Any, Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
@@ -124,7 +124,7 @@ class _FunctionContext:
 
 
 def _invoke0[R](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> R:
     return _consume_created_ref(
         _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
@@ -135,7 +135,7 @@ def _invoke0[R](
 
 
 def _invoke1[R, P0](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0,
 ) -> R:
     with (local_handles(arg0)
@@ -150,7 +150,7 @@ def _invoke1[R, P0](
 
 
 def _invoke2[R, P0, P1](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0, arg1: P1,
 ) -> R:
     with (local_handles(arg0, arg1)
@@ -165,7 +165,7 @@ def _invoke2[R, P0, P1](
 
 
 def _invoke3[R, P0, P1, P2](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0, arg1: P1, arg2: P2,
 ) -> R:
     with (local_handles(arg0, arg1, arg2)
@@ -180,7 +180,7 @@ def _invoke3[R, P0, P1, P2](
 
 
 def _invoke4[R, P0, P1, P2, P3](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0, arg1: P1, arg2: P2, arg3: P3,
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3)
@@ -195,7 +195,7 @@ def _invoke4[R, P0, P1, P2, P3](
 
 
 def _invoke5[R, P0, P1, P2, P3, P4](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4,
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3, arg4)
@@ -210,7 +210,7 @@ def _invoke5[R, P0, P1, P2, P3, P4](
 
 
 def _invoke6[R, P0, P1, P2, P3, P4, P5](
-    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
     arg0: P0, arg1: P1, arg2: P2, arg3: P3, arg4: P4, arg5: P5,
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3, arg4, arg5)
@@ -235,7 +235,7 @@ class _SwiftFunctionImpl[Ret, *Args](SwiftReference):
         self,
         reference: ConsumedSwiftRef,
         args_dyn_types: tuple[DynTypes, ...],
-        ret_dyn_types: tuple[type[Ret], ...] | tuple[Literal["Callable"]],
+        ret_dyn_types: tuple[type[Ret], ...] | tuple[SpecialDynTypeMarker],
         type_description: str,
     ) -> None:
         super().__init__(reference)
@@ -286,7 +286,7 @@ class SwiftFunction6[Ret, Arg0, Arg1, Arg2, Arg3, Arg4, Arg5](
 def _generic_setup[R](
     env_ref: EnvRef, name: UTF16CString, construct_function: _FunctionConstructorFn,
     args_dyn_types: tuple[DynTypes, ...],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _FishyJoesCommonRuntime_FunctionConverter_setup(
         env_ref,
@@ -298,7 +298,7 @@ def _generic_setup[R](
 
 def FishyJoesCommonRuntime_Function0Converter_setup[R](
     env_ref: EnvRef, name: UTF16CString,
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -310,8 +310,8 @@ def FishyJoesCommonRuntime_Function0Converter_setup[R](
 
 def FishyJoesCommonRuntime_Function1Converter_setup[R, P0](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -323,9 +323,9 @@ def FishyJoesCommonRuntime_Function1Converter_setup[R, P0](
 
 def FishyJoesCommonRuntime_Function2Converter_setup[R, P0, P1](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    arg1_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    arg1_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -337,10 +337,10 @@ def FishyJoesCommonRuntime_Function2Converter_setup[R, P0, P1](
 
 def FishyJoesCommonRuntime_Function3Converter_setup[R, P0, P1, P2](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    arg1_dyn_types: tuple[type[P1], ...] | tuple[Literal["Callable"]],
-    arg2_dyn_types: tuple[type[P2], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    arg1_dyn_types: tuple[type[P1], ...] | tuple[SpecialDynTypeMarker],
+    arg2_dyn_types: tuple[type[P2], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -352,11 +352,11 @@ def FishyJoesCommonRuntime_Function3Converter_setup[R, P0, P1, P2](
 
 def FishyJoesCommonRuntime_Function4Converter_setup[R, P0, P1, P2, P3](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    arg1_dyn_types: tuple[type[P1], ...] | tuple[Literal["Callable"]],
-    arg2_dyn_types: tuple[type[P2], ...] | tuple[Literal["Callable"]],
-    arg3_dyn_types: tuple[type[P3], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    arg1_dyn_types: tuple[type[P1], ...] | tuple[SpecialDynTypeMarker],
+    arg2_dyn_types: tuple[type[P2], ...] | tuple[SpecialDynTypeMarker],
+    arg3_dyn_types: tuple[type[P3], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -368,12 +368,12 @@ def FishyJoesCommonRuntime_Function4Converter_setup[R, P0, P1, P2, P3](
 
 def FishyJoesCommonRuntime_Function5Converter_setup[R, P0, P1, P2, P3, P4](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    arg1_dyn_types: tuple[type[P1], ...] | tuple[Literal["Callable"]],
-    arg2_dyn_types: tuple[type[P2], ...] | tuple[Literal["Callable"]],
-    arg3_dyn_types: tuple[type[P3], ...] | tuple[Literal["Callable"]],
-    arg4_dyn_types: tuple[type[P4], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    arg1_dyn_types: tuple[type[P1], ...] | tuple[SpecialDynTypeMarker],
+    arg2_dyn_types: tuple[type[P2], ...] | tuple[SpecialDynTypeMarker],
+    arg3_dyn_types: tuple[type[P3], ...] | tuple[SpecialDynTypeMarker],
+    arg4_dyn_types: tuple[type[P4], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,
@@ -385,13 +385,13 @@ def FishyJoesCommonRuntime_Function5Converter_setup[R, P0, P1, P2, P3, P4](
 
 def FishyJoesCommonRuntime_Function6Converter_setup[R, P0, P1, P2, P3, P4, P5](
     env_ref: EnvRef, name: UTF16CString,
-    arg0_dyn_types: tuple[type[P0], ...] | tuple[Literal["Callable"]],
-    arg1_dyn_types: tuple[type[P1], ...] | tuple[Literal["Callable"]],
-    arg2_dyn_types: tuple[type[P2], ...] | tuple[Literal["Callable"]],
-    arg3_dyn_types: tuple[type[P3], ...] | tuple[Literal["Callable"]],
-    arg4_dyn_types: tuple[type[P4], ...] | tuple[Literal["Callable"]],
-    arg5_dyn_types: tuple[type[P5], ...] | tuple[Literal["Callable"]],
-    ret_dyn_types: tuple[type[R], ...] | tuple[Literal["Callable"]],
+    arg0_dyn_types: tuple[type[P0], ...] | tuple[SpecialDynTypeMarker],
+    arg1_dyn_types: tuple[type[P1], ...] | tuple[SpecialDynTypeMarker],
+    arg2_dyn_types: tuple[type[P2], ...] | tuple[SpecialDynTypeMarker],
+    arg3_dyn_types: tuple[type[P3], ...] | tuple[SpecialDynTypeMarker],
+    arg4_dyn_types: tuple[type[P4], ...] | tuple[SpecialDynTypeMarker],
+    arg5_dyn_types: tuple[type[P5], ...] | tuple[SpecialDynTypeMarker],
+    ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> None:
     _generic_setup(
         env_ref, name,

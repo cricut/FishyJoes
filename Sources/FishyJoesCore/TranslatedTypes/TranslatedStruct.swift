@@ -767,14 +767,65 @@ struct TranslatedStruct: TranslatedType {
     }
 
     func registerPythonClass(context: FishyJoesContext) {
-        let (fields, methods) = PythonClass.separate(
-            fieldsAndMethods:
-                computedVariables.compactMap {
-                    context.python(field: $0, of: self, useNativeName: false)
-                } + methods.compactMap {
-                    context.python(method: $0, of: self)
-                }
+        var fieldsAndMethods = computedVariables.compactMap {
+            context.python(field: $0, of: self, useNativeName: false)
+        } + methods.compactMap {
+            context.python(method: $0, of: self)
+        }
+
+        let storedVarNames = storedVariables.map { storedVar in
+            PythonClass.deforbidify(snakify(storedVar.name), localVar: false)
+        }
+
+        fieldsAndMethods.append(
+            .method(
+                PythonClass.Method(
+                    documentation: [],
+                    isStatic: false,
+                    isOverride: false,
+                    name: "__eq__",
+                    mangledName: "__eq__",
+                    parameters: [.init(labelComment: nil, name: "other", type: .object, defaultValue: nil)],
+                    returnType: .bool,
+                    deprecation: nil,
+                    implementationKind: .explicitBody(
+                        lines: [
+                            "if self is other: return True",
+                            "return isinstance(other, \(pythonType.static.baseName)) and \\",
+                        ] + storedVarNames.map {
+                            "    self.\($0) == other.\($0) and \\"
+                        } + [
+                            // TODO: bookeeping to avoid inserting the last "and"
+                            "    True",
+                        ]
+                    )
+                )
+            )
         )
+
+        if hashable {
+            var hashTuple = storedVarNames.map { "self.\($0)" }.joined(separator: ", ")
+            if storedVarNames.count == 1 {
+                hashTuple.append(",")
+            }
+            fieldsAndMethods.append(
+                .method(
+                    PythonClass.Method(
+                        documentation: [],
+                        isStatic: false,
+                        isOverride: false,
+                        name: "__hash__",
+                        mangledName: "__hash__",
+                        parameters: [],
+                        returnType: .int,
+                        deprecation: nil,
+                        implementationKind: .explicitBody(lines: ["return hash((\(hashTuple)))"])
+                    )
+                )
+            )
+        }
+
+        let (fields, methods) = PythonClass.separate(fieldsAndMethods: fieldsAndMethods)
 
         context.add(
             pythonClass: PythonProductClass(

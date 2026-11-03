@@ -55,7 +55,6 @@ from .structs import _mutable_struct_implementation as _testapi_structs_MutableS
 from .structs import _reference_struct_implementation as _testapi_structs_ReferenceStruct_impl
 from .structs import _twenty_one_item_struct_implementation as _testapi_structs_TwentyOneItemStruct_impl
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import fishyjoes_runtime.fishyjoes_type_setup
 import types
@@ -696,8 +695,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -713,8 +712,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -723,9 +722,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -734,9 +733,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -745,8 +744,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -755,8 +754,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -765,8 +764,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, AsyncFunction0Converter<Swift.Int>>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -775,8 +774,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -792,9 +791,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>, Function1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -803,9 +802,9 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function2Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function2Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>, AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction1Converter<Swift.Int, Swift.Int>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -842,8 +841,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction0Converter<Swift.Int>, FutureConverter<Swift.String>>"),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction1Converter<AsyncFunction0Converter<Swift.Int>, Swift.String>') # type: ignore[unused-ignore,no-redef]
@@ -859,8 +858,8 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function1Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>, AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>, OptionalConverter<ArrayConverter<OptionalConverter<Swift.Int>>>>') # type: ignore[unused-ignore,no-redef]
@@ -912,7 +911,7 @@ def ensure_loaded() -> None:
                 (float,),
                 (float,),
                 (int,),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>') # type: ignore[unused-ignore,no-redef]
@@ -936,7 +935,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (bytes,),
                 (bool,),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<Swift.Int, FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -946,7 +945,7 @@ def ensure_loaded() -> None:
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function1Converter<Swift.Int, FutureConverter<Swift.Int>>"),
                 (int,),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function1Converter<Swift.Int, Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -969,7 +968,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
+                ("Callable",),
                 (int,),
                 (int,),
             )
@@ -984,8 +983,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -998,9 +997,9 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
+                ("Callable",),
                 (int,),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function5Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, FutureConverter<AsyncFunction0Converter<Swift.Int>>>') # type: ignore[unused-ignore,no-redef]
@@ -1013,8 +1012,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
-                (typing.Awaitable,),
+                ("Callable",),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, FutureConverter<ArrayConverter<Swift.String>>>') # type: ignore[unused-ignore,no-redef]
@@ -1027,7 +1026,7 @@ def ensure_loaded() -> None:
                 (str,),
                 (str,),
                 (str,),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -1096,7 +1095,7 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
+                ("Callable",),
                 (int,),
                 (int,),
             )
@@ -1111,8 +1110,8 @@ def ensure_loaded() -> None:
                 (int,),
                 (float,),
                 (str,),
-                (collections.abc.Callable,),
-                (collections.abc.Callable,),
+                ("Callable",),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_AsyncFunction6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, AsyncFunction0Converter<Swift.Int>, Swift.Int, Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -1155,7 +1154,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function0Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function0Converter<FutureConverter<Swift.Int>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1164,7 +1163,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_Function0Converter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("Function0Converter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_Function0Converter<Swift.Int>') # type: ignore[unused-ignore,no-redef]
@@ -1214,7 +1213,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<Function1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1223,7 +1222,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction1Converter<Swift.Int, Swift.Int>>"),
-                (collections.abc.Callable,),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<Function0Converter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1232,7 +1231,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<Function0Converter<Swift.Int>>"),
-                (collections.abc.Callable,),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction0Converter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1241,7 +1240,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction0Converter<Swift.Int>>"),
-                (collections.abc.Callable,),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1250,7 +1249,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<AsyncFunction0Converter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (collections.abc.Callable,),
+                ("Callable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>') # type: ignore[unused-ignore,no-redef]
@@ -1259,7 +1258,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<AsyncFunction0Converter<Swift.Int>>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>') # type: ignore[unused-ignore,no-redef]
@@ -1268,7 +1267,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<ArrayConverter<Swift.String>>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>') # type: ignore[unused-ignore,no-redef]
@@ -1277,7 +1276,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.Double>>') # type: ignore[unused-ignore,no-redef]
@@ -1286,7 +1285,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.Double>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.Int>>') # type: ignore[unused-ignore,no-redef]
@@ -1295,7 +1294,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.Int>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]
@@ -1304,7 +1303,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<Swift.String>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>') # type: ignore[unused-ignore,no-redef]
@@ -1313,7 +1312,7 @@ def ensure_loaded() -> None:
             fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_FutureConverter_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
                 string_bag.utf16("FutureConverter<FutureConverter<FishyJoesCommonRuntime.VoidConverter>>"),
-                (typing.Awaitable,),
+                ("Awaitable",),
             )
 
         @fishyjoes_runtime.eval_once_now('setup_FutureConverter<ArrayConverter<Swift.String>>') # type: ignore[unused-ignore,no-redef]

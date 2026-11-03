@@ -1,6 +1,9 @@
-from typing import Literal
+import asyncio
+import inspect
+from asyncio import AbstractEventLoop
 from contextlib import AbstractContextManager
-from typing import Any, Callable, ClassVar, ContextManager, List, Self, cast, final, overload, override
+from typing import Any, Awaitable, Callable, ClassVar, ContextManager, List, Literal, Self, cast, final, overload, \
+    override
 
 from cffi import FFI
 
@@ -28,23 +31,21 @@ def catch_by_out_ref[*Args, Ret](*, default: Ret) -> Callable[
 
     return decorator
 
-
-def call_with_raise_by_out_ref[Ret](inner: Callable[[OutCreatedRef], Ret]) -> Ret:
+def raise_by_out_ref[*Args, Ret](inner: Callable[[*Args, OutCreatedRef], Ret]) -> Callable[[*Args], Ret]:
     """ call `inner`, which takes in an out-exception-parameter, and convert any passed exceptions to a python `raise`
     """
-    with ffi.new("created_host_ref *") as out_exn_ptr:
-        out_exn = OutCreatedRef(out_exn_ptr)
-        result = inner(out_exn)
-        if out_exn[0] != ffi.NULL:
-            error = consume_ref(out_exn[0], object)
-            raise error if isinstance(error, BaseException) else RuntimeError(str(error))
-        return result
 
+    # Pyrefly has some trouble with the variadics in this function. Some checks skipped to bypass its bugs
 
-def raise_by_out_ref[*Args, Ret](inner: Callable[[*Args, OutCreatedRef], Ret]) -> Callable[[*Args], Ret]:
-    # Work-around for a bug in pyrefly
-    inner = cast(Any, inner)
-    return lambda *args: call_with_raise_by_out_ref(lambda exn: inner(*args, exn))
+    def wrapped(*args: *Args) -> Ret:
+        with ffi.new("created_host_ref *") as out_exn_ptr:
+            out_exn = OutCreatedRef(out_exn_ptr)
+            result = inner(*args, out_exn) # pyrefly: ignore
+            if out_exn[0] != ffi.NULL:
+                error = consume_ref(out_exn[0], object)
+                raise error if isinstance(error, BaseException) else RuntimeError(str(error))
+            return result
+    return wrapped # pyrefly: ignore
 
 
 class local_handles(ContextManager[tuple[UnownedRef, ...]]):
@@ -64,7 +65,7 @@ class local_handles(ContextManager[tuple[UnownedRef, ...]]):
 
 
 def create_ref(obj: object) -> CreatedRef:
-    if object is None:
+    if obj is None:
         return CreatedRef(ffi.NULL)
     handle = CreatedRef(ffi.new_handle(obj))
     _python_handles_referenced_by_swift.add(handle)
@@ -77,9 +78,12 @@ def create_consumed_ref(obj: object) -> ConsumedRef:
 
 # Overloads are later used to approximate ideal signature:
 # def assert_type[*Ts](obj: object, *types: *type[Ts]) -> Union[*Ts]
-def _assert_type[T](obj: object, *types: type[T] | Literal["Callable"]) -> T:
+def _assert_type[T](obj: object, *types: type[T] | SpecialDynTypeMarker) -> T:
     if types == ("Callable",):
         if not callable(obj):
+            raise Exception(f"Expected {types}, got {obj}")
+    elif types == ("Awaitable",):
+        if not inspect.isawaitable(obj):
             raise Exception(f"Expected {types}, got {obj}")
     elif not isinstance(obj, cast(type[Any], types)):
         raise Exception(f"Expected {types}, got {obj}")
@@ -87,7 +91,7 @@ def _assert_type[T](obj: object, *types: type[T] | Literal["Callable"]) -> T:
 
 # Overloads are later used to approximate ideal signature:
 # def peek_ref[*Ts](ref: UnownedRef, *types: *type[Ts]) -> Union[*Ts]
-def _peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
+def _peek_ref[T](ref: UnownedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     if ref == ffi.NULL:
         res = None
     else:
@@ -96,7 +100,7 @@ def _peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
 
 # Overloads are later used to approximate ideal signature:
 # def consume_ref[*Ts](ref: ConsumedRef, *types: *type[Ts]) -> Union[*Ts]
-def _consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> T:
+def _consume_ref[T](ref: ConsumedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     obj = _peek_ref(UnownedRef(ref), *types)
     if ref != ffi.NULL:
         _python_handles_referenced_by_swift.remove(CreatedRef(ref))
@@ -104,9 +108,10 @@ def _consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> 
 
 # Overloads are later used to approximate ideal signature:
 # def consume_created_ref[*Ts](ref: ConsumedRef, *types: *type[Ts]) -> Union[*Ts]
-def _consume_created_ref[T](ref: CreatedRef, *types: type[T] | Literal["Callable"]) -> T:
+def _consume_created_ref[T](ref: CreatedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     obj = _peek_ref(UnownedRef(ref), *types)
-    _python_handles_referenced_by_swift.remove(CreatedRef(ref))
+    if ref != ffi.NULL:
+        _python_handles_referenced_by_swift.remove(CreatedRef(ref))
     return obj
 
 
@@ -138,11 +143,23 @@ class CStringBag(AbstractContextManager["CStringBag"]):
 
 
 class Runtime:
-    env_ref: EnvRef
     shared: ClassVar[Runtime]
+
+    env_ref: EnvRef
+
+    fallback_event_loop: AbstractEventLoop | None = None
+    """ This is a temporary workaround. Set this to your main asyncio runloop if async functions are needed"""
 
     def __init__(self, env_ref: EnvRef) -> None:
         self.env_ref = env_ref
+
+    def get_event_loop(self) -> AbstractEventLoop:
+        try:
+            return asyncio.get_running_loop()
+        except RuntimeError:
+            if self.fallback_event_loop is not None:
+                return self.fallback_event_loop
+            raise
 
 # Overloads to deal with various shortcomings:
 #  - mypy doesn't like Type[Callable]: https://github.com/python/mypy/issues/11071
@@ -150,12 +167,16 @@ class Runtime:
 @overload
 def assert_type(obj: object, type0: Literal["Callable"], /) -> Callable[[Any], Any]: ...
 @overload
+def assert_type(obj: object, type0: Literal["Awaitable"], /) -> Awaitable[Any]: ...
+@overload
 def assert_type[T](obj: object, *types: type[T]) -> T: ...
-def assert_type[T](obj: object, *types: type[T] | Literal["Callable"]) -> T:
+def assert_type[T](obj: object, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _assert_type(obj, *types)
 
 @overload
 def peek_ref(ref: UnownedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def peek_ref(ref: UnownedRef, type0: Literal["Awaitable"], /) -> Awaitable[Any]: ...
 @overload
 def peek_ref[T0](ref: UnownedRef, type0: type[T0], /) -> T0: ...
 @overload
@@ -175,12 +196,14 @@ def peek_ref[T](ref: UnownedRef, *types: type[T]) -> T: ...
 @overload
 def peek_ref[T0, T1, T2, T3, T4, T5, T6](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
 
-def peek_ref[T](ref: UnownedRef, *types: type[T] | Literal["Callable"]) -> T:
+def peek_ref[T](ref: UnownedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _peek_ref(ref, *types)
 
 
 @overload
 def consume_ref(ref: ConsumedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def consume_ref(ref: ConsumedRef, type0: Literal["Awaitable"], /) -> Awaitable[Any]: ...
 @overload
 def consume_ref[T0](ref: ConsumedRef, type0: type[T0], /) -> T0: ...
 @overload
@@ -200,12 +223,14 @@ def consume_ref[T](ref: ConsumedRef, *types: type[T]) -> T: ...
 @overload
 def consume_ref[T0, T1, T2, T3, T4, T5, T6](ref: ConsumedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
 
-def consume_ref[T](ref: ConsumedRef, *types: type[T] | Literal["Callable"]) -> T:
+def consume_ref[T](ref: ConsumedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _consume_ref(ref, *types)
 
 
 @overload
 def consume_created_ref(ref: CreatedRef, type0: Literal["Callable"], /) -> Callable[..., Any]: ...
+@overload
+def consume_created_ref(ref: CreatedRef, type0: Literal["Awaitable"], /) -> Awaitable[Any]: ...
 @overload
 def consume_created_ref[T0](ref: CreatedRef, type0: type[T0], /) -> T0: ...
 @overload
@@ -225,5 +250,5 @@ def consume_created_ref[T](ref: CreatedRef, *types: type[T]) -> T: ...
 @overload
 def consume_created_ref[T0, T1, T2, T3, T4, T5, T6](ref: CreatedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
 
-def consume_created_ref[T](ref: CreatedRef, *types: type[T] | Literal["Callable"]) -> T:
+def consume_created_ref[T](ref: CreatedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _consume_created_ref(ref, *types)

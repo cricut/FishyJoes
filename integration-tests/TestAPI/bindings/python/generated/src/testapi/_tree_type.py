@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _testapi_exported as testapi
 from . import _tree_implementation as _impl
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -27,3 +26,13 @@ class Tree:
 
     def __repr__(self) -> str:
         return f'testapi.Tree(...)'
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, Tree) and \
+            self.value == other.value and \
+            self.children == other.children and \
+            True

@@ -2,7 +2,6 @@ from __future__ import annotations
 from . import _mutable_struct_implementation as _impl
 from .. import _testapi_exported as testapi
 from warnings import deprecated
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing
@@ -55,7 +54,7 @@ class MutableStruct:
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
 
     def async_get_i(
@@ -68,5 +67,19 @@ class MutableStruct:
                     fishyjoes_runtime.Runtime.shared.env_ref,
                     _selfHandle,
                 ),
-                typing.Awaitable
+                "Awaitable"
             )
+
+    def __eq__(
+        self,
+        other: object,
+    ) -> bool:
+        if self is other: return True
+        return isinstance(other, MutableStruct) and \
+            self.i == other.i and \
+            True
+
+    def __hash__(
+        self,
+    ) -> int:
+        return hash((self.i,))

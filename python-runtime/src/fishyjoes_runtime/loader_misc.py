@@ -100,3 +100,14 @@ def setup_misc() -> None:
         _string_code_units,
         _string_constructor,
     )
+    _Foundation_Data_setup(
+        Runtime.shared.env_ref,
+        _data_length,
+        _data_bytes,
+        _data_constructor
+    )
+    _Foundation_URL_setup(
+        Runtime.shared.env_ref,
+        _url_absolute_uri,
+        _url_constructor
+    )

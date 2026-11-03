@@ -4,7 +4,6 @@ from . import _test_default_computed_properties_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
 import abc
-import collections.abc
 import fishyjoes_runtime
 import types
 import typing

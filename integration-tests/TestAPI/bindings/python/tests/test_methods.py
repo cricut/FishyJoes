@@ -15,7 +15,6 @@ class MethodTests(unittest.TestCase):
         self.assertEqual(methods.double_plus_good(21, 20.6), 84)
 
     def test_reference_static_export_as_method_is_callable(self) -> None:
-        self.assertTrue(callable(testapi.Methods.get_static_get_method()))
         self.assertEqual(testapi.Methods.get_static_get_method(), 234)
 
     def test_reference_instance_property_setters(self) -> None:

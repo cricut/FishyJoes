@@ -72,9 +72,9 @@ def _construct_range(context: UnownedRef, lower_bound_ref: UnownedRef, upper_bou
 def _construct_closed_range(
     context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef,
 ) -> CreatedRef:
-    dyn_type: type[Comparable] = peek_ref(context, type)
-    lower_bound = peek_ref(lower_bound_ref, dyn_type)
-    upper_bound = peek_ref(upper_bound_ref, dyn_type)
+    dyn_types: tuple[type[Comparable], ...] = peek_ref(context, tuple)
+    lower_bound = peek_ref(lower_bound_ref, *dyn_types)
+    upper_bound = peek_ref(upper_bound_ref, *dyn_types)
     result = SwiftClosedRange(lower_bound, upper_bound)
     return create_ref(result)
 
