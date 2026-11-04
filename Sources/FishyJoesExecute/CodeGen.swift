@@ -146,7 +146,17 @@ public class CodeGen: ParsableCommand {
 
     var platforms: [Platform] = []
 
+    // Whenever any code generation takes place, generate for every language and platform
+    lazy var generationPhases: [any Phases] = Platform.allCases.map(phases(for:))
+
     public required init() {}
+
+    static func forTemplating(withConfig config: ProjectConfig) throws -> CodeGen {
+        let result = try parse(["generate"])
+        result.config = config
+        try result.validate()
+        return result
+    }
 }
 
 extension CodeGen {
@@ -182,7 +192,7 @@ extension CodeGen {
             throw ValidationError("No Package.swift found in current directory. fishy-joes must be run in the root of the bindings package")
         }
 
-        config = try ProjectConfig.readFromFile(basePath: ".")
+        config = try config ?? ProjectConfig.readFromFile(basePath: ".")
 
         // Parse swift package information from the Package.swift file for the bindings module
         let packageJSON = try cmd("swift", "package", "dump-package").runData()
@@ -236,9 +246,6 @@ extension CodeGen {
         }
         // "bindings/swift-interfaces/generated/\(config.module)-bindings"
         let swiftBindingsRoot = buildConfig.packagePath
-
-        // Whenever any code generation takes place, generate for every language and platform
-        let generationPhases: [any Phases] = Platform.allCases.map(phases(for:))
 
         // MARK: - Generate Step
         if buildStep.contains(.generate) {

@@ -70,7 +70,7 @@ struct TranslatedEnum: TranslatedType {
                 associatedValues: enumCase.associatedValues.enumerated().map {
                     let (index, value) = $0
                     var label: String?
-                    // If externalName is "0" or "1", don't use it
+                    // If externalName is "0", "1", etc., don't use it
                     if let externalName = value.externalName, Int(externalName) == nil {
                         label = externalName
                     }

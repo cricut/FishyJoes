@@ -25,9 +25,13 @@ public struct PackageInit: ParsableCommand {
         }
 
         let config = try (try? ProjectConfig.readFromFile(basePath: ".")) ?? promptForConfig()
+
+        // TODO: this is a little hacky, but CodeGen is responsible for so much of the templating that it's hard to extract
+        let codeGen = try CodeGen.forTemplating(withConfig: config)
+
         let fileTemplater = try FileTemplater(
             config: config,
-            phasesList: [],
+            phasesList: codeGen.generationPhases,
             swiftPackage: nil,
             includeFilesNotMarkedAsGenerated: true
         )

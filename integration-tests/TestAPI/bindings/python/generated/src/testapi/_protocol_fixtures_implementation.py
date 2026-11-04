@@ -26,5 +26,3 @@ iota_TestAPI_ProtocolFixtures_returnAProtocol: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.ProtocolFixtures

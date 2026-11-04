@@ -1,12 +1,12 @@
 from __future__ import annotations
 from .. import _associated_data_enum_implementation as _impl
 from .. import _testapi_exported as testapi
-from .bar import Bar
-from .no_value import NoValue
-from .none_ import None_
-from .other import Other
-from .simple_enum import SimpleEnum
-from .thing import Thing
+from ._bar_type import Bar
+from ._no_value_type import NoValue
+from ._none__type import None_
+from ._other_type import Other
+from ._simple_enum_type import SimpleEnum
+from ._thing_type import Thing
 from warnings import deprecated
 import fishyjoes_runtime
 import types

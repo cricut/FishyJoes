@@ -5,7 +5,7 @@ from typing import Awaitable, Callable
 import fishyjoes_runtime
 import pytest
 
-from testapi import Methods, TestAsyncForeignSideFunctionsStruct, async_functions
+from testapi import Methods, ExampleAsyncForeignSideFunctionsStruct, async_functions
 
 
 async def pure[T](x: T) -> T: return x
@@ -92,7 +92,7 @@ class AsyncFunctionTests(unittest.IsolatedAsyncioTestCase):
 
             return twice
 
-        value = TestAsyncForeignSideFunctionsStruct(
+        value = ExampleAsyncForeignSideFunctionsStruct(
             const42=lambda: pure(42),
             iabs=lambda value: pure(abs(value)),
             int_compose=compose,

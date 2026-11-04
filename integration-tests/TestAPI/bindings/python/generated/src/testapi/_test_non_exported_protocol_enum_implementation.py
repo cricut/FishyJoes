@@ -46,5 +46,3 @@ def extract_hogehoge(
     self = fishyjoes_runtime.peek_ref(obj, test_non_exported_protocol_enum.Hogehoge)
 
 # MARK: setup
-
-# TODO: setup for testapi.TestNonExportedProtocolEnum

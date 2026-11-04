@@ -18,9 +18,4 @@ public enum DefaultArguments {
     public static func echoDefaultTolerance(_ tolerance: Double = Double.ulpOfOne.squareRoot()) -> Double {
         tolerance
     }
-
-    /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
-    public static func echoDefaultIntLimits(minValue: Int = Int.min, maxValue: Int = Int.max) -> String {
-        "\(minValue) \(maxValue)"
-    }
 }

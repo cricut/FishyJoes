@@ -155,5 +155,3 @@ iota_TestAPI_ClosedRanges_echoStringRange: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.ClosedRanges

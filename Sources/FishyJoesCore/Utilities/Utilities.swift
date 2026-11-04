@@ -58,6 +58,16 @@ extension RandomAccessCollection {
     var first4: (Element?, Element?, Element?, Element?) {
         (self[safeOffsetBy: 0], self[safeOffsetBy: 1], self[safeOffsetBy: 2], self[safeOffsetBy: 3])
     }
+
+    /// Given [a, b, c], returns [[], [a], [a, b], [a, b, c]]
+    func prefixes() -> [SubSequence] {
+        var result: [SubSequence] = []
+        for i in indices {
+            result.append(self[startIndex..<i])
+        }
+        result.append(self[startIndex...])
+        return result
+    }
 }
 
 extension Sequence where Element: Hashable {

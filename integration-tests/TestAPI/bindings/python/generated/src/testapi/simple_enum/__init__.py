@@ -1,9 +1,9 @@
 from __future__ import annotations
 from .. import _simple_enum_implementation as _impl
 from .. import _testapi_exported as testapi
-from .blue import Blue
-from .green import Green
-from .red import Red
+from ._blue_type import Blue
+from ._green_type import Green
+from ._red_type import Red
 from warnings import deprecated
 import fishyjoes_runtime
 import types

@@ -29,5 +29,3 @@ def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.Create
     return fishyjoes_runtime.create_ref(testapi.reference_only_types.Marker(ref))
 
 # MARK: setup
-
-# TODO: setup for testapi.reference_only_types.Marker

@@ -107,9 +107,11 @@ extension SwiftDefaultExpression {
         case ("Int64", "max"):
             return String(Int64.max)
         case ("Int", "min"):
-            return String(Int.min)
+            print("WARNING: Int.min cannot be used as an exported default parameter, as its value depends on the platform")
+            return nil
         case ("Int", "max"):
-            return String(Int.max)
+            print("WARNING: Int.max cannot be used as an exported default parameter, as its value depends on the platform")
+            return nil
         case ("UInt8", "min"):
             return String(UInt8.min)
         case ("UInt8", "max"):
@@ -127,9 +129,11 @@ extension SwiftDefaultExpression {
         case ("UInt64", "max"):
             return String(UInt64.max)
         case ("UInt", "min"):
-            return String(UInt.min)
+            print("WARNING: UInt.min cannot be used as an exported default parameter, as its value depends on the platform")
+            return nil
         case ("UInt", "max"):
-            return String(UInt.max)
+            print("WARNING: UInt.max cannot be used as an exported default parameter, as its value depends on the platform")
+            return nil
         default:
             return nil
         }

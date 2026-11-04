@@ -106,5 +106,3 @@ iota_TestAPI_AsyncFunctions_thunkTwiceMaker: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.AsyncFunctions

@@ -40,5 +40,3 @@ def extract_thing(
     self = fishyjoes_runtime.peek_ref(obj, unicode_scalar__putting_types_into_questionable_places.Thing)
 
 # MARK: setup
-
-# TODO: setup for testapi.UnicodeScalar_PuttingTypesIntoQuestionablePlaces

@@ -133,8 +133,6 @@ final class PythonTranslator: Translator {
 
         for cls in context.pythonClasses {
             if let namespace = cls.associatedNamespace {
-                exportedNamesByNamespace[cls.namespaces, default: []]
-                    .append((namespace.name, importLocation: "."))
                 exportedNamesByNamespace[cls.namespaces + [namespace.name], default: []]
                     .append(contentsOf: namespace.additionalExports)
             }
@@ -142,9 +140,18 @@ final class PythonTranslator: Translator {
                 .append((cls.unqualifiedName, importLocation: ".\(cls.typeDefinitionModuleName)"))
         }
 
+        // Make sure all nested namespaces are imported by their parents
+        for (namespace, _) in exportedNamesByNamespace {
+            for intermediateNamespace in namespace.prefixes() {
+                guard let name = intermediateNamespace.last else { continue }
+                exportedNamesByNamespace[intermediateNamespace.dropLast(), default: []]
+                    .append((name, importLocation: "."))
+            }
+        }
+
         for (namespace, names) in exportedNamesByNamespace {
             let namespacePath = ([pythonRootDir] + namespace).joined(separator: "/")
-            let namespaceInitFragment = SourceFragment(destinationPath: "\(namespacePath)/__init__.py")
+            let namespaceInitFragment = SourceFragment(destinationPath: "\(namespacePath)/__init__.py", createIntermediateDirectories: true)
             initFragments[namespace] = namespaceInitFragment
 
             for (name, importLocation) in names {
@@ -336,7 +343,6 @@ final class PythonTranslator: Translator {
         }
     }
 
-
     func markSuperclassDependency(_ type: PythonType, superclasses: Set<PythonType>) {
         if superclasses.isEmpty { return }
         superclassGraph[type, default: []].formUnion(superclasses)
@@ -345,13 +351,6 @@ final class PythonTranslator: Translator {
     func generateSuperclassImports(context: FishyJoesContext) {
         var visitingStarted: Set<PythonType> = []
         var visitingFinished: Set<PythonType> = []
-
-        print("=== GRAPH ===")
-        for (k, vs) in superclassGraph {
-            print("\(k.dynamicsString) -> [\(vs.map(\.dynamicsString).joined(separator: ", "))]")
-        }
-        print()
-        print()
 
         func definitionPath(of type: PythonType) -> [String]? {
             precondition(type.dynamics.count == 1, "class must have exactly 1 dynamic type")
@@ -380,7 +379,7 @@ final class PythonTranslator: Translator {
             let fragment = context.pythonFragment(typeDefPath.joined(separator: "/") + ".py")
 
             var imports: [String] = []
-            for superclass in superclassGraph[type] ?? [] {
+            for superclass in (superclassGraph[type] ?? []).sorted() {
                 let importType = superclass.dynamics[0]
                 let importModule: String
                 if let modulePath = definitionPath(of: superclass) {

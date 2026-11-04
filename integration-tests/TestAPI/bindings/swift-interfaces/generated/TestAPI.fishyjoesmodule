@@ -3417,7 +3417,7 @@
         "dynamics" : [
           {
             "module" : "testapi",
-            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "name" : "ExampleAsyncForeignSideFunctionsStruct",
             "namespaces" : [
 
             ]
@@ -3426,7 +3426,7 @@
         "static" : {
           "named" : {
             "module" : "testapi",
-            "name" : "TestAsyncForeignSideFunctionsStruct",
+            "name" : "ExampleAsyncForeignSideFunctionsStruct",
             "namespaces" : [
 
             ]
@@ -6806,7 +6806,7 @@
               }
             },
             "documentation" : [
-              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"
+              "<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, python: ExampleAsyncForeignSideFunctionsStruct) -->"
             ],
             "extends" : [
 
@@ -12676,40 +12676,6 @@
                 "returnType" : {
                   "named" : {
                     "_0" : "number"
-                  }
-                }
-              },
-              {
-                "documentation" : [
-                  "<!-- FishyJoes.export(echoDefaultIntLimits) -->"
-                ],
-                "hasDefaultImplementation" : false,
-                "isAsync" : false,
-                "isStatic" : true,
-                "name" : "echoDefaultIntLimits",
-                "parameters" : [
-                  {
-                    "defaultValue" : "Int.min",
-                    "name" : "minValue",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  },
-                  {
-                    "defaultValue" : "Int.max",
-                    "name" : "maxValue",
-                    "type" : {
-                      "named" : {
-                        "_0" : "number"
-                      }
-                    }
-                  }
-                ],
-                "returnType" : {
-                  "named" : {
-                    "_0" : "string"
                   }
                 }
               }

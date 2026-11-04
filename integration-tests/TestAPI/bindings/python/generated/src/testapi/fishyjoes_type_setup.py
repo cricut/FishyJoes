@@ -7,6 +7,7 @@ from . import _empty_class1_implementation as _testapi_EmptyClass1_impl
 from . import _empty_class2_implementation as _testapi_EmptyClass2_impl
 from . import _empty_struct2_implementation as _testapi_EmptyStruct2_impl
 from . import _empty_struct_implementation as _testapi_EmptyStruct_impl
+from . import _example_async_foreign_side_functions_struct_implementation as _testapi_ExampleAsyncForeignSideFunctionsStruct_impl
 from . import _external_witness__test_async_functions_implementation as _testapi_ExternalWitness_TestAsyncFunctions_impl
 from . import _external_witness__test_default_computed_properties_implementation as _testapi_ExternalWitness_TestDefaultComputedProperties_impl
 from . import _external_witness__test_differing_export_name_protocol_diffy_implementation as _testapi_ExternalWitness_TestDifferingExportNameProtocolDiffy_impl
@@ -22,7 +23,6 @@ from . import _shadow_box_implementation as _testapi_ShadowBox_impl
 from . import _simple_enum_implementation as _testapi_SimpleEnum_impl
 from . import _string__putting_types_into_questionable_places_implementation as _testapi_String_PuttingTypesIntoQuestionablePlaces_impl
 from . import _structs__putting_types_into_questionable_places_implementation as _testapi_Structs_PuttingTypesIntoQuestionablePlaces_impl
-from . import _test_async_foreign_side_functions_struct_implementation as _testapi_TestAsyncForeignSideFunctionsStruct_impl
 from . import _test_async_functions_implementation as _testapi_TestAsyncFunctions_impl
 from . import _test_async_swift_side_functions_class_implementation as _testapi_TestAsyncSwiftSideFunctionsClass_impl
 from . import _test_default_computed_properties_enum_implementation as _testapi_TestDefaultComputedPropertiesEnum_impl
@@ -2636,23 +2636,23 @@ def ensure_loaded() -> None:
             print(f"setting up TestAPI.TestAsyncForeignSideFunctionsStruct")
             testapi.fishyjoes_type_setup.TestAPI_TestAsyncForeignSideFunctionsStruct_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_constructor,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_const42,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_iabs,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_int_compose,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_add3_things,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_make_list,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_fifth_thing,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_six,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_will_throw,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise0_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise1_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise2_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise3_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise4_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise5_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise6_fun,
-                _testapi_TestAsyncForeignSideFunctionsStruct_impl.ffi_get_thunk_twice_maker_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_constructor,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_const42,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_iabs,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_int_compose,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_add3_things,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_make_list,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_fifth_thing,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_six,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_will_throw,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise0_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise1_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise2_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise3_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise4_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise5_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_exercise6_fun,
+                _testapi_ExampleAsyncForeignSideFunctionsStruct_impl.ffi_get_thunk_twice_maker_fun,
             )
 
         @fishyjoes_runtime.eval_once_now('setup_TestAPI_CommonInterface._TestAsyncFunctionsConverter') # type: ignore[unused-ignore,no-redef]

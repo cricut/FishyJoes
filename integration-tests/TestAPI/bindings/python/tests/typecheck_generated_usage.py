@@ -6,7 +6,7 @@ from testapi import associated_data_enum, async_functions, functions, reference_
 
 
 def uses_generated_sync_api() -> None:
-    color = simple_enum.green
+    color = simple_enum.Green()
     associated = associated_data_enum.Thing(value=1)
     no_value = associated_data_enum.NoValue()
     marker: reference_only_types.Marker = reference_only_types.marker()

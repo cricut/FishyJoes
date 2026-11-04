@@ -1,14 +1,14 @@
 from __future__ import annotations
 from ._test_async_functions_type import TestAsyncFunctions # early import to make cycles work correctly
-from . import _test_async_foreign_side_functions_struct_implementation as _impl
+from . import _example_async_foreign_side_functions_struct_implementation as _impl
 from . import _testapi_exported as testapi
 from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing
 
-class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
-    """<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->"""
+class ExampleAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
+    """<!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, python: ExampleAsyncForeignSideFunctionsStruct) -->"""
 
     const42: typing.Final[typing.Callable[[], typing.Awaitable[int]]]
     iabs: typing.Final[typing.Callable[[int], typing.Awaitable[int]]]
@@ -82,7 +82,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
         self.thunk_twice_maker_fun = thunk_twice_maker_fun
 
     def __repr__(self) -> str:
-        return f'testapi.TestAsyncForeignSideFunctionsStruct(...)'
+        return f'testapi.ExampleAsyncForeignSideFunctionsStruct(...)'
 
     @typing.override
     def exercise0(
@@ -247,7 +247,7 @@ class TestAsyncForeignSideFunctionsStruct(TestAsyncFunctions):
         other: object,
     ) -> bool:
         if self is other: return True
-        return isinstance(other, TestAsyncForeignSideFunctionsStruct) and \
+        return isinstance(other, ExampleAsyncForeignSideFunctionsStruct) and \
             self.const42 == other.const42 and \
             self.iabs == other.iabs and \
             self.int_compose == other.int_compose and \

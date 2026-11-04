@@ -17,7 +17,7 @@ class PythonEnumClass: PythonClass {
         module: Module,
         documentation: [String],
         namespaces: [String],
-        name: String,
+        qualifiedName: String,
         mangledName: String,
         isInhabited: Bool,
         cases: [Case],
@@ -31,7 +31,7 @@ class PythonEnumClass: PythonClass {
             module: module,
             documentation: documentation,
             namespaces: namespaces,
-            name: name,
+            qualifiedName: qualifiedName,
             mangledName: mangledName,
             fields: fields,
             methods: methods,
@@ -41,8 +41,8 @@ class PythonEnumClass: PythonClass {
 
     override var associatedNamespace: (name: String, additionalExports: [(unqualifiedName: String, importLocation: String?)]) {
         let name = PythonNamingConventions.namespaceFor(typeName: unqualifiedName)
-        var additionalExports: [(unqualifiedName: String, importLocation: String?)] = cases.map {
-            (unqualifiedName: $0.pythonName, importLocation: ".\(snakify($0.pythonName))")
+        var additionalExports: [(unqualifiedName: String, importLocation: String?)] = cases.map { enumCase in
+            (unqualifiedName: enumCase.pythonName, importLocation: "._\(snakify(enumCase.pythonName))_type")
         }
         for field in fields where field.isStatic {
             additionalExports.append((unqualifiedName: "get_\(field.name)", importLocation: nil))
@@ -65,7 +65,7 @@ class PythonEnumClass: PythonClass {
             ]
         )
         let namespaceFragment = context.pythonFragment(
-            "\(associatedNamespace.name)/__init__.py",
+            (namespaces + [associatedNamespace.name, "__init__.py"]).joined(separator: "/"),
             additionalImports: [
                 "from .. import \(implementationModuleName) as _impl",
             ]
@@ -107,8 +107,9 @@ class PythonEnumClass: PythonClass {
         }
 
         for enumCase in cases {
+            let directory = (namespaces + [associatedNamespace.name]).joined(separator: "/")
             let fragment = context.pythonFragment(
-                "\(associatedNamespace.name)/\(snakify(enumCase.pythonName)).py",
+                "\(directory)/_\(snakify(enumCase.pythonName))_type.py",
                 additionalImports: [
                     "import dataclasses",
                     "from ..\(typeDefinitionModuleName) import _Base\(unqualifiedName)",
@@ -208,10 +209,5 @@ class PythonEnumClass: PythonClass {
     // output to _type_name_implementation.py
     override func outputCAPIs(to fragment: SourceFragment, context: FishyJoesContext) {
         outputNativeMethodDeclarations(methods: nativeMethods, fragment: fragment)
-    }
-
-    // output to _type_name_implementation.py
-    override func outputSetup(to fragment: SourceFragment, context: FishyJoesContext) {
-        fragment.output("# TODO: setup for \(name)")
     }
 }

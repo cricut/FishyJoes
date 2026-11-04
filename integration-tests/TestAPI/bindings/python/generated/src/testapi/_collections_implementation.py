@@ -110,5 +110,3 @@ iota_TestAPI_Collections_collectionMapper: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.Collections

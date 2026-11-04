@@ -346,5 +346,3 @@ def ffi_set_dq(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.Co
     fishyjoes_runtime.peek_ref(obj, testapi.primitives.PrimitiveHolder).dq = fishyjoes_runtime.consume_ref(newValue, float, types.NoneType)
 
 # MARK: setup
-
-# TODO: setup for testapi.primitives.PrimitiveHolder

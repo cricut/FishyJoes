@@ -14,8 +14,9 @@ def get_deprecated_variable() -> int:
 @deprecated("don't use this")
 def deprecated_method(
 ) -> str:
-    """An old greeting kept only for deprecation coverage."""
-    """<!-- FishyJoes.export(deprecatedMethod) -->"""
+    """ An old greeting kept only for deprecation coverage.
+    <!-- FishyJoes.export(deprecatedMethod) -->
+    """
     return fishyjoes_runtime.consume_created_ref(
         _impl.iota_TestAPI_Deprecations_deprecatedMethod(
             fishyjoes_runtime.Runtime.shared.env_ref,

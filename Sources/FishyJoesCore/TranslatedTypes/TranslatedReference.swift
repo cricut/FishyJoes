@@ -717,7 +717,7 @@ struct TranslatedReference: TranslatedType {
             module: context.module,
             documentation: documentation,
             namespaces: pythonType.static.namespaces,
-            name: pythonType.static.name(),
+            qualifiedName: pythonType.static.name(),
             mangledName: sourceType.name.mangled,
             constructor: .reference,
             fields: fields,

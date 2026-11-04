@@ -48,15 +48,17 @@ def get_script() -> str:
     return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_script(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def get_simple() -> str:
-    """A simple ASCII greeting."""
-    """<!-- FishyJoes.export(simple) -->"""
+    """ A simple ASCII greeting.
+    <!-- FishyJoes.export(simple) -->
+    """
     return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_Strings_simple(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def echo(
     string: str,
 ) -> str:
-    """Returns the given string unchanged."""
-    """<!-- FishyJoes.export(echo) -->"""
+    """ Returns the given string unchanged.
+    <!-- FishyJoes.export(echo) -->
+    """
     with fishyjoes_runtime.local_handles(string) as (_stringHandle,):
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Strings_echo(
@@ -70,9 +72,10 @@ def split(
     string: str,
     by: str,
 ) -> list[str]:
-    """Splits the string on each occurrence of the separator."""
-    """Returns the pieces in order without the separator."""
-    """<!-- FishyJoes.export(split) -->"""
+    """ Splits the string on each occurrence of the separator.
+    Returns the pieces in order without the separator.
+    <!-- FishyJoes.export(split) -->
+    """
     with fishyjoes_runtime.local_handles(string, by) as (_stringHandle, _byHandle,):
         return fishyjoes_runtime.consume_created_ref(
             _impl.iota_TestAPI_Strings_split(

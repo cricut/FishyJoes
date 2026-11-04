@@ -67,5 +67,3 @@ def ffi_set_baz(obj: fishyjoes_runtime.UnownedRef, newValue: bool) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.AProtocolImplementation).baz = newValue
 
 # MARK: setup
-
-# TODO: setup for testapi.AProtocolImplementation

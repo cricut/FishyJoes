@@ -68,24 +68,6 @@ namespace Cricut.TestAPI {
             out CreatedRef exn
         );
 
-        /// <summary>
-        /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
-        /// </summary>
-        public static string EchoDefaultIntLimits(
-            nint minValue = -9223372036854775808,
-            nint maxValue = 9223372036854775807
-        ) {
-            return Check((out CreatedRef _exn) => __iota_TestAPI_DefaultArguments_echoDefaultIntLimits(Loader.env, minValue, maxValue, out _exn)).Consume<string>();
-        }
-
-        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern CreatedRef __iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
-            IntPtr envRef,
-            nint minValue,
-            nint maxValue,
-            out CreatedRef exn
-        );
-
         static DefaultArguments() { _TypeSetup._ensureLoaded(); }
     }
 }

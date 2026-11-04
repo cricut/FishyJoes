@@ -53,5 +53,3 @@ def ffi_set_mutable(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runti
     fishyjoes_runtime.peek_ref(obj, testapi.structs.MemberwiseStruct).mutable = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup
-
-# TODO: setup for testapi.structs.MemberwiseStruct

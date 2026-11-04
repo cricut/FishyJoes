@@ -395,7 +395,7 @@ extension TestAsyncFunctions {
     }
 }
 
-/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct) -->
+/// <!-- FishyJoes.export(TestAsyncForeignSideFunctionsStruct, python: ExampleAsyncForeignSideFunctionsStruct) -->
 public struct TestAsyncForeignSideFunctionsStruct: TestAsyncFunctions {
     public let const42: AsyncFunctions.AFun0
     public let iabs: AsyncFunctions.AFun1

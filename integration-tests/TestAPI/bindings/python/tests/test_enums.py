@@ -49,7 +49,7 @@ class EnumTests(unittest.TestCase):
         self.assertEqual(reference_case_enum.rotate180(reference_case_enum.East()), reference_case_enum.West())
         self.assertEqual(reference_case_enum.rotate180(reference_case_enum.North()), reference_case_enum.South())
         self.assertEqual(reference_case_enum.get_default_direction(), reference_case_enum.North())
-        self.assertNotEqual(reference_case_enum.north, reference_case_enum.South())
+        self.assertNotEqual(reference_case_enum.North(), reference_case_enum.South())
 
     def test_settable_static_property_round_trip(self) -> None:
         try:

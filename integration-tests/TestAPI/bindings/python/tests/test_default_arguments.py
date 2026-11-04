@@ -28,13 +28,5 @@ class DefaultArgumentTests(unittest.TestCase):
         )
         self.assertEqual(defaults.echo_default_tolerance(tolerance=0.25), 0.25)
 
-    def test_int_limit_default_arguments(self) -> None:
-        signature = inspect.signature(defaults.echo_default_int_limits)
-        self.assertEqual(signature.parameters["min_value"].default, -sys.maxsize - 1)
-        self.assertEqual(signature.parameters["max_value"].default, sys.maxsize)
-
-        self.assertEqual(defaults.echo_default_int_limits(), f"{-sys.maxsize - 1} {sys.maxsize}")
-        self.assertEqual(defaults.echo_default_int_limits(min_value=-7, max_value=8), "-7 8")
-
 if __name__ == "__main__":
     unittest.main()

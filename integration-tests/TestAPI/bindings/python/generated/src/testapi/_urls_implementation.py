@@ -38,5 +38,3 @@ iota_TestAPI_URLs_echo: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.Urls

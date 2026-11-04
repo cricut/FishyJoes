@@ -270,5 +270,3 @@ def ffi_set_u(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime.Con
     fishyjoes_runtime.peek_ref(obj, testapi.structs.TwentyOneItemStruct).u = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup
-
-# TODO: setup for testapi.structs.TwentyOneItemStruct

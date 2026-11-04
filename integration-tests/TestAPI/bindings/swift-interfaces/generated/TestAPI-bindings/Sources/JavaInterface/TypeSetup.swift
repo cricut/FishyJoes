@@ -994,11 +994,6 @@ public func jniOnLoad(vm: UnsafeMutablePointer<JavaVM?>, reserved: UnsafeMutable
                 fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_describeEnumDefault, to: UnsafeMutableRawPointer.self)
             ),
             JNINativeMethod(
-                name: bag.add("__jni_echoDefaultIntLimits"),
-                signature: bag.add("(JJ)Ljava/lang/String;"),
-                fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultIntLimits, to: UnsafeMutableRawPointer.self)
-            ),
-            JNINativeMethod(
                 name: bag.add("__jni_echoDefaultTolerance"),
                 signature: bag.add("(D)D"),
                 fnPtr: unsafeBitCast(java_TestAPI_DefaultArguments_echoDefaultTolerance, to: UnsafeMutableRawPointer.self)

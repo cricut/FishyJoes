@@ -98,5 +98,3 @@ def extract_blue(
     self = fishyjoes_runtime.peek_ref(obj, simple_enum.Blue)
 
 # MARK: setup
-
-# TODO: setup for testapi.SimpleEnum

@@ -25,5 +25,3 @@ def ffi_get_message(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.Crea
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.results.Error).message)
 
 # MARK: setup
-
-# TODO: setup for testapi.results.Error

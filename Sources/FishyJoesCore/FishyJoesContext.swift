@@ -166,7 +166,6 @@ public class FishyJoesContext {
         // TODO: parse a a little better
 
         addHeader(to: fragment, "from \(fragment.rootImportName) import _\(module.pythonPackageName)_exported as \(module.pythonPackageName)")
-        // addHeader(to: fragment, "from \(fragment.rootImportName) import __init__ as \(module.pythonPackageName)")
         for additionalImport in additionalImports {
             addHeader(to: fragment, additionalImport)
         }

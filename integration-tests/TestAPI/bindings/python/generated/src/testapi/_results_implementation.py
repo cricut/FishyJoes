@@ -28,5 +28,3 @@ iota_TestAPI_Results_processResult: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.Results

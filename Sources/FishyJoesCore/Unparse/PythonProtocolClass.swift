@@ -280,7 +280,7 @@ class PythonProtocolClass: PythonClass {
             fragment.output("@fishyjoes_runtime.callback('\(field.mangledName)_getFn')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=\(field.type.static.ffiDefault))")
             fragment.outputBlock("def ffi_get_\(field.name)(obj: fishyjoes_runtime.UnownedRef) -> \(field.type.static.ffiCreatedType.name()):") {
-                let body = "fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName)"
+                let body = "fishyjoes_runtime.peek_ref(obj, \(qualifiedName)).\(fieldName)"
                 if isPrimitive {
                     fragment.output("return \(body)")
                 } else {
@@ -300,7 +300,7 @@ class PythonProtocolClass: PythonClass {
             }
             fragment.outputBlock(" -> \(method.returnType.static.ffiCreatedType.name()):") {
                 func outputBody() {
-                    fragment.outputBlock("fishyjoes_runtime.peek_ref(obj, \(name)).\(method.name)(") {
+                    fragment.outputBlock("fishyjoes_runtime.peek_ref(obj, \(qualifiedName)).\(method.name)(") {
                         for parameter in method.parameters {
                             if parameter.type.static.isPrimitive {
                                 fragment.output("\(parameter.pythonName),")

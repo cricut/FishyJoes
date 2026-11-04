@@ -832,7 +832,7 @@ struct TranslatedStruct: TranslatedType {
                 module: context.module,
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
-                name: pythonType.static.name(),
+                qualifiedName: pythonType.static.name(),
                 mangledName: sourceType.name.mangled,
                 constructor: .`public`(
                     fields: storedVariables.compactMap {

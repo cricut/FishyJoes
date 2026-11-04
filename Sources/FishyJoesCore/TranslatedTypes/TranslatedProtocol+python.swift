@@ -76,7 +76,7 @@ extension TranslatedProtocol {
                 module: context.module,
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
-                name: pythonType.static.name(),
+                qualifiedName: pythonType.static.name(),
                 mangledName: sourceType.name.mangled,
                 fields: protocolFields,
                 methods: protocolMethods
@@ -96,7 +96,7 @@ extension TranslatedProtocol {
                 module: context.module,
                 documentation: documentation,
                 namespaces: pythonType.static.namespaces,
-                name: "\(definingModule.pythonPackageName).\(iotaExternalWitnessClassName)",
+                qualifiedName: ([definingModule.pythonPackageName] + pythonType.static.namespaces + [iotaExternalWitnessClassName]).joined(separator: "."),
                 mangledName: iotaExternalWitnessClassName.mangled,
                 constructor: .reference,
                 fields: externalWitnessFields,

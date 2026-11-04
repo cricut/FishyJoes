@@ -78,7 +78,7 @@ extension TranslatedEnum {
             module: context.module,
             documentation: documentation,
             namespaces: pythonType.static.namespaces,
-            name: pythonType.static.name(),
+            qualifiedName: pythonType.static.name(),
             mangledName: sourceType.name.mangled,
             isInhabited: isInhabited,
             cases: cases.map { enumCase in

@@ -19,12 +19,12 @@ public enum PythonNamingConventions {
         if result == typeName {
             result += "_"
         }
-        return result
+        return PythonClass.deforbidify(result, localVar: true)
     }
 
     public static func splitIntoNamespaces(_ name: String) -> (namespaces: [String], name: String) {
         let parts = name.split(separator: ".").map(String.init)
-        return (parts.dropLast().map(namespaceFor(typeName:)), parts.last!)
+        return (parts.dropLast().map(namespaceFor(typeName:)), PythonClass.deforbidify(parts.last!, localVar: true))
     }
 
     /// Generate an import line like `from .name.spaced import the_type_implementation as _name_spaced_the_type_impl`

@@ -31,5 +31,3 @@ def ffi_get_x(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.CreatedRef
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.String_PuttingTypesIntoQuestionablePlaces).x)
 
 # MARK: setup
-
-# TODO: setup for testapi.String_PuttingTypesIntoQuestionablePlaces

@@ -53,5 +53,3 @@ def ffi_set_i(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.structs.MutableStruct).i = newValue
 
 # MARK: setup
-
-# TODO: setup for testapi.structs.MutableStruct

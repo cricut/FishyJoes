@@ -1,6 +1,6 @@
 import unittest
 
-from testapi import bytes as bytes_
+from testapi import bytes_
 
 
 class ByteTests(unittest.TestCase):

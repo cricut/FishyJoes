@@ -38,9 +38,10 @@ def get_list() -> int:
     return _impl.iota_get_TestAPI_PythonNamingCollisions_list(fishyjoes_runtime.Runtime.shared.env_ref)
 
 def get_title_url() -> str:
-    """`URL` and `Url` both snake-case to `url`; sibling collisions are a"""
-    """generation error, resolved with an explicit verbatim `python:` name."""
-    """<!-- FishyJoes.export(Url, python: title_url) -->"""
+    """ `URL` and `Url` both snake-case to `url`; sibling collisions are a
+    generation error, resolved with an explicit verbatim `python:` name.
+    <!-- FishyJoes.export(Url, python: title_url) -->
+    """
     return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_PythonNamingCollisions_Url(fishyjoes_runtime.Runtime.shared.env_ref), str)
 
 def get_url() -> str:

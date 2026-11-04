@@ -8,8 +8,9 @@ import types
 import typing
 
 class _BaseSimpleEnum:
-    """This is an enum with no associated values"""
-    """<!-- FishyJoes.export(SimpleEnum) -->"""
+    """ This is an enum with no associated values
+    <!-- FishyJoes.export(SimpleEnum) -->
+    """
 
     @property
     def hex(self) -> int:

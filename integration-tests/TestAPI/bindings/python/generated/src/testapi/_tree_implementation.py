@@ -32,5 +32,3 @@ def ffi_get_children(obj: fishyjoes_runtime.UnownedRef) -> fishyjoes_runtime.Cre
     return fishyjoes_runtime.create_ref(fishyjoes_runtime.peek_ref(obj, testapi.Tree).children)
 
 # MARK: setup
-
-# TODO: setup for testapi.Tree

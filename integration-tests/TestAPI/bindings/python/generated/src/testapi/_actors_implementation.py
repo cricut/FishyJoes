@@ -12,5 +12,3 @@ import typing
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.Actors

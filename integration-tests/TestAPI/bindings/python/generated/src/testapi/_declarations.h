@@ -1058,12 +1058,6 @@ created_host_ref __iota_TestAPI_DefaultArguments_describeEnumDefault(
     unowned_host_ref color,
     created_host_ref * _exn
 );
-created_host_ref __iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
-    fishyjoes_env envRef,
-    intptr_t minValue,
-    intptr_t maxValue,
-    created_host_ref * _exn
-);
 double __iota_TestAPI_DefaultArguments_echoDefaultTolerance(
     fishyjoes_env envRef,
     double tolerance,

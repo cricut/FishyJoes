@@ -57,28 +57,12 @@ class DefaultArguments {
         check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultTolerance(Loader.shared.env, tolerance, _exn))
     ;
 
-    /// <!-- FishyJoes.export(echoDefaultIntLimits) -->
-    static String echoDefaultIntLimits(
-        {
-            int minValue = -9223372036854775808,
-            int maxValue = 9223372036854775807,
-        }
-    ) =>
-        consumeCreatedRef<String>(check((OutCreatedRef _exn) => f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits(Loader.shared.env, minValue, maxValue, _exn)))
-    ;
-
     static late CreatedRef Function(
         Env env,
         int value,
         UnownedRef color,
         OutCreatedRef _exn
     ) f__iota_TestAPI_DefaultArguments_describeEnumDefault;
-    static late CreatedRef Function(
-        Env env,
-        int minValue,
-        int maxValue,
-        OutCreatedRef _exn
-    ) f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits;
     static late double Function(
         Env env,
         double tolerance,

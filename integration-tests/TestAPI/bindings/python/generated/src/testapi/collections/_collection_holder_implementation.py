@@ -142,5 +142,3 @@ def ffi_set_string_dictionary(obj: fishyjoes_runtime.UnownedRef, newValue: fishy
     fishyjoes_runtime.peek_ref(obj, testapi.collections.CollectionHolder).string_dictionary = fishyjoes_runtime.consume_ref(newValue, dict)
 
 # MARK: setup
-
-# TODO: setup for testapi.collections.CollectionHolder

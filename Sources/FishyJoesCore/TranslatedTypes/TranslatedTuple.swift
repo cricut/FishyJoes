@@ -47,7 +47,7 @@ struct TranslatedTuple: TranslatedType {
     }
 
     var pythonType: PythonType {
-        .class(module: nil, qualifiedName: "tuple", genericArgs: elements.map(\.type.pythonType.static))
+        .tuple(elements.map(\.type.pythonType))
     }
 
     let cSharpNamespace: String? = nil

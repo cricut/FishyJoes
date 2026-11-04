@@ -22,5 +22,3 @@ iota_TestAPI_Deprecations_deprecatedMethod: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.Deprecations

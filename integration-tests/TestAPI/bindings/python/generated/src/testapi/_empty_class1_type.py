@@ -7,13 +7,15 @@ import types
 import typing
 
 class EmptyClass1(fishyjoes_runtime.SwiftReference):
-    """A reference type with playful members for binding coverage."""
-    """<!-- FishyJoes.exportReference(EmptyClass1) -->"""
+    """ A reference type with playful members for binding coverage.
+    <!-- FishyJoes.exportReference(EmptyClass1) -->
+    """
 
     @property
     def blarg(self) -> str:
-        """A cheerful nonsense string."""
-        """<!-- FishyJoes.export(blarg) -->"""
+        """ A cheerful nonsense string.
+        <!-- FishyJoes.export(blarg) -->
+        """
         with fishyjoes_runtime.local_handles(self) as (self_handle,):
             return fishyjoes_runtime.consume_created_ref(_impl.iota_get_TestAPI_EmptyClass_blarg(fishyjoes_runtime.Runtime.shared.env_ref, self_handle), str)
 
@@ -37,8 +39,9 @@ class EmptyClass1(fishyjoes_runtime.SwiftReference):
     def shme(
         self,
     ) -> str:
-        """Returns a short pirate greeting."""
-        """<!-- FishyJoes.export(shme) -->"""
+        """ Returns a short pirate greeting.
+        <!-- FishyJoes.export(shme) -->
+        """
         with fishyjoes_runtime.local_handles(self) as (_selfHandle,):
             return fishyjoes_runtime.consume_created_ref(
                 _impl.iota_TestAPI_EmptyClass_shme(

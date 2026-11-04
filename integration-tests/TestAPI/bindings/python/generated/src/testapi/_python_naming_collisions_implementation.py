@@ -52,5 +52,3 @@ iota_TestAPI_PythonNamingCollisions_from: typing.Callable[[
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.PythonNamingCollisions

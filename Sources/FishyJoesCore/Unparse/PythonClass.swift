@@ -80,7 +80,7 @@ class PythonClass {
     let module: Module
     let documentation: [String]
     let namespaces: [String]
-    let name: String
+    let qualifiedName: String
     let mangledName: String
     let setupTypes: SetupTypes?
     var fields: [Variable]
@@ -93,7 +93,7 @@ class PythonClass {
         module: Module,
         documentation: [String],
         namespaces: [String],
-        name: String,
+        qualifiedName: String,
         mangledName: String,
         setupTypes: SetupTypes? = nil,
         fields: [Variable],
@@ -103,7 +103,7 @@ class PythonClass {
         self.module = module
         self.documentation = documentation
         self.namespaces = namespaces
-        self.name = name
+        self.qualifiedName = qualifiedName
         self.mangledName = mangledName
         self.setupTypes = setupTypes
         self.fields = fields
@@ -148,15 +148,28 @@ class PythonClass {
         return publicFragments + [implementationFragment]
     }
 
-    func document(_ documentation: [String], fragment: SourceFragment) {
-        guard !documentation.isEmpty else { return }
-        for line in documentation {
-            fragment.output(#""""\#(line)""""#)
+    func document(_ lines: [String], fragment: SourceFragment) {
+        func escape(_ string: String) -> String {
+            string
+                .replacingOccurrences(of: #"\"#, with : #"\\"#)
+                .replacingOccurrences(of: #"""""#, with: #"\"\"\""#)
+        }
+
+        switch lines.count {
+        case 0: ()
+        case 1:
+            fragment.output(#""""\#(escape(lines[0]))""""#)
+        default:
+            fragment.output(#"""" "#, newLineTerminated: false)
+            for line in lines {
+                fragment.output(escape(line))
+            }
+            fragment.output(#"""""#)
         }
     }
 
     var unqualifiedName: String {
-        String(name.split(separator: ".").last!)
+        String(qualifiedName.split(separator: ".").last!)
     }
 
     var typeDefinitionModuleName: String {
@@ -178,7 +191,7 @@ class PythonClass {
     var nativeMethods: [IotaTranslator.NativeMethod<PythonType>] {
         var result: [IotaTranslator.NativeMethod<PythonType>] = []
 
-        let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: name))
+        let thisArg = ("_this", PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: qualifiedName))
 
         for field in fields {
             let baseArgs = field.isStatic ? [] : [thisArg]
@@ -453,7 +466,7 @@ extension PythonClass {
         let selfType = PythonType.class(module: module.pythonPackageName, namespaces: namespaces, name: unqualifiedName)
         context.pythonTranslator.markSuperclassDependency(selfType, superclasses: conformances)
 
-        let superclasses = extraSuperclasses + conformances.map(\.static.baseName)
+        let superclasses = extraSuperclasses + conformances.map(\.static.baseName).sorted()
         if superclasses.isEmpty {
             return ""
         } else {

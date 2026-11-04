@@ -55,5 +55,3 @@ def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.Create
     return fishyjoes_runtime.create_ref(testapi.TestDefaultComputedPropertiesReference(ref))
 
 # MARK: setup
-
-# TODO: setup for testapi.TestDefaultComputedPropertiesReference

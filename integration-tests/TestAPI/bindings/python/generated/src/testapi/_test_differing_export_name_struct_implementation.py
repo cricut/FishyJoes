@@ -30,5 +30,3 @@ def ffi_set_tata(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestDifferingExportNameStruct).tata = newValue
 
 # MARK: setup
-
-# TODO: setup for testapi.TestDifferingExportNameStruct

@@ -48,5 +48,3 @@ def ffi_set_noot(obj: fishyjoes_runtime.UnownedRef, newValue: int) -> None:
     fishyjoes_runtime.peek_ref(obj, testapi.TestDefaultComputedPropertiesStruct).noot = newValue
 
 # MARK: setup
-
-# TODO: setup for testapi.TestDefaultComputedPropertiesStruct

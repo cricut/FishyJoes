@@ -8,12 +8,13 @@ import types
 import typing
 
 class _BaseReferenceCaseEnum:
-    """An inhabited enum that the product annotated `exportReference` rather than"""
-    """`export`. An enum's cases are its only construction surface, so the generator"""
-    """must still surface the cases (mirroring the `export` enum path) instead of"""
-    """emitting an unconstructable, members-less opaque reference shell. Mirrors the"""
-    """real CriRaster `Image.Kind` / `Image.Color.Channel` shape."""
-    """<!-- FishyJoes.exportReference(ReferenceCaseEnum) -->"""
+    """ An inhabited enum that the product annotated `exportReference` rather than
+    `export`. An enum's cases are its only construction surface, so the generator
+    must still surface the cases (mirroring the `export` enum path) instead of
+    emitting an unconstructable, members-less opaque reference shell. Mirrors the
+    real CriRaster `Image.Kind` / `Image.Color.Channel` shape.
+    <!-- FishyJoes.exportReference(ReferenceCaseEnum) -->
+    """
 
     @property
     def opposite(self) -> testapi.ReferenceCaseEnum:

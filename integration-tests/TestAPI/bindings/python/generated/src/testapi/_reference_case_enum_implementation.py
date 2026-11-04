@@ -96,5 +96,3 @@ def extract_west(
     self = fishyjoes_runtime.peek_ref(obj, reference_case_enum.West)
 
 # MARK: setup
-
-# TODO: setup for testapi.ReferenceCaseEnum

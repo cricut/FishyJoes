@@ -69,15 +69,19 @@ extension PythonType: CustomStringConvertible {
     }
 
     static var str: Self {
-        .class(module: nil, qualifiedName: "str")
+        .class(module: nil, namespaces: [], name: "str")
     }
 
     static var object: Self {
-        .class(module: nil, qualifiedName: "object")
+        .class(module: nil, namespaces: [], name: "object")
     }
 
     static func optional(_ wrapped: Self) -> Self {
         .union(wrapped, .none)
+    }
+
+    static func list(_ element: Self) -> Self {
+        .class(module: nil, namespaces: [], name: "list", genericArgs: [element.static])
     }
 
     static func tuple(_ elements: [Self]) -> Self {
@@ -134,6 +138,12 @@ extension PythonType: CustomStringConvertible {
             static: .named(module: nil, namespaces: [], name: "tuple", genericArgs: [typeOfSelf, dots]),
             dynamics: [.init(module: nil, namespaces: [], name: "tuple")]
         )
+    }
+}
+
+extension PythonType: Comparable {
+    static func < (lhs: PythonType, rhs: PythonType) -> Bool {
+        lhs.static.name() < rhs.static.name()
     }
 }
 

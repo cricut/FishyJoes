@@ -16,7 +16,7 @@ class PythonProductClass: PythonClass {
         module: Module,
         documentation: [String],
         namespaces: [String],
-        name: String,
+        qualifiedName: String,
         mangledName: String,
         constructor: Constructor,
         fields: [Variable],
@@ -30,7 +30,7 @@ class PythonProductClass: PythonClass {
             module: module,
             documentation: documentation,
             namespaces: namespaces,
-            name: name,
+            qualifiedName: qualifiedName,
             mangledName: mangledName,
             fields: fields,
             methods: methods,
@@ -104,7 +104,7 @@ class PythonProductClass: PythonClass {
                     // }.joined(separator: ", ")
                     // fragment.output("return f'\(name)(\(reprParts))'", newLineTerminated: false)
 
-                    fragment.output("return f'\(name)(...)'")
+                    fragment.output("return f'\(qualifiedName)(...)'")
                 }
             }
 
@@ -136,7 +136,7 @@ class PythonProductClass: PythonClass {
                 }
             }
             fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
-                fragment.outputBlock("return fishyjoes_runtime.create_ref(\(name)(", closeWith: "))") {
+                fragment.outputBlock("return fishyjoes_runtime.create_ref(\(qualifiedName)(", closeWith: "))") {
                     for field in fields {
                         if field.type.static.isPrimitive {
                             fragment.output("\(field.name) = \(field.name),")
@@ -154,7 +154,7 @@ class PythonProductClass: PythonClass {
             fragment.output("@fishyjoes_runtime.callback('FishyJoes_ReferenceConstructorFn')")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def ffi_new(ref: fishyjoes_runtime.ConsumedSwiftRef) -> fishyjoes_runtime.CreatedRef:") {
-                fragment.output("return fishyjoes_runtime.create_ref(\(name)(ref))")
+                fragment.output("return fishyjoes_runtime.create_ref(\(qualifiedName)(ref))")
             }
             fragment.blankLine()
         }
@@ -171,9 +171,9 @@ class PythonProductClass: PythonClass {
             fragment.outputBlock("def ffi_get_\(field.name)(\(getParameters)) -> \(field.type.static.ffiCreatedType.name()):") {
                 let body: String
                     if field.isStatic {
-                        body = "\(name).\(fieldName)"
+                        body = "\(qualifiedName).\(fieldName)"
                     } else {
-                        body = "fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName)"
+                        body = "fishyjoes_runtime.peek_ref(obj, \(qualifiedName)).\(fieldName)"
                     }
                 if isPrimitive {
                     fragment.output("return \(body)")
@@ -188,9 +188,9 @@ class PythonProductClass: PythonClass {
                     "newValue: \(field.type.static.ffiConsumedType.name())"
                 fragment.outputBlock("def ffi_set_\(field.name)(\(setParameters)) -> None:") {
                     if field.isStatic {
-                        fragment.output("\(name).\(fieldName) = ", newLineTerminated: false)
+                        fragment.output("\(qualifiedName).\(fieldName) = ", newLineTerminated: false)
                     } else {
-                        fragment.output("fishyjoes_runtime.peek_ref(obj, \(name)).\(fieldName) = ", newLineTerminated: false)
+                        fragment.output("fishyjoes_runtime.peek_ref(obj, \(qualifiedName)).\(fieldName) = ", newLineTerminated: false)
                     }
                     if isPrimitive {
                         fragment.output("newValue")
@@ -201,10 +201,5 @@ class PythonProductClass: PythonClass {
                 fragment.blankLine()
             }
         }
-    }
-
-    // output to _type_name_implementation.py
-    override func outputSetup(to fragment: SourceFragment, context: FishyJoesContext) {
-        fragment.output("# TODO: setup for \(name)")
     }
 }

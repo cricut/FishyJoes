@@ -75,5 +75,3 @@ def extract_qux(
     self = fishyjoes_runtime.peek_ref(obj, test_protocol_enum.Qux)
 
 # MARK: setup
-
-# TODO: setup for testapi.TestProtocolEnum

@@ -77,5 +77,3 @@ def ffi_set_corge(obj: fishyjoes_runtime.UnownedRef, newValue: fishyjoes_runtime
     fishyjoes_runtime.peek_ref(obj, testapi.TestProtocolStruct).corge = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup
-
-# TODO: setup for testapi.TestProtocolStruct

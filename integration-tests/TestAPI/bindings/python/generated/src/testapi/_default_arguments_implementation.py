@@ -30,15 +30,6 @@ iota_TestAPI_DefaultArguments_echoDefaultTolerance: typing.Callable[[
 ], float] = \
     fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_DefaultArguments_echoDefaultTolerance'))
 
-iota_TestAPI_DefaultArguments_echoDefaultIntLimits: typing.Callable[[
-    fishyjoes_runtime.EnvRef,
-    int,
-    int,
-], fishyjoes_runtime.CreatedRef] = \
-    fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, '__iota_TestAPI_DefaultArguments_echoDefaultIntLimits'))
-
 # MARK: C callback implementations
 
 # MARK: setup
-
-# TODO: setup for testapi.DefaultArguments

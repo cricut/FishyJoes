@@ -30,5 +30,3 @@ def ffi_set_leading_underscore_prop_(obj: fishyjoes_runtime.UnownedRef, newValue
     fishyjoes_runtime.peek_ref(obj, testapi.TestLeadingUnderscoredPropStruct).leading_underscore_prop_ = fishyjoes_runtime.consume_ref(newValue, str)
 
 # MARK: setup
-
-# TODO: setup for testapi.TestLeadingUnderscoredPropStruct

@@ -10,7 +10,6 @@ __all__: list[str] = [
     "echo_defaults",
     "describe_enum_default",
     "echo_default_tolerance",
-    "echo_default_int_limits",
 ]
 
 def echo_defaults(
@@ -54,19 +53,4 @@ def echo_default_tolerance(
     return _impl.iota_TestAPI_DefaultArguments_echoDefaultTolerance(
         fishyjoes_runtime.Runtime.shared.env_ref,
         tolerance,
-    )
-
-def echo_default_int_limits(
-    *,
-    min_value: int = -9223372036854775808,
-    max_value: int = 9223372036854775807,
-) -> str:
-    """<!-- FishyJoes.export(echoDefaultIntLimits) -->"""
-    return fishyjoes_runtime.consume_created_ref(
-        _impl.iota_TestAPI_DefaultArguments_echoDefaultIntLimits(
-            fishyjoes_runtime.Runtime.shared.env_ref,
-            min_value,
-            max_value,
-        ),
-        str
     )

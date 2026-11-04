@@ -60,20 +60,6 @@ sealed class DefaultArguments {
             tolerance: Double
         ): Double
 
-        /**
-         * <!-- FishyJoes.export(echoDefaultIntLimits) -->
-         */
-        fun echoDefaultIntLimits(
-            minValue: Long = -9223372036854775808,
-            maxValue: Long = 9223372036854775807
-        ): kotlin.String = __jni_echoDefaultIntLimits(minValue, maxValue)
-        @JvmStatic
-        @JvmName("__jni_echoDefaultIntLimits")
-        private external fun __jni_echoDefaultIntLimits(
-            minValue: Long,
-            maxValue: Long
-        ): kotlin.String
-
         init { loadNativeLibs() }
     }
 }

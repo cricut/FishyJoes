@@ -65,5 +65,3 @@ def extract_empty(
     self = fishyjoes_runtime.peek_ref(obj, shadow_box.Empty)
 
 # MARK: setup
-
-# TODO: setup for testapi.ShadowBox

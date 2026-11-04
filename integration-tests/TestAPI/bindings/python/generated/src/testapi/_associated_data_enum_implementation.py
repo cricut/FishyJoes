@@ -155,5 +155,3 @@ def extract_simple_enum(
     out_value[0] = fishyjoes_runtime.create_ref(self.value)
 
 # MARK: setup
-
-# TODO: setup for testapi.AssociatedDataEnum

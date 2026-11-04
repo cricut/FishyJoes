@@ -7,8 +7,9 @@ import types
 import typing
 
 class MemberwiseStruct:
-    """A plain value type with one immutable and one mutable field."""
-    """<!-- FishyJoes.export(Structs.MemberwiseStruct) -->"""
+    """ A plain value type with one immutable and one mutable field.
+    <!-- FishyJoes.export(Structs.MemberwiseStruct) -->
+    """
 
     _immutable: str
     @property

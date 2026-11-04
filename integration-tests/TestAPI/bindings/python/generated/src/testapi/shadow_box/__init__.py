@@ -1,8 +1,8 @@
 from __future__ import annotations
 from .. import _shadow_box_implementation as _impl
 from .. import _testapi_exported as testapi
-from .empty import Empty
-from .shade import Shade
+from ._empty_type import Empty
+from ._shade_type import Shade
 from warnings import deprecated
 import fishyjoes_runtime
 import types

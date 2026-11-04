@@ -2339,20 +2339,6 @@ final ensureLoaded = (() {
             OutCreatedRef _exn
         )
     >("__iota_TestAPI_DefaultArguments_describeEnumDefault");
-    TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultIntLimits = dylib.lookupFunction<
-        CreatedRef Function(
-            Env env,
-            ffi.IntPtr minValue,
-            ffi.IntPtr maxValue,
-            OutCreatedRef _exn
-        ),
-        CreatedRef Function(
-            Env env,
-            int minValue,
-            int maxValue,
-            OutCreatedRef _exn
-        )
-    >("__iota_TestAPI_DefaultArguments_echoDefaultIntLimits");
     TestAPI.DefaultArguments.f__iota_TestAPI_DefaultArguments_echoDefaultTolerance = dylib.lookupFunction<
         ffi.Double Function(
             Env env,

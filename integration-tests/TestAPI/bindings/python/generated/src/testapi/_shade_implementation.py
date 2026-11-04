@@ -30,5 +30,3 @@ def ffi_set_darkness(obj: fishyjoes_runtime.UnownedRef, newValue: float) -> None
     fishyjoes_runtime.peek_ref(obj, testapi.Shade).darkness = newValue
 
 # MARK: setup
-
-# TODO: setup for testapi.Shade

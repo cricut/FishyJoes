@@ -47,5 +47,3 @@ def ffi_constructor(
     ))
 
 # MARK: setup
-
-# TODO: setup for testapi.EmptyStruct
