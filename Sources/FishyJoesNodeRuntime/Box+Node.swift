@@ -1,5 +1,9 @@
 @_exported import FishyJoesCommonRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension Box {
     public func retainedExternal(env: NAPI.Env) throws -> NAPI.Value {
