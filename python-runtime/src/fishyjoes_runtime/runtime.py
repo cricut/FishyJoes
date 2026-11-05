@@ -189,12 +189,10 @@ def peek_ref[T0, T1, T2, T3](ref: UnownedRef, type0: type[T0], type1: type[T1], 
 def peek_ref[T0, T1, T2, T3, T4](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], /) -> T0 | T1 | T2 | T3 | T4: ...
 @overload
 def peek_ref[T0, T1, T2, T3, T4, T5](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], /) -> T0 | T1 | T2 | T3 | T4 | T5: ...
-@overload
-def peek_ref[T](ref: UnownedRef, *types: type[T]) -> T: ...
 
 # HACK: stop type checking after too many parameters (mypy workaround)
 @overload
-def peek_ref[T0, T1, T2, T3, T4, T5, T6](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
+def peek_ref[T0, T1, T2, T3, T4, T5, T6, R](ref: UnownedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> R: ...  # type: ignore[type-var]
 
 def peek_ref[T](ref: UnownedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _peek_ref(ref, *types)
@@ -216,12 +214,10 @@ def consume_ref[T0, T1, T2, T3](ref: ConsumedRef, type0: type[T0], type1: type[T
 def consume_ref[T0, T1, T2, T3, T4](ref: ConsumedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], /) -> T0 | T1 | T2 | T3 | T4: ...
 @overload
 def consume_ref[T0, T1, T2, T3, T4, T5](ref: ConsumedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], /) -> T0 | T1 | T2 | T3 | T4 | T5: ...
-@overload
-def consume_ref[T](ref: ConsumedRef, *types: type[T]) -> T: ...
 
 # HACK: stop type checking after too many parameters (mypy workaround)
 @overload
-def consume_ref[T0, T1, T2, T3, T4, T5, T6](ref: ConsumedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
+def consume_ref[T0, T1, T2, T3, T4, T5, T6, R](ref: ConsumedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> R: ...  # type: ignore[type-var]
 
 def consume_ref[T](ref: ConsumedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _consume_ref(ref, *types)
@@ -243,12 +239,10 @@ def consume_created_ref[T0, T1, T2, T3](ref: CreatedRef, type0: type[T0], type1:
 def consume_created_ref[T0, T1, T2, T3, T4](ref: CreatedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], /) -> T0 | T1 | T2 | T3 | T4: ...
 @overload
 def consume_created_ref[T0, T1, T2, T3, T4, T5](ref: CreatedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], /) -> T0 | T1 | T2 | T3 | T4 | T5: ...
-@overload
-def consume_created_ref[T](ref: CreatedRef, *types: type[T]) -> T: ...
 
 # HACK: stop type checking after too many parameters (mypy workaround)
 @overload
-def consume_created_ref[T0, T1, T2, T3, T4, T5, T6](ref: CreatedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> Any: ...
+def consume_created_ref[T0, T1, T2, T3, T4, T5, T6, R](ref: CreatedRef, type0: type[T0], type1: type[T1], type2: type[T2], type3: type[T3], type4: type[T4], type5: type[T5], type6: type[T6], /, *types: Any) -> R: ...  # type: ignore[type-var]
 
 def consume_created_ref[T](ref: CreatedRef, *types: type[T] | SpecialDynTypeMarker) -> T:
     return _consume_created_ref(ref, *types)

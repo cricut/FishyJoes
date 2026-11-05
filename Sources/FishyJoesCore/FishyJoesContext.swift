@@ -161,7 +161,7 @@ public class FishyJoesContext {
         addHeader(to: fragment, "from warnings import deprecated")
         for dependency in module.dependencies {
             // TODO: get correct package name here
-            addHeader(to: fragment, "import \(dependency)")
+            addHeader(to: fragment, "import \(PythonNamingConventions.moduleImportName(swift: dependency))")
         }
         // TODO: parse a a little better
 

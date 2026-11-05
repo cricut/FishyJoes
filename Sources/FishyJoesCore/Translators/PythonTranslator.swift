@@ -159,6 +159,7 @@ final class PythonTranslator: Translator {
                     context.addHeader(to: namespaceInitFragment, "from \(importLocation) import \(name)")
                 }
             }
+
             namespaceInitFragment.outputBlock("__all__: list[str] = [") {
                 for (name, _) in names {
                     namespaceInitFragment.output("\"\(name)\",")
@@ -166,11 +167,17 @@ final class PythonTranslator: Translator {
             }
         }
 
-        // Duplicate top-level init.py into _module_exported.py so that both internal and external code can refer to `module.thing`
+        let rootInitFragment = initFragments[[]]!
+
+        // Duplicate top-level __init__.py into _module_exported.py so that both internal and external code can refer to `module.thing`
         let internalExportedFragment = context.duplicate(
-            fragment: initFragments[[]]!,
+            fragment: rootInitFragment,
             to: "\(pythonRootDir)/\(internalExportedName).py"
         )
+
+        // In root __init__.py only, trigger FishyJoes setup after python imports are completely resolved
+        rootInitFragment.blankLine()
+        rootInitFragment.output("fishyjoes_type_setup.ensure_loaded()")
 
         let cDeclarationsFragment = SourceFragment(destinationPath: "python/generated/src/\(context.module.pythonPackageName)/_declarations.h")
         cDeclarationsFragment.output("/* \(CommonStrings.autogenWarning) */")

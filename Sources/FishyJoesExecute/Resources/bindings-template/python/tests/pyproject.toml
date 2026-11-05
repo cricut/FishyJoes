@@ -5,7 +5,7 @@ description = "Python tests for __MODULE_NAME__"
 requires-python = ">=3.11"
 dependencies = [
     "pytest>=9,<10",
-    "testapi",
+    "__PYTHON_DISTRIBUTION_NAME__",
 ]
 
 [tool.uv.sources]

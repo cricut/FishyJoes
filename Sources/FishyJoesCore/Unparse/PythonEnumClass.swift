@@ -194,7 +194,7 @@ class PythonEnumClass: PythonClass {
             fragment.outputBlock(" -> None:") {
                 fragment.output("self = fishyjoes_runtime.peek_ref(obj, \(namespaceName).\(enumCase.pythonName))")
                 for value in enumCase.values {
-                    let memberName = PythonClass.deforbidify(value.name, localVar: false)
+                    let memberName = PythonClass.deforbidify(value.name, localVar: true)
                     if value.type.static.isPrimitive {
                         fragment.output("out_\(value.name)[0] = self.\(memberName)")
                     } else {

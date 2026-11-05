@@ -50,7 +50,7 @@ class PythonPhases: IotaPhases, Phases {
         guard let dependency = options.packageInfo?.dependencyMap[module] else {
             fatalError("couldn't find dependency \(module)")
         }
-        let pythonSubdirectory = module == "FishyJoes" ? "python-runtime" : "bindings/python"
+        let pythonSubdirectory = module == "FishyJoes" ? "python-runtime" : "bindings/python/generated"
         return dependency.versionInPythonRequirementFormat(
             relativeTo: nil,
             addIfLocalPath: pythonSubdirectory,
