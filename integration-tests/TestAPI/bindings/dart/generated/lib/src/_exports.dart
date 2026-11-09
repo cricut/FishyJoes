@@ -28,6 +28,7 @@ export './AProtocolImplementation.dart';
 export './Actors.dart';
 export './AssociatedDataEnum.dart';
 export './AsyncFunctions.dart';
+export './AttributedStrings.dart';
 export './Bytes.dart';
 export './ClosedRanges.dart';
 export './Collections.dart';

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Callable, TypeAlias
+from typing import Any, Callable, TypeAlias, cast
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
@@ -112,7 +112,7 @@ def _invoke_function(context_ref: UnownedRef, fn_ref: UnownedRef, arg_refs: Cons
     if not callable(fn):
         raise ValueError(f"Expected callable, got {fn}")
     args: list[Any] = [_consume_ref(arg_refs[i], *arg_dyn_types) for i, arg_dyn_types in enumerate(context.args_dyn_types)]
-    result: Any = assert_type(fn(*args), *context.ret_dyn_types)
+    result = assert_type(fn(*args), *context.ret_dyn_types) #pyrefly: ignore
     return create_ref(result)
 
 
@@ -126,7 +126,7 @@ class _FunctionContext:
 def _invoke0[R](
     fn_ref: UnownedSwiftRef, ret_dyn_types: tuple[type[R], ...] | tuple[SpecialDynTypeMarker],
 ) -> R:
-    return _consume_created_ref(
+    return _consume_created_ref(  # type: ignore[no-any-return]
         _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke0(
             Runtime.shared.env_ref,
             fn_ref,
@@ -140,7 +140,7 @@ def _invoke1[R, P0](
 ) -> R:
     with (local_handles(arg0)
           as (arg0_ref,)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke1(
                 Runtime.shared.env_ref,
                 fn_ref,
@@ -155,7 +155,7 @@ def _invoke2[R, P0, P1](
 ) -> R:
     with (local_handles(arg0, arg1)
           as (arg0_ref, arg1_ref)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke2(
                 Runtime.shared.env_ref,
                 fn_ref,
@@ -170,7 +170,7 @@ def _invoke3[R, P0, P1, P2](
 ) -> R:
     with (local_handles(arg0, arg1, arg2)
           as (arg0_ref, arg1_ref, arg2_ref)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke3(
                 Runtime.shared.env_ref,
                 fn_ref,
@@ -185,7 +185,7 @@ def _invoke4[R, P0, P1, P2, P3](
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3)
           as (arg0_ref, arg1_ref, arg2_ref, arg3_ref)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke4(
                 Runtime.shared.env_ref,
                 fn_ref,
@@ -200,7 +200,7 @@ def _invoke5[R, P0, P1, P2, P3, P4](
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3, arg4)
           as (arg0_ref, arg1_ref, arg2_ref, arg3_ref, arg4_ref)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke5(
                 Runtime.shared.env_ref,
                 fn_ref,
@@ -215,7 +215,7 @@ def _invoke6[R, P0, P1, P2, P3, P4, P5](
 ) -> R:
     with (local_handles(arg0, arg1, arg2, arg3, arg4, arg5)
           as (arg0_ref, arg1_ref, arg2_ref, arg3_ref, arg4_ref, arg5_ref)):
-        return _consume_created_ref(
+        return _consume_created_ref(  # type: ignore[no-any-return]
             _FishyJoesCommonRuntime_SwiftFunctionImpl_invoke6(
                 Runtime.shared.env_ref,
                 fn_ref,

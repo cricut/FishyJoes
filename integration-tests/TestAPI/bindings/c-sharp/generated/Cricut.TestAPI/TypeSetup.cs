@@ -578,6 +578,12 @@ namespace Cricut.TestAPI {
         );
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        static extern void TestAPI_AttributedStrings_setup(
+            IntPtr envRef,
+            out CreatedRef _exn
+        );
+
+        [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void TestAPI_Bytes_setup(
             IntPtr envRef,
             out CreatedRef _exn
@@ -1878,6 +1884,22 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
+            Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
+                // Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
+                    Loader.env,
+                    "ArrayConverter<Foundation.AttributedString.Runs.Run>",
+                    out exn
+                ));
+            });
+            Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
+                // Console.WriteLine("setting up Array<AttributedSubstring>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
+                    Loader.env,
+                    "ArrayConverter<Foundation.AttributedSubstring>",
+                    out exn
+                ));
+            });
             Once("setup_ArrayConverter<Swift.Bool>", () => {
                 // Console.WriteLine("setting up Array<Bool>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<bool>(
@@ -2301,6 +2323,14 @@ namespace Cricut.TestAPI {
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ClosedRangeConverter_setup<byte>(
                     Loader.env,
                     "ClosedRangeConverter<Swift.UInt8>",
+                    out exn
+                ));
+            });
+            Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
+                // Console.WriteLine("setting up Range<AttributedString.Index>...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
+                    Loader.env,
+                    "RangeConverter<Foundation.AttributedString.Index>",
                     out exn
                 ));
             });
@@ -3267,6 +3297,13 @@ namespace Cricut.TestAPI {
             Once("setup_TestAPI.AsyncFunctions", () => {
                 // Console.WriteLine("setting up TestAPI.AsyncFunctions...");
                 Utilities.Check((out CreatedRef exn) => TestAPI_AsyncFunctions_setup(
+                    Loader.env,
+                    out exn
+                ));
+            });
+            Once("setup_TestAPI.AttributedStrings", () => {
+                // Console.WriteLine("setting up TestAPI.AttributedStrings...");
+                Utilities.Check((out CreatedRef exn) => TestAPI_AttributedStrings_setup(
                     Loader.env,
                     out exn
                 ));

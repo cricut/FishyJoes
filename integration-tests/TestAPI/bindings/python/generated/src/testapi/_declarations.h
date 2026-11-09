@@ -86,6 +86,10 @@ void TestAPI_AsyncFunctions_setup(
     fishyjoes_env envRef,
     created_host_ref * outExn
 );
+void TestAPI_AttributedStrings_setup(
+    fishyjoes_env envRef,
+    created_host_ref * outExn
+);
 void TestAPI_Bytes_setup(
     fishyjoes_env envRef,
     created_host_ref * outExn
@@ -939,6 +943,41 @@ created_host_ref __iota_TestAPI_AsyncFunctions_exercise6(
 created_host_ref __iota_TestAPI_AsyncFunctions_thunkTwiceMaker(
     fishyjoes_env envRef,
     unowned_host_ref thunk,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_attributedCharacters(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_attributesPreferringDuplicatesNearerStart(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_echo(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_emptyAttributeRuns(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_firstIndex(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_fullRange(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
+    created_host_ref * _exn
+);
+created_host_ref __iota_TestAPI_AttributedStrings_lastIndex(
+    fishyjoes_env envRef,
+    unowned_host_ref string,
     created_host_ref * _exn
 );
 created_host_ref __iota_TestAPI_Bytes_echoBytes(
@@ -2092,6 +2131,42 @@ created_host_ref __iota_get_TestAPI_AsyncFunctions_sixthThing(
     created_host_ref * _exn
 );
 created_host_ref __iota_get_TestAPI_AsyncFunctions_willThrow(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_accent(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_chinese(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_chineseBMP(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_chineseSIP(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_emoji(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_emojiMulti(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_polyglot(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_script(
+    fishyjoes_env envRef,
+    created_host_ref * _exn
+);
+created_host_ref __iota_get_TestAPI_AttributedStrings_simple(
     fishyjoes_env envRef,
     created_host_ref * _exn
 );

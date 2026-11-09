@@ -428,6 +428,9 @@ TestAPI_AssociatedDataEnum_setup: typing.Callable[[
 TestAPI_AsyncFunctions_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_AsyncFunctions_setup'))
+TestAPI_AttributedStrings_setup: typing.Callable[[
+    fishyjoes_runtime.EnvRef,
+], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_AttributedStrings_setup'))
 TestAPI_Bytes_setup: typing.Callable[[
     fishyjoes_runtime.EnvRef,
 ], None] = fishyjoes_runtime.raise_by_out_ref(getattr(_testapi_lib, 'TestAPI_Bytes_setup'))
@@ -1513,6 +1516,24 @@ def ensure_loaded() -> None:
                 (int, types.NoneType),
             )
 
+        @fishyjoes_runtime.eval_once_now('setup_ArrayConverter<Foundation.AttributedString.Runs.Run>') # type: ignore[unused-ignore,no-redef]
+        def setup_ArrayConverter_Foundation_AttributedString_Runs_Run_() -> None:
+            print(f"setting up Array<AttributedString.Runs.Run>")
+            fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_ArrayConverter_setup(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                string_bag.utf16("ArrayConverter<Foundation.AttributedString.Runs.Run>"),
+                (fishyjoes_runtime.attributed_string.runs.Run,),
+            )
+
+        @fishyjoes_runtime.eval_once_now('setup_ArrayConverter<Foundation.AttributedSubstring>') # type: ignore[unused-ignore,no-redef]
+        def setup_ArrayConverter_Foundation_AttributedSubstring_() -> None:
+            print(f"setting up Array<AttributedSubstring>")
+            fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_ArrayConverter_setup(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                string_bag.utf16("ArrayConverter<Foundation.AttributedSubstring>"),
+                (fishyjoes_runtime.AttributedSubstring,),
+            )
+
         @fishyjoes_runtime.eval_once_now('setup_ArrayConverter<Swift.Bool>') # type: ignore[unused-ignore,no-redef]
         def setup_ArrayConverter_Swift_Bool_() -> None:
             print(f"setting up Array<Bool>")
@@ -1977,6 +1998,15 @@ def ensure_loaded() -> None:
                 (int,),
             )
 
+        @fishyjoes_runtime.eval_once_now('setup_RangeConverter<Foundation.AttributedString.Index>') # type: ignore[unused-ignore,no-redef]
+        def setup_RangeConverter_Foundation_AttributedString_Index_() -> None:
+            print(f"setting up Range<AttributedString.Index>")
+            fishyjoes_runtime.fishyjoes_type_setup.FishyJoesCommonRuntime_RangeConverter_setup(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+                string_bag.utf16("RangeConverter<Foundation.AttributedString.Index>"),
+                (fishyjoes_runtime.attributed_string.Index,),
+            )
+
         @fishyjoes_runtime.eval_once_now('setup_RangeConverter<Swift.Int>') # type: ignore[unused-ignore,no-redef]
         def setup_RangeConverter_Swift_Int_() -> None:
             print(f"setting up Range<Int>")
@@ -2424,6 +2454,13 @@ def ensure_loaded() -> None:
         def setup_TestAPI_AsyncFunctions() -> None:
             print(f"setting up TestAPI.AsyncFunctions")
             testapi.fishyjoes_type_setup.TestAPI_AsyncFunctions_setup(
+                fishyjoes_runtime.Runtime.shared.env_ref,
+            )
+
+        @fishyjoes_runtime.eval_once_now('setup_TestAPI.AttributedStrings') # type: ignore[unused-ignore,no-redef]
+        def setup_TestAPI_AttributedStrings() -> None:
+            print(f"setting up TestAPI.AttributedStrings")
+            testapi.fishyjoes_type_setup.TestAPI_AttributedStrings_setup(
                 fishyjoes_runtime.Runtime.shared.env_ref,
             )
 

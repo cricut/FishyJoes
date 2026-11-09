@@ -115,7 +115,7 @@ let translatedAttributedStringRuns = ExternalTranslatedType(
     iotaCTypes: .hostRef,
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs"),
-    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.RunsView"),
+    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.Runs"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -130,7 +130,7 @@ let translatedAttributedStringRunsIndex = ExternalTranslatedType(
     iotaCTypes: .hostRef,
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Index"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Index"),
-    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.RunsView.Index"),
+    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.Runs.Index"),
     isInhabited: true,
     definingModule: Module.runtime
 )
@@ -145,7 +145,7 @@ let translatedAttributedStringRunsRun = ExternalTranslatedType(
     iotaCTypes: .hostRef,
     cSharpType: .named(package: "Cricut.FishyJoesRuntime", name: "AttributedString.RunsView.Run"),
     dartType: .named(package: "FishyJoesRuntime", name: "AttributedString_Runs_Run"),
-    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.RunsView.Run"),
+    pythonType: .class(module: "fishyjoes_runtime", qualifiedName: "AttributedString.Runs.Run"),
     isInhabited: true,
     definingModule: Module.runtime
 )

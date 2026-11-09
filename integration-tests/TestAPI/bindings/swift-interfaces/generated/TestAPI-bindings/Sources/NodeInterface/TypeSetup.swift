@@ -36,6 +36,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try TestAPI.Actors.nodeSetup(env: env, module: module)
     try TestAPI.AssociatedDataEnum.nodeSetup(env: env, module: module)
     try TestAPI.AsyncFunctions.nodeSetup(env: env, module: module)
+    try TestAPI.AttributedStrings.nodeSetup(env: env, module: module)
     try TestAPI.Bytes.nodeSetup(env: env, module: module)
     try TestAPI.ClosedRanges.nodeSetup(env: env, module: module)
     try TestAPI.Collections.nodeSetup(env: env, module: module)

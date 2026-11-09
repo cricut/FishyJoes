@@ -9,4 +9,4 @@ dependencies = [
 ]
 
 [tool.uv.sources]
-testapi = { path = "../generated", editable = true }
+__PYTHON_DISTRIBUTION_NAME__ = { path = "../generated", editable = true }

@@ -1,5 +1,4 @@
 import asyncio
-from asyncio import AbstractEventLoop
 from typing import Any, Awaitable, Callable, ClassVar, Generator, TypeAlias, final, override
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi

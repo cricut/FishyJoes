@@ -2,7 +2,7 @@ from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
 from fishyjoes_runtime.ffi_types import *
-from fishyjoes_runtime.runtime import create_consumed_ref, create_ref, peek_ref, catch_by_out_ref
+from fishyjoes_runtime.runtime import _peek_ref, catch_by_out_ref, create_consumed_ref, create_ref, peek_ref
 
 # MARK: C APIs
 
@@ -59,7 +59,7 @@ def _tuple_get_5(context: UnownedRef, ref: UnownedRef, out_exn: OutCreatedRef) -
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _tuple_constructor(context: UnownedRef, elements: UnownedRefArray) -> CreatedRef:
     all_dyn_types: tuple[DynTypes, ...] = peek_ref(context, tuple)
-    return create_ref(tuple(peek_ref(elements[index], *dyn_types) for (index, dyn_types) in enumerate(all_dyn_types)))
+    return create_ref(tuple(_peek_ref(elements[index], *dyn_types) for (index, dyn_types) in enumerate(all_dyn_types)))
 
 
 # MARK: setup

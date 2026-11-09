@@ -1,6 +1,7 @@
 from . import actors
 from . import associated_data_enum
 from . import async_functions
+from . import attributed_strings
 from . import bytes_
 from . import closed_ranges
 from . import collections
@@ -33,6 +34,7 @@ from ._actors_type import Actors
 from ._associated_data_enum_type import AssociatedDataEnum
 from ._async_functions_type import AsyncFunctions
 from ._attributed_string__putting_types_into_questionable_places_type import AttributedString_PuttingTypesIntoQuestionablePlaces
+from ._attributed_strings_type import AttributedStrings
 from ._bytes_type import Bytes
 from ._closed_ranges_type import ClosedRanges
 from ._collections_type import Collections
@@ -105,6 +107,7 @@ __all__: list[str] = [
     "Actors",
     "AssociatedDataEnum",
     "AsyncFunctions",
+    "AttributedStrings",
     "Bytes",
     "ClosedRanges",
     "Collections",
@@ -158,32 +161,35 @@ __all__: list[str] = [
     "Tree",
     "Tuples",
     "Urls",
-    "reference_case_enum",
-    "ranges",
-    "strings",
-    "unicode_scalar__putting_types_into_questionable_places",
-    "results",
-    "reference_only_types",
-    "bytes_",
-    "python_naming_collisions",
-    "structs",
-    "reference_empty_enum",
-    "test_default_computed_properties_enum",
-    "test_non_exported_protocol_enum",
-    "closed_ranges",
-    "associated_data_enum",
-    "primitives",
-    "shadow_box",
-    "tuples",
-    "deprecations",
     "protocol_fixtures",
-    "empty_enum",
+    "reference_case_enum",
     "urls",
+    "shadow_box",
     "functions",
-    "simple_enum",
-    "test_protocol_enum",
-    "actors",
     "collections",
-    "async_functions",
+    "bytes_",
+    "empty_enum",
+    "deprecations",
+    "python_naming_collisions",
+    "primitives",
     "default_arguments",
+    "associated_data_enum",
+    "attributed_strings",
+    "strings",
+    "results",
+    "test_protocol_enum",
+    "unicode_scalar__putting_types_into_questionable_places",
+    "tuples",
+    "actors",
+    "reference_only_types",
+    "closed_ranges",
+    "test_non_exported_protocol_enum",
+    "structs",
+    "simple_enum",
+    "ranges",
+    "test_default_computed_properties_enum",
+    "async_functions",
+    "reference_empty_enum",
 ]
+
+fishyjoes_type_setup.ensure_loaded()

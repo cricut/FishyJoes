@@ -502,6 +502,79 @@
         "named" : {
           "_0" : {
             "module" : "TestAPI",
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      },
+      "cSharpType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "Cricut.TestAPI"
+        }
+      },
+      "dartType" : {
+        "named" : {
+          "name" : "AttributedStrings",
+          "package" : "TestAPI"
+        }
+      },
+      "definingModule" : {
+        "dependencies" : [
+
+        ],
+        "extraDynamicLibraries" : [
+
+        ],
+        "name" : "TestAPI"
+      },
+      "iotaCTypes" : {
+        "consumed" : "consumed_host_ref",
+        "created" : "created_host_ref",
+        "unowned" : "unowned_host_ref"
+      },
+      "isInhabited" : false,
+      "jniType" : {
+        "object" : {
+          "_0" : "com/cricut/testapi/AttributedStrings"
+        }
+      },
+      "kotlinName" : "AttributedStrings",
+      "kotlinPackage" : "com.cricut.testapi",
+      "nodeName" : "TestAPI.AttributedStrings",
+      "pythonType" : {
+        "dynamics" : [
+
+        ],
+        "static" : {
+          "named" : {
+            "module" : "testapi",
+            "name" : "AttributedStrings",
+            "namespaces" : [
+
+            ]
+          }
+        }
+      },
+      "sourceType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
+            "name" : "AttributedStrings",
+            "namespace" : [
+
+            ]
+          }
+        }
+      }
+    },
+    {
+      "converterType" : {
+        "named" : {
+          "_0" : {
+            "module" : "TestAPI",
             "name" : "Bytes",
             "namespace" : [
 
@@ -11314,6 +11387,325 @@
 
             ]
           },
+          "AttributedStrings" : {
+            "classes" : [
+
+            ],
+            "fields" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(accent) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "accent",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chinese) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "chinese",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseBMP) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "chineseBMP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(chineseSIP) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "chineseSIP",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emoji) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "emoji",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emojiMulti) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "emojiMulti",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(polyglot) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "polyglot",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(script) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "script",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(simple) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isStatic" : true,
+                "name" : "simple",
+                "readOnly" : true,
+                "type" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              }
+            ],
+            "interfaces" : [
+
+            ],
+            "methods" : [
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(echo) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "echo",
+                "parameters" : [
+                  {
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(firstIndex) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "firstIndex",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(lastIndex) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "lastIndex",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Index"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(fullRange) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "fullRange",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.SwiftRange<Runtime.AttributedString.Index>"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(attributedCharacters) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "attributedCharacters",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedSubstring[]"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(attributesPreferringDuplicatesNearerStart) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "attributesPreferringDuplicatesNearerStart",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributeContainer"
+                  }
+                }
+              },
+              {
+                "documentation" : [
+                  "<!-- FishyJoes.export(emptyAttributeRuns) -->"
+                ],
+                "hasDefaultImplementation" : false,
+                "isAsync" : false,
+                "isStatic" : true,
+                "name" : "emptyAttributeRuns",
+                "parameters" : [
+                  {
+                    "label" : "of",
+                    "name" : "string",
+                    "type" : {
+                      "named" : {
+                        "_0" : "Runtime.AttributedString"
+                      }
+                    }
+                  }
+                ],
+                "returnType" : {
+                  "named" : {
+                    "_0" : "Runtime.AttributedString.Runs.Run[]"
+                  }
+                }
+              }
+            ],
+            "name" : "AttributedStrings",
+            "namespaces" : {
+
+            },
+            "typealiases" : [
+
+            ]
+          },
           "Bytes" : {
             "classes" : [
 
@@ -18568,6 +18960,19 @@
               "<!-- FishyJoes.export(AsyncFunctions) -->"
             ],
             "name" : "AsyncFunctions",
+            "value" : {
+              "union" : {
+                "_0" : [
+
+                ]
+              }
+            }
+          },
+          {
+            "documentation" : [
+              "<!-- FishyJoes.export(AttributedStrings) -->"
+            ],
+            "name" : "AttributedStrings",
             "value" : {
               "union" : {
                 "_0" : [
