@@ -7,10 +7,10 @@ import types
 import typing
 
 __all__: list[str] = [
-    "get_bytes",
-    "get_data",
     "echo_bytes",
     "echo_data",
+    "get_bytes",
+    "get_data",
 ]
 
 def get_bytes() -> list[int]:

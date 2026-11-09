@@ -11,9 +11,9 @@ import types
 import typing
 
 __all__: list[str] = [
+    "East",
     "North",
     "South",
-    "East",
     "West",
     "get_default_direction",
     "rotate180",

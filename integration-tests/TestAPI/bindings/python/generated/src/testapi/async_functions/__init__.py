@@ -7,14 +7,6 @@ import types
 import typing
 
 __all__: list[str] = [
-    "get_add3_things",
-    "get_const42",
-    "get_fifth_thing",
-    "get_abs",
-    "get_int_compose",
-    "get_make_list",
-    "get_sixth_thing",
-    "get_will_throw",
     "delayed_const",
     "exercise0",
     "exercise1",
@@ -23,6 +15,14 @@ __all__: list[str] = [
     "exercise4",
     "exercise5",
     "exercise6",
+    "get_abs",
+    "get_add3_things",
+    "get_const42",
+    "get_fifth_thing",
+    "get_int_compose",
+    "get_make_list",
+    "get_sixth_thing",
+    "get_will_throw",
     "thunk_twice_maker",
 ]
 

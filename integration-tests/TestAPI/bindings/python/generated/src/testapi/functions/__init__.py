@@ -7,13 +7,6 @@ import types
 import typing
 
 __all__: list[str] = [
-    "get_add3_things",
-    "get_const42",
-    "get_fifth_thing",
-    "get_abs",
-    "get_int_compose",
-    "get_make_list",
-    "get_sixth_thing",
     "exercise0",
     "exercise1",
     "exercise2",
@@ -21,8 +14,15 @@ __all__: list[str] = [
     "exercise4",
     "exercise5",
     "exercise6",
-    "will_throw",
+    "get_abs",
+    "get_add3_things",
+    "get_const42",
+    "get_fifth_thing",
+    "get_int_compose",
+    "get_make_list",
+    "get_sixth_thing",
     "thunk_twice_maker",
+    "will_throw",
 ]
 
 def get_add3_things() -> typing.Callable[[float, float, int], float]:

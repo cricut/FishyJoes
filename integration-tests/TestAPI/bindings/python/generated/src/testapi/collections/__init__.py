@@ -9,6 +9,13 @@ import typing
 
 __all__: list[str] = [
     "CollectionHolder",
+    "collection_mapper",
+    "echo_array_of_int",
+    "echo_dictionary_of_int_to_int",
+    "echo_maybe_array_of_maybe_int",
+    "echo_maybe_dictionary_of_int_to_maybe_int",
+    "echo_maybe_set_of_maybe_int",
+    "echo_set_of_int",
     "get_array_of_big_tuples",
     "get_array_of_int",
     "get_default_collection_holder",
@@ -20,13 +27,6 @@ __all__: list[str] = [
     "get_maybe_set_of_int",
     "get_maybe_set_of_maybe_int",
     "get_set_of_int",
-    "echo_array_of_int",
-    "echo_set_of_int",
-    "echo_dictionary_of_int_to_int",
-    "echo_maybe_array_of_maybe_int",
-    "echo_maybe_set_of_maybe_int",
-    "echo_maybe_dictionary_of_int_to_maybe_int",
-    "collection_mapper",
 ]
 
 def get_array_of_big_tuples() -> list[tuple[int,int,int,int]]:

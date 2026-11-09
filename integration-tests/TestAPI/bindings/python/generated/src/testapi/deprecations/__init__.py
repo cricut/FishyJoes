@@ -25,6 +25,6 @@ def deprecated_method(
     )
 
 __all__: list[str] = [
-    "get_deprecated_variable",
     "deprecated_method",
+    "get_deprecated_variable",
 ]

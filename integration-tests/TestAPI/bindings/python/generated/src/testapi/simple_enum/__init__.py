@@ -10,13 +10,13 @@ import types
 import typing
 
 __all__: list[str] = [
-    "Red",
-    "Green",
     "Blue",
+    "Green",
+    "Red",
     "get_favorite_color",
-    "set_favorite_color",
     "pick_a_color",
     "reset_favorite_color",
+    "set_favorite_color",
 ]
 
 def get_favorite_color() -> testapi.SimpleEnum:

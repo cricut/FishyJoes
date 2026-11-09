@@ -7,9 +7,9 @@ import types
 import typing
 
 __all__: list[str] = [
+    "a_static_method",
     "get_a_static_property",
     "not_going_to_happen",
-    "a_static_method",
 ]
 
 def get_a_static_property() -> int:

@@ -9,8 +9,8 @@ import types
 import typing
 
 __all__: list[str] = [
-    "Shade",
     "Empty",
+    "Shade",
     "darkest",
 ]
 

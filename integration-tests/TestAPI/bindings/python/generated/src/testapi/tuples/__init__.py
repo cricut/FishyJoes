@@ -7,12 +7,12 @@ import types
 import typing
 
 __all__: list[str] = [
+    "check_tuples",
     "get_tuple2",
     "get_tuple3",
     "get_tuple4",
     "get_tuple5",
     "get_tuple6",
-    "check_tuples",
 ]
 
 def get_tuple2() -> tuple[int,str]:

@@ -105,7 +105,7 @@ extension TranslatedEnum.Case {
     func pythonType(inModule module: String, enumNamespace: [String], enumName: String) -> PythonType {
         .class(
             module: module,
-            namespaces: enumNamespace + [snakify(enumName)],
+            namespaces: enumNamespace + [PythonClass.deforbidify(snakify(enumName), localVar: true)],
             name: pythonUnqualifiedName
         )
     }

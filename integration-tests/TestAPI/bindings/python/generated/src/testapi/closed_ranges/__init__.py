@@ -7,6 +7,19 @@ import types
 import typing
 
 __all__: list[str] = [
+    "echo_double_range",
+    "echo_float_range",
+    "echo_int16_range",
+    "echo_int32_range",
+    "echo_int64_range",
+    "echo_int8_range",
+    "echo_int_range",
+    "echo_string_range",
+    "echo_uint16_range",
+    "echo_uint32_range",
+    "echo_uint64_range",
+    "echo_uint8_range",
+    "echo_uint_range",
     "get_double_range",
     "get_float_range",
     "get_int16_range",
@@ -20,19 +33,6 @@ __all__: list[str] = [
     "get_uint64_range",
     "get_uint8_range",
     "get_uint_range",
-    "echo_uint8_range",
-    "echo_uint16_range",
-    "echo_uint32_range",
-    "echo_uint64_range",
-    "echo_uint_range",
-    "echo_int8_range",
-    "echo_int16_range",
-    "echo_int32_range",
-    "echo_int64_range",
-    "echo_int_range",
-    "echo_float_range",
-    "echo_double_range",
-    "echo_string_range",
 ]
 
 def get_double_range() -> fishyjoes_runtime.SwiftClosedRange[float]:

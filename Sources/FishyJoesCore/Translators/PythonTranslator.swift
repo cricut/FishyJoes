@@ -161,7 +161,7 @@ final class PythonTranslator: Translator {
             }
 
             namespaceInitFragment.outputBlock("__all__: list[str] = [") {
-                for (name, _) in names {
+                for name in names.map(\.unqualifiedName).sorted() {
                     namespaceInitFragment.output("\"\(name)\",")
                 }
             }

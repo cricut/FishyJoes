@@ -13,12 +13,12 @@ import types
 import typing
 
 __all__: list[str] = [
-    "Thing",
-    "Other",
     "Bar",
     "NoValue",
     "None_",
+    "Other",
     "SimpleEnum",
+    "Thing",
     "get_static_thing",
 ]
 

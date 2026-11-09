@@ -7,9 +7,9 @@ import types
 import typing
 
 __all__: list[str] = [
-    "echo_defaults",
     "describe_enum_default",
     "echo_default_tolerance",
+    "echo_defaults",
 ]
 
 def echo_defaults(

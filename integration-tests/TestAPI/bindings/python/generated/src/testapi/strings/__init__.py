@@ -7,6 +7,7 @@ import types
 import typing
 
 __all__: list[str] = [
+    "echo",
     "get_accent",
     "get_chinese",
     "get_chinese_bmp",
@@ -15,7 +16,6 @@ __all__: list[str] = [
     "get_emoji_multi",
     "get_script",
     "get_simple",
-    "echo",
     "split",
 ]
 

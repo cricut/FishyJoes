@@ -7,10 +7,6 @@ class PythonEnumClass: PythonClass {
         let swiftName: String
         let pythonName: String
         let values: [(name: String, type: PythonType)]
-
-        // var pythonName: String {
-        //     PythonClass.deforbidify(upperCaseFirst(swiftName))
-        // }
     }
 
     init(
@@ -161,21 +157,24 @@ class PythonEnumClass: PythonClass {
         }
 
         for enumCase in cases {
+            func pythonValueName(_ swiftName: String) -> String {
+                PythonClass.deforbidify(snakify(swiftName), localVar: true)
+            }
             // case constructor
             fragment.output("@fishyjoes_runtime.callback(\"\(mangledName)_\(upperCaseFirst(enumCase.swiftName))ConstructorFn\")")
             fragment.output("@fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)")
             fragment.outputBlock("def new_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 for value in enumCase.values {
-                    fragment.output("\(value.name): \(value.type.static.ffiConsumedType.name()),")
+                    fragment.output("\(pythonValueName(value.name)): \(value.type.static.ffiConsumedType.name()),")
                 }
             }
             fragment.outputBlock(" -> fishyjoes_runtime.CreatedRef:") {
                 fragment.outputBlock("return fishyjoes_runtime.create_ref(\(namespaceName).\(enumCase.pythonName)(", closeWith: "))") {
                     for value in enumCase.values {
                         if value.type.static.isPrimitive {
-                            fragment.output("\(value.name),")
+                            fragment.output("\(pythonValueName(value.name)),")
                         } else {
-                            fragment.output("fishyjoes_runtime.consume_ref(\(value.name), \(value.type.dynamicsString)),")
+                            fragment.output("fishyjoes_runtime.consume_ref(\(pythonValueName(value.name)), \(value.type.dynamicsString)),")
                         }
                     }
                 }
@@ -188,7 +187,7 @@ class PythonEnumClass: PythonClass {
             fragment.outputBlock("def extract_\(snakify(enumCase.swiftName))(", newLineTerminated: false) {
                 fragment.output("obj: fishyjoes_runtime.UnownedRef,")
                 for value in enumCase.values {
-                    fragment.output("out_\(value.name): \(value.type.static.ffiOutCreatedType.name()),")
+                    fragment.output("out_\(snakify(value.name)): \(value.type.static.ffiOutCreatedType.name()),")
                 }
             }
             fragment.outputBlock(" -> None:") {
@@ -196,9 +195,9 @@ class PythonEnumClass: PythonClass {
                 for value in enumCase.values {
                     let memberName = PythonClass.deforbidify(value.name, localVar: true)
                     if value.type.static.isPrimitive {
-                        fragment.output("out_\(value.name)[0] = self.\(memberName)")
+                        fragment.output("out_\(snakify(value.name))[0] = self.\(memberName)")
                     } else {
-                        fragment.output("out_\(value.name)[0] = fishyjoes_runtime.create_ref(self.\(memberName))")
+                        fragment.output("out_\(snakify(value.name))[0] = fishyjoes_runtime.create_ref(self.\(memberName))")
                     }
                 }
             }

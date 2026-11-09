@@ -7,6 +7,7 @@ import types
 import typing
 
 __all__: list[str] = [
+    "from_",
     "get_class_",
     "get_dunder____",
     "get_is_na_n",
@@ -14,7 +15,6 @@ __all__: list[str] = [
     "get_list",
     "get_title_url",
     "get_url",
-    "from_",
 ]
 
 def get_class_() -> int:

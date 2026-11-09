@@ -7,6 +7,12 @@ import types
 import typing
 
 __all__: list[str] = [
+    "attributed_characters",
+    "attributes_preferring_duplicates_nearer_start",
+    "echo",
+    "empty_attribute_runs",
+    "first_index",
+    "full_range",
     "get_accent",
     "get_chinese",
     "get_chinese_bmp",
@@ -16,13 +22,7 @@ __all__: list[str] = [
     "get_polyglot",
     "get_script",
     "get_simple",
-    "echo",
-    "first_index",
     "last_index",
-    "full_range",
-    "attributed_characters",
-    "attributes_preferring_duplicates_nearer_start",
-    "empty_attribute_runs",
 ]
 
 def get_accent() -> fishyjoes_runtime.AttributedString:
