@@ -21,6 +21,7 @@ env:
   DOTNET_VERSION: '8.0.x'
   GITHUB_USER: ${{ github.actor }}
   GITHUB_TOKEN: ${{ github.token }}
+  FISHYJOES: '1'
 
 jobs:
   integration-tests-mac:
@@ -52,6 +53,9 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
+
       - name: Install generation tools
         shell: zsh {0}
         run: |
@@ -66,11 +70,11 @@ jobs:
 
           cd integration-tests/TestAPI
 
-          FISHYJOES=1 swift run -- fishy-joes generate
+          swift run -- fishy-joes generate
 
           if [ -n "$(git status --porcelain .)" ]; then
             echo '::error:: generation modified sources'
-            echo '::error::   run `FISHYJOES=1 swift run -- fishy-joes generate` from integration-tests/TestAPI and re-commit'
+            echo '::error::   run `swift run -- fishy-joes generate` from integration-tests/TestAPI and re-commit'
             git diff
             git status
             exit 1
@@ -89,7 +93,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --nodejs build test
+          swift run -- fishy-joes --nodejs build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -104,7 +108,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
+          swift run -- fishy-joes --c-sharp build test
 
       - name: Test Dart from dart via fishy-joes
         shell: zsh {0}
@@ -112,7 +116,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --dart build test
+          swift run -- fishy-joes --dart build test
 
       - name: Test Python from python via fishy-joes
         shell: zsh {0}
@@ -120,7 +124,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --python build test
+          swift run -- fishy-joes --python build test
 
       - name: Build FishyJoesJavaRuntime
         shell: zsh {0}
@@ -139,7 +143,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --kotlin-fast build test
+          swift run -- fishy-joes --kotlin-fast build test
 
   integration-tests-ubuntu-and-android:
     name: "Ubuntu/Android: Integration tests"
@@ -174,6 +178,9 @@ jobs:
 
       - uses: dart-lang/setup-dart@v1
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
+
       - name: Setup Python
         shell: bash
         run: |
@@ -203,7 +210,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --nodejs --wasm build test
+          swift run -- fishy-joes --nodejs --wasm build test
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -218,7 +225,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --c-sharp build test
+          swift run -- fishy-joes --c-sharp build test
 
           dotnet nuget locals all --clear
 
@@ -228,7 +235,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --dart build test
+          swift run -- fishy-joes --dart build test
 
       - name: Test Python from python via fishy-joes
         shell: zsh {0}
@@ -236,7 +243,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --python build test
+          swift run -- fishy-joes --python build test
 
       - name: Install Android build dependencies
         shell: zsh {0}
@@ -270,7 +277,7 @@ jobs:
           set -euxo pipefail
 
           cd integration-tests/TestAPI
-          FISHYJOES=1 swift run -- fishy-joes --kotlin build test
+          swift run -- fishy-joes --kotlin build test
 
           # Publish test-api for the android tests to use later
           (cd bindings/kotlin/generated && ./gradlew publishToMavenLocal)
@@ -338,6 +345,9 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true

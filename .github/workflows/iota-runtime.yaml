@@ -259,6 +259,8 @@ jobs:
           mkdir -p python-runtime/dist
           cp -dv {mac,ubuntu,windows}_generated/python-runtime/dist/*.whl python-runtime/dist/
 
+          ls -R python-runtime/dist/
+
       - name: Pack
         shell: zsh {0}
         run: |
@@ -384,7 +386,7 @@ jobs:
 
           # publish python runtime wheels as release assets
 
-          for wheel in {mac,ubuntu,windows}_python_wheel/*.whl; do
+          for wheel in {mac,ubuntu,windows}_generated/python-runtime/dist/*.whl; do
             name="$(basename "$wheel")"
             curl -f \
               -X POST \
