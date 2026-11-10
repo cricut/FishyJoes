@@ -144,7 +144,7 @@ class CStringBag(AbstractContextManager["CStringBag"]):
 
 
 class Runtime:
-    shared: ClassVar[Runtime]
+    shared: ClassVar[Self]
 
     env_ref: EnvRef
 
