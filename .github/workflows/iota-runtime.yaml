@@ -241,7 +241,7 @@ jobs:
 
           rm -rf c-sharp-runtime/runtimes
           mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}/native
-          cp -dv mac_generated/.build/apple/releases/* c-sharp-runtime/runtimes/osx/native/
+          cp -dv mac_generated/.build/apple/release/* c-sharp-runtime/runtimes/osx/native/
           cp -dv ubuntu_generated/.build/linux-iota-libs/* c-sharp-runtime/runtimes/linux/native/
           cp -dv windows_generated/.build/windows-iota-libs/* c-sharp-runtime/runtimes/win/native/
 
@@ -249,7 +249,7 @@ jobs:
 
           rm -rf dart-runtime/{macos,linux,windows}/native
           mkdir -p dart-runtime/{macos,linux,windows}/native
-          cp -dv mac_generated/.build/apple/releases/* dart-runtime/macos/native/
+          cp -dv mac_generated/.build/apple/release/* dart-runtime/macos/native/
           cp -dv ubuntu_generated/.build/linux-iota-libs/* dart-runtime/linux/native/
           cp -dv windows_generated/.build/windows-iota-libs/* dart-runtime/windows/native/
 
