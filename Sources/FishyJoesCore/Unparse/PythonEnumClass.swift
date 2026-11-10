@@ -150,7 +150,7 @@ class PythonEnumClass: PythonClass {
                     for (enumIndex, enumCase) in cases.enumerated() {
                         fragment.output("case \(namespaceName).\(enumCase.pythonName)(): return \(enumIndex)")
                     }
-                    fragment.output("case unknown: raise ValueError(f'Unknown \(unqualifiedName) case \"{unknown})\". Enums are not meant to be extended.')")
+                    fragment.output("case unknown: raise ValueError(f'Unknown \(unqualifiedName) case \"{unknown}\". Enums are not meant to be extended.')")
                 }
             }
             fragment.blankLine()
