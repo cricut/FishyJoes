@@ -19,9 +19,50 @@ env:
   DOTNET_VERSION: '8.0.x'
 
 jobs:
+  iota-version:
+    name: "Determine version"
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Determine version
+        id: version
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          set -euxo pipefail
+
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
+
+          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              VERSION="$RELEASE_TAG"
+          else
+              VERSION=${GITHUB_REF#refs/*/}
+          fi
+
+          if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+              echo "Unsupported release tag '$VERSION'" >&2
+              exit 1
+            fi
+
+              VERSION="0.0.1-$(git rev-parse --short HEAD)"
+          fi
+
+          echo "Detected Version is '$VERSION'"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
   build-iota-mac:
     name: "macOS: Build Iota Runtime"
     runs-on: macos-26
+    needs:
+      - iota-version
+    env:
+      VERSION: ${{ needs.iota-version.outputs.version }}
 
     steps:
       - name: Checkout
@@ -46,7 +87,10 @@ jobs:
   build-iota-ubuntu:
     name: "Ubuntu: Build Iota Runtime"
     runs-on: ubuntu-22.04
+    needs:
+      - iota-version
     env:
+      VERSION: ${{ needs.iota-version.outputs.version }}
       LIB_DIR: .build/linux-iota-libs
     steps:
       - name: Checkout
@@ -92,8 +136,11 @@ jobs:
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
     runs-on: windows-2025
+    needs:
+      - iota-version
     env:
       LIB_DIR: .build/windows-iota-libs
+      VERSION: ${{ needs.iota-version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -151,7 +198,7 @@ jobs:
       packages: write
     env:
       VERSION: ${{ needs.iota-version.outputs.version }}
-      PUBLISH_TAG: ${{ needs.iota-version.outputs.version }}-dart-publish
+      DART_PUBLISH_TAG: ${{ needs.iota-version.outputs.version }}-dart-publish
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -247,11 +294,11 @@ jobs:
               git commit -m "chore: prepare Dart publish tag for $VERSION"
           fi
 
-          git tag "$PUBLISH_TAG"
+          git tag "$DART_PUBLISH_TAG"
           git show --stat --oneline --decorate HEAD
-          git rev-parse "$PUBLISH_TAG"
+          git rev-parse "$DART_PUBLISH_TAG"
 
-          echo "Publish tag '$PUBLISH_TAG' prepared locally"
+          echo "Publish tag '$DART_PUBLISH_TAG' prepared locally"
 
       - name: Push Dart publish tag
         if: github.event_name == 'release'
@@ -259,12 +306,12 @@ jobs:
         run: |
           set -euxo pipefail
 
-          if git ls-remote --exit-code --tags origin "refs/tags/$PUBLISH_TAG" >/dev/null 2>&1; then
-              echo "Publish tag '$PUBLISH_TAG' already exists"
+          if git ls-remote --exit-code --tags origin "refs/tags/$DART_PUBLISH_TAG" >/dev/null 2>&1; then
+              echo "Publish tag '$DART_PUBLISH_TAG' already exists"
               exit 0
           fi
 
-          git push origin "refs/tags/$PUBLISH_TAG"
+          git push origin "refs/tags/$DART_PUBLISH_TAG"
 
       - name: Upload nuget package
         uses: actions/upload-artifact@v7
