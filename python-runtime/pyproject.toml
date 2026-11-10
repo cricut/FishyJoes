@@ -29,3 +29,7 @@ strict = true
 
 [tool.pyrefly]
 preset = "strict"
+
+[tool.pyrefly.errors]
+# This error varies too much by installed python version to be reliable. See for example https://github.com/meta/pyrefly/issues/3951
+unused-ignore = false
