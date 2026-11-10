@@ -68,6 +68,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
+
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
@@ -98,6 +101,9 @@ jobs:
 
       - name: Set up Swift
         uses: ./.github/actions/setup-swift
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Configure build environment
         run: |
@@ -147,6 +153,9 @@ jobs:
 
       - name: Set up Swift
         uses: ./.github/actions/setup-swift
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Pre-resolve Required SwiftPM Packages
         continue-on-error: true
