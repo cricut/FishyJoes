@@ -10,11 +10,6 @@ public func silenceTryWarning<T>(_ x: T) throws -> T { x }
 @inline(__always)
 public func silenceMutationWarning<T>(_ x: inout T) {}
 
-@_cdecl("FishyJoesCommonRuntime_strdup")
-func strdupWrapper(_ ptr: UnsafePointer<CChar>) -> UnsafeMutablePointer<CChar> {
-    strdup(ptr)
-}
-
 // Used by C# and python-on-windows because apparently microsoft has a hard time with the C standard library
 @_cdecl("FishyJoesCommonRuntime_strdup")
 public func FishyJoesCommonRuntime_strdup(ptr: UnsafeMutablePointer<CChar>) -> UnsafeMutablePointer<CChar> {
