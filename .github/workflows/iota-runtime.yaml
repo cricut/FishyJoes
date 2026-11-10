@@ -241,19 +241,23 @@ jobs:
 
           rm -rf c-sharp-runtime/runtimes
           mkdir -p c-sharp-runtime/runtimes/{osx,linux,win}/native
-          cp -dv mac_generated/* c-sharp-runtime/runtimes/osx/native/
-          cp -dv ubuntu_generated/* c-sharp-runtime/runtimes/linux/native/
-          cp -dv windows_generated/* c-sharp-runtime/runtimes/win/native/
+          cp -dv mac_generated/.build/apple/releases/* c-sharp-runtime/runtimes/osx/native/
+          cp -dv ubuntu_generated/.build/linux-iota-libs/* c-sharp-runtime/runtimes/linux/native/
+          cp -dv windows_generated/.build/windows-iota-libs/* c-sharp-runtime/runtimes/win/native/
 
           ls -R c-sharp-runtime/
 
           rm -rf dart-runtime/{macos,linux,windows}/native
           mkdir -p dart-runtime/{macos,linux,windows}/native
-          cp -dv mac_generated/* dart-runtime/macos/native/
-          cp -dv ubuntu_generated/* dart-runtime/linux/native/
-          cp -dv windows_generated/* dart-runtime/windows/native/
+          cp -dv mac_generated/.build/apple/releases/* dart-runtime/macos/native/
+          cp -dv ubuntu_generated/.build/linux-iota-libs/* dart-runtime/linux/native/
+          cp -dv windows_generated/.build/windows-iota-libs/* dart-runtime/windows/native/
 
-          ls -R dart-runtime
+          ls -R dart-runtime/
+
+          rm -rf python-runtime/dist
+          mkdir -p python-runtime/dist
+          cp -dv {mac,ubuntu,windows}_generated/python-runtime/dist/*.whl python-runtime/dist/
 
       - name: Pack
         shell: zsh {0}
