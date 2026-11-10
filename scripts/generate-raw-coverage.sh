@@ -71,7 +71,7 @@ ls .build/debug/*(.x)
 (
     cd integration-tests/TestAPI
     export LLVM_PROFILE_FILE=$FISHYJOES_COVERAGE_PATH/integration-tests-python.profraw
-    ../../.build/debug/fishy-joes generate build test --python --debug
+    ../../.build/debug/fishy-joes build test --python --debug
 )
 
 # Check that generation didn't change anything

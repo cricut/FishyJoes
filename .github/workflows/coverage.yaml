@@ -21,6 +21,7 @@ env:
   DOTNET_VERSION: '8.0.x'
   GITHUB_USER: ${{ github.actor }}
   GITHUB_TOKEN: ${{ github.token }}
+  FISHYJOES: '1'
 
 jobs:
   coverage:
@@ -51,6 +52,9 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Install tools
         shell: zsh {0}
