@@ -28,6 +28,12 @@ jobs:
     name: "macOS: Build and test C# bindings"
     runs-on: macos-26
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -55,7 +61,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -82,6 +89,12 @@ jobs:
     name: "Ubuntu: Build and test C# bindings"
     runs-on: ubuntu-22.04
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -110,7 +123,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: zsh {0}
@@ -153,6 +167,12 @@ jobs:
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -189,7 +209,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build library
         shell: bash
@@ -222,6 +243,12 @@ jobs:
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:

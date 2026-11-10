@@ -30,7 +30,7 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseShadowBox):
         case shadow_box.Shade(): return 0
         case shadow_box.Empty(): return 1
-        case unknown: raise ValueError(f'Unknown ShadowBox case "{unknown})". Enums are not meant to be extended.')
+        case unknown: raise ValueError(f'Unknown ShadowBox case "{unknown}". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_ShadowBox_ShadeConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

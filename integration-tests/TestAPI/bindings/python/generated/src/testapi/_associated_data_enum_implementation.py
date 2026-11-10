@@ -40,7 +40,7 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case associated_data_enum.NoValue(): return 3
         case associated_data_enum.None_(): return 4
         case associated_data_enum.SimpleEnum(): return 5
-        case unknown: raise ValueError(f'Unknown AssociatedDataEnum case "{unknown})". Enums are not meant to be extended.')
+        case unknown: raise ValueError(f'Unknown AssociatedDataEnum case "{unknown}". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_AssociatedDataEnum_ThingConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

@@ -58,7 +58,7 @@ iota_TestAPI_TestProtocolEnum_plugh: typing.Callable[[
 def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
     match fishyjoes_runtime.peek_ref(obj_ref, _BaseTestProtocolEnum):
         case test_protocol_enum.Qux(): return 0
-        case unknown: raise ValueError(f'Unknown TestProtocolEnum case "{unknown})". Enums are not meant to be extended.')
+        case unknown: raise ValueError(f'Unknown TestProtocolEnum case "{unknown}". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_TestProtocolEnum_QuxConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

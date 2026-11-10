@@ -1,6 +1,16 @@
 ---
 module: TestAPI
-CIPostCheckoutHook: |
+CIPreCheckoutHook: |
   set -euxo pipefail
 
-  echo "this is the post-checkout hook"
+  echo "PRE CHECKOUT hook"
+
+CIPreBuildHook: |
+  set -euxo pipefail
+
+  echo "PRE BUILD hook"
+
+CIPostBuildHook: |
+  set -euxo pipefail
+
+  echo "POST BUILD hook"

@@ -38,7 +38,7 @@ public class CodeGen: ParsableCommand {
     @Flag(name: .long, help: "Build library in debug mode")
     var debug = false
 
-    @Flag(name: .long, inversion: .prefixedNo, help: "Use swiftly to select correct toolchain version when building for relevant platforms (wasm and android currently)")
+    @Flag(name: .long, inversion: .prefixedNo, help: "Use swiftly to select correct toolchain version when building for relevant platforms (wasm, android and linux)")
     var swiftly = true
 
     @Option(name: .long, help: "Update version number of generated package.")
@@ -372,13 +372,21 @@ extension CodeGen {
                     for module in config.requiredModules {
                         fragment.output(#"packageDep("\#(module)-bindings", bindings: true),"#)
                     }
+                    for module in config.requiredModules {
+                        fragment.output(#"packageDep("\#(module)"),"#)
+                    }
                     fragment.output(#"packageDep("\#(config.module)"),"#)
                     fragment.output(#"packageDep("FishyJoes"),"#)
                 }
                 fragment.outputBlock(#"targets: ["#, newLineTerminated: false) {
                     fragment.outputBlock(".target(", closeWith: "),") {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
-                        fragment.output(#"dependencies: [.product(name: "\#(config.module)", package: "\#(config.module)")],"#)
+                        fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
+                            for module in config.requiredModules {
+                                fragment.output(#".product(name: "\#(module)", package: "\#(module)"),"#)
+                            }
+                            fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                        }
                         fragment.output(#"path: "Sources/CommonInterface","#)
                         fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
                     }

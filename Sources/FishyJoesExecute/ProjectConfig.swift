@@ -9,7 +9,12 @@ struct ProjectConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+
+    // TODO: generalize this to a more flexible hook system when n>=3
+    let ciPreCheckoutHook: String?
     let ciPreBuildHook: String?
+    let ciPostBuildHook: String?
+
     let flexibleVersions: Bool
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
@@ -55,8 +60,12 @@ struct ProjectConfig: Codable {
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
+            Log.error("CIPreCheckoutHook: |")
+            Log.error("  echo 'doing CI work in bash before checkout'")
             Log.error("CIPreBuildHook: |")
             Log.error("  echo 'doing CI work in bash'")
+            Log.error("CIPostBuildHook: |")
+            Log.error("  echo 'doing more CI work in bash'")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
@@ -93,9 +102,21 @@ struct ProjectConfig: Codable {
             }
             return list
         }
+        let ciPreCheckoutHook = try configDictionary["CIPreCheckoutHook"].map { obj -> String in
+            guard let hook = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIPreCheckoutHook` is not a (string) bash script")
+            }
+            return hook
+        }
         let ciPreBuildHook = try configDictionary["CIPreBuildHook"].map { obj -> String in
             guard let hook = obj as? String else {
                 throw ValidationError("fishy-joes.yaml value for key `CIPreBuildHook` is not a (string) bash script")
+            }
+            return hook
+        }
+        let ciPostBuildHook = try configDictionary["CIPostBuildHook"].map { obj -> String in
+            guard let hook = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CIPostBuildHook` is not a (string) bash script")
             }
             return hook
         }
@@ -138,7 +159,9 @@ struct ProjectConfig: Codable {
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
+            ciPreCheckoutHook: ciPreCheckoutHook,
             ciPreBuildHook: ciPreBuildHook,
+            ciPostBuildHook: ciPostBuildHook,
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,

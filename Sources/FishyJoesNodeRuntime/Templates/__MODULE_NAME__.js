@@ -4,7 +4,22 @@ import { WasmFs } from "@wasmer/wasmfs";
 import * as __MODULE_NAME__Extensions from "./__MODULE_NAME__.extensions.js";
 import * as __MODULE_DEPENDENCY__Extensions from "./__MODULE_DEPENDENCY__.extensions.js";
 
-export const init = async () => {
+export const protoLibrary = async () => {
+  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
+    const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
+    return { module: await WebAssembly.compileStreaming(response) };
+  } else {
+    const path = await import(/* webpackIgnore: true */ 'path');
+    const url = await import(/* webpackIgnore: true */ 'url');
+    const fs = await import(/* webpackIgnore: true */ 'fs');
+    const dirname = path.dirname(url.fileURLToPath(import.meta.url));
+    const binary = fs.readFileSync(path.join(dirname, '__MODULE_NAME__.wasm'));
+    return { module: await WebAssembly.compile(binary) };
+  }
+};
+
+export const init = async (compiled) => {
+  const { module } = compiled ?? await protoLibrary();
   let napi = new NAPI(WASI, WasmFs);
   const importObject = {};
   const importsToMerge = [
@@ -21,20 +36,7 @@ export const init = async () => {
     }
   }
 
-  let wasmPromise
-  if (typeof(__webpack_require__) === 'function' && typeof(fetch) === 'function') {
-    const response = await import("./__MODULE_NAME__.wasm").then((module) => fetch(module.default));
-    wasmPromise = WebAssembly.instantiateStreaming(response, importObject);
-  } else {
-    const path = await import(/* webpackIgnore: true */ 'path');
-    const url = await import(/* webpackIgnore: true */ 'url');
-    const fs = await import(/* webpackIgnore: true */ 'fs');
-    const dirname = path.dirname(url.fileURLToPath(import.meta.url));
-    const binary = fs.readFileSync(path.join(dirname, '__MODULE_NAME__.wasm'));
-    wasmPromise = WebAssembly.instantiate(binary, importObject);
-  }
-  const { instance } = await wasmPromise;
-  // console.log(instance);
+  const instance = await WebAssembly.instantiate(module, importObject);
   const library = napi.init(instance);
   __MODULE_DEPENDENCY__Extensions.applyExtensions(library, { wasmNapi: napi });
   __MODULE_NAME__Extensions.applyExtensions(library, { wasmNapi: napi });

@@ -58,9 +58,17 @@ public struct FileTemplater {
         replacements["__CI_RUNNER_UBUNTU__"] = (config.ciRunners ?? .defaults).ubuntu
         replacements["__CI_RUNNER_WINDOWS__"] = (config.ciRunners ?? .defaults).windows
 
+        replacements["__CI_SWIFT_LINUX_TOOLCHAIN__"] = ToolVersions.shared.swiftLinux.toolchain
+        replacements["__CI_SWIFT_WINDOWS_BRANCH__"] = ToolVersions.shared.swiftWindows.branch
+        replacements["__CI_SWIFT_WINDOWS_BUILD__"] = ToolVersions.shared.swiftWindows.build
+
         let ciPreBuildHook = config.ciPreBuildHook ?? "# Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml"
-        let lines = ciPreBuildHook.split(separator: "\n").map(String.init)
-        replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: lines, indent: 10)
+        let preBuildHookLines = ciPreBuildHook.split(separator: "\n").map(String.init)
+        replacements["__PRE_BUILD_HOOK_YAML__"] = "|" + join(lines: preBuildHookLines, indent: 10)
+
+        let ciPostBuildHook = config.ciPostBuildHook ?? "# Post-build customization can be added here with the `CIPostBuildHook` key in fishy-joes.yaml"
+        let postBuildHookLines = ciPostBuildHook.split(separator: "\n").map(String.init)
+        replacements["__POST_BUILD_HOOK_YAML__"] = "|" + join(lines: postBuildHookLines, indent: 10)
 
         var credentialStepLines: [String] = []
         var credentialUser: String = ""
@@ -96,6 +104,19 @@ public struct FileTemplater {
                 "",
             ]
         }
+
+        if let ciPreCheckoutHook = config.ciPreCheckoutHook {
+            let preCheckoutHookLines = ciPreCheckoutHook.split(separator: "\n").map(String.init)
+            credentialStepLines.append(
+                contentsOf: [
+                    "- name: Pre-checkout hook",
+                    "  shell: bash",
+                    "  run: |" + join(lines: preCheckoutHookLines, indent: 10),
+                    "",
+                ]
+            )
+        }
+
         credentialStepLines.append(
             contentsOf: [
                 "- name: Checkout",

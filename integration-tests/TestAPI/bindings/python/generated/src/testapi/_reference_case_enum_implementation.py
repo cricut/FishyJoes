@@ -37,7 +37,7 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case reference_case_enum.South(): return 1
         case reference_case_enum.East(): return 2
         case reference_case_enum.West(): return 3
-        case unknown: raise ValueError(f'Unknown ReferenceCaseEnum case "{unknown})". Enums are not meant to be extended.')
+        case unknown: raise ValueError(f'Unknown ReferenceCaseEnum case "{unknown}". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_ReferenceCaseEnum_NorthConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

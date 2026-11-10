@@ -49,6 +49,12 @@ jobs:
         python-version:
           - '3.11'
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -73,7 +79,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build, test, and pack Python wheel
         shell: zsh {0}
@@ -184,6 +191,12 @@ jobs:
         python-version:
           - '3.11'
     steps:
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -201,7 +214,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build, test, and pack Python wheel
         shell: zsh {0}
@@ -319,6 +333,12 @@ jobs:
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
 
+      - name: Pre-checkout hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "PRE CHECKOUT hook"
+
       - name: Checkout
         uses: actions/checkout@v6
         with:
@@ -352,7 +372,8 @@ jobs:
       - name: Pre-build hook
         shell: bash
         run: |
-          # Build customization can be added here with the `CIPreBuildHook` key in fishy-joes.yaml
+          set -euxo pipefail
+          echo "PRE BUILD hook"
 
       - name: Build, test, and pack Python wheel
         shell: bash

@@ -53,7 +53,7 @@ def enum_discriminator(obj_ref: fishyjoes_runtime.UnownedRef) -> int:
         case simple_enum.Red(): return 0
         case simple_enum.Green(): return 1
         case simple_enum.Blue(): return 2
-        case unknown: raise ValueError(f'Unknown SimpleEnum case "{unknown})". Enums are not meant to be extended.')
+        case unknown: raise ValueError(f'Unknown SimpleEnum case "{unknown}". Enums are not meant to be extended.')
 
 @fishyjoes_runtime.callback("TestAPI_SimpleEnum_RedConstructorFn")
 @fishyjoes_runtime.catch_by_out_ref(default=fishyjoes_runtime.CREATED_REF_NULL)

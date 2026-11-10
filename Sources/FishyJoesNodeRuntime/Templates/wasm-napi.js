@@ -26,7 +26,6 @@
 // IN THE SOFTWARE.
 
 // const vm = require('vm');
-import { Buffer } from 'buffer';
 
 // mostly borrowed from https://github.com/browserify/node-util
 // borrowing removed deps on Node polyfills util/process
@@ -767,10 +766,10 @@ export class NAPI {
 
       napi_get_buffer_info: this.wrap((envPtr, bufferIdx, dataPtrPtr, lengthPtr) => {
         const buffer = this.load(bufferIdx);
-        if (!Buffer.isBuffer(buffer)) {
+        if (!(buffer instanceof Uint8Array)) {
           return this.returnError(NAPI_ARRAYBUFFER_EXPECTED);
         }
-        this.writeU32(lengthPtr, buffer.length);
+        this.writeU32(lengthPtr, buffer.byteLength);
         // Limitation in wasm implementation of NAPI
         this.writeU32(dataPtrPtr, 0);
         return NAPI_OK;
@@ -940,9 +939,16 @@ export class NAPI {
             return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
+        } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, bufSize - 1, 'latin1');
-          this.writeU8(bufPtr + written, 0);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
+          const written = Math.min(s.length, bufSize - 1);
+          for (let i = 0; i < written; i++) {
+            bytes[i] = s.charCodeAt(i);
+          }
+          bytes[written] = 0;
           this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
@@ -963,9 +969,13 @@ export class NAPI {
           }
           const length = (new TextEncoder()).encode(s).length;
           this.writeU32(resultPtr, length);
+        } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, bufSize - 1, 'utf8');
-          this.writeU8(bufPtr + written, 0);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize);
+          const { written } = (new TextEncoder()).encodeInto(s, bytes.subarray(0, bufSize - 1));
+          bytes[written] = 0;
           this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
@@ -985,11 +995,20 @@ export class NAPI {
             return this.returnError(NAPI_INVALID_ARG);
           }
           this.writeU32(resultPtr, s.length)
+        } else if (bufSize === 0) {
+          // Node-API writes nothing to a zero-size buffer and reports 0.
+          this.writeU32(resultPtr, 0);
         } else {
-          const written = Buffer.from(this.memory.buffer).write(s, bufPtr, (bufSize - 1) * 2, 'utf16le');
-          this.writeU8(bufPtr + written, 0);
-          this.writeU8(bufPtr + written + 1, 0);
-          this.writeU32(resultPtr, written / 2);
+          const bytes = new Uint8Array(this.memory.buffer, bufPtr, bufSize * 2);
+          const written = Math.min(s.length, bufSize - 1);
+          for (let i = 0; i < written; i++) {
+            const codeUnit = s.charCodeAt(i);
+            bytes[2 * i] = codeUnit;
+            bytes[2 * i + 1] = codeUnit >>> 8;
+          }
+          bytes[2 * written] = 0;
+          bytes[2 * written + 1] = 0;
+          this.writeU32(resultPtr, written);
         }
         return NAPI_OK;
       }),
@@ -1113,7 +1132,7 @@ export class NAPI {
         return NAPI_OK;
       }),
       napi_is_buffer: this.wrap((envPtr, valueIdx, resultPtr) => {
-        this.writeU8(resultPtr, Buffer.isBuffer(this.load(valueIdx)));
+        this.writeU8(resultPtr, this.load(valueIdx) instanceof Uint8Array);
         return NAPI_OK;
       }),
       napi_is_date: this.wrap((envPtr, valueIdx, resultPtr) => {
@@ -1844,14 +1863,14 @@ export class NAPI {
     this.wasi.view.setFloat64(ptr, f64, true);
   }
 
-  readCStringFrom(ptr) {
+  readCStringFrom(ptr, encoding = 'utf8') {
     ptr >>>= 0;
     if (ptr === 0) {
       return "<NULL DEREFERENCE!>"
     }
     const u8 = new Uint8Array(this.memory.buffer);
     const end = u8.indexOf(0, ptr);
-    return this.readString(ptr, end - ptr);
+    return this.readString(ptr, end - ptr, encoding);
   }
 
   readUTF16StringFrom(ptr) {
@@ -1864,22 +1883,22 @@ export class NAPI {
     }
     const u16 = new Uint16Array(this.memory.buffer);
     const end = u16.indexOf(0, ptr / 2);
-    return this.readString(ptr, end * 2 - ptr);
+    return this.readString(ptr, end - ptr / 2, 'utf16le');
   }
 
   readString(index, length, encoding = 'utf8') {
     index >>>= 0;
     length >>>= 0;
     if (length === NAPI_AUTO_LENGTH) {
-      return encoding === 'utf16le' ? this.readUTF16StringFrom(index): this.readCStringFrom(index);
+      return encoding === 'utf16le' ? this.readUTF16StringFrom(index): this.readCStringFrom(index, encoding);
     } else if (length >= 2 ** 31) {
       throw NAPI_INVALID_ARG;
     }
     if (encoding === 'utf16le') {
       length *= 2;
     }
-    let ret = Buffer.from(this.memory.buffer, index, length).toString(encoding);
-    return ret;
+    const label = encoding === 'utf16le' ? 'utf-16le' : encoding;
+    return new TextDecoder(label, { ignoreBOM: true }).decode(new Uint8Array(this.memory.buffer, index, length));
   }
 
   createReference(value, refCount) {
@@ -1896,9 +1915,9 @@ export class NAPI {
       if (error_messages[i] !== undefined) {
         const utf8 = (new TextEncoder()).encode(error_messages[i]);
         stringPtr = this.malloc(utf8.length + 1);
-        const buffer = Buffer.from(this.memory.buffer)
-        buffer.set(utf8, stringPtr)
-        buffer[stringPtr + utf8.length] = 0
+        const bytes = new Uint8Array(this.memory.buffer)
+        bytes.set(utf8, stringPtr)
+        bytes[stringPtr + utf8.length] = 0
       }
       this.wasi.refreshMemory();
       this.writeU32(tablePtr + 4 * i, stringPtr);
