@@ -8,7 +8,6 @@ from cffi import FFI
 ffi = FFI()
 _resources = importlib.resources.files('fishyjoes_runtime')
 ffi.cdef((_resources / '_declarations.h').read_text("utf-8"))
-_current_process_lib = ffi.dlopen(None)
 _fishyjoes_runtime_lib = ffi.dlopen(str(_resources / 'native' / 'libFishyJoesIotaRuntime.dylib'))
 
 # MARK: utilities

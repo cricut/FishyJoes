@@ -1,4 +1,3 @@
-from fishyjoes_runtime._fishyjoesruntime_c_api import _current_process_lib
 from typing import Callable, TypeAlias
 
 from fishyjoes_runtime._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
@@ -21,8 +20,9 @@ FishyJoesCommonRuntime_runScheduledWork: \
     Callable[[EnvRef, Pointer], None] = \
     raise_by_out_ref(getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_runScheduledWork"))
 
-strdup: Callable[[UTF8CString], UTF8CString] = getattr(_current_process_lib, "strdup")
-
+strdup: \
+    Callable[[UTF8CString], UTF8CString] = \
+    getattr(_fishyjoes_runtime_lib, "FishyJoesCommonRuntime_strdup")
 
 # MARK: C callback implementations
 
