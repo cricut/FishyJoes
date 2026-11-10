@@ -61,8 +61,8 @@ def _get_upper_bound(context: UnownedRef, ref: UnownedRef) -> CreatedRef:
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _construct_range(context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef) -> CreatedRef:
     dyn_types: tuple[type[Comparable], ...] = peek_ref(context, tuple)
-    lower_bound = peek_ref(lower_bound_ref, *dyn_types)
-    upper_bound = peek_ref(upper_bound_ref, *dyn_types)
+    lower_bound: Comparable = peek_ref(lower_bound_ref, *dyn_types)
+    upper_bound: Comparable = peek_ref(upper_bound_ref, *dyn_types)
     result = SwiftRange(lower_bound, upper_bound)
     return create_ref(result)
 
@@ -73,8 +73,8 @@ def _construct_closed_range(
     context: UnownedRef, lower_bound_ref: UnownedRef, upper_bound_ref: UnownedRef,
 ) -> CreatedRef:
     dyn_types: tuple[type[Comparable], ...] = peek_ref(context, tuple)
-    lower_bound = peek_ref(lower_bound_ref, *dyn_types)
-    upper_bound = peek_ref(upper_bound_ref, *dyn_types)
+    lower_bound: Comparable = peek_ref(lower_bound_ref, *dyn_types)
+    upper_bound: Comparable = peek_ref(upper_bound_ref, *dyn_types)
     result = SwiftClosedRange(lower_bound, upper_bound)
     return create_ref(result)
 

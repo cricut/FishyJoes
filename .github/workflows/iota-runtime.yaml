@@ -80,57 +80,18 @@ jobs:
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
           FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
-      - name: Setup Python
-        shell: bash
-        run: |
-          set -euxo pipefail
-          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
-          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default "$PYTHON_VERSION"
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          "$HOME/.local/bin/python" --version
-
-      - name: Build Python runtime wheel
-        shell: bash
-        env:
-          VERSION_OVERRIDE: ${{ github.event_name == 'release' && needs.iota-version.outputs.version || '' }}
-        run: |
-          set -euxo pipefail
-
-          # uv-managed interpreters are PEP 668 externally managed; build the
-          # wheel from a venv, as everywhere else in this repo.
-          python -m venv python-runtime/.wheel-build-venv
-          if [[ -x python-runtime/.wheel-build-venv/Scripts/python.exe ]]; then
-            venv_python=python-runtime/.wheel-build-venv/Scripts/python.exe
-          else
-            venv_python=python-runtime/.wheel-build-venv/bin/python
-          fi
-          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
-          # auditwheel resolves the Swift runtime dependencies it grafts into
-          # the wheel from the collected library directory.
-          LD_LIBRARY_PATH="$PWD/$LIB_DIR" "$venv_python" python-runtime/_build_wheel.py \
-            --outdir python-runtime/dist \
-            --native-library "$LIB_DIR/libFishyJoesIotaRuntime.so" \
-            --version-override "$VERSION_OVERRIDE"
-
-      - name: Upload Python runtime wheel
-        uses: actions/upload-artifact@v7
-        with:
-          name: ubuntu_python_wheel
-          path: python-runtime/dist/*
-          if-no-files-found: error
-
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
           name: ubuntu_generated
-          path: .build/linux-iota-libs
+          path: |
+            .build/linux-iota-libs
+            python-runtime/dist/fishyjoes_runtime-*.whl
           if-no-files-found: error
 
   build-iota-windows:
     name: "Windows: Build Iota Runtime"
     runs-on: windows-2025
-    needs:
-      - iota-version
     env:
       LIB_DIR: .build/windows-iota-libs
     steps:
@@ -168,51 +129,13 @@ jobs:
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
 
-      - name: Setup Python
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $env:UV_NO_MODIFY_PATH = '1'
-          irm "https://astral.sh/uv/$env:UV_VERSION/install.ps1" | iex
-          & "$env:USERPROFILE\.local\bin\uv.exe" python install --default --preview-features python-install-default "$env:PYTHON_VERSION"
-          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.local\bin"
-          & "$env:USERPROFILE\.local\bin\python.exe" --version
-
-      - name: Build Python runtime wheel
-        shell: bash
-        env:
-          VERSION_OVERRIDE: ${{ github.event_name == 'release' && needs.iota-version.outputs.version || '' }}
-        run: |
-          set -euxo pipefail
-
-          # uv-managed interpreters are PEP 668 externally managed; build the
-          # wheel from a venv, as everywhere else in this repo.
-          python -m venv python-runtime/.wheel-build-venv
-          if [[ -x python-runtime/.wheel-build-venv/Scripts/python.exe ]]; then
-            venv_python=python-runtime/.wheel-build-venv/Scripts/python.exe
-          else
-            venv_python=python-runtime/.wheel-build-venv/bin/python
-          fi
-          "$venv_python" -m pip install -r python-runtime/requirements-build.txt
-          # The PE import walk finds the Swift runtime DLLs adjacent to the
-          # collected native library.
-          "$venv_python" python-runtime/_build_wheel.py \
-            --outdir python-runtime/dist \
-            --native-library "$LIB_DIR/FishyJoesIotaRuntime.dll" \
-            --version-override "$VERSION_OVERRIDE"
-
-      - name: Upload Python runtime wheel
-        uses: actions/upload-artifact@v7
-        with:
-          name: windows_python_wheel
-          path: python-runtime/dist/*
-          if-no-files-found: error
-
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
           name: windows_generated
-          path: .build/windows-iota-libs
+          path: |
+            .build/windows-iota-libs
+            python-runtime/dist/fishyjoes_runtime-*.whl
           if-no-files-found: error
 
   iota-publish:

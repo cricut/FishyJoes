@@ -16,7 +16,7 @@ if [[ "${SWIFT_PACKAGE_RESOLVE:-1}" == 0 ]]; then
     commonOptions+=(--disable-automatic-resolution)
 fi
 
-if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO == "0" ]]; then
+if [[ "$(uname -s)" == "Darwin" && $SKIP_LIPO != "1" ]]; then
     platform=MACOS_UNIVERSAL
     pyPlatformTag=macosx_13_0_universal2
 elif [[ "$(uname -s)" == "Darwin" ]]; then
@@ -91,11 +91,15 @@ fi
 if uv --version >/dev/null 2>&1; then
     (
         cd python-runtime
+        echo "Entering directory \`python-runtime'"
 
         # Typecheck
         # Allow errors for now
         # TODO: fix
         # uv run mypy --strict --show-error-codes --no-error-summary -p fishyjoes_runtime
+
+        uv run pyrefly check --preset=strict --output-format=min-text .
+        uv run mypy --strict -p fishyjoes_runtime
 
         # Having old results in here can cause packaging to fail
         rm -rf dist

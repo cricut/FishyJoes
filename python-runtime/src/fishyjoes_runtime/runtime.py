@@ -80,10 +80,14 @@ def create_consumed_ref(obj: object) -> ConsumedRef:
 # def assert_type[*Ts](obj: object, *types: *type[Ts]) -> Union[*Ts]
 def _assert_type[T](obj: object, *types: type[T] | SpecialDynTypeMarker) -> T:
     for dyn_type in types:
-        if (dyn_type == "Callable" and callable(obj)) or \
-                (dyn_type == "Awaitable" and inspect.isawaitable(obj)) or \
-                isinstance(obj, dyn_type):
-            return cast(T, obj)
+        if dyn_type == "Callable":
+            if callable(obj):
+                return cast(T, obj)
+        elif dyn_type == "Awaitable":
+            if inspect.isawaitable(obj):
+                return cast(T, obj)
+        elif isinstance(obj, dyn_type):
+            return obj
     raise Exception(f"Expected {types}, got {obj}")
 
 # Overloads are later used to approximate ideal signature:

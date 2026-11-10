@@ -112,7 +112,7 @@ def _invoke_function(context_ref: UnownedRef, fn_ref: UnownedRef, arg_refs: Cons
     if not callable(fn):
         raise ValueError(f"Expected callable, got {fn}")
     args: list[Any] = [_consume_ref(arg_refs[i], *arg_dyn_types) for i, arg_dyn_types in enumerate(context.args_dyn_types)]
-    result = assert_type(fn(*args), *context.ret_dyn_types) #pyrefly: ignore
+    result = assert_type(fn(*args), *context.ret_dyn_types)
     return create_ref(result)
 
 

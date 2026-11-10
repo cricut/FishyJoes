@@ -1,5 +1,5 @@
 from typing import Literal
-from typing import Callable, Sized, TypeAlias, cast, Any
+from typing import Callable, Sized, TypeAlias, cast
 
 from .runtime import raise_by_out_ref
 from ._fishyjoesruntime_c_api import _fishyjoes_runtime_lib, callback, ffi
@@ -50,7 +50,7 @@ def _dictionary_values(context: UnownedRef, collection: UnownedRef, out_values: 
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _array_constructor(context: UnownedRef, in_values: UnownedRefArray, length: int) -> CreatedRef:
     dyn_types = peek_ref(context, tuple)
-    elements: list[Any] = [peek_ref(in_values[index], *dyn_types) for index in range(length)]
+    elements: list[object] = [peek_ref(in_values[index], *dyn_types) for index in range(length)]
     return create_ref(elements)
 
 
@@ -60,8 +60,8 @@ def _dictionary_constructor(context: UnownedRef, in_values: UnownedRefArray, len
     (key_dyn_types, value_dyn_types) = peek_ref(context, tuple)
     dictionary = dict()
     for index in range(length):
-        key = peek_ref(in_values[index * 2 + 0], *key_dyn_types)
-        value = peek_ref(in_values[index * 2 + 1], *value_dyn_types)
+        key: object = peek_ref(in_values[index * 2 + 0], *key_dyn_types)
+        value: object = peek_ref(in_values[index * 2 + 1], *value_dyn_types)
         dictionary[key] = value
     return create_ref(dictionary)
 
@@ -70,7 +70,7 @@ def _dictionary_constructor(context: UnownedRef, in_values: UnownedRefArray, len
 @catch_by_out_ref(default=CreatedRef(ffi.NULL))
 def _set_constructor(context: UnownedRef, in_values: UnownedRefArray, length: int) -> CreatedRef:
     dyn_types = peek_ref(context, tuple)
-    elements: set[Any] = {peek_ref(in_values[index], *dyn_types) for index in range(length)}
+    elements: set[object] = {peek_ref(in_values[index], *dyn_types) for index in range(length)}
     return create_ref(elements)
 
 

@@ -63,7 +63,7 @@ def _future_create(context: UnownedRef, out_promise: OutCreatedRef) -> CreatedRe
 @callback("FishyJoes_FutureSinkFn")
 @catch_by_out_ref(default=None)
 def _future_sink(context: UnownedRef, awaitable_ref: UnownedRef, host_context: ConsumedSwiftRef) -> None:
-    awaitable = peek_ref(awaitable_ref, "Awaitable")
+    awaitable: Awaitable[Any] = peek_ref(awaitable_ref, "Awaitable")
 
     def callback(done_future: asyncio.Future[Any]) -> None:
         exception = done_future.exception()
