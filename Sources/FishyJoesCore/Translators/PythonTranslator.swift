@@ -64,7 +64,7 @@ final class PythonTranslator: Translator {
                 // TODO: figure out why `Swift.Int` and `Int` are causing (harmless) duplicates here requiring the redefinition ignore
                 typeSetupFragment.output("@fishyjoes_runtime.eval_once_now('setup_\(resolved.converterType.name)') # type: ignore[unused-ignore,no-redef]")
                 typeSetupFragment.outputBlock("def setup_\(resolved.converterType.name.mangled)() -> None:") {
-                    typeSetupFragment.output("print(f\"setting up \(type.name)\")")
+                    typeSetupFragment.output("# print(f\"setting up \(type.name)\")")
                     let setupName = "\(resolved.definingModule.pythonPackageName).fishyjoes_type_setup.\(resolved.iotaSetupName)"
                     typeSetupFragment.outputBlock("\(setupName)(") {
                         typeSetupFragment.output("fishyjoes_runtime.Runtime.shared.env_ref,")
@@ -75,29 +75,6 @@ final class PythonTranslator: Translator {
                 }
             }
         }
-
-        // for nativeMethod in nativeMethods.sorted(by: { $0.name < $1.name }) {
-        //     let definingPythonClass = nativeMethod.definingPythonClass + (nativeMethod.doDefaultImplementationsSuffix ? "_DefaultImplementations" : "")
-        //     externDeclarations.append { fragment in
-        //         fragment.outputBlock("\(definingPythonClass).f\(nativeMethod.name) = dylib.lookupFunction<", closeWith: ">", newLineTerminated: false) {
-        //             fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(", closeWith: "),") {
-        //                 fragment.output("Env env,")
-        //                 for (argName, argType) in nativeMethod.args {
-        //                     fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
-        //                 }
-        //                 fragment.output("OutCreatedRef _exn")
-        //             }
-        //             fragment.outputBlock("\(nativeMethod.returnType.static.ffiCreatedType.name()) Function(") {
-        //                 fragment.output("Env env,")
-        //                 for (argName, argType) in nativeMethod.args {
-        //                     fragment.output("\(argType.static.ffiUnownedType.name()) \(argName),")
-        //                 }
-        //                 fragment.output("OutCreatedRef _exn")
-        //             }
-        //         }
-        //         fragment.output("(\"\(nativeMethod.name)\")")
-        //     }
-        // }
 
         typeSetupFragment.blankLine()
         for externDeclaration in externDeclarations {

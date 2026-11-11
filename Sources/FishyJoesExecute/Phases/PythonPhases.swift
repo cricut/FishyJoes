@@ -4,36 +4,43 @@ import swsh
 
 class PythonPhases: IotaPhases, Phases {
     func generationPhaseTemplateReplacements() throws -> [String: String] {
+        let (fishyJoesRuntimeVersion, fishyJoesRuntimeUVSource) = pythonVersionRequirement(for: "FishyJoes")
         let dependencies = [
             PythonDependency(
                 module: "FishyJoes",
                 distributionName: "fishyjoes-runtime",
                 importName: "fishyjoes_runtime",
-                versionRequirement: pythonVersionRequirement(for: "FishyJoes")
+                versionRequirement: fishyJoesRuntimeVersion,
+                uvSource: fishyJoesRuntimeUVSource,
             )
         ] + options.config.requiredModules.map { module in
             let distributionName = PythonNamingConventions.moduleDistributionName(swift: module)
             let importName = PythonNamingConventions.moduleImportName(swift: module)
+            let (version, uvSource) = pythonVersionRequirement(for: module)
             return PythonDependency(
                 module: module,
                 distributionName: distributionName,
                 importName: importName,
-                versionRequirement: pythonVersionRequirement(for: module),
+                versionRequirement: version,
+                uvSource: uvSource,
             )
         }
 
         let pythonDependencyLines = dependencies.map { dep in
-            #"\#n    "\#(dep.distributionName) \#(dep.versionRequirement)","#
+            let versionRequirement = dep.versionRequirement.map { " \($0) " } ?? ""
+            return #"\#n    "\#(dep.distributionName)\#(versionRequirement)","#
         }
-        let pythonDependencySources = [""] // dependencies.map { #"\#n\#($0.distributionName) = { index = "local" }"# }
+        let pythonDependencySources = dependencies.compactMap { dep -> String? in
+            guard let uvSource = dep.uvSource else { return nil }
+            return "\n\(dep.distributionName) = \(uvSource)"
+        }
         return [
             "__PYTHON_DISTRIBUTION_NAME__": PythonNamingConventions.moduleDistributionName(swift: options.config.module),
             "__PYTHON_IMPORT_PACKAGE__": PythonNamingConventions.moduleImportName(swift: options.config.module),
             "__PYTHON_DEPENDENCIES__": pythonDependencyLines.joined(separator: ""),
             "__PYTHON_DEPENDENCY_SOURCES__": pythonDependencySources.joined(separator: ""),
             "__PYTHON_MODULE_REGISTER_TYPES__": "FishyJoes_\(options.config.module)_registerTypes",
-            "__PYTHON_PACKAGE_VERSION__": options.version ?? "0.0.1",
-            "__PYTHON_RUNTIME_DEPENDENCIES__": pythonRuntimeDependencyList(dependencies),
+            "__PYTHON_PACKAGE_VERSION__": options.version ?? "0.0.1.dev0",
         ]
     }
 
@@ -42,39 +49,29 @@ class PythonPhases: IotaPhases, Phases {
         let distributionName: String
         let importName: String
         /// PEP 440 version specifier, or PEP 508 direct reference
-        /// (e.g. `>=2.22.4,<3.0.0` or `@ file:///...`)
-        let versionRequirement: String
+        /// (e.g. `>=2.22.4,<3.0.0` or nil for a local dependency)
+        let versionRequirement: String?
+        /// uv package source, e.g. '{ path = "../../../../../python-runtime" }' or '{ index = "custom-pypi" }'
+        let uvSource: String?
     }
 
-    private func pythonVersionRequirement(for module: String) -> String {
+    private func pythonVersionRequirement(for module: String) -> (version: String?, uvSource: String?) {
         guard let dependency = options.packageInfo?.dependencyMap[module] else {
             fatalError("couldn't find dependency \(module)")
         }
         let pythonSubdirectory = module == "FishyJoes" ? "python-runtime" : "bindings/python/generated"
-        return dependency.versionInPythonRequirementFormat(
-            relativeTo: nil,
+        let selfPackagePath = "bindings/python/generated"
+        let version = dependency.versionInPythonRequirementFormat(
+            relativeTo: selfPackagePath,
             addIfLocalPath: pythonSubdirectory,
             flexibleVersions: options.config.flexibleVersions
         )
-    }
-
-    private func pythonRuntimeDependencyList(_ dependencies: [PythonDependency]) -> String {
-        guard !dependencies.isEmpty else {
-            return "[]"
-        }
-        let entries = dependencies.compactMap { dependency -> String? in
-            // TODO: remove this filter
-            guard dependency.importName != "fishyjoes_runtime" else { return nil }
-            return
-                """
-                RuntimeDependency(
-                    import_name="\(dependency.importName)",
-                    distribution_name="\(dependency.distributionName)",
-                    version_requirement="\(dependency.versionRequirement)",
-                )
-                """
-        }
-        return "[\n            \(entries.joined(separator: ",\n            "))\n        ]"
+        let uvSource = dependency.pythonUVSource(
+            relativeTo: selfPackagePath,
+            addIfLocalPath: pythonSubdirectory,
+            flexibleVersions: options.config.flexibleVersions
+        )
+        return (version, uvSource)
     }
 
     private func pythonNativeDependencyList(_ dependencies: [PythonDependency]) -> String {
@@ -218,188 +215,37 @@ class PythonPhases: IotaPhases, Phases {
         }
     }
 
-    private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
-        let runtimeSourcePath = "\(absolutePath(runtimePackagePath))/src/fishyjoes_runtime"
-        let coverageConfig = """
-        [run]
-        source =
-            testapi
-            fishyjoes_runtime
+    // private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
+    //     let runtimeSourcePath = "\(absolutePath(runtimePackagePath))/src/fishyjoes_runtime"
+    //     let coverageConfig = """
+    //     [run]
+    //     source =
+    //         testapi
+    //         fishyjoes_runtime
 
-        [paths]
-        testapi =
-            generated/src/testapi
-            */site-packages/testapi
-        fishyjoes_runtime =
-            \(runtimeSourcePath)
-            */site-packages/fishyjoes_runtime
+    //     [paths]
+    //     testapi =
+    //         generated/src/testapi
+    //         */site-packages/testapi
+    //     fishyjoes_runtime =
+    //         \(runtimeSourcePath)
+    //         */site-packages/fishyjoes_runtime
 
-        [report]
-        omit =
-            */__pycache__/*
-        """
-        try coverageConfig.write(toFile: configPath, atomically: true, encoding: .utf8)
-    }
+    //     [report]
+    //     omit =
+    //         */__pycache__/*
+    //     """
+    //     try coverageConfig.write(toFile: configPath, atomically: true, encoding: .utf8)
+    // }
 
-    private func normalizePythonCoverageXML(at coverageXMLPath: String) throws {
-        let repositoryRoot = absolutePath("../../../..")
-        let bindingsPythonPath = "integration-tests/TestAPI/bindings/python/"
-        let xml = try String(contentsOfFile: coverageXMLPath, encoding: .utf8)
-            .replacingOccurrences(of: #"filename="\#(repositoryRoot)/"#, with: #"filename=""#)
-            .replacingOccurrences(of: #"filename="generated/src/"#, with: #"filename="\#(bindingsPythonPath)generated/src/"#)
-        try xml.write(toFile: coverageXMLPath, atomically: true, encoding: .utf8)
-    }
-
-    private func pythonRuntimePackagePath() throws -> String {
-        var candidates = [
-            "../../../../python-runtime",
-            "../../.build/checkouts/FishyJoes/python-runtime",
-            "../swift-interfaces/generated/\(options.config.module)-bindings/.build/checkouts/FishyJoes/python-runtime",
-        ]
-
-        if let fishyJoesDependency = options.packageInfo?.dependencyMap["FishyJoes"] {
-            candidates.insert("\(options.absoluteLocalPath(for: fishyJoesDependency))/python-runtime", at: 0)
-        }
-
-        guard let runtimePackagePath = candidates.first(where: { FileManager.default.fileExists(atPath: "\($0)/pyproject.toml") }) else {
-            throw NSError(
-                domain: "FishyJoes.Python",
-                code: 1,
-                userInfo: [
-                    NSLocalizedDescriptionKey: "Could not locate FishyJoes python-runtime package; checked \(candidates.joined(separator: ", "))"
-                ]
-            )
-        }
-
-        return runtimePackagePath
-    }
-
-    private func builtRuntimeNativeLibraryPath() throws -> String {
-        try builtNativeLibraryPath("FishyJoesIotaRuntime")
-    }
-
-    private func builtNativeLibraryPath(_ library: String) throws -> String {
-        if FileManager.default.fileExists(atPath: "../../Package.swift") {
-            return try withDirectory("../..") {
-                absolutePath(try platform.dylibPath(for: library, configuration: options.buildConfig))
-            }
-        }
-        return absolutePath(try platform.dylibPath(for: library, configuration: options.buildConfig))
-    }
-
-    private func absolutePath(_ path: String) -> String {
-        URL(
-            fileURLWithPath: path,
-            relativeTo: URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
-        )
-        .standardizedFileURL
-        .path
-    }
-
-    private func pythonLocalPackageVersion(for module: String, dependency: SwiftPackage.Dependency) -> String? {
-        let version = dependency.versionInPythonRequirementFormat(relativeTo: nil, flexibleVersions: options.config.flexibleVersions)
-
-        if version.hasPrefix("==") {
-            return String(version.dropFirst(2))
-        }
-
-        if version.range(of: #"^\d+\.\d+\.\d+$"#, options: .regularExpression) != nil {
-            return version
-        }
-
-        if let lowerBound = version.range(of: #">=\s*(\d+\.\d+\.\d+)"#, options: .regularExpression) {
-            return String(version[lowerBound]).replacingOccurrences(of: ">=", with: "").trimmingCharacters(in: .whitespaces)
-        }
-
-        return nil
-    }
-
-    private func validatePublishablePythonDependencies() throws {
-        for module in options.config.requiredModules {
-            guard options.packageInfo?.dependencyMap[module] != nil else {
-                throw NSError(
-                    domain: "FishyJoes.Python",
-                    code: 1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Could not locate required module \(module) in Package.swift"
-                    ]
-                )
-            }
-        }
-    }
-
-    private func preparedGeneratedPackagePath(
-        _ generatedPath: String,
-        module: String,
-        wheelDirectory: String,
-        versionOverride: String?,
-        prepareIsolatedCopy: Bool
-    ) throws -> String {
-        guard prepareIsolatedCopy || versionOverride != nil else {
-            return generatedPath
-        }
-
-        let preparedPath = "\(wheelDirectory)-source"
-        let preparedURL = URL(fileURLWithPath: preparedPath)
-        let preparedParent = preparedURL.deletingLastPathComponent().path
-        try FileManager.default.createDirectory(atPath: preparedParent, withIntermediateDirectories: true)
-        if FileManager.default.fileExists(atPath: preparedPath) {
-            try FileManager.default.removeItem(atPath: preparedPath)
-        }
-        try FileManager.default.copyItem(atPath: generatedPath, toPath: preparedPath)
-        try copyBuiltNativeLibraries(for: module, intoGeneratedPackageAt: preparedPath)
-        if let versionOverride {
-            try overrideGeneratedPythonPackageVersion(at: preparedPath, version: versionOverride)
-        }
-        return preparedPath
-    }
-
-    private func copyBuiltNativeLibraries(for module: String, intoGeneratedPackageAt generatedPath: String) throws {
-        let nativePath = "\(generatedPath)/native"
-        try FileManager.default.createDirectory(atPath: nativePath, withIntermediateDirectories: true)
-        for library in [module, "\(module)-iota"] {
-            let sourcePath = try builtNativeLibraryPath(library)
-            guard FileManager.default.fileExists(atPath: sourcePath) else {
-                throw NSError(
-                    domain: "FishyJoes.Python",
-                    code: 1,
-                    userInfo: [
-                        NSLocalizedDescriptionKey: "Could not locate built native library \(sourcePath) while preparing Python dependency wheel for \(module); run the FishyJoes Python build phase first"
-                    ]
-                )
-            }
-            let destinationPath = "\(nativePath)/\(platform.dylibName(for: library))"
-            if FileManager.default.fileExists(atPath: destinationPath) {
-                try FileManager.default.removeItem(atPath: destinationPath)
-            }
-            try FileManager.default.copyItem(atPath: sourcePath, toPath: destinationPath)
-        }
-    }
-
-    private func overrideGeneratedPythonPackageVersion(at generatedPath: String, version: String) throws {
-        let pyprojectPath = "\(generatedPath)/pyproject.toml"
-        let pyproject = try String(contentsOfFile: pyprojectPath)
-            .replacingOccurrences(
-                of: #"(?m)^version = ".*"$"#,
-                with: #"version = "\#(version)""#,
-                options: .regularExpression
-            )
-        try pyproject.write(toFile: pyprojectPath, atomically: true, encoding: .utf8)
-
-        guard let enumerator = FileManager.default.enumerator(atPath: "\(generatedPath)/src") else {
-            return
-        }
-        for case let relativePath as String in enumerator where relativePath.hasSuffix("/_native.py") {
-            let nativePath = "\(generatedPath)/src/\(relativePath)"
-            let native = try String(contentsOfFile: nativePath)
-                .replacingOccurrences(
-                    of: #"package_version="[^"]*""#,
-                    with: #"package_version="\#(version)""#,
-                    options: .regularExpression
-                )
-            try native.write(toFile: nativePath, atomically: true, encoding: .utf8)
-        }
-    }
+    // private func normalizePythonCoverageXML(at coverageXMLPath: String) throws {
+    //     let repositoryRoot = absolutePath("../../../..")
+    //     let bindingsPythonPath = "integration-tests/TestAPI/bindings/python/"
+    //     let xml = try String(contentsOfFile: coverageXMLPath, encoding: .utf8)
+    //         .replacingOccurrences(of: #"filename="\#(repositoryRoot)/"#, with: #"filename=""#)
+    //         .replacingOccurrences(of: #"filename="generated/src/"#, with: #"filename="\#(bindingsPythonPath)generated/src/"#)
+    //     try xml.write(toFile: coverageXMLPath, atomically: true, encoding: .utf8)
+    // }
 
     func testPhase() throws {
         try withDirectory("bindings/python") {
@@ -452,7 +298,6 @@ class PythonPhases: IotaPhases, Phases {
     }
 
     func packPhase() throws {
-        try validatePublishablePythonDependencies()
         try withDirectory("bindings/python/generated") {
             let pyPlatformTag: String
             #if os(macOS)
