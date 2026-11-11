@@ -126,8 +126,6 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
-        // GitHub-hosted runners start with an empty SwiftPM cache, so every job downloads every
-        // binary target again. A consumer can name its own caching action to avoid that.
         if let ciSwiftPMCacheAction = config.ciSwiftPMCacheAction {
             credentialStepLines.append(
                 contentsOf: [

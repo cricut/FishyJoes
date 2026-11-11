@@ -15,8 +15,6 @@ struct ProjectConfig: Codable {
     let ciPreBuildHook: String?
     let ciPostBuildHook: String?
 
-    // `uses:` reference of an action that caches SwiftPM downloads, run right after checkout in
-    // every generated job. Off unless set, since the action is usually private to the consumer.
     let ciSwiftPMCacheAction: String?
 
     let flexibleVersions: Bool
