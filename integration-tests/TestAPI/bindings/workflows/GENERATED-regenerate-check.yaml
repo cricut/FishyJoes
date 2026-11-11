@@ -34,6 +34,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SwiftPM binary artifacts
+        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+
       - name: Install generation tools
         shell: zsh {0}
         run: |

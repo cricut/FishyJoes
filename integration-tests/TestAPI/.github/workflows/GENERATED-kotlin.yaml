@@ -38,6 +38,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SwiftPM binary artifacts
+        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+
       - name: Set up java
         uses: actions/setup-java@v5
         with:
@@ -98,6 +101,9 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Cache SwiftPM binary artifacts
+        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
 
       - name: Set up Swift
         uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
@@ -197,6 +203,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SwiftPM binary artifacts
+        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+
       - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
           swift-version: swift-6.3-release
@@ -280,6 +289,9 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Cache SwiftPM binary artifacts
+        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
 
       - name: Set up java
         uses: actions/setup-java@v5
