@@ -14,3 +14,5 @@ CIPostBuildHook: |
   set -euxo pipefail
 
   echo "POST BUILD hook"
+
+CISwiftPMCacheAction: cricut/actions/.github/actions/swiftpm-artifacts-cache@main

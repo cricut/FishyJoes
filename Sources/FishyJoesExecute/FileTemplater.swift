@@ -126,17 +126,17 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
-        // GitHub-hosted runners start with an empty SwiftPM cache, so every job downloaded every
-        // binary target again (e.g. CTextFreestack's zips from packages.cricut.com, ~35 MB per job).
-        // The shared action caches SwiftPM's artifacts folder on hosted runners only; the libraries'
-        // hand-written workflows use the same action and seed the cache on pushes to main.
-        credentialStepLines.append(
-            contentsOf: [
-                "",
-                "- name: Cache SwiftPM binary artifacts",
-                "  uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main",
-            ]
-        )
+        // GitHub-hosted runners start with an empty SwiftPM cache, so every job downloads every
+        // binary target again. A consumer can name its own caching action to avoid that.
+        if let ciSwiftPMCacheAction = config.ciSwiftPMCacheAction {
+            credentialStepLines.append(
+                contentsOf: [
+                    "",
+                    "- name: Cache SwiftPM binary artifacts",
+                    "  uses: \(ciSwiftPMCacheAction)",
+                ]
+            )
+        }
         credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
         replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser

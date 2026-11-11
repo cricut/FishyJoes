@@ -15,6 +15,10 @@ struct ProjectConfig: Codable {
     let ciPreBuildHook: String?
     let ciPostBuildHook: String?
 
+    // `uses:` reference of an action that caches SwiftPM downloads, run right after checkout in
+    // every generated job. Off unless set, since the action is usually private to the consumer.
+    let ciSwiftPMCacheAction: String?
+
     let flexibleVersions: Bool
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
@@ -120,6 +124,12 @@ struct ProjectConfig: Codable {
             }
             return hook
         }
+        let ciSwiftPMCacheAction = try configDictionary["CISwiftPMCacheAction"].map { obj -> String in
+            guard let action = obj as? String, !action.isEmpty else {
+                throw ValidationError("fishy-joes.yaml value for key `CISwiftPMCacheAction` is not a (string) action reference, e.g. `owner/repo/path@ref`")
+            }
+            return action
+        }
         let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
         let sourceryOverride = try configDictionary["sourceryOverride"].map { obj -> SourceryOverride in
             let dict = obj as? [String: Any]
@@ -162,6 +172,7 @@ struct ProjectConfig: Codable {
             ciPreCheckoutHook: ciPreCheckoutHook,
             ciPreBuildHook: ciPreBuildHook,
             ciPostBuildHook: ciPostBuildHook,
+            ciSwiftPMCacheAction: ciSwiftPMCacheAction,
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
