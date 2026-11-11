@@ -126,6 +126,26 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
+        // GitHub-hosted runners start with an empty SwiftPM cache, so every job downloaded every
+        // binary target again (e.g. CTextFreestack's zips from packages.cricut.com, ~35 MB per job).
+        // Restore the newest cache for this OS and save a new one per run, so a new dependency
+        // version is downloaded once and reused. Self-hosted runners keep their cache on disk.
+        credentialStepLines.append(
+            contentsOf: [
+                "",
+                "- name: Cache SwiftPM downloads",
+                "  if: runner.environment == 'github-hosted'",
+                "  uses: actions/cache@v4",
+                "  with:",
+                "    path: |",
+                "      ~/.cache/org.swift.swiftpm",
+                "      ~/.swiftpm/cache",
+                "      ~/AppData/Local/org.swift.swiftpm",
+                "    key: swiftpm-${{ runner.os }}-${{ github.run_id }}",
+                "    restore-keys: |",
+                "      swiftpm-${{ runner.os }}-",
+            ]
+        )
         credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
         replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser
