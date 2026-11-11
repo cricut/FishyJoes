@@ -70,6 +70,7 @@ struct ProjectConfig: Codable {
             Log.error("  echo 'doing CI work in bash'")
             Log.error("CIPostBuildHook: |")
             Log.error("  echo 'doing more CI work in bash'")
+            Log.error("CISwiftPMCacheAction: your-org/actions/swiftpm-cache@v1  # optional")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
