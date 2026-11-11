@@ -39,7 +39,15 @@ jobs:
           submodules: recursive
 
       - name: Cache SwiftPM binary artifacts
-        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - name: Set up java
         uses: actions/setup-java@v5
@@ -103,7 +111,15 @@ jobs:
           submodules: recursive
 
       - name: Cache SwiftPM binary artifacts
-        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - name: Set up Swift
         uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
@@ -204,7 +220,15 @@ jobs:
           submodules: recursive
 
       - name: Cache SwiftPM binary artifacts
-        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
@@ -291,7 +315,15 @@ jobs:
           submodules: recursive
 
       - name: Cache SwiftPM binary artifacts
-        uses: cricut/actions/.github/actions/swiftpm-artifacts-cache@main
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - name: Set up java
         uses: actions/setup-java@v5

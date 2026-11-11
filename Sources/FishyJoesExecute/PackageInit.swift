@@ -88,7 +88,7 @@ public struct PackageInit: ParsableCommand {
             ciPreCheckoutHook: nil,
             ciPreBuildHook: nil,
             ciPostBuildHook: nil,
-            ciSwiftPMCacheAction: nil,
+            ciEnableSPMCache: false,
             flexibleVersions: false,
             sourceryOverride: nil,
             ciRunners: nil,

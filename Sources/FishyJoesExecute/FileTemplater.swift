@@ -126,12 +126,20 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
-        if let ciSwiftPMCacheAction = config.ciSwiftPMCacheAction {
+        if config.ciEnableSPMCache {
             credentialStepLines.append(
                 contentsOf: [
                     "",
                     "- name: Cache SwiftPM binary artifacts",
-                    "  uses: \(ciSwiftPMCacheAction)",
+                    "  if: runner.environment == 'github-hosted'",
+                    "  uses: actions/cache@v6",
+                    "  with:",
+                    "    path: |",
+                    "      ~/.cache/org.swift.swiftpm/artifacts",
+                    "      ~/Library/Caches/org.swift.swiftpm/artifacts",
+                    "      ~/AppData/Local/Temp/org.swift.swiftpm/artifacts",
+                    "    key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}",
+                    "    restore-keys: swiftpm-artifacts-${{ runner.os }}-",
                 ]
             )
         }

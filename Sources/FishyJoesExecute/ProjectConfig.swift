@@ -15,7 +15,7 @@ struct ProjectConfig: Codable {
     let ciPreBuildHook: String?
     let ciPostBuildHook: String?
 
-    let ciSwiftPMCacheAction: String?
+    let ciEnableSPMCache: Bool
 
     let flexibleVersions: Bool
 
@@ -68,7 +68,7 @@ struct ProjectConfig: Codable {
             Log.error("  echo 'doing CI work in bash'")
             Log.error("CIPostBuildHook: |")
             Log.error("  echo 'doing more CI work in bash'")
-            Log.error("CISwiftPMCacheAction: your-org/actions/swiftpm-cache@v1  # optional")
+            Log.error("CIEnableSPMCache: false  # default")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
@@ -123,12 +123,7 @@ struct ProjectConfig: Codable {
             }
             return hook
         }
-        let ciSwiftPMCacheAction = try configDictionary["CISwiftPMCacheAction"].map { obj -> String in
-            guard let action = obj as? String, !action.isEmpty else {
-                throw ValidationError("fishy-joes.yaml value for key `CISwiftPMCacheAction` is not a (string) action reference, e.g. `owner/repo/path@ref`")
-            }
-            return action
-        }
+        let ciEnableSPMCache = (configDictionary["CIEnableSPMCache"] as? Bool) ?? false
         let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
         let sourceryOverride = try configDictionary["sourceryOverride"].map { obj -> SourceryOverride in
             let dict = obj as? [String: Any]
@@ -171,7 +166,7 @@ struct ProjectConfig: Codable {
             ciPreCheckoutHook: ciPreCheckoutHook,
             ciPreBuildHook: ciPreBuildHook,
             ciPostBuildHook: ciPostBuildHook,
-            ciSwiftPMCacheAction: ciSwiftPMCacheAction,
+            ciEnableSPMCache: ciEnableSPMCache,
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
