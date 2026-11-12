@@ -1,14 +1,23 @@
 import importlib.resources
 from typing import Any, Callable, cast
+import sys
 
 from cffi import FFI
 
 # Contains the raw C ABI function bindings for the FishyJoes runtime, bound to the dynamic library.
 
+def platform_shared_lib_name(library: str) -> str:
+    if sys.platform == "darwin":
+        return f"lib{library}.dylib"
+    elif sys.platform == "win32":
+        return f"{library}.dll"
+    else:
+        return f"lib{library}.so"
+
 ffi = FFI()
 _resources = importlib.resources.files('fishyjoes_runtime')
 ffi.cdef((_resources / '_declarations.h').read_text("utf-8"))
-_fishyjoes_runtime_lib = ffi.dlopen(str(_resources / 'native' / 'libFishyJoesIotaRuntime.dylib'))
+_fishyjoes_runtime_lib = ffi.dlopen(str(_resources / 'native' / platform_shared_lib_name('FishyJoesIotaRuntime')))
 
 # MARK: utilities
 

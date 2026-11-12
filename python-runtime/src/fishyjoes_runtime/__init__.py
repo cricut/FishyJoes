@@ -4,7 +4,7 @@ Generated wheels depend on this package: each binding constructs a
 RuntimeConfig and calls Runtime to load its native libraries and
 obtain the runtime namespace its generated modules bind against.
 """
-from ._fishyjoesruntime_c_api import callback, eval_once_now, ffi, lazy_once
+from ._fishyjoesruntime_c_api import callback, eval_once_now, ffi, lazy_once, platform_shared_lib_name
 from .ffi_types import CREATED_REF_NULL, ConsumedRef, ConsumedRefArray, ConsumedSwiftRef, CreatedRef, CreatedRefArray, \
     CreatedSwiftRef, EnvRef, OutCreatedRef, Pointer, UTF16CString, UTF8CString, UnownedRef, UnownedRefArray, \
     UnownedSwiftRef
@@ -24,7 +24,7 @@ from ._attributed_substring_type import AttributedSubstring
 fishyjoes_type_setup.ensure_loaded()
 
 __all__ = [
-    "CREATED_REF_NULL", "callback", "eval_once_now", "ffi", "lazy_once",
+    "CREATED_REF_NULL", "callback", "eval_once_now", "ffi", "lazy_once", "platform_shared_lib_name",
 
     "Pointer",
     "CreatedRef", "UnownedRef", "ConsumedRef",

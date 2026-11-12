@@ -17,7 +17,7 @@ final class PythonTranslator: Translator {
 
         cAPIFragment.output("_resources = importlib.resources.files('\(context.module.pythonPackageName)')")
         cAPIFragment.output("fishyjoes_runtime.ffi.cdef((_resources / '_declarations.h').read_text('utf-8'))")
-        cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / 'lib\(context.module)-iota.dylib'))")
+        cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / fishyjoes_runtime.platform_shared_lib_name('\(context.module)-iota')))")
         cAPIFragment.output("__all__ = [ '_\(context.module.pythonPackageName)_lib' ]")
 
         let typeSetupFragment = context.pythonFragment(
