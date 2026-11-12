@@ -69,7 +69,7 @@ function install-lib {
     fi
 }
 
-rm -rf python-runtime/src/fishyjoes_runtime/native
+# rm -rf python-runtime/src/fishyjoes_runtime/native
 if [[ $platform == MACOS_* ]]; then
     install-lib "libFishyJoesIotaRuntime.dylib" "c-sharp-runtime/runtimes/osx/native" "dart-runtime/macos/native" "python-runtime/src/fishyjoes_runtime/native"
 elif [[ $platform == WINDOWS ]]; then
