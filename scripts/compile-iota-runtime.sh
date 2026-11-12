@@ -76,6 +76,10 @@ elif [[ $platform == WINDOWS ]]; then
     install-lib "FishyJoesIotaRuntime.dll" "c-sharp-runtime/runtimes/win/native" "dart-runtime/windows/native" "python-runtime/src/fishyjoes_runtime/native"
 else
     install-lib "libFishyJoesIotaRuntime.so" "c-sharp-runtime/runtimes/linux/native" "dart-runtime/linux/native" "python-runtime/src/fishyjoes_runtime/native"
+
+    # Patch libs to use relative paths to swift stdlib
+    SWIFT_RUN_PATH='$ORIGIN:/usr/lib/swift/linux:./'
+    patchelf --set-rpath $SWIFT_RUN_PATH python-runtime/src/fishyjoes_runtime/native/libFishyJoesIotaRuntime.so
 fi
 
 if dotnet --version >/dev/null 2>&1; then
