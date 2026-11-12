@@ -126,6 +126,23 @@ public struct FileTemplater {
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }
+        if config.ciEnableSPMCache {
+            credentialStepLines.append(
+                contentsOf: [
+                    "",
+                    "- name: Cache SwiftPM binary artifacts",
+                    "  if: runner.environment == 'github-hosted'",
+                    "  uses: actions/cache@v6",
+                    "  with:",
+                    "    path: |",
+                    "      ~/.cache/org.swift.swiftpm/artifacts",
+                    "      ~/Library/Caches/org.swift.swiftpm/artifacts",
+                    "      ~/AppData/Local/Temp/org.swift.swiftpm/artifacts",
+                    "    key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}",
+                    "    restore-keys: swiftpm-artifacts-${{ runner.os }}-",
+                ]
+            )
+        }
         credentialStepLines[0].removeFirst(2) // remove the first "- " so that the template can also be valid yaml
         replacements["__CI_GIT_STEPS__"] = join(lines: credentialStepLines, indent: 6).trimmed()
         replacements["__CI_DEPENDENCY_AUTH_USER__"] = credentialUser

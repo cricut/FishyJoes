@@ -15,6 +15,8 @@ struct ProjectConfig: Codable {
     let ciPreBuildHook: String?
     let ciPostBuildHook: String?
 
+    let ciEnableSPMCache: Bool
+
     let flexibleVersions: Bool
 
     // Sometimes sourcery has conflicts with a particular macos or xcode
@@ -66,6 +68,7 @@ struct ProjectConfig: Codable {
             Log.error("  echo 'doing CI work in bash'")
             Log.error("CIPostBuildHook: |")
             Log.error("  echo 'doing more CI work in bash'")
+            Log.error("CIEnableSPMCache: false  # default")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
@@ -120,6 +123,7 @@ struct ProjectConfig: Codable {
             }
             return hook
         }
+        let ciEnableSPMCache = (configDictionary["CIEnableSPMCache"] as? Bool) ?? false
         let flexibleVersions = (configDictionary["flexibleVersions"] as? Bool) ?? false
         let sourceryOverride = try configDictionary["sourceryOverride"].map { obj -> SourceryOverride in
             let dict = obj as? [String: Any]
@@ -162,6 +166,7 @@ struct ProjectConfig: Codable {
             ciPreCheckoutHook: ciPreCheckoutHook,
             ciPreBuildHook: ciPreBuildHook,
             ciPostBuildHook: ciPostBuildHook,
+            ciEnableSPMCache: ciEnableSPMCache,
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,

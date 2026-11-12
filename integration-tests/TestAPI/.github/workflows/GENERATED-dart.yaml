@@ -38,6 +38,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SwiftPM binary artifacts
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
+
       - name: Set up node
         uses: actions/setup-node@v6
         with:
@@ -99,6 +110,17 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Cache SwiftPM binary artifacts
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - name: Set up Swift
         uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
@@ -186,6 +208,17 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SwiftPM binary artifacts
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
+
       - name: Set up node
         uses: actions/setup-node@v6
         with:
@@ -267,6 +300,17 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: recursive
+
+      - name: Cache SwiftPM binary artifacts
+        if: runner.environment == 'github-hosted'
+        uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm/artifacts
+            ~/Library/Caches/org.swift.swiftpm/artifacts
+            ~/AppData/Local/Temp/org.swift.swiftpm/artifacts
+          key: swiftpm-artifacts-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: swiftpm-artifacts-${{ runner.os }}-
 
       - name: Set up Swift
         uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
