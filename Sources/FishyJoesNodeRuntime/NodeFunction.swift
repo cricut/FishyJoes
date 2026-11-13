@@ -1,5 +1,9 @@
 import FishyJoesCommonRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 protocol AnyFunction {
     static var cInvoke: NAPI.Callback { get }
