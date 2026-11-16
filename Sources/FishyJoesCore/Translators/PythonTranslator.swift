@@ -12,13 +12,11 @@ final class PythonTranslator: Translator {
     }
 
     func setupFragments(context: FishyJoesContext, generatedTypes: [BetterType]) -> [SourceFragment] {
-        let cAPIFragment = context.pythonFragment("_c_api.py", additionalImports: ["import importlib"])
+        let cAPIFragment = context.pythonFragment("_c_api.py")
         let libVar = "_\(context.module.pythonPackageName)_lib"
 
-        cAPIFragment.output("_resources = importlib.resources.files('\(context.module.pythonPackageName)')")
-        cAPIFragment.output("fishyjoes_runtime.ffi.cdef((_resources / '_declarations.h').read_text('utf-8'))")
-        cAPIFragment.output("\(libVar) = fishyjoes_runtime.ffi.dlopen(str(_resources / 'native' / fishyjoes_runtime.platform_shared_lib_name('\(context.module)-iota')))")
-        cAPIFragment.output("__all__ = [ '_\(context.module.pythonPackageName)_lib' ]")
+        cAPIFragment.output("\(libVar) = fishyjoes_runtime.load_library('\(context.module.pythonPackageName)', '\(context.module)', '\(context.module)-iota')")
+        cAPIFragment.output("__all__ = [ '\(libVar)' ]")
 
         let typeSetupFragment = context.pythonFragment(
             "fishyjoes_type_setup.py",

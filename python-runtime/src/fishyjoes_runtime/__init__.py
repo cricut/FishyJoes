@@ -4,7 +4,7 @@ Generated wheels depend on this package: each binding constructs a
 RuntimeConfig and calls Runtime to load its native libraries and
 obtain the runtime namespace its generated modules bind against.
 """
-from ._fishyjoesruntime_c_api import callback, eval_once_now, ffi, lazy_once, platform_shared_lib_name
+from ._fishyjoesruntime_c_api import callback, eval_once_now, ffi, lazy_once, load_library
 from .ffi_types import CREATED_REF_NULL, ConsumedRef, ConsumedRefArray, ConsumedSwiftRef, CreatedRef, CreatedRefArray, \
     CreatedSwiftRef, EnvRef, OutCreatedRef, Pointer, UTF16CString, UTF8CString, UnownedRef, UnownedRefArray, \
     UnownedSwiftRef
@@ -16,6 +16,8 @@ from .runtime import CStringBag, Runtime, assert_type, catch_by_out_ref, \
 from .swift_range import Comparable, SwiftClosedRange, SwiftRange
 from .swift_reference import SwiftReference
 
+# NOTE: order is important here to make sure circular imports resolve correctly. Don't allow the IDE to move these up
+
 from . import attribute_container, attributed_string, fishyjoes_type_setup
 from ._attribute_container_type import AttributeContainer
 from ._attributed_string_type import AttributedString
@@ -24,7 +26,7 @@ from ._attributed_substring_type import AttributedSubstring
 fishyjoes_type_setup.ensure_loaded()
 
 __all__ = [
-    "CREATED_REF_NULL", "callback", "eval_once_now", "ffi", "lazy_once", "platform_shared_lib_name",
+    "CREATED_REF_NULL", "callback", "eval_once_now", "ffi", "lazy_once", "load_library",
 
     "Pointer",
     "CreatedRef", "UnownedRef", "ConsumedRef",

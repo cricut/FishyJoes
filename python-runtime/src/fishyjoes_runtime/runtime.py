@@ -2,7 +2,7 @@ import asyncio
 import inspect
 from asyncio import AbstractEventLoop
 from contextlib import AbstractContextManager
-from typing import Any, Awaitable, Callable, ClassVar, ContextManager, List, Literal, Self, cast, final, overload, \
+from typing import Any, Callable, ClassVar, ContextManager, List, Self, cast, final, overload, \
     override
 
 from cffi import FFI
