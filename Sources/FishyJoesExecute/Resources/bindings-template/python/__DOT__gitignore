@@ -1,4 +1,4 @@
 .venv/
 dist/
-generated/native/
+generated/src/*/native/
 **/__pycache__/

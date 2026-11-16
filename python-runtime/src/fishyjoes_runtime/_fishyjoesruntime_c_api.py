@@ -49,7 +49,7 @@ def load_library(package_name: importlib.resources.Anchor, unused: str | None, i
             with importlib.resources.as_file(resource) as path:
                 copy_lib(path)
 
-    lib = ffi.dlopen(f"{_tmp_lib_dir.name}/{platform_shared_lib_name(iota_library)}")
+    lib = ffi.dlopen(f"{_tmp_lib_dir.name}/{platform_shared_lib_name(iota_library)}", getattr(ffi, 'RTLD_LAZY', 0))
     _loaded_libraries[iota_library] = lib
     return lib
 
