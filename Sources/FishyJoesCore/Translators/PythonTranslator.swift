@@ -15,7 +15,7 @@ final class PythonTranslator: Translator {
         let cAPIFragment = context.pythonFragment("_c_api.py")
         let libVar = "_\(context.module.pythonPackageName)_lib"
 
-        cAPIFragment.output("\(libVar) = fishyjoes_runtime.load_library('\(context.module.pythonPackageName)', '\(context.module)', '\(context.module)-iota')")
+        cAPIFragment.output("\(libVar) = fishyjoes_runtime.load_library('\(context.module.pythonPackageName)', None, '\(context.module)-iota')")
         cAPIFragment.output("__all__ = [ '\(libVar)' ]")
 
         let typeSetupFragment = context.pythonFragment(

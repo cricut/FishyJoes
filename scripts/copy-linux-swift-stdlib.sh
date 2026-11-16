@@ -121,7 +121,7 @@ if [[ ! -z ${FISHYJOES_UBUNTU_DEST:-} ]]; then
     platformDir=$FISHYJOES_UBUNTU_DEST
     mkdir -p $platformDir
 
-    # Put list of dependency libraries into text file for java, so they can be extracted from the jar before loading main library
+    # Put list of dependency libraries into text file for java and python, so they can be extracted from the package before loading main library
     libListFile=$FISHYJOES_UBUNTU_DEST/stdlib.txt
     printf '' >$libListFile
 

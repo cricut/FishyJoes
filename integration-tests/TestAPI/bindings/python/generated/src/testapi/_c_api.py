@@ -5,5 +5,5 @@ import fishyjoes_runtime
 import types
 import typing
 
-_testapi_lib = fishyjoes_runtime.load_library('testapi', 'TestAPI', 'TestAPI-iota')
+_testapi_lib = fishyjoes_runtime.load_library('testapi', None, 'TestAPI-iota')
 __all__ = [ '_testapi_lib' ]
