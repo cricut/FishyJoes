@@ -1,0 +1,213 @@
+{
+  "cLanguageStandard" : null,
+  "cxxLanguageStandard" : null,
+  "dependencies" : [
+    {
+      "registry" : [
+        {
+          "identity" : "cricut.BifrostCore",
+          "productFilter" : null,
+          "requirement" : {
+            "exact" : [
+              "0.1.4"
+            ]
+          },
+          "traits" : [
+            {
+              "name" : "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceControl" : [
+        {
+          "identity" : "tesseract",
+          "location" : {
+            "remote" : [
+              {
+                "urlString" : "https://github.com/cricut/Tesseract"
+              }
+            ]
+          },
+          "productFilter" : null,
+          "requirement" : {
+            "exact" : [
+              "6.11.0"
+            ]
+          },
+          "traits" : [
+            {
+              "name" : "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceControl" : [
+        {
+          "identity" : "criraster",
+          "location" : {
+            "remote" : [
+              {
+                "urlString" : "https://github.com/cricut/CriRaster"
+              }
+            ]
+          },
+          "productFilter" : null,
+          "requirement" : {
+            "range" : [
+              {
+                "lowerBound" : "1.6.0",
+                "upperBound" : "1.7.0"
+              }
+            ]
+          },
+          "traits" : [
+            {
+              "name" : "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceControl" : [
+        {
+          "identity" : "crigeo",
+          "location" : {
+            "remote" : [
+              {
+                "urlString" : "https://github.com/cricut/CriGeo"
+              }
+            ]
+          },
+          "productFilter" : null,
+          "requirement" : {
+            "range" : [
+              {
+                "lowerBound" : "2.24.0",
+                "upperBound" : "3.0.0"
+              }
+            ]
+          },
+          "traits" : [
+            {
+              "name" : "default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceControl" : [
+        {
+          "identity" : "fishyjoes",
+          "location" : {
+            "remote" : [
+              {
+                "urlString" : "https://github.com/cricut/FishyJoes"
+              }
+            ]
+          },
+          "productFilter" : null,
+          "requirement" : {
+            "exact" : [
+              "8.3.3-monorepo.1"
+            ]
+          },
+          "traits" : [
+            {
+              "name" : "default"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "name" : "Hydrogen",
+  "packageKind" : {
+    "root" : [
+      "/path/to/Bifrost/Packages/Hydrogen"
+    ]
+  },
+  "pkgConfig" : null,
+  "platforms" : [
+    {
+      "options" : [
+
+      ],
+      "platformName" : "macos",
+      "version" : "13.0"
+    },
+    {
+      "options" : [
+
+      ],
+      "platformName" : "ios",
+      "version" : "16.0"
+    }
+  ],
+  "products" : [
+    {
+      "name" : "Hydrogen",
+      "settings" : [
+
+      ],
+      "targets" : [
+        "Hydrogen"
+      ],
+      "type" : {
+        "library" : [
+          "automatic"
+        ]
+      }
+    }
+  ],
+  "providers" : null,
+  "swiftLanguageVersions" : [
+    "5"
+  ],
+  "targets" : [
+    {
+      "dependencies" : [
+        {
+          "product" : [
+            "BifrostCore",
+            "cricut.BifrostCore",
+            null,
+            null
+          ]
+        },
+        {
+          "product" : [
+            "Tesseract",
+            "Tesseract",
+            null,
+            null
+          ]
+        }
+      ],
+      "exclude" : [
+
+      ],
+      "name" : "Hydrogen",
+      "packageAccess" : true,
+      "resources" : [
+
+      ],
+      "settings" : [
+
+      ],
+      "type" : "regular"
+    }
+  ],
+  "toolsVersion" : {
+    "_version" : "6.2.0"
+  },
+  "traits" : [
+
+  ]
+}

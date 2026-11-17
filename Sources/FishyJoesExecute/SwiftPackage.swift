@@ -475,9 +475,11 @@ extension SwiftPackage {
 
     struct DependencyMap {
         var entries: [String: Dependency]
-        // Registry identities are `scope.name`; a module is looked up by name.
+        // Registry identities are `scope.name`; a module is looked up by name. Identities keep the case of the
+        // manifest (e.g. `cricut.BifrostCore`), so both sides are compared lowercased.
         subscript(key: String) -> Dependency? {
-            entries[key.lowercased()] ?? entries.first { $0.key.split(separator: ".").last.map(String.init) == key.lowercased() }?.value
+            entries[key.lowercased()]
+                ?? entries.first { $0.key.split(separator: ".").last.map { $0.lowercased() } == key.lowercased() }?.value
         }
     }
 

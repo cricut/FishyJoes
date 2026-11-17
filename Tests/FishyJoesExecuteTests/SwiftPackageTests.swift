@@ -43,4 +43,14 @@ class SwiftPackageTests: XCTestCase {
         XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.url, URL(string: "https://github.com/cricut/FishyJoes"))
         XCTAssertEqual(parsed.dependencyMap["fishyjoes"]?.versionInGradleFormat(), .inline("4.7.8-alpha2"))
     }
+
+    func testRegistryDependency() throws {
+        let jsonURL = try XCTUnwrap(Bundle.module.url(forResource: "Resources/package-registry", withExtension: "json"))
+
+        let parsed = try JSONDecoder().decode(SwiftPackage.self, from: Data(contentsOf: jsonURL))
+
+        // Modules are looked up by name, the registry identity keeps the case of the manifest.
+        XCTAssertEqual(parsed.dependencyMap["BifrostCore"]?.identity, "cricut.BifrostCore")
+        XCTAssertEqual(parsed.dependencyMap["Tesseract"]?.identity, "tesseract")
+    }
 }
