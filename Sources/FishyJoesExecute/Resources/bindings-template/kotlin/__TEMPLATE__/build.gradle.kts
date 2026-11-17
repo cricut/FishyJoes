@@ -1,12 +1,14 @@
 // __AUTOGEN_WARNING__
 
-import org.jetbrains.kotlin.konan.properties.loadProperties
+import java.util.Properties
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 // version info comes from https://github.com/cricut/Platform-Documentation/blob/main/platform/version_documentation.md#android
 plugins {
     `maven-publish`
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm") version "2.4.21"
     jacoco
 }
 
@@ -36,7 +38,7 @@ gradle.rootProject {
     tasks.register("updateVersion") {
         if (System.getenv("VERSION") != null) {
             println("setting property to " + System.getenv("VERSION"))
-            val properties = loadProperties("gradle.properties")
+            val properties = Properties()
             properties.load(project.rootProject.file("gradle.properties").inputStream())
             properties.setProperty("version", System.getenv("VERSION"))
 
@@ -102,10 +104,16 @@ jacoco {
 
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "11"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+        // Kotlin 2.0 metadata stays readable by consumers on Kotlin 1.9 and newer.
+        compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_0)
+        compilerOptions.apiVersion.set(KotlinVersion.KOTLIN_2_0)
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "11"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
+        // Tests run on the 2.0 stdlib, so they must not call stdlib helpers newer than 2.0.
+        compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_0)
+        compilerOptions.apiVersion.set(KotlinVersion.KOTLIN_2_0)
     }
     compileJava {
         sourceCompatibility = JavaVersion.VERSION_11.toString()
@@ -118,7 +126,8 @@ tasks {
 }
 
 dependencies {
-    implementation(kotlin("stdlib:1.9.10"))
+    // Matches apiVersion. A newer stdlib would reach the compile classpath of Android consumers on older Kotlin.
+    implementation(kotlin("stdlib:2.0.21"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
