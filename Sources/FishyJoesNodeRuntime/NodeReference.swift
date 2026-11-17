@@ -1,4 +1,8 @@
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 public final class NodeReference: @unchecked Sendable {
     private var ref: NAPI.Ref

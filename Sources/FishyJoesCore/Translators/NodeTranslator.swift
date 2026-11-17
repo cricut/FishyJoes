@@ -346,7 +346,21 @@ struct NodeTranslator: Translator {
         let wasmShimMainFragment = context.swiftFragment("WasmMainShim/main.swift", withDedicatedFile: true)
         wasmShimMainFragment.output("// Executable main requires no statements, as module registration is done by napi.init() calling napi_register_module_v1()")
 
-        return [typeSetupFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment]
+        let wasiFoundationFragments = ["CommonInterface", "NodeInterface"].map { target in
+            let fragment = context.swiftFragment("\(target)/Foundation+WASI.swift", withDedicatedFile: true, additionalImports: ["Foundation"])
+            fragment.output("#if os(WASI)")
+            fragment.output("// Generated code names types as `Foundation.X`; on WASI they come from FoundationEssentials")
+            fragment.outputBlock("enum Foundation {") {
+                // Top-level Foundation types that FishyJoesContext can translate
+                for name in ["AttributeContainer", "AttributedString", "AttributedSubstring", "Data", "URL"] {
+                    fragment.output("typealias \(name) = FoundationEssentials.\(name)")
+                }
+            }
+            fragment.output("#endif")
+            return fragment
+        }
+
+        return [typeSetupFragment, exportFragment, nodeNativeShimFragment, wasmShimFragment, wasmShimMainFragment] + wasiFoundationFragments
     }
 
     func ts(method: Method, explicitThis: Bool, context: FishyJoesContext) -> TypeScriptAnnotations.Method? {

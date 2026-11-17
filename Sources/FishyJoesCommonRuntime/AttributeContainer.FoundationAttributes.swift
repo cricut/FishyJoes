@@ -1,4 +1,8 @@
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension AttributeContainer {
     /// Attributes defined by the Foundation library in ``AttributeScopes``, packaged as a structure.

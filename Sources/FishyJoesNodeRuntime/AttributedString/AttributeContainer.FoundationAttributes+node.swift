@@ -1,4 +1,8 @@
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConverter {
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> AttributeContainer.FoundationAttributes {
@@ -32,13 +36,13 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "link", expectedArgumentCount: 0) { env in
-                                try OptionalConverter<Foundation.URL>.toNode(env.this(converter: AttributeContainer.FoundationAttributes.self).link, env: env.env)
+                                try OptionalConverter<URL>.toNode(env.this(converter: AttributeContainer.FoundationAttributes.self).link, env: env.env)
                             }
                         },
                         setter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "link", expectedArgumentCount: 1) { env in
                                 var mutatingSelf = try env.this(converter: AttributeContainer.FoundationAttributes.self)
-                                mutatingSelf.link = try env.argument(at: 0, converter: OptionalConverter<Foundation.URL>.self)
+                                mutatingSelf.link = try env.argument(at: 0, converter: OptionalConverter<URL>.self)
                                 try AttributeContainer.FoundationAttributes.mutateNode(mutatingSelf, this: env.this(), env: env.env)
                                 return nil
                             }
@@ -107,7 +111,7 @@ extension AttributeContainer.FoundationAttributes: FishyJoesNodeRuntime.NodeConv
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "createFromContainer", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try AttributeContainer.FoundationAttributes.toNode(
                                 AttributeContainer.FoundationAttributes(
-                                    try env.argument(at: 0, converter: Foundation.AttributeContainer.self)
+                                    try env.argument(at: 0, converter: AttributeContainer.self)
                                 ),
                                 env: env.env
                             )
