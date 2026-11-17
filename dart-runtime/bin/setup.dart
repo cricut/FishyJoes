@@ -48,10 +48,22 @@ String releaseVersionForGitLock(String packageName, dynamic depLock) {
   final tagPattern = description["tag-pattern"];
   final version = depLock["version"];
   if (tagPattern is String && tagPattern.isNotEmpty && version is String && version.isNotEmpty) {
-    return version;
+    // The Dart publish tag is made for the release the rest of the pattern names, which includes the tag prefix of a
+    // package published from a repository with several packages (e.g. `bifrost-core/{{version}}-dart-publish`).
+    return tagPattern.replaceAll("{{version}}", version).replaceFirst(RegExp(r'-dart-publish$'), '');
   }
 
   throw StateError("No release version found for $packageName in pubspec.lock");
+}
+
+// A package published from a subdirectory of a repository (`<package path>/bindings/dart/generated`) uploads binaries
+// named after its module, which is the last component of the package path.
+String tarballNameForGitLock(String repoName, dynamic depLock) {
+  final gitPath = depLock["description"]["path"];
+  final moduleMatch = gitPath is String
+      ? RegExp(r'(?:^|/)([^/]+)/bindings/dart/generated/?$').firstMatch(gitPath)
+      : null;
+  return "${moduleMatch?[1] ?? repoName}-dart-binaries.tgz";
 }
 
 void main() async {
@@ -105,7 +117,7 @@ void main() async {
         io.exit(1);
       }
       final repoName = pathMatch[1]!;
-      tarballSources.add(Download(repoName, version, "$repoName-dart-binaries.tgz"));
+      tarballSources.add(Download(repoName, version, tarballNameForGitLock(repoName, depLock)));
     } else if (source == 'path') {
       final path = depLock["description"]["path"];
       final artifacts = ["macos/native", "linux/native", "windows/native"];
