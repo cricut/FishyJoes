@@ -92,15 +92,20 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
             let confName = configuration.debug ? "debug" : "release"
 
             try swiftBuild(arguments: buildArguments + ["--triple", "arm64-apple-macosx"], configuration: configuration, addEnv: addEnv).run()
+            for lib in libs {
+                try cmd("cp", "\(configuration.scratchPath)/\(confName)/lib\(lib).dylib", "\(buildDir(configuration))/lib\(lib).arm64.dylib").run()
+            }
             try swiftBuild(arguments: buildArguments + ["--triple", "x86_64-apple-macosx"], configuration: configuration, addEnv: addEnv).run()
+            for lib in libs {
+                try cmd("cp", "\(configuration.scratchPath)/\(confName)/lib\(lib).dylib", "\(buildDir(configuration))/lib\(lib).x86_64.dylib").run()
+            }
 
             for lib in libs {
-                let libName = "lib\(lib).dylib"
                 try cmd(
                     "lipo", "-create",
-                    "-output", "\(buildDir(configuration))/\(libName)",
-                    "\(configuration.scratchPath)/arm64-apple-macosx/\(confName)/\(libName)",
-                    "\(configuration.scratchPath)/x86_64-apple-macosx/\(confName)/\(libName)"
+                    "-output", "\(buildDir(configuration))/lib\(lib).dylib",
+                    "\(buildDir(configuration))/lib\(lib).arm64.dylib",
+                    "\(buildDir(configuration))/lib\(lib).x86_64.dylib",
                 ).run()
             }
         } else {
