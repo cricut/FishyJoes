@@ -449,7 +449,7 @@ extension SwiftPackage {
                 else {
                     return dependency
                 }
-                let path = ".build/registry/downloads/\(identity.replacingOccurrences(of: ".", with: "/"))/\(version)"
+                let path = Self.registryDownloadPath(identity: identity, version: version)
                 guard
                     FileManager.default.fileExists(atPath: "\(path)/bindings/fishy-joes.yaml"),
                     let config = try? ProjectConfig.readFromFile(basePath: path),
@@ -471,6 +471,19 @@ extension SwiftPackage {
             },
             targets: targets
         )
+    }
+
+    /// The directory a registry release is downloaded to, `<downloads>/<scope>/<name>/<version>`. Since Swift 6.4.2 the
+    /// downloads of each registry are in their own directory (`<downloads>/<host>-<hash>/<scope>/<name>/<version>`).
+    static func registryDownloadPath(
+        identity: String,
+        version: String,
+        downloads: String = ".build/registry/downloads"
+    ) -> String {
+        let release = "\(identity.replacingOccurrences(of: ".", with: "/"))/\(version)"
+        let registries = (try? FileManager.default.contentsOfDirectory(atPath: downloads)) ?? []
+        let candidates = ["\(downloads)/\(release)"] + registries.sorted().map { "\(downloads)/\($0)/\(release)" }
+        return candidates.first { FileManager.default.fileExists(atPath: "\($0)/Package.swift") } ?? candidates[0]
     }
 
     struct DependencyMap {
