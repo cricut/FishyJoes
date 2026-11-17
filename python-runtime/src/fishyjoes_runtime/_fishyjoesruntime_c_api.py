@@ -31,7 +31,7 @@ _resources = importlib.resources.files('fishyjoes_runtime')
 
 _tmp_lib_dir = tempfile.TemporaryDirectory(prefix="fishyjoes_libs_")
 _loaded_libraries: dict[str, Lib] = {}
-def load_library(package_name: importlib.resources.Anchor, unused: str | None, iota_library: str) -> Lib:
+def load_library(package_name: importlib.resources.Anchor, iota_library: str) -> Lib:
     lib = _loaded_libraries.get(iota_library)
     if lib is not None:
         return lib
@@ -58,7 +58,7 @@ def load_library(package_name: importlib.resources.Anchor, unused: str | None, i
 _stdlib: list[str] = []
 if sys.platform != "darwin":
     _stdlib = open(str(importlib.resources.files('fishyjoes_runtime') / "native" / "stdlib.txt"), "r").readlines()
-_fishyjoes_runtime_lib = load_library('fishyjoes_runtime', None, 'FishyJoesIotaRuntime')
+_fishyjoes_runtime_lib = load_library('fishyjoes_runtime', 'FishyJoesIotaRuntime')
 
 # MARK: utilities
 

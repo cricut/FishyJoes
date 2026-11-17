@@ -314,7 +314,6 @@ extension SwiftPackage.Dependency {
 
     func pythonUVSource(relativeTo: String?, addIfLocalPath: String = "", flexibleVersions: Bool) -> String? {
         guard case .fileSystem(_, let absolutePath) = self else { return nil }
-        print("HERE \(absolutePath) \(relativeTo)")
         let localPath = relativeTo.map { relativePath(of: absolutePath, relativeTo: $0) } ?? absolutePath
         return #"{ path = "\#(localPath)/\#(addIfLocalPath)" }"#
     }

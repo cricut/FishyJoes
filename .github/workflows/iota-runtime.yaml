@@ -71,6 +71,12 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
+      - name: Python stamp version
+        run: |
+          set -euxo pipefail
+          cd python-runtime
+          uv version "$VERSION"
+
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
@@ -111,6 +117,12 @@ jobs:
 
           sudo apt-get update
           sudo apt-get install -y zsh
+
+      - name: Python stamp version
+        run: |
+          set -euxo pipefail
+          cd python-runtime
+          uv version "$VERSION"
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -166,6 +178,12 @@ jobs:
           swift package resolve
           swift package resolve
 
+      - name: Python stamp version
+        run: |
+          set -euxo pipefail
+          cd python-runtime
+          uv version "$VERSION"
+
       - name: Build FishyJoesIotaRuntime
         shell: bash
         run: |
@@ -205,6 +223,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      id-token: write
     env:
       VERSION: ${{ needs.iota-version.outputs.version }}
       DART_PUBLISH_TAG: ${{ needs.iota-version.outputs.version }}-dart-publish
@@ -228,6 +247,12 @@ jobs:
           set -euxo pipefail
           sudo apt-get update
           sudo apt-get install -y zsh
+
+      - name: Python stamp version
+        run: |
+          set -euxo pipefail
+          cd python-runtime
+          uv version "$VERSION"
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4
@@ -384,15 +409,7 @@ jobs:
           # publish flutter NPM package
           npm publish cricut-flutter-fishyjoes-runtime-*.tgz
 
-          # publish python runtime wheels as release assets
-
-          for wheel in {mac,ubuntu,windows}_generated/python-runtime/dist/*.whl; do
-            name="$(basename "$wheel")"
-            curl -f \
-              -X POST \
-              -H 'Content-Type: application/octet-stream' \
-              -H "Authorization: Bearer $GH_TOKEN" \
-              -H 'Accept: application/vnd.github.v3+json' \
-              "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$name" \
-              --data-binary @"$wheel"
-          done
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086  # release/v1
+        with:
+          packages-dir: python-runtime/dist
