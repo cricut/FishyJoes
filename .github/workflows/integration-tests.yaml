@@ -190,6 +190,13 @@ jobs:
           cd integration-tests/TestAPI
           FISHYJOES=1 swift run -- fishy-joes --nodejs --wasm build test
 
+      - name: Check wasm links only FoundationEssentials
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ./scripts/check-wasm-foundation-essentials.sh
+
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
