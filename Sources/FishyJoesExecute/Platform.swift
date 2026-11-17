@@ -89,18 +89,21 @@ enum Platform: CustomStringConvertible, Hashable, CaseIterable {
                 fatalError("Can't infer products in fat builds")
             }
             try cmd("mkdir", "-p", buildDir(configuration)).run()
-            let confName = configuration.debug ? "debug" : "release"
-
-            try swiftBuild(arguments: buildArguments + ["--triple", "arm64-apple-macosx"], configuration: configuration, addEnv: addEnv).run()
-            try swiftBuild(arguments: buildArguments + ["--triple", "x86_64-apple-macosx"], configuration: configuration, addEnv: addEnv).run()
+            // Swift Build, the default build system of newer toolchains (e.g. Xcode 27), doesn't put the products in a
+            // directory per triple, so each architecture is built with the native build system and lipo takes the
+            // products from the bin path swift build reports for it.
+            let binPaths = try ["arm64-apple-macosx", "x86_64-apple-macosx"].map { triple in
+                let tripleArguments = buildArguments + ["--build-system", "native", "--triple", triple]
+                try swiftBuild(arguments: tripleArguments, configuration: configuration, addEnv: addEnv).run()
+                return try swiftBuild(arguments: tripleArguments + ["--show-bin-path"], configuration: configuration, addEnv: addEnv)
+                    .runString().trimmed()
+            }
 
             for lib in libs {
                 let libName = "lib\(lib).dylib"
                 try cmd(
-                    "lipo", "-create",
-                    "-output", "\(buildDir(configuration))/\(libName)",
-                    "\(configuration.scratchPath)/arm64-apple-macosx/\(confName)/\(libName)",
-                    "\(configuration.scratchPath)/x86_64-apple-macosx/\(confName)/\(libName)"
+                    "lipo",
+                    arguments: ["-create", "-output", "\(buildDir(configuration))/\(libName)"] + binPaths.map { "\($0)/\(libName)" }
                 ).run()
             }
         } else {
