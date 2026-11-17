@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import NewType
 from typing import Callable, TypeAlias
 

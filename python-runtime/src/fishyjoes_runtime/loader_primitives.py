@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from fishyjoes_runtime._fishyjoesruntime_c_api import callback, ffi
 from fishyjoes_runtime.ffi_types import CreatedRef
 from typing import Callable, TypeAlias

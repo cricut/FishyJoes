@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 # setup functions are organized by file for logical consistency, then brought together in the _type_setup namespace so
 # that downstream libraries can find them easily.
 from ._fishyjoesruntime_c_api import lazy_once
