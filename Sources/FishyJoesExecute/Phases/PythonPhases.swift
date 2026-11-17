@@ -310,7 +310,7 @@ class PythonPhases: IotaPhases, Phases {
             #elseif os(Windows)
             pyPlatformTag = "win_amd64"
             #elseif os(Linux)
-            pyPlatformTag = "linux_x86_64"
+            pyPlatformTag = "manylinux_2_17_x86_64"
             #endif
 
             try cmd(

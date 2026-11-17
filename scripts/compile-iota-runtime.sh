@@ -27,7 +27,7 @@ elif [[ "$(uname -s)" == *_NT* ]]; then
     pyPlatformTag=win_amd64
 elif [[ "$(uname -s)" == "Linux" ]]; then
     platform=LINUX
-    pyPlatformTag=linux_x86_64
+    pyPlatformTag=manylinux_2_17_x86_64
 else
     echo "Couldn't determine platform"
     exit 1
