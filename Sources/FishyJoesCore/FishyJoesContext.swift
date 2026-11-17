@@ -68,8 +68,8 @@ public class FishyJoesContext {
         if !withDedicatedFile {
             fileName = (fileName.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
         }
-        for dependency in module.dependencies + [module.name] + additionalImports {
-            addHeader(file: fileName, "import \(dependency)")
+        for importName in module.dependencies + [module.name] + additionalImports {
+            addHeader(file: fileName, "import \(importName)")
         }
         // These need to be in order, so add them with higher priority
         addHeader(
