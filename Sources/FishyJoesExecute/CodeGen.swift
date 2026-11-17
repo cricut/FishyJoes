@@ -302,6 +302,16 @@ extension CodeGen {
             }
             fragment.blankLine()
 
+            // Products of a registry package have to be referred to by its registry identity.
+            fragment.outputBlock(#"func productPackage(_ name: String) -> String {"#) {
+                fragment.output(#"guard let versionSpec = env["FISHYJOES_DEPENDENCY_\(name)"] else { return name }"#)
+                fragment.outputBlock(#"if case let .registry(id, _, _) = try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {"#) {
+                    fragment.output(#"return id"#)
+                }
+                fragment.output(#"return name"#)
+            }
+            fragment.blankLine()
+
             fragment.outputBlock(#"var package = Package("#) {
                 fragment.output(#"name: "\#(config.module)-bindings","#)
                 fragment.output(#"platforms: [.macOS(.v13), .iOS(.v15)],"#)
@@ -329,7 +339,7 @@ extension CodeGen {
                         fragment.output(#"name: "\#(config.module)_CommonInterface","#)
                         fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
                             for module in config.requiredModules {
-                                fragment.output(#".product(name: "\#(module)", package: "\#(module)"),"#)
+                                fragment.output(#".product(name: "\#(module)", package: productPackage("\#(module)")),"#)
                             }
                             fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
                         }
