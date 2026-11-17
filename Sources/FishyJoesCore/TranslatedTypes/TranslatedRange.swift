@@ -40,7 +40,7 @@ struct TranslatedRange: TranslatedType {
         [
             .type(typeValue: bound.cSharpType.name),
             .value(name: "typeName", type: "string") { fragment in
-                fragment.output("\"\(converterType.name)\",")
+                fragment.output("\"\(converterType.keyName)\",")
             },
         ]
     }
@@ -49,7 +49,7 @@ struct TranslatedRange: TranslatedType {
         [
             .type(typeValue: bound.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.name)\",")
+                fragment.output("\"\(converterType.keyName)\",")
             },
         ]
     }

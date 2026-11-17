@@ -1,5 +1,4 @@
 import FishyJoesCommonRuntime
-import Foundation
 
 protocol AnyFunction {
     static var cInvoke: NAPI.Callback { get }

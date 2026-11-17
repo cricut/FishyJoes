@@ -63,13 +63,22 @@ public class FishyJoesContext {
         )
     }
 
+    // Full Foundation statically links ICU into wasm, so WASI builds use FoundationEssentials
+    static let foundationImport = """
+        #if os(WASI)
+        import FoundationEssentials
+        #else
+        import Foundation
+        #endif
+        """
+
     func swiftFragment(_ name: String, withDedicatedFile: Bool = false, additionalImports: [String] = []) -> SourceFragment {
         var fileName = "swift-interfaces/generated/\(module.name)-bindings/Sources/\(name)"
         if !withDedicatedFile {
             fileName = (fileName.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
         }
         for importName in module.dependencies + [module.name] + additionalImports {
-            addHeader(file: fileName, "import \(importName)")
+            addHeader(file: fileName, importName == "Foundation" ? Self.foundationImport : "import \(importName)")
         }
         // These need to be in order, so add them with higher priority
         addHeader(

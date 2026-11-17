@@ -1,5 +1,4 @@
 import FishyJoesCommonRuntime
-import Foundation
 import NodeAPI
 
 extension Tuple2Converter: NodeConverter where T0: NodeConverter, T1: NodeConverter {

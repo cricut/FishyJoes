@@ -42,8 +42,8 @@ final class CSharpTranslator: Translator {
                     }
 
                     initializerWriters.append {
-                        fragment.outputBlock("Once(\"setup_\(resolved.converterType.name)\", () => {", closeWith: "});") {
-                            fragment.output("// Console.WriteLine(\"setting up \(type.name)...\");")
+                        fragment.outputBlock("Once(\"setup_\(resolved.converterType.keyName)\", () => {", closeWith: "});") {
+                            fragment.output("// Console.WriteLine(\"setting up \(type.keyName)...\");")
 
                             var typeArgStr = ""
                             if case let typeArguments = setupParams.compactMap(\.typeValue), !typeArguments.isEmpty {

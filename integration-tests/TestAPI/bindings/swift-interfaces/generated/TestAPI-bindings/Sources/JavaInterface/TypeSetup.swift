@@ -1,7 +1,11 @@
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesJavaRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+import FishyJoesJavaRuntime
 import TestAPI
 import TestAPI_CommonInterface
 
@@ -85,8 +89,8 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
     try Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
 
-    // print("setting up Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>...")
-    try Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.javaSetup(env: env)
+    // print("setting up Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>...")
+    try Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.javaSetup(env: env)
 
     // print("setting up Function1Converter<Swift.Int, FutureConverter<Swift.Int>>...")
     try Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.javaSetup(env: env)
@@ -118,8 +122,8 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>...")
     try AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.javaSetup(env: env)
 
-    // print("setting up AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
-    try AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
+    // print("setting up AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>...")
+    try AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.javaSetup(env: env)
 
     // print("setting up Function1Converter<Swift.Int, Swift.Int>...")
     try Function1Converter<Swift.Int, Swift.Int>.javaSetup(env: env)
@@ -268,11 +272,11 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up ArrayConverter<OptionalConverter<Swift.UInt8>>...")
     try ArrayConverter<OptionalConverter<Swift.UInt8>>.javaSetup(env: env)
 
-    // print("setting up ArrayConverter<Foundation.AttributedString.Runs.Run>...")
-    try ArrayConverter<Foundation.AttributedString.Runs.Run>.javaSetup(env: env)
+    // print("setting up ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>...")
+    try ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>.javaSetup(env: env)
 
-    // print("setting up ArrayConverter<Foundation.AttributedSubstring>...")
-    try ArrayConverter<Foundation.AttributedSubstring>.javaSetup(env: env)
+    // print("setting up ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>...")
+    try ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>.javaSetup(env: env)
 
     // print("setting up ArrayConverter<Swift.Bool>...")
     try ArrayConverter<Swift.Bool>.javaSetup(env: env)
@@ -433,8 +437,8 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up ClosedRangeConverter<Swift.UInt8>...")
     try ClosedRangeConverter<Swift.UInt8>.javaSetup(env: env)
 
-    // print("setting up RangeConverter<Foundation.AttributedString.Index>...")
-    try RangeConverter<Foundation.AttributedString.Index>.javaSetup(env: env)
+    // print("setting up RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>...")
+    try RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>.javaSetup(env: env)
 
     // print("setting up RangeConverter<Swift.Int>...")
     try RangeConverter<Swift.Int>.javaSetup(env: env)
@@ -487,15 +491,15 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up SetConverter<Swift.String>...")
     try SetConverter<Swift.String>.javaSetup(env: env)
 
-    // print("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...")
-    try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces...")
+    try FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
     nativeMethods = []
     nativeMethods.append(JNINativeMethod(
         name: bag.add("__jni_testCall"),
         signature: bag.add("()J"),
-        fnPtr: unsafeBitCast(java_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
+        fnPtr: unsafeBitCast(java_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall, to: UnsafeMutableRawPointer.self)
     ))
-    try env.RegisterNatives(Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.javaClass, methods: nativeMethods)
+    try env.RegisterNatives(FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces.javaClass, methods: nativeMethods)
 
     // print("setting up Swift.String.PuttingTypesIntoQuestionablePlaces...")
     try Swift.String.PuttingTypesIntoQuestionablePlaces.javaSetup(env: env)
@@ -3029,26 +3033,26 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     ))
     try env.RegisterNatives(TestAPI.URLs.javaClass, methods: nativeMethods)
 
-    // print("setting up Foundation.AttributedString.Runs.Run...")
-    try Foundation.AttributedString.Runs.Run.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributedString.Runs.Run...")
+    try FishyJoesCommonRuntime.AttributedString.Runs.Run.javaSetup(env: env)
 
-    // print("setting up Foundation.AttributedString.Index...")
-    try Foundation.AttributedString.Index.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributedString.Index...")
+    try FishyJoesCommonRuntime.AttributedString.Index.javaSetup(env: env)
 
-    // print("setting up Foundation.AttributeContainer...")
-    try Foundation.AttributeContainer.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributeContainer...")
+    try FishyJoesCommonRuntime.AttributeContainer.javaSetup(env: env)
 
-    // print("setting up Foundation.AttributedString...")
-    try Foundation.AttributedString.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributedString...")
+    try FishyJoesCommonRuntime.AttributedString.javaSetup(env: env)
 
-    // print("setting up Foundation.AttributedSubstring...")
-    try Foundation.AttributedSubstring.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.AttributedSubstring...")
+    try FishyJoesCommonRuntime.AttributedSubstring.javaSetup(env: env)
 
     // print("setting up Swift.Bool...")
     try Swift.Bool.javaSetup(env: env)
 
-    // print("setting up Foundation.Data...")
-    try Foundation.Data.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.Data...")
+    try FishyJoesCommonRuntime.Data.javaSetup(env: env)
 
     // print("setting up Swift.Double...")
     try Swift.Double.javaSetup(env: env)
@@ -3089,8 +3093,8 @@ private func jniTypeSetup(env: FishyJoesJavaRuntime.Env) throws {
     // print("setting up Swift.UInt8...")
     try Swift.UInt8.javaSetup(env: env)
 
-    // print("setting up Foundation.URL...")
-    try Foundation.URL.javaSetup(env: env)
+    // print("setting up FishyJoesCommonRuntime.URL...")
+    try FishyJoesCommonRuntime.URL.javaSetup(env: env)
 
     // print("setting up Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>...")
     try Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.javaSetup(env: env)

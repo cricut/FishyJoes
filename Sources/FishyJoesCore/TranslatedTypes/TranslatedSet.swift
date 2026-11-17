@@ -32,7 +32,7 @@ struct TranslatedSet: TranslatedType {
                 name: "typeName",
                 type: "string"
             ) { fragment in
-                fragment.output("\"\(converterType.name)\",")
+                fragment.output("\"\(converterType.keyName)\",")
             },
         ]
     }
@@ -41,7 +41,7 @@ struct TranslatedSet: TranslatedType {
         return [
             .type(typeValue: elementType.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.name)\",")
+                fragment.output("\"\(converterType.keyName)\",")
             },
         ]
     }

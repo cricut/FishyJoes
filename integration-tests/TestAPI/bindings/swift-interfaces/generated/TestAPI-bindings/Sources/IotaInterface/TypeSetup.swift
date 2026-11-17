@@ -1,7 +1,11 @@
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesIotaRuntime
+#if os(WASI)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+import FishyJoesIotaRuntime
 import TestAPI
 import TestAPI_CommonInterface
 
@@ -32,7 +36,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>.self, as: "Function1Converter<OptionalConverter<Swift.UInt8>, OptionalConverter<Swift.UInt8>>")
     Env.registerType(Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>.self, as: "Function3Converter<Swift.Float, Swift.Double, Swift.Int, FutureConverter<Swift.Double>>")
     Env.registerType(Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self, as: "Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>")
-    Env.registerType(Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.self, as: "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>")
+    Env.registerType(Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>.self, as: "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>")
     Env.registerType(Function1Converter<Swift.Int, FutureConverter<Swift.Int>>.self, as: "Function1Converter<Swift.Int, FutureConverter<Swift.Int>>")
     Env.registerType(Function1Converter<Swift.Int, Swift.Int>.self, as: "Function1Converter<Swift.Int, Swift.Int>")
     Env.registerType(Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.self, as: "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>")
@@ -43,7 +47,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>.self, as: "Function4Converter<Swift.String, Swift.String, Swift.String, Swift.String, ArrayConverter<Swift.String>>")
     Env.registerType(Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self, as: "Function3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>")
     Env.registerType(AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>.self, as: "AsyncFunction3Converter<Swift.Float, Swift.Double, Swift.Int, Swift.Double>")
-    Env.registerType(AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.self, as: "AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>")
+    Env.registerType(AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.self, as: "AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>")
     Env.registerType(Function1Converter<Swift.Int, Swift.Int>.self, as: "Function1Converter<Swift.Int, Swift.Int>")
     Env.registerType(AsyncFunction1Converter<Swift.Int, Swift.Int>.self, as: "AsyncFunction1Converter<Swift.Int, Swift.Int>")
     Env.registerType(Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>.self, as: "Function6Converter<Swift.String, Swift.Int, Swift.Double, Swift.String, Function0Converter<Swift.Int>, Swift.Int, Swift.Int>")
@@ -93,8 +97,8 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(ArrayConverter<OptionalConverter<Swift.UInt32>>.self, as: "ArrayConverter<OptionalConverter<Swift.UInt32>>")
     Env.registerType(ArrayConverter<OptionalConverter<Swift.UInt64>>.self, as: "ArrayConverter<OptionalConverter<Swift.UInt64>>")
     Env.registerType(ArrayConverter<OptionalConverter<Swift.UInt8>>.self, as: "ArrayConverter<OptionalConverter<Swift.UInt8>>")
-    Env.registerType(ArrayConverter<Foundation.AttributedString.Runs.Run>.self, as: "ArrayConverter<Foundation.AttributedString.Runs.Run>")
-    Env.registerType(ArrayConverter<Foundation.AttributedSubstring>.self, as: "ArrayConverter<Foundation.AttributedSubstring>")
+    Env.registerType(ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>.self, as: "ArrayConverter<Foundation.AttributedString.Runs.Run>")
+    Env.registerType(ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>.self, as: "ArrayConverter<Foundation.AttributedSubstring>")
     Env.registerType(ArrayConverter<Swift.Bool>.self, as: "ArrayConverter<Swift.Bool>")
     Env.registerType(ArrayConverter<Swift.Double>.self, as: "ArrayConverter<Swift.Double>")
     Env.registerType(ArrayConverter<Swift.Float>.self, as: "ArrayConverter<Swift.Float>")
@@ -148,7 +152,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(ClosedRangeConverter<Swift.UInt32>.self, as: "ClosedRangeConverter<Swift.UInt32>")
     Env.registerType(ClosedRangeConverter<Swift.UInt64>.self, as: "ClosedRangeConverter<Swift.UInt64>")
     Env.registerType(ClosedRangeConverter<Swift.UInt8>.self, as: "ClosedRangeConverter<Swift.UInt8>")
-    Env.registerType(RangeConverter<Foundation.AttributedString.Index>.self, as: "RangeConverter<Foundation.AttributedString.Index>")
+    Env.registerType(RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>.self, as: "RangeConverter<Foundation.AttributedString.Index>")
     Env.registerType(RangeConverter<Swift.Int>.self, as: "RangeConverter<Swift.Int>")
     Env.registerType(RangeConverter<Swift.Int16>.self, as: "RangeConverter<Swift.Int16>")
     Env.registerType(RangeConverter<Swift.Int32>.self, as: "RangeConverter<Swift.Int32>")
@@ -166,7 +170,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(SetConverter<Swift.Bool>.self, as: "SetConverter<Swift.Bool>")
     Env.registerType(SetConverter<Swift.Int>.self, as: "SetConverter<Swift.Int>")
     Env.registerType(SetConverter<Swift.String>.self, as: "SetConverter<Swift.String>")
-    Env.registerType(Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.self, as: "Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces")
+    Env.registerType(FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces.self, as: "Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(Swift.String.PuttingTypesIntoQuestionablePlaces.self, as: "Swift.String.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.self, as: "Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces")
     Env.registerType(TestAPI.Actors.TemperatureLogger.self, as: "TestAPI.Actors.TemperatureLogger")
@@ -224,13 +228,13 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(TestAPI.TestProtocolStruct.self, as: "TestAPI.TestProtocolStruct")
     Env.registerType(TestAPI.Tuples.self, as: "TestAPI.Tuples")
     Env.registerType(TestAPI.URLs.self, as: "TestAPI.URLs")
-    Env.registerType(Foundation.AttributedString.Runs.Run.self, as: "Foundation.AttributedString.Runs.Run")
-    Env.registerType(Foundation.AttributedString.Index.self, as: "Foundation.AttributedString.Index")
-    Env.registerType(Foundation.AttributeContainer.self, as: "Foundation.AttributeContainer")
-    Env.registerType(Foundation.AttributedString.self, as: "Foundation.AttributedString")
-    Env.registerType(Foundation.AttributedSubstring.self, as: "Foundation.AttributedSubstring")
+    Env.registerType(FishyJoesCommonRuntime.AttributedString.Runs.Run.self, as: "Foundation.AttributedString.Runs.Run")
+    Env.registerType(FishyJoesCommonRuntime.AttributedString.Index.self, as: "Foundation.AttributedString.Index")
+    Env.registerType(FishyJoesCommonRuntime.AttributeContainer.self, as: "Foundation.AttributeContainer")
+    Env.registerType(FishyJoesCommonRuntime.AttributedString.self, as: "Foundation.AttributedString")
+    Env.registerType(FishyJoesCommonRuntime.AttributedSubstring.self, as: "Foundation.AttributedSubstring")
     Env.registerType(Swift.Bool.self, as: "Swift.Bool")
-    Env.registerType(Foundation.Data.self, as: "Foundation.Data")
+    Env.registerType(FishyJoesCommonRuntime.Data.self, as: "Foundation.Data")
     Env.registerType(Swift.Double.self, as: "Swift.Double")
     Env.registerType(Swift.Float.self, as: "Swift.Float")
     Env.registerType(Swift.Int.self, as: "Swift.Int")
@@ -244,7 +248,7 @@ public func FishyJoes_TestAPI_registerTypes() {
     Env.registerType(Swift.UInt32.self, as: "Swift.UInt32")
     Env.registerType(Swift.UInt64.self, as: "Swift.UInt64")
     Env.registerType(Swift.UInt8.self, as: "Swift.UInt8")
-    Env.registerType(Foundation.URL.self, as: "Foundation.URL")
+    Env.registerType(FishyJoesCommonRuntime.URL.self, as: "Foundation.URL")
     Env.registerType(Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>.self, as: "Tuple3Converter<Swift.Bool, Swift.Double, ArrayConverter<Swift.String>>")
     Env.registerType(Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>.self, as: "Tuple3Converter<Swift.Bool, Swift.Int, Swift.String>")
     Env.registerType(Tuple2Converter<Swift.Int, Swift.String>.self, as: "Tuple2Converter<Swift.Int, Swift.String>")

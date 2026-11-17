@@ -45,7 +45,7 @@ final class IotaTranslator: Translator {
         let returnType = context.resolve(type: method.returnType, generics: exportAnnotation.genericOverrides)
         let returnSignature = method.isAsync ? "foreignObject" : "\(returnType.converterType.name).CType"
 
-        let cMethod = "__iota_\(containingNamespace)_\(exportAnnotation.name)".mangled
+        let cMethod = "__iota_\(resolved.sourceType.keyName)_\(exportAnnotation.name)".mangled
         if let deprecation = method.deprecation {
             fragment.output(deprecation.swiftDeprecation)
         }
@@ -187,8 +187,9 @@ final class IotaTranslator: Translator {
         }
 
         let iotaName = exportAnnotation.name
-        let iotaGetName = field.isDefaultImplementation ? "__iota__default_\(sourceTypeName)_\(iotaName)".mangled : "__iota_get_\(sourceTypeName)_\(iotaName)".mangled
-        let iotaSetName = "__iota_set_\(sourceTypeName)_\(iotaName)".mangled
+        let symbolTypeName = sourceResolved.sourceType.keyName
+        let iotaGetName = field.isDefaultImplementation ? "__iota__default_\(symbolTypeName)_\(iotaName)".mangled : "__iota_get_\(symbolTypeName)_\(iotaName)".mangled
+        let iotaSetName = "__iota_set_\(symbolTypeName)_\(iotaName)".mangled
 
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceTypeName)+iota-methods.swift",
@@ -268,7 +269,7 @@ final class IotaTranslator: Translator {
         swiftSetupFragment.outputBlock("public func \(moduleRegisterTypesFn(context: context))() {") {
             for type in generatedTypes {
                 let resolved = context.resolve(type: type)
-                swiftSetupFragment.output("Env.registerType(\(resolved.converterType.name).self, as: \"\(resolved.converterType.name)\")")
+                swiftSetupFragment.output("Env.registerType(\(resolved.converterType.name).self, as: \"\(resolved.converterType.keyName)\")")
             }
         }
 
