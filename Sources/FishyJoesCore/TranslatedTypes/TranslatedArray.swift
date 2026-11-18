@@ -30,7 +30,7 @@ struct TranslatedArray: TranslatedType {
         [
             .type(typeValue: elementType.cSharpType.name),
             .value(name: "typeName", type: "string") { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -39,7 +39,7 @@ struct TranslatedArray: TranslatedType {
         return [
             .type(typeValue: elementType.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

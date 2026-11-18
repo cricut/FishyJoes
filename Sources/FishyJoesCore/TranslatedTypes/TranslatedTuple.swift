@@ -69,7 +69,7 @@ struct TranslatedTuple: TranslatedType {
                 name: "typeName",
                 type: "string"
             ) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -77,7 +77,7 @@ struct TranslatedTuple: TranslatedType {
     func dartSetupParameters(in context: FishyJoesContext) -> [ForeignSetupParameter<DartClass.DartType>] {
         elements.map { ForeignSetupParameter.type(typeValue: $0.type.dartType) } + [
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

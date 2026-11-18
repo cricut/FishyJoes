@@ -39,7 +39,7 @@ struct TranslatedDictionary: TranslatedType {
                 name: "typeName",
                 type: "string"
             ) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -49,7 +49,7 @@ struct TranslatedDictionary: TranslatedType {
             .type(typeValue: keyType.dartType),
             .type(typeValue: valueType.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

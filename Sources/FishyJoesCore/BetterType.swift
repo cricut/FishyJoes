@@ -118,10 +118,6 @@ extension BetterType.Name {
         BetterType.Name(name: name, module: "Swift")
     }
 
-    static func foundation(_ name: String) -> BetterType.Name {
-        BetterType.Name(name: name, module: "Foundation")
-    }
-
     static func runtime(_ name: String) -> BetterType.Name {
         BetterType.Name(name: name, module: "FishyJoesCommonRuntime")
     }
@@ -129,18 +125,6 @@ extension BetterType.Name {
     var globalName: String {
         (module.asArray + namespace + [name]).joined(separator: ".")
     }
-
-    /// How generated Swift code spells this type. Foundation types go through the runtime's typealiases,
-    /// which resolve to Foundation or FoundationEssentials depending on the platform.
-    var swiftName: String {
-        let topLevelName = (namespace + [name]).joined(separator: ".").prefix { $0 != "." }
-        let isAliased = module == "Foundation" && Self.runtimeFoundationAliases.contains(String(topLevelName))
-        let swiftModule = isAliased ? "FishyJoesCommonRuntime" : module
-        return (swiftModule.asArray + namespace + [name]).joined(separator: ".")
-    }
-
-    /// Must match the typealiases in FishyJoesCommonRuntime/FoundationTypealiases.swift
-    static let runtimeFoundationAliases: Set<String> = ["AttributeContainer", "AttributedString", "AttributedSubstring", "Data", "URL"]
 
     var mangledName: String {
         globalName.mangled
@@ -159,7 +143,7 @@ extension BetterType {
         } else if parts.first == "Swift" {
             self = .named(.swift(parts.dropFirst().joined(separator: ".")))
         } else if parts.first == "Foundation" {
-            self = .named(.foundation(parts.dropFirst().joined(separator: ".")))
+            self = .named(.runtime(parts.dropFirst().joined(separator: ".")))
         } else if
             parts.count > 1,
             case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType
@@ -185,41 +169,24 @@ extension BetterType {
         self = .named(Name(name: type.globalName, module: module))
     }
 
-    /// The type as written in generated Swift code
     var name: String {
-        render(\.swiftName)
-    }
-
-    /// A stable string identifying the type, shared between generated code in every language and the runtimes
-    /// (type registration, setup keys, symbol names). Changing it breaks compatibility with existing bindings.
-    var keyName: String {
-        render(\.globalName)
-    }
-
-    private func render(_ nameOf: KeyPath<Name, String>) -> String {
         switch self {
         case let .named(name):
-            return name[keyPath: nameOf]
+            return name.globalName
         case .tuple(let elements):
             return "(" + elements.map {
                 if Int($0.label) == nil {
-                    return "\($0.label): \($0.type.render(nameOf))"
+                    return "\($0.label): \($0.type.name)"
                 } else {
-                    return $0.type.render(nameOf)
+                    return $0.type.name
                 }
             }.joined(separator: ", ") + ")"
         case .void:
             return "Void"
         case let .function(args, ret, isAsync, isThrowing):
-            let renderedArgs = args.map { arg in
-                if case .function = arg {
-                    return "@escaping \(arg.render(nameOf))"
-                }
-                return arg.render(nameOf)
-            }
-            return "(\(renderedArgs.joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.render(nameOf))"
+            return "(\(args.map(\.escapingName).joined(separator: ", ")))\(isAsync ? " async" : "")\(isThrowing ? " throws" : "") -> \(ret.name)"
         case .generic(let base, let args):
-            return "\(base.name)<\(args.map { $0.render(nameOf) }.joined(separator: ", "))>"
+            return "\(base.name)<\(args.map(\.name).joined(separator: ", "))>"
         case .selfType:
             return "Self"
         }
@@ -293,7 +260,7 @@ extension BetterType {
         let uppercase = CharacterSet(charactersIn: "A"..."Z")
         let digits = CharacterSet(charactersIn: "0"..."9")
         let invalidCharacters = lowercase.union(uppercase).union(digits).inverted
-        return keyName.components(separatedBy: invalidCharacters).joined(separator: "_")
+        return name.components(separatedBy: invalidCharacters).joined(separator: "_")
     }
 
     var withoutModule: BetterType {

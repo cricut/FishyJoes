@@ -35,7 +35,7 @@ struct TranslatedFuture: TranslatedType {
             ]
         ) + [
             .value(name: "typeName", type: "string") { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -44,7 +44,7 @@ struct TranslatedFuture: TranslatedType {
         return [
             .type(typeValue: output.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

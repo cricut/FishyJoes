@@ -78,8 +78,8 @@ final class DartTranslator: Translator {
             }
 
             initializerWriters.append {
-                fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.keyName)\", () {", closeWith: "});") {
-                    fragment.output("// print(\"setting up \(type.keyName) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
+                fragment.outputBlock("Loader.shared.once(\"setup_\(resolved.converterType.name)\", () {", closeWith: "});") {
+                    fragment.output("// print(\"setting up \(type.name) (env=0x${Loader.shared.env.address.toRadixString(16)})...\");")
 
                     fragment.outputBlock("utils.check<void>((exn) {", closeWith: "});") {
                         let setupName: String

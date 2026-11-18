@@ -36,7 +36,7 @@ struct TranslatedResult: TranslatedType {
             .type(typeValue: success.cSharpType.name),
             .type(typeValue: failure.cSharpType.name),
             .value(name: "typeName", type: "string") { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -46,7 +46,7 @@ struct TranslatedResult: TranslatedType {
             .type(typeValue: success.dartType),
             .type(typeValue: failure.dartType),
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

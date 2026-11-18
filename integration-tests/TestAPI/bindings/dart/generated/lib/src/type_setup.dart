@@ -10,11 +10,11 @@ import 'package:fishyjoes_dart/utilities.dart' as utils;
 import 'package:path/path.dart' as path;
 import 'package:tuple/tuple.dart' as tuple;
 
-typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
+typedef _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
 );
-typedef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
+typedef _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter = CreatedRef Function(UnownedRef obj, OutCreatedRef exn);
 typedef _Swift_String_PuttingTypesIntoQuestionablePlacesConstructor = CreatedRef Function(
     ConsumedRef x,
     OutCreatedRef exn
@@ -471,20 +471,20 @@ final ensureLoaded = (() {
 
     dylib.lookupFunction<ffi.Void Function(), void Function()>('FishyJoes_TestAPI_registerTypes')();
 
-    final Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
+    final FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            ffi.Pointer<ffi.NativeFunction<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         ),
         void Function(
             Env env,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
-            ffi.Pointer<ffi.NativeFunction<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
+            ffi.Pointer<ffi.NativeFunction<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>> constructor,
+            ffi.Pointer<ffi.NativeFunction<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>> get_x,
             OutCreatedRef exn
         )
-    >('Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup');
+    >('FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_setup');
     final Swift_String_PuttingTypesIntoQuestionablePlaces_setup = dylib.lookupFunction<
         ffi.Void Function(
             Env env,
@@ -1557,7 +1557,7 @@ final ensureLoaded = (() {
             OutCreatedRef exn
         )
     >('TestAPI_URLs_setup');
-    TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
+    TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.f__iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
             UnownedRef _this,
@@ -1568,7 +1568,7 @@ final ensureLoaded = (() {
             UnownedRef _this,
             OutCreatedRef _exn
         )
-    >("__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall");
+    >("__iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall");
     TestAPI.String_PuttingTypesIntoQuestionablePlaces.f__iota_Swift_String_PuttingTypesIntoQuestionablePlaces_testCall = dylib.lookupFunction<
         ffi.IntPtr Function(
             Env env,
@@ -7136,12 +7136,12 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () {
-        // print("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+    Loader.shared.once("setup_Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () {
+        // print("setting up (Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_Function3Converter_setup<Future<Result<int, TestAPI.TheMethodError>>, int, typed_data.Uint8List, bool>(
                 Loader.shared.env,
-                "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                "Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
                 exn
             );
         });
@@ -7256,7 +7256,7 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () {
+    Loader.shared.once("setup_AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () {
         // print("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
@@ -7799,23 +7799,23 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () {
+    Loader.shared.once("setup_ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>", () {
         // print("setting up Array<AttributedString.Runs.Run> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedString_Runs_Run>(
                 Loader.shared.env,
-                "ArrayConverter<Foundation.AttributedString.Runs.Run>",
+                "ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>",
                 exn
             );
         });
     });
 
-    Loader.shared.once("setup_ArrayConverter<Foundation.AttributedSubstring>", () {
+    Loader.shared.once("setup_ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>", () {
         // print("setting up Array<AttributedSubstring> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_ArrayConverter_setup<FishyJoesRuntime.AttributedSubstring>(
                 Loader.shared.env,
-                "ArrayConverter<Foundation.AttributedSubstring>",
+                "ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>",
                 exn
             );
         });
@@ -8383,12 +8383,12 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_RangeConverter<Foundation.AttributedString.Index>", () {
+    Loader.shared.once("setup_RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>", () {
         // print("setting up Range<AttributedString.Index> (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
             Loader.shared.FishyJoesCommonRuntime_RangeConverter_setup<FishyJoesRuntime.AttributedString_Index>(
                 Loader.shared.env,
-                "RangeConverter<Foundation.AttributedString.Index>",
+                "RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>",
                 exn
             );
         });
@@ -8581,10 +8581,10 @@ final ensureLoaded = (() {
         });
     });
 
-    Loader.shared.once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () {
-        // print("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
+    Loader.shared.once("setup_FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces", () {
+        // print("setting up FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces (env=0x${Loader.shared.env.address.toRadixString(16)})...");
         utils.check<void>((exn) {
-            Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+            FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
                 Loader.shared.env,
                 ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_constructor),
                 ffi.Pointer.fromFunction(TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces.ffi_get_x),

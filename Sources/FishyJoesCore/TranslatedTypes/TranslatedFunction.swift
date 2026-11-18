@@ -96,7 +96,7 @@ struct TranslatedFunction: TranslatedType {
             .type(typeValue: param.cSharpType.name)
         } + [
             .value(name: "typeName", type: "string") { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }
@@ -112,7 +112,7 @@ struct TranslatedFunction: TranslatedType {
             .type(typeValue: param.dartType)
         } + [
             .value(name: "typeName", type: .string) { fragment in
-                fragment.output("\"\(converterType.keyName)\",")
+                fragment.output("\"\(converterType.name)\",")
             },
         ]
     }

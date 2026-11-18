@@ -976,7 +976,7 @@
       "converterType" : {
         "named" : {
           "_0" : {
-            "module" : "Foundation",
+            "module" : "FishyJoesCommonRuntime",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
               "AttributedString"
@@ -1017,7 +1017,7 @@
       "sourceType" : {
         "named" : {
           "_0" : {
-            "module" : "Foundation",
+            "module" : "FishyJoesCommonRuntime",
             "name" : "PuttingTypesIntoQuestionablePlaces",
             "namespace" : [
               "AttributedString"

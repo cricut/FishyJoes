@@ -2,7 +2,7 @@ extension TranslatedEnum {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
-            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
+            additionalImports: ["FishyJoesIotaRuntime"]
         )
 
         var setupMethods = isInhabited ? [(name: "discriminator", args: ["foreignObject", "foreignOutExn"], returns: "Int")] : []
