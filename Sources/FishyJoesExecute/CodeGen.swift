@@ -302,7 +302,8 @@ extension CodeGen {
             }
             fragment.blankLine()
 
-            // Products of a registry package have to be referred to by its registry identity.
+            // Products of a registry package have to be referred to by its registry identity. This includes the product of
+            // the module itself, its bindings are built from a registry release when a dependent module is built.
             fragment.outputBlock(#"func productPackage(_ name: String) -> String {"#) {
                 fragment.output(#"guard let versionSpec = env["FISHYJOES_DEPENDENCY_\(name)"] else { return name }"#)
                 fragment.outputBlock(#"if case let .registry(id, _, _) = try! JSONDecoder().decode(Dependency.self, from: versionSpec.data(using: .utf8)!) {"#) {
@@ -341,7 +342,7 @@ extension CodeGen {
                             for module in config.requiredModules {
                                 fragment.output(#".product(name: "\#(module)", package: productPackage("\#(module)")),"#)
                             }
-                            fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                            fragment.output(#".product(name: "\#(config.module)", package: productPackage("\#(config.module)")),"#)
                         }
                         fragment.output(#"path: "Sources/CommonInterface","#)
                         fragment.output(#"swiftSettings: strictConcurrencyFlags"#)
@@ -351,7 +352,7 @@ extension CodeGen {
                         fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
                             targetDeps("node")
                             fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
-                            fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                            fragment.output(#".product(name: "\#(config.module)", package: productPackage("\#(config.module)")),"#)
                             fragment.output(#".product(name: "FishyJoesNodeRuntime", package: "FishyJoes"),"#)
                         }
                         fragment.output(#"path: "Sources/NodeInterface","#)
@@ -381,7 +382,7 @@ extension CodeGen {
                             fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
                                 targetDeps("java")
                                 fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
-                                fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                                fragment.output(#".product(name: "\#(config.module)", package: productPackage("\#(config.module)")),"#)
                                 fragment.output(#".product(name: "FishyJoesJavaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/JavaInterface","#)
@@ -400,7 +401,7 @@ extension CodeGen {
                             fragment.outputBlock(#"dependencies: ["#, closeWith: "],") {
                                 targetDeps("iota")
                                 fragment.output(#".target(name: "\#(config.module)_CommonInterface"),"#)
-                                fragment.output(#".product(name: "\#(config.module)", package: "\#(config.module)"),"#)
+                                fragment.output(#".product(name: "\#(config.module)", package: productPackage("\#(config.module)")),"#)
                                 fragment.output(#".product(name: "FishyJoesIotaRuntime", package: "FishyJoes"),"#)
                             }
                             fragment.output(#"path: "Sources/IotaInterface","#)
