@@ -1,4 +1,3 @@
-import Foundation
 import NodeAPI
 
 @available(*, deprecated, message: "Not actually deprecated, but this silences warnings because it may refer to deprecated methods")

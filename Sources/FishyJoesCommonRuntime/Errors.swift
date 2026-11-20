@@ -1,5 +1,3 @@
-import Foundation
-
 public struct UninhabitedTypeCreationError: CustomStringConvertible, Error {
     public let description: String
 

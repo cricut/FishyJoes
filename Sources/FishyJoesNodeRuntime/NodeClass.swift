@@ -1,4 +1,3 @@
-import Foundation
 import NodeAPI
 
 extension napi_property_attributes {

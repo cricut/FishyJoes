@@ -1,5 +1,3 @@
-import Foundation
-
 public class CallbackEnv {
     public let env: NAPI.Env
     public let napiInfo: NAPI.CallbackInfo

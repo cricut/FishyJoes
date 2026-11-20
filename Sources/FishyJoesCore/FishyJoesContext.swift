@@ -68,6 +68,16 @@ public class FishyJoesContext {
         if !withDedicatedFile {
             fileName = (fileName.components(separatedBy: "/").dropLast() + ["\(module.name).swift"]).joined(separator: "/")
         }
+        addHeader(
+            file: fileName,
+            """
+                #if canImport(FoundationEssentials)
+                import FoundationEssentials
+                #else
+                import Foundation
+                #endif
+                """
+        )
         for importName in module.dependencies + [module.name] + additionalImports {
             addHeader(file: fileName, "import \(importName)")
         }

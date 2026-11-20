@@ -278,10 +278,7 @@ struct TranslatedProtocol: TranslatedType {
     }
 
     func commonDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
-        let fragment = context.swiftFragment(
-            "CommonInterface/\(converterType.name).swift",
-            additionalImports: ["Foundation"]
-        )
+        let fragment = context.swiftFragment("CommonInterface/\(converterType.name).swift")
 
         fragment.outputBlock("public enum \(converterType.nonNamespacedName) {") {
             fragment.output("public typealias SwiftType = \(sourceType.name)")
@@ -367,7 +364,6 @@ struct TranslatedProtocol: TranslatedType {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
-                "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface",
                 "NodeAPI"
@@ -580,7 +576,7 @@ struct TranslatedProtocol: TranslatedType {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
-            additionalImports: ["Foundation", "FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: ["FishyJoesIotaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         let foreignProtocolType = "_Iota\(sourceType.nonNamespacedName)"
@@ -736,7 +732,7 @@ struct TranslatedProtocol: TranslatedType {
     func jniDefinitionFragments(in context: FishyJoesContext) -> [SourceFragment] {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java-type.swift",
-            additionalImports: ["Foundation", "FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
+            additionalImports: ["FishyJoesJavaRuntime", "\(context.module.name)_CommonInterface"]
         )
 
         let foreignProtocolType = "_Java\(sourceType.nonNamespacedName)"

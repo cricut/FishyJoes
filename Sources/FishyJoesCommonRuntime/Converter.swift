@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// These are proxy types for hanging protocols off of. They do conversions to/from their associated SwiftType. See also the `NodeConverter` and `JavaConverter` subprotocols.
 public protocol Converter {

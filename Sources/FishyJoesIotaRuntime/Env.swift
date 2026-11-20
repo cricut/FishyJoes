@@ -153,7 +153,12 @@ public struct Env {
         let typeID = newUniqueID()
         withLock {
             let objectID = ObjectIdentifier(type)
-            guard _typeIDsByObject[objectID] == nil else { return }
+            if let existing = _typeIDsByObject[objectID] {
+                // Already registered under another name, e.g. by the runtime or by a module generated
+                // with a different FishyJoes version. Accept this name too so lookups by either succeed.
+                _typeIDsByName[name] = existing
+                return
+            }
             _typeIDsByObject[objectID] = typeID
             _objectIDsByID[typeID] = objectID
             _typeIDsByName[name] = typeID
