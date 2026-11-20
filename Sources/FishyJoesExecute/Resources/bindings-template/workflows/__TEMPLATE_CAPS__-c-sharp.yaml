@@ -262,7 +262,7 @@ jobs:
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}__STRIP_TAG_PREFIX__
-          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)*$ ]]; then
+          if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
           echo "Detected Version is '$VERSION'"
