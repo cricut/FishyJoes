@@ -65,6 +65,12 @@ jobs:
 
           swift run -- fishy-joes --kotlin-fast --fat build
 
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
+
       - name: Test from gradle
         shell: zsh {0}
         run: |
@@ -94,6 +100,11 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Set up Swift
+        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
+        with:
+          toolchain: 6.3.3
+
       - name: Set up java
         uses: actions/setup-java@v5
         with:
@@ -121,10 +132,6 @@ jobs:
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
           swift run fishy-joes install-system-dependencies for-android
 
-          source ~/.local/share/swiftly/env.sh
-          echo "SWIFTLY_HOME_DIR=$SWIFTLY_HOME_DIR" >> "$GITHUB_ENV"
-          echo "$SWIFTLY_BIN_DIR" >> "$GITHUB_PATH"
-
       - name: Pre-build hook
         shell: bash
         run: |
@@ -136,7 +143,13 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --kotlin build --no-swiftly
+          swift run -- fishy-joes --kotlin build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       - name: Patch libraries to use relative dependencies
         shell: zsh {0}
@@ -155,7 +168,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --kotlin test --no-swiftly
+          swift run -- fishy-joes --kotlin test
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
@@ -219,6 +232,12 @@ jobs:
           set -euxo pipefail
 
           "$SWIFT_WINDOWS_BASH" run -- fishy-joes --kotlin-fast build
+
+      - name: Post-build hook
+        shell: bash
+        run: |
+          set -euxo pipefail
+          echo "POST BUILD hook"
 
       # NOTE: Performing this step earlier seems to cause the build to fail, likely due to the Swift install step & path issues
       - name: Set up java

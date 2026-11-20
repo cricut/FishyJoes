@@ -21,44 +21,26 @@ permissions:
 
 env:
   __CI_SHARED_ENV_YAML__
-  MACOSX_DEPLOYMENT_TARGET: "13.0"
-  PIP_DISABLE_PIP_VERSION_CHECK: "1"
-  PIP_NO_CACHE_DIR: "1"
-  # Print native-crash stacks (e.g. the shutdown segfault being chased in the
-  # Linux verify step) instead of a bare "Segmentation fault".
-  PYTHONFAULTHANDLER: "1"
-  # Python is provisioned by a pinned uv (relocatable python-build-standalone
-  # CPython, user-local, no sudo) instead of the setup-python action, which
-  # hardcodes /Users/runner/hostedtoolcache on macOS and mutates self-hosted
-  # machines globally.
-  UV_VERSION: '0.11.28'
 
 jobs:
   build-test-python-mac:
-    name: "macOS Python ${{ matrix.python-version }}: build, test, pack"
+    name: "macOS: Build and test python bindings"
     runs-on: __CI_RUNNER_MACOS__
-    timeout-minutes: 90
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version:
-          - '3.11'
     steps:
       - __CI_GIT_STEPS__
 
-      - name: Setup Python
-        shell: bash
-        run: |
-          set -euxo pipefail
-          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
-          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          "$HOME/.local/bin/python" --version
+      # NOTE: don't delete this. Even if it looks unused, some downsteam pre-build hooks rely on it.
+      - name: Set up node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
 
       - name: Install generation tools
         shell: zsh {0}
         run: |
           set -euxo pipefail
+          uv --version || brew install uv
           yq --version || brew install yq
           mint --version || brew install mint
 
@@ -66,239 +48,88 @@ jobs:
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
-      - name: Build, test, and pack Python wheel
+      - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            version_args=(--version "$version")
-          fi
-          swift run -- fishy-joes --python --fat ${version_args[@]+"${version_args[@]}"} generate build test pack
 
-      - name: Build FishyJoes Python runtime wheel
+          swift run -- fishy-joes --python --fat generate build
+
+      - name: Post-build hook
         shell: bash
+        run: __POST_BUILD_HOOK_YAML__
+
+      - name: Test library from pytest
+        shell: zsh {0}
         run: |
           set -euxo pipefail
-          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.venv/bin/python"
-          fi
-          runtime_dir=""
-          for candidate in \
-            "python-runtime" \
-            "../python-runtime" \
-            "../../python-runtime" \
-            ".build/checkouts/FishyJoes/python-runtime" \
-            "bindings/swift-interfaces/generated/__MODULE_NAME__-bindings/.build/checkouts/FishyJoes/python-runtime"
-          do
-            if [[ -f "$candidate/_build_wheel.py" ]]; then
-              runtime_dir="$candidate"
-              break
-            fi
-          done
-          if [[ -z "$runtime_dir" ]]; then
-            runtime_dir="$(find . -path '*/FishyJoes/python-runtime/_build_wheel.py' -print -quit | sed 's#/_build_wheel.py$##')"
-          fi
-          if [[ -z "$runtime_dir" ]]; then
-            echo "Could not locate FishyJoes python-runtime checkout"
-            exit 1
-          fi
-          runtime_native_library="$(find .build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
-          if [[ -z "$runtime_native_library" ]]; then
-            echo "Could not locate FishyJoesIotaRuntime native library"
-            exit 1
-          fi
-          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
-          runtime_version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            runtime_version_args=(--version-override "$version")
-          fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
-      - name: Verify clean wheel install
-        shell: bash
+          swift run -- fishy-joes --python --fat test
+
+      - name: Pack
+        shell: zsh {0}
         run: |
           set -euxo pipefail
-          python -m venv bindings/python/.wheel-test-venv
-          if [[ -x bindings/python/.wheel-test-venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.wheel-test-venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.wheel-test-venv/bin/python"
-          fi
-          "$venv_python" -m pip install --upgrade pip
-          "$venv_python" -m pip install cffi packaging
-          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import __PYTHON_IMPORT_PACKAGE__ as package; assert package.SUPPORTED; print(package.diagnostics())"
-          # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The hand-written suite may use dev
-          # tools (type checkers, stubtest, native-repair introspection); the
-          # requirements file is author-owned scaffolding, so install it only if
-          # the repo carries one.
-          if [[ -f bindings/python/requirements-dev.txt ]]; then
-            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          fi
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
-          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
-      - name: Verify native wheel repair
-        shell: bash
-        run: |
-          set -euxo pipefail
-          test -f bindings/python/dist/native-repair-report-darwin.txt
-          cat bindings/python/dist/native-repair-report-darwin.txt
+          swift run -- fishy-joes --python --fat pack
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7
         with:
-          name: python-macos-${{ matrix.python-version }}-wheel
+          name: python-macos-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
-      - name: Upload native repair report
-        uses: actions/upload-artifact@v7
-        with:
-          name: python-macos-${{ matrix.python-version }}-native-report
-          path: bindings/python/dist/native-repair-report-*.txt
-          if-no-files-found: error
-
   build-test-python-linux:
-    name: "Linux Python ${{ matrix.python-version }}: build, test, pack"
+    name: "Ubuntu: Build and test python bindings"
     runs-on: __CI_RUNNER_UBUNTU__
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version:
-          - '3.11'
     steps:
       - __CI_GIT_STEPS__
 
-      - name: Setup Python
-        shell: bash
-        run: |
-          set -euxo pipefail
-          curl -LsSf "https://astral.sh/uv/${UV_VERSION}/install.sh" | env UV_NO_MODIFY_PATH=1 sh
-          "$HOME/.local/bin/uv" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          "$HOME/.local/bin/python" --version
+      - name: Set up Swift
+        uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
+        with:
+          toolchain: __CI_SWIFT_LINUX_TOOLCHAIN__
 
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
-      - name: Build, test, and pack Python wheel
+      - name: Build library
         shell: zsh {0}
         run: |
           set -euxo pipefail
-          version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            version_args=(--version "$version")
-          fi
-          swift run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack
 
-      - name: Build FishyJoes Python runtime wheel
+          swift run -- fishy-joes --python --fat generate build
+
+      - name: Post-build hook
         shell: bash
+        run: __POST_BUILD_HOOK_YAML__
+
+      - name: Test library from pytest
+        shell: zsh {0}
         run: |
           set -euxo pipefail
-          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.venv/bin/python"
-          fi
-          runtime_dir=""
-          for candidate in \
-            "python-runtime" \
-            "../python-runtime" \
-            "../../python-runtime" \
-            ".build/checkouts/FishyJoes/python-runtime" \
-            "bindings/swift-interfaces/generated/__MODULE_NAME__-bindings/.build/checkouts/FishyJoes/python-runtime"
-          do
-            if [[ -f "$candidate/_build_wheel.py" ]]; then
-              runtime_dir="$candidate"
-              break
-            fi
-          done
-          if [[ -z "$runtime_dir" ]]; then
-            runtime_dir="$(find . -path '*/FishyJoes/python-runtime/_build_wheel.py' -print -quit | sed 's#/_build_wheel.py$##')"
-          fi
-          if [[ -z "$runtime_dir" ]]; then
-            echo "Could not locate FishyJoes python-runtime checkout"
-            exit 1
-          fi
-          runtime_native_library="$(find .build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
-          if [[ -z "$runtime_native_library" ]]; then
-            echo "Could not locate FishyJoesIotaRuntime native library"
-            exit 1
-          fi
-          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
-          runtime_version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            runtime_version_args=(--version-override "$version")
-          fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
 
-      - name: Verify clean wheel install
-        shell: bash
+          swift run -- fishy-joes --python --fat test
+
+      - name: Pack
+        shell: zsh {0}
         run: |
           set -euxo pipefail
-          python -m venv bindings/python/.wheel-test-venv
-          if [[ -x bindings/python/.wheel-test-venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.wheel-test-venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.wheel-test-venv/bin/python"
-          fi
-          "$venv_python" -m pip install --upgrade pip
-          "$venv_python" -m pip install cffi packaging
-          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import __PYTHON_IMPORT_PACKAGE__ as package; assert package.SUPPORTED; print(package.diagnostics())"
-          # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The hand-written suite may use dev
-          # tools (type checkers, stubtest, native-repair introspection); the
-          # requirements file is author-owned scaffolding, so install it only if
-          # the repo carries one.
-          if [[ -f bindings/python/requirements-dev.txt ]]; then
-            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          fi
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
-          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
 
-      - name: Verify native wheel repair
-        shell: bash
-        run: |
-          set -euxo pipefail
-          test -f bindings/python/dist/native-repair-report-linux.txt
-          cat bindings/python/dist/native-repair-report-linux.txt
+          swift run -- fishy-joes --python --fat pack
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7
         with:
-          name: python-linux-${{ matrix.python-version }}-wheel
+          name: python-ubuntu-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
-      - name: Upload native repair report
-        uses: actions/upload-artifact@v7
-        with:
-          name: python-linux-${{ matrix.python-version }}-native-report
-          path: bindings/python/dist/native-repair-report-*.txt
-          if-no-files-found: error
-
   build-test-python-windows:
-    name: "Windows Python ${{ matrix.python-version }}: build, test, pack"
+    name: "Windows: Build and test python bindings"
     runs-on: __CI_RUNNER_WINDOWS__
-    timeout-minutes: 90
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version:
-          - '3.11'
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
@@ -308,20 +139,10 @@ jobs:
 
       - __CI_GIT_STEPS__
 
-      - name: Setup Python
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $env:UV_NO_MODIFY_PATH = '1'
-          irm "https://astral.sh/uv/$env:UV_VERSION/install.ps1" | iex
-          & "$env:USERPROFILE\.local\bin\uv.exe" python install --default --preview-features python-install-default '${{ matrix.python-version }}'
-          Add-Content -Path $env:GITHUB_PATH -Value "$env:USERPROFILE\.local\bin"
-          & "$env:USERPROFILE\.local\bin\python.exe" --version
-
       - uses: compnerd/gha-setup-swift@eeda069c5bc95ac8a9ac5cea7d4f588ae5420ca5  # v0.4.0
         with:
-          swift-version: swift-6.3-release
-          swift-build: 6.3-RELEASE
+          swift-version: __CI_SWIFT_WINDOWS_BRANCH__
+          swift-build: __CI_SWIFT_WINDOWS_BUILD__
 
       - name: Pre-resolve required swiftpm packages and fetch fishyjoes scripts
         continue-on-error: true
@@ -333,106 +154,85 @@ jobs:
           swift package resolve
           echo SWIFT_WINDOWS_BASH=".build/checkouts/FishyJoes/scripts/swift-shim.ps1" >> $env:GITHUB_ENV
 
+      - name: Set up node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://npm.pkg.github.com/'
+
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
-      - name: Build, test, and pack Python wheel
+      - name: Build library
         shell: bash
         run: |
           set -euxo pipefail
-          version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            version_args=(--version "$version")
-          fi
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python ${version_args[@]+"${version_args[@]}"} build test pack
 
-      - name: Build FishyJoes Python runtime wheel
-        shell: bash
-        run: |
-          set -euxo pipefail
-          if [[ -x bindings/python/.venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.venv/bin/python"
-          fi
-          runtime_dir=""
-          for candidate in \
-            "python-runtime" \
-            "../python-runtime" \
-            "../../python-runtime" \
-            ".build/checkouts/FishyJoes/python-runtime" \
-            "bindings/swift-interfaces/generated/__MODULE_NAME__-bindings/.build/checkouts/FishyJoes/python-runtime"
-          do
-            if [[ -f "$candidate/_build_wheel.py" ]]; then
-              runtime_dir="$candidate"
-              break
-            fi
-          done
-          if [[ -z "$runtime_dir" ]]; then
-            runtime_dir="$(find . -path '*/FishyJoes/python-runtime/_build_wheel.py' -print -quit | sed 's#/_build_wheel.py$##')"
-          fi
-          if [[ -z "$runtime_dir" ]]; then
-            echo "Could not locate FishyJoes python-runtime checkout"
-            exit 1
-          fi
-          runtime_native_library="$(find .build -name 'libFishyJoesIotaRuntime.*' -o -name 'FishyJoesIotaRuntime.dll' | grep -E '(dylib|so|dll)$' | head -n 1)"
-          if [[ -z "$runtime_native_library" ]]; then
-            echo "Could not locate FishyJoesIotaRuntime native library"
-            exit 1
-          fi
-          "$venv_python" -m pip install -r "$runtime_dir/requirements-build.txt"
-          runtime_version_args=()
-          if [[ "${GITHUB_EVENT_NAME:-}" == "release" ]]; then
-            version="${GITHUB_REF_NAME#v}"
-            runtime_version_args=(--version-override "$version")
-          fi
-          "$venv_python" "$runtime_dir/_build_wheel.py" --outdir bindings/python/dist --native-library "$runtime_native_library" --distribution-name "__PYTHON_RUNTIME_DISTRIBUTION_NAME__" ${runtime_version_args[@]+"${runtime_version_args[@]}"}
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat generate build
 
-      - name: Verify clean wheel install
+      - name: Post-build hook
         shell: bash
-        run: |
-          set -euxo pipefail
-          python -m venv bindings/python/.wheel-test-venv
-          if [[ -x bindings/python/.wheel-test-venv/Scripts/python.exe ]]; then
-            venv_python="bindings/python/.wheel-test-venv/Scripts/python.exe"
-          else
-            venv_python="bindings/python/.wheel-test-venv/bin/python"
-          fi
-          "$venv_python" -m pip install --upgrade pip
-          "$venv_python" -m pip install cffi packaging
-          "$venv_python" -m pip install --no-index --find-links bindings/python/dist bindings/python/dist/*.whl
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -c "import __PYTHON_IMPORT_PACKAGE__ as package; assert package.SUPPORTED; print(package.diagnostics())"
-          # The wheel was already clean-installed above (--no-index, runtime deps only),
-          # proving the minimal install works. The hand-written suite may use dev
-          # tools (type checkers, stubtest, native-repair introspection); the
-          # requirements file is author-owned scaffolding, so install it only if
-          # the repo carries one.
-          if [[ -f bindings/python/requirements-dev.txt ]]; then
-            "$venv_python" -m pip install -r bindings/python/requirements-dev.txt
-          fi
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/tests
-          "$venv_python" -m pip install -r bindings/python/generated/tests/requirements-dev.txt
-          FISHYJOES_TEST_INSTALLED_WHEEL=1 PYTHONPATH= "$venv_python" -m unittest discover -v -s bindings/python/generated/tests
+        run: __POST_BUILD_HOOK_YAML__
 
-      - name: Verify native wheel repair
+      - name: Test library from pytest
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat test
+
+      - name: Pack
         shell: bash
         run: |
           set -euxo pipefail
-          test -f bindings/python/dist/native-repair-report-windows.txt
-          cat bindings/python/dist/native-repair-report-windows.txt
+
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat pack
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7
         with:
-          name: python-windows-${{ matrix.python-version }}-wheel
+          name: python-windows-wheel
           path: bindings/python/dist/*.whl
           if-no-files-found: error
 
-      - name: Upload native repair report
-        uses: actions/upload-artifact@v7
-        with:
-          name: python-windows-${{ matrix.python-version }}-native-report
-          path: bindings/python/dist/native-repair-report-*.txt
-          if-no-files-found: error
+  python-publish:
+    name: "Publish python package"
+    runs-on: __CI_RUNNER_UBUNTU__
+    needs:
+      - build-test-python-mac
+      - build-test-python-linux
+      - build-test-python-windows
+    env:
+      GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - __CI_GIT_STEPS__
+
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
+      - name: Retrieve artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Install artifacts
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          ls *-wheel
+
+          mkdir -p python/bindings/dist
+          mv *-wheel/*.whl python/bindings/dist/
+          ls python/bindings/dist/
+
+      - name: Publish
+        shell: zsh {0}
+        # if: github.event_name == 'release'
+        run: |
+          set -euxo pipefail
+
+          uv publish --dry-run

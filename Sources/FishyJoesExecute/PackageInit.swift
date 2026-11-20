@@ -95,6 +95,7 @@ public struct PackageInit: ParsableCommand {
             flexibleVersions: false,
             sourceryOverride: nil,
             ciRunners: nil,
+            packageRegistries: nil,
             ciDependencyAuth: nil
         )
 

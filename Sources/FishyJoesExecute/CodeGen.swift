@@ -83,6 +83,7 @@ public class CodeGen: ParsableCommand {
         case disableParallelism
     }
 
+    var dependencyConfigs: [String: ProjectConfig]!
     var config: ProjectConfig!
     var packageInfo: SwiftPackage!
     let packageRootPath = FileManager.default.currentDirectoryPath
@@ -204,6 +205,15 @@ extension CodeGen {
                     + "Check Package.swift for manifest errors (run `swift package dump-package` directly to see them),"
                     + " and that the toolchain's SwiftPM version matches what this package requires."
             )
+        }
+
+        dependencyConfigs = [config.module: config]
+        for moduleName in config.requiredModules {
+            guard let dependency = packageInfo.dependencyMap[moduleName] else {
+                fatalError("Couldn't locate \(moduleName) in Package.swift, but it's required by fishyjoes.json")
+            }
+            let dependencyPath = localPath(for: dependency)
+            dependencyConfigs[moduleName] = try ProjectConfig.readFromFile(basePath: dependencyPath)
         }
 
         if wasm {

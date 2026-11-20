@@ -43,7 +43,6 @@ def load_library(package_name: importlib.resources.Anchor, iota_library: str) ->
     def copy_lib(source_lib_path: Path) -> None:
         basename = source_lib_path.parts[-1]
         dest_lib_path = f"{_tmp_lib_dir.name}/{basename}"
-        print(f"COPY_LIB from {source_lib_path} to {dest_lib_path}")
         shutil.copyfile(str(source_lib_path), dest_lib_path)
 
     for resource in resource_directory.joinpath('native').iterdir():

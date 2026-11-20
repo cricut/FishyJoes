@@ -10,7 +10,7 @@ struct ProjectConfig: Codable {
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
 
-    // TODO: generalize this to a more flexible hook system when n>=3
+    // TODO: generalize this to a more flexible hook system
     let ciPreCheckoutHook: String?
     let ciPreBuildHook: String?
     let ciPostBuildHook: String?
@@ -23,6 +23,8 @@ struct ProjectConfig: Codable {
     let sourceryOverride: SourceryOverride?
 
     let ciRunners: CIRunners?
+
+    let packageRegistries: PackageRegistries?
 
     // Authorization that may be needed to fetch any dependencies of the library
     let ciDependencyAuth: CIDependencyAuth?
@@ -45,6 +47,10 @@ struct ProjectConfig: Codable {
         let token: String
     }
 
+    struct PackageRegistries: Codable {
+        let pythonIndexName: String?
+    }
+
     static func readFromFile(basePath: String) throws -> ProjectConfig {
         guard let configData = try? cmd("cat", "\(basePath)/bindings/fishy-joes.yaml").runString() else {
             throw ValidationError("missing config file \(basePath)/bindings/fishy-joes.yaml")
@@ -52,7 +58,7 @@ struct ProjectConfig: Codable {
         guard let configObject = try? Yams.load(yaml: configData),
               let configDictionary = configObject as? [String: Any]
         else {
-            Log.error("fishy-joes.yaml root object must be a dictionary. Should be something like:")
+            Log.error("fishy-joes.yaml root object must be a dictionary. Should be something like (almost all fields optional):")
             Log.error("---")
             Log.error("module: CriMyModule")
             Log.error("requiredModules:")
@@ -70,6 +76,8 @@ struct ProjectConfig: Codable {
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
             Log.error("  windows: \(CIRunners.defaults.windows)  # default")
+            Log.error("packageRegistries:")
+            Log.error("  pythonIndexName: \"testpypi\"")
             throw ValidationError("invalid YAML")
         }
         guard let moduleObj = configDictionary["module"] else {
@@ -152,6 +160,13 @@ struct ProjectConfig: Codable {
             }
             return CIDependencyAuth(user: dict["user"] as? String, token: token)
         }
+        let packageRegistries = try configDictionary["packageRegistries"].map { obj -> PackageRegistries in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `packageRegistry` is not a dictionary")
+            }
+            let pythonIndexName = dict["pythonIndexName"] as? String
+            return PackageRegistries(pythonIndexName: pythonIndexName)
+        }
 
         return ProjectConfig(
             module: module,
@@ -165,6 +180,7 @@ struct ProjectConfig: Codable {
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
+            packageRegistries: packageRegistries,
             ciDependencyAuth: ciDependencyAuth
         )
     }

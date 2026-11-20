@@ -34,6 +34,7 @@ class PythonPhases: IotaPhases, Phases {
             guard let uvSource = dep.uvSource else { return nil }
             return "\n\(dep.distributionName) = \(uvSource)"
         }
+
         return [
             "__PYTHON_DISTRIBUTION_NAME__": PythonNamingConventions.moduleDistributionName(swift: options.config.module),
             "__PYTHON_IMPORT_PACKAGE__": PythonNamingConventions.moduleImportName(swift: options.config.module),
@@ -66,11 +67,16 @@ class PythonPhases: IotaPhases, Phases {
             addIfLocalPath: pythonSubdirectory,
             flexibleVersions: options.config.flexibleVersions
         )
-        let uvSource = dependency.pythonUVSource(
-            relativeTo: selfPackagePath,
-            addIfLocalPath: pythonSubdirectory,
-            flexibleVersions: options.config.flexibleVersions
-        )
+        var uvSource: String?
+        if case .fileSystem = dependency {
+            uvSource = dependency.pythonUVSource(
+                relativeTo: selfPackagePath,
+                addIfLocalPath: pythonSubdirectory,
+                flexibleVersions: options.config.flexibleVersions
+            )
+        } else if let indexName = options.dependencyConfigs[module]?.packageRegistries?.pythonIndexName {
+            uvSource = #"{ index = "\#(indexName)" }"#
+        }
         return (version, uvSource)
     }
 
@@ -92,27 +98,11 @@ class PythonPhases: IotaPhases, Phases {
 
     func compileHostLanguagePhase() throws {
         try withDirectory("bindings/python") {
-            // TEMPORARY HACK
-            try withDirectory("generated") {
-                try? cmd("uv", "venv", ".venv", "--no-clear").run()
-                try cmd("uv", "sync", "--project", ".").run()
-            }
-
             try cmd("uv", "sync", "--dev").run()
-        }
-        try withDirectory("bindings/python") {
-            // Test compatibility with whatever typechecker downstream wants to use
+            // Test compatibility with whatever typechecker(s) downstream wants to use
             try cmd("uv", "run", "pyrefly", "check", "--preset=strict", "--output-format=min-text", "generated").run()
             try cmd("uv", "run", "mypy", "--strict", ".").run()
         }
-    }
-
-    private func pythonVirtualEnvironmentPython() -> String {
-        #if os(Windows)
-        return ".venv/Scripts/python.exe"
-        #else
-        return ".venv/bin/python"
-        #endif
     }
 
     private func hostPythonExecutable() -> String {
@@ -148,153 +138,13 @@ class PythonPhases: IotaPhases, Phases {
         return runtimeLibraryPaths.filter { !$0.isEmpty }
     }
 
-    static func environmentByAddingDynamicLibraryPaths(
-        _ libraryPaths: [String],
-        to environment: [String: String],
-        variable: String
-    ) -> [String: String] {
-        let newPaths = libraryPaths.filter { !$0.isEmpty }
-        guard !newPaths.isEmpty else { return environment }
-
-        var result = environment
-        let existingPaths = environment[variable].map { [$0] } ?? []
-        result[variable] = (existingPaths + newPaths).joined(separator: ":")
-        return result
-    }
-
-    static func removeExistingPythonDistDirectory(at path: String = "bindings/python/dist") throws {
-        if FileManager.default.fileExists(atPath: path) {
-            try FileManager.default.removeItem(atPath: path)
-        }
-    }
-
-    private func pythonTestEnvironment(adding environment: [String: String] = [:]) throws -> [String: String] {
-        #if os(Linux)
-        let targetInfo = try cmd("swift", "-print-target-info").runString()
-        let libraryPaths = [try installedPythonRuntimeNativeLibraryPath()]
-            + (try Self.swiftRuntimeLibraryPaths(fromTargetInfo: targetInfo))
-        var testEnvironment = environment
-        if testEnvironment["LD_LIBRARY_PATH"] == nil {
-            testEnvironment["LD_LIBRARY_PATH"] = ProcessInfo.processInfo.environment["LD_LIBRARY_PATH"]
-        }
-        return Self.environmentByAddingDynamicLibraryPaths(
-            libraryPaths,
-            to: testEnvironment,
-            variable: "LD_LIBRARY_PATH"
-        )
-        #else
-        return environment
-        #endif
-    }
-
-    // The Python target requires Python 3.11+ (see python-runtime/pyproject.toml
-    // requires-python). Fail fast with an actionable message instead of surfacing
-    // confusing downstream errors (missing stdlib tomllib, delocate arch mismatches,
-    // pip "requires a different Python") when an older interpreter is selected.
-    private func ensureSupportedPythonVersion(_ python: String) throws {
-        let minimum = (major: 3, minor: 11)
-        let reported = try cmd(
-            python, "-c", "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-        ).runString().trimmingCharacters(in: .whitespacesAndNewlines)
-        let components = reported.split(separator: ".").compactMap { Int($0) }
-        guard components.count >= 2 else {
-            return
-        }
-        let (major, minor) = (components[0], components[1])
-        if major < minimum.major || (major == minimum.major && minor < minimum.minor) {
-            throw NSError(
-                domain: "FishyJoes.Python",
-                code: 2,
-                userInfo: [
-                    NSLocalizedDescriptionKey: """
-                    FishyJoes Python target requires Python \(minimum.major).\(minimum.minor)+, but the selected interpreter (\(hostPythonExecutable())) is \(reported).
-                    Install Python \(minimum.major).\(minimum.minor) or newer and re-run, or point FISHYJOES_PYTHON at a suitable interpreter, e.g. FISHYJOES_PYTHON=python3.11.
-                    """
-                ]
-            )
-        }
-    }
-
-    // private func writePythonCoverageConfig(to configPath: String, runtimePackagePath: String) throws {
-    //     let runtimeSourcePath = "\(absolutePath(runtimePackagePath))/src/fishyjoes_runtime"
-    //     let coverageConfig = """
-    //     [run]
-    //     source =
-    //         testapi
-    //         fishyjoes_runtime
-
-    //     [paths]
-    //     testapi =
-    //         generated/src/testapi
-    //         */site-packages/testapi
-    //     fishyjoes_runtime =
-    //         \(runtimeSourcePath)
-    //         */site-packages/fishyjoes_runtime
-
-    //     [report]
-    //     omit =
-    //         */__pycache__/*
-    //     """
-    //     try coverageConfig.write(toFile: configPath, atomically: true, encoding: .utf8)
-    // }
-
-    // private func normalizePythonCoverageXML(at coverageXMLPath: String) throws {
-    //     let repositoryRoot = absolutePath("../../../..")
-    //     let bindingsPythonPath = "integration-tests/TestAPI/bindings/python/"
-    //     let xml = try String(contentsOfFile: coverageXMLPath, encoding: .utf8)
-    //         .replacingOccurrences(of: #"filename="\#(repositoryRoot)/"#, with: #"filename=""#)
-    //         .replacingOccurrences(of: #"filename="generated/src/"#, with: #"filename="\#(bindingsPythonPath)generated/src/"#)
-    //     try xml.write(toFile: coverageXMLPath, atomically: true, encoding: .utf8)
-    // }
-
     func testPhase() throws {
         try withDirectory("bindings/python") {
-            try cmd("uv", "run", "pytest", "--verbose", "--capture=no", "-x", "./tests").run()
+            try cmd(
+                "uv", "run", "pytest", "--verbose", "--capture=no", "-x", "./tests",
+                addEnv: ["PYTHONFAULTHANDLER": "1"]
+            ).run()
         }
-        // try withDirectory("bindings/python/generated") {
-        //     var testArguments = ["-v"]
-        //     // testArguments.append("-x")
-        //     if let codeCoveragePath = options.codeCoveragePath {
-        //         // try FileManager.default.createDirectory(atPath: codeCoveragePath, withIntermediateDirectories: true)
-        //         // let coverageConfigPath = ".venv/fishyjoes-coverage.rc"
-        //         // try writePythonCoverageConfig(to: coverageConfigPath, runtimePackagePath: try pythonRuntimePackagePath())
-        //         // let coverageEnv = try pythonTestEnvironment(
-        //         //     adding: ["COVERAGE_FILE": "\(codeCoveragePath)/integration-tests-python.coverage"]
-        //         // )
-        //         // try cmd(
-        //         //     "uv", "run", "python",
-        //         //     "-m", "coverage", "erase",
-        //         //     "--rcfile", coverageConfigPath,
-        //         //     addEnv: coverageEnv
-        //         // ).run()
-        //         // try cmd(
-        //         //     "uv",
-        //         //     arguments: ["run", "python", "-m", "coverage", "run", "--rcfile", coverageConfigPath] + testArguments,
-        //         //     addEnv: coverageEnv
-        //         // ).run()
-        //         // try cmd(
-        //         //     "uv", "run", "python",
-        //         //     "-m", "coverage", "xml",
-        //         //     "--rcfile", coverageConfigPath,
-        //         //     "-o", "\(codeCoveragePath)/integration-tests-python.xml",
-        //         //     addEnv: coverageEnv
-        //         // ).run()
-        //         // try normalizePythonCoverageXML(at: "\(codeCoveragePath)/integration-tests-python.xml")
-        //         // try cmd(
-        //         //     "uv", "run", "python",
-        //         //     "-m", "coverage", "report",
-        //         //     "--rcfile", coverageConfigPath,
-        //         //     addEnv: coverageEnv
-        //         // ).run()
-        //         fatalError("TODO: fix")
-        //     } else {
-        //         try cmd(
-        //             "uv",
-        //             arguments: ["run", "pytest"] + testArguments,
-        //             addEnv: try pythonTestEnvironment()
-        //         ).run()
-        //     }
-        // }
     }
 
     func packPhase() throws {

@@ -14,3 +14,9 @@ CIPostBuildHook: |
   set -euxo pipefail
 
   echo "POST BUILD hook"
+
+packageRegistries:
+  python:
+    name: "testpypi"
+    fetchURL: "https://test.pypi.org/simple/"
+    publishURL: "https://test.pypi.org/legacy/"
