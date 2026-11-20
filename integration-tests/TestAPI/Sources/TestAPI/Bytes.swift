@@ -5,7 +5,11 @@
 //  Created by Matt Stoker on 12/16/21.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// <!-- FishyJoes.export(Bytes) -->
 public enum Bytes {
