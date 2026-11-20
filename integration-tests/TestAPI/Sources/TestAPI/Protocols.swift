@@ -1,4 +1,20 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#elseif canImport(ucrt)
+import ucrt
+#elseif canImport(WASILibc)
+import WASILibc
+#else
+#error("unknown platform, can't import libc")
+#endif
 
 /// <!-- FishyJoes.export(AProtocol) -->
 public protocol AProtocol {
@@ -21,7 +37,7 @@ public protocol AProtocol {
 extension AProtocol {
     /// <!-- FishyJoes.export(hasADefaultImplementation) -->
     public func hasADefaultImplementation(x: Int, y: Double) throws -> String {
-        let b = try bar(x: x, y: Int(round(y * 3.14159265359)))
+        let b = try bar(x: x, y: Int((y * 3.14159265359).rounded()))
         return try b.baz ? "bazzy \(b.foo)" : "\(b.foo) notBazzed"
     }
 
