@@ -1,5 +1,4 @@
 @_exported import FishyJoesCommonRuntime
-import Foundation
 
 extension Box {
     public func retainedExternal(env: NAPI.Env) throws -> NAPI.Value {

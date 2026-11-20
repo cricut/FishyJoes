@@ -1,5 +1,3 @@
-import Foundation
-
 public struct BoxTypeError: Error {
     public let message: String
 }

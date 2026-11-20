@@ -1,5 +1,9 @@
 import FishyJoesCommonRuntime
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import NodeAPI
 
 private enum NodeFutureImpl {

@@ -1,7 +1,7 @@
 import SourceryDataModel
 
 struct TranslatedURL: TranslatedType {
-    let sourceType = BetterType.named(.foundation("URL"))
+    let sourceType = BetterType.named(.runtime("URL"))
     let nodeName = "URL"
     let kotlinPackage: String? = "java.net"
     let kotlinName = "URI"

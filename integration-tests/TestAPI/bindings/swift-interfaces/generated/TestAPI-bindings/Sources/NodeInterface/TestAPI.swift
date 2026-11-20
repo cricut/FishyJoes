@@ -1,14 +1,18 @@
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesNodeRuntime
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+import FishyJoesNodeRuntime
 import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
 
-// MARK: - NodeInterface/Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces+node.swift
+// MARK: - NodeInterface/FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces+node.swift
 
-extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeMutator {
+extension FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJoesNodeRuntime.NodeMutator {
     public typealias SwiftType = Self
     public static func fromNode(_ value: NAPI.Value, env: NAPI.Env) throws -> Self {
         Self(
@@ -39,7 +43,7 @@ extension Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces: FishyJ
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "testCall", expectedArgumentCount: 0, hasNamedOptions: false) { env in
                             let result = try Swift.Int.toNode(
-                                env.this(converter: Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.self).testCall(
+                                env.this(converter: FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces.self).testCall(
                                 ),
                                 env: env.env
                             )
@@ -1459,9 +1463,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "echo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.AttributedString.toNode(
+                            let result = try FishyJoesCommonRuntime.AttributedString.toNode(
                                 TestAPI.AttributedStrings.echo(
-                                    try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1474,9 +1478,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "firstIndex",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "firstIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.AttributedString.Index.toNode(
+                            let result = try FishyJoesCommonRuntime.AttributedString.Index.toNode(
                                 TestAPI.AttributedStrings.firstIndex(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1489,9 +1493,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "lastIndex",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "lastIndex", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.AttributedString.Index.toNode(
+                            let result = try FishyJoesCommonRuntime.AttributedString.Index.toNode(
                                 TestAPI.AttributedStrings.lastIndex(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1504,9 +1508,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "fullRange",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "fullRange", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try RangeConverter<Foundation.AttributedString.Index>.toNode(
+                            let result = try RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>.toNode(
                                 TestAPI.AttributedStrings.fullRange(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1519,9 +1523,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "attributedCharacters",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributedCharacters", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ArrayConverter<Foundation.AttributedSubstring>.toNode(
+                            let result = try ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>.toNode(
                                 TestAPI.AttributedStrings.attributedCharacters(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1534,9 +1538,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "attributesPreferringDuplicatesNearerStart",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "attributesPreferringDuplicatesNearerStart", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.AttributeContainer.toNode(
+                            let result = try FishyJoesCommonRuntime.AttributeContainer.toNode(
                                 TestAPI.AttributedStrings.attributesPreferringDuplicatesNearerStart(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1549,9 +1553,9 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     name: "emptyAttributeRuns",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "emptyAttributeRuns", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try ArrayConverter<Foundation.AttributedString.Runs.Run>.toNode(
+                            let result = try ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>.toNode(
                                 TestAPI.AttributedStrings.emptyAttributeRuns(
-                                    of: try env.argument(at: 0, converter: Foundation.AttributedString.self)
+                                    of: try env.argument(at: 0, converter: FishyJoesCommonRuntime.AttributedString.self)
                                 ),
                                 env: env.env
                             )
@@ -1565,7 +1569,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "accent", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.accent, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.accent, env: env.env)
                             }
                         },
                         setter: nil
@@ -1577,7 +1581,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chinese", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chinese, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.chinese, env: env.env)
                             }
                         },
                         setter: nil
@@ -1589,7 +1593,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseBMP", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chineseBMP, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.chineseBMP, env: env.env)
                             }
                         },
                         setter: nil
@@ -1601,7 +1605,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "chineseSIP", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.chineseSIP, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.chineseSIP, env: env.env)
                             }
                         },
                         setter: nil
@@ -1613,7 +1617,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emoji", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.emoji, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.emoji, env: env.env)
                             }
                         },
                         setter: nil
@@ -1625,7 +1629,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "emojiMulti", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.emojiMulti, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.emojiMulti, env: env.env)
                             }
                         },
                         setter: nil
@@ -1637,7 +1641,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "polyglot", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.polyglot, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.polyglot, env: env.env)
                             }
                         },
                         setter: nil
@@ -1649,7 +1653,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "script", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.script, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.script, env: env.env)
                             }
                         },
                         setter: nil
@@ -1661,7 +1665,7 @@ extension TestAPI.AttributedStrings: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                return try Foundation.AttributedString.toNode(TestAPI.AttributedStrings.simple, env: env.env)
+                                return try FishyJoesCommonRuntime.AttributedString.toNode(TestAPI.AttributedStrings.simple, env: env.env)
                             }
                         },
                         setter: nil
@@ -1726,9 +1730,9 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     name: "echoData",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echoData", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.Data.toNode(
+                            let result = try FishyJoesCommonRuntime.Data.toNode(
                                 TestAPI.Bytes.echo(
-                                    data: try env.argument(at: 0, converter: Foundation.Data.self)
+                                    data: try env.argument(at: 0, converter: FishyJoesCommonRuntime.Data.self)
                                 ),
                                 env: env.env
                             )
@@ -1754,7 +1758,7 @@ extension TestAPI.Bytes: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "data", expectedArgumentCount: 0) { env in
-                                return try Foundation.Data.toNode(TestAPI.Bytes.data, env: env.env)
+                                return try FishyJoesCommonRuntime.Data.toNode(TestAPI.Bytes.data, env: env.env)
                             }
                         },
                         setter: nil
@@ -4075,7 +4079,7 @@ extension TestAPI.Methods: FishyJoesNodeRuntime.NodeConverter {
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "methodWithNewlinesInTypes", expectedArgumentCount: 1, hasNamedOptions: false) { env in
                             let result = try FishyJoesCommonRuntime.VoidConverter.toNode(
                                 TestAPI.Methods.methodWithNewlinesInTypes(
-                                    thing: try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.self)
+                                    thing: try env.argument(at: 0, converter: AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>.self)
                                 ),
                                 env: env.env
                             )
@@ -10799,9 +10803,9 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     name: "echo",
                     .method { env, info in
                         FishyJoesNodeRuntime.callbackBody(env, info, name: "echo", expectedArgumentCount: 1, hasNamedOptions: false) { env in
-                            let result = try Foundation.URL.toNode(
+                            let result = try FishyJoesCommonRuntime.URL.toNode(
                                 TestAPI.URLs.echo(
-                                    try env.argument(at: 0, converter: Foundation.URL.self)
+                                    try env.argument(at: 0, converter: FishyJoesCommonRuntime.URL.self)
                                 ),
                                 env: env.env
                             )
@@ -10815,7 +10819,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "dataImage", expectedArgumentCount: 0) { env in
-                                return try Foundation.URL.toNode(TestAPI.URLs.dataImage, env: env.env)
+                                return try FishyJoesCommonRuntime.URL.toNode(TestAPI.URLs.dataImage, env: env.env)
                             }
                         },
                         setter: nil
@@ -10827,7 +10831,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "localFile", expectedArgumentCount: 0) { env in
-                                return try Foundation.URL.toNode(TestAPI.URLs.localFile, env: env.env)
+                                return try FishyJoesCommonRuntime.URL.toNode(TestAPI.URLs.localFile, env: env.env)
                             }
                         },
                         setter: nil
@@ -10839,7 +10843,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "remoteFile", expectedArgumentCount: 0) { env in
-                                return try Foundation.URL.toNode(TestAPI.URLs.remoteFile, env: env.env)
+                                return try FishyJoesCommonRuntime.URL.toNode(TestAPI.URLs.remoteFile, env: env.env)
                             }
                         },
                         setter: nil
@@ -10851,7 +10855,7 @@ extension TestAPI.URLs: FishyJoesNodeRuntime.NodeConverter {
                     .accessor(
                         getter: { env, info in
                             FishyJoesNodeRuntime.callbackBody(env, info, name: "simple", expectedArgumentCount: 0) { env in
-                                return try Foundation.URL.toNode(TestAPI.URLs.simple, env: env.env)
+                                return try FishyJoesCommonRuntime.URL.toNode(TestAPI.URLs.simple, env: env.env)
                             }
                         },
                         setter: nil

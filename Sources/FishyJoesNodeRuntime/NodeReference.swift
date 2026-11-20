@@ -1,5 +1,3 @@
-import Foundation
-
 public final class NodeReference: @unchecked Sendable {
     private var ref: NAPI.Ref
 

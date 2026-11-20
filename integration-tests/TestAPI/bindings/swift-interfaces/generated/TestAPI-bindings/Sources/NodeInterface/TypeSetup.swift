@@ -1,7 +1,11 @@
 // swiftlint:disable:next blanket_disable_command superfluous_disable_command
 // swiftlint:disable unused_closure_parameter syntactic_sugar attributes
-import FishyJoesNodeRuntime
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+import FishyJoesNodeRuntime
 import NodeAPI
 import TestAPI
 import TestAPI_CommonInterface
@@ -16,7 +20,7 @@ public func registerModuleTestAPI(env: NAPI.Env, exports: NAPI.Value) throws -> 
     try env.setNamedProperty(exports, "TestAPI", module)
     try env.setNamedProperty(exports, "default", module)
 
-    try Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
+    try FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.String.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try Swift.UnicodeScalar.PuttingTypesIntoQuestionablePlaces.nodeSetup(env: env, module: module)
     try TestAPI.Actors.TemperatureLogger.nodeSetup(env: env, module: module)

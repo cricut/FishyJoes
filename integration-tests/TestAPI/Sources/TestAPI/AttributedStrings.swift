@@ -5,7 +5,11 @@
 //  Created by Matt Stoker on 6/14/23.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// <!-- FishyJoes.export(AttributedStrings) -->
 public enum AttributedStrings {

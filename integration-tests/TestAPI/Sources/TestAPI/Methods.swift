@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// <!-- FishyJoes.exportReference(Methods) -->
 public struct Methods {
@@ -38,7 +42,7 @@ public struct Methods {
 
     /// <!-- FishyJoes.export(doublePlusGood) -->
     public func doublePlusGood(a: Int, b: Double) -> Int {
-        2 * (a + Int(round(b)))
+        2 * (a + Int(b.rounded()))
     }
 
     /// <!-- FishyJoes.exportAsMethod(instanceGetMethod) -->

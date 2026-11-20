@@ -118,10 +118,6 @@ extension BetterType.Name {
         BetterType.Name(name: name, module: "Swift")
     }
 
-    static func foundation(_ name: String) -> BetterType.Name {
-        BetterType.Name(name: name, module: "Foundation")
-    }
-
     static func runtime(_ name: String) -> BetterType.Name {
         BetterType.Name(name: name, module: "FishyJoesCommonRuntime")
     }
@@ -147,7 +143,7 @@ extension BetterType {
         } else if parts.first == "Swift" {
             self = .named(.swift(parts.dropFirst().joined(separator: ".")))
         } else if parts.first == "Foundation" {
-            self = .named(.foundation(parts.dropFirst().joined(separator: ".")))
+            self = .named(.runtime(parts.dropFirst().joined(separator: ".")))
         } else if
             parts.count > 1,
             case let .named(baseName) = try? context.tryResolve(type: .named(.init(name: parts[0], module: nil))).sourceType

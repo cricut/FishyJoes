@@ -272,7 +272,7 @@ struct NodeTranslator: Translator {
         let typeSetupFragment = context.swiftFragment(
             "NodeInterface/TypeSetup.swift",
             withDedicatedFile: true,
-            additionalImports: ["Foundation", "FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
+            additionalImports: ["FishyJoesNodeRuntime", "NodeAPI", "\(context.module.name)_CommonInterface"]
         )
         typeSetupFragment.output("@available(*, deprecated, message: \"Not actually deprecated, but this silences warnings because it may refer to deprecated methods\")")
         typeSetupFragment.outputBlock("public func registerModule\(context.module.name)(env: NAPI.Env, exports: NAPI.Value) throws -> NAPI.Value {") {

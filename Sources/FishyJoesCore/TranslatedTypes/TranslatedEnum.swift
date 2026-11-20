@@ -104,7 +104,6 @@ struct TranslatedEnum: TranslatedType {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
-                "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
@@ -391,7 +390,7 @@ struct TranslatedEnum: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java-type.swift",
-            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
+            additionalImports: ["FishyJoesJavaRuntime"]
         )
 
         let className = context.kotlinTranslator.javaClassName(nodeName, in: context)
