@@ -1,10 +1,27 @@
-// os(WASI) rather than canImport(FoundationEssentials): off WASI this file needs
-// full Foundation for Thread and localizedDescription.
-#if os(WASI)
+#if canImport(FoundationEssentials)
 import FoundationEssentials
-import WASILibc
 #else
 import Foundation
+#endif
+
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#elseif canImport(Android)
+import Android
+#elseif canImport(ucrt)
+import ucrt
+#elseif canImport(WASILibc)
+import WASILibc
+#endif
+
+#if os(Windows)
+import WinSDK
+#endif
+
+#if !os(WASI)
+import Dispatch
 #endif
 import NodeAPI
 
@@ -32,13 +49,9 @@ func debug(file: StaticString = #file, line: UInt = #line, _ msgs: Any? ...) {
     _ = message.withCString { fputs($0, stderr) }
 }
 
-// `localizedDescription` comes from full Foundation, which WASI builds don't link
+// Not `localizedDescription`, which needs full Foundation
 func errorMessage(_ error: any Error) -> String {
-    #if os(WASI)
     (error as? LocalizedError)?.errorDescription ?? String(describing: error)
-    #else
-    error.localizedDescription
-    #endif
 }
 
 public func callbackBody(
@@ -213,16 +226,26 @@ public func nodeIterate(_ iterator: NAPI.Value, env: NAPI.Env, _ body: (NAPI.Val
     }
 }
 
+#if os(Windows)
+private typealias ThreadID = DWORD
+private func currentThreadID() -> ThreadID { GetCurrentThreadId() }
+private func isSameThread(_ a: ThreadID, _ b: ThreadID) -> Bool { a == b }
+#elseif !os(WASI)
+private typealias ThreadID = pthread_t
+private func currentThreadID() -> ThreadID { pthread_self() }
+private func isSameThread(_ a: ThreadID, _ b: ThreadID) -> Bool { pthread_equal(a, b) != 0 }
+#endif
+
 private enum JSMainThread {
     #if !os(WASI)
-    static var thread: Thread?
+    static var thread: ThreadID?
     #endif
     static var env: NAPI.Env?
     static var dispatchFunction: NAPI.ThreadsafeFunction?
 
     static var envIfAlreadyOnMain: NAPI.Env? {
         #if !os(WASI)
-        guard thread == Thread.current else { return nil }
+        guard let thread, isSameThread(thread, currentThreadID()) else { return nil }
         #endif
         return env
     }
@@ -233,7 +256,7 @@ public func setupOnMainThreadEntryPoint(env: NAPI.Env) throws {
         return
     }
     #if !os(WASI)
-    JSMainThread.thread = Thread.current
+    JSMainThread.thread = currentThreadID()
     #endif
     JSMainThread.env = env
     JSMainThread.dispatchFunction = try env.createThreadsafeFunction(
