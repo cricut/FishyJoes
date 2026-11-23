@@ -1,25 +1,29 @@
+// FoundationEssentials where available so wasm doesn't link ICU
 #if canImport(FoundationEssentials)
 import FoundationEssentials
 #else
 import Foundation
 #endif
 
+// libc for fputs/stderr and pthread (CRT rather than ucrt on Windows, since only CRT exposes stderr to Swift)
 #if canImport(Darwin)
 import Darwin
 #elseif canImport(Glibc)
 import Glibc
 #elseif canImport(Android)
 import Android
-#elseif canImport(ucrt)
-import ucrt
+#elseif canImport(CRT)
+import CRT
 #elseif canImport(WASILibc)
 import WASILibc
 #endif
 
+// GetCurrentThreadId, for detecting the JS main thread
 #if os(Windows)
 import WinSDK
 #endif
 
+// DispatchSemaphore in syncOnMainThread; wasm is single-threaded and doesn't need it
 #if !os(WASI)
 import Dispatch
 #endif
