@@ -132,10 +132,10 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p $LIB_DIR python-runtime/native/
+          mkdir -p $LIB_DIR python-runtime/src/fishyjoes_runtime/native/
 
           FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
-          FISHYJOES_UBUNTU_DEST=python-runtime/native/ ./scripts/copy-linux-swift-stdlib.sh
+          FISHYJOES_UBUNTU_DEST=python-runtime/src/fishyjoes_runtime/native/ ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
@@ -201,10 +201,10 @@ jobs:
         run: |
           set -euxo pipefail
 
-          mkdir -p "$LIB_DIR" python-runtime/native/
+          mkdir -p "$LIB_DIR" python-runtime/src/fishyjoes_runtime/native/
           SWIFT_RUNTIME_DIR="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
           cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
-          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll python-runtime/native/
+          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll python-runtime/src/fishyjoes_runtime/native/
 
       - name: Build FishyJoesIotaRuntime
         shell: bash

@@ -98,10 +98,6 @@ if uv --version >/dev/null 2>&1; then
         echo "Entering directory \`python-runtime'"
 
         # Typecheck
-        # Allow errors for now
-        # TODO: fix
-        # uv run mypy --strict --show-error-codes --no-error-summary -p fishyjoes_runtime
-
         uv run pyrefly check --preset=strict --output-format=min-text .
         uv run mypy --strict -p fishyjoes_runtime
 
