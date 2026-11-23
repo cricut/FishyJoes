@@ -1,3 +1,5 @@
+// os(WASI) rather than canImport(FoundationEssentials): off WASI this file needs
+// full Foundation for Thread and localizedDescription.
 #if os(WASI)
 import FoundationEssentials
 import WASILibc
