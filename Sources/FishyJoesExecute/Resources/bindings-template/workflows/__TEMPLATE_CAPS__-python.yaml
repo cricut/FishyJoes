@@ -36,6 +36,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
+
       - name: Install generation tools
         shell: zsh {0}
         run: |
@@ -90,6 +93,9 @@ jobs:
         uses: vapor/swiftly-action@bedb227456c5f495afbef80baebee17a8a02cef4  # v0.2.1
         with:
           toolchain: __CI_SWIFT_LINUX_TOOLCHAIN__
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Configure build environment
         run: |
@@ -166,6 +172,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Pre-build hook
         shell: bash

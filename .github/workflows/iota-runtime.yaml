@@ -126,6 +126,16 @@ jobs:
           cd python-runtime
           uv version "$VERSION"
 
+      - name: Copy swift runtime
+        shell: zsh {0}
+        run: |
+          set -euxo pipefail
+
+          mkdir -p $LIB_DIR
+
+          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
+          FISHYJOES_UBUNTU_DEST=python-runtime/native ./scripts/copy-linux-swift-stdlib.sh
+
       - name: Build FishyJoesIotaRuntime
         shell: zsh {0}
         run: |
@@ -133,16 +143,13 @@ jobs:
 
           ./scripts/compile-iota-runtime.sh
 
-      - name: Collect libFishyJoesIotaRuntime and its dependencies
+      - name: Copy libFishyJoesIotaRuntime
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          mkdir -p $LIB_DIR
-
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -dv $binPath/libFishyJoesIotaRuntime.so $LIB_DIR
-          FISHYJOES_UBUNTU_DEST=$LIB_DIR ./scripts/copy-linux-swift-stdlib.sh
 
       - name: Upload library
         uses: actions/upload-artifact@v7
@@ -187,14 +194,7 @@ jobs:
           cd python-runtime
           uv version "$VERSION"
 
-      - name: Build FishyJoesIotaRuntime
-        shell: bash
-        run: |
-          set -euxo pipefail
-
-          ./scripts/compile-iota-runtime.sh
-
-      - name: Collect libFishyJoesIotaRuntime and its dependencies
+      - name: Copy swift runtime
         shell: bash
         run: |
           set -euxo pipefail
@@ -202,6 +202,19 @@ jobs:
           mkdir -p "$LIB_DIR"
           SWIFT_RUNTIME_DIR="$(realpath "$SDKROOT/../../../.." | sed s#Platforms#Runtimes#g)"
           cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "$LIB_DIR"
+          cp -R "$SWIFT_RUNTIME_DIR/usr/bin/"*.dll "python-runtime/native/"
+
+      - name: Build FishyJoesIotaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          ./scripts/compile-iota-runtime.sh
+
+      - name: Copy libFishyJoesIotaRuntime
+        shell: bash
+        run: |
+          set -euxo pipefail
 
           binPath="$(swift build --configuration release --show-bin-path)"
           cp -R "$binPath/FishyJoesIotaRuntime.dll" "$LIB_DIR"
