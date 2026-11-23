@@ -15,6 +15,7 @@ from .runtime import CStringBag, Runtime, assert_type, catch_by_out_ref, \
     consume_created_ref, consume_ref, create_consumed_ref, create_ref, local_handles, peek_ref, raise_by_out_ref
 from .swift_range import Comparable, SwiftClosedRange, SwiftRange
 from .swift_reference import SwiftReference
+from .deprecated_polyfill import deprecated
 
 # NOTE: order is important here to make sure circular imports resolve correctly. Don't allow the IDE to move these up
 
@@ -27,6 +28,8 @@ fishyjoes_type_setup.ensure_loaded()
 
 __all__ = [
     "CREATED_REF_NULL", "callback", "eval_once_now", "ffi", "lazy_once", "load_library",
+
+    "deprecated",
 
     "Pointer",
     "CreatedRef", "UnownedRef", "ConsumedRef",

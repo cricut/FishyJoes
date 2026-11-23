@@ -612,7 +612,6 @@ extension PythonClass {
         // imported modules used by runtime
         "types",
         "typing",
-        "deprecated",
     ]
 
     static func deforbidify(_ name: String, localVar: Bool) -> String {
@@ -644,7 +643,7 @@ extension PythonClass {
 
     func outputDecorators(for decorable: PythonClass.Decorable, to fragment: SourceFragment) {
         if let deprecation = decorable.deprecation {
-            fragment.output("@deprecated(\"\(deprecation.quotedMessage)\")")
+            fragment.output("@fishyjoes_runtime.deprecated(\"\(deprecation.quotedMessage)\")")
         }
         if decorable.isOverride {
             fragment.output("@typing.override")

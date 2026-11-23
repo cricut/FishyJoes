@@ -247,8 +247,8 @@ jobs:
 
       - name: Publish
         shell: zsh {0}
-        # if: github.event_name == 'release'
+        if: github.event_name == 'release'
         run: |
           set -euxo pipefail
 
-          uv publish --dry-run --verbose
+          uv publish --verbose
