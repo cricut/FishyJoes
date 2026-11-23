@@ -72,6 +72,7 @@ jobs:
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9  # v9.0.0
 
       - name: Python stamp version
+        if: github.event_name == 'release'
         shell: bash
         run: |
           set -euxo pipefail
@@ -120,6 +121,7 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Python stamp version
+        if: github.event_name == 'release'
         shell: bash
         run: |
           set -euxo pipefail
@@ -188,6 +190,7 @@ jobs:
           swift package resolve
 
       - name: Python stamp version
+        if: github.event_name == 'release'
         shell: bash
         run: |
           set -euxo pipefail
@@ -268,6 +271,7 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Python stamp version
+        if: github.event_name == 'release'
         shell: bash
         run: |
           set -euxo pipefail
