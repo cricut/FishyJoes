@@ -72,7 +72,7 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
     int testCall(
     ) =>
         GCRef.using(this, (_thisHandle) =>
-            check((OutCreatedRef _exn) => f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
+            check((OutCreatedRef _exn) => f__iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.shared.env, _thisHandle.ptr, _exn))
         )
     ;
 
@@ -80,5 +80,5 @@ class AttributedString_PuttingTypesIntoQuestionablePlaces {
         Env env,
         UnownedRef _this,
         OutCreatedRef _exn
-    ) f__iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall;
+    ) f__iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall;
 }

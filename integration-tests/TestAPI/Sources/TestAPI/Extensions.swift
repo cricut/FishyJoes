@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 extension Swift.String {
     /// <!-- FishyJoes.export(String_PuttingTypesIntoQuestionablePlaces) -->
@@ -13,7 +17,13 @@ extension Swift.String {
     }
 }
 
-extension Foundation.AttributedString {
+#if canImport(FoundationEssentials)
+typealias _AttributedString = FoundationEssentials.AttributedString
+#else
+typealias _AttributedString = Foundation.AttributedString
+#endif
+
+extension _AttributedString {
     /// <!-- FishyJoes.export(AttributedString_PuttingTypesIntoQuestionablePlaces) -->
     public struct PuttingTypesIntoQuestionablePlaces {
         public let x: String

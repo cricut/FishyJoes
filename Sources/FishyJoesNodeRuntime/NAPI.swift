@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 import NodeAPI
 
 public enum NAPI {
@@ -33,7 +37,7 @@ extension NAPI.Env {
             let errorStr = "\(file):\(line): n-api error: \(message)"
 
             print(errorStr)
-            #if !os(WASI)
+            #if !canImport(FoundationEssentials)
             Thread.callStackSymbols.forEach { print($0) }
             #endif
 

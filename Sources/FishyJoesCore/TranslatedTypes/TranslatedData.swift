@@ -1,7 +1,7 @@
 import SourceryDataModel
 
 struct TranslatedData: TranslatedType {
-    let sourceType = BetterType.named(.foundation("Data"))
+    let sourceType = BetterType.named(.runtime("Data"))
     let nodeName = "ArrayBuffer"
     let kotlinName = "ByteArray"
     let containedNamedTypes: [TranslatedType] = []

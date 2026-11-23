@@ -5,7 +5,11 @@
 //  Created by Matt Stoker on 7/5/23.
 //
 
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// <!-- FishyJoes.export(URLs) -->
 public enum URLs {

@@ -58,7 +58,6 @@ struct TranslatedReference: TranslatedType {
         let fragment = context.swiftFragment(
             "NodeInterface/\(sourceType.name)+node.swift",
             additionalImports: [
-                "Foundation",
                 "FishyJoesNodeRuntime",
                 "\(context.module.name)_CommonInterface"
             ]
@@ -157,7 +156,7 @@ struct TranslatedReference: TranslatedType {
     func jniDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "JavaInterface/\(sourceType.name)+java-type.swift",
-            additionalImports: ["Foundation", "FishyJoesJavaRuntime"]
+            additionalImports: ["FishyJoesJavaRuntime"]
         )
 
         fragment.outputBlock("extension \(sourceType.name): FishyJoesJavaRuntime.JavaMutator {") {
@@ -345,7 +344,7 @@ struct TranslatedReference: TranslatedType {
     func iotaDefinitionFragment(in context: FishyJoesContext) -> SourceFragment {
         let fragment = context.swiftFragment(
             "IotaInterface/\(sourceType.name)+iota-type.swift",
-            additionalImports: ["Foundation", "FishyJoesIotaRuntime"]
+            additionalImports: ["FishyJoesIotaRuntime"]
         )
 
         fragment.output("@_cdecl(\"\(iotaSetupName)\")")

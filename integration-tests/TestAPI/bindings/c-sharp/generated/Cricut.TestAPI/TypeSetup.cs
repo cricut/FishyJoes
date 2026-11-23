@@ -11,16 +11,16 @@ namespace Cricut.TestAPI {
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         static extern void FishyJoes_TestAPI_registerTypes();
 
-        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor(
+        delegate CreatedRef _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor(
             ConsumedRef x,
             out CreatedRef exn
         );
-        delegate CreatedRef _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
+        delegate CreatedRef _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter(UnownedRef obj, out CreatedRef exn);
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern void Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+        static extern void FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
             IntPtr envRef,
-            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor constructor,
-            _Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter get_x,
+            _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor constructor,
+            _FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter get_x,
             out CreatedRef _exn
         );
 
@@ -1269,11 +1269,11 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
-                // Console.WriteLine("setting up (Swift.Int, Foundation.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
+            Once("setup_Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>", () => {
+                // Console.WriteLine("setting up (Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool) throws -> Future<Result<Swift.Int, TestAPI.Methods.TheMethodError>>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_Function3Converter_setup<System.Threading.Tasks.Task<Cricut.FishyJoesRuntime.Result<nint, Cricut.TestAPI.TheMethodError>>, nint, byte[], bool>(
                     Loader.env,
-                    "Function3Converter<Swift.Int, Foundation.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
+                    "Function3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, FutureConverter<ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>>",
                     out exn
                 ));
             });
@@ -1356,7 +1356,7 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_AsyncFunction3Converter<Swift.Int, Foundation.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
+            Once("setup_AsyncFunction3Converter<Swift.Int, FishyJoesCommonRuntime.Data, Swift.Bool, ResultConverter<Swift.Int, TestAPI.Methods.TheMethodError>>", () => {
                 // Console.WriteLine("setting up (Int, Data, Bool) async throws -> Result<Int, Methods.TheMethodError>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AsyncFunction3Converter_setup(
                     Loader.env,
@@ -1749,19 +1749,19 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_ArrayConverter<Foundation.AttributedString.Runs.Run>", () => {
+            Once("setup_ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>", () => {
                 // Console.WriteLine("setting up Array<AttributedString.Runs.Run>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedString.RunsView.Run>(
                     Loader.env,
-                    "ArrayConverter<Foundation.AttributedString.Runs.Run>",
+                    "ArrayConverter<FishyJoesCommonRuntime.AttributedString.Runs.Run>",
                     out exn
                 ));
             });
-            Once("setup_ArrayConverter<Foundation.AttributedSubstring>", () => {
+            Once("setup_ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>", () => {
                 // Console.WriteLine("setting up Array<AttributedSubstring>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_ArrayConverter_setup<Cricut.FishyJoesRuntime.AttributedSubstring>(
                     Loader.env,
-                    "ArrayConverter<Foundation.AttributedSubstring>",
+                    "ArrayConverter<FishyJoesCommonRuntime.AttributedSubstring>",
                     out exn
                 ));
             });
@@ -2168,11 +2168,11 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_RangeConverter<Foundation.AttributedString.Index>", () => {
+            Once("setup_RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>", () => {
                 // Console.WriteLine("setting up Range<AttributedString.Index>...");
                 Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_RangeConverter_setup<Cricut.FishyJoesRuntime.AttributedString.Index>(
                     Loader.env,
-                    "RangeConverter<Foundation.AttributedString.Index>",
+                    "RangeConverter<FishyJoesCommonRuntime.AttributedString.Index>",
                     out exn
                 ));
             });
@@ -2312,16 +2312,16 @@ namespace Cricut.TestAPI {
                     out exn
                 ));
             });
-            Once("setup_Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces", () => {
-                // Console.WriteLine("setting up Foundation.AttributedString.PuttingTypesIntoQuestionablePlaces...");
-                Utilities.Check((out CreatedRef exn) => Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
+            Once("setup_FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces", () => {
+                // Console.WriteLine("setting up FishyJoesCommonRuntime.AttributedString.PuttingTypesIntoQuestionablePlaces...");
+                Utilities.Check((out CreatedRef exn) => FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_setup(
                     Loader.env,
-                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
+                    bag<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlacesConstructor>((ConsumedRef x, out CreatedRef exn) => Catching(out exn, () => {
                         return new CreatedRef(new Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces(
                             x.Consume<string>()
                         ));
                     })),
-                    bag<_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
+                    bag<_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_xGetter>((UnownedRef obj, out CreatedRef exn) => Catching(out exn, () =>
                         new CreatedRef(obj.Peek<Cricut.TestAPI.AttributedString_PuttingTypesIntoQuestionablePlaces>().X)
                     )),
                     out exn

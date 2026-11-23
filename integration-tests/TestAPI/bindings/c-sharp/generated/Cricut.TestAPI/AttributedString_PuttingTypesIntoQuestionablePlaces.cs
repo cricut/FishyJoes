@@ -23,11 +23,11 @@ namespace Cricut.TestAPI {
         public nint TestCall(
         ) {
             using var _thisHandle = new GCRef(this);
-            return Check((out CreatedRef _exn) => __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.env, _thisHandle.ptr, out _exn));
+            return Check((out CreatedRef _exn) => __iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(Loader.env, _thisHandle.ptr, out _exn));
         }
 
         [DllImport("TestAPI-iota", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        private static extern nint __iota_Foundation_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(
+        private static extern nint __iota_FishyJoesCommonRuntime_AttributedString_PuttingTypesIntoQuestionablePlaces_testCall(
             IntPtr envRef,
             UnownedRef self,
             out CreatedRef exn
