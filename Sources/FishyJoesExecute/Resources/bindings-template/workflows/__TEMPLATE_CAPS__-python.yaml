@@ -91,6 +91,13 @@ jobs:
         with:
           toolchain: __CI_SWIFT_LINUX_TOOLCHAIN__
 
+      - name: Configure build environment
+        run: |
+          set -euxo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
       - name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
@@ -100,7 +107,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --python --fat generate build
+          swift run -- fishy-joes --python build
 
       - name: Post-build hook
         shell: bash
@@ -111,14 +118,14 @@ jobs:
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --python --fat test
+          swift run -- fishy-joes --python test
 
       - name: Pack
         shell: zsh {0}
         run: |
           set -euxo pipefail
 
-          swift run -- fishy-joes --python --fat pack
+          swift run -- fishy-joes --python pack
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7
@@ -169,7 +176,7 @@ jobs:
         run: |
           set -euxo pipefail
 
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat generate build
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python build
 
       - name: Post-build hook
         shell: bash
@@ -180,14 +187,14 @@ jobs:
         run: |
           set -euxo pipefail
 
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat test
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python test
 
       - name: Pack
         shell: bash
         run: |
           set -euxo pipefail
 
-          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python --fat pack
+          "$SWIFT_WINDOWS_BASH" run -- fishy-joes --python pack
 
       - name: Upload wheel
         uses: actions/upload-artifact@v7
@@ -235,4 +242,4 @@ jobs:
         run: |
           set -euxo pipefail
 
-          uv publish --dry-run
+          uv publish --dry-run --verbose
