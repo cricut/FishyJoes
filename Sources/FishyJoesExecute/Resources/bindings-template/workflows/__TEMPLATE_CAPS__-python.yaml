@@ -192,7 +192,7 @@ jobs:
         run: __POST_BUILD_HOOK_YAML__
 
       - name: Test library from pytest
-        shell: zsh {0}
+        shell: bash
         run: |
           set -euxo pipefail
 

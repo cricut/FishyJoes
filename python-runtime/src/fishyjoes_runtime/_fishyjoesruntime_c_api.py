@@ -54,9 +54,6 @@ def load_library(package_name: importlib.resources.Anchor, iota_library: str) ->
     _loaded_libraries[iota_library] = lib
     return lib
 
-_stdlib: list[str] = []
-if sys.platform != "darwin":
-    _stdlib = open(str(importlib.resources.files('fishyjoes_runtime') / "native" / "stdlib.txt"), "r").readlines()
 _fishyjoes_runtime_lib = load_library('fishyjoes_runtime', 'FishyJoesIotaRuntime')
 
 # MARK: utilities
