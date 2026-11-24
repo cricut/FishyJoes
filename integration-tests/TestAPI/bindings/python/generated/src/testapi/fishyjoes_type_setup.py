@@ -54,7 +54,6 @@ from .structs import _memberwise_struct_implementation as _testapi_structs_Membe
 from .structs import _mutable_struct_implementation as _testapi_structs_MutableStruct_impl
 from .structs import _reference_struct_implementation as _testapi_structs_ReferenceStruct_impl
 from .structs import _twenty_one_item_struct_implementation as _testapi_structs_TwentyOneItemStruct_impl
-from warnings import deprecated
 import fishyjoes_runtime
 import fishyjoes_runtime.fishyjoes_type_setup
 import types

@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import test_protocol_enum
 from ._c_api import _testapi_lib
 from ._test_protocol_enum_type import _BaseTestProtocolEnum
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

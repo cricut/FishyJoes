@@ -27,3 +27,5 @@ else:
                 return wrapped(*args, **kwargs)
 
             return typing.cast(T, deprecated_wrapper)
+
+__all__ = ['deprecated']

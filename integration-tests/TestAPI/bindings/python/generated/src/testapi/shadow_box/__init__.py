@@ -3,7 +3,6 @@ from .. import _shadow_box_implementation as _impl
 from .. import _testapi_exported as testapi
 from ._empty_type import Empty
 from ._shade_type import Shade
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

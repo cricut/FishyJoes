@@ -98,7 +98,7 @@ class PythonPhases: IotaPhases, Phases {
 
     func compileHostLanguagePhase() throws {
         try withDirectory("bindings/python") {
-            try cmd("uv", "sync", "--dev").run()
+            try cmd("uv", "sync", "--dev", "--refresh").run()
             // Test compatibility with whatever typechecker(s) downstream wants to use
             try cmd("uv", "run", "pyrefly", "check", "--preset=strict", "--output-format=min-text", "generated").run()
             try cmd("uv", "run", "mypy", "--strict", ".").run()

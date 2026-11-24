@@ -3,7 +3,6 @@ from ._test_methods_protocol_type import TestMethodsProtocol # early import to m
 from . import _test_protocol_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_protocol_enum
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import associated_data_enum
 from ._associated_data_enum_type import _BaseAssociatedDataEnum
 from ._c_api import _testapi_lib
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

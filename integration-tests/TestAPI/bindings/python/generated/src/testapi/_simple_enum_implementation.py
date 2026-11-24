@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import simple_enum
 from ._c_api import _testapi_lib
 from ._simple_enum_type import _BaseSimpleEnum
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

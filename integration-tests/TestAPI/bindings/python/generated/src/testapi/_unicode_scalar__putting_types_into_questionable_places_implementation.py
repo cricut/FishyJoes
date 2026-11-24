@@ -3,7 +3,6 @@ from . import _testapi_exported as testapi
 from . import unicode_scalar__putting_types_into_questionable_places
 from ._c_api import _testapi_lib
 from ._unicode_scalar__putting_types_into_questionable_places_type import _BaseUnicodeScalar_PuttingTypesIntoQuestionablePlaces
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

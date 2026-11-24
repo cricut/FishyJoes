@@ -2,7 +2,6 @@ from __future__ import annotations
 from ._test_properties_protocol_type import TestPropertiesProtocol # early import to make cycles work correctly
 from . import _external_witness__test_properties_protocol_implementation as _impl
 from . import _testapi_exported as testapi
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

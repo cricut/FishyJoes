@@ -4,7 +4,6 @@ from .. import _testapi_exported as testapi
 from ._blue_type import Blue
 from ._green_type import Green
 from ._red_type import Red
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

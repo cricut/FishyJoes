@@ -7,7 +7,6 @@ from ._none__type import None_
 from ._other_type import Other
 from ._simple_enum_type import SimpleEnum
 from ._thing_type import Thing
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

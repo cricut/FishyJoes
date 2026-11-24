@@ -3,7 +3,6 @@ from ._test_default_computed_properties_type import TestDefaultComputedPropertie
 from . import _test_default_computed_properties_enum_implementation as _impl
 from . import _testapi_exported as testapi
 from . import test_default_computed_properties_enum
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

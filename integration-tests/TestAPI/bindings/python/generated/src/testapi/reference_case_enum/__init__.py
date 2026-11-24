@@ -5,7 +5,6 @@ from ._east_type import East
 from ._north_type import North
 from ._south_type import South
 from ._west_type import West
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing

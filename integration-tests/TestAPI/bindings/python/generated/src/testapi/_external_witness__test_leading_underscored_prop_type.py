@@ -2,7 +2,6 @@ from __future__ import annotations
 from ._test_leading_underscored_prop_type import TestLeadingUnderscoredProp # early import to make cycles work correctly
 from . import _external_witness__test_leading_underscored_prop_implementation as _impl
 from . import _testapi_exported as testapi
-from warnings import deprecated
 import fishyjoes_runtime
 import types
 import typing
