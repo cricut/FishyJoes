@@ -438,7 +438,10 @@ extension CodeGen {
                     "--sources", translateeSources,
                     "--templates", templatePath,
                     "--output", ".build/sourcery-dump/"
-                ].compactMap { $0 } + config.excludeSources.flatMap { exclude in
+                ].compactMap { $0 } + config.additionalSources.flatMap { sources in
+                    // The sources of targets outside Sources/, e.g. a package sharing its sources with another one.
+                    ["--sources", sources]
+                } + config.excludeSources.flatMap { exclude in
                     var basePath = translateeSources
                     if !basePath.hasSuffix("/") {
                         basePath += "/"

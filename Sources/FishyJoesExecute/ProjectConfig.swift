@@ -9,6 +9,8 @@ struct ProjectConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+    // Directories translated in addition to Sources/, relative to the package, for targets whose sources are elsewhere.
+    let additionalSources: [String]
 
     // TODO: generalize this to a more flexible hook system when n>=3
     let ciPreCheckoutHook: String?
@@ -62,6 +64,8 @@ struct ProjectConfig: Codable {
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
+            Log.error("additionalSources:")
+            Log.error("  - Some/Package/Sources/")
             Log.error("CIPreCheckoutHook: |")
             Log.error("  echo 'doing CI work in bash before checkout'")
             Log.error("CIPreBuildHook: |")
@@ -102,6 +106,12 @@ struct ProjectConfig: Codable {
         let excludeSources = try configDictionary["excludeSources"].map { obj -> [String] in
             guard let list = obj as? [String] else {
                 throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
+            }
+            return list
+        }
+        let additionalSources = try configDictionary["additionalSources"].map { obj -> [String] in
+            guard let list = obj as? [String] else {
+                throw ValidationError("fishy-joes.yaml value for key `additionalSources` is not an array of directory paths")
             }
             return list
         }
@@ -163,6 +173,7 @@ struct ProjectConfig: Codable {
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
+            additionalSources: additionalSources ?? [],
             ciPreCheckoutHook: ciPreCheckoutHook,
             ciPreBuildHook: ciPreBuildHook,
             ciPostBuildHook: ciPostBuildHook,
