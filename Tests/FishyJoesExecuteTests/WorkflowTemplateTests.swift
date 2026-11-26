@@ -46,6 +46,7 @@ class WorkflowTemplateTests: XCTestCase {
             XCTAssertTrue(workflow.contains("      local-dependencies:\n"), language)
             XCTAssertTrue(workflow.contains("pattern: 'Hydrogen-*_lib"), language)
         }
+        XCTAssertTrue(try render("kotlin", config: config).contains("name: Hydrogen-maven-local\n"))
     }
 
     func testRootWorkflows() throws {

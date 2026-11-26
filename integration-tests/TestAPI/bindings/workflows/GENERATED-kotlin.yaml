@@ -295,10 +295,18 @@ jobs:
 
       - name: Test publish
         shell: zsh {0}
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euxo pipefail
 
           cd bindings/kotlin/generated
+          # The version of a release, which the packages depending on this one resolve from the Maven local repository
+          # when they're released in the same run (see the workflow_call trigger).
+          if [[ -n "$INPUT_VERSION" ]]; then
+              export VERSION="$INPUT_VERSION"
+              ./gradlew updateVersion
+          fi
           ./gradlew publishToMavenLocal
 
       - name: Publish

@@ -37,7 +37,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
 
-      - name: Pre-build hook
+      __KOTLIN_LOCAL_DEPENDENCY_STEPS__- name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
@@ -64,7 +64,7 @@ jobs:
         with:
           name: __ARTIFACT_PREFIX__mac_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
-          if-no-files-found: error
+          if-no-files-found: error__KOTLIN_LOCAL_DEPENDENCY_CLEANUP__
 
   build-test-kotlin-linux:
     name: "Ubuntu: Build and test kotlin bindings"__BUILD_JOB_CONDITION__
@@ -104,7 +104,7 @@ jobs:
           ( yes || true ) | sudo sdkmanager --licenses >/dev/null
           swift run fishy-joes install-system-dependencies for-android
 
-      - name: Pre-build hook
+      __KOTLIN_LOCAL_DEPENDENCY_STEPS__- name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
@@ -143,7 +143,7 @@ jobs:
         with:
           name: __ARTIFACT_PREFIX__ubuntu_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
-          if-no-files-found: error
+          if-no-files-found: error__KOTLIN_LOCAL_DEPENDENCY_CLEANUP__
 
   build-test-kotlin-windows:
     name: "Windows: Build and test kotlin bindings"__BUILD_JOB_CONDITION__
@@ -181,7 +181,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://npm.pkg.github.com/'
 
-      - name: Pre-build hook
+      __KOTLIN_LOCAL_DEPENDENCY_STEPS__- name: Pre-build hook
         shell: bash
         run: __PRE_BUILD_HOOK_YAML__
 
@@ -215,7 +215,7 @@ jobs:
         with:
           name: __ARTIFACT_PREFIX__windows_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
-          if-no-files-found: error
+          if-no-files-found: error__KOTLIN_LOCAL_DEPENDENCY_CLEANUP__
 
   kotlin-publish:
     name: Publish kotlin package
@@ -264,15 +264,23 @@ jobs:
           mv __ARTIFACT_PREFIX__ubuntu_libs/linux bindings/kotlin/generated/src/main/resources/
           mv __ARTIFACT_PREFIX__ubuntu_libs/lib bindings/kotlin/generated/src/main/resources/
 
-      - name: Test publish
+      __KOTLIN_LOCAL_DEPENDENCY_STEPS__- name: Test publish
         shell: zsh {0}
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euxo pipefail
 
           cd bindings/kotlin/generated
+          # The version of a release, which the packages depending on this one resolve from the Maven local repository
+          # when they're released in the same run (see the workflow_call trigger).
+          if [[ -n "$INPUT_VERSION" ]]; then
+              export VERSION="$INPUT_VERSION"
+              ./gradlew updateVersion
+          fi
           ./gradlew publishToMavenLocal
 
-      - name: Publish
+      __KOTLIN_MAVEN_LOCAL_UPLOAD__- name: Publish
         shell: zsh {0}
         if: __PUBLISH_CONDITION__
         env:

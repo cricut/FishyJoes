@@ -152,6 +152,59 @@ public struct FileTemplater {
 
                   
             """
+            // The Kotlin builds resolve the dependencies released in the same run from the Maven local repository, which
+            // comes first in the repositories of build.gradle.kts. The build stage of each package uploads its version.
+            // NOTE: Gradle's Maven local repository is in the user's home, USERPROFILE on Windows.
+            replacements["__KOTLIN_LOCAL_DEPENDENCY_STEPS__"] = """
+            - name: Download local dependencies
+                    if: inputs.local-dependencies != ''
+                    uses: actions/download-artifact@v4
+                    with:
+                      pattern: '*-maven-local'
+                      path: ${{ runner.temp }}/local-dependencies
+
+                  - name: Install local dependencies
+                    if: inputs.local-dependencies != ''
+                    shell: bash
+                    env:
+                      LOCAL_DEPENDENCIES: ${{ inputs.local-dependencies }}
+                    run: |
+                      set -euxo pipefail
+
+                      MAVEN_LOCAL="${USERPROFILE:-$HOME}/.m2/repository/com/cricut"
+                      mkdir -p "$MAVEN_LOCAL"
+                      for module in $LOCAL_DEPENDENCIES; do
+                          rm -rf "$MAVEN_LOCAL/$module"
+                          cp -R "$RUNNER_TEMP/local-dependencies/$module-maven-local" "$MAVEN_LOCAL/$module"
+                      done
+
+                  
+            """
+            // A runner may be persistent, the builds of other commits mustn't resolve the dependencies from there.
+            replacements["__KOTLIN_LOCAL_DEPENDENCY_CLEANUP__"] = """
+
+
+                  - name: Remove local dependencies
+                    if: always() && inputs.local-dependencies != ''
+                    shell: bash
+                    env:
+                      LOCAL_DEPENDENCIES: ${{ inputs.local-dependencies }}
+                    run: |
+                      for module in $LOCAL_DEPENDENCIES; do
+                          rm -rf "${USERPROFILE:-$HOME}/.m2/repository/com/cricut/$module"
+                      done
+            """
+            replacements["__KOTLIN_MAVEN_LOCAL_UPLOAD__"] = """
+            - name: Upload Maven local repository
+                    if: inputs.stage == 'build'
+                    uses: actions/upload-artifact@v7
+                    with:
+                      name: \(config.module)-maven-local
+                      path: ~/.m2/repository/com/cricut/\(config.module)
+                      if-no-files-found: error
+
+                  
+            """
         } else {
             replacements["__WORKFLOW_NAME_PREFIX__"] = ""
             replacements["__WORKFLOW_DEFAULTS__"] = ""
@@ -170,6 +223,9 @@ public struct FileTemplater {
             replacements["__CONCURRENCY_SUFFIX__"] = ""
             replacements["__ARTIFACT_PREFIX__"] = ""
             replacements["__DART_LOCAL_DEPENDENCY_STEPS__"] = ""
+            replacements["__KOTLIN_LOCAL_DEPENDENCY_STEPS__"] = ""
+            replacements["__KOTLIN_LOCAL_DEPENDENCY_CLEANUP__"] = ""
+            replacements["__KOTLIN_MAVEN_LOCAL_UPLOAD__"] = ""
         }
 
         if let token = config.ciDependencyAuth?.token {
