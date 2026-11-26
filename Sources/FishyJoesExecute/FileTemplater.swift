@@ -116,6 +116,11 @@ public struct FileTemplater {
                 "        description: \"'build' or 'publish'.\"",
                 "        type: string",
                 "        required: true",
+                "      local-dependencies:",
+                "        description: \"The modules of the dependencies released in the same run, space separated. Their build stage has finished.\"",
+                "        type: string",
+                "        required: false",
+                "        default: \"\"",
             ].joined(separator: "\n")
             replacements["__PUBLISH_CONDITION__"] = "inputs.stage == 'publish'"
             replacements["__RELEASE_TAG_EXPRESSION__"] = "${{ format('\(config.tagPrefix){0}', inputs.version) }}"
@@ -126,6 +131,27 @@ public struct FileTemplater {
             replacements["__CONCURRENCY_SUFFIX__"] = "${{ inputs.stage && format('-{0}-{1}', inputs.stage, github.run_id) || '' }}"
             // The packages of a release share the artifacts of the run.
             replacements["__ARTIFACT_PREFIX__"] = "\(config.module)-"
+            // The dependencies released in the same run don't have their Dart publish tags yet: the tests resolve them from
+            // their directories, with the libraries their build stage uploaded (see DartPhases.useLocalDependencies()).
+            replacements["__DART_LOCAL_DEPENDENCY_STEPS__"] = """
+            - name: Download local dependencies
+                    if: inputs.local-dependencies != ''
+                    uses: actions/download-artifact@v4
+                    with:
+                      pattern: '*_lib'
+                      path: ${{ runner.temp }}/local-dependencies
+
+                  - name: Use local dependencies
+                    if: inputs.local-dependencies != ''
+                    shell: bash
+                    env:
+                      LOCAL_DEPENDENCIES: ${{ inputs.local-dependencies }}
+                    run: |
+                      echo "FISHYJOES_LOCAL_DEPENDENCIES=$LOCAL_DEPENDENCIES" >> "$GITHUB_ENV"
+                      echo "FISHYJOES_LOCAL_DEPENDENCY_ARTIFACTS=$RUNNER_TEMP/local-dependencies" >> "$GITHUB_ENV"
+
+                  
+            """
         } else {
             replacements["__WORKFLOW_NAME_PREFIX__"] = ""
             replacements["__WORKFLOW_DEFAULTS__"] = ""
@@ -143,6 +169,7 @@ public struct FileTemplater {
             replacements["__PUBLISH_JOB_CONDITION__"] = "success()"
             replacements["__CONCURRENCY_SUFFIX__"] = ""
             replacements["__ARTIFACT_PREFIX__"] = ""
+            replacements["__DART_LOCAL_DEPENDENCY_STEPS__"] = ""
         }
 
         if let token = config.ciDependencyAuth?.token {

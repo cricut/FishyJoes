@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: __POST_BUILD_HOOK_YAML__
 
-      - name: Test library from dart
+      __DART_LOCAL_DEPENDENCY_STEPS__- name: Test library from dart
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -120,7 +120,7 @@ jobs:
             patchelf --set-rpath $SWIFT_RUN_PATH $LIB
           done
 
-      - name: Test library from dart
+      __DART_LOCAL_DEPENDENCY_STEPS__- name: Test library from dart
         shell: zsh {0}
         run: |
           set -euxo pipefail
@@ -186,7 +186,7 @@ jobs:
         shell: bash
         run: __POST_BUILD_HOOK_YAML__
 
-      - name: Test library from dart
+      __DART_LOCAL_DEPENDENCY_STEPS__- name: Test library from dart
         shell: bash
         run: |
           set -euxo pipefail

@@ -1,3 +1,4 @@
+import ArgumentParser
 import Foundation
 import swsh
 
@@ -97,10 +98,49 @@ class DartPhases: IotaPhases, Phases {
 
     override func preTestPhase() throws {
         try super.preTestPhase()
+        try useLocalDependencies()
         try withDirectory("bindings/dart/generated") {
             // Fetch binary artifacts
             try cmd("dart", "run", "fishyjoes_dart:setup").run()
         }
+    }
+
+    /// Resolves the dependencies listed in `FISHYJOES_LOCAL_DEPENDENCIES` (module names, space separated) from their
+    /// directories instead of their Dart publish tags, e.g. dependencies released together with this package, built
+    /// earlier in the same workflow run. Their libraries are taken from `FISHYJOES_LOCAL_DEPENDENCY_ARTIFACTS`, a
+    /// directory with the `<Module>-{mac,ubuntu,windows}_lib` artifacts of the Dart workflow, and fetched by the setup
+    /// like those of any directory dependency. The overrides are only used for testing, the pubspec isn't changed.
+    private func useLocalDependencies() throws {
+        let environment = ProcessInfo.processInfo.environment
+        let modules = (environment["FISHYJOES_LOCAL_DEPENDENCIES"] ?? "").split(separator: " ").map(String.init)
+        guard !modules.isEmpty else {
+            return
+        }
+        let dartPackageDirectory = "bindings/dart/generated"
+        var overrideLines = ["dependency_overrides:"]
+        for module in modules {
+            guard let dependency = options.packageInfo.dependencyMap[module] else {
+                throw ValidationError("Local dependency \(module) isn't a dependency in Package.swift")
+            }
+            let dependencyDartPackage = "\(dependency.localPath)/\(dartPackageDirectory)"
+            if let artifacts = environment["FISHYJOES_LOCAL_DEPENDENCY_ARTIFACTS"] {
+                for (directory, artifactPlatform) in [("macos", "mac"), ("linux", "ubuntu"), ("windows", "windows")] {
+                    let artifact = "\(artifacts)/\(module)-\(artifactPlatform)_lib"
+                    guard FileManager.default.fileExists(atPath: artifact) else {
+                        continue
+                    }
+                    try cmd("rm", "-rf", "\(dependencyDartPackage)/\(directory)/native").run()
+                    try cmd("mkdir", "-p", "\(dependencyDartPackage)/\(directory)").run()
+                    try cmd("cp", "-R", artifact, "\(dependencyDartPackage)/\(directory)/native").run()
+                }
+            }
+            overrideLines += [
+                "  cricut_\(module.lowercased()):",
+                "    path: \(relativePath(of: dependencyDartPackage, relativeTo: dartPackageDirectory))",
+            ]
+        }
+        try (overrideLines.joined(separator: "\n") + "\n")
+            .write(toFile: "\(dartPackageDirectory)/pubspec_overrides.yaml", atomically: true, encoding: .utf8)
     }
 
     func testPhase() throws {
