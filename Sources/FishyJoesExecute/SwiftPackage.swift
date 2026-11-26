@@ -6,8 +6,10 @@ struct SwiftPackage: Decodable {
         case fileSystem(identity: String, path: String)
         // `path` is the downloaded release, known once the package is resolved.
         case registry(identity: String, requirement: Requirement, path: String?)
-        // A registry package published from a directory of a repository that publishes several packages.
-        case sibling(identity: String, path: String, published: Published)
+        // A registry package published from a directory of a repository that publishes several packages. `checkout` is
+        // true when `path` is the package's directory in a checkout of that repository instead of a downloaded release
+        // (see `ProjectConfig.publishedManifestEnvironment`).
+        case sibling(identity: String, path: String, published: Published, checkout: Bool)
         struct Published {
             let repository: URL
             let packagePath: String
@@ -114,14 +116,14 @@ extension SwiftPackage.Dependency {
         case .sourceControl(let identity, _, _): return identity
         case .fileSystem(let identity, _): return identity
         case .registry(let identity, _, _): return identity
-        case .sibling(let identity, _, _): return identity
+        case .sibling(let identity, _, _, _): return identity
         }
     }
 
     var url: URL {
         switch self {
         case .sourceControl(_, let url, _): return url
-        case .fileSystem(_, let path), .sibling(_, let path, _): return URL(fileURLWithPath: path)
+        case .fileSystem(_, let path), .sibling(_, let path, _, _): return URL(fileURLWithPath: path)
         case .registry(let identity, _, let path):
             return URL(fileURLWithPath: path ?? ".build/registry/downloads/\(identity.replacingOccurrences(of: ".", with: "/"))")
         }
@@ -138,7 +140,7 @@ extension SwiftPackage.Dependency {
         case let .registry(identity, requirement, _):
             let name = identity.split(separator: ".").last.map(String.init) ?? identity
             return .sourceControl(identity: identity, location: URL(string: "https://github.com/cricut/\(name)")!, requirement: requirement)
-        case let .sibling(identity, _, published):
+        case let .sibling(identity, _, published, _):
             return .sourceControl(identity: identity, location: published.repository, requirement: published.requirement)
         case .sourceControl, .fileSystem:
             return nil
@@ -350,7 +352,7 @@ extension SwiftPackage.Dependency {
             return (tagPattern: "{{version}}-dart-publish", versionConstraint: constraint)
         case .registry:
             return asSourceControl!.tagPatternAndVersionConstraint()
-        case .sibling(_, _, let published):
+        case .sibling(_, _, let published, _):
             guard let constraint = versionInPubspecFormat(flexibleVersions: true) else { return nil }
             return (tagPattern: "\(published.tagPrefix){{version}}-dart-publish", versionConstraint: constraint)
         }
@@ -466,7 +468,58 @@ extension SwiftPackage {
                         packagePath: packagePath,
                         tagPrefix: config.tagPrefix,
                         requirement: requirement
-                    )
+                    ),
+                    checkout: false
+                )
+            },
+            targets: targets
+        )
+    }
+
+    /// Reads the packages published from directories of the same repository from their checkout instead of a registry
+    /// release. `published` is this package as its published manifest describes it, where these packages are registry
+    /// dependencies, while this package's manifest refers to their directories (`.package(path: "../BifrostCore")`).
+    /// Each such directory dependency becomes a sibling with the requirement of the published manifest, so generated
+    /// code refers to the published versions, without the dependencies being published or resolved.
+    func readingSiblingsFromCheckout(published: SwiftPackage) -> SwiftPackage {
+        func name(of identity: String) -> String {
+            (identity.split(separator: ".").last.map(String.init) ?? identity).lowercased()
+        }
+        return SwiftPackage(
+            dependencies: dependencies.map { dependency in
+                guard case let .fileSystem(_, path) = dependency else {
+                    return dependency
+                }
+                let directoryName = URL(fileURLWithPath: path).lastPathComponent.lowercased()
+                guard
+                    let (identity, requirement) = published.dependencies.lazy.compactMap({ published -> (String, Dependency.Requirement)? in
+                        guard case let .registry(identity, requirement, _) = published, name(of: identity) == directoryName else {
+                            return nil
+                        }
+                        return (identity, requirement)
+                    }).first
+                else {
+                    return dependency
+                }
+                guard
+                    FileManager.default.fileExists(atPath: "\(path)/bindings/fishy-joes.yaml"),
+                    let config = try? ProjectConfig.readFromFile(basePath: path),
+                    let packagePath = config.packagePath,
+                    let publishRepository = config.publishRepository
+                else {
+                    Log.warn("\(path) is \(identity) when published, but its bindings/fishy-joes.yaml has no packagePath and publishRepository")
+                    return dependency
+                }
+                return .sibling(
+                    identity: identity,
+                    path: path,
+                    published: .init(
+                        repository: URL(string: "https://\(publishRepository)")!,
+                        packagePath: packagePath,
+                        tagPrefix: config.tagPrefix,
+                        requirement: requirement
+                    ),
+                    checkout: true
                 )
             },
             targets: targets

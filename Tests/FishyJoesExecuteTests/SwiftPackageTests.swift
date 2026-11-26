@@ -82,4 +82,79 @@ class SwiftPackageTests: XCTestCase {
             "\(downloads)/cricut/Hydrogen/0.1.0"
         )
     }
+
+    func testReadingSiblingsFromCheckout() throws {
+        let repository = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
+        defer { try? FileManager.default.removeItem(atPath: repository) }
+        func makePackage(_ name: String, config: String) throws {
+            try FileManager.default.createDirectory(atPath: "\(repository)/\(name)/bindings", withIntermediateDirectories: true)
+            FileManager.default.createFile(atPath: "\(repository)/\(name)/bindings/fishy-joes.yaml", contents: Data(config.utf8))
+        }
+        try makePackage(
+            "BifrostCore",
+            config: """
+            module: BifrostCore
+            publishRepository: github.com/cricut/Bifrost
+            packagePath: Packages/BifrostCore
+            tagPrefix: bifrost-core/
+            """
+        )
+        // A package in a directory that isn't published from the repository.
+        try makePackage("Tesseract", config: "module: Tesseract\n")
+
+        let fishyJoes = SwiftPackage.Dependency.sourceControl(
+            identity: "fishyjoes",
+            location: URL(string: "https://github.com/cricut/FishyJoes")!,
+            requirement: .exact(version: SemanticVersion("8.3.3")!)
+        )
+        // The manifest in the repository refers to the packages by path.
+        let package = SwiftPackage(
+            dependencies: [
+                .fileSystem(identity: "bifrostcore", path: "\(repository)/BifrostCore"),
+                .fileSystem(identity: "tesseract", path: "\(repository)/Tesseract"),
+                fishyJoes,
+            ],
+            targets: []
+        )
+        // The published manifest refers to them by registry identity.
+        let published = SwiftPackage(
+            dependencies: [
+                .registry(identity: "cricut.BifrostCore", requirement: .exact(version: SemanticVersion("0.4.0")!), path: nil),
+                .registry(identity: "cricut.Tesseract", requirement: .exact(version: SemanticVersion("1.0.0")!), path: nil),
+                fishyJoes,
+            ],
+            targets: []
+        )
+
+        let siblings = package.readingSiblingsFromCheckout(published: published)
+
+        // Read from the checkout, referred to as published.
+        let bifrostCore = try XCTUnwrap(siblings.dependencyMap["BifrostCore"])
+        XCTAssertEqual(bifrostCore.identity, "cricut.BifrostCore")
+        XCTAssertEqual(bifrostCore.localPath, "\(repository)/BifrostCore")
+        XCTAssertEqual(bifrostCore.versionInGradleFormat(flexibleVersions: true), .rich(["strictly(\"0.4.0\")"]))
+        XCTAssertEqual(bifrostCore.tagPatternAndVersionConstraint()?.tagPattern, "bifrost-core/{{version}}-dart-publish")
+        XCTAssertEqual(PackageDotSwiftDependency.Dependency(from: bifrostCore), .local(path: "\(repository)/BifrostCore"))
+
+        // Without a packagePath, the dependency stays a directory.
+        let tesseract = try XCTUnwrap(siblings.dependencyMap["Tesseract"])
+        XCTAssertEqual(tesseract.identity, "tesseract")
+        XCTAssertEqual(tesseract.versionInGradleFormat(), .inline("local"))
+
+        XCTAssertEqual(siblings.dependencyMap["FishyJoes"]?.identity, "fishyjoes")
+    }
+
+    func testPublishedManifestEnvironment() throws {
+        let package = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).path
+        defer { try? FileManager.default.removeItem(atPath: package) }
+        try FileManager.default.createDirectory(atPath: "\(package)/bindings", withIntermediateDirectories: true)
+        FileManager.default.createFile(
+            atPath: "\(package)/bindings/fishy-joes.yaml",
+            contents: Data("module: Hydrogen\npublishedManifestEnvironment:\n  BIFROST_USE_REGISTRY: 1\n".utf8)
+        )
+        XCTAssertEqual(try ProjectConfig.readFromFile(basePath: package).publishedManifestEnvironment, ["BIFROST_USE_REGISTRY": "1"])
+
+        FileManager.default.createFile(atPath: "\(package)/bindings/fishy-joes.yaml", contents: Data("module: Hydrogen\n".utf8))
+        XCTAssertEqual(try ProjectConfig.readFromFile(basePath: package).publishedManifestEnvironment, [:])
+    }
 }

@@ -152,6 +152,17 @@ extension CodeGen {
             Log.error("Couldn't parse swift package: \(error)")
             fatalError()
         }
+        if !config.publishedManifestEnvironment.isEmpty {
+            // NOTE: dump-package only evaluates the manifest, the published dependencies don't have to exist.
+            let publishedPackageJSON = try cmd("swift", "package", "dump-package", addEnv: config.publishedManifestEnvironment).runData()
+            do {
+                let publishedPackageInfo = try JSONDecoder().decode(SwiftPackage.self, from: publishedPackageJSON)
+                packageInfo = packageInfo.readingSiblingsFromCheckout(published: publishedPackageInfo)
+            } catch let error {
+                Log.error("Couldn't parse the published swift package: \(error)")
+                fatalError()
+            }
+        }
         packageInfo = try packageInfo.resolvingRegistryDependencies()
 
         if wasm {

@@ -51,7 +51,10 @@ extension PackageDotSwiftDependency.Dependency {
             self = .local(path: path)
         case let .registry(identity, requirement, _):
             self = .init(registry: identity, requirement)
-        case let .sibling(identity, _, published):
+        case let .sibling(_, path, _, true):
+            // The package that's being built refers to the checkout by path as well.
+            self = .local(path: path)
+        case let .sibling(identity, _, published, false):
             self = .init(registry: identity, published.requirement)
         }
     }

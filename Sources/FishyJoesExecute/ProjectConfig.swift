@@ -13,6 +13,10 @@ struct ProjectConfig: Codable {
     let requiredModules: [String]
     let extraDynamicLibraries: [String]
     let excludeSources: [String]
+    // Environment in which the package's manifest describes it as published, e.g. depending on the packages published
+    // from other directories of `publishRepository` by registry identity instead of by path. When set, those packages
+    // are read from their directories while generated code refers to the versions the published manifest requires.
+    let publishedManifestEnvironment: [String: String]
 
     // TODO: generalize this to a more flexible hook system when n>=3
     let ciPreBuildHook: String?
@@ -63,6 +67,8 @@ struct ProjectConfig: Codable {
             Log.error("excludeSources:")
             Log.error("  - SomeFile.swift")
             Log.error("  - Some/Directory/")
+            Log.error("publishedManifestEnvironment:")
+            Log.error("  USE_REGISTRY: '1'")
             Log.error("CIPreBuildHook: |")
             Log.error("  echo 'doing CI work in bash'")
             Log.error("CIPostBuildHook: |")
@@ -114,6 +120,20 @@ struct ProjectConfig: Codable {
                 throw ValidationError("fishy-joes.yaml value for key `excludeSources` is not an array of file or directory paths")
             }
             return list
+        }
+        let publishedManifestEnvironment = try configDictionary["publishedManifestEnvironment"].map { obj -> [String: String] in
+            guard let dict = obj as? [String: Any] else {
+                throw ValidationError("fishy-joes.yaml value for key `publishedManifestEnvironment` is not a dictionary of environment variables")
+            }
+            return try dict.mapValues { value in
+                switch value {
+                case let string as String: return string
+                case let int as Int: return String(int)
+                case let bool as Bool: return String(bool)
+                default:
+                    throw ValidationError("fishy-joes.yaml value for key `publishedManifestEnvironment` has a value that isn't a string: \(value)")
+                }
+            }
         }
         let ciPreBuildHook = try configDictionary["CIPreBuildHook"].map { obj -> String in
             guard let hook = obj as? String else {
@@ -168,6 +188,7 @@ struct ProjectConfig: Codable {
             requiredModules: requiredModules ?? [],
             extraDynamicLibraries: extraDynamicLibraries ?? [],
             excludeSources: excludeSources ?? [],
+            publishedManifestEnvironment: publishedManifestEnvironment ?? [:],
             ciPreBuildHook: ciPreBuildHook,
             ciPostBuildHook: ciPostBuildHook,
             flexibleVersions: flexibleVersions,

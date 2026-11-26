@@ -30,7 +30,7 @@ class DartPhases: IotaPhases, Phases {
             }
             var gitURL = "https://github.com/cricut/\(depNames.swift).git"
             var gitPath = depNames.path
-            if case let .sibling(_, _, published) = dependency {
+            if case let .sibling(_, _, published, _) = dependency {
                 gitURL = "\(published.repository.absoluteString).git"
                 gitPath = "\(published.packagePath)/\(depNames.path)"
             }
