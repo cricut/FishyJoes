@@ -12,7 +12,7 @@ name: "Dart"
     types: [published]
 
 concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  group: build-${{ github.event.pull_request.number || github.ref }}-Dart
   cancel-in-progress: true
 
 env:
@@ -159,6 +159,8 @@ jobs:
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
+        # The default working directory of a package in a subdirectory doesn't exist before checkout.
+        working-directory: .
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
@@ -235,6 +237,7 @@ jobs:
       - build-test-dart-mac
       - build-test-dart-linux
       - build-test-dart-windows
+    if: success()
     permissions:
       contents: write
       packages: write
@@ -264,6 +267,10 @@ jobs:
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4
+        with:
+          # Only the libraries of this package, the release workflow builds several packages in the same run.
+          pattern: '*_lib'
+          path: .
 
       - name: Install artifacts
         shell: zsh {0}
@@ -280,19 +287,22 @@ jobs:
         shell: zsh {0}
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euxo pipefail
 
           SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$'
 
-          if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+          if [[ -n "$INPUT_VERSION" ]]; then
+              VERSION="$INPUT_VERSION"
+          elif [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
               VERSION="$RELEASE_TAG"
           else
               VERSION=${GITHUB_REF#refs/*/}
           fi
 
           if [[ ! $VERSION =~ $SEMVER_REGEX ]]; then
-            if [[ "$GITHUB_EVENT_NAME" == "release" ]]; then
+            if [[ -n "$INPUT_VERSION" || "$GITHUB_EVENT_NAME" == "release" ]]; then
               echo "Unsupported release tag '$VERSION'" >&2
               exit 1
             fi
@@ -364,6 +374,8 @@ jobs:
           name: TestAPI-dart-binaries.tgz
           path: bindings/dart/generated/packages/TestAPI-dart-binaries.tgz
           if-no-files-found: error
+          # Uploaded by both stages of a release (see the workflow_call trigger).
+          overwrite: true
 
       - name: Publish
         shell: zsh {0}
@@ -387,15 +399,25 @@ jobs:
           tarballName=TestAPI-dart-binaries.tgz
           tarballPath=bindings/dart/generated/packages/$tarballName
 
-          # Publish pure-dart tarball as a release artifact
+          # Publish pure-dart tarball as a release artifact. A re-run of a partially published release skips what exists.
           # https://docs.github.com/en/rest/releases/assets#upload-a-release-asset
-          curl -f \
-            -X POST \
-            -H 'Content-Type: application/gzip' \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H 'Accept: application/vnd.github.v3+json' \
-            "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$tarballName" \
-            --data-binary @$tarballPath
+          if gh api "/repos/$OWNER/$REPO/releases/$releaseID/assets" -q '.[].name' | grep -qxF "$tarballName"; then
+              echo "Release '$TAG_NAME' already has $tarballName"
+          else
+              curl -f \
+                -X POST \
+                -H 'Content-Type: application/gzip' \
+                -H "Authorization: Bearer $GH_TOKEN" \
+                -H 'Accept: application/vnd.github.v3+json' \
+                "https://uploads.github.com/repos/$OWNER/$REPO/releases/$releaseID/assets?name=$tarballName" \
+                --data-binary @$tarballPath
+          fi
 
           # publish flutter NPM package
-          npm publish bindings/packed-npm-packages/cricut-flutter-*.tgz
+          npmTarball=(bindings/packed-npm-packages/cricut-flutter-*.tgz)
+          npmPackage=$(tar -xOf "${npmTarball[1]}" package/package.json | jq -r .name)
+          if npm view "$npmPackage@$VERSION" version >/dev/null 2>&1; then
+              echo "$npmPackage@$VERSION is already published"
+          else
+              npm publish "${npmTarball[1]}"
+          fi

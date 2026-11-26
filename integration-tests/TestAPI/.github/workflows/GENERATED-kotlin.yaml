@@ -12,7 +12,7 @@ name: "Kotlin"
     types: [published]
 
 concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  group: build-${{ github.event.pull_request.number || github.ref }}-Kotlin
   cancel-in-progress: true
 
 env:
@@ -170,6 +170,8 @@ jobs:
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
+        # The default working directory of a package in a subdirectory doesn't exist before checkout.
+        working-directory: .
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
@@ -272,6 +274,10 @@ jobs:
 
       - name: Retrieve artifacts
         uses: actions/download-artifact@v4
+        with:
+          # Only the libraries of this package, the release workflow builds several packages in the same run.
+          pattern: '*_libs'
+          path: .
 
       - name: Install artifacts
         shell: zsh {0}
@@ -298,17 +304,34 @@ jobs:
       - name: Publish
         shell: zsh {0}
         if: github.event_name == 'release'
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}
+          VERSION=${INPUT_VERSION:-$VERSION}
           if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+              if [[ -n "$INPUT_VERSION" ]]; then
+                  echo "Unsupported version '$INPUT_VERSION'" >&2
+                  exit 1
+              fi
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
 
           cd bindings/kotlin/generated
 
           echo "Detected Version is '$VERSION'"
+
+          # A re-run of a partially published release skips what exists.
+          GROUP=$(sed -n 's/^group=//p' gradle.properties)
+          ARTIFACT=$(sed -n 's/^artifact=//p' gradle.properties)
+          POM_URL="https://maven.pkg.github.com/$GITHUB_REPOSITORY/${GROUP//.//}/$ARTIFACT/$VERSION/$ARTIFACT-$VERSION.pom"
+          if curl -sfI -o /dev/null -u "$GITHUB_ACTOR:$GITHUB_PUBLISH_TOKEN" "$POM_URL"; then
+              echo "$GROUP:$ARTIFACT:$VERSION is already published"
+              exit 0
+          fi
+
           export VERSION
           ./gradlew updateVersion
           ./gradlew assemble publish

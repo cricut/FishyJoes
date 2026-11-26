@@ -96,8 +96,36 @@ public struct FileTemplater {
             replacements["__TAG_PREFIX__"] = config.tagPrefix
             replacements["__PACKAGE_DIR__"] = "\(packagePath)/"
             replacements["__DOWNLOAD_ARTIFACT_PATH__"] = "\n        with:\n          path: \(packagePath)"
-            // A release builds against the published packages of this repository; anything else against the checkout.
-            ciEnv["BIFROST_LOCAL"] = "${{ \(releaseOfThisPackage) && '' || 'all' }}"
+
+            // The Kotlin and Dart workflows aren't triggered by releases: a release of one package would run the workflows
+            // of every package. The release workflow of the repository calls them in two stages of the same run instead.
+            // 'build' builds, tests and packs every package of the release, 'publish' then publishes the libraries uploaded
+            // by the build stage, so a failed build of any package publishes nothing.
+            replacements["__RELEASE_TRIGGER__"] = [
+                "workflow_call:",
+                "    inputs:",
+                "      ref:",
+                "        description: \"The commit to build, tagged with the release by the publish stage.\"",
+                "        type: string",
+                "        required: true",
+                "      version:",
+                "        description: \"The version of the release, without the tag prefix.\"",
+                "        type: string",
+                "        required: true",
+                "      stage:",
+                "        description: \"'build' or 'publish'.\"",
+                "        type: string",
+                "        required: true",
+            ].joined(separator: "\n")
+            replacements["__PUBLISH_CONDITION__"] = "inputs.stage == 'publish'"
+            replacements["__RELEASE_TAG_EXPRESSION__"] = "${{ format('\(config.tagPrefix){0}', inputs.version) }}"
+            replacements["__BUILD_JOB_CONDITION__"] = "\n    if: inputs.stage != 'publish'"
+            // The publish stage skips the build jobs, which skips the jobs needing them unless the condition says otherwise.
+            replacements["__PUBLISH_JOB_CONDITION__"] = "${{ !cancelled() && !failure() }}"
+            // A called workflow runs in the concurrency context of the caller, github.workflow is the caller's name.
+            replacements["__CONCURRENCY_SUFFIX__"] = "${{ inputs.stage && format('-{0}-{1}', inputs.stage, github.run_id) || '' }}"
+            // The packages of a release share the artifacts of the run.
+            replacements["__ARTIFACT_PREFIX__"] = "\(config.module)-"
         } else {
             replacements["__WORKFLOW_NAME_PREFIX__"] = ""
             replacements["__WORKFLOW_DEFAULTS__"] = ""
@@ -108,6 +136,13 @@ public struct FileTemplater {
             replacements["__TAG_PREFIX__"] = ""
             replacements["__PACKAGE_DIR__"] = ""
             replacements["__DOWNLOAD_ARTIFACT_PATH__"] = ""
+            replacements["__RELEASE_TRIGGER__"] = "release:\n    types: [published]"
+            replacements["__PUBLISH_CONDITION__"] = "github.event_name == 'release'"
+            replacements["__RELEASE_TAG_EXPRESSION__"] = "${{ github.event.release.tag_name }}"
+            replacements["__BUILD_JOB_CONDITION__"] = ""
+            replacements["__PUBLISH_JOB_CONDITION__"] = "success()"
+            replacements["__CONCURRENCY_SUFFIX__"] = ""
+            replacements["__ARTIFACT_PREFIX__"] = ""
         }
 
         if let token = config.ciDependencyAuth?.token {
@@ -140,6 +175,10 @@ public struct FileTemplater {
                 "    submodules: recursive",
             ]
         )
+        if config.packagePath != nil {
+            // The commit of a release (see __RELEASE_TRIGGER__), empty for the other triggers.
+            credentialStepLines.append("    ref: ${{ inputs.ref }}")
+        }
         if !credentialToken.isEmpty {
             credentialStepLines.append("    token: '\(credentialToken)'")
         }

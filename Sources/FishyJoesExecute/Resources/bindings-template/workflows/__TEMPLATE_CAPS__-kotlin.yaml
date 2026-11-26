@@ -8,11 +8,10 @@ name: "__WORKFLOW_NAME_PREFIX__Kotlin"
   label:
     types: [created]
   pull_request:__PULL_REQUEST_PATHS__
-  release:
-    types: [published]
+  __RELEASE_TRIGGER__
 
 __WORKFLOW_DEFAULTS__concurrency:
-  group: build-${{ github.event.pull_request.number || github.ref }}-${{ github.workflow }}
+  group: build-${{ github.event.pull_request.number || github.ref }}-__WORKFLOW_NAME_PREFIX__Kotlin__CONCURRENCY_SUFFIX__
   cancel-in-progress: true
 
 env:
@@ -20,7 +19,7 @@ env:
 
 jobs:
   build-test-kotlin-mac:
-    name: "macOS: Build and test kotlin bindings"
+    name: "macOS: Build and test kotlin bindings"__BUILD_JOB_CONDITION__
     runs-on: __CI_RUNNER_MACOS__
     steps:
       - __CI_GIT_STEPS__
@@ -63,12 +62,12 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
-          name: mac_libs
+          name: __ARTIFACT_PREFIX__mac_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
   build-test-kotlin-linux:
-    name: "Ubuntu: Build and test kotlin bindings"
+    name: "Ubuntu: Build and test kotlin bindings"__BUILD_JOB_CONDITION__
     runs-on: __CI_RUNNER_UBUNTU__
     steps:
       - __CI_GIT_STEPS__
@@ -142,16 +141,18 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: ubuntu_libs
+          name: __ARTIFACT_PREFIX__ubuntu_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
   build-test-kotlin-windows:
-    name: "Windows: Build and test kotlin bindings"
+    name: "Windows: Build and test kotlin bindings"__BUILD_JOB_CONDITION__
     runs-on: __CI_RUNNER_WINDOWS__
     steps:
       - name: Configure git and vcpkg
         shell: pwsh
+        # The default working directory of a package in a subdirectory doesn't exist before checkout.
+        working-directory: .
         run: |
           git config --system core.longpaths true
           echo "VCPKG_ROOT=$(Split-Path -Parent $((gcm vcpkg).Path))" >> $env:GITHUB_ENV
@@ -212,7 +213,7 @@ jobs:
       - name: Upload library
         uses: actions/upload-artifact@v7
         with:
-          name: windows_libs
+          name: __ARTIFACT_PREFIX__windows_libs
           path: __PACKAGE_DIR__bindings/kotlin/generated/src/main/resources
           if-no-files-found: error
 
@@ -223,7 +224,7 @@ jobs:
       - build-test-kotlin-mac
       - build-test-kotlin-linux
       - build-test-kotlin-windows
-    if: success()
+    if: __PUBLISH_JOB_CONDITION__
     env:
       GITHUB_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -243,7 +244,11 @@ jobs:
           sudo apt-get install -y zsh
 
       - name: Retrieve artifacts
-        uses: actions/download-artifact@v4__DOWNLOAD_ARTIFACT_PATH__
+        uses: actions/download-artifact@v4
+        with:
+          # Only the libraries of this package, the release workflow builds several packages in the same run.
+          pattern: '__ARTIFACT_PREFIX__*_libs'
+          path: __PACKAGE_DIR__.
 
       - name: Install artifacts
         shell: zsh {0}
@@ -254,10 +259,10 @@ jobs:
 
           mkdir -p bindings/kotlin/generated/src/main/resources/
 
-          mv mac_libs/mac bindings/kotlin/generated/src/main/resources/
-          mv windows_libs/windows bindings/kotlin/generated/src/main/resources/
-          mv ubuntu_libs/linux bindings/kotlin/generated/src/main/resources/
-          mv ubuntu_libs/lib bindings/kotlin/generated/src/main/resources/
+          mv __ARTIFACT_PREFIX__mac_libs/mac bindings/kotlin/generated/src/main/resources/
+          mv __ARTIFACT_PREFIX__windows_libs/windows bindings/kotlin/generated/src/main/resources/
+          mv __ARTIFACT_PREFIX__ubuntu_libs/linux bindings/kotlin/generated/src/main/resources/
+          mv __ARTIFACT_PREFIX__ubuntu_libs/lib bindings/kotlin/generated/src/main/resources/
 
       - name: Test publish
         shell: zsh {0}
@@ -269,18 +274,35 @@ jobs:
 
       - name: Publish
         shell: zsh {0}
-        if: __RELEASE_CONDITION__
+        if: __PUBLISH_CONDITION__
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           set -euxo pipefail
 
           VERSION=${GITHUB_REF#refs/*/}__STRIP_TAG_PREFIX__
+          VERSION=${INPUT_VERSION:-$VERSION}
           if [[ ! $VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+              if [[ -n "$INPUT_VERSION" ]]; then
+                  echo "Unsupported version '$INPUT_VERSION'" >&2
+                  exit 1
+              fi
               VERSION="0.0.1-$(git rev-parse --short HEAD)"
           fi
 
           cd bindings/kotlin/generated
 
           echo "Detected Version is '$VERSION'"
+
+          # A re-run of a partially published release skips what exists.
+          GROUP=$(sed -n 's/^group=//p' gradle.properties)
+          ARTIFACT=$(sed -n 's/^artifact=//p' gradle.properties)
+          POM_URL="https://maven.pkg.github.com/$GITHUB_REPOSITORY/${GROUP//.//}/$ARTIFACT/$VERSION/$ARTIFACT-$VERSION.pom"
+          if curl -sfI -o /dev/null -u "$GITHUB_ACTOR:$GITHUB_PUBLISH_TOKEN" "$POM_URL"; then
+              echo "$GROUP:$ARTIFACT:$VERSION is already published"
+              exit 0
+          fi
+
           export VERSION
           ./gradlew updateVersion
           ./gradlew assemble publish
