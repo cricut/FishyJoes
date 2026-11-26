@@ -60,4 +60,31 @@ class WorkflowTemplateTests: XCTestCase {
             XCTAssertFalse(workflow.contains("local-dependencies"), language)
         }
     }
+
+    func testSkippedPullRequestBranches() throws {
+        for (config, skipped) in [
+            (
+                "module: TestAPI\npublishRepository: github.com/cricut/FishyJoes\n",
+                "!(github.event_name == 'pull_request' && startsWith(github.head_ref, 'package-releases/'))"
+            ),
+            // The release workflow calls the workflows of a package for its own pull requests.
+            (
+                "module: Hydrogen\npublishRepository: github.com/cricut/Bifrost\npackagePath: Packages/Hydrogen\ntagPrefix: hydrogen/\n",
+                "!(github.event_name == 'pull_request' && !inputs.stage && startsWith(github.head_ref, 'package-releases/'))"
+            ),
+        ] {
+            for language in ["dart", "kotlin"] {
+                let workflow = try render(language, config: config + "CISkipPullRequestBranchPrefix: package-releases/\n")
+                try assertValid(workflow)
+                let jobs = try XCTUnwrap((try Yams.load(yaml: workflow) as? [String: Any])?["jobs"] as? [String: [String: Any]])
+                for (name, job) in jobs {
+                    let condition = try XCTUnwrap(job["if"] as? String, "\(language) \(name)")
+                    XCTAssertTrue(
+                        condition.contains(skipped),
+                        "\(language) \(name): \(condition)"
+                    )
+                }
+            }
+        }
+    }
 }

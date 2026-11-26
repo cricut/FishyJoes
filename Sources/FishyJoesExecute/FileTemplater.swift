@@ -228,6 +228,18 @@ public struct FileTemplater {
             replacements["__KOTLIN_MAVEN_LOCAL_UPLOAD__"] = ""
         }
 
+        if let prefix = config.ciSkipPullRequestBranchPrefix {
+            // Only pull requests skip the jobs, the other triggers run them. A called workflow sees the event of its caller,
+            // the release workflow calling this one (`inputs.stage` is set) runs them for its pull requests as well.
+            let escapedPrefix = prefix.replacingOccurrences(of: "'", with: "''")
+            let notCalled = config.packagePath != nil ? " && !inputs.stage" : ""
+            let notSkipped = "!(github.event_name == 'pull_request'\(notCalled) && startsWith(github.head_ref, '\(escapedPrefix)'))"
+            let buildCondition = config.packagePath != nil ? "inputs.stage != 'publish' && \(notSkipped)" : notSkipped
+            replacements["__BUILD_JOB_CONDITION__"] = "\n    if: ${{ \(buildCondition) }}"
+            let publishCondition = config.packagePath != nil ? "!cancelled() && !failure()" : "success()"
+            replacements["__PUBLISH_JOB_CONDITION__"] = "${{ \(publishCondition) && \(notSkipped) }}"
+        }
+
         if let token = config.ciDependencyAuth?.token {
             credentialToken = token
             ciEnv["GITHUB_TOKEN"] = token

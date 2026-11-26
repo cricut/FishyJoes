@@ -31,6 +31,10 @@ struct ProjectConfig: Codable {
 
     let ciRunners: CIRunners?
 
+    // Pull requests from branches starting with this prefix skip the build jobs, e.g. release pull requests that refer to
+    // dependency versions that aren't published yet, built by the release workflow instead.
+    let ciSkipPullRequestBranchPrefix: String?
+
     // Authorization that may be needed to fetch any dependencies of the library
     let ciDependencyAuth: CIDependencyAuth?
 
@@ -73,6 +77,7 @@ struct ProjectConfig: Codable {
             Log.error("  echo 'doing CI work in bash'")
             Log.error("CIPostBuildHook: |")
             Log.error("  echo 'doing more CI work in bash'")
+            Log.error("CISkipPullRequestBranchPrefix: releases/")
             Log.error("CIRunners:")
             Log.error("  macos: \(CIRunners.defaults.macos)  # default")
             Log.error("  ubuntu: \(CIRunners.defaults.ubuntu)  # default")
@@ -170,6 +175,12 @@ struct ProjectConfig: Codable {
                 windows: dict["windows"] as? String ?? CIRunners.defaults.windows,
             )
         }
+        let ciSkipPullRequestBranchPrefix = try configDictionary["CISkipPullRequestBranchPrefix"].map { obj -> String in
+            guard let prefix = obj as? String else {
+                throw ValidationError("fishy-joes.yaml value for key `CISkipPullRequestBranchPrefix` is not a string")
+            }
+            return prefix
+        }
         let ciDependencyAuth = try configDictionary["CIDependencyAuth"].map { obj -> CIDependencyAuth in
             guard let dict = obj as? [String: Any] else {
                 throw ValidationError("fishy-joes.yaml value for key `CIDependencyAuth` is not a [String: String] dictionary")
@@ -194,6 +205,7 @@ struct ProjectConfig: Codable {
             flexibleVersions: flexibleVersions,
             sourceryOverride: sourceryOverride,
             ciRunners: ciRunners,
+            ciSkipPullRequestBranchPrefix: ciSkipPullRequestBranchPrefix,
             ciDependencyAuth: ciDependencyAuth
         )
     }
